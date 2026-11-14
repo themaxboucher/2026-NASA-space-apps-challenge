@@ -66,7 +66,12 @@ export function prepareModel(source: THREE.Object3D, spec: GltfSpec, hotspots: H
 
   const shown = all.filter((m) => m.name !== "_root" && isShown(m));
   const box = boxOf(shown);
-  const scale = spec.height ? spec.height / Math.max(1e-6, box.max.y - box.min.y) : spec.scale ?? 1;
+  let scale = spec.height ? spec.height / Math.max(1e-6, box.max.y - box.min.y) : spec.scale ?? 1;
+  if (spec.span) {
+    const size = box.getSize(new THREE.Vector3());
+    const longest = Math.max(size.x, size.y, size.z, 1e-6);
+    scale = longest > spec.span / 2.5 && longest < spec.span * 2.5 ? 1 : spec.span / longest;
+  }
   model.scale.setScalar(scale);
   if (spec.rotationY) model.rotation.y = spec.rotationY;
   model.updateMatrixWorld(true);
@@ -155,13 +160,35 @@ function breakBlades(model: THREE.Object3D) {
   }
 }
 
+// Every "broken" hotspot lights the part it points at: the part's material is copied and given a red glow,
+// which pulses with the same rhythm as Ingenuity's snapped blades.
+function glowBrokenParts(model: THREE.Object3D, hotspots: Hotspot[]) {
+  const parts = hotspots.flatMap((h) => (h.broken ? [...(h.glow ?? []), ...("part" in h.anchor ? [h.anchor.part] : [])] : []));
+  const lit: THREE.MeshStandardMaterial[] = [];
+  if (!parts.length) return lit;
+  for (const m of meshes(model)) {
+    if (!parts.some((p) => matches(m, p))) continue;
+    const copy = (mat: THREE.Material) => {
+      const c = mat.clone() as THREE.MeshStandardMaterial;
+      if (c.emissive) {
+        c.emissive = new THREE.Color("#ff2a10");
+        c.emissiveIntensity = 0;
+        lit.push(c);
+      }
+      return c;
+    };
+    m.material = Array.isArray(m.material) ? m.material.map(copy) : copy(m.material);
+  }
+  return lit;
+}
+
 export function GltfMachine({ stop, onAnchors }: { stop: Stop; onAnchors: (a: Anchors) => void }) {
   const spec = stop.model as GltfSpec;
   const gltf = useModel(spec.url);
   const prepared = useMemo(() => {
     const p = prepareModel(gltf.scene, spec, stop.hotspots);
     if (stop.id === "ingenuity") breakBlades(p.model);
-    return p;
+    return { ...p, lit: stop.id === "ingenuity" ? [] : glowBrokenParts(p.model, stop.hotspots) };
   }, [gltf, spec, stop]);
 
   useLayoutEffect(() => onAnchors(prepared.anchors), [prepared, onAnchors]);
@@ -169,6 +196,8 @@ export function GltfMachine({ stop, onAnchors }: { stop: Stop; onAnchors: (a: An
   useFrame((_, dt) => {
     breakUniforms.uTime.value += dt;
     breakUniforms.uGlow.value = live.brokenGlow;
+    const k = 0.5 * live.brokenGlow * (0.6 + 0.4 * Math.sin(breakUniforms.uTime.value * 4));
+    for (const m of prepared.lit) m.emissiveIntensity = k;
   });
 
   return <primitive object={prepared.object} />;

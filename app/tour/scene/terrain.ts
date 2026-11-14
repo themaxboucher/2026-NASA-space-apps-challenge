@@ -7,11 +7,133 @@ const built = new Map<number, Terrain>();
 export function terrainFor(index: number) {
   let t = built.get(index);
   if (!t) {
-    t = makeTerrain(STOPS[index], index * 101 + 7);
+    t = makeTerrain(STOPS[index], index * 101 + 7, realTiles.get(index));
     built.set(index, t);
   }
   return t;
 }
+
+// ---- Real ground under the surface stops -----------------------------------------------------
+// The atlas ships measured elevation for every site (public/terrain/<world>/<site>: LROC NAC and HiRISE terrain
+// models, about 6 to 8 m per sample, plus the orbital photo of the same square). The tour uses it for the true
+// lie of the land (slopes, real craters, valleys) and keeps procedural detail only below that resolution.
+export type RealTile = {
+  h: Float32Array; // heights in meters, row 0 = north edge, column 0 = west edge
+  n: number;
+  w: number; // extent east-west and north-south, in meters
+  d: number;
+  ox: number; // where the machine sits inside the tile, in meters east / south of the tile center
+  oz: number;
+  zero: number; // tile height under the machine, so the machine still stands on y = 0
+  lum: Float32Array | null; // orbital photo brightness, 0..1
+  ln: number;
+  lumMean: number;
+  credit: string;
+};
+const realTiles = new Map<number, RealTile>();
+const loading = new Map<number, Promise<boolean>>();
+const listeners = new Set<() => void>();
+
+// Called when a stop's real ground finishes loading, so a scene that is already showing can rebuild.
+export function onTerrainChange(fn: () => void) {
+  listeners.add(fn);
+  return () => {
+    listeners.delete(fn);
+  };
+}
+
+export const terrainCredit = (index: number) => realTiles.get(index)?.credit ?? null;
+
+function grid(a: Float32Array, n: number, u: number, v: number) {
+  const x = Math.min(n - 1.001, Math.max(0, u));
+  const y = Math.min(n - 1.001, Math.max(0, v));
+  const c = Math.floor(x);
+  const r = Math.floor(y);
+  const fx = x - c;
+  const fy = y - r;
+  const i = r * n + c;
+  return (a[i] * (1 - fx) + a[i + 1] * fx) * (1 - fy) + (a[i + n] * (1 - fx) + a[i + n + 1] * fx) * fy;
+}
+
+// Height relative to the ground under the machine. Past the tile's edge it holds the edge value.
+const realHeight = (t: RealTile, x: number, z: number) =>
+  grid(t.h, t.n, ((x + t.ox) / t.w + 0.5) * (t.n - 1), ((z + t.oz) / t.d + 0.5) * (t.n - 1)) - t.zero;
+
+async function pixels(url: string) {
+  const img = new Image();
+  img.src = url;
+  await img.decode();
+  const c = document.createElement("canvas");
+  c.width = img.width;
+  c.height = img.height;
+  const ctx = c.getContext("2d", { willReadFrequently: true })!;
+  ctx.drawImage(img, 0, 0);
+  return { data: ctx.getImageData(0, 0, img.width, img.height).data, n: Math.min(img.width, img.height), width: img.width };
+}
+
+type TileMeta = {
+  extent_m: [number, number];
+  places?: { id: string; x_m: number; y_m: number }[];
+  sources?: { height?: { credit?: string; product?: string } };
+};
+
+export function loadRealTerrain(index: number): Promise<boolean> {
+  const known = loading.get(index);
+  if (known) return known;
+  const stop = STOPS[index];
+  const run = (async () => {
+    if (typeof window === "undefined" || !stop?.site || stop.setting.kind === "space") return false;
+    try {
+      const paths: Record<string, string> = await fetch(`/terrain/index-${stop.setting.kind}.json`).then((r) => r.json());
+      const path = paths[stop.id];
+      if (!path || !/^(moon|mars)\/[\w-]+$/.test(path)) return false;
+      const base = `/terrain/${path}/`;
+      const meta: TileMeta = await fetch(base + "meta.json").then((r) => r.json());
+      const [hp, cp] = await Promise.all([pixels(base + "height.png"), pixels(base + "color.jpg").catch(() => null)]);
+      const n = hp.n;
+      const h = new Float32Array(n * n);
+      for (let r = 0; r < n; r++)
+        for (let c = 0; c < n; c++) {
+          const k = (r * hp.width + c) * 4;
+          // Terrarium encoding: meters = R * 256 + G + B / 256 - 32768.
+          h[r * n + c] = hp.data[k] * 256 + hp.data[k + 1] + hp.data[k + 2] / 256 - 32768;
+        }
+      let lum: Float32Array | null = null;
+      let ln = 0;
+      let lumMean = 0.5;
+      if (cp) {
+        ln = cp.n;
+        lum = new Float32Array(ln * ln);
+        let sum = 0;
+        for (let r = 0; r < ln; r++)
+          for (let c = 0; c < ln; c++) {
+            const k = (r * cp.width + c) * 4;
+            const v = (cp.data[k] * 0.3 + cp.data[k + 1] * 0.59 + cp.data[k + 2] * 0.11) / 255;
+            lum[r * ln + c] = v;
+            sum += v;
+          }
+        lumMean = sum / (ln * ln) || 0.5;
+      }
+      const place = meta.places?.find((p) => p.id === stop.id);
+      const [w, d] = meta.extent_m.map(Number);
+      const tile: RealTile = { h, n, w, d, ox: place?.x_m ?? 0, oz: -(place?.y_m ?? 0), zero: 0, lum, ln, lumMean, credit: "" };
+      tile.zero = realHeight(tile, 0, 0);
+      const src = meta.sources?.height;
+      tile.credit = `Ground shape: ${src?.credit ?? "NASA"}${src?.product ? ` (${src.product})` : ""}`;
+      realTiles.set(index, tile);
+      built.delete(index);
+      listeners.forEach((fn) => fn());
+      return true;
+    } catch {
+      return false;
+    }
+  })();
+  loading.set(index, run);
+  return run;
+}
+
+// Start fetching every surface stop's ground as soon as the tour loads, so it is ready before you arrive.
+if (typeof window !== "undefined") STOPS.forEach((s, i) => s.site && s.setting.kind !== "space" && void loadRealTerrain(i));
 
 export type Terrain = {
   height: (x: number, z: number) => number;
@@ -21,15 +143,16 @@ export type Terrain = {
 
 type Crater = { x: number; z: number; r: number; depth: number };
 
-function craterField(seed: number, count: number, maxR: number, spread: number, keepClear: number): Crater[] {
+function craterField(seed: number, count: number, minR: number, maxR: number, spread: number, keepClear: number): Crater[] {
   const rand = rng(seed);
   const out: Crater[] = [];
   for (let i = 0; i < count; i++) {
-    // Many small craters, a few big ones.
-    const r = 0.4 + Math.pow(rand(), 3.2) * maxR;
+    // Power-law sizes, as on real cratered ground: the number bigger than D falls off about as D^-2.
+    const r = Math.min(maxR, minR * Math.pow(1 - rand(), -1 / 2));
     const a = rand() * Math.PI * 2;
     const d = keepClear + r + Math.sqrt(rand()) * spread;
-    out.push({ x: Math.cos(a) * d, z: Math.sin(a) * d, r, depth: r * (0.12 + rand() * 0.1) });
+    // Fresh craters are about a fifth as deep as they are wide; old, worn-down ones much shallower.
+    out.push({ x: Math.cos(a) * d, z: Math.sin(a) * d, r, depth: r * (0.08 + Math.pow(rand(), 2) * 0.32) });
   }
   return out;
 }
@@ -50,49 +173,87 @@ function craterHeight(craters: Crater[], x: number, z: number) {
   return h;
 }
 
-export function makeTerrain(stop: Stop, seed: number): Terrain {
-  const flat = stop.setting.flatRadius ?? 4;
-  const kind = stop.setting.terrain ?? "mare";
-  // Machines (and Falcon, beside the rover) stand on level ground; the terrain eases in around them.
-  const landers = (stop.extras ?? []).filter((e) => e.kind === "lm-descent");
-  const flats = [{ x: 0, z: 0, r: flat }, ...landers.map((e) => ({ x: e.pos[0], z: e.pos[2], r: 6 }))];
-  const settle = (x: number, z: number) => {
-    let k = 1;
-    for (const f of flats) k *= smooth((Math.hypot(x - f.x, z - f.z) - f.r) / (f.r * 1.4));
-    return k;
+// Extra landers (Falcon, beside the rover) stand on a small level pad at the height the ground really has there,
+// instead of being pulled to the main machine's level.
+export function makeTerrain(stop: Stop, seed: number, tile?: RealTile): Terrain {
+  const base = makeBase(stop, seed, tile);
+  const pads = (stop.extras ?? [])
+    .filter((e) => e.kind === "lm-descent")
+    .map((e) => ({ x: e.pos[0], z: e.pos[2], r: 6, y: base.height(e.pos[0], e.pos[2]) }));
+  if (!pads.length) return base;
+  return {
+    color: base.color,
+    height(x, z) {
+      let h = base.height(x, z);
+      for (const p of pads) h = p.y + (h - p.y) * smooth((Math.hypot(x - p.x, z - p.z) - p.r) / (p.r * 1.4));
+      return h;
+    },
   };
+}
+
+function makeBase(stop: Stop, seed: number, tile?: RealTile): Terrain {
+  const flat = stop.setting.flatRadius ?? 4;
+  // Measured ground, when loaded. It replaces every procedural feature bigger than its own sample spacing.
+  const real = tile ? (x: number, z: number) => realHeight(tile, x, z) : null;
+  // Far from the machine, tint the ground with the orbital photo, so real bright and dark patches show.
+  const photo = (x: number, z: number, out: THREE.Color) => {
+    if (!tile?.lum) return out;
+    const k = smooth((Math.hypot(x, z) - 12) / 70) * 0.55;
+    if (k <= 0) return out;
+    const v = grid(tile.lum, tile.ln, ((x + tile.ox) / tile.w + 0.5) * (tile.ln - 1), ((z + tile.oz) / tile.d + 0.5) * (tile.ln - 1));
+    return out.multiplyScalar(Math.min(1.6, Math.max(0.55, 1 + (v / tile.lumMean - 1) * k)));
+  };
+  const kind = stop.setting.terrain ?? "mare";
+  // The machine stands on level ground at y = 0; the terrain eases in around it.
+  const settle = (x: number, z: number) => smooth((Math.hypot(x, z) - flat) / (flat * 1.4));
 
   if (kind === "mare" || kind === "highlands") {
     const big = kind === "highlands";
-    const craters = craterField(seed, big ? 160 : 220, big ? 26 : 18, 520, flat * 0.6);
-    // Little West crater, about 33 m across, some 60 m east of Eagle (Armstrong jogged over to look into it).
-    if (!big) craters.push({ x: 60, z: 2, r: 16.5, depth: 4 });
+    // With measured ground, only craters too small for the data (under about 9 m across) are made up.
+    const craters = [
+      ...craterField(seed, real ? 260 : big ? 160 : 220, 1.2, real ? 4.5 : big ? 26 : 18, 520, flat * 0.6),
+      // Small craters, 0.5 to 3 m across, packed close around you: the Moon is cratered at every scale.
+      ...craterField(seed + 1, 520, 0.25, 1.5, 70, flat * 0.6),
+    ];
+    // Little West crater, about 33 m across, east of Eagle (Armstrong jogged over to look into it).
+    // The measured ground already has it (about 3.5 m deep, 75 m east), so it is only added by hand without data.
+    if (!big && !real) craters.push({ x: 60, z: 2, r: 16.5, depth: 4 });
     return {
       height(x, z) {
-        const roll = fbm(x / 90, z / 90, 4, seed) * (big ? 2.6 : 1.1) + fbm(x / 14, z / 14, 3, seed + 5) * (big ? 0.35 : 0.22);
+        const fine = fbm(x / 14, z / 14, 3, seed + 5) * (big ? 0.35 : 0.22);
+        const roll = real ? real(x, z) + fine : fbm(x / 90, z / 90, 4, seed) * (big ? 2.6 : 1.1) + fine;
         return (roll + craterHeight(craters, x, z)) * settle(x, z);
       },
       color(x, z, out) {
         const n = fbm(x / 40, z / 40, 3, seed + 9) * 0.5 + noise2(x / 3, z / 3, seed + 3) * 0.18;
-        const v = (big ? 0.5 : 0.44) + n * 0.12;
-        return out.setRGB(v, v * 0.985, v * 0.96);
+        // Walked-on and driven-on soil is darker than untouched regolith (LROC sees the astronauts' paths).
+        const trodden = smooth((22 - Math.hypot(x, z)) / 14) * smooth((noise2(x / 5, z / 5, seed + 8) - 0.35) * 3);
+        const v = ((big ? 0.5 : 0.44) + n * 0.12) * (1 - trodden * 0.12);
+        return photo(x, z, out.setRGB(v, v * 0.985, v * 0.96));
       },
     };
   }
 
   if (kind === "slope") {
     // Perseverance Valley runs down the inside of Endeavour crater's rim, so the ground falls away to the east.
-    const craters = craterField(seed, 60, 6, 300, flat);
+    // The measured ground here falls east at about 15 degrees, steeper than the stand-in slope below.
+    const craters = craterField(seed, 60, 0.6, real ? 4 : 6, 300, flat);
+    // Wind-blown sand collects in patches between the rocks and forms ripples about 3 m apart, crests running
+    // across the valley (Opportunity drove over these in Perseverance Valley).
+    const sand = (x: number, z: number) => smooth((noise2(x / 14, z / 14, seed + 12) - 0.5) * 5);
     return {
       height(x, z) {
-        const fall = -0.11 * x + fbm(x / 70, z / 70, 3, seed) * 2.2 - 1.2 * Math.exp(-((z + 6) ** 2) / 260);
+        const fall = real ? real(x, z) : -0.11 * x + fbm(x / 70, z / 70, 3, seed) * 2.2 - 1.2 * Math.exp(-((z + 6) ** 2) / 260);
         const grit = fbm(x / 6, z / 6, 3, seed + 4) * 0.18;
-        return (fall + grit + craterHeight(craters, x, z) * 0.6) * settle(x, z);
+        const ripple = Math.sin((x * 0.35 + z * 0.94) * 2.1 + fbm(x / 8, z / 8, 2, seed + 3) * 2) * 0.07 * sand(x, z);
+        return (fall + grit * (1 - sand(x, z) * 0.7) + ripple + craterHeight(craters, x, z) * 0.6) * settle(x, z);
       },
       color(x, z, out) {
         const n = fbm(x / 25, z / 25, 3, seed + 7);
-        const rock = smooth((noise2(x / 9, z / 9, seed + 2) - 0.62) * 6);
-        return out.setRGB(0.6 + n * 0.08 - rock * 0.12, 0.36 + n * 0.05 - rock * 0.08, 0.22 + n * 0.03 - rock * 0.05);
+        // Darker, greyer basaltic outcrop where the dust is thin; ruddier sand where it has piled up.
+        const rock = smooth((noise2(x / 9, z / 9, seed + 2) - 0.62) * 6) * (1 - sand(x, z));
+        const s = sand(x, z) * 0.05;
+        return photo(x, z, out.setRGB(0.55 + n * 0.07 - rock * 0.17 + s, 0.35 + n * 0.045 - rock * 0.12, 0.23 + n * 0.03 - rock * 0.07 - s * 0.4));
       },
     };
   }
@@ -102,12 +263,14 @@ export function makeTerrain(stop: Stop, seed: number): Terrain {
     height(x, z) {
       const along = x * 0.82 + z * 0.57;
       const ripple = Math.sin(along * 1.75 + fbm(x / 9, z / 9, 2, seed) * 2.5) * 0.06;
-      const swell = fbm(x / 55, z / 55, 3, seed + 1) * 1.6;
+      const swell = real ? real(x, z) : fbm(x / 55, z / 55, 3, seed + 1) * 1.6;
       return (ripple + swell) * settle(x, z);
     },
     color(x, z, out) {
       const n = fbm(x / 30, z / 30, 3, seed + 6) * 0.6;
-      return out.setRGB(0.63 + n * 0.05, 0.4 + n * 0.035, 0.25 + n * 0.02);
+      // Ripple crests catch a little coarser, darker grit; troughs hold the fine bright dust.
+      const crest = Math.sin((x * 0.82 + z * 0.57) * 1.75 + fbm(x / 9, z / 9, 2, seed) * 2.5) * 0.02;
+      return photo(x, z, out.setRGB(0.58 + n * 0.05 - crest, 0.38 + n * 0.035 - crest * 0.8, 0.25 + n * 0.02 - crest * 0.6));
     },
   };
 }
@@ -161,8 +324,8 @@ export function groundGeometry(terrain: Terrain, radius: number, curvatureR: num
 }
 
 // A lumpy rock: an icosphere pushed in and out by noise, then squashed.
-export function rockGeometry(seed: number) {
-  const g = new THREE.IcosahedronGeometry(1, 2);
+export function rockGeometry(seed: number, detail = 2) {
+  const g = new THREE.IcosahedronGeometry(1, detail);
   const p = g.attributes.position as THREE.BufferAttribute;
   const v = new THREE.Vector3();
   for (let i = 0; i < p.count; i++) {

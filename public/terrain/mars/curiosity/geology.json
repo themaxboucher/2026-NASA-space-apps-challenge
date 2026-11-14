@@ -1,0 +1,15 @@
+{
+ "unit": "Htu",
+ "unitName": "Hesperian transition undivided unit",
+ "age": "Hesperian",
+ "color": "#dcd5d2",
+ "kidText": "Mount Sharp is a stack of rock layers laid down by water and wind about 3.5 billion years ago, when Mars was slowly drying out.",
+ "lat": -4.826,
+ "lon": 137.3889,
+ "source": {
+  "title": "Geologic Map of Mars (SIM 3292), scale 1:20,000,000",
+  "credit": "Tanaka, K.L., Skinner, J.A., Jr., Dohm, J.M., Irwin, R.P., III, Kolb, E.J., Fortezzo, C.M., Platz, T., Michael, G.G., and Hare, T.M., 2014, U.S. Geological Survey; served by NASA Mars Trek",
+  "url": "https://doi.org/10.3133/sim3292",
+  "license": "Public domain (U.S. Geological Survey)"
+ }
+}

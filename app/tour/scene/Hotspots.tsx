@@ -57,7 +57,8 @@ export function HotspotTracker({ stop, anchors, ground }: { stop: Stop; anchors:
       el.dataset.side = x > size.width * 0.6 ? "left" : "right";
       el.dataset.low = y > size.height * 0.62 ? "1" : "0";
       const open = s.openSpot === spot.id;
-      if (open && (d > 9 + Math.min(20, reach / 10) || !shown)) openHotspot(stop.id, null);
+      // An open card stays open until its spot is behind you (the reader may be far from it, e.g. Falcon, 130 m).
+      if (open && projected.z >= 1) openHotspot(stop.id, null);
       if (open && spot.broken) target = 1.6;
     }
     live.brokenGlow += (target - live.brokenGlow) * 0.08;

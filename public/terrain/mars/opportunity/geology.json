@@ -1,0 +1,15 @@
+{
+ "unit": "HNhu",
+ "unitName": "Hesperian and Noachian highland undivided unit",
+ "age": "Hesperian and Noachian",
+ "color": "#ccc2bf",
+ "kidText": "Opportunity drove over layers of salty sandstone that formed with the help of water more than 3.5 billion years ago.",
+ "lat": -2.3288,
+ "lon": -5.3503,
+ "source": {
+  "title": "Geologic Map of Mars (SIM 3292), scale 1:20,000,000",
+  "credit": "Tanaka, K.L., Skinner, J.A., Jr., Dohm, J.M., Irwin, R.P., III, Kolb, E.J., Fortezzo, C.M., Platz, T., Michael, G.G., and Hare, T.M., 2014, U.S. Geological Survey; served by NASA Mars Trek",
+  "url": "https://doi.org/10.3133/sim3292",
+  "license": "Public domain (U.S. Geological Survey)"
+ }
+}

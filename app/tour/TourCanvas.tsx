@@ -14,14 +14,14 @@ import { tour } from "./state";
 
 // Start fetching what the first minute of the trip needs.
 useTexture.preload("/tex/earth.jpg");
-useTexture.preload("/tex/moon.jpg");
+useTexture.preload(["/tex/moon.jpg", "/tex/moon-normal.jpg"]);
 preloadModel("/models/apollo-lm.gltf.json");
 
 export default function TourCanvas() {
   const scene = useStore(tour, (s) => s.scene);
 
   useEffect(() => {
-    useTexture.preload("/tex/mars.jpg");
+    useTexture.preload(["/tex/mars.jpg", "/tex/mars-normal.jpg"]);
   }, []);
 
   return (

@@ -1,0 +1,15 @@
+{
+ "unit": "Hto",
+ "unitName": "Hesperian transition outflow unit",
+ "age": "Hesperian",
+ "color": "#aae1fa",
+ "kidText": "Giant floods once rushed across this plain, about 3.5 billion years ago, and left behind rocks carried from far away.",
+ "lat": 22.27,
+ "lon": -47.95,
+ "source": {
+  "title": "Geologic Map of Mars (SIM 3292), scale 1:20,000,000",
+  "credit": "Tanaka, K.L., Skinner, J.A., Jr., Dohm, J.M., Irwin, R.P., III, Kolb, E.J., Fortezzo, C.M., Platz, T., Michael, G.G., and Hare, T.M., 2014, U.S. Geological Survey; served by NASA Mars Trek",
+  "url": "https://doi.org/10.3133/sim3292",
+  "license": "Public domain (U.S. Geological Survey)"
+ }
+}

@@ -1,0 +1,15 @@
+{
+ "unit": "lHl",
+ "unitName": "Late Hesperian lowland unit",
+ "age": "Late Hesperian",
+ "color": "#8cc63f",
+ "kidText": "This is a smooth plain in the low northern half of Mars, covered by material spread out about 3.4 billion years ago, with ice hidden just under the soil today.",
+ "lat": 68.2188,
+ "lon": -125.7492,
+ "source": {
+  "title": "Geologic Map of Mars (SIM 3292), scale 1:20,000,000",
+  "credit": "Tanaka, K.L., Skinner, J.A., Jr., Dohm, J.M., Irwin, R.P., III, Kolb, E.J., Fortezzo, C.M., Platz, T., Michael, G.G., and Hare, T.M., 2014, U.S. Geological Survey; served by NASA Mars Trek",
+  "url": "https://doi.org/10.3133/sim3292",
+  "license": "Public domain (U.S. Geological Survey)"
+ }
+}

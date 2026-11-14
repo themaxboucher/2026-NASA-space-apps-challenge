@@ -1,0 +1,15 @@
+{
+ "unit": "Apu",
+ "unitName": "Amazonian polar undivided unit",
+ "age": "Amazonian",
+ "color": "#9bb4be",
+ "kidText": "This ground near the south pole is made of thin layers of ice and dust that piled up during the most recent era of Mars history.",
+ "lat": -73.0,
+ "lon": 150.0,
+ "source": {
+  "title": "Geologic Map of Mars (SIM 3292), scale 1:20,000,000",
+  "credit": "Tanaka, K.L., Skinner, J.A., Jr., Dohm, J.M., Irwin, R.P., III, Kolb, E.J., Fortezzo, C.M., Platz, T., Michael, G.G., and Hare, T.M., 2014, U.S. Geological Survey; served by NASA Mars Trek",
+  "url": "https://doi.org/10.3133/sim3292",
+  "license": "Public domain (U.S. Geological Survey)"
+ }
+}

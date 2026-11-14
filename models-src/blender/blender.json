@@ -1,0 +1,162 @@
+{
+  "alsep": {
+    "file": "models-src/blender/alsep.glb",
+    "title": "Apollo ALSEP Central Station + RTG",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 3.201,
+    "bytes": 68856,
+    "tris": 1404,
+    "note": "ALSEP central station (electronics box, raised sunshield with gold/aluminised curtains, switch-covered thermal plate, 0.58 m helical antenna on its aiming mast) and the SNAP-27 RTG (0.46 m, 8 fins) on its pallet ~2.6 m away, joined by the flat power cable. Experiments not included."
+  },
+  "backshell": {
+    "file": "models-src/blender/backshell.glb",
+    "title": "Mars 2020 backshell and parachute",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 18.328,
+    "bytes": 307808,
+    "tris": 8296,
+    "note": "Perseverance's 4.5 m backshell as Ingenuity photographed it in 2022: sitting upright on its cracked, flared skirt with round ports and the open parachute cone on top, shards scattered around, and the 21.5 m parachute lying as a long crumpled orange-and-white heap with its suspension lines strewn across the ground to the backshell (distance shortened)."
+  },
+  "easep": {
+    "file": "models-src/blender/easep.glb",
+    "title": "Apollo 11 EASEP Passive Seismometer",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 4.44,
+    "bytes": 111740,
+    "tris": 2356,
+    "note": "Apollo 11 Passive Seismic Experiment Package: white deck with copper-Mylar seismometer shroud and skirt, S-band antenna tube on its aiming mast, and two 1.86 m wings of three solar panels each on perforated rails, tilted ~50 deg facing east and west."
+  },
+  "galileo-probe": {
+    "file": "models-src/blender/galileo-probe.glb",
+    "title": "Galileo atmospheric probe",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 2.321,
+    "bytes": 186568,
+    "tris": 4800,
+    "note": "Galileo's Jupiter entry probe at true size: the assembled deceleration module (1.25 m carbon-phenolic 45-degree heat shield and domed aft cover, 0.86 m tall) resting on its nose, beside the polished ~0.7 m descent module that parachuted into Jupiter (instrument band with the red-filtered window and round ports, insulated top, side fittings)."
+  },
+  "lrrr-100": {
+    "file": "models-src/blender/lrrr-100.glb",
+    "title": "Laser Ranging Retro-Reflector (Apollo 11/14)",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 1.45,
+    "bytes": 248400,
+    "tris": 8444,
+    "note": "Apollo 11/14 LRRR: 46 cm square panel of 100 corner cubes (10x10, 3.8 cm) in round aluminium cavities, white box tilted ~20 deg on two pedestals over a white pallet, carry handle, level indicator and the deployment boom left lying beside it as in AS11-40-5952."
+  },
+  "lrrr-300": {
+    "file": "models-src/blender/lrrr-300.glb",
+    "title": "Laser Ranging Retro-Reflector (Apollo 15)",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 1.273,
+    "bytes": 545020,
+    "tris": 19336,
+    "note": "Apollo 15 LRRR: 300 hex-packed corner cubes (3.8 cm) in a 204-cube main panel and a 96-cube side panel hinged together (~1.08 m long), white boxes with aluminium rims, tilted ~15 deg on a central A-frame pedestal and foot plate, with carry handle and sun compass."
+  },
+  "lrv": {
+    "file": "models-src/blender/lrv.glb",
+    "title": "Apollo Lunar Roving Vehicle",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 3.274,
+    "bytes": 328116,
+    "tris": 5636,
+    "note": "LRV as parked on the Moon (Apollo 15-17): 4 wire-mesh wheels with titanium chevrons, fenders, 3-section chassis, 2 webbing seats, T-handle, high-gain umbrella dish, low-gain helix and TV camera. Wire mesh is a solid tyre colour; no astronaut gear or sample bags."
+  },
+  "lrv-team": {
+    "file": "models-src/blender/lrv-team.glb",
+    "title": "Apollo Lunar Roving Vehicle (true scale)",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 3.654,
+    "bytes": 610604,
+    "tris": 11520,
+    "note": "True-scale LRV (Apollo 15-17): 2.29 m wheelbase, 1.83 m track, 0.818 m wire wheels with chevrons. Front faces -Z (glTF). Separate named nodes: wheels, fenders, chassis, seats, hand_controller, console, batteries, lcru, tv_camera, high_gain_antenna, low_gain_antenna, tool_carrier."
+  },
+  "pathfinder": {
+    "file": "models-src/blender/pathfinder.glb",
+    "title": "Mars Pathfinder lander",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 3.006,
+    "bytes": 464324,
+    "tris": 14433,
+    "note": "Pathfinder as it sits at Ares Vallis: 1.42 m tetrahedral base petal and three opened solar petals (black GaAs cells, ~2.7 m across), crumpled cream airbag remnants billowing out of the petal corners, white core box, IMP stereo camera on its lattice mast (1.5 m up), high- and low-gain antennas, ASI/MET mast with three wind socks, and the two unrolled rover ramps."
+  },
+  "phoenix": {
+    "file": "models-src/blender/phoenix.glb",
+    "title": "Phoenix Mars Lander",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 5.583,
+    "bytes": 429140,
+    "tris": 8316,
+    "note": "Phoenix on the Martian arctic plain at true size (5.5 m across its two decagonal UltraFlex solar arrays): 1.5 m science deck on three legs with bellows shock struts and round footpads, gold propellant tanks, 2.35 m robotic arm with scoop in the soil, SSI stereo camera on its mast (~2 m up), MET mast with telltale, TEGA ovens, MECA, LIDAR and UHF helix antennas. Solar cells are the 'cell' material."
+  },
+  "pioneer-venus-large": {
+    "file": "models-src/blender/pioneer-venus-large.glb",
+    "title": "Pioneer Venus Large Probe",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 1.52,
+    "bytes": 91088,
+    "tris": 2420,
+    "note": "Pioneer Venus large probe at true size (1.5 m across, ~1.1 m tall) as it entered Venus: dark 45-degree carbon-phenolic heat shield, red-brown shoulder band and the finely ribbed silver conical aft cover seen in the 1976 Hughes photos. The 0.73 m titanium pressure sphere inside is what reached the surface."
+  },
+  "pioneer-venus-orbiter": {
+    "file": "models-src/blender/pioneer-venus-orbiter.glb",
+    "title": "Pioneer Venus Orbiter",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 7.281,
+    "bytes": 163164,
+    "tris": 3584,
+    "note": "Pioneer Venus Orbiter at true size: 2.53 m x 1.22 m spinning drum covered in a blue solar-cell mosaic between silver bands, gold equipment deck, Star-24 motor nozzle below, gold despun mast with the 1.09 m high-gain dish and omni antenna, and the 4.7 m magnetometer boom. Stood upright."
+  },
+  "pioneer-venus-small": {
+    "file": "models-src/blender/pioneer-venus-small.glb",
+    "title": "Pioneer Venus Small Probe",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 0.888,
+    "bytes": 112188,
+    "tris": 2924,
+    "note": "Pioneer Venus small probe at true size (0.8 m across, ~0.65 m tall): dark 45-degree heat shield that stayed on all the way to the surface, maroon shoulder band with the yo-yo despin weights, ribbed silver aft body with instrument windows and the temperature-sensor boom. The 0.47 m titanium pressure sphere sits inside."
+  },
+  "sojourner": {
+    "file": "models-src/blender/sojourner.glb",
+    "title": "Sojourner rover",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 0.659,
+    "bytes": 329972,
+    "tris": 6128,
+    "note": "Sojourner (1997) at true size (0.65 x 0.48 m, body 0.30 m tall): six 13 cm aluminium wheels with stainless cleats on a spring-less rocker-bogie, gold warm electronics box, GaAs solar panel on standoffs, front stereo cameras and laser stripers, rear APXS and colour camera, UHF whip antenna."
+  },
+  "spitzer": {
+    "file": "models-src/blender/spitzer.glb",
+    "title": "Spitzer Space Telescope",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 4.432,
+    "bytes": 73320,
+    "tris": 1392,
+    "note": "Spitzer: octagonal bus, bipod truss, cryogenic telescope assembly with black anti-sun / silver sun-side shell and open 85 cm aperture, flat solar panel-sunshade, bottom high-gain antenna. Stood upright."
+  },
+  "surveyor": {
+    "file": "models-src/blender/surveyor.glb",
+    "title": "Surveyor lander (Surveyor 3/7)",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 4.051,
+    "bytes": 177112,
+    "tris": 5092,
+    "note": "Surveyor after landing (~3 m tall, footpads on a 4.3 m circle): triangular tube space frame, three white truss legs with shock absorbers, crushable footpads and blocks, vernier engines and propellant spheres, compartments A/B, TV camera with mirror hood, two omni antennas, surface-sampler lazy-tongs arm with its scoop on the ground (S3/S7), and the mast carrying the planar array antenna and the 0.86 m^2 solar panel (material 'cell'). Retro-rocket omitted (jettisoned)."
+  }
+}

@@ -43,7 +43,7 @@ export function SpaceScene({ index }: { index: number }) {
   return (
     <>
       <Stars radius={6000} count={3000} />
-      <SunGlow dir={sun} distance={5000} size={saturn ? 260 : 90} intensity={saturn ? 1.3 : 1.8} />
+      <SunGlow dir={sun} distance={5000} size={stop.setting.sunSize ?? (saturn ? 260 : 90)} intensity={saturn ? 1.3 : 1.8} />
       <directionalLight position={sun.clone().multiplyScalar(50)} intensity={saturn ? 2.8 : 2.2} color="#fff6ea" />
       <ambientLight intensity={saturn ? 0.05 : 0.08} />
       {saturn && (

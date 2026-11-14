@@ -7,7 +7,8 @@ import { START_SCENE, type BodyKey, type BodyPlacement, type SceneDesc, type Tar
 import { STOPS, type Stop } from "./stops";
 
 // A travel plan is a list of shots. Each shot shows one scene and moves the camera over its duration;
-// cuts between scenes happen under a quick fade to black, so the trip reads as one continuous journey.
+// cuts between scenes happen under a quick dip (to black in space, through the haze at a surface), so the
+// trip reads as one continuous journey.
 export type Shot = {
   scene: SceneDesc;
   dur: number;
@@ -16,6 +17,7 @@ export type Shot = {
   cam: (u: number, camera: THREE.Camera) => void;
   streak?: (u: number) => number;
   counter?: { label: string; dest: string; from: number; to: number; at: (u: number) => number };
+  tint?: { in?: string; out?: string }; // dip colour for the fade in / out (default black)
 };
 
 export type Pose = { pos: THREE.Vector3; quat: THREE.Quaternion };
@@ -48,6 +50,14 @@ function path(keys: Key[], ease: (u: number) => number = smoother) {
   };
 }
 
+// Legs leave fast and brake hard as the target nears: the last ~40% of the time covers the final ~7% of
+// the way, so you watch the planet (or the empty dark around Voyager) swell into view.
+const glide = (u: number) => 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 3);
+// Leaving the start screen: from rest, then the same long braking approach.
+const launchEase = (u: number) => glide(u * u * (2 - u));
+// Star streaks follow the speed: strongest early, gone by the slow approach.
+const glideStreak = (u: number) => Math.min(1, u / 0.12) * Math.max(0, Math.min(1, 1.35 * Math.pow(1 - u, 1.6) - 0.1));
+
 // How fast the camera moves at u for a smootherstep ease, turned into star-streak strength.
 const cruiseStreak = (u: number) => Math.max(0, Math.min(1, (30 * u * u * (1 - u) * (1 - u)) / 1.875 * 1.35 - 0.3));
 
@@ -71,6 +81,10 @@ function forwardOf(pose: Pose) {
 
 const BODY_OF: Record<Stop["body"], BodyKey | null> = { moon: "moon", mars: "mars", saturn: "saturn", deep: null };
 const WORLD_NAME: Record<Stop["body"], string> = { moon: "The Moon", mars: "Mars", saturn: "Saturn", deep: "Interstellar space" };
+
+// Diving into (or climbing out of) a surface stop passes through its sky: Mars dust, a soft lunar white-out.
+const HAZE: Partial<Record<Stop["body"], string>> = { moon: "#d6d2ca", mars: "#c9a47f" };
+const hazeOf = (stop: Stop | null | undefined) => (stop && stop.setting.kind !== "space" ? HAZE[stop.body] : undefined);
 
 // A site's direction once its globe is turned so the site faces +z (toward = 1) or -z (toward = -1).
 function facingSite(stop: Stop, toward: 1 | -1) {
@@ -98,23 +112,26 @@ function sceneFor(index: number): SceneDesc {
   return stop.setting.kind === "space" ? { kind: "space", key: `space-${index}`, stop: index } : { kind: "surface", key: `surface-${index}`, stop: index };
 }
 
-// Drop in from high above (or glide in from far away in space) and land at the spawn point.
-function arrive(index: number, dur = 3.4, fadeIn = 0.8): Shot {
+// Push in on the machine: it is centred and small at the first frame (the Director waits for it to load),
+// and the camera glides in from above (or from far off in space) and settles at the spawn point.
+const settle = (u: number) => 0.4 * smoother(u) + 0.6 * glide(u);
+function arrive(index: number, dur = 1.4, fadeIn = 0.3): Shot {
   const stop = STOPS[index];
+  const tint = { in: hazeOf(stop) };
   const { pos, look } = spawnPose(index);
   const out = pos.clone().sub(look).setY(0).normalize();
   if (stop.setting.kind === "space") {
-    const far = pos.clone().multiplyScalar(7).add(v(18, 10, -6));
-    const mid = pos.clone().multiplyScalar(2.6).add(v(4, 3, 0));
-    return { scene: sceneFor(index), dur, fadeIn, cam: path([{ pos: far, look }, { pos: mid, look }, { pos, look }], (u) => 1 - Math.pow(1 - u, 2.6)) };
+    const far = pos.clone().multiplyScalar(4).add(v(6, 4, -2));
+    const mid = pos.clone().multiplyScalar(1.8).add(v(1.5, 1, 0));
+    return { scene: sceneFor(index), dur, fadeIn, tint, cam: path([{ pos: far, look }, { pos: mid, look }, { pos, look }], settle) };
   }
-  const high = look.clone().addScaledVector(out, 22).add(v(0, 95, 0));
-  const mid = look.clone().addScaledVector(out, 16).add(v(0, 18, 0));
-  return { scene: sceneFor(index), dur, fadeIn, cam: path([{ pos: high, look }, { pos: mid, look }, { pos, look }], (u) => 1 - Math.pow(1 - u, 2.4)) };
+  const high = look.clone().addScaledVector(out, 16).add(v(0, 38, 0));
+  const mid = look.clone().addScaledVector(out, 9).add(v(0, 8, 0));
+  return { scene: sceneFor(index), dur, fadeIn, tint, cam: path([{ pos: high, look }, { pos: mid, look }, { pos, look }], settle) };
 }
 
 // Rise straight up from wherever you are standing (or drift away in space), then fade out.
-function depart(index: number, from: Pose, dur = 2.1): Shot {
+function depart(index: number, from: Pose, dur = 0.4): Shot {
   const stop = STOPS[index];
   const ahead = from.pos.clone().addScaledVector(forwardOf(from), 10);
   const center = v(0, stop.setting.kind === "space" ? 0 : 1, 0);
@@ -123,7 +140,7 @@ function depart(index: number, from: Pose, dur = 2.1): Shot {
     return {
       scene: sceneFor(index),
       dur,
-      fadeOut: 0.55,
+      fadeOut: 0.3,
       cam: path(
         [
           { pos: from.pos.clone(), look: ahead },
@@ -137,7 +154,8 @@ function depart(index: number, from: Pose, dur = 2.1): Shot {
   return {
     scene: sceneFor(index),
     dur,
-    fadeOut: 0.55,
+    fadeOut: 0.3,
+    tint: { out: hazeOf(stop) },
     cam: path(
       [
         { pos: from.pos.clone(), look: ahead },
@@ -169,15 +187,19 @@ function hop(a: number, b: number): Shot {
   const km = greatCircleKm(sa, sb, key === "moon" ? 1737.4 : 3389.5);
   return {
     scene: { kind: "travel", key: `hop-${key}`, bodies: [{ key, pos: [0, 0, 0], rotY: 0 }] },
-    dur: 4.2,
-    fadeIn: 0.55,
-    fadeOut: 0.55,
-    cam: path([
-      { pos: da.clone().multiplyScalar(r * 1.25), look: da.clone().multiplyScalar(r) },
-      { pos: mid.clone().multiplyScalar(r * 2.05), look: mid.clone().multiplyScalar(r * 0.6) },
-      { pos: db.clone().multiplyScalar(r * 1.25), look: db.clone().multiplyScalar(r) },
-    ]),
-    counter: { label: "Distance between the two sites", dest: `${sb.name} · ${WORLD_NAME[sb.body]}`, from: 0, to: km, at: (u) => smoother(u) * km },
+    dur: 1.2,
+    fadeIn: 0.25,
+    fadeOut: 0.3,
+    tint: { in: hazeOf(sa), out: hazeOf(sb) },
+    cam: path(
+      [
+        { pos: da.clone().multiplyScalar(r * 1.25), look: da.clone().multiplyScalar(r) },
+        { pos: mid.clone().multiplyScalar(r * 2.05), look: mid.clone().multiplyScalar(r * 0.6) },
+        { pos: db.clone().multiplyScalar(r * 1.1), look: db.clone().multiplyScalar(r) },
+      ],
+      glide,
+    ),
+    counter: { label: "Distance between the two sites", dest: `${sb.name} · ${WORLD_NAME[sb.body]}`, from: 0, to: km, at: (u) => glide(u) * km },
   };
 }
 
@@ -194,7 +216,8 @@ function approachKeys(stop: Stop | null, at: THREE.Vector3): Key[] {
   const d = facingSite(stop, 1);
   return [
     { pos: at.clone().add(v(0.4 * r, 0.35 * r, 4.4 * r)), look: at },
-    { pos: at.clone().addScaledVector(d, r * 1.25), look: at.clone().addScaledVector(d, r) },
+    // Dive right down at the landing site, so the haze dip reads as dropping through the sky.
+    { pos: at.clone().addScaledVector(d, r * 1.1), look: at.clone().addScaledVector(d, r) },
   ];
 }
 
@@ -205,7 +228,7 @@ function counterFor(from: Stop | null, to: Stop | null, distanceTo: number, labe
     dest: to ? `${to.name} · ${WORLD_NAME[to.body]}` : "Home · Earth",
     from: start,
     to: distanceTo,
-    at: (u) => start + (distanceTo - start) * smoother(u),
+    at: (u) => start + (distanceTo - start) * glide(u),
   };
 }
 
@@ -216,15 +239,19 @@ function startLeg(): Shot {
   const moon = placement(first, [0, 0, -LEG], 1)!;
   return {
     scene: { kind: "travel", key: "earth-moon", bodies: [{ key: "earth", pos: [0, 0, 0], rotY: 0, spin: true }, moon] },
-    dur: 9.5,
-    fadeOut: 0.55,
-    cam: path([
-      START_POSE,
-      { pos: v(0, 1.3, 2.5), look: v(0, 1.25, -6) },
-      { pos: v(0, 1.95, -1.6), look: v(0, 0.6, -LEG) },
-      { pos: v(0.35, 0.9, -LEG * 0.55), look: moonAt },
-      ...approachKeys(first, moonAt),
-    ]),
+    dur: 1.9,
+    fadeOut: 0.3,
+    tint: { out: hazeOf(first) },
+    cam: path(
+      [
+        START_POSE,
+        { pos: v(0, 1.3, 2.5), look: v(0, 1.25, -6) },
+        { pos: v(0, 1.95, -1.6), look: v(0, 0.6, -LEG) },
+        { pos: v(0.35, 0.9, -LEG * 0.55), look: moonAt },
+        ...approachKeys(first, moonAt),
+      ],
+      launchEase,
+    ),
     streak: cruiseStreak,
     counter: counterFor(null, first, first.distanceKm, first.distanceLabel),
   };
@@ -263,11 +290,12 @@ function leg(a: number, b: number | "end"): Shot {
   const dist = sb ? sb.distanceKm : 0;
   return {
     scene: { kind: "travel", key: `leg-${a}`, bodies },
-    dur: sb?.body === "deep" ? 10 : 9,
-    fadeIn: 0.5,
-    fadeOut: 0.55,
-    cam: path(keys),
-    streak: cruiseStreak,
+    dur: sb?.body === "deep" ? 1.7 : 1.5,
+    fadeIn: 0.25,
+    fadeOut: 0.3,
+    tint: { in: hazeOf(sa), out: hazeOf(sb) },
+    cam: path(keys, glide),
+    streak: glideStreak,
     counter: counterFor(sa, sb, dist, sb ? sb.distanceLabel : "Distance from Earth"),
   };
 }
@@ -277,16 +305,19 @@ function homeLeg(from: number): Shot {
   const sa = STOPS[from];
   return {
     scene: START_SCENE,
-    dur: 9.5,
-    fadeIn: 0.6,
-    cam: path([
-      { pos: v(0, 0.5, 70), look: v(0, 0, 0) },
-      { pos: v(0.3, 0.6, 24), look: v(0, 0.2, 0) },
-      { pos: v(0, 0.6, 7.5), look: v(0, 0.6, 0) },
-      START_POSE,
-    ]),
-    streak: cruiseStreak,
-    counter: { label: "Distance from Earth", dest: "Home · Earth", from: sa.distanceKm, to: 0, at: (u) => sa.distanceKm * (1 - smoother(u)) },
+    dur: 2.2,
+    fadeIn: 0.3,
+    cam: path(
+      [
+        { pos: v(0, 0.5, 70), look: v(0, 0, 0) },
+        { pos: v(0.3, 0.6, 24), look: v(0, 0.2, 0) },
+        { pos: v(0, 0.6, 7.5), look: v(0, 0.6, 0) },
+        START_POSE,
+      ],
+      glide,
+    ),
+    streak: glideStreak,
+    counter: { label: "Distance from Earth", dest: "Home · Earth", from: sa.distanceKm, to: 0, at: (u) => sa.distanceKm * (1 - glide(u)) },
   };
 }
 
@@ -303,20 +334,19 @@ export function plan(from: { phase: string; stop: number; scene: SceneDesc }, to
   // Jumps (Back, skipping, links straight to a stop, reduced motion): fade out, cut, fade in.
   if (mode === "jump" || reduced) {
     const shots: Shot[] = [];
-    if (from.phase !== "start" || from.stop >= 0) shots.push(hold(here, pose, 0.45, 0.45));
-    if (to === "start") shots.push(startShot(0.9, 0.8));
-    else if (to === "end") shots.push(startShot(0.9, 0.8));
-    else shots.push(reduced ? { ...arrive(to, 1.2, 0.8), cam: (_, cam) => aim(cam, spawnPose(to).pos, spawnPose(to).look) } : arrive(to, 1.8, 0.7));
+    if (from.phase !== "start" || from.stop >= 0) shots.push({ ...hold(here, pose, 0.3, 0.3), tint: { out: typeof to === "number" ? hazeOf(STOPS[to]) : undefined } });
+    if (to === "start" || to === "end") shots.push(startShot(0.6, 0.5));
+    else shots.push(reduced ? { ...arrive(to, 0.8, 0.5), cam: (_, cam) => aim(cam, spawnPose(to).pos, spawnPose(to).look) } : arrive(to, 1.2, 0.3));
     return shots;
   }
 
-  if (to === "start") return [hold(here, pose, 0.45, 0.45), startShot(0.9, 0.8)];
+  if (to === "start") return [hold(here, pose, 0.3, 0.3), startShot(0.6, 0.5)];
 
   // The very first trip, from Earth.
   if (!exploring) {
-    if (to === "end") return [startShot(0.9, 0.8)];
+    if (to === "end") return [startShot(0.6, 0.5)];
     if (to === 0) return [startLeg(), arrive(0)];
-    return [arrive(to, 1.8, 0.7)];
+    return [arrive(to, 1.2, 0.3)];
   }
 
   const a = from.stop;

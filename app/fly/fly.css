@@ -1,0 +1,32 @@
+/* The fly-around page reuses the tour's look (tour.css); these are its few extras. */
+.fly .explore-link {
+  text-decoration: none;
+}
+.fly .intro {
+  bottom: calc(var(--gut-b) + 34px);
+}
+.fly-note {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 0 var(--gut-r) 0 var(--gut-l);
+  text-align: center;
+  color: var(--dim);
+  font: 500 0.75rem/1.6 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.fly-credit {
+  position: absolute;
+  z-index: 40;
+  right: var(--gut-r);
+  bottom: var(--gut-b);
+  max-width: min(520px, calc(100vw - var(--gut-l) - var(--gut-r)));
+  margin: 0;
+  text-align: right;
+  color: var(--dim);
+  font: 500 0.6875rem/1.5 var(--mono);
+  letter-spacing: 0.04em;
+}

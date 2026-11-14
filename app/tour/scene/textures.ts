@@ -61,46 +61,105 @@ function tileNoise(x: number, y: number, period: number, seed: number) {
   return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
 }
 
-// Fine ground grain that repeats every 3 m: pebbles, dust and little pits.
-export function grainTexture(kind: "moon" | "mars") {
-  const t = canvasTexture(`grain-${kind}`, 512, 512, (ctx, w, h) => {
-    const img = ctx.createImageData(w, h);
-    const rand = rng(kind === "moon" ? 7 : 11);
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) {
-        const n = tileNoise(x / 16, y / 16, 32, 3) * 0.45 + tileNoise(x / 4, y / 4, 128, 5) * 0.35 + rand() * 0.2;
-        const v = 0.72 + (n - 0.5) * 0.5;
-        const i = (y * w + x) * 4;
-        img.data[i] = img.data[i + 1] = img.data[i + 2] = Math.max(0, Math.min(255, v * 255));
-        img.data[i + 3] = 255;
+// One 3 m square of ground, drawn as a height field (cm-scale bumps, pits and pebbles) that tiles without seams.
+// It becomes two textures: the albedo grain and a normal map, so the light picks out real relief instead of
+// shading painted into the colour. Moon: a gardened surface pocked with craterlets at every size. Mars: wind-worn
+// dust with small dark basalt pebbles and hematite "blueberries" (Meridiani's are 1 to 6 mm).
+const GRAIN = 512;
+const fields = new Map<string, { h: Float32Array; alb: Float32Array }>();
+function groundField(kind: "moon" | "mars") {
+  const hit = fields.get(kind);
+  if (hit) return hit;
+  const n = GRAIN;
+  const h = new Float32Array(n * n);
+  const alb = new Float32Array(n * n);
+  const rand = rng(kind === "moon" ? 7 : 11);
+  for (let y = 0; y < n; y++)
+    for (let x = 0; x < n; x++) {
+      const i = y * n + x;
+      const lo = tileNoise(x / 32, y / 32, 16, 3);
+      const mid = tileNoise(x / 8, y / 8, 64, 5);
+      const fine = tileNoise(x / 2, y / 2, 256, 9);
+      h[i] = lo * 6 + mid * 2 + fine * 0.6;
+      alb[i] = 0.72 + (lo - 0.5) * 0.18 + (mid - 0.5) * 0.16 + (rand() - 0.5) * 0.12;
+    }
+  // Stamps a round feature, wrapping across the edges so the tile still repeats seamlessly.
+  const stamp = (cx: number, cy: number, r: number, f: (t: number, i: number) => void) => {
+    const R = Math.ceil(r * 1.6);
+    for (let dy = -R; dy <= R; dy++)
+      for (let dx = -R; dx <= R; dx++) {
+        const t = Math.hypot(dx, dy) / r;
+        if (t > 1.6) continue;
+        f(t, (((Math.round(cy) + dy) % n + n) % n) * n + (((Math.round(cx) + dx) % n) + n) % n);
       }
+  };
+  if (kind === "moon") {
+    // Craterlets, 3 cm to 40 cm across: many tiny ones, few big ones (a steep power law, like the real surface).
+    for (let k = 0; k < 450; k++) {
+      const r = Math.min(34, 2.5 * Math.pow(1 - rand(), -1 / 1.6));
+      const depth = r * (0.18 + rand() * 0.12);
+      stamp(rand() * n, rand() * n, r, (t, i) => {
+        h[i] += t < 1 ? -depth * (1 - t * t) + depth * 0.3 * t ** 4 : depth * 0.3 * (1 - (t - 1) / 0.6) ** 2;
+      });
+    }
+  }
+  // Pebbles and grit: little domes, brighter on the Moon (fresh glass and rock), darker on Mars (basalt).
+  const pebbles = kind === "moon" ? 1400 : 1600;
+  for (let k = 0; k < pebbles; k++) {
+    const r = Math.min(9, 0.9 * Math.pow(1 - rand(), -1 / 2.2));
+    const tone = kind === "moon" ? 0.02 + rand() * 0.08 : -(0.12 + rand() * 0.2);
+    stamp(rand() * n, rand() * n, r, (t, i) => {
+      if (t >= 1) return;
+      h[i] += r * 0.5 * Math.sqrt(1 - t * t);
+      alb[i] += tone;
+    });
+  }
+  const out = { h, alb };
+  fields.set(kind, out);
+  return out;
+}
+
+export function groundTextures(kind: "moon" | "mars") {
+  const repeat = (t: THREE.Texture) => {
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.anisotropy = 8;
+    return t;
+  };
+  const map = canvasTexture(`grain-${kind}`, GRAIN, GRAIN, (ctx, w, h) => {
+    const { alb } = groundField(kind);
+    const img = ctx.createImageData(w, h);
+    for (let i = 0; i < w * h; i++) {
+      img.data[i * 4] = img.data[i * 4 + 1] = img.data[i * 4 + 2] = Math.max(0, Math.min(255, alb[i] * 255));
+      img.data[i * 4 + 3] = 255;
     }
     ctx.putImageData(img, 0, 0);
-    // Pebbles: small dark-and-light specks with a shadow side, drawn again across the edges so the tile wraps.
-    for (let k = 0; k < 900; k++) {
-      const x = rand() * w;
-      const y = rand() * h;
-      const r = 0.6 + Math.pow(rand(), 3) * 4;
-      const dark = 0.25 + rand() * 0.3;
-      const light = 0.2 + rand() * 0.3;
-      for (const ox of [-w, 0, w]) {
-        for (const oy of [-h, 0, h]) {
-          if (x + ox < -8 || x + ox > w + 8 || y + oy < -8 || y + oy > h + 8) continue;
-          ctx.fillStyle = `rgba(20,16,12,${dark})`;
-          ctx.beginPath();
-          ctx.arc(x + ox + r * 0.4, y + oy + r * 0.4, r, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.fillStyle = `rgba(255,250,240,${light})`;
-          ctx.beginPath();
-          ctx.arc(x + ox, y + oy, r * 0.8, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-    }
   });
-  t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  t.anisotropy = 8;
-  return t;
+  const normalMap = canvasTexture(
+    `grain-normal-${kind}`,
+    GRAIN,
+    GRAIN,
+    (ctx, w, h) => {
+      const f = groundField(kind).h;
+      const img = ctx.createImageData(w, h);
+      const at = (x: number, y: number) => f[((y + h) % h) * w + ((x + w) % w)];
+      const k = 0.13; // height units -> slope
+      for (let y = 0; y < h; y++)
+        for (let x = 0; x < w; x++) {
+          // Canvas rows run down, texture v runs up, hence the sign on the y slope.
+          const nx = -(at(x + 1, y) - at(x - 1, y)) * k;
+          const ny = (at(x, y + 1) - at(x, y - 1)) * k;
+          const l = Math.hypot(nx, ny, 1);
+          const i = (y * w + x) * 4;
+          img.data[i] = (nx / l) * 127.5 + 127.5;
+          img.data[i + 1] = (ny / l) * 127.5 + 127.5;
+          img.data[i + 2] = (1 / l) * 127.5 + 127.5;
+          img.data[i + 3] = 255;
+        }
+      ctx.putImageData(img, 0, 0);
+    },
+    false,
+  );
+  return { map: repeat(map), normalMap: repeat(normalMap) };
 }
 
 // The rover's tires: woven wire with titanium chevrons, drawn as an alpha pattern.

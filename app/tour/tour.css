@@ -26,7 +26,8 @@ body {
   --gut-b: max(16px, env(safe-area-inset-bottom, 0px));
   position: fixed;
   inset: 0;
-  overflow: hidden;
+  /* clip, not hidden: focusing a card near the edge must never scroll the whole scene sideways. */
+  overflow: clip;
   background: #000;
   color: var(--ink);
   font: 16px/1.55 var(--body);
@@ -116,14 +117,23 @@ body {
 }
 .start h1 {
   margin: 0;
-  font: 200 clamp(2.6rem, 9vw, 7.2rem)/0.95 var(--display);
-  font-stretch: 125%;
-  letter-spacing: -0.01em;
+  /* A book serif, like the cover of a field guide: the same face as the atlas headings. */
+  font: 600 clamp(2.6rem, 8.4vw, 6.6rem)/1 var(--font-serif), "Source Serif 4", Georgia, serif;
+  font-optical-sizing: auto;
+  letter-spacing: -0.025em;
   text-shadow: 0 0 40px rgba(94, 166, 214, 0.35), 0 2px 24px rgba(0, 0, 0, 0.6);
   white-space: nowrap;
 }
 .start h1 span {
   display: inline-block;
+}
+.start-sub {
+  max-width: 34ch;
+  margin: 18px 0 0;
+  color: var(--sand);
+  font: italic 400 clamp(1.05rem, 2.2vw, 1.35rem)/1.45 var(--font-serif), "Source Serif 4", Georgia, serif;
+  text-wrap: balance;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.7);
 }
 @media (max-width: 560px) {
   .start h1 {
@@ -274,9 +284,12 @@ body {
 .controls {
   position: absolute;
   z-index: 55;
-  left: 50%;
+  /* Centred without transform: the nav's motion animation writes its own inline transform. */
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  width: fit-content;
   bottom: var(--gut-b);
-  transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: clamp(8px, 2vw, 22px);
@@ -700,4 +713,322 @@ body {
   .spot-card {
     animation: none;
   }
+}
+
+/* ---- Mission file: the infographic beside each stop ---- */
+.mfile {
+  position: absolute;
+  z-index: 45;
+  top: calc(max(16px, env(safe-area-inset-top, 0px)) + 48px);
+  right: var(--gut-r);
+  width: min(300px, calc(100vw - var(--gut-l) - var(--gut-r)));
+  max-height: calc(100vh - 220px);
+  overflow: auto;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  backdrop-filter: blur(8px);
+}
+.mfile-toggle {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border: 0;
+  background: none;
+  color: var(--sand);
+  font: 500 0.6875rem/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.mfile-body {
+  display: grid;
+  gap: 14px;
+  padding: 0 14px 14px;
+}
+.mfile .eyebrow {
+  margin: 0 0 4px;
+}
+.mfile-fate {
+  padding: 10px 12px;
+  border-left: 2px solid var(--echo);
+  background: rgba(94, 166, 214, 0.08);
+}
+.mfile-fate.bad {
+  border-left-color: var(--alarm);
+  background: rgba(255, 90, 60, 0.09);
+}
+.mfile-fate-cat {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+  font: 300 1.15rem/1.2 var(--display);
+  font-stretch: 112.5%;
+}
+.mfile-fate-cat i,
+.mfile-broken i {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--echo);
+}
+.mfile-fate.bad .mfile-fate-cat i,
+.mfile-broken i {
+  background: var(--alarm);
+  box-shadow: 0 0 8px 2px rgba(255, 90, 60, 0.6);
+}
+.mfile-fate-label {
+  margin: 4px 0 0;
+  color: var(--sand);
+  font-size: 0.9rem;
+}
+.mfile-broken ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+.mfile-broken button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid rgba(255, 90, 60, 0.45);
+  background: rgba(255, 90, 60, 0.08);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+}
+.mfile-broken button:hover {
+  border-color: var(--alarm);
+}
+.mfile-small {
+  margin: 6px 0 0;
+  color: var(--dim);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+.mfile-small .unit {
+  font: 500 0.6875rem var(--mono);
+}
+.mfile-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+  margin: 0;
+}
+.mfile-stats dt {
+  color: var(--dim);
+  font: 500 0.625rem/1.3 var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.mfile-stats dd {
+  margin: 2px 0 0;
+  font-size: 0.92rem;
+  line-height: 1.3;
+}
+.mfile-bar {
+  display: grid;
+  grid-template-columns: 58px 1fr auto;
+  gap: 8px;
+  align-items: center;
+  margin-top: 6px;
+  font: 500 0.6875rem var(--mono);
+}
+.mfile-bar .lbl {
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.mfile-bar .track {
+  height: 8px;
+  background: rgba(193, 169, 149, 0.12);
+}
+.mfile-bar b {
+  display: block;
+  height: 100%;
+  min-width: 3px;
+}
+.mfile-bar b.planned {
+  background: transparent;
+  border: 1px dashed var(--sand);
+}
+.mfile-bar b.actual {
+  background: var(--signal);
+}
+.mfile-bar .num {
+  font-variant-numeric: tabular-nums;
+}
+.mfile-more {
+  color: var(--echo);
+  font: 500 0.75rem var(--mono);
+  text-decoration: none;
+}
+.mfile-more:hover {
+  text-decoration: underline;
+}
+/* Where the intro card and the panel would overlap, the panel waits until the intro is closed. */
+@media (max-width: 1180px) {
+  .mfile.under-intro,
+  .mfile.under-spot {
+    display: none;
+  }
+}
+/* Phones: sit above the bottom bar. */
+@media (max-width: 760px) {
+  .mfile {
+    top: auto;
+    bottom: calc(var(--gut-b) + 92px);
+    max-height: 50vh;
+  }
+}
+
+/* Mouse look: a small crosshair while the view has the mouse. Aim it at a glowing dot and click to open it. */
+.tour.looking::after {
+  content: "";
+  position: absolute;
+  z-index: 70;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border: 2px solid rgba(239, 229, 218, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+/* Mission file: the path it drove, and a fun fact. */
+.mfile-trail {
+  margin: 0;
+}
+.mfile-trail svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: rgba(193, 169, 149, 0.06);
+  border: 1px solid var(--line);
+}
+.mfile-trail .trail-line {
+  fill: none;
+  stroke: var(--signal);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.mfile-trail .trail-start {
+  fill: var(--void);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+.mfile-trail .trail-end {
+  fill: var(--ink);
+  stroke: var(--void);
+  stroke-width: 2;
+}
+.mfile-trail .trail-scale {
+  fill: var(--sand);
+}
+.mfile-trail text {
+  fill: var(--dim);
+  font: 500 10px var(--mono);
+}
+.mfile-trail figcaption {
+  display: flex;
+  gap: 14px;
+  margin-top: 6px;
+  color: var(--dim);
+  font-size: 0.8rem;
+}
+.mfile-trail .legend-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 4px;
+  border-radius: 50%;
+  vertical-align: 0;
+}
+.mfile-trail .legend-start {
+  border: 2px solid var(--ink);
+}
+.mfile-trail .legend-end {
+  background: var(--ink);
+}
+.mfile-fun {
+  padding: 10px 12px;
+  background: rgba(217, 129, 74, 0.08);
+  border: 1px solid rgba(217, 129, 74, 0.35);
+}
+.mfile-fun p:last-child {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+/* Next stays locked until every glowing spot is found; the way out is a small, quiet "skip". */
+.nav-btn.primary.locked {
+  background: transparent;
+  color: var(--sand);
+  border-color: var(--line2);
+}
+.nav-btn.primary.locked:hover {
+  background: rgba(193, 169, 149, 0.08);
+  color: var(--ink);
+}
+.skip-stop {
+  position: absolute;
+  left: 4px;
+  top: -24px;
+  padding: 2px 4px;
+  border: 0;
+  background: none;
+  color: rgba(171, 149, 129, 0.55);
+  font: 500 0.6875rem var(--mono);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.skip-stop:hover,
+.skip-stop:focus-visible {
+  color: var(--dim);
+}
+
+/* Mission file: photos the machine took, and live numbers. */
+.mfile-photos {
+  display: grid;
+  gap: 10px;
+}
+.mfile-photos figure {
+  margin: 0;
+}
+.mfile-photos img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 170px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+}
+.mfile-photos figcaption {
+  margin-top: 4px;
+  color: var(--dim);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+.mfile-photos .credit {
+  display: block;
+  font: 500 0.6875rem var(--mono);
+  opacity: 0.85;
+}
+.mfile-live dd {
+  font-variant-numeric: tabular-nums;
 }

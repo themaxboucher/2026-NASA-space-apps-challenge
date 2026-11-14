@@ -6,6 +6,7 @@ import { useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { rng } from "../lib/geo";
 import { live, type BodyKey } from "../state";
+import { Earth } from "./Earth";
 import { dotTexture, glowTexture, RING_INNER, RING_OUTER, ringTexture, saturnTexture } from "./textures";
 
 export const BODY_RADIUS: Record<BodyKey, number> = { earth: 1, moon: 0.6, mars: 0.75, saturn: 2.6 };
@@ -16,7 +17,9 @@ export function Stars({ radius = 900, count = 2600 }: { radius?: number; count?:
   const group = useRef<THREE.Group>(null);
   const { camera } = useThree();
   const [faint, bright] = useMemo(() => {
-    const make = (n: number, seed: number, band: boolean) => {
+    // Real skies: each brighter magnitude has about 3x fewer stars (N(<m) ~ 10^(0.48 m)), so most stars sit near
+    // the limit and look faint, and only a handful are bright. maxMag caps the brightest star a set may hold.
+    const make = (n: number, seed: number, band: boolean, maxMag: number) => {
       const rand = rng(seed);
       const pos = new Float32Array(n * 3);
       const col = new Float32Array(n * 3);
@@ -38,7 +41,9 @@ export function Stars({ radius = 900, count = 2600 }: { radius?: number; count?:
         }
         v.multiplyScalar(radius);
         pos.set([v.x, v.y, v.z], i * 3);
-        const b = 0.25 + Math.pow(rand(), 2.5) * 0.75;
+        const lim = 6.5;
+        const m = Math.max(maxMag, lim + Math.log10(Math.max(rand(), 1e-6)) / 0.48);
+        const b = Math.min(1, 0.07 + 0.93 * Math.min(1, Math.pow(10, -0.4 * (m - lim)) / 60));
         const t = rand();
         col.set([b * (t < 0.15 ? 0.8 : 1), b * (t < 0.15 ? 0.88 : t > 0.85 ? 0.92 : 1), b * (t > 0.85 ? 0.78 : 1)], i * 3);
       }
@@ -47,11 +52,12 @@ export function Stars({ radius = 900, count = 2600 }: { radius?: number; count?:
       g.setAttribute("color", new THREE.BufferAttribute(col, 3));
       return g;
     };
-    return [make(count, 11, true), make(Math.round(count / 9), 29, false)];
+    // Faint set: the many dim stars. Bright set: only the few first- and second-magnitude stars, drawn larger.
+    return [make(count, 11, true, 2.5), make(Math.max(8, Math.round(count / 60)), 29, false, -1.4)];
   }, [radius, count]);
   const [faintMat, brightMat] = useMemo(() => {
     const base = { map: dotTexture(), vertexColors: true, transparent: true, depthWrite: false, sizeAttenuation: false, blending: THREE.AdditiveBlending };
-    return [new THREE.PointsMaterial({ ...base, size: 2.4 }), new THREE.PointsMaterial({ ...base, size: 4.2 })];
+    return [new THREE.PointsMaterial({ ...base, size: 1.9 }), new THREE.PointsMaterial({ ...base, size: 3.4 })];
   }, []);
   useFrame(() => group.current?.position.copy(camera.position));
   return (
@@ -222,24 +228,15 @@ function Haze({ radius, color, sun }: { radius: number; color: string; sun: THRE
   );
 }
 
-function TexturedGlobe({ url, radius, ocean = false }: { url: string; radius: number; ocean?: boolean }) {
-  const tex = useTexture(url);
+// Moon: NASA SVS CGI Moon Kit (LRO LROC WAC colour + LOLA elevation), public domain, https://svs.gsfc.nasa.gov/4720
+// Mars: USGS Astrogeology Viking MDIM 2.1 colour mosaic + MGS MOLA MEGDR 16 px/deg elevation, public domain.
+// The normal maps are derived from the elevation (relief exaggerated about 4x on the Moon, 2.5x on Mars).
+const NORMAL: Partial<Record<BodyKey, string>> = { moon: "/tex/moon-normal.jpg", mars: "/tex/mars-normal.jpg" };
+
+function TexturedGlobe({ url, normalUrl, radius }: { url: string; normalUrl: string; radius: number }) {
+  const [tex, normal] = useTexture([url, normalUrl]);
   const { gl } = useThree();
-  const material = useMemo(() => {
-    const m = new THREE.MeshStandardMaterial({ map: tex, roughness: 1, metalness: 0 });
-    if (ocean) {
-      // Blue Marble's oceans are nearly black: lift the dark tones a little, and let the dark (ocean) pixels
-      // read as smooth in the roughness map, so the sea catches a glint of sunlight.
-      m.roughnessMap = tex;
-      m.onBeforeCompile = (shader) => {
-        shader.fragmentShader = shader.fragmentShader
-          .replace("#include <map_fragment>", "#include <map_fragment>\n diffuseColor.rgb = pow(diffuseColor.rgb, vec3(0.82)) * 1.08;")
-          .replace("#include <roughnessmap_fragment>", "#include <roughnessmap_fragment>\n roughnessFactor = mix(0.55, 1.0, smoothstep(0.08, 0.3, roughnessFactor));");
-      };
-      m.customProgramCacheKey = () => "earth-ocean";
-    }
-    return m;
-  }, [tex, ocean]);
+  const material = useMemo(() => new THREE.MeshStandardMaterial({ map: tex, normalMap: normal, roughness: 1, metalness: 0 }), [tex, normal]);
   useLayoutEffect(() => {
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.anisotropy = Math.min(8, gl.capabilities.getMaxAnisotropy());
@@ -286,9 +283,13 @@ export function Planet({ kind, sun, spin = false }: { kind: BodyKey; sun: THREE.
   if (kind === "saturn") return <SaturnGlobe radius={radius} sun={sun} />;
   return (
     <group>
-      <group ref={spinner}>
-        <TexturedGlobe url={TEXTURE[kind]!} radius={radius} ocean={kind === "earth"} />
-      </group>
+      {kind === "earth" ? (
+        <Earth radius={radius} sun={sun} spin={spin} />
+      ) : (
+        <group ref={spinner}>
+          <TexturedGlobe url={TEXTURE[kind]!} normalUrl={NORMAL[kind]!} radius={radius} />
+        </group>
+      )}
       {kind === "earth" && (
         <>
           <Haze radius={radius} color="#6fa8ff" sun={sun} />

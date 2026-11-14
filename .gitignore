@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Blender autosaves and intermediate exports (every model ships as public/models/*.gltf.json; scripts rebuild the rest)
+*.blend1
+models-src/**/*.glb
+models-src/nasa/previews/

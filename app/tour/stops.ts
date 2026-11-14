@@ -18,7 +18,11 @@ export type Hotspot = {
   anchor: Anchor;
   // Which way the hotspot faces, so it hides when you walk behind the machine. null = always visible.
   face?: Vec3 | null;
+  // Marks the part that failed: its dot turns red and, if the model has that part as a named piece, the part glows.
   broken?: boolean;
+  // Extra named parts to glow (when the anchor is a fixed position), and the card's label instead of "Broken part".
+  glow?: string[];
+  tag?: string;
 };
 
 export type ModelSpec =
@@ -29,6 +33,9 @@ export type ModelSpec =
       height?: number;
       // ...or use a fixed scale.
       scale?: number;
+      // ...or say how long its longest side really is. If the file is already close to that (within 2.5x) it is
+      // trusted as true scale; otherwise it is resized to this.
+      span?: number;
       rotationY?: number;
       // Hide parts whose top is above this height in model units (used to remove Eagle's departed top half).
       hideAbove?: number;
@@ -47,6 +54,8 @@ export type Setting = {
   // Earth's position in the lunar sky (azimuth from north, elevation), from the site's latitude and longitude.
   earth?: { az: number; el: number };
   backdrop?: "saturn" | "sun-far";
+  // How big the Sun's glow looks from here (it shrinks with distance). Defaults by backdrop.
+  sunSize?: number;
   flatRadius?: number;
 };
 
@@ -71,6 +80,12 @@ export type Stop = {
   bounds: number;
   hotspots: Hotspot[];
   credit: string;
+  // The "mission file" panel beside the scene: a few key numbers and how long it worked against the plan.
+  info?: {
+    stats: { label: string; value: string }[];
+    // Planned versus actual, drawn as a bar (log scale when it lasted far longer than planned).
+    plan?: { label: string; planned: number; actual: number; unit: string; note: string };
+  };
   // Extra objects placed in the scene, like Falcon next to the Apollo 15 rover.
   extras?: { kind: "lm-descent" | "blade-piece"; pos: Vec3; rotationY: number }[];
 };
@@ -118,6 +133,14 @@ export const STOPS: Stop[] = [
     colliders: [{ pos: [0, 0, 0], r: 3 }],
     bounds: 55,
     credit: "Apollo Lunar Module model: NASA/Michael D. Carbajal (NASA 3D Resources)",
+    info: {
+      stats: [
+        { label: "Landed", value: "20 July 1969" },
+        { label: "Time on the Moon", value: "21 h 36 min" },
+        { label: "Moonwalk", value: "2 h 31 min" },
+        { label: "Rocks brought home", value: "21.5 kg" },
+      ],
+    },
     hotspots: [
       {
         id: "first-step",
@@ -162,27 +185,38 @@ export const STOPS: Stop[] = [
     when: "Driven 31 July – 2 August 1971",
     status: "Parked forever where it filmed liftoff",
     intro:
-      "This is the first car ever driven on another world. Dave Scott and Jim Irwin drove it about 28 km on three moonwalks, then parked it here to film their own liftoff.",
+      "This is the first car people ever drove on another world. Dave Scott and Jim Irwin drove it about 28 km on three moonwalks, then parked it here to film their own liftoff.",
     site: { lat: 26.13174, lon: 3.63803 },
     distanceKm: 384_400,
     distanceLabel: "Average distance from Earth",
-    model: { kind: "lrv" },
+    // Team Blender model at real size (front faces -Z in the file), turned so it faces west like the parked rover.
+    model: { kind: "gltf", url: "/models/lrv-team.gltf.json", scale: 1, rotationY: Math.PI / 2, origin: "ground", centerOn: ["chassis"] },
     setting: { kind: "moon", terrain: "highlands", sun: { az: 100, el: 22 }, earth: { az: 187, el: 63.6 }, flatRadius: 4 },
     spawn: { pos: [4.5, 0, 5.5], look: [0, 0.8, 0] },
     colliders: [
       { pos: [0, 0, 0], r: 1.6 },
-      { pos: [-130, 0, 0], r: 3 },
+      { pos: [-129, 0, -20], r: 3 },
     ],
     bounds: 160,
-    credit: "Rover built for this site from NASA NSSDCA measurements; Falcon: NASA/Michael D. Carbajal (NASA 3D Resources)",
-    extras: [{ kind: "lm-descent", pos: [-130, 0, 0], rotationY: Math.PI / 2 }],
+    credit: "Rover modelled in Blender by the team from Apollo 15/17 photos and NASA NSSDCA measurements (CC BY 4.0); Falcon: NASA/Michael D. Carbajal (NASA 3D Resources)",
+    info: {
+      stats: [
+        { label: "Driven", value: "27.8 km on 3 moonwalks" },
+        { label: "Rover mass", value: "210 kg" },
+        { label: "Power", value: "2 non-rechargeable 36 V batteries" },
+        { label: "Parked", value: "2 August 1971" },
+      ],
+      plan: { label: "Battery range used", planned: 92, actual: 27.8, unit: "km", note: "It was built to drive up to 92 km before its batteries ran out." },
+    },
+    // Falcon is 129 m west and 20 m north of where the rover was parked (LROC-measured site coordinates).
+    extras: [{ kind: "lm-descent", pos: [-129, 0, -20], rotationY: Math.PI / 2 }],
     hotspots: [
       {
         id: "tv-camera",
         title: "The TV camera",
         text: "Engineers in Houston steered this camera by remote control. On 2 August 1971 it filmed Falcon’s top half blasting off, the first liftoff from the Moon ever shown on TV.",
         source: SRC.apollo15home,
-        anchor: { pos: [-1.56, 1.28, -0.3] },
+        anchor: { pos: [-1.8, 1.3, -0.16] },
         face: [-1, 0, 0],
       },
       {
@@ -190,7 +224,7 @@ export const STOPS: Stop[] = [
         title: "The umbrella antenna",
         text: "This mesh dish beamed TV pictures from the Moon straight to Earth. Look up and to the south: Earth hangs right where the dish is pointing.",
         source: SRC.lrv,
-        anchor: { pos: [-1.42, 1.98, 0.12] },
+        anchor: { pos: [-1.58, 2.02, 0.16] },
         face: null,
       },
       {
@@ -198,7 +232,7 @@ export const STOPS: Stop[] = [
         title: "Wire wheels",
         text: "These tires have no air inside. They are woven from steel wire, with titanium treads that gripped the dusty ground.",
         source: SRC.lrv,
-        anchor: { pos: [1.15, 0.86, 1.06] },
+        anchor: { pos: [1.15, 0.82, 1.06] },
         face: [0, 0, 1],
       },
       {
@@ -206,15 +240,18 @@ export const STOPS: Stop[] = [
         title: "The batteries",
         text: "Two 36-volt batteries powered the rover, and they could not be recharged. Once they ran down, the rover went quiet for good.",
         source: SRC.lrv,
-        anchor: { pos: [-0.85, 0.86, 0] },
+        anchor: { pos: [-1.02, 0.8, 0] },
         face: [0, 1, 0],
+        broken: true,
+        glow: ["batteries"],
+        tag: "Why it can't drive again",
       },
       {
         id: "falcon",
         title: "Falcon",
         text: "This is the bottom half of Falcon, the lander that brought Scott and Irwin here. Its top half blasted off from this spot while the rover’s camera watched.",
         source: SRC.apollo15,
-        anchor: { pos: [-130, 3.6, 0] },
+        anchor: { pos: [-129, 3.6, -20], ground: true },
         face: null,
       },
     ],
@@ -233,27 +270,39 @@ export const STOPS: Stop[] = [
     distanceKm: 225_000_000,
     distanceLabel: "Average distance from Earth",
     // Centered on the solar deck: the model's robotic arm reaches far out in front.
-    model: { kind: "gltf", url: "/models/mer.gltf.json", height: 1.5, origin: "ground", centerOn: ["SolarArrays"] },
+    model: { kind: "gltf", url: "/models/mer.gltf.json", height: 1.5, origin: "ground", centerOn: ["tex_panels_n", "tex_panels2_n"] },
     setting: { kind: "mars", terrain: "slope", sun: { az: 120, el: 38 }, flatRadius: 3.5 },
     spawn: { pos: [3.4, 0, 4.6], look: [0, 0.7, 0] },
     colliders: [{ pos: [0, 0, 0], r: 1.3 }],
     bounds: 55,
-    credit: "Mars Exploration Rover model: NASA/Ames Research Center (NASA 3D Resources)",
+    credit: "Spirit and Opportunity rover model: NASA/JPL-Caltech (NASA 3D Resources)",
+    info: {
+      stats: [
+        { label: "Landed", value: "25 January 2004" },
+        { label: "Last heard", value: "10 June 2018" },
+        { label: "Driven", value: "45.16 km, a marathon" },
+        { label: "Power", value: "Sunlight on its solar panels" },
+      ],
+      plan: { label: "Mission length", planned: 90, actual: 5111, unit: "Mars days", note: "Planned for 90 Mars days. It kept going for 5,111." },
+    },
     hotspots: [
       {
         id: "solar-panels",
         title: "Solar panels",
         text: "Opportunity ran on sunlight caught by these panels. In June 2018 a dust storm covered the whole planet, the sky went dark, and the rover ran out of power.",
         source: SRC.mer,
-        anchor: { part: "SolarArrays", at: [0.82, 1, 0.5] },
+        anchor: { part: "tex_panels_n", at: [0.82, 1, 0.5] },
+        glow: ["tex_panels2_n"],
         face: null,
+        broken: true,
+        tag: "What gave out",
       },
       {
         id: "mast",
         title: "The camera mast",
         text: "Opportunity’s cameras sit on top of this mast, about 1.5 meters off the ground. They sent home more than 217,000 pictures of Mars.",
         source: SRC.oppEnd,
-        anchor: { part: "White", at: [0.5, 1, 0.5] },
+        anchor: { part: "tex_mast", at: [0.5, 1, 0.5] },
         face: null,
       },
       {
@@ -261,7 +310,7 @@ export const STOPS: Stop[] = [
         title: "Six wheels",
         text: "Opportunity drove more than 45 km, farther than a marathon. In 2015 it became the first robot to finish a marathon on another world.",
         source: SRC.oppEnd,
-        anchor: { part: "LightGrayMetal", at: [1, 0.75, 0.92] },
+        anchor: { part: "tex_suspension_n", at: [1, 0.3, 0.92] },
         face: [1, 0, 0],
       },
       {
@@ -269,7 +318,7 @@ export const STOPS: Stop[] = [
         title: "The last message",
         text: "Opportunity’s last message reached Earth on 10 June 2018. For eight months NASA sent more than a thousand commands to wake it up, but it never answered.",
         source: SRC.oppEnd,
-        anchor: { part: "Copper", at: [0.5, 1, 0.5] },
+        anchor: { part: "tex_instruments", at: [0.5, 1, 0.5] },
         face: null,
       },
     ],
@@ -293,6 +342,15 @@ export const STOPS: Stop[] = [
     colliders: [{ pos: [0, 0, 0], r: 0.75 }],
     bounds: 45,
     credit: "Ingenuity model: NASA/JPL-Caltech (NASA 3D Resources)",
+    info: {
+      stats: [
+        { label: "First flight", value: "19 April 2021" },
+        { label: "Last flight", value: "18 January 2024" },
+        { label: "Time in the air", value: "More than 2 hours" },
+        { label: "Mass", value: "1.8 kg" },
+      ],
+      plan: { label: "Flights", planned: 5, actual: 72, unit: "flights", note: "It was meant to try just 5 test flights. It flew 72." },
+    },
     extras: [{ kind: "blade-piece", pos: [-15, 0, 0.6], rotationY: 0.7 }],
     hotspots: [
       {
@@ -357,6 +415,15 @@ export const STOPS: Stop[] = [
     colliders: [{ pos: [0, 0, 0], r: 3.4 }],
     bounds: 60,
     credit: "Cassini-Huygens model: NASA/Brian E. Kumanchik (NASA 3D Resources)",
+    info: {
+      stats: [
+        { label: "Launched", value: "15 October 1997" },
+        { label: "Orbits of Saturn", value: "294" },
+        { label: "Pictures sent home", value: "More than 450,000" },
+        { label: "Final plunge", value: "15 September 2017" },
+      ],
+      plan: { label: "Years at Saturn", planned: 4, actual: 13, unit: "years", note: "The main mission was 4 years at Saturn. Cassini stayed for 13." },
+    },
     hotspots: [
       {
         id: "dish",
@@ -410,6 +477,15 @@ export const STOPS: Stop[] = [
     colliders: [{ pos: [0, 0, 0], r: 2.4 }],
     bounds: 60,
     credit: "Voyager model: NASA/Michael D. Carbajal (NASA 3D Resources)",
+    info: {
+      stats: [
+        { label: "Launched", value: "5 September 1977" },
+        { label: "Distance from the Sun", value: "About 172 AU" },
+        { label: "Radio time to Earth", value: "About one day" },
+        { label: "Instruments still on", value: "2" },
+      ],
+      plan: { label: "Mission length", planned: 5, actual: 49, unit: "years", note: "Built for a 5-year trip past Jupiter and Saturn. It is still working 49 years later." },
+    },
     hotspots: [
       {
         id: "dish",
@@ -463,8 +539,9 @@ export const STOP_INDEX: Record<string, number> = Object.fromEntries(STOPS.map((
 export const CHAPTERS = ["Moon", "Mars", "Deep space"] as const;
 
 export const CREDITS = [
-  "Earth: NASA Earth Observatory, Blue Marble: Next Generation (November 2004 imagery).",
-  "Moon map: NASA/GSFC/Arizona State University (LROC, SVS CGI Moon Kit). Mars map: Solar System Scope, CC BY 4.0, from NASA data.",
+  "Earth: NASA Earth Observatory: Blue Marble: Next Generation (November 2004), Blue Marble clouds (Terra MODIS, 2001) and Earth at Night / Black Marble 2016 (Suomi NPP VIIRS). Public domain.",
+  "Moon map and relief: NASA Scientific Visualization Studio CGI Moon Kit (LRO LROC WAC colour mosaic: NASA/GSFC/Arizona State University; LOLA elevation: NASA/GSFC). Public domain.",
+  "Mars map and relief: USGS Astrogeology Science Center / NASA: Viking MDIM 2.1 colourised global mosaic and MGS MOLA elevation (MOLA Science Team, NASA/GSFC). Public domain.",
   "3D spacecraft: NASA 3D Resources (Apollo Lunar Module and Voyager: NASA/Michael D. Carbajal; Mars Exploration Rover: NASA/Ames Research Center; Ingenuity: NASA/JPL-Caltech; Cassini-Huygens: NASA/Brian E. Kumanchik).",
   "The Apollo 15 rover was built for this site from NASA NSSDCA measurements. Saturn and its rings are drawn in code from their real sizes.",
   "Facts: NASA, NASA JPL and the NSSDCA catalog. Every hotspot links the page it came from.",

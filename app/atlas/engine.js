@@ -1,6 +1,8 @@
 // Ghost Rover Atlas engine: plain JS that drives the DOM rendered by Atlas.tsx.
 // Needs the global THREE (r128) plus GLTFLoader/DRACOLoader, loaded by Atlas.tsx from /vendor/three.
 /* eslint-disable */
+import { loadSalvage, salvageBlock } from './salvage.js';
+import { loadPhotosBy, loadLive, photosBlock, liveBlock, startLive } from './live.js';
 export function startAtlas() {
   const D = Math.PI / 180, NOW = new Date('2026-11-14');
   const WORLDS = {
@@ -12,6 +14,10 @@ export function startAtlas() {
               intro: 'Some machines never landed anywhere. They orbit dead worlds, rest on asteroids, plunged into giant planets on purpose, or are sailing out of the solar system forever.' },
   };
   const DATA = { moon: [], mars: [], beyond: [] };
+  // Machines this visitor has opened, kept in this browser only (a per-visitor convenience; nothing is sent anywhere).
+  const SEEN_KEY = 'gra-explored';
+  const seen = new Set((() => { try { return JSON.parse(localStorage.getItem(SEEN_KEY) || '[]'); } catch { return []; } })());
+  const saveSeen = () => { try { localStorage.setItem(SEEN_KEY, JSON.stringify([...seen])); } catch { /* private mode: progress lasts this visit */ } };
   let world = 'moon', year = 2026, selected = null;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = id => document.getElementById(id);
@@ -49,16 +55,45 @@ export function startAtlas() {
   scene.add(new THREE.AmbientLight(0xffffff, 0.6));
   const sun = new THREE.DirectionalLight(0xfff2dc, 0.85); sun.position.set(-4, 2, 3); scene.add(sun);
   { // starfield
-    const n = 1400, p = new Float32Array(n * 3);
-    for (let i = 0; i < n; i++) { const v = new THREE.Vector3().randomDirection ? new THREE.Vector3().randomDirection() : new THREE.Vector3(Math.random()-.5, Math.random()-.5, Math.random()-.5).normalize(); v.multiplyScalar(80 + Math.random() * 60).toArray(p, i * 3); }
-    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(p, 3));
-    scene.add(new THREE.Points(g, new THREE.PointsMaterial({ color: 0x9fb0d0, size: 0.35 })));
+    // Real magnitude spread: most stars near the naked-eye limit (faint), only a few bright ones.
+    const n = 900, p = new Float32Array(n * 3), c = new Float32Array(n * 3);
+    for (let i = 0; i < n; i++) {
+      let v; do { v = new THREE.Vector3(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1); } while (v.lengthSq() > 1 || v.lengthSq() < 1e-4);
+      v.normalize().multiplyScalar(120).toArray(p, i * 3);
+      const m = Math.max(-1.4, 6.5 + Math.log10(Math.max(Math.random(), 1e-6)) / 0.48), b = Math.min(1, 0.08 + 0.92 * Math.min(1, Math.pow(10, -0.4 * (m - 6.5)) / 60)), t = Math.random();
+      c.set([b * (t < 0.15 ? 0.82 : 1), b * (t > 0.85 ? 0.9 : 1), b * (t > 0.85 ? 0.78 : 1)], i * 3);
+    }
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(p, 3)); g.setAttribute('color', new THREE.BufferAttribute(c, 3));
+    scene.add(new THREE.Points(g, new THREE.PointsMaterial({ vertexColors: true, size: 1.6, sizeAttenuation: false, transparent: true, depthWrite: false })));
   }
   const textures = {}, loader = new THREE.TextureLoader();
   function setTexture(w) {
-    if (!textures[w]) { textures[w] = loader.load(WORLDS[w].tex); textures[w].encoding = THREE.sRGBEncoding; textures[w].anisotropy = 4; }
-    mat.map = textures[w]; mat.needsUpdate = true;
+    if (!textures[w]) { textures[w] = loader.load(WORLDS[w].tex); textures[w].encoding = THREE.sRGBEncoding; textures[w].anisotropy = 4; textures[w + 'N'] = loader.load(WORLDS[w].tex.replace('.jpg', '-normal.jpg')); }
+    mat.map = textures[w]; mat.normalMap = textures[w + 'N']; mat.needsUpdate = true;
   }
+  // Geology (Mars only): USGS global geologic map (SIM 3292) as a see-through layer on the globe, plus a legend.
+  const geoMesh = new THREE.Mesh(new THREE.SphereGeometry(1.002, 128, 64), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.78, depthWrite: false }));
+  geoMesh.visible = false; globe.add(geoMesh);
+  stage.insertAdjacentHTML('beforeend', '<button class="gbtn geobtn" id="geoBtn" type="button" aria-pressed="false" aria-controls="geoLegend" hidden>Rock map</button><div class="geolegend" id="geoLegend" hidden></div>');
+  const ERAS = { Noachian: 'Noachian: oldest, about 4 billion years', Hesperian: 'Hesperian: about 3.5 billion years', Amazonian: 'Amazonian: youngest, up to today' };
+  const hexOk = c => /^#[0-9a-f]{6}$/i.test(c || '') ? c : '#888888';
+  function syncGeo(on = $('geoBtn').getAttribute('aria-pressed') === 'true') {
+    const ok = world === 'mars'; on = on && ok;
+    $('geoBtn').hidden = !ok; $('geoBtn').setAttribute('aria-pressed', on); $('geoLegend').hidden = !on; geoMesh.visible = on;
+    if (on && !geoMesh.material.map) {
+      geoMesh.material.map = loader.load('terrain/mars/geology-global.png'); geoMesh.material.map.encoding = THREE.sRGBEncoding; geoMesh.material.needsUpdate = true;
+      fetch('terrain/mars/geology-legend.json').then(r => r.json()).then(L => {
+        const groups = {};
+        for (const u of L.units) (groups[(String(u.age).match(/Amazonian|Hesperian|Noachian/) || ['Other'])[0]] ||= []).push(u);
+        $('geoLegend').innerHTML = `<p class="eyebrow">Rock ages on Mars</p>` + ['Noachian', 'Hesperian', 'Amazonian'].filter(k => groups[k]).map(k => `<h4>${esc(ERAS[k])}</h4><ul>${groups[k].map(u => `<li><i style="background:${hexOk(u.color)}"></i>${esc(String(u.unitName).replace(/\s+unit$/i, ''))}</li>`).join('')}</ul>`).join('')
+          + `<p class="credit">${esc(L.source.title)} · ${esc(L.source.credit)} · ${esc(L.source.license)}</p>`;
+      }).catch(() => { $('geoLegend').textContent = 'Legend unavailable'; });
+    }
+  }
+  $('geoBtn').onclick = () => syncGeo($('geoBtn').getAttribute('aria-pressed') !== 'true');
+  const GEO = {}; // site geology.json, per machine id
+  const geologyOf = id => GEO[id] ||= /^mars\/[\w-]+$/.test(TERRAIN[id] || '') ? fetch(`terrain/${TERRAIN[id]}/geology.json`).then(r => r.ok ? r.json() : null).catch(() => null) : Promise.resolve(null);
+  const geoName = g => esc(String(g.unitName).replace(/\s+unit$/i, '') + (String(g.unitName).startsWith(g.age) ? '' : ` (${g.age})`));
   // Lat/lon (east-positive) to a point on three.js's default sphere UV layout (u=0 at lon -180).
   function ll(lat, lon, r = 1) {
     const p = (lon + 180) * D, t = lat * D;
@@ -118,7 +153,12 @@ export function startAtlas() {
   /* ---------- NASA 3D models, shown in the dossier ---------- */
   let MODELS = {};
   // Overrides checked before models.json "covers": null means "no honest model for this one".
-  const MODEL_MATCH = [[/backshell|galileo_probe/i, null]];
+  const MODEL_MATCH = [ // explicit picks first (most specific first); null = no honest model
+  [/apollo15-lrrr/, 'lrrr-300'], [/-lrrr/, 'lrrr-100'], [/apollo11-pse/, 'easep'], [/-alsep/, 'alsep'], [/-lrv/, 'lrv'],
+  [/^surveyor/, 'surveyor'], [/^pathfinder/, 'pathfinder'], [/^sojourner/, 'sojourner'], [/^phoenix/, 'phoenix'], [/backshell/, 'backshell'],
+  [/galileo_probe/, 'galileo-probe'], [/pioneer_venus_orbiter/, 'pioneer-venus-orbiter'], [/pioneer_venus_large/, 'pioneer-venus-large'],
+  [/pioneer_venus_small/, 'pioneer-venus-small'], [/^spitzer/, 'spitzer'],
+];
   const MODEL_NOTE = {
     'apollo-lm': 'Only the bottom half, the descent stage, stayed on the Moon. The top half carried the astronauts back up.',
     'deep-impact': 'The impactor was the small copper-heavy part that split off. The bigger flyby spacecraft watched it hit.',
@@ -129,14 +169,44 @@ export function startAtlas() {
     for (const [k, m] of Object.entries(MODELS)) if ((m.covers || []).some(c => s.toLowerCase().includes(String(c).toLowerCase()))) return k;
     return null;
   }
-  // Model viewer zoom: wheel or the +/- buttons; 1 = whole model fits.
+  // The part that gave out, per machine: which named parts of its 3D model to glow red, and a kid-readable note.
+// Only machines whose model has that part as a separate, named piece are listed; the note says what really happened.
+const FAULTS = {
+  opportunity: { parts: /^tex_panels2?_n$/, note: 'solar panels. A planet-wide dust storm blocked their sunlight in 2018.' },
+  spirit: { parts: /^tex_suspension_n$/, note: 'wheels. One had already failed, and the rest dug into soft sand at Troy.' },
+  insight: { parts: /^panel_/, note: 'solar panels. Dust piled up on them until there was too little power.' },
+  phoenix: { parts: /^cell$/, note: 'solar panels. The Arctic winter took their sunlight, and frost later cracked them.' },
+  ingenuity: { parts: /^(blades|rotors_0[12])$/, note: 'rotor blades. They snapped in a hard landing on flight 72.' },
+  surveyor1: { parts: /^cell$/, note: 'solar panel. It could not keep the battery alive through the freezing two-week nights.' },
+  surveyor3: { parts: /^cell$/, note: 'solar panel. It could not keep the battery alive through the freezing two-week night.' },
+  surveyor5: { parts: /^cell$/, note: 'solar panel. It could not keep the battery alive through the freezing two-week nights.' },
+  surveyor6: { parts: /^cell$/, note: 'solar panel. It could not keep the battery alive through the freezing two-week night.' },
+  surveyor7: { parts: /^cell$/, note: 'solar panel. It could not keep the battery alive through the freezing two-week nights.' },
+  galileo: { parts: /^ribs:gold_mesh$/, note: 'main antenna. It jammed half open, so Galileo had to send everything through a tiny one.' },
+};
+const faultMats = new Set();
+// Clones the materials of the failed part and makes them glow; the frame loop pulses everything in faultMats.
+function tintFault(obj, it, bag) {
+  const f = it && FAULTS[it.id]; if (!f) return false;
+  let hit = false;
+  obj.traverse(o => {
+    if (!o.isMesh) return;
+    const mats = Array.isArray(o.material) ? o.material : [o.material];
+    if (!(f.parts.test(o.name) || f.parts.test(o.parent?.name || '') || mats.some(m => f.parts.test(m?.name || '')))) return;
+    const glow = mats.map(m => { const c = m.clone(); c.emissive = new THREE.Color(0xff2a10); c.emissiveIntensity = 0.5; faultMats.add(c); bag.push(c); return c; });
+    o.material = Array.isArray(o.material) ? glow : glow[0]; hit = true;
+  });
+  return hit;
+}
+const dropFaultMats = bag => { bag.forEach(m => { faultMats.delete(m); m.dispose(); }); bag.length = 0; };
+// Model viewer zoom: wheel or the +/- buttons; 1 = whole model fits.
 function mvCam() { mv.cam.position.set(0, 0.9 * mv.zoom, 3.6 * mv.zoom); mv.cam.lookAt(0, 0, 0); }
-function mvZoom(f) { if (!mv.cam) return; mv.zoom = Math.max(0.3, Math.min(2.5, mv.zoom * f)); mvCam(); }
+function mvZoom(f) { if (!mv.cam) return; mv.zoom = Math.max(0.55, Math.min(2.5, mv.zoom * f)); mvCam(); }
 const mv = { r: null, scene: null, cam: null, obj: null, key: null, spin: 0, drag: null };
   const gltfLoader = THREE.GLTFLoader ? new THREE.GLTFLoader() : null, modelCache = {};
   // Most NASA models are Draco-compressed. Decoder ships with the page (the artifact sandbox blocks runtime CDN fetches); JS build avoids needing WASM.
   if (gltfLoader && THREE.DRACOLoader) gltfLoader.setDRACOLoader(new THREE.DRACOLoader().setDecoderPath('vendor/draco/').setDecoderConfig({ type: 'js' }));
-  function mountModel(key) {
+  function mountModel(key, it) {
     const host = $('mv'); if (!host || !key || !gltfLoader) return;
     if (!mv.r) {
       mv.r = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -158,7 +228,9 @@ const mv = { r: null, scene: null, cam: null, obj: null, key: null, spin: 0, dra
     mv.cam.aspect = host.clientWidth / host.clientHeight; mv.cam.updateProjectionMatrix();
     if (mv.obj) mv.scene.remove(mv.obj);
     mv.obj = null; mv.key = key;
-    const show = o => { if (mv.key !== key) return; mv.obj = o; mv.scene.add(o); host.classList.add('ready'); };
+    dropFaultMats(mv.faults || (mv.faults = []));
+    // Each machine gets its own copy, so one model can show different failed parts (Spirit's wheels, Opportunity's panels).
+    const show = base => { if (mv.key !== key) return; const o = base.clone(true); tintFault(o, it, mv.faults); mv.obj = o; mv.scene.add(o); host.classList.add('ready'); };
     if (modelCache[key]) return show(modelCache[key]);
     gltfLoader.load(MODELS[key].file, g => {
       const o = g.scene, box = new THREE.Box3().setFromObject(o), size = box.getSize(new THREE.Vector3()).length() || 1;
@@ -173,7 +245,8 @@ const mv = { r: null, scene: null, cam: null, obj: null, key: null, spin: 0, dra
       if (mv.drag === null && !reduceMotion) mv.spin += 0.005;
       mv.obj.rotation.y = mv.spin; mv.r.render(mv.scene, mv.cam);
     }
-    if (G.open) return stepGround(t);
+    if (faultMats.size) { const k = 0.38 + 0.3 * Math.sin(t / 260); faultMats.forEach(m => { m.emissiveIntensity = k; }); }
+  if (G.open) return stepGround(t);
     if (world === 'beyond') return;
     if (target) {
       rotX += (target.x - rotX) * 0.08; rotY += (target.y - rotY) * 0.08;
@@ -282,6 +355,8 @@ function drawBeyond() {
   // "Eagle (Apollo 11 LM descent stage)" -> "Eagle's mission"; names ending in s get a bare apostrophe.
   const missionOf = name => { const n = String(name).replace(/\s*\(.*?\)/g, '').trim(); return `${n}${/s$/i.test(n) ? '’' : '’s'} mission`; };
   const LINKS = {};
+  let SALV = {}; // salvage grade per machine (public/data/salvage.json)
+  let PHOTOS_BY = {}, LIVE = {}, stopLive = () => {}; // photos each machine took; live numbers for working ones
 const PANOS = {}; // id -> real ground panorama { file, hfov_deg, vtop_deg, vbottom_deg, left_azimuth_deg, caption, credit, license, source }
 const ROUTES = {}; // id -> { segments: [{ name, points: [[lat, lon], ...] }], distance_km, credit, ... }
 const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).filter(a => Array.isArray(a) && a.length > 1).concat(ROUTES[it.id] ? [] : (Array.isArray(it.path) && it.path.length > 1 ? [it.path] : []));
@@ -301,7 +376,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
   }
   function fateBlock(f) {
     if (!f) return '';
-    return `<h3>What happened</h3><div class="fate"><span class="fatecat">${esc(FATES[f.category] || f.category)}</span>
+    return `<h3>What happened</h3><div class="fate${BAD.has(f.category) ? ' bad' : ''}"><p class="fatecat"><i aria-hidden="true"></i>${esc(FATES[f.category] || f.category)}</p>
       <p class="fatelabel">${esc(f.label)}</p><p>${esc(f.summary)}</p></div>`;
   }
   // One map crop (equirectangular bbox) with the machine, its neighbours, rover trail and a km scale bar drawn on top.
@@ -339,7 +414,12 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
   }
 
   /* ---------- dossier, timeline, roster ---------- */
-  const fmt = s => s ? String(s).slice(0, 10) : '—';
+  const DATEF = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+  // "2012-08-06" -> "6 Aug 2012"; a bare year stays a year.
+  const fmt = s => { const t = s ? String(s) : ''; if (!t) return '—'; if (t.length < 10) return t.slice(0, 4); const d = new Date(t.slice(0, 10) + 'T12:00:00Z'); return isNaN(d) ? t.slice(0, 10) : DATEF.format(d); };
+  const span = days => days < 1 ? 'Under a day' : days < 60 ? `${Math.round(days)} day${Math.round(days) === 1 ? '' : 's'}` : days < 730 ? `${Math.round(days / 30.44)} months` : `${(days / 365.25).toFixed(days < 7305 ? 1 : 0)} years`;
+  const yrs = it => { const a = String(born(it) || '').slice(0, 4), e = activeNow(it) ? 'today' : String(died(it) || '').slice(0, 4); return a ? (e && e !== a ? `${a}–${e}` : a) : ''; };
+  const BAD = new Set(['power', 'comms', 'stuck', 'damaged', 'crash-accident', 'lost']);
   const yearsSince = s => ((NOW - new Date(String(s).slice(0, 10))) / 3.15576e10);
   function dossier(it) {
     const st = stateAt(it, 2026), end = died(it);
@@ -358,17 +438,21 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     const model = m ? `<figure class="model"><div class="mv" id="mv" role="img" aria-label="3D model of ${esc(m.title)}"></div>
     <div class="mvz"><button type="button" data-mvz="0.8" aria-label="Zoom in">+</button><button type="button" data-mvz="1.25" aria-label="Zoom out">−</button></div>
       ${MODEL_NOTE[mk] ? `<figcaption>${esc(MODEL_NOTE[mk])}</figcaption>` : ''}
-      <figcaption>NASA 3D model: ${esc(m.title)} · drag to turn, scroll or +/− to zoom${/^https?:\/\//.test(m.page || '') ? ` · <a href="${esc(m.page)}" target="_blank" rel="noopener" style="color:var(--echo)">model page ↗</a>` : ''}</figcaption></figure>` : '';
+      ${FAULTS[it.id] ? `<figcaption class="faultnote"><i aria-hidden="true"></i><span><b>Glowing red is what gave out:</b> the ${esc(FAULTS[it.id].note)}</span></figcaption>` : ''}
+      <figcaption>${/^NASA/.test(m.credit || 'NASA') ? 'NASA 3D model' : '3D model'}: ${esc(m.title)}${/^NASA/.test(m.credit || 'NASA') ? '' : ` (${esc(m.credit)}, ${esc(m.license || '')})`} · drag to turn, scroll or +/− to zoom${/^https?:\/\//.test(m.page || '') ? ` · <a href="${esc(m.page)}" target="_blank" rel="noopener" style="color:var(--echo)">model page ↗</a>` : ''}</figcaption></figure>` : '';
     return `<p class="eyebrow">${esc(it.mission)} · ${esc(it.type)}</p>
       <h2>${esc(it.name)}</h2>
       <span class="pill" style="--c:${COLOR[st]}">${esc(it.status)}</span>
       ${TERRAIN[it.id] ? `<br><button type="button" class="walkbtn" data-walk="${esc(it.id)}">Walk around this site →</button>` : ''}
+    ${world === 'beyond' && mk ? `<br><a class="walkbtn" href="/fly#${esc(it.id)}">Fly around it →</a>` : ''}
       ${photoFig(it.photo)}
       ${it.summary ? `<p class="summary">${esc(it.summary)}</p>` : ''}
       ${fateBlock(it.fate)}
+      ${salvageBlock(SALV[it.id])}
+      ${liveBlock(LIVE[it.id])}${photosBlock(PHOTOS_BY[it.id])}
       ${locatorBlock(it)}
       ${it.orbit ? `<h3>Seen from orbit today</h3>${photoFig(it.orbit)}` : ''}
-      <dl class="facts">${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
+      ${glance(it, st, end)}
       ${model ? `<h3>Turn it around</h3>${model}` : ''}
       ${it.story ? `<blockquote class="voice">${esc(it.story)}</blockquote>` : ''}
       ${it.lastWords && !it.fate ? `<h3>Its last day</h3><p>${esc(it.lastWords)}</p>` : ''}
@@ -377,6 +461,29 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
       ${it.funFact ? `<p class="fun"><strong>Fun fact</strong>${esc(it.funFact)}</p>` : ''}
       ${learnMore(LINKS[it.id])}
       ${src}`;
+  }
+  // "At a glance": a few big numbers a kid can compare, instead of a list of fields.
+  function glance(it, st, end) {
+    const start = born(it); if (!start) return '';
+    const stop = st === 'alive' || st === 'echo' ? NOW : end ? new Date(String(end).slice(0, 10)) : null;
+    const days = stop ? (stop - new Date(String(start).slice(0, 10))) / 864e5 : null;
+    const tile = (k, v, n, cls = '') => `<div class="stat${cls}"><span class="k">${k}</span><span class="v">${v}</span>${n ? `<span class="n">${n}</span>` : ''}</div>`;
+    const when = `${fmt(start)} – ${st === 'alive' || st === 'echo' ? 'today' : fmt(end)}`;
+    const t = [];
+    if (days != null) t.push(tile(st === 'echo' ? 'Working unpowered for' : st === 'alive' ? 'Working for' : 'Worked for', esc(span(days)), esc(when)));
+    else t.push(tile(it.arrived ? 'Arrived' : 'Launched', esc(fmt(start)), ''));
+    if (end && st === 'silent') t.push(tile('Silent for', esc(span((NOW - new Date(String(end).slice(0, 10))) / 864e5)), `Last heard ${esc(fmt(end))}`));
+    if (Number.isFinite(it.distance_au)) t.push(tile('From the Sun', `${it.distance_au.toFixed(1)}<small> AU</small>`, Number.isFinite(it.lightTime_hours) ? `A radio hello takes ${it.lightTime_hours.toFixed(1)} h one way` : ''));
+    if (Number.isFinite(it.mass_kg)) t.push(tile('Mass', `${it.mass_kg.toLocaleString('en-US')}<small> kg</small>`, ''));
+    let drove = '';
+    if (Number.isFinite(it.distance_km) && it.distance_km > 0) {
+      const M = 42.195, km = it.distance_km, full = Math.max(km, M), m = km / M;
+      drove = `<div class="stat wide"><span class="k">Drove</span><span class="v">${km.toLocaleString('en-US')}<small> km</small></span>
+        <div class="meter" role="img" aria-label="${km} km, ${m.toFixed(2)} of a marathon"><b style="width:${(km / full * 100).toFixed(1)}%"></b><i style="left:${(M / full * 100).toFixed(1)}%"></i></div>
+        <span class="n">${m >= 1 ? `${m.toFixed(1)} marathons` : `${Math.round(m * 100)}% of a marathon`} · the line marks one marathon (42.2 km)</span></div>`;
+    }
+    const where = Number.isFinite(it.lat) ? `<p class="where">Where it is: <span class="coord">${Math.abs(it.lat).toFixed(2)}°${it.lat >= 0 ? 'N' : 'S'} ${Math.abs(it.lon).toFixed(2)}°${it.lon >= 0 ? 'E' : 'W'}</span></p>` : '';
+    return `<h3>At a glance</h3><div class="glance">${t.join('')}${drove}</div>${where}`;
   }
   function intro() {
     const list = DATA[world], alive = list.filter(it => stateAt(it, 2026) === 'alive').length;
@@ -407,23 +514,49 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
       b.style.setProperty('--c', COLOR[stateAt(byId(b.dataset.id), year)]);
       b.setAttribute('aria-pressed', b.dataset.id === selected);
     });
+    pins.forEach(p => p.el.classList.toggle('seen', seen.has(p.it.id)));
+    $('beyond').querySelectorAll('.craft').forEach(g => g.classList.toggle('seen', seen.has(g.dataset.id)));
+    document.querySelectorAll('#list button').forEach(b => b.classList.toggle('seen', seen.has(b.dataset.id)));
+    showExplored();
     $('yearOut').value = year;
     const list = DATA[world], here = list.filter(it => stateAt(it, year) !== 'future');
     const talking = here.filter(it => stateAt(it, year) === 'alive').length;
     $('yearNote').textContent = here.length
       ? `In ${year}: ${here.length} machine${here.length === 1 ? '' : 's'} had reached ${WORLDS[world].name}, ${talking} still talking.`
       : `In ${year}: nothing from NASA had reached ${WORLDS[world].name} yet.`;
-    $('cursor').style.left = `calc(${(year - 1959) / (2026 - 1959) * 100}% - 1px)`;
+    $('cursor').style.left = `calc(var(--lw) + (100% - var(--lw)) * ${((year - 1959) / (2026 - 1959)).toFixed(4)} - 1px)`;
   }
   const byId = id => DATA[world].find(it => it.id === id);
+  // "You've explored 12 of 79": one bar for everything, and a count per world.
+  function showExplored() {
+    const box = $('explored'); if (!box) return;
+    const names = { moon: 'Moon', mars: 'Mars', beyond: 'Deep space' };
+    const per = Object.keys(DATA).map(w => [w, DATA[w].filter(it => seen.has(it.id)).length, DATA[w].length]);
+    const done = per.reduce((s, x) => s + x[1], 0), all = per.reduce((s, x) => s + x[2], 0);
+    if (!all) return;
+    $('exploredText').textContent = done ? `You've explored ${done} of ${all} machines` : `You've explored 0 of ${all} machines. Click a dot to start.`;
+    const bar = $('exploredBar'); bar.setAttribute('aria-valuenow', done); bar.setAttribute('aria-valuemax', all);
+    bar.querySelector('b').style.width = `${(done / all * 100).toFixed(1)}%`;
+    $('exploredWorlds').innerHTML = per.map(([w, d, n]) => `<span${w === world ? ' class="here"' : ''}>${names[w]} <b>${d}/${n}</b>${d === n ? ' ✓' : ''}</span>`).join('');
+    $('exploredReset').hidden = !done;
+  }
   function buildTimeline() {
     const box = $('lives'); box.querySelectorAll('.life').forEach(n => n.remove());
+    let tip = box.querySelector('.lifetip');
+    if (!tip) { tip = document.createElement('span'); tip.className = 'lifetip'; tip.hidden = true; tip.setAttribute('aria-hidden', 'true'); box.appendChild(tip); }
     const pct = d => ((yr(d) - 1959 + (+String(d).slice(5, 7) || 6) / 12) / (2026 - 1959 + 1) * 100);
     [...DATA[world]].filter(born).sort((a, b) => String(born(a)).localeCompare(String(born(b)))).forEach(it => {
       const row = document.createElement('div'); row.className = 'life';
       const a = pct(born(it)), e = activeNow(it) || /reflector/i.test(it.type) ? 100 : died(it) ? pct(died(it)) : a;
-      row.innerHTML = `<b data-id="${esc(it.id)}" title="${esc(it.name)}: ${esc(fmt(born(it)))} to ${esc(activeNow(it) ? 'today' : fmt(died(it)))}" style="left:${a}%;width:${Math.max(0, e - a)}%"></b>`;
-      row.firstChild.onclick = () => select(it.id);
+      const label = `${it.name.replace(/\s*\(.*?\)\s*/g, ' ').trim()} · ${yrs(it)}`;
+      // Every lane is named, with a dot where it landed (or launched): no hovering needed to see what's what.
+      row.innerHTML = `<b data-id="${esc(it.id)}" role="button" tabindex="0" aria-label="${esc(label)}" style="left:${a}%;width:${Math.max(0, e - a)}%"></b><span class="lname" aria-hidden="true">${esc(label.split(' · ')[0])}</span>`;
+      row.querySelector('.lname').onclick = () => select(it.id);
+      const b = row.firstChild;
+      b.onclick = () => select(it.id);
+      b.onkeydown = ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); select(it.id); } };
+      const show = () => { tip.textContent = label; tip.style.top = `${row.offsetTop}px`; tip.style.left = `calc(var(--lw) + (100% - var(--lw)) * ${(Math.min(a, 70) / 100).toFixed(3)})`; tip.hidden = false; };
+      b.onpointerenter = show; b.onfocus = show; b.onpointerleave = b.onblur = () => { tip.hidden = true; };
       box.appendChild(row);
     });
     buildRoster();
@@ -444,7 +577,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
       for (const k of keys) {
         const li = document.createElement('li');
         li.innerHTML = `<div class="ghead"><b>${esc(FATES[k] || k)}</b><span class="gn">${groups[k].length}</span><i class="gbar" style="width:${(groups[k].length / most * 100).toFixed(0)}%"></i></div>
-          <div class="grows">${groups[k].map(it => `<button type="button" class="grow" data-id="${esc(it.id)}"><span class="gname">${esc(it.name)}</span><span class="glabel">${esc(it.fate?.label || it.status)}</span></button>`).join('')}</div>`;
+          <div class="grows">${groups[k].map(it => `<button type="button" class="grow" data-id="${esc(it.id)}"><span class="gname">${esc(it.name)}</span><span class="glabel">${esc(it.fate?.label || it.status)}</span><span class="gyrs">${esc(yrs(it))}</span></button>`).join('')}</div>`;
         ul.appendChild(li);
       }
     }
@@ -453,10 +586,14 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
   function select(id) {
     const it = byId(id);
     selected = it ? id : null;
+    if (it && !seen.has(id)) { seen.add(id); saveSeen(); }
+    stopLive();
     $('dossier').innerHTML = it ? dossier(it) : intro();
+    stopLive = it && LIVE[it.id] ? startLive($('dossier'), LIVE[it.id]) || (() => {}) : () => {};
     $('dossier').scrollTop = 0;
     $('dossier').querySelector('[data-walk]')?.addEventListener('click', e => openGround(e.currentTarget.dataset.walk));
-    if (it) mountModel(modelKeyFor(it)); else mv.key = null;
+    if (it) geologyOf(id).then(g => { const w = g && selected === id && $('dossier').querySelector('[data-walk]'); if (w) w.insertAdjacentHTML('afterend', `<p class="geo"><i style="background:${hexOk(g.color)}"></i><b>Ground:</b> ${geoName(g)}. ${esc(g.kidText)} <span class="credit">USGS geologic map of Mars, Tanaka et al. 2014</span></p>`); });
+    if (it) mountModel(modelKeyFor(it), it); else mv.key = null;
     if (it && Number.isFinite(it.lat) && world !== 'beyond') faceTo(it.lat, it.lon);
   if (world === 'beyond') zoomBeyond(it ? id : null);
     if (it && location.hash.slice(1) !== id) history.replaceState(null, '', '#' + id);
@@ -471,6 +608,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     $('hint').textContent = deep ? 'Directions and distances are approximate' : 'Drag to spin · scroll to zoom';
     buildTimeline();
     if (deep) { pins = []; drawBeyond(); } else { setTexture(w); buildPins(); }
+    syncGeo();
     if (!keepSel) { select(null); history.replaceState(null, '', '#' + w); }
   }
   document.querySelectorAll('.worlds button').forEach(b => b.onclick = () => setWorld(b.dataset.world));
@@ -482,6 +620,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
   $('year').oninput = e => { year = +e.target.value; stopPlay(); paint(); };
   let timer = null;
   function stopPlay() { clearInterval(timer); timer = null; $('play').textContent = '▶ Play history'; }
+  $('exploredReset').onclick = () => { if (confirm('Clear the list of machines you have explored?')) { seen.clear(); saveSeen(); paint(); } };
   $('play').onclick = () => {
     if (timer) return stopPlay();
     if (year >= 2026) year = 1959;
@@ -500,41 +639,87 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
   const validTile = p => /^(moon|mars|beyond)\/[\w-]+$/.test(p || '');
 
   function hAt(x, z) { // bilinear height (m, exaggerated) at east x / south z from the centre
-  if (G.R && (Math.abs(x) > G.ext[0] / 2 || Math.abs(z) > G.ext[1] / 2)) return (G.surroundY || 0) - (x * x + z * z) / (2 * G.R); // curved ground beyond the tile
+  if (G.R && (Math.abs(x) > G.ext[0] / 2 || Math.abs(z) > G.ext[1] / 2)) return (regionAt(x, z) ?? edgeFalloff(x, z)) - (x * x + z * z) / (2 * G.R); // curved ground beyond the tile
     const n = G.n, u = Math.max(0, Math.min(n - 1.001, (x / G.ext[0] + 0.5) * (n - 1))), v = Math.max(0, Math.min(n - 1.001, (z / G.ext[1] + 0.5) * (n - 1)));
     const c = u | 0, r = v | 0, fx = u - c, fy = v - r, i = r * n + c, H = G.h;
     return ((H[i] * (1 - fx) + H[i + 1] * fx) * (1 - fy) + (H[i + n] * (1 - fx) + H[i + n + 1] * fx) * fy) * G.exag;
   }
-  // Real orbital imagery beyond the sharp tile, streamed from NASA Trek (equirectangular WMTS: 2^(z+1) x 2^z tiles of 256 px,
+  // Regional elevation (optional region.png / far.png per site, Terrarium, same local frame as the tile).
+async function loadGrid(url) {
+  try {
+    const img = new Image(); img.src = url; await img.decode();
+    const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+    const ctx = c.getContext('2d'); ctx.drawImage(img, 0, 0);
+    const d = ctx.getImageData(0, 0, img.width, img.height).data, n = Math.min(img.width, img.height), h = new Float32Array(n * n);
+    for (let r = 0; r < n; r++) for (let q = 0; q < n; q++) { const k = (r * img.width + q) * 4; h[r * n + q] = d[k] * 256 + d[k + 1] + d[k + 2] / 256 - 32768; }
+    return { h, n };
+  } catch { return null; }
+}
+async function loadRegion(base) {
+  try {
+    const j = await fetch(base + 'region.json').then(r => { if (!r.ok) throw 0; return r.json(); });
+    const [g, far] = await Promise.all([loadGrid(base + 'region.png'), loadGrid(base + 'far.png')]);
+    return g ? { g, ext: j.extent_m.map(Number), far, farExt: (j.far_extent_m || []).map(Number), src: j.source } : null;
+  } catch { return null; }
+}
+function gridAt(g, ext, x, z) { // bilinear sample; x east, z south (metres from the site centre); null outside
+  if (!g || !ext?.[0]) return null;
+  const n = g.n, u = (x / ext[0] + 0.5) * (n - 1), v = (z / ext[1] + 0.5) * (n - 1);
+  if (!(u >= 0 && v >= 0 && u <= n - 1.001 && v <= n - 1.001)) return null;
+  const c = u | 0, r = v | 0, fx = u - c, fy = v - r, i = r * n + c, H = g.h;
+  return (H[i] * (1 - fx) + H[i + 1] * fx) * (1 - fy) + (H[i + n] * (1 - fx) + H[i + n + 1] * fx) * fy;
+}
+// Fallback outside the tile: continue the nearest tile-edge height and ease it to the edge average over ~3 km (no fake cliffs).
+function edgeFalloff(x, z) {
+  const hx = G.ext[0] / 2 - 0.5, hz = G.ext[1] / 2 - 0.5, cx = Math.max(-hx, Math.min(hx, x)), cz = Math.max(-hz, Math.min(hz, z));
+  const w = Math.exp(-Math.hypot(x - cx, z - cz) / 3000), eh = hAt(cx, cz);
+  return (G.edgeY || 0) + (eh - (G.edgeY || 0)) * w;
+}
+const regionAt = (x, z) => G.region ? (gridAt(G.region.g, G.region.ext, x, z) ?? gridAt(G.region.far, G.region.farExt, x, z)) : null;
+// Real orbital imagery beyond the sharp tile, streamed from NASA Trek (equirectangular WMTS: 2^(z+1) x 2^z tiles of 256 px,
 // top-left -180/90). Each ring is one stitched canvas on a curved plane, so the planet falls away to a real horizon.
+// Mars: the Caltech Murray Lab CTX global mosaic (~5 m/px, greyscale, 512 px tiles, same grid) is laid over Viking colour with a
+// 'luminosity' blend, so Mars stays Mars-coloured; where a CTX tile is missing the Viking colour shows through.
 const TREK = {
-  mars: { layer: 'Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m', zmax: 7, R: 3389500, tint: 0xffb68a, credit: 'NASA/USGS Viking MDIM 2.1 colour mosaic via NASA Mars Trek' },
-  moon: { layer: 'Moon/EQ/LRO_WAC_Mosaic_Global_303ppd_v02', zmax: 8, R: 1737400, tint: 0xffffff, credit: 'NASA/GSFC/ASU LRO WAC mosaic via NASA Moon Trek' },
+  mars: { layer: 'Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m', zmax: 7, R: 3389500, tint: 0xffb68a, rings: [5000, 20000, 60000, 210000], credit: 'NASA/USGS Viking MDIM 2.1 colour mosaic via NASA Mars Trek (public domain)',
+    sharp: { url: (z, y, x) => `https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/${z}/${y}/${x}`, zmax: 12, credit: 'MRO CTX global mosaic beta01, ~5 m/px: NASA/JPL/MSSS/The Caltech Murray Lab/Esri (free use for all purposes), via NASA Mars Trek' } },
+  moon: { layer: 'Moon/EQ/LRO_WAC_Mosaic_Global_303ppd_v02', zmax: 8, R: 1737400, tint: 0xffffff, rings: [30000, 105000], credit: 'NASA/GSFC/ASU LRO WAC mosaic via NASA Moon Trek (public domain)' },
 };
-async function surroundRing(T, lat0, lon0, halfM, z, yOff, order) {
-  const kx = T.R * Math.cos(lat0 * D) * D, ky = T.R * D, tdeg = 180 / 2 ** z, cols = 2 ** (z + 1), rows = 2 ** z;
+const loadImg = src => { const img = new Image(); img.crossOrigin = 'anonymous'; img.src = src; return img.decode().then(() => img, () => null); };
+async function surroundRing(T, lat0, lon0, halfM, yOff, order, hfn, holeHalf) {
+  const kx = T.R * Math.cos(lat0 * D) * D, ky = T.R * D, S = T.sharp, P = S ? 512 : 256;
   const dLat = halfM / ky, dLon = Math.min(179, halfM / Math.max(kx, 1));
+  const z = Math.max(0, Math.min(S ? S.zmax : T.zmax, Math.floor(Math.log2(720 / (2 * Math.max(dLat, dLon)))))); // ~4 tiles across: sharp near, cheap far
+  const tdeg = 180 / 2 ** z, cols = 2 ** (z + 1), rows = 2 ** z;
   const x0 = Math.floor((lon0 - dLon + 180) / tdeg), x1 = Math.floor((lon0 + dLon + 180) / tdeg);
   const y0 = Math.max(0, Math.floor((90 - (lat0 + dLat)) / tdeg)), y1 = Math.min(rows - 1, Math.floor((90 - (lat0 - dLat)) / tdeg));
   const nx = x1 - x0 + 1, ny = y1 - y0 + 1;
   if (nx * ny > 36) return null; // near the poles longitude explodes: skip rather than download half the planet
-  const cnv = document.createElement('canvas'); cnv.width = nx * 256; cnv.height = ny * 256;
-  const ctx = cnv.getContext('2d'); ctx.fillStyle = '#1a120d'; ctx.fillRect(0, 0, cnv.width, cnv.height);
-  const jobs = [];
-  for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) jobs.push((async () => {
-    const img = new Image(); img.crossOrigin = 'anonymous';
-    img.src = `https://trek.nasa.gov/tiles/${T.layer}/1.0.0/default/default028mm/${z}/${y}/${((x % cols) + cols) % cols}.jpg`;
-    try { await img.decode(); ctx.drawImage(img, (x - x0) * 256, (y - y0) * 256); } catch {}
-  })());
-  await Promise.all(jobs);
   const west = x0 * tdeg - 180, east = (x1 + 1) * tdeg - 180, north = 90 - y0 * tdeg, south = 90 - (y1 + 1) * tdeg;
-  const geo = new THREE.PlaneGeometry((east - west) * kx, (north - south) * ky, 128, 128);
+  const cnv = document.createElement('canvas'); cnv.width = nx * P; cnv.height = ny * P;
+  const ctx = cnv.getContext('2d'); ctx.fillStyle = '#1a120d'; ctx.fillRect(0, 0, cnv.width, cnv.height);
+  const ppd = P / tdeg, zv = Math.min(T.zmax, z), tv = 180 / 2 ** zv, cv = 2 ** (zv + 1), jobs = []; // Viking colour layer, scaled into this canvas
+  for (let y = Math.floor((90 - north) / tv); y <= Math.min(2 ** zv - 1, Math.floor((90 - south - 1e-9) / tv)); y++) for (let x = Math.floor((west + 180) / tv); x <= Math.floor((east + 180 - 1e-9) / tv); x++) jobs.push(
+    loadImg(`https://trek.nasa.gov/tiles/${T.layer}/1.0.0/default/default028mm/${zv}/${y}/${((x % cv) + cv) % cv}.jpg`).then(img => img && ctx.drawImage(img, (x * tv - 180 - west) * ppd, (north - (90 - y * tv)) * ppd, tv * ppd, tv * ppd)));
+  const sharp = [];
+  if (S) for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) sharp.push(loadImg(S.url(z, y, ((x % cols) + cols) % cols)).then(img => [img, x, y]));
+  await Promise.all(jobs);
+  ctx.globalCompositeOperation = 'luminosity';
+  for (const [img, x, y] of await Promise.all(sharp)) if (img) ctx.drawImage(img, (x - x0) * P, (y - y0) * P, P, P);
+  const geo = new THREE.PlaneGeometry((east - west) * kx, (north - south) * ky, 220, 220);
   geo.rotateX(-Math.PI / 2); geo.translate(((west + east) / 2 - lon0) * kx, 0, -((north + south) / 2 - lat0) * ky);
   const pos = geo.attributes.position;
-  for (let i = 0; i < pos.count; i++) { const X = pos.getX(i), Z = pos.getZ(i); pos.setY(i, yOff - (X * X + Z * Z) / (2 * T.R)); }
+  for (let i = 0; i < pos.count; i++) { const X = pos.getX(i), Z = pos.getZ(i); pos.setY(i, (hfn ? hfn(X, Z) ?? yOff : yOff) - (X * X + Z * Z) / (2 * T.R)); }
   geo.computeVertexNormals();
   const tex = new THREE.CanvasTexture(cnv); tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 8;
   const m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: tex, roughness: 1, metalness: 0, color: T.tint, polygonOffset: true, polygonOffsetFactor: order, polygonOffsetUnits: order }));
+  // Cut a hole where the sharp tile (or the next ring in) is, so a coarser ring never pokes up through finer ground.
+  const hole = new THREE.Vector2(...holeHalf);
+  m.material.onBeforeCompile = sh => {
+    sh.uniforms.holeHalf = { value: hole };
+    sh.vertexShader = 'varying vec2 vHoleXZ;\n' + sh.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\n  vHoleXZ = (modelMatrix * vec4(transformed, 1.0)).xz;');
+    sh.fragmentShader = 'uniform vec2 holeHalf;\nvarying vec2 vHoleXZ;\n' + sh.fragmentShader.replace('void main() {', 'void main() {\n  if (abs(vHoleXZ.x) < holeHalf.x && abs(vHoleXZ.y) < holeHalf.y) discard;');
+  };
   m.renderOrder = -order; return m;
 }
 async function addSurround(meta) {
@@ -543,16 +728,81 @@ async function addSurround(meta) {
   // Sit the surround just under the tile's edge so the sharp tile always wins.
   G.surroundY = (G.edgeY || 0) - 0.4; G.R = T.R; G.surroundHalf = meta.world === 'mars' ? 60000 : 30000;
   const scene = G.scene;
-  for (const [half, z, order] of [[G.surroundHalf, T.zmax, 2], [G.surroundHalf * 3.5, T.zmax - 2, 4]]) {
-    const ring = await surroundRing(T, +c[0], +c[1], half, z, G.surroundY - (order - 2) * 3, order);
-    if (!ring || G.scene !== scene) return;
-    scene.add(ring);
+  let hole = [G.ext[0] / 2 - 1, G.ext[1] / 2 - 1];
+  for (const [i, half] of T.rings.entries()) { // each ring fills the hole of the next one out; outer rings sit a few metres lower where they overlap
+    const sink = i * 3, order = 2 + i;
+    const hfn = (X, Z) => (regionAt(X, Z) ?? edgeFalloff(X, Z)) - sink - 0.4;
+    const ring = await surroundRing(T, +c[0], +c[1], half, G.surroundY - sink, order, hfn, hole);
+    if (G.scene !== scene) return;
+    if (ring) { scene.add(ring); hole = [half, half]; }
   }
-  $('gCredit').querySelector('details')?.insertAdjacentHTML('beforeend', `<br>Surrounding area: ${esc(T.credit)} (public domain)`);
+  $('gCredit').querySelector('details')?.insertAdjacentHTML('beforeend', `<br>Surrounding area: ${T.sharp ? esc(T.sharp.credit) + ', coloured with ' : ''}${esc(T.credit)}${G.region?.src ? ` · regional elevation: ${esc(G.region.src.credit || '')} ${G.region.src.product ? '(' + esc(G.region.src.product) + ')' : ''}` : ''}`);
 }
-const flyMax = () => G.surroundHalf ? 15000 : Math.max(...G.ext) * 0.6;
+const flyMax = () => G.surroundHalf ? Math.min(15000, (G.surroundHalf * 3.5 * 0.85) ** 2 / (2 * G.R)) : Math.max(...G.ext) * 0.6; // above this you'd see the imagery's edge
+// ---- Close-up ground realism: a tiling regolith detail texture and an instanced rock field around the walker ----
+const hash3 = (i, j, k) => { let n = Math.imul(i, 374761393) ^ Math.imul(j, 668265263) ^ Math.imul(k, 1442695041); n = Math.imul(n ^ (n >>> 13), 1274126177); return ((n ^ (n >>> 16)) >>> 0) / 4294967295; };
+let detailTex = null;
+function getDetailTex() { // seamless fractal value noise + pebble specks, centred on mid-grey so it modulates rather than recolours
+  if (detailTex) return detailTex;
+  const S = 512, c = document.createElement('canvas'); c.width = c.height = S;
+  const ctx = c.getContext('2d'), img = ctx.createImageData(S, S), v = new Float32Array(S * S);
+  for (const [cells, amp] of [[8, 0.45], [16, 0.28], [32, 0.16], [64, 0.1], [128, 0.06]]) {
+    const step = S / cells, sm = t => t * t * (3 - 2 * t);
+    for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
+      const gx = x / step, gy = y / step, x0 = Math.floor(gx), y0 = Math.floor(gy), fx = sm(gx - x0), fy = sm(gy - y0);
+      const g = (a, b) => hash3(((a % cells) + cells) % cells, ((b % cells) + cells) % cells, cells);
+      v[y * S + x] += amp * ((g(x0, y0) * (1 - fx) + g(x0 + 1, y0) * fx) * (1 - fy) + (g(x0, y0 + 1) * (1 - fx) + g(x0 + 1, y0 + 1) * fx) * fy - 0.5);
+    }
+  }
+  for (let i = 0; i < 2600; i++) { // pebbles: small dark blobs with a lit edge
+    const px = hash3(i, 7, 1) * S, py = hash3(i, 7, 2) * S, r = 0.8 + 3.5 * hash3(i, 7, 3) ** 3;
+    for (let y = Math.floor(py - r - 1); y <= py + r + 1; y++) for (let x = Math.floor(px - r - 1); x <= px + r + 1; x++) {
+      const d = Math.hypot(x - px, y - py) / r; if (d > 1) continue;
+      const k = (((y % S) + S) % S) * S + (((x % S) + S) % S); v[k] += (y < py ? 0.12 : -0.22) * (1 - d);
+    }
+  }
+  for (let i = 0; i < S * S; i++) { const g = Math.max(0, Math.min(255, 128 + v[i] * 230)); img.data.set([g, g, g, 255], i * 4); }
+  ctx.putImageData(img, 0, 0);
+  detailTex = new THREE.CanvasTexture(c); detailTex.wrapS = detailTex.wrapT = THREE.RepeatWrapping; detailTex.anisotropy = 8;
+  return detailTex;
+}
+function addGroundDetail(mat) { // two scales of detail near the viewer (fades out by ~350 m) on top of the orbital image
+  mat.onBeforeCompile = sh => {
+    sh.uniforms.detailMap = { value: getDetailTex() };
+    sh.uniforms.detailRep = { value: new THREE.Vector2(G.ext[0] / 4, G.ext[1] / 4) };
+    sh.vertexShader = 'varying float vDist;\n' + sh.vertexShader.replace('#include <project_vertex>', '#include <project_vertex>\n  vDist = -mvPosition.z;');
+    sh.fragmentShader = 'uniform sampler2D detailMap;\nuniform vec2 detailRep;\nvarying float vDist;\n' + sh.fragmentShader.replace('#include <map_fragment>',
+      '#include <map_fragment>\n  float dFade = clamp(1.0 - vDist / 350.0, 0.0, 1.0);\n  vec3 dA = texture2D(detailMap, vUv * detailRep).rgb, dB = texture2D(detailMap, vUv * detailRep * 6.7).rgb;\n  diffuseColor.rgb *= mix(vec3(1.0), (dA * 0.55 + dB * 0.45) * 2.0, 0.65 * dFade);');
+  };
+}
+const ROCK_MAX = 2600, ROCK_R = 150, ROCK_CELL = 3;
+function makeRocks(world) {
+  const geo = new THREE.IcosahedronGeometry(1, 1), pos = geo.attributes.position; // lumpy, irregular rock
+  for (let i = 0; i < pos.count; i++) { const k = 0.72 + 0.5 * hash3(Math.round(pos.getX(i) * 97), Math.round(pos.getY(i) * 89), Math.round(pos.getZ(i) * 83)); pos.setXYZ(i, pos.getX(i) * k, pos.getY(i) * k * 0.8, pos.getZ(i) * k); }
+  geo.computeVertexNormals();
+  const col = { mars: 0x7e4f35, moon: 0x77746f }[world] || 0x5d5a57;
+  const m = new THREE.InstancedMesh(geo, new THREE.MeshStandardMaterial({ color: col, roughness: 0.95, flatShading: true }), ROCK_MAX);
+  m.count = 0; m.frustumCulled = false; G.rockAt = null; G.rockDensity = world === 'mars' ? 0.3 : world === 'moon' ? 0.2 : 0.12;
+  return m;
+}
+const _m4 = new THREE.Matrix4(), _q = new THREE.Quaternion(), _e = new THREE.Euler(), _p = new THREE.Vector3(), _s = new THREE.Vector3();
+function scatterRocks(cx, cz) { // deterministic per 3 m cell, so the same spot always has the same rocks
+  const R = G.rocks; if (!R) return;
+  let k = 0;
+  const i0 = Math.floor((cx - ROCK_R) / ROCK_CELL), i1 = Math.floor((cx + ROCK_R) / ROCK_CELL), j0 = Math.floor((cz - ROCK_R) / ROCK_CELL), j1 = Math.floor((cz + ROCK_R) / ROCK_CELL);
+  for (let i = i0; i <= i1 && k < ROCK_MAX; i++) for (let j = j0; j <= j1 && k < ROCK_MAX; j++) {
+    if (hash3(i, j, 1) > G.rockDensity) continue;
+    const x = (i + hash3(i, j, 2)) * ROCK_CELL, z = (j + hash3(i, j, 3)) * ROCK_CELL;
+    if (Math.hypot(x - cx, z - cz) > ROCK_R) continue;
+    const sz = 0.05 + 1.3 * hash3(i, j, 4) ** 7; // mostly pebbles, a few boulders
+    _e.set(hash3(i, j, 5) * 6.28, hash3(i, j, 6) * 6.28, hash3(i, j, 7) * 6.28); _q.setFromEuler(_e);
+    _s.set(sz * (0.7 + 0.6 * hash3(i, j, 8)), sz * (0.45 + 0.4 * hash3(i, j, 9)), sz * (0.7 + 0.6 * hash3(i, j, 10)));
+    _p.set(x, hAt(x, z) + sz * 0.12, z); _m4.compose(_p, _q, _s); R.setMatrixAt(k++, _m4);
+  }
+  R.count = k; R.instanceMatrix.needsUpdate = true; G.rockAt = [cx, cz];
+}
 function groundGeometry() {
-    const n = G.n, seg = Math.min(255, n - 1), step = (n - 1) / seg;
+    const n = G.n, seg = Math.min(511, n - 1), step = (n - 1) / seg; // full height-map resolution so small craters survive
     const geo = new THREE.PlaneGeometry(G.ext[0], G.ext[1], seg, seg), pos = geo.attributes.position;
     for (let r = 0; r <= seg; r++) for (let c = 0; c <= seg; c++) pos.setZ(r * (seg + 1) + c, G.h[Math.round(r * step) * n + Math.round(c * step)] * G.exag);
     geo.rotateX(-Math.PI / 2); geo.computeVertexNormals();
@@ -579,8 +829,9 @@ function groundGeometry() {
       const key = modelKeyFor(it), crashed = /impact|crash/i.test(it.type) || /crash|smash|plunge|impact/i.test(it.status || ''); // wrecks get a crater ring, not an intact model
       if (key && gltfLoader && !crashed) gltfLoader.load(MODELS[key].file, m => {
         const o = m.scene, box = new THREE.Box3().setFromObject(o), size = box.getSize(new THREE.Vector3()).length() || 1;
-        o.scale.setScalar((REAL_SIZE[key] || 3) / size);
+        o.scale.setScalar((REAL_SIZE[key] || +MODELS[key]?.size_m || 3) / size);
         const b2 = new THREE.Box3().setFromObject(o); o.position.y -= b2.min.y; o.position.x -= (b2.min.x + b2.max.x) / 2; o.position.z -= (b2.min.z + b2.max.z) / 2;
+        tintFault(o, it, G.faults || (G.faults = []));
         g.add(o);
       });
       else if (crashed) {
@@ -634,13 +885,17 @@ function resizeGround() {
       for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) { const k = (r * img.width + c) * 4; H[r * n + c] = px[k] * 256 + px[k + 1] + px[k + 2] / 256 - 32768; }
       if (!G.open) return;
       closeGroundScene();
-      if (TREK[meta.world]) { // blend the tile's border into the flat surround so it doesn't stand up like an island
+      const region = TREK[meta.world] ? await loadRegion(base) : null;
+    if (TREK[meta.world]) { // blend the tile's border into the surrounding ground (regional elevation if we have it, else flat)
       let sum = 0; for (let i = 0; i < n; i++) sum += H[i] + H[(n - 1) * n + i] + H[i * n] + H[i * n + n - 1];
       const edgeY = sum / (4 * n), band = (n - 1) * 0.06;
-      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) { const e = Math.min(r, c, n - 1 - r, n - 1 - c) / band; if (e < 1) { const t = e * e * (3 - 2 * e); H[r * n + c] = edgeY + (H[r * n + c] - edgeY) * t; } }
+      const ex = (meta.extent_m || [1000, 1000]).map(Number);
+      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) { const e = Math.min(r, c, n - 1 - r, n - 1 - c) / band; if (e < 1 && region) { const t = e * e * (3 - 2 * e);
+        const tgt = region ? gridAt(region.g, region.ext, (c / (n - 1) - 0.5) * ex[0], (r / (n - 1) - 0.5) * ex[1]) ?? edgeY : edgeY;
+        H[r * n + c] = tgt + (H[r * n + c] - tgt) * t; } }
       G.edgeY = edgeY;
     }
-    Object.assign(G, { R: 0, surroundY: 0, surroundHalf: 0, meta, h: H, n, ext: (meta.extent_m || [1000, 1000]).map(Number), exag: 1, fly: false, goal: null, jump: 0, vy: 0, extras: [] });
+    Object.assign(G, { region, R: 0, surroundY: 0, surroundHalf: 0, meta, h: H, n, ext: (meta.extent_m || [1000, 1000]).map(Number), exag: 1, fly: false, goal: null, jump: 0, vy: 0, extras: [] });
       if (!G.r) {
         G.r = new THREE.WebGLRenderer({ canvas: $('groundCv'), antialias: true, logarithmicDepthBuffer: true });
         G.r.outputEncoding = THREE.sRGBEncoding; G.r.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -649,20 +904,17 @@ function resizeGround() {
       const span = Math.max(...G.ext), mars = meta.world === 'mars' || /orange/.test(meta.sky || '');
       G.scene = new THREE.Scene();
       G.scene.background = new THREE.Color(mars ? 0xc8a07c : 0x000000);
-      if (mars) G.scene.fog = new THREE.Fog(0xc8a07c, 30000, 420000);
+      if (mars) G.scene.fog = new THREE.Fog(0xc8a07c, 25000, 190000);
       G.cam = new THREE.PerspectiveCamera(62, 1, 0.3, 600000);
       const tex = new THREE.TextureLoader().load(base + 'color.jpg'); tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 8;
       G.mesh = new THREE.Mesh(groundGeometry(), new THREE.MeshStandardMaterial({ map: tex, roughness: 1, metalness: 0, color: mars ? 0xff7a38 : 0xffffff }));
-      G.scene.add(G.mesh);
-      const az = (Number.isFinite(meta.sunAzimuth_deg) ? meta.sunAzimuth_deg : 135) * D, el = (Number.isFinite(meta.sunElevation_deg) ? meta.sunElevation_deg : 30) * D;
-      const sunL = new THREE.DirectionalLight(0xfff4e6, mars ? 1.25 : 1.1); sunL.position.set(Math.sin(az) * Math.cos(el), Math.sin(el), -Math.cos(az) * Math.cos(el)); G.scene.add(sunL);
-      G.scene.add(new THREE.HemisphereLight(mars ? 0xffc9a0 : 0x8890a0, 0x3a2014, mars ? 0.95 : 0.45));
-      if (!mars) { // stars above the horizon
-        const k = 1500, p = new Float32Array(k * 3);
-        for (let i = 0; i < k; i++) { const t = Math.random() * 2 * Math.PI, u = Math.random() * 0.95 + 0.05, r = 450000; p.set([Math.cos(t) * Math.sqrt(1 - u * u) * r, u * r, Math.sin(t) * Math.sqrt(1 - u * u) * r], i * 3); }
-        const sg = new THREE.BufferGeometry(); sg.setAttribute('position', new THREE.BufferAttribute(p, 3));
-        G.scene.add(new THREE.Points(sg, new THREE.PointsMaterial({ color: 0xffffff, size: 1.6, sizeAttenuation: false, fog: false })));
-      }
+      addGroundDetail(G.mesh.material);
+    G.scene.add(G.mesh);
+    G.rocks = makeRocks(meta.world); G.scene.add(G.rocks);
+      const az = (Number.isFinite(meta.sunAzimuth_deg) ? meta.sunAzimuth_deg : 135) * D, el = (Number.isFinite(meta.sunElevation_deg) ? meta.sunElevation_deg : mars ? 24 : 14) * D; // low sun when unknown: relief and crater shadows read clearly
+      const sunL = new THREE.DirectionalLight(0xfff4e6, mars ? 1.35 : 1.6); sunL.position.set(Math.sin(az) * Math.cos(el), Math.sin(el), -Math.cos(az) * Math.cos(el)); G.scene.add(sunL);
+      G.scene.add(new THREE.HemisphereLight(mars ? 0xffc9a0 : 0x8890a0, 0x3a2014, mars ? 0.7 : 0.18));
+      // No stars on the sunlit Moon: like the Apollo photos, an eye or camera set for bright ground can't see them.
       placeMachines();
     drapeRoutes();
     addSurround(meta);
@@ -674,6 +926,10 @@ function resizeGround() {
       $('gWorld').textContent = `${WORLDS[world].name} · ${Math.round(G.ext[0] / 100) / 10} km across${meta.res_m?.height ? ` · ${meta.res_m.height} m height detail` : ''}`;
       const s = meta.sources || {}, cr = [s.height && `Terrain: ${s.height.credit || ''} ${s.height.product ? '(' + s.height.product + ')' : ''}`, s.color && `Image: ${s.color.credit || ''}`].filter(Boolean).map(esc).join(' · ');
       $('gCredit').innerHTML = `<details><summary>About this map data</summary>${cr}${meta.note ? `<br>${esc(meta.note)}` : ''}</details>`;
+      if (!$('gGeo')) $('gHelp').insertAdjacentHTML('beforebegin', '<p class="gnote ggeo" id="gGeo" hidden></p>');
+      $('gGeo').hidden = true;
+      geologyOf(id).then(g => { if (!g || G.meta !== meta) return; $('gGeo').innerHTML = `<i style="background:${hexOk(g.color)}"></i><b>Ground:</b> ${geoName(g)}. ${esc(g.kidText)}`; $('gGeo').hidden = false;
+        $('gCredit').querySelector('details')?.insertAdjacentHTML('beforeend', `<br>Geology: ${esc(g.source.title)}, ${esc(g.source.credit)} (${esc(g.source.license)})`); });
       $('gGo').innerHTML = (meta.places || []).filter(p => byId(p.id)).map(p => `<button class="gbtn" type="button" data-go-to="${esc(p.id)}">Go to ${esc(String(byId(p.id).name).replace(/\s*\(.*?\)/g, ''))}</button>`).join('');
       $('gGo').querySelectorAll('[data-go-to]').forEach(b => b.onclick = () => { const q = meta.places.find(p => p.id === b.dataset.goTo); G.target = [+q.x_m, -q.y_m]; if (G.fly) return; G.goal = [+q.x_m, -q.y_m + 12]; });
     // Nearby machines outside this map: listed with distance; clicking travels there directly (loads their site).
@@ -716,7 +972,7 @@ function togglePhoto(on = !G.photo) {
   $('gHelp').innerHTML = `${esc(pano.caption || 'Real photo taken here')}${pano.taken ? ' · ' + esc(pano.taken) : ''} · <span class="credit">${esc(pano.credit || '')}${pano.license ? ' · ' + link(pano.licenseUrl, esc(pano.license)) : ''}${httpUrl(pano.source) ? ' · ' + link(pano.source, 'source ↗') : ''}${Number.isFinite(+pano.left_azimuth_deg) && pano.left_azimuth_deg !== null ? '' : ' · compass direction approximate'}</span>`;
 }
 function closeGroundScene() {
-    G.pano = null; G.photo = false;
+    G.pano = null; G.photo = false; if (G.faults) dropFaultMats(G.faults);
     if (!G.scene) return;
     G.scene.traverse(o => { o.geometry?.dispose(); [].concat(o.material || []).forEach(m => { m.map?.dispose(); m.dispose(); }); });
     G.scene = null; G.mesh = null;
@@ -763,7 +1019,7 @@ function closeGroundScene() {
       else { G.yaw += dx * 0.004; G.pitch = Math.max(-1.3, Math.min(1.3, G.pitch + dy * 0.004)); }
     });
     c.addEventListener('pointerup', () => { G.drag = null; });
-    c.addEventListener('wheel', e => { if (!G.fly) return; e.preventDefault(); G.orbit.dist = Math.max(20, Math.min(G.surroundHalf ? 120000 : Math.max(...G.ext) * 1.5, G.orbit.dist * (1 + e.deltaY * 0.001))); }, { passive: false });
+    c.addEventListener('wheel', e => { if (!G.fly) return; e.preventDefault(); G.orbit.dist = Math.max(20, Math.min(G.surroundHalf ? G.surroundHalf * 0.6 : Math.max(...G.ext) * 1.5, G.orbit.dist * (1 + e.deltaY * 0.001))); }, { passive: false });
     c.addEventListener('dblclick', e => { // walk to the clicked spot (needs a visible cursor)
     if (document.pointerLockElement === c) return;
       if (!G.mesh) return;
@@ -823,6 +1079,7 @@ function closeGroundScene() {
     if (lift) G.jump = Math.max(0, Math.min(flyMax(), G.jump + lift * (k.ShiftLeft || k.ShiftRight ? 60 : 12) * boost * dt));
       if (G.photo) { G.x = G.target[0]; G.z = G.target[1]; G.goal = null; }
     G.cam.position.set(G.x, hAt(G.x, G.z) + EYE + G.jump, G.z);
+    if (G.rocks && (!G.rockAt || Math.hypot(G.x - G.rockAt[0], G.z - G.rockAt[1]) > 20)) scatterRocks(G.x, G.z);
     G.pano?.position.copy(G.cam.position);
       G.cam.rotation.order = 'YXZ'; G.cam.rotation.set(G.pitch, G.yaw, 0);
     }
@@ -959,6 +1216,9 @@ $('gFs').onclick = toggleFs;
   Promise.allSettled([
     ...Object.entries(WORLDS).map(([w, c]) => fetch(c.file).then(r => r.ok ? r.json() : []).then(d => { DATA[w] = Array.isArray(d) ? d : []; })),
     fetch('models/models.json').then(r => r.ok ? r.json() : {}).then(m => { MODELS = m && typeof m === 'object' ? m : {}; }),
+    loadSalvage().then(s => { SALV = s?.machines || {}; }).catch(() => {}),
+    loadPhotosBy().then(p => { PHOTOS_BY = p || {}; }).catch(() => {}),
+    loadLive().then(l => { LIVE = l || {}; }).catch(() => {}),
     fetch('data/locator.json').then(r => r.ok ? r.json() : null).then(l => { if (l && l.sites) LOC = { credits: l.credits || {}, sites: l.sites }; }),
     fetch('data/panoramas.json').then(r => r.ok ? r.json() : {}).then(m => { if (m && typeof m === 'object') Object.assign(PANOS, m); }),
   fetch('data/routes.json').then(r => r.ok ? r.json() : {}).then(m => { if (m && typeof m === 'object') Object.assign(ROUTES, m); }),

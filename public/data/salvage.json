@@ -1,0 +1,3049 @@
+{
+ "rubric": {
+  "about": "Salvageability: how easy and how worthwhile it would be to visit, recover, reuse or fix this machine. Four factors, 0 to 25 points each, add up to a score out of 100.",
+  "factors": [
+   {
+    "key": "reach",
+    "label": "Reachability",
+    "question": "Could a future crew or robot get there?",
+    "scale": "25 = Moon near side, close to where Artemis-era missions could land. 12-18 = Moon far side, poles or dark craters. 10 = Mars surface (robots only, a long trip). 3-6 = drifting around the Sun or on an asteroid. 0 = burned up, location unknown, or leaving the solar system."
+   },
+   {
+    "key": "condition",
+    "label": "Condition",
+    "question": "What shape is it in?",
+    "scale": "20-25 = standing intact, as it was left. 12-18 = intact but aged, dusty or partly broken. 1-5 = crash debris. 0 = burned up or vaporised."
+   },
+   {
+    "key": "usefulness",
+    "label": "Usefulness",
+    "question": "Is anything still worth having?",
+    "scale": "25 = still in use today. 15-20 = big historic value or science from decades of exposure. 6-12 = some science value, or scrap metal for future builders. 0-4 = almost nothing left."
+   },
+   {
+    "key": "fixability",
+    "label": "Fixability",
+    "question": "Could the broken part be repaired or replaced?",
+    "scale": "15+ = an easy fix someone could do on site. 8-12 = possible with new parts or a cleaning. 3-6 = would need major work. 0 = nothing left to fix, or out of reach."
+   }
+  ],
+  "grades": [
+   {
+    "grade": "A",
+    "min": 80,
+    "meaning": "Great salvage target"
+   },
+   {
+    "grade": "B",
+    "min": 65,
+    "meaning": "Good target"
+   },
+   {
+    "grade": "C",
+    "min": 50,
+    "meaning": "Possible, but hard"
+   },
+   {
+    "grade": "D",
+    "min": 35,
+    "meaning": "Very hard"
+   },
+   {
+    "grade": "F",
+    "min": 0,
+    "meaning": "Not salvageable"
+   }
+  ],
+  "working": "Machines that are still working get no score: they are not salvage, they are missions.",
+  "heritage": "A high grade means it COULD be salvaged, not that it SHOULD. Apollo sites are protected history: NASA's 2011 guidelines and the One Small Step Act (2020) ask visitors to keep their distance.",
+  "kinds": {
+   "real": "Tried for real: an approach NASA or others have actually used or proposed (with a source).",
+   "idea": "Idea: a \"what if\" nobody has tried. Could you make it work?"
+  }
+ },
+ "machines": {
+  "apollo11-lm": {
+   "id": "apollo11-lm",
+   "factors": {
+    "reach": 25,
+    "condition": 20,
+    "usefulness": 20,
+    "fixability": 5
+   },
+   "needsRepair": [
+    {
+     "part": "Nothing broke",
+     "problem": "It was a launch pad for the astronauts and was always meant to stay behind. Its engine and fuel are used up."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Study it from a safe distance with cameras, like a museum piece, to see what more than 50 years of sunlight, cold and tiny meteorites did to its metal and blankets.",
+     "kind": "idea"
+    },
+    {
+     "text": "Learn from old hardware: in 1969 Apollo 12 astronauts brought home parts of Surveyor 3 so scientists could see how the Moon changed them.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/surveyor-3/"
+    }
+   ],
+   "prompt": "Eagle is the most famous spaceship part on the Moon, and it sits at Tranquility Base. Would you take a piece home for a museum, or leave the whole site untouched? Why?",
+   "engineersSay": "Engineers and historians mostly say \"leave it\": NASA's 2011 guidelines set keep-out zones around Apollo landing sites, with the strictest rules for Apollo 11 and 17.",
+   "engineersSource": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://www.congress.gov/bill/116th-congress/senate-bill/1694",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+    "https://science.nasa.gov/mission/surveyor-3/"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 70,
+   "grade": "B"
+  },
+  "apollo11-pse": {
+   "id": "apollo11-pse",
+   "factors": {
+    "reach": 25,
+    "condition": 15,
+    "usefulness": 15,
+    "fixability": 5
+   },
+   "needsRepair": [
+    {
+     "part": "Electronics",
+     "problem": "It stopped answering commands after about three weeks, probably because it overheated in the midday Sun."
+    },
+    {
+     "part": "Solar panels",
+     "problem": "It ran on sunlight only, so it could not work through the freezing two-week lunar night."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Use nuclear power instead of sunlight. The later Apollo science stations ran on small nuclear generators and lasted years longer.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/"
+    },
+    {
+     "text": "Bring a brand-new seismometer and set it down next to the old one, so the old one stays a museum piece.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "The first seismometer on the Moon overheated in the Sun. How would you keep electronics cool at noon and warm at night on the Moon?",
+   "engineersSay": "Engineers fixed this for later missions by using radioisotope generators, which make steady power from heat, day or night.",
+   "engineersSource": "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 60,
+   "grade": "C"
+  },
+  "apollo11-lrrr": {
+   "id": "apollo11-lrrr",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 25,
+    "fixability": 15
+   },
+   "needsRepair": [
+    {
+     "part": "Mirror faces",
+     "problem": "Moon dust has settled on the glass prisms, so they send back much less laser light than when they were new."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Put a new, better reflector somewhere else instead of touching the old one. A University of Maryland reflector, NGLR-1, launched to the Moon in January 2025.",
+     "kind": "real",
+     "source": "https://ilrs.gsfc.nasa.gov/missions/satellite_missions/current_missions/ngl1_general.html"
+    },
+    {
+     "text": "Gently blow the dust off with a puff of gas from a robot arm. Risky: one wrong move could scratch the glass or break heritage rules.",
+     "kind": "idea"
+    },
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    }
+   ],
+   "prompt": "This mirror still works, but dust makes it dimmer. If you could not touch it, how else could you get a brighter laser echo from the Moon?",
+   "engineersSay": "Scientists studying the laser echoes found the Apollo reflectors now return about 10 times less light than expected, most likely because of dust. Their answer is to add new reflectors rather than clean the old ones.",
+   "engineersSource": "https://tmurphy.physics.ucsd.edu/papers/Icarus-208-31.pdf",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_sites.html",
+    "https://ilrs.gsfc.nasa.gov/missions/satellite_missions/current_missions/ngl1_general.html",
+    "https://tmurphy.physics.ucsd.edu/papers/Icarus-208-31.pdf",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 83,
+   "grade": "A"
+  },
+  "apollo12-lm": {
+   "id": "apollo12-lm",
+   "factors": {
+    "reach": 25,
+    "condition": 20,
+    "usefulness": 20,
+    "fixability": 5
+   },
+   "needsRepair": [
+    {
+     "part": "Nothing broke",
+     "problem": "It was a launch pad for the astronauts and was always meant to stay behind. Its engine and fuel are used up."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Study it from a safe distance with cameras, like a museum piece, to see what more than 50 years of sunlight, cold and tiny meteorites did to its metal and blankets.",
+     "kind": "idea"
+    },
+    {
+     "text": "Learn from old hardware: in 1969 Apollo 12 astronauts brought home parts of Surveyor 3 so scientists could see how the Moon changed them.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/surveyor-3/"
+    }
+   ],
+   "prompt": "Intrepid is the most famous spaceship part on the Moon, and it sits at the Ocean of Storms. Would you take a piece home for a museum, or leave the whole site untouched? Why?",
+   "engineersSay": "Engineers and historians mostly say \"leave it\": NASA's 2011 guidelines set keep-out zones around Apollo landing sites, with the strictest rules for Apollo 11 and 17.",
+   "engineersSource": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://www.congress.gov/bill/116th-congress/senate-bill/1694",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+    "https://science.nasa.gov/mission/surveyor-3/"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 70,
+   "grade": "B"
+  },
+  "apollo12-alsep": {
+   "id": "apollo12-alsep",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 15,
+    "fixability": 8
+   },
+   "needsRepair": [
+    {
+     "part": "Power",
+     "problem": "NASA switched it off in 1977 to save money, and its small nuclear generator was already making less power each year."
+    },
+    {
+     "part": "Electronics",
+     "problem": "Its electronics have sat in the Moon's harsh heat, cold and radiation for about 50 years."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Plug in a fresh power source and see if it wakes up. It would tell engineers how well 1970s electronics survive on the Moon.",
+     "kind": "idea"
+    },
+    {
+     "text": "Build new science stations instead. NASA plans to use local Moon materials and new equipment for future bases.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    }
+   ],
+   "prompt": "This science station still stands where the astronauts left it, just switched off. If you could turn it back on, what would you want it to measure first?",
+   "engineersSay": "Engineers know its nuclear generator has faded, so waking it would need new power. For now NASA treats Apollo sites as protected history.",
+   "engineersSource": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 66,
+   "grade": "B"
+  },
+  "apollo12-lm-ascent": {
+   "id": "apollo12-lm-ascent",
+   "factors": {
+    "reach": 22,
+    "condition": 2,
+    "usefulness": 6,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole ascent stage",
+     "problem": "After the astronauts left it, mission control crashed it into the Moon to make a \"moonquake\" for the seismometers."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "It already did its job: the crash gave the seismometers a known shake to measure.",
+     "kind": "real",
+     "source": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+    },
+    {
+     "text": "Find the pieces and study how metal shatters at high speed on the Moon.",
+     "kind": "idea"
+    },
+    {
+     "text": "Future bases may make oxygen and metal from Moon materials instead of carrying everything from Earth.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    }
+   ],
+   "prompt": "Engineers crashed this spacecraft on purpose to make the Moon \"ring\". What could you learn from a crash at a known time and place?",
+   "engineersSay": "Scientists used crashes at known places and times to measure how vibrations travel through the Moon, like an ultrasound scan of its insides.",
+   "engineersSource": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "score": 30,
+   "grade": "F"
+  },
+  "surveyor3": {
+   "id": "surveyor3",
+   "factors": {
+    "reach": 25,
+    "condition": 15,
+    "usefulness": 20,
+    "fixability": 5
+   },
+   "needsRepair": [
+    {
+     "part": "Battery and solar panel",
+     "problem": "It never woke up after its first freezing two-week lunar night in 1967."
+    },
+    {
+     "part": "Missing parts",
+     "problem": "Apollo 12 astronauts cut off its TV camera and other parts in 1969 and took them back to Earth."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Visit it and bring parts home. Apollo 12 did exactly this in 1969 so scientists could study how 2.5 years on the Moon changed metal, glass and wires.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/image-article/astronauts-pay-visit-surveyor-3/"
+    },
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Look at it again with cameras today. Comparing 1969 and today would show what 57 more years of Moon weather did.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Apollo 12 astronauts walked to Surveyor 3 and cut off its camera. If you were on that moonwalk, which part would you bring home to study, and why?",
+   "engineersSay": "Engineers wanted real space-aged parts. Tests on Earth found the parts had held up well; the biggest change was discoloured surfaces from radiation and dust.",
+   "engineersSource": "https://ntrs.nasa.gov/citations/19720012478",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://science.nasa.gov/mission/surveyor-3/",
+    "https://ntrs.nasa.gov/citations/19720012478",
+    "https://www.nasa.gov/image-article/astronauts-pay-visit-surveyor-3/",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+   ],
+   "heritage": "Next to the Apollo 12 site, so it is treated as part of protected history.",
+   "score": 65,
+   "grade": "B"
+  },
+  "apollo13-sivb": {
+   "id": "apollo13-sivb",
+   "factors": {
+    "reach": 22,
+    "condition": 2,
+    "usefulness": 8,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole rocket stage",
+     "problem": "It was crashed into the Moon on purpose at about 2.5 km per second and broke into pieces."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "It already did its job: the crash shook the Moon so seismometers could listen to its insides.",
+     "kind": "real",
+     "source": "https://lroc.im-ldi.com/images/1261"
+    },
+    {
+     "text": "Use what is there: NASA is working on ways to make oxygen and metal from Moon soil and rocks for future bases.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    },
+    {
+     "text": "Collect the scattered aluminium bits as building material for a Moon base. First you would have to find them in the crater.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "A rocket stage the size of a bus hit the Moon and shattered. Could the scraps still be useful? What would you build with them?",
+   "engineersSay": "There is nothing left to repair, so engineers think of crash sites as science and as possible raw materials, not as machines to fix.",
+   "engineersSource": "https://www.nasa.gov/overview-in-situ-resource-utilization/",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://lroc.im-ldi.com/images/1261",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "score": 32,
+   "grade": "F"
+  },
+  "apollo14-lm": {
+   "id": "apollo14-lm",
+   "factors": {
+    "reach": 25,
+    "condition": 20,
+    "usefulness": 20,
+    "fixability": 5
+   },
+   "needsRepair": [
+    {
+     "part": "Nothing broke",
+     "problem": "It was a launch pad for the astronauts and was always meant to stay behind. Its engine and fuel are used up."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Study it from a safe distance with cameras, like a museum piece, to see what more than 50 years of sunlight, cold and tiny meteorites did to its metal and blankets.",
+     "kind": "idea"
+    },
+    {
+     "text": "Learn from old hardware: in 1969 Apollo 12 astronauts brought home parts of Surveyor 3 so scientists could see how the Moon changed them.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/surveyor-3/"
+    }
+   ],
+   "prompt": "Antares is the most famous spaceship part on the Moon, and it sits at Fra Mauro. Would you take a piece home for a museum, or leave the whole site untouched? Why?",
+   "engineersSay": "Engineers and historians mostly say \"leave it\": NASA's 2011 guidelines set keep-out zones around Apollo landing sites, with the strictest rules for Apollo 11 and 17.",
+   "engineersSource": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://www.congress.gov/bill/116th-congress/senate-bill/1694",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+    "https://science.nasa.gov/mission/surveyor-3/"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 70,
+   "grade": "B"
+  },
+  "apollo14-alsep": {
+   "id": "apollo14-alsep",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 15,
+    "fixability": 8
+   },
+   "needsRepair": [
+    {
+     "part": "Power",
+     "problem": "NASA switched it off in 1977 to save money, and its small nuclear generator was already making less power each year."
+    },
+    {
+     "part": "Electronics",
+     "problem": "Its electronics have sat in the Moon's harsh heat, cold and radiation for about 50 years."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Plug in a fresh power source and see if it wakes up. It would tell engineers how well 1970s electronics survive on the Moon.",
+     "kind": "idea"
+    },
+    {
+     "text": "Build new science stations instead. NASA plans to use local Moon materials and new equipment for future bases.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    }
+   ],
+   "prompt": "This science station still stands where the astronauts left it, just switched off. If you could turn it back on, what would you want it to measure first?",
+   "engineersSay": "Engineers know its nuclear generator has faded, so waking it would need new power. For now NASA treats Apollo sites as protected history.",
+   "engineersSource": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 66,
+   "grade": "B"
+  },
+  "apollo14-lrrr": {
+   "id": "apollo14-lrrr",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 25,
+    "fixability": 15
+   },
+   "needsRepair": [
+    {
+     "part": "Mirror faces",
+     "problem": "Moon dust has settled on the glass prisms, so they send back much less laser light than when they were new."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Put a new, better reflector somewhere else instead of touching the old one. A University of Maryland reflector, NGLR-1, launched to the Moon in January 2025.",
+     "kind": "real",
+     "source": "https://ilrs.gsfc.nasa.gov/missions/satellite_missions/current_missions/ngl1_general.html"
+    },
+    {
+     "text": "Gently blow the dust off with a puff of gas from a robot arm. Risky: one wrong move could scratch the glass or break heritage rules.",
+     "kind": "idea"
+    },
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    }
+   ],
+   "prompt": "This mirror still works, but dust makes it dimmer. If you could not touch it, how else could you get a brighter laser echo from the Moon?",
+   "engineersSay": "Scientists studying the laser echoes found the Apollo reflectors now return about 10 times less light than expected, most likely because of dust. Their answer is to add new reflectors rather than clean the old ones.",
+   "engineersSource": "https://tmurphy.physics.ucsd.edu/papers/Icarus-208-31.pdf",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_sites.html",
+    "https://ilrs.gsfc.nasa.gov/missions/satellite_missions/current_missions/ngl1_general.html",
+    "https://tmurphy.physics.ucsd.edu/papers/Icarus-208-31.pdf",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 83,
+   "grade": "A"
+  },
+  "apollo14-sivb": {
+   "id": "apollo14-sivb",
+   "factors": {
+    "reach": 22,
+    "condition": 2,
+    "usefulness": 8,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole rocket stage",
+     "problem": "It was crashed into the Moon on purpose at about 2.5 km per second and broke into pieces."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "It already did its job: the crash shook the Moon so seismometers could listen to its insides.",
+     "kind": "real",
+     "source": "https://lroc.im-ldi.com/images/1261"
+    },
+    {
+     "text": "Use what is there: NASA is working on ways to make oxygen and metal from Moon soil and rocks for future bases.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    },
+    {
+     "text": "Collect the scattered aluminium bits as building material for a Moon base. First you would have to find them in the crater.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "A rocket stage the size of a bus hit the Moon and shattered. Could the scraps still be useful? What would you build with them?",
+   "engineersSay": "There is nothing left to repair, so engineers think of crash sites as science and as possible raw materials, not as machines to fix.",
+   "engineersSource": "https://www.nasa.gov/overview-in-situ-resource-utilization/",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://lroc.im-ldi.com/images/1261",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "score": 32,
+   "grade": "F"
+  },
+  "apollo14-lm-ascent": {
+   "id": "apollo14-lm-ascent",
+   "factors": {
+    "reach": 22,
+    "condition": 2,
+    "usefulness": 6,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole ascent stage",
+     "problem": "After the astronauts left it, mission control crashed it into the Moon to make a \"moonquake\" for the seismometers."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "It already did its job: the crash gave the seismometers a known shake to measure.",
+     "kind": "real",
+     "source": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+    },
+    {
+     "text": "Find the pieces and study how metal shatters at high speed on the Moon.",
+     "kind": "idea"
+    },
+    {
+     "text": "Future bases may make oxygen and metal from Moon materials instead of carrying everything from Earth.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    }
+   ],
+   "prompt": "Engineers crashed this spacecraft on purpose to make the Moon \"ring\". What could you learn from a crash at a known time and place?",
+   "engineersSay": "Scientists used crashes at known places and times to measure how vibrations travel through the Moon, like an ultrasound scan of its insides.",
+   "engineersSource": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "score": 30,
+   "grade": "F"
+  },
+  "apollo15-lm": {
+   "id": "apollo15-lm",
+   "factors": {
+    "reach": 25,
+    "condition": 20,
+    "usefulness": 20,
+    "fixability": 5
+   },
+   "needsRepair": [
+    {
+     "part": "Nothing broke",
+     "problem": "It was a launch pad for the astronauts and was always meant to stay behind. Its engine and fuel are used up."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Study it from a safe distance with cameras, like a museum piece, to see what more than 50 years of sunlight, cold and tiny meteorites did to its metal and blankets.",
+     "kind": "idea"
+    },
+    {
+     "text": "Learn from old hardware: in 1969 Apollo 12 astronauts brought home parts of Surveyor 3 so scientists could see how the Moon changed them.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/surveyor-3/"
+    }
+   ],
+   "prompt": "Falcon is the most famous spaceship part on the Moon, and it sits at Hadley-Apennine. Would you take a piece home for a museum, or leave the whole site untouched? Why?",
+   "engineersSay": "Engineers and historians mostly say \"leave it\": NASA's 2011 guidelines set keep-out zones around Apollo landing sites, with the strictest rules for Apollo 11 and 17.",
+   "engineersSource": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://www.congress.gov/bill/116th-congress/senate-bill/1694",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+    "https://science.nasa.gov/mission/surveyor-3/"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 70,
+   "grade": "B"
+  },
+  "apollo15-lrv": {
+   "id": "apollo15-lrv",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 18,
+    "fixability": 10
+   },
+   "needsRepair": [
+    {
+     "part": "Batteries",
+     "problem": "Its batteries could not be recharged, so the rover went quiet once they ran down."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Swap in new rechargeable batteries and solar panels, then drive it to a museum on the Moon. Fun, but it would break heritage rules.",
+     "kind": "idea"
+    },
+    {
+     "text": "Photograph its wheels up close. They were made of woven wire, and seeing how they aged would help design tyres for new Moon rovers.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "The Moon buggy only needs new batteries. Would you bring it back to life, or leave it parked exactly where the astronauts left it?",
+   "engineersSay": "NASA's 2011 guidelines ask visitors to keep away from Apollo rovers and their tracks, because the tracks are part of the history too.",
+   "engineersSource": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 71,
+   "grade": "B"
+  },
+  "apollo15-alsep": {
+   "id": "apollo15-alsep",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 15,
+    "fixability": 8
+   },
+   "needsRepair": [
+    {
+     "part": "Power",
+     "problem": "NASA switched it off in 1977 to save money, and its small nuclear generator was already making less power each year."
+    },
+    {
+     "part": "Electronics",
+     "problem": "Its electronics have sat in the Moon's harsh heat, cold and radiation for about 50 years."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Plug in a fresh power source and see if it wakes up. It would tell engineers how well 1970s electronics survive on the Moon.",
+     "kind": "idea"
+    },
+    {
+     "text": "Build new science stations instead. NASA plans to use local Moon materials and new equipment for future bases.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    }
+   ],
+   "prompt": "This science station still stands where the astronauts left it, just switched off. If you could turn it back on, what would you want it to measure first?",
+   "engineersSay": "Engineers know its nuclear generator has faded, so waking it would need new power. For now NASA treats Apollo sites as protected history.",
+   "engineersSource": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 66,
+   "grade": "B"
+  },
+  "apollo15-lrrr": {
+   "id": "apollo15-lrrr",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 25,
+    "fixability": 15
+   },
+   "needsRepair": [
+    {
+     "part": "Mirror faces",
+     "problem": "Moon dust has settled on the glass prisms, so they send back much less laser light than when they were new."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Put a new, better reflector somewhere else instead of touching the old one. A University of Maryland reflector, NGLR-1, launched to the Moon in January 2025.",
+     "kind": "real",
+     "source": "https://ilrs.gsfc.nasa.gov/missions/satellite_missions/current_missions/ngl1_general.html"
+    },
+    {
+     "text": "Gently blow the dust off with a puff of gas from a robot arm. Risky: one wrong move could scratch the glass or break heritage rules.",
+     "kind": "idea"
+    },
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    }
+   ],
+   "prompt": "This mirror still works, but dust makes it dimmer. If you could not touch it, how else could you get a brighter laser echo from the Moon?",
+   "engineersSay": "Scientists studying the laser echoes found the Apollo reflectors now return about 10 times less light than expected, most likely because of dust. Their answer is to add new reflectors rather than clean the old ones.",
+   "engineersSource": "https://tmurphy.physics.ucsd.edu/papers/Icarus-208-31.pdf",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_sites.html",
+    "https://ilrs.gsfc.nasa.gov/missions/satellite_missions/current_missions/ngl1_general.html",
+    "https://tmurphy.physics.ucsd.edu/papers/Icarus-208-31.pdf",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 83,
+   "grade": "A"
+  },
+  "apollo15-sivb": {
+   "id": "apollo15-sivb",
+   "factors": {
+    "reach": 22,
+    "condition": 2,
+    "usefulness": 8,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole rocket stage",
+     "problem": "It was crashed into the Moon on purpose at about 2.5 km per second and broke into pieces."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "It already did its job: the crash shook the Moon so seismometers could listen to its insides.",
+     "kind": "real",
+     "source": "https://lroc.im-ldi.com/images/1261"
+    },
+    {
+     "text": "Use what is there: NASA is working on ways to make oxygen and metal from Moon soil and rocks for future bases.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    },
+    {
+     "text": "Collect the scattered aluminium bits as building material for a Moon base. First you would have to find them in the crater.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "A rocket stage the size of a bus hit the Moon and shattered. Could the scraps still be useful? What would you build with them?",
+   "engineersSay": "There is nothing left to repair, so engineers think of crash sites as science and as possible raw materials, not as machines to fix.",
+   "engineersSource": "https://www.nasa.gov/overview-in-situ-resource-utilization/",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://lroc.im-ldi.com/images/1261",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "score": 32,
+   "grade": "F"
+  },
+  "apollo15-lm-ascent": {
+   "id": "apollo15-lm-ascent",
+   "factors": {
+    "reach": 22,
+    "condition": 2,
+    "usefulness": 6,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole ascent stage",
+     "problem": "After the astronauts left it, mission control crashed it into the Moon to make a \"moonquake\" for the seismometers."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "It already did its job: the crash gave the seismometers a known shake to measure.",
+     "kind": "real",
+     "source": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+    },
+    {
+     "text": "Find the pieces and study how metal shatters at high speed on the Moon.",
+     "kind": "idea"
+    },
+    {
+     "text": "Future bases may make oxygen and metal from Moon materials instead of carrying everything from Earth.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    }
+   ],
+   "prompt": "Engineers crashed this spacecraft on purpose to make the Moon \"ring\". What could you learn from a crash at a known time and place?",
+   "engineersSay": "Scientists used crashes at known places and times to measure how vibrations travel through the Moon, like an ultrasound scan of its insides.",
+   "engineersSource": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "score": 30,
+   "grade": "F"
+  },
+  "apollo16-lm": {
+   "id": "apollo16-lm",
+   "factors": {
+    "reach": 25,
+    "condition": 20,
+    "usefulness": 20,
+    "fixability": 5
+   },
+   "needsRepair": [
+    {
+     "part": "Nothing broke",
+     "problem": "It was a launch pad for the astronauts and was always meant to stay behind. Its engine and fuel are used up."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Study it from a safe distance with cameras, like a museum piece, to see what more than 50 years of sunlight, cold and tiny meteorites did to its metal and blankets.",
+     "kind": "idea"
+    },
+    {
+     "text": "Learn from old hardware: in 1969 Apollo 12 astronauts brought home parts of Surveyor 3 so scientists could see how the Moon changed them.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/surveyor-3/"
+    }
+   ],
+   "prompt": "Orion is the most famous spaceship part on the Moon, and it sits at the Descartes highlands. Would you take a piece home for a museum, or leave the whole site untouched? Why?",
+   "engineersSay": "Engineers and historians mostly say \"leave it\": NASA's 2011 guidelines set keep-out zones around Apollo landing sites, with the strictest rules for Apollo 11 and 17.",
+   "engineersSource": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://www.congress.gov/bill/116th-congress/senate-bill/1694",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+    "https://science.nasa.gov/mission/surveyor-3/"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 70,
+   "grade": "B"
+  },
+  "apollo16-lrv": {
+   "id": "apollo16-lrv",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 18,
+    "fixability": 10
+   },
+   "needsRepair": [
+    {
+     "part": "Batteries",
+     "problem": "Its batteries could not be recharged, so the rover went quiet once they ran down."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Swap in new rechargeable batteries and solar panels, then drive it to a museum on the Moon. Fun, but it would break heritage rules.",
+     "kind": "idea"
+    },
+    {
+     "text": "Photograph its wheels up close. They were made of woven wire, and seeing how they aged would help design tyres for new Moon rovers.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "The Moon buggy only needs new batteries. Would you bring it back to life, or leave it parked exactly where the astronauts left it?",
+   "engineersSay": "NASA's 2011 guidelines ask visitors to keep away from Apollo rovers and their tracks, because the tracks are part of the history too.",
+   "engineersSource": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 71,
+   "grade": "B"
+  },
+  "apollo16-alsep": {
+   "id": "apollo16-alsep",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 15,
+    "fixability": 8
+   },
+   "needsRepair": [
+    {
+     "part": "Power",
+     "problem": "NASA switched it off in 1977 to save money, and its small nuclear generator was already making less power each year."
+    },
+    {
+     "part": "Electronics",
+     "problem": "Its electronics have sat in the Moon's harsh heat, cold and radiation for about 50 years."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Plug in a fresh power source and see if it wakes up. It would tell engineers how well 1970s electronics survive on the Moon.",
+     "kind": "idea"
+    },
+    {
+     "text": "Build new science stations instead. NASA plans to use local Moon materials and new equipment for future bases.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    }
+   ],
+   "prompt": "This science station still stands where the astronauts left it, just switched off. If you could turn it back on, what would you want it to measure first?",
+   "engineersSay": "Engineers know its nuclear generator has faded, so waking it would need new power. For now NASA treats Apollo sites as protected history.",
+   "engineersSource": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 66,
+   "grade": "B"
+  },
+  "apollo16-sivb": {
+   "id": "apollo16-sivb",
+   "factors": {
+    "reach": 22,
+    "condition": 2,
+    "usefulness": 8,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole rocket stage",
+     "problem": "It was crashed into the Moon on purpose at about 2.5 km per second and broke into pieces."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "It already did its job: the crash shook the Moon so seismometers could listen to its insides.",
+     "kind": "real",
+     "source": "https://lroc.im-ldi.com/images/1261"
+    },
+    {
+     "text": "Use what is there: NASA is working on ways to make oxygen and metal from Moon soil and rocks for future bases.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    },
+    {
+     "text": "Collect the scattered aluminium bits as building material for a Moon base. First you would have to find them in the crater.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "A rocket stage the size of a bus hit the Moon and shattered. Could the scraps still be useful? What would you build with them?",
+   "engineersSay": "There is nothing left to repair, so engineers think of crash sites as science and as possible raw materials, not as machines to fix.",
+   "engineersSource": "https://www.nasa.gov/overview-in-situ-resource-utilization/",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://lroc.im-ldi.com/images/1261",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "score": 32,
+   "grade": "F"
+  },
+  "apollo17-lm": {
+   "id": "apollo17-lm",
+   "factors": {
+    "reach": 25,
+    "condition": 20,
+    "usefulness": 20,
+    "fixability": 5
+   },
+   "needsRepair": [
+    {
+     "part": "Nothing broke",
+     "problem": "It was a launch pad for the astronauts and was always meant to stay behind. Its engine and fuel are used up."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Study it from a safe distance with cameras, like a museum piece, to see what more than 50 years of sunlight, cold and tiny meteorites did to its metal and blankets.",
+     "kind": "idea"
+    },
+    {
+     "text": "Learn from old hardware: in 1969 Apollo 12 astronauts brought home parts of Surveyor 3 so scientists could see how the Moon changed them.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/surveyor-3/"
+    }
+   ],
+   "prompt": "Challenger is the most famous spaceship part on the Moon, and it sits at Taurus-Littrow. Would you take a piece home for a museum, or leave the whole site untouched? Why?",
+   "engineersSay": "Engineers and historians mostly say \"leave it\": NASA's 2011 guidelines set keep-out zones around Apollo landing sites, with the strictest rules for Apollo 11 and 17.",
+   "engineersSource": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://www.congress.gov/bill/116th-congress/senate-bill/1694",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+    "https://science.nasa.gov/mission/surveyor-3/"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 70,
+   "grade": "B"
+  },
+  "apollo17-lrv": {
+   "id": "apollo17-lrv",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 18,
+    "fixability": 10
+   },
+   "needsRepair": [
+    {
+     "part": "Batteries",
+     "problem": "Its batteries could not be recharged, so the rover went quiet once they ran down."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Swap in new rechargeable batteries and solar panels, then drive it to a museum on the Moon. Fun, but it would break heritage rules.",
+     "kind": "idea"
+    },
+    {
+     "text": "Photograph its wheels up close. They were made of woven wire, and seeing how they aged would help design tyres for new Moon rovers.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "The Moon buggy only needs new batteries. Would you bring it back to life, or leave it parked exactly where the astronauts left it?",
+   "engineersSay": "NASA's 2011 guidelines ask visitors to keep away from Apollo rovers and their tracks, because the tracks are part of the history too.",
+   "engineersSource": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 71,
+   "grade": "B"
+  },
+  "apollo17-alsep": {
+   "id": "apollo17-alsep",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 15,
+    "fixability": 8
+   },
+   "needsRepair": [
+    {
+     "part": "Power",
+     "problem": "NASA switched it off in 1977 to save money, and its small nuclear generator was already making less power each year."
+    },
+    {
+     "part": "Electronics",
+     "problem": "Its electronics have sat in the Moon's harsh heat, cold and radiation for about 50 years."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it where it is. NASA wrote rules in 2011 asking future visitors to keep their distance from Apollo sites, and the One Small Step Act (2020) makes companies with US licences follow them.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf"
+    },
+    {
+     "text": "Plug in a fresh power source and see if it wakes up. It would tell engineers how well 1970s electronics survive on the Moon.",
+     "kind": "idea"
+    },
+    {
+     "text": "Build new science stations instead. NASA plans to use local Moon materials and new equipment for future bases.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    }
+   ],
+   "prompt": "This science station still stands where the astronauts left it, just switched off. If you could turn it back on, what would you want it to measure first?",
+   "engineersSay": "Engineers know its nuclear generator has faded, so waking it would need new power. For now NASA treats Apollo sites as protected history.",
+   "engineersSource": "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/",
+    "https://www.nasa.gov/wp-content/uploads/2023/12/nasa-usg-lunar-historic-sites-reva.pdf",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "heritage": "Protected history. NASA asks visitors to look from a distance and not touch Apollo sites, and a 2020 US law backs that up.",
+   "score": 66,
+   "grade": "B"
+  },
+  "apollo17-sivb": {
+   "id": "apollo17-sivb",
+   "factors": {
+    "reach": 22,
+    "condition": 2,
+    "usefulness": 8,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole rocket stage",
+     "problem": "It was crashed into the Moon on purpose at about 2.5 km per second and broke into pieces."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "It already did its job: the crash shook the Moon so seismometers could listen to its insides.",
+     "kind": "real",
+     "source": "https://lroc.im-ldi.com/images/1261"
+    },
+    {
+     "text": "Use what is there: NASA is working on ways to make oxygen and metal from Moon soil and rocks for future bases.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    },
+    {
+     "text": "Collect the scattered aluminium bits as building material for a Moon base. First you would have to find them in the crater.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "A rocket stage the size of a bus hit the Moon and shattered. Could the scraps still be useful? What would you build with them?",
+   "engineersSay": "There is nothing left to repair, so engineers think of crash sites as science and as possible raw materials, not as machines to fix.",
+   "engineersSource": "https://www.nasa.gov/overview-in-situ-resource-utilization/",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://lroc.im-ldi.com/images/1261",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "score": 32,
+   "grade": "F"
+  },
+  "apollo17-lm-ascent": {
+   "id": "apollo17-lm-ascent",
+   "factors": {
+    "reach": 22,
+    "condition": 2,
+    "usefulness": 6,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole ascent stage",
+     "problem": "After the astronauts left it, mission control crashed it into the Moon to make a \"moonquake\" for the seismometers."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "It already did its job: the crash gave the seismometers a known shake to measure.",
+     "kind": "real",
+     "source": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+    },
+    {
+     "text": "Find the pieces and study how metal shatters at high speed on the Moon.",
+     "kind": "idea"
+    },
+    {
+     "text": "Future bases may make oxygen and metal from Moon materials instead of carrying everything from Earth.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    }
+   ],
+   "prompt": "Engineers crashed this spacecraft on purpose to make the Moon \"ring\". What could you learn from a crash at a known time and place?",
+   "engineersSay": "Scientists used crashes at known places and times to measure how vibrations travel through the Moon, like an ultrasound scan of its insides.",
+   "engineersSource": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "score": 30,
+   "grade": "F"
+  },
+  "surveyor1": {
+   "id": "surveyor1",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 18,
+    "fixability": 8
+   },
+   "needsRepair": [
+    {
+     "part": "Battery and solar panel",
+     "problem": "It ran on sunlight and batteries that were not built for the freezing two-week lunar night, and it gave out after its second sunset."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Study it like Surveyor 3. Apollo 12 brought Surveyor 3 parts home, and the tests taught engineers how materials age on the Moon.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/surveyor-3/"
+    },
+    {
+     "text": "Stay warm through the night with nuclear heat. Radioisotope power and heaters keep spacecraft alive when sunlight is gone.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/"
+    },
+    {
+     "text": "Send a small robot to take close-up photos, without touching it, to compare with Surveyor 3's returned parts.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "The lunar night lasts about two weeks and gets colder than Antarctica. How would you design a lander that survives until morning?",
+   "engineersSay": "Engineers now use radioisotope heaters and generators, which make heat and power from decaying plutonium, for spacecraft that must survive long dark nights.",
+   "engineersSource": "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://science.nasa.gov/mission/surveyor-3/",
+    "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/"
+   ],
+   "score": 69,
+   "grade": "B"
+  },
+  "surveyor5": {
+   "id": "surveyor5",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 18,
+    "fixability": 8
+   },
+   "needsRepair": [
+    {
+     "part": "Battery and solar panel",
+     "problem": "It ran on sunlight and batteries that were not built for the freezing two-week lunar night, and it gave out after several lunar nights."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Study it like Surveyor 3. Apollo 12 brought Surveyor 3 parts home, and the tests taught engineers how materials age on the Moon.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/surveyor-3/"
+    },
+    {
+     "text": "Stay warm through the night with nuclear heat. Radioisotope power and heaters keep spacecraft alive when sunlight is gone.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/"
+    },
+    {
+     "text": "Send a small robot to take close-up photos, without touching it, to compare with Surveyor 3's returned parts.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "The lunar night lasts about two weeks and gets colder than Antarctica. How would you design a lander that survives until morning?",
+   "engineersSay": "Engineers now use radioisotope heaters and generators, which make heat and power from decaying plutonium, for spacecraft that must survive long dark nights.",
+   "engineersSource": "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://science.nasa.gov/mission/surveyor-3/",
+    "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/"
+   ],
+   "score": 69,
+   "grade": "B"
+  },
+  "surveyor6": {
+   "id": "surveyor6",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 18,
+    "fixability": 8
+   },
+   "needsRepair": [
+    {
+     "part": "Battery and solar panel",
+     "problem": "It ran on sunlight and batteries that were not built for the freezing two-week lunar night, and it gave out after the lunar night."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Study it like Surveyor 3. Apollo 12 brought Surveyor 3 parts home, and the tests taught engineers how materials age on the Moon.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/surveyor-3/"
+    },
+    {
+     "text": "Stay warm through the night with nuclear heat. Radioisotope power and heaters keep spacecraft alive when sunlight is gone.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/"
+    },
+    {
+     "text": "Send a small robot to take close-up photos, without touching it, to compare with Surveyor 3's returned parts.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "The lunar night lasts about two weeks and gets colder than Antarctica. How would you design a lander that survives until morning?",
+   "engineersSay": "Engineers now use radioisotope heaters and generators, which make heat and power from decaying plutonium, for spacecraft that must survive long dark nights.",
+   "engineersSource": "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://science.nasa.gov/mission/surveyor-3/",
+    "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/"
+   ],
+   "score": 69,
+   "grade": "B"
+  },
+  "surveyor7": {
+   "id": "surveyor7",
+   "factors": {
+    "reach": 25,
+    "condition": 18,
+    "usefulness": 18,
+    "fixability": 8
+   },
+   "needsRepair": [
+    {
+     "part": "Battery and solar panel",
+     "problem": "It ran on sunlight and batteries that were not built for the freezing two-week lunar night, and it gave out after its second lunar day."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Study it like Surveyor 3. Apollo 12 brought Surveyor 3 parts home, and the tests taught engineers how materials age on the Moon.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/surveyor-3/"
+    },
+    {
+     "text": "Stay warm through the night with nuclear heat. Radioisotope power and heaters keep spacecraft alive when sunlight is gone.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/"
+    },
+    {
+     "text": "Send a small robot to take close-up photos, without touching it, to compare with Surveyor 3's returned parts.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "The lunar night lasts about two weeks and gets colder than Antarctica. How would you design a lander that survives until morning?",
+   "engineersSay": "Engineers now use radioisotope heaters and generators, which make heat and power from decaying plutonium, for spacecraft that must survive long dark nights.",
+   "engineersSource": "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://science.nasa.gov/mission/surveyor-3/",
+    "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/"
+   ],
+   "score": 69,
+   "grade": "B"
+  },
+  "ranger6": {
+   "id": "ranger6",
+   "factors": {
+    "reach": 25,
+    "condition": 1,
+    "usefulness": 6,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "Rangers had no brakes or landing legs, so they smashed into the Moon as planned."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Revisit the crater from orbit. NASA's LRO camera has found and photographed the Ranger craters.",
+     "kind": "real",
+     "source": "https://lroc.im-ldi.com/images/52"
+    },
+    {
+     "text": "Fit future probes with landing legs and brakes, so they can keep working after arrival. (Surveyor did just that a few years later.)",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Rangers sent pictures all the way down and then crashed. Is a crash a failure if it was the plan? How would you design a probe that lands instead?",
+   "engineersSay": "Engineers learned from Ranger and built Surveyor with legs and a braking rocket, so the next probes could soft-land.",
+   "engineersSource": "https://lroc.im-ldi.com/images/52",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://lroc.im-ldi.com/images/52"
+   ],
+   "score": 32,
+   "grade": "F"
+  },
+  "ranger7": {
+   "id": "ranger7",
+   "factors": {
+    "reach": 25,
+    "condition": 1,
+    "usefulness": 6,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "Rangers had no brakes or landing legs, so they smashed into the Moon as planned."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Revisit the crater from orbit. NASA's LRO camera has found and photographed the Ranger craters.",
+     "kind": "real",
+     "source": "https://lroc.im-ldi.com/images/52"
+    },
+    {
+     "text": "Fit future probes with landing legs and brakes, so they can keep working after arrival. (Surveyor did just that a few years later.)",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Rangers sent pictures all the way down and then crashed. Is a crash a failure if it was the plan? How would you design a probe that lands instead?",
+   "engineersSay": "Engineers learned from Ranger and built Surveyor with legs and a braking rocket, so the next probes could soft-land.",
+   "engineersSource": "https://lroc.im-ldi.com/images/52",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://lroc.im-ldi.com/images/52"
+   ],
+   "score": 32,
+   "grade": "F"
+  },
+  "ranger8": {
+   "id": "ranger8",
+   "factors": {
+    "reach": 25,
+    "condition": 1,
+    "usefulness": 6,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "Rangers had no brakes or landing legs, so they smashed into the Moon as planned."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Revisit the crater from orbit. NASA's LRO camera has found and photographed the Ranger craters.",
+     "kind": "real",
+     "source": "https://lroc.im-ldi.com/images/52"
+    },
+    {
+     "text": "Fit future probes with landing legs and brakes, so they can keep working after arrival. (Surveyor did just that a few years later.)",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Rangers sent pictures all the way down and then crashed. Is a crash a failure if it was the plan? How would you design a probe that lands instead?",
+   "engineersSay": "Engineers learned from Ranger and built Surveyor with legs and a braking rocket, so the next probes could soft-land.",
+   "engineersSource": "https://lroc.im-ldi.com/images/52",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://lroc.im-ldi.com/images/52"
+   ],
+   "score": 32,
+   "grade": "F"
+  },
+  "ranger9": {
+   "id": "ranger9",
+   "factors": {
+    "reach": 25,
+    "condition": 1,
+    "usefulness": 6,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "Rangers had no brakes or landing legs, so they smashed into the Moon as planned."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Revisit the crater from orbit. NASA's LRO camera has found and photographed the Ranger craters.",
+     "kind": "real",
+     "source": "https://lroc.im-ldi.com/images/52"
+    },
+    {
+     "text": "Fit future probes with landing legs and brakes, so they can keep working after arrival. (Surveyor did just that a few years later.)",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Rangers sent pictures all the way down and then crashed. Is a crash a failure if it was the plan? How would you design a probe that lands instead?",
+   "engineersSay": "Engineers learned from Ranger and built Surveyor with legs and a braking rocket, so the next probes could soft-land.",
+   "engineersSource": "https://lroc.im-ldi.com/images/52",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://lroc.im-ldi.com/images/52"
+   ],
+   "score": 32,
+   "grade": "F"
+  },
+  "lcross-centaur": {
+   "id": "lcross-centaur",
+   "factors": {
+    "reach": 15,
+    "condition": 2,
+    "usefulness": 10,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "It was crashed into the always-dark Cabeus crater on purpose to blast up hidden material."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "It already did its job: the crash plume let scientists look for water ice hiding in the dark crater.",
+     "kind": "real",
+     "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B"
+    },
+    {
+     "text": "Use the ice: NASA wants future crews to turn Moon ice into water, air and rocket fuel.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    },
+    {
+     "text": "Send a rover with lights into Cabeus to find the impact site and study the ice up close.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "This crater never sees sunlight and is colder than anywhere on Earth. How would you design a rover that explores in total darkness?",
+   "engineersSay": "Engineers plan to \"live off the land\": NASA's resource programme studies how to dig up ice in shadowed craters and turn it into water and oxygen.",
+   "engineersSource": "https://www.nasa.gov/overview-in-situ-resource-utilization/",
+   "sources": [
+    "https://arxiv.org/abs/1103.1687",
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "score": 27,
+   "grade": "F"
+  },
+  "lcross-ssc": {
+   "id": "lcross-ssc",
+   "factors": {
+    "reach": 15,
+    "condition": 2,
+    "usefulness": 10,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "It was crashed into the always-dark Cabeus crater on purpose to blast up hidden material."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "It already did its job: the crash plume let scientists look for water ice hiding in the dark crater.",
+     "kind": "real",
+     "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B"
+    },
+    {
+     "text": "Use the ice: NASA wants future crews to turn Moon ice into water, air and rocket fuel.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    },
+    {
+     "text": "Send a rover with lights into Cabeus to find the impact site and study the ice up close.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "This crater never sees sunlight and is colder than anywhere on Earth. How would you design a rover that explores in total darkness?",
+   "engineersSay": "Engineers plan to \"live off the land\": NASA's resource programme studies how to dig up ice in shadowed craters and turn it into water and oxygen.",
+   "engineersSource": "https://www.nasa.gov/overview-in-situ-resource-utilization/",
+   "sources": [
+    "https://arxiv.org/abs/1103.1687",
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "score": 27,
+   "grade": "F"
+  },
+  "grail-ebb": {
+   "id": "grail-ebb",
+   "factors": {
+    "reach": 18,
+    "condition": 2,
+    "usefulness": 8,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "Low on fuel, it was steered into a mountain near Goldschmidt crater, far from historic landing sites."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Pick a safe crash spot. NASA chose a remote mountain so the crash could not hit any historic site.",
+     "kind": "real",
+     "source": "https://lroc.im-ldi.com/images/596"
+    },
+    {
+     "text": "Visit the Sally Ride impact site as a memorial and study what the crash did to the mountain.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "When a spacecraft runs out of fuel, it has to go somewhere. Where would you choose to crash it, and why?",
+   "engineersSay": "Engineers plan the \"end of mission\" carefully, choosing crash sites that keep historic places and scientific sites safe.",
+   "engineersSource": "https://lroc.im-ldi.com/images/596",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://lroc.im-ldi.com/images/596"
+   ],
+   "score": 28,
+   "grade": "F"
+  },
+  "grail-flow": {
+   "id": "grail-flow",
+   "factors": {
+    "reach": 18,
+    "condition": 2,
+    "usefulness": 8,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "Low on fuel, it was steered into a mountain near Goldschmidt crater, far from historic landing sites."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Pick a safe crash spot. NASA chose a remote mountain so the crash could not hit any historic site.",
+     "kind": "real",
+     "source": "https://lroc.im-ldi.com/images/596"
+    },
+    {
+     "text": "Visit the Sally Ride impact site as a memorial and study what the crash did to the mountain.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "When a spacecraft runs out of fuel, it has to go somewhere. Where would you choose to crash it, and why?",
+   "engineersSay": "Engineers plan the \"end of mission\" carefully, choosing crash sites that keep historic places and scientific sites safe.",
+   "engineersSource": "https://lroc.im-ldi.com/images/596",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://lroc.im-ldi.com/images/596"
+   ],
+   "score": 28,
+   "grade": "F"
+  },
+  "ladee": {
+   "id": "ladee",
+   "factors": {
+    "reach": 15,
+    "condition": 2,
+    "usefulness": 4,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "It flew so low that its fuel ran out, and it crashed on the Moon's far side as planned."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Find the crater from orbit. NASA's LRO spotted LADEE's fresh crater.",
+     "kind": "real",
+     "source": "https://lroc.im-ldi.com/images/822"
+    },
+    {
+     "text": "Measure how quickly the dark blast marks around the crater fade, to learn how fast the Moon's surface changes.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "LADEE always had to crash because it flew so low. Would you design a mission that knows it will end in a crash? What would you measure on the way down?",
+   "engineersSay": "Engineers sometimes accept a planned crash to fly closer and collect better data, then use orbiters to find and study the new crater.",
+   "engineersSource": "https://lroc.im-ldi.com/images/822",
+   "sources": [
+    "https://www.lroc.asu.edu/data/support/downloads/2016_LROC_Coordinates_of_Human_Features.pdf",
+    "https://lroc.im-ldi.com/images/822"
+   ],
+   "score": 21,
+   "grade": "F"
+  },
+  "lunar-prospector": {
+   "id": "lunar-prospector",
+   "factors": {
+    "reach": 12,
+    "condition": 2,
+    "usefulness": 6,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "With its fuel nearly gone, it was steered into a permanently shadowed crater near the south pole."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "It already did one last experiment: scientists hoped the crash would throw up water vapour, but none was detected.",
+     "kind": "real",
+     "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-001A"
+    },
+    {
+     "text": "Mine the ice: NASA's plans focus on the south pole because ice there could become water and fuel.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+    }
+   ],
+   "prompt": "Lunar Prospector's last act was a crash to look for water. If you had one last tank of fuel, what experiment would you do with it?",
+   "engineersSay": "Engineers like to squeeze one more experiment out of a spacecraft's final moments, even a crash.",
+   "engineersSource": "https://www.nasa.gov/overview-in-situ-resource-utilization/",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-001A",
+    "https://www.nasa.gov/overview-in-situ-resource-utilization/"
+   ],
+   "score": 20,
+   "grade": "F"
+  },
+  "viking1": {
+   "id": "viking1",
+   "factors": {
+    "reach": 10,
+    "condition": 18,
+    "usefulness": 14,
+    "fixability": 6
+   },
+   "needsRepair": [
+    {
+     "part": "Antenna pointing",
+     "problem": "A 1982 software update by mistake erased the data the lander used to aim its antenna at Earth."
+    },
+    {
+     "part": "Batteries",
+     "problem": "Its batteries were already ageing, which is why engineers were updating its software."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Fix by radio, one careful step at a time. In 2024 the Voyager 1 team moved broken code to new spots in memory and checked each step before the next.",
+     "kind": "real",
+     "source": "https://www.jpl.nasa.gov/news/nasas-voyager-1-resumes-sending-engineering-updates-to-earth/"
+    },
+    {
+     "text": "Land a helper robot nearby to listen to Viking on a short-range radio and relay the signal home.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "One wrong software update cut Viking 1 off forever. How would you check a command before sending it to a spacecraft you can never touch?",
+   "engineersSay": "Engineers learned to test updates carefully and keep backups. When Voyager 1's memory failed in 2024, the team moved its code to new spots in memory and checked each step before going on.",
+   "engineersSource": "https://www.jpl.nasa.gov/news/nasas-voyager-1-resumes-sending-engineering-updates-to-earth/",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C",
+    "https://www.jpl.nasa.gov/news/nasas-voyager-1-resumes-sending-engineering-updates-to-earth/"
+   ],
+   "score": 48,
+   "grade": "D"
+  },
+  "viking2": {
+   "id": "viking2",
+   "factors": {
+    "reach": 10,
+    "condition": 18,
+    "usefulness": 14,
+    "fixability": 5
+   },
+   "needsRepair": [
+    {
+     "part": "Batteries",
+     "problem": "After 1,281 Mars days of work, its batteries failed and the team switched it off in 1980."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Bring new batteries with a future mission and see if the lander wakes up. Its electronics are now about 50 years old.",
+     "kind": "idea"
+    },
+    {
+     "text": "Study old hardware: astronauts did this with Surveyor 3 on the Moon, and it taught engineers how materials age in space.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/surveyor-3/"
+    }
+   ],
+   "prompt": "Viking 2 worked for over three Earth years, much longer than planned. What do you think wears out first on a machine left on Mars?",
+   "engineersSay": "Viking 2 worked for 1,281 Mars days before its batteries gave out. Today's long-lived rovers carry nuclear generators that recharge their batteries day and night.",
+   "engineersSource": "https://www.jpl.nasa.gov/news/press_kits/mars_2020/launch/mission/spacecraft/power/",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-083C",
+    "https://www.jpl.nasa.gov/news/press_kits/mars_2020/launch/mission/spacecraft/power/",
+    "https://science.nasa.gov/mission/surveyor-3/"
+   ],
+   "score": 47,
+   "grade": "D"
+  },
+  "pathfinder": {
+   "id": "pathfinder",
+   "factors": {
+    "reach": 10,
+    "condition": 18,
+    "usefulness": 12,
+    "fixability": 5
+   },
+   "needsRepair": [
+    {
+     "part": "Battery",
+     "problem": "Engineers suspect its worn-out battery could no longer keep the electronics warm through the freezing nights."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Keep electronics warm with nuclear heat. Radioisotope heaters do this on many spacecraft.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/"
+    },
+    {
+     "text": "Give it a fresh battery and a heater blanket, then try calling it again.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Mars nights are colder than Antarctica. How would you keep a lander's electronics warm when its battery is old?",
+   "engineersSay": "Engineers use tiny radioisotope heater units, which give off warmth for decades, to keep parts from freezing.",
+   "engineersSource": "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/",
+   "sources": [
+    "https://science.nasa.gov/mission/mars-pathfinder/",
+    "https://science.nasa.gov/planetary-science/programs/radioisotope-power-systems/about-rps/"
+   ],
+   "score": 45,
+   "grade": "D"
+  },
+  "sojourner": {
+   "id": "sojourner",
+   "factors": {
+    "reach": 10,
+    "condition": 20,
+    "usefulness": 15,
+    "fixability": 8
+   },
+   "needsRepair": [
+    {
+     "part": "Radio link",
+     "problem": "It could only talk to Earth through the Pathfinder lander, so when the lander went silent, Sojourner was cut off too."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Use orbiters as radio relays. Perseverance has one antenna to talk straight to Earth and another to send data through spacecraft circling Mars.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/mars-2020-perseverance/rover-components/"
+    },
+    {
+     "text": "Land a new radio station nearby that speaks Sojourner's \"language\", so the little rover could talk again if it still has power.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Sojourner might have been fine, but its only phone line went dead. How would you give a rover a backup way to call home?",
+   "engineersSay": "Engineers now give rovers more than one way to talk: Perseverance can send data straight to Earth or through orbiters.",
+   "engineersSource": "https://science.nasa.gov/mission/mars-2020-perseverance/rover-components/",
+   "sources": [
+    "https://science.nasa.gov/mission/mars-pathfinder/",
+    "https://science.nasa.gov/mission/mars-2020-perseverance/rover-components/"
+   ],
+   "score": 53,
+   "grade": "C"
+  },
+  "spirit": {
+   "id": "spirit",
+   "factors": {
+    "reach": 10,
+    "condition": 17,
+    "usefulness": 18,
+    "fixability": 8
+   },
+   "needsRepair": [
+    {
+     "part": "Right-front wheel",
+     "problem": "Its motor stopped working in 2006, so Spirit drove backwards, dragging the dead wheel."
+    },
+    {
+     "part": "Stuck in sand",
+     "problem": "In 2009 its wheels broke through a crust into soft sand at a spot called Troy."
+    },
+    {
+     "part": "Solar panels",
+     "problem": "Stuck at a bad angle, it could not tilt its panels toward the low winter Sun."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Practise on Earth first. Engineers built a sandbox at JPL and tried escape moves with a test rover before sending commands.",
+     "kind": "real",
+     "source": "https://webarchive.library.unt.edu/web/20090825062022/http://www.nasa.gov/mission_pages/mer/freespirit.html"
+    },
+    {
+     "text": "Turn it into a science station. In 2010 NASA stopped trying to drive Spirit and used it as a stationary platform.",
+     "kind": "real",
+     "source": "https://www.planetary.org/articles/2320"
+    },
+    {
+     "text": "Send a helper robot with a shovel to dig out the wheels and push it onto firm ground.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Spirit is stuck in soft sand with one dead wheel. How would you get it out without anyone there to push?",
+   "engineersSay": "Engineers recreated Troy in a sandbox and tested drives with a twin rover for months. When nothing worked, they turned Spirit into a stationary science station.",
+   "engineersSource": "https://webarchive.library.unt.edu/web/20090825062022/http://www.nasa.gov/mission_pages/mer/freespirit.html",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-027A",
+    "https://www.planetary.org/articles/2320",
+    "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/",
+    "https://webarchive.library.unt.edu/web/20090825062022/http://www.nasa.gov/mission_pages/mer/freespirit.html"
+   ],
+   "score": 53,
+   "grade": "C"
+  },
+  "opportunity": {
+   "id": "opportunity",
+   "factors": {
+    "reach": 10,
+    "condition": 18,
+    "usefulness": 20,
+    "fixability": 10
+   },
+   "needsRepair": [
+    {
+     "part": "Solar panels",
+     "problem": "A planet-wide dust storm in 2018 blocked their sunlight, and dust likely coated them."
+    },
+    {
+     "part": "Battery",
+     "problem": "With no power for months, its battery likely failed in the deep cold."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Wait for wind. Gusts on Mars sometimes blow solar panels clean, which kept Spirit and Opportunity going for years.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/mer-opportunity/"
+    },
+    {
+     "text": "Skip solar panels: Curiosity and Perseverance run on nuclear generators, so dust and winter cannot cut their power.",
+     "kind": "real",
+     "source": "https://www.jpl.nasa.gov/news/press_kits/mars_2020/launch/mission/spacecraft/power/"
+    },
+    {
+     "text": "Send a robot with a soft brush or a puff of air to clean the panels, then try to wake it up.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Opportunity's panels went dark in a dust storm. How would you clean a solar panel 200 million km away, with no one to wipe it?",
+   "engineersSay": "Engineers hoped wind would clear the dust, as it had many times before, and sent more than a thousand commands to wake it before ending the mission in 2019.",
+   "engineersSource": "https://science.nasa.gov/mission/mer-opportunity/",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-032A",
+    "https://www.jpl.nasa.gov/news/update-on-opportunity-rover-recovery-efforts/",
+    "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/",
+    "https://science.nasa.gov/mission/mer-opportunity/",
+    "https://www.jpl.nasa.gov/news/press_kits/mars_2020/launch/mission/spacecraft/power/"
+   ],
+   "score": 58,
+   "grade": "C"
+  },
+  "phoenix": {
+   "id": "phoenix",
+   "factors": {
+    "reach": 8,
+    "condition": 10,
+    "usefulness": 14,
+    "fixability": 3
+   },
+   "needsRepair": [
+    {
+     "part": "Solar panels",
+     "problem": "The Arctic winter took its sunlight, and orbit photos suggest heavy carbon-dioxide frost broke the panels."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Check from orbit before sending help. A HiRISE photo showed Phoenix's panels had likely collapsed under frost.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/photojournal/image-from-mars-orbit-indicates-solar-panels-on-phoenix-lander-may-have-collapsed/"
+    },
+    {
+     "text": "Skip solar panels: Curiosity and Perseverance run on nuclear generators, so dust and winter cannot cut their power.",
+     "kind": "real",
+     "source": "https://www.jpl.nasa.gov/news/press_kits/mars_2020/launch/mission/spacecraft/power/"
+    },
+    {
+     "text": "Design panels that fold up like an umbrella before winter, so frost cannot crush them.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Frost heavy enough to break metal settled on Phoenix every winter. How would you protect a lander in the Martian Arctic?",
+   "engineersSay": "Engineers knew Phoenix would not survive the Arctic winter. It was built for a summer mission, so its team planned for it to end.",
+   "engineersSource": "https://science.nasa.gov/photojournal/image-from-mars-orbit-indicates-solar-panels-on-phoenix-lander-may-have-collapsed/",
+   "sources": [
+    "https://www.planetary.org/articles/1472",
+    "https://science.nasa.gov/photojournal/image-from-mars-orbit-indicates-solar-panels-on-phoenix-lander-may-have-collapsed/",
+    "https://www.jpl.nasa.gov/news/press_kits/mars_2020/launch/mission/spacecraft/power/"
+   ],
+   "score": 35,
+   "grade": "D"
+  },
+  "insight": {
+   "id": "insight",
+   "factors": {
+    "reach": 10,
+    "condition": 20,
+    "usefulness": 18,
+    "fixability": 12
+   },
+   "needsRepair": [
+    {
+     "part": "Solar panels",
+     "problem": "Over four years, dust slowly piled up on them until there was too little power."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Trickle sand near the panels. In 2021 the team used InSight's robot arm to drop sand in the wind, which knocked dust off a panel and gave it more power.",
+     "kind": "real",
+     "source": "https://www.jpl.nasa.gov/news/nasas-insight-mars-lander-gets-a-power-boost"
+    },
+    {
+     "text": "Wait for wind. Gusts on Mars sometimes blow solar panels clean, which kept Spirit and Opportunity going for years.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/mer-opportunity/"
+    },
+    {
+     "text": "Skip solar panels: Curiosity and Perseverance run on nuclear generators, so dust and winter cannot cut their power.",
+     "kind": "real",
+     "source": "https://www.jpl.nasa.gov/news/press_kits/mars_2020/launch/mission/spacecraft/power/"
+    }
+   ],
+   "prompt": "InSight's had no brush and no wiper for its panels. How would you clean them using only what the lander already had?",
+   "engineersSay": "Engineers had InSight pour sand on a windy day so blowing grains would scrub dust off its panel. It worked, but only a little, and the dust kept coming.",
+   "engineersSource": "https://www.jpl.nasa.gov/news/nasas-insight-mars-lander-gets-a-power-boost",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2018-042A",
+    "https://www.nasa.gov/missions/insight/for-insight-dust-cleanings-will-yield-new-science/",
+    "https://www.jpl.nasa.gov/news/nasas-insight-mars-lander-gets-a-power-boost",
+    "https://science.nasa.gov/mission/mer-opportunity/",
+    "https://www.jpl.nasa.gov/news/press_kits/mars_2020/launch/mission/spacecraft/power/"
+   ],
+   "score": 60,
+   "grade": "C"
+  },
+  "ingenuity": {
+   "id": "ingenuity",
+   "factors": {
+    "reach": 10,
+    "condition": 14,
+    "usefulness": 20,
+    "fixability": 10
+   },
+   "needsRepair": [
+    {
+     "part": "Rotor blades",
+     "problem": "They broke in a hard landing on flight 72, after its navigation camera could not find enough landmarks over smooth sand."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Investigate the crash. Engineers used photos taken after the flight, including one from Perseverance showing a broken blade, to work out what went wrong.",
+     "kind": "real",
+     "source": "https://www.jpl.nasa.gov/news/nasa-performs-first-aircraft-accident-investigation-on-another-world/"
+    },
+    {
+     "text": "Learn for the next one: NASA expects the findings to help future Mars helicopters.",
+     "kind": "real",
+     "source": "https://www.jpl.nasa.gov/news/nasa-performs-first-aircraft-accident-investigation-on-another-world/"
+    },
+    {
+     "text": "Carry spare blades and a robot arm that can snap new ones on.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Ingenuity's camera got \"lost\" over smooth sand with nothing to track. What would you add to help a flying robot know where it is?",
+   "engineersSay": "Engineers ran the first aircraft accident investigation on another world, about 160 million km away, using photos sent back after the crash. They found its navigation could not track featureless ground.",
+   "engineersSource": "https://www.jpl.nasa.gov/news/nasa-performs-first-aircraft-accident-investigation-on-another-world/",
+   "sources": [
+    "https://www.jpl.nasa.gov/news/nasas-ingenuity-mars-helicopter-team-says-goodbye-for-now",
+    "https://www.jpl.nasa.gov/news/nasa-performs-first-aircraft-accident-investigation-on-another-world/"
+   ],
+   "score": 54,
+   "grade": "C"
+  },
+  "mars-polar-lander": {
+   "id": "mars-polar-lander",
+   "factors": {
+    "reach": 4,
+    "condition": 2,
+    "usefulness": 4,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Landing software",
+     "problem": "The jolt of its legs unfolding was most likely read as touchdown, so the engines shut off about 40 m up."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Find the cause on the ground. Investigators found the flaw slipped through because a test was run with wrongly wired sensors.",
+     "kind": "real",
+     "source": "https://ntrs.nasa.gov/citations/20000061966"
+    },
+    {
+     "text": "Give the lander a second way to sense the ground, like a radar and a leg sensor that must both agree.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "A tiny software mistake made the lander think it had touched down too early. How would you test that a lander knows when it has really landed?",
+   "engineersSay": "Investigators concluded the most likely cause was the leg-sensor signal. The lesson: test the whole lander, hardware and software together, exactly as it will fly.",
+   "engineersSource": "https://ntrs.nasa.gov/citations/20000061966",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html",
+    "https://ntrs.nasa.gov/citations/20000061966"
+   ],
+   "score": 10,
+   "grade": "F"
+  },
+  "deep-space-2": {
+   "id": "deep-space-2",
+   "factors": {
+    "reach": 3,
+    "condition": 1,
+    "usefulness": 2,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole probes",
+     "problem": "Two small probes were built to slam into the ground. No signal was ever received from either one."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Search for them with high-resolution cameras from orbit. Their exact landing spot is not known.",
+     "kind": "idea"
+    },
+    {
+     "text": "Test more before launch. The review board said the probes were not ready to launch because they had not been tested enough.",
+     "kind": "real",
+     "source": "https://ntrs.nasa.gov/citations/20000061966"
+    }
+   ],
+   "prompt": "These probes were the size of a basketball and hit Mars at high speed. How would you test a probe built to crash, before it goes?",
+   "engineersSay": "Engineers on the review board said a probe that has not been fully tested should not fly.",
+   "engineersSource": "https://ntrs.nasa.gov/citations/20000061966",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html",
+    "https://ntrs.nasa.gov/citations/20000061966"
+   ],
+   "score": 6,
+   "grade": "F"
+  },
+  "mars-climate-orbiter": {
+   "id": "mars-climate-orbiter",
+   "factors": {
+    "reach": 0,
+    "condition": 0,
+    "usefulness": 2,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Navigation numbers",
+     "problem": "One computer program used imperial units and another used metric units, so the orbiter flew too low into Mars's atmosphere."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Check your units! The investigation report made this one of the most famous lessons in engineering.",
+     "kind": "real",
+     "source": "https://llis.nasa.gov/llis_lib/pdf/1009464main1_0641-mr.pdf"
+    },
+    {
+     "text": "Have two teams calculate the path separately and compare answers.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "A mix-up between pounds and newtons lost a whole spacecraft. How would you make sure everyone on a team uses the same units?",
+   "engineersSay": "Investigators found the unit mix-up and said the bigger problem was that the checks meant to catch it did not work. Engineers now double-check units across every team.",
+   "engineersSource": "https://llis.nasa.gov/llis_lib/pdf/1009464main1_0641-mr.pdf",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-073A",
+    "https://llis.nasa.gov/llis_lib/pdf/1009464main1_0641-mr.pdf"
+   ],
+   "score": 2,
+   "grade": "F"
+  },
+  "curiosity": {
+   "id": "curiosity",
+   "needsRepair": [
+    {
+     "part": "Wheels",
+     "problem": "Sharp rocks poke holes in its thin aluminium wheels as it drives."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "New driving software. Engineers sent a traction control update that adjusts each wheel's speed over rocks to slow the damage.",
+     "kind": "real",
+     "source": "https://www.jpl.nasa.gov/news/an-algorithm-helps-protect-mars-curiositys-wheels/"
+    },
+    {
+     "text": "Plan routes around the sharpest rocks, like picking a path barefoot.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Curiosity's wheels are wearing out and nobody can change a tyre on Mars. How would you make them last longer?",
+   "engineersSay": "Engineers wrote new software that changes each wheel's speed as it climbs over rocks, reducing the push on the wheels.",
+   "engineersSource": "https://www.jpl.nasa.gov/news/an-algorithm-helps-protect-mars-curiositys-wheels/",
+   "sources": [
+    "https://science.nasa.gov/mission/msl-curiosity/",
+    "https://science.nasa.gov/mission/mars-2020-perseverance/rover-components/",
+    "https://www.jpl.nasa.gov/news/an-algorithm-helps-protect-mars-curiositys-wheels/"
+   ],
+   "working": true,
+   "note": "Still working — not salvage, it's a mission.",
+   "score": null,
+   "grade": null
+  },
+  "perseverance": {
+   "id": "perseverance",
+   "needsRepair": [],
+   "approaches": [
+    {
+     "text": "Skip solar panels: Curiosity and Perseverance run on nuclear generators, so dust and winter cannot cut their power.",
+     "kind": "real",
+     "source": "https://www.jpl.nasa.gov/news/press_kits/mars_2020/launch/mission/spacecraft/power/"
+    }
+   ],
+   "prompt": "Perseverance gets its power from plutonium, not sunlight. Why might engineers choose that for a rover on dusty Mars?",
+   "engineersSay": "Engineers chose a nuclear generator because it gives power day and night, in any season, and dust cannot cover it.",
+   "engineersSource": "https://science.nasa.gov/mission/mars-2020-perseverance/rover-components/",
+   "sources": [
+    "https://science.nasa.gov/mission/mars-2020-perseverance/",
+    "https://science.nasa.gov/mission/mars-2020-perseverance/rover-components/",
+    "https://www.jpl.nasa.gov/news/press_kits/mars_2020/launch/mission/spacecraft/power/"
+   ],
+   "working": true,
+   "note": "Still working — not salvage, it's a mission.",
+   "score": null,
+   "grade": null
+  },
+  "perseverance-backshell": {
+   "id": "perseverance-backshell",
+   "factors": {
+    "reach": 10,
+    "condition": 12,
+    "usefulness": 16,
+    "fixability": 3
+   },
+   "needsRepair": [
+    {
+     "part": "Backshell and parachute",
+     "problem": "They were dropped during landing and hit the ground hard. They were never meant to be used again."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Photograph it from the air. Ingenuity took pictures of the backshell and parachute so engineers could see how they worked.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/resource/rovers-backshell-seen-from-the-air/"
+    },
+    {
+     "text": "Reuse the parachute fabric or metal as shelter or raw material for a future Mars base.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Ingenuity flew over this landing gear and took pictures. What would you look for in those photos to make the next landing safer?",
+   "engineersSay": "Engineers used Ingenuity's photos to check how the parachute and backshell performed, to help design future landings.",
+   "engineersSource": "https://science.nasa.gov/resource/rovers-backshell-seen-from-the-air/",
+   "sources": [
+    "https://science.nasa.gov/resource/rovers-backshell-seen-from-the-air",
+    "https://science.nasa.gov/resource/rovers-backshell-seen-from-the-air/"
+   ],
+   "score": 41,
+   "grade": "D"
+  },
+  "pioneer10": {
+   "id": "pioneer10",
+   "factors": {
+    "reach": 0,
+    "condition": 20,
+    "usefulness": 10,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Power",
+     "problem": "Its nuclear generator faded until it was too weak to send a signal home."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it as a message in a bottle: it carries a plaque for anyone who might find it.",
+     "kind": "idea"
+    },
+    {
+     "text": "Chase it with a faster probe. It would take many decades, and catching up is not the same as stopping it.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "This probe is drifting toward Aldebaran and will never stop. Could anything ever catch it? Should we even try?",
+   "engineersSay": "Engineers treat it as gone for good. It is far beyond the reach of any spacecraft we could send, and its power ran out long ago.",
+   "engineersSource": "https://science.nasa.gov/missions/pioneer/pioneer-10-sends-last-signal/",
+   "sources": [
+    "https://science.nasa.gov/missions/pioneer/pioneer-10-sends-last-signal/"
+   ],
+   "score": 30,
+   "grade": "F"
+  },
+  "pioneer11": {
+   "id": "pioneer11",
+   "factors": {
+    "reach": 0,
+    "condition": 20,
+    "usefulness": 10,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Power",
+     "problem": "Its nuclear generator faded until it was too weak to send a signal home."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it as a message in a bottle: it carries a plaque for anyone who might find it.",
+     "kind": "idea"
+    },
+    {
+     "text": "Chase it with a faster probe. It would take many decades, and catching up is not the same as stopping it.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "This probe is drifting toward the constellation Aquila and will never stop. Could anything ever catch it? Should we even try?",
+   "engineersSay": "Engineers treat it as gone for good. It is far beyond the reach of any spacecraft we could send, and its power ran out long ago.",
+   "engineersSource": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1973-019A",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1973-019A"
+   ],
+   "score": 30,
+   "grade": "F"
+  },
+  "voyager1": {
+   "id": "voyager1",
+   "needsRepair": [
+    {
+     "part": "Power",
+     "problem": "Its nuclear generator makes less power every year, so engineers switch instruments off one at a time."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Fix it by radio. When a memory chip failed in 2024, engineers moved the code to other spots in memory, from 24 billion km away.",
+     "kind": "real",
+     "source": "https://www.jpl.nasa.gov/news/nasas-voyager-1-resumes-sending-engineering-updates-to-earth/"
+    },
+    {
+     "text": "Save power by turning things off. The team switched off an instrument in 2026 to keep the spacecraft running.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/blogs/voyager/2026/04/17/nasa-shuts-off-instrument-on-voyager-1-to-keep-spacecraft-operating/"
+    }
+   ],
+   "prompt": "A message to Voyager 1 takes nearly a day to arrive. How would you fix a computer you cannot see, when every test takes two days?",
+   "engineersSay": "Engineers worked out which chip had failed, split the code across other parts of memory and sent it piece by piece, checking each step.",
+   "engineersSource": "https://www.jpl.nasa.gov/news/nasas-voyager-1-resumes-sending-engineering-updates-to-earth/",
+   "sources": [
+    "https://science.nasa.gov/blogs/voyager/2026/04/17/nasa-shuts-off-instrument-on-voyager-1-to-keep-spacecraft-operating/",
+    "https://www.jpl.nasa.gov/news/nasas-voyager-1-resumes-sending-engineering-updates-to-earth/"
+   ],
+   "working": true,
+   "note": "Still working — not salvage, it's a mission.",
+   "score": null,
+   "grade": null
+  },
+  "voyager2": {
+   "id": "voyager2",
+   "needsRepair": [
+    {
+     "part": "Power",
+     "problem": "Its nuclear generator makes less power every year."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Share out the power carefully. Engineers turn off heaters and instruments to keep the most important science running.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/blogs/voyager/2026/08/04/nasa-engineers-help-prolong-voyager-2s-science-mission/"
+    }
+   ],
+   "prompt": "Voyager 2 has less power every year. If you had to switch something off, how would you decide what goes first?",
+   "engineersSay": "Engineers rank what matters most for science and switch off the rest, step by step, so Voyager 2 keeps working as long as possible.",
+   "engineersSource": "https://science.nasa.gov/blogs/voyager/2026/08/04/nasa-engineers-help-prolong-voyager-2s-science-mission/",
+   "sources": [
+    "https://science.nasa.gov/blogs/voyager/2026/08/04/nasa-engineers-help-prolong-voyager-2s-science-mission/"
+   ],
+   "working": true,
+   "note": "Still working — not salvage, it's a mission.",
+   "score": null,
+   "grade": null
+  },
+  "newhorizons": {
+   "id": "newhorizons",
+   "needsRepair": [],
+   "approaches": [
+    {
+     "text": "Sleep to save energy. New Horizons spends long stretches in hibernation between busy periods.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/missions/new-horizons/nasas-new-horizons-spacecraft-wakes-from-hibernation-in-good-health/"
+    }
+   ],
+   "prompt": "New Horizons naps for months at a time. Why would a spacecraft far from home want to sleep?",
+   "engineersSay": "Engineers put it into hibernation to save wear and reduce work for the team, then wake it up to check its health.",
+   "engineersSource": "https://science.nasa.gov/missions/new-horizons/nasas-new-horizons-spacecraft-wakes-from-hibernation-in-good-health/",
+   "sources": [
+    "https://science.nasa.gov/missions/new-horizons/nasas-new-horizons-spacecraft-wakes-from-hibernation-in-good-health/"
+   ],
+   "working": true,
+   "note": "Still working — not salvage, it's a mission.",
+   "score": null,
+   "grade": null
+  },
+  "juno": {
+   "id": "juno",
+   "needsRepair": [],
+   "approaches": [],
+   "prompt": "Juno flies through Jupiter's fierce radiation. How would you protect a spacecraft's brain from radiation?",
+   "engineersSay": "Engineers put Juno's most important electronics inside a thick titanium vault to shield them from radiation.",
+   "engineersSource": "https://science.nasa.gov/mission/juno/",
+   "sources": [
+    "https://science.nasa.gov/mission/juno/"
+   ],
+   "working": true,
+   "note": "Still working — not salvage, it's a mission.",
+   "score": null,
+   "grade": null
+  },
+  "galileo": {
+   "id": "galileo",
+   "factors": {
+    "reach": 0,
+    "condition": 0,
+    "usefulness": 4,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Main antenna",
+     "problem": "Its big umbrella antenna jammed half open, so it had to send everything through a tiny backup antenna."
+    },
+    {
+     "part": "Whole spacecraft",
+     "problem": "It was destroyed. There is nothing left to repair or recover."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Work around it. Engineers wrote new software that squeezed pictures, so the small antenna could send up to 10 times more.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/galileo/"
+    },
+    {
+     "text": "Protect other worlds. NASA steered Galileo into Jupiter so it could never crash into Europa, which may hide an ocean.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/galileo/"
+    }
+   ],
+   "prompt": "Galileo's main antenna would not open. If you could only send home a few pictures a day, how would you choose what to send?",
+   "engineersSay": "Engineers upgraded the software on Galileo and the antennas on Earth, so the mission still did most of its science with a tiny antenna.",
+   "engineersSource": "https://science.nasa.gov/mission/galileo/",
+   "sources": [
+    "https://science.nasa.gov/mission/galileo/"
+   ],
+   "score": 4,
+   "grade": "F"
+  },
+  "galileo_probe": {
+   "id": "galileo_probe",
+   "factors": {
+    "reach": 0,
+    "condition": 0,
+    "usefulness": 2,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "It was destroyed. There is nothing left to repair or recover."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "It was meant to end this way: the probe dropped into Jupiter, measuring the air until heat and pressure destroyed it.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/galileo/"
+    }
+   ],
+   "prompt": "This probe dove into Jupiter knowing it would be crushed. What would you measure in the last hour before that?",
+   "engineersSay": "Engineers build probes like this to send as much data as possible before they are destroyed, since nothing can survive that deep inside Jupiter.",
+   "engineersSource": "https://science.nasa.gov/mission/galileo/",
+   "sources": [
+    "https://science.nasa.gov/mission/galileo/"
+   ],
+   "score": 2,
+   "grade": "F"
+  },
+  "cassini": {
+   "id": "cassini",
+   "factors": {
+    "reach": 0,
+    "condition": 0,
+    "usefulness": 4,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "It was destroyed. There is nothing left to repair or recover."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Protect other worlds. NASA plunged Cassini into Saturn so it could never crash into moons like Enceladus and Titan.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/cassini/grand-finale/"
+    },
+    {
+     "text": "Use the last fuel for science: its \"Grand Finale\" dives between Saturn and its rings sent back new discoveries.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/cassini/grand-finale/"
+    }
+   ],
+   "prompt": "Cassini was steered into Saturn on purpose. Why might it be better to destroy a spacecraft than leave it orbiting?",
+   "engineersSay": "Engineers chose to burn Cassini up in Saturn so it could never land on a moon that might have life and bring Earth germs with it.",
+   "engineersSource": "https://science.nasa.gov/mission/cassini/grand-finale/",
+   "sources": [
+    "https://science.nasa.gov/mission/cassini/",
+    "https://science.nasa.gov/mission/cassini/grand-finale/"
+   ],
+   "score": 4,
+   "grade": "F"
+  },
+  "messenger": {
+   "id": "messenger",
+   "factors": {
+    "reach": 2,
+    "condition": 1,
+    "usefulness": 3,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "It was destroyed. There is nothing left to repair or recover."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Look for its crater with a future Mercury orbiter and see how fresh craters change near the Sun.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "MESSENGER crashed into Mercury at about 14,000 km/h. If you could send a camera to find the crater, what would you want to learn?",
+   "engineersSay": "Engineers used MESSENGER's last bits of fuel to stretch the mission as long as they could before the crash.",
+   "engineersSource": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2004-030A",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2004-030A"
+   ],
+   "score": 6,
+   "grade": "F"
+  },
+  "magellan": {
+   "id": "magellan",
+   "factors": {
+    "reach": 0,
+    "condition": 0,
+    "usefulness": 2,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "It burned up in Venus's thick atmosphere at the end of its mission."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Use the ending for science: the last dive measured Venus's atmosphere.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/magellan/"
+    }
+   ],
+   "prompt": "This spacecraft finished by diving into Venus's air. What do you think it could measure on the way down?",
+   "engineersSay": "Engineers often plan a final experiment for the end of a mission, even when it means the spacecraft will burn up.",
+   "engineersSource": "https://science.nasa.gov/mission/magellan/",
+   "sources": [
+    "https://science.nasa.gov/mission/magellan/"
+   ],
+   "score": 2,
+   "grade": "F"
+  },
+  "pioneer_venus_orbiter": {
+   "id": "pioneer_venus_orbiter",
+   "factors": {
+    "reach": 0,
+    "condition": 0,
+    "usefulness": 2,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "It burned up in Venus's thick atmosphere at the end of its mission."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Use the ending for science: the last dive measured Venus's atmosphere.",
+     "kind": "real",
+     "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-051A"
+    }
+   ],
+   "prompt": "This spacecraft finished by diving into Venus's air. What do you think it could measure on the way down?",
+   "engineersSay": "Engineers often plan a final experiment for the end of a mission, even when it means the spacecraft will burn up.",
+   "engineersSource": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-051A",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-051A"
+   ],
+   "score": 2,
+   "grade": "F"
+  },
+  "pioneer_venus_large_probe": {
+   "id": "pioneer_venus_large_probe",
+   "factors": {
+    "reach": 1,
+    "condition": 2,
+    "usefulness": 3,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole probe",
+     "problem": "Venus's surface is hot enough to melt lead, so nothing built in 1978 still works there."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Build electronics that work in Venus heat. It would have to be a whole new spacecraft.",
+     "kind": "idea"
+    },
+    {
+     "text": "Float a balloon high in Venus's cooler clouds instead of landing on the scorching ground.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Venus's ground is about 460 °C. How would you design a machine that keeps working there for more than an hour?",
+   "engineersSay": "Engineers say nothing could repair a probe on Venus's surface. The next landers will need parts built to survive the heat from the start.",
+   "engineersSource": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-078D",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-078D"
+   ],
+   "score": 6,
+   "grade": "F"
+  },
+  "pioneer_venus_small_probes": {
+   "id": "pioneer_venus_small_probes",
+   "factors": {
+    "reach": 1,
+    "condition": 2,
+    "usefulness": 3,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole probe",
+     "problem": "Venus's surface is hot enough to melt lead, so nothing built in 1978 still works there."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Build electronics that work in Venus heat. It would have to be a whole new spacecraft.",
+     "kind": "idea"
+    },
+    {
+     "text": "Float a balloon high in Venus's cooler clouds instead of landing on the scorching ground.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Venus's ground is about 460 °C. How would you design a machine that keeps working there for more than an hour?",
+   "engineersSay": "Engineers say nothing could repair a probe on Venus's surface. The next landers will need parts built to survive the heat from the start.",
+   "engineersSource": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-078G",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-078G"
+   ],
+   "score": 6,
+   "grade": "F"
+  },
+  "dawn": {
+   "id": "dawn",
+   "factors": {
+    "reach": 3,
+    "condition": 22,
+    "usefulness": 10,
+    "fixability": 5
+   },
+   "needsRepair": [
+    {
+     "part": "Fuel",
+     "problem": "It ran out of the fuel it needed to point its antenna at Earth, so it is silent but still circling Ceres."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Leave it in a safe orbit. NASA placed Dawn in an orbit that should last at least 20 years so it won't crash into Ceres.",
+     "kind": "real",
+     "source": "https://www.jpl.nasa.gov/news/nasas-dawn-mission-to-asteroid-belt-comes-to-end/"
+    },
+    {
+     "text": "Send a robotic fuel truck to top up its tanks so it could talk again.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Dawn is healthy but out of fuel, circling a dwarf planet. Would you send a robot to refuel it, or build a new spacecraft? Which is easier?",
+   "engineersSay": "Engineers chose a long, safe orbit so Dawn would not crash onto Ceres, which scientists want to keep clean for future study.",
+   "engineersSource": "https://www.jpl.nasa.gov/news/nasas-dawn-mission-to-asteroid-belt-comes-to-end/",
+   "sources": [
+    "https://www.jpl.nasa.gov/news/nasas-dawn-mission-to-asteroid-belt-comes-to-end/"
+   ],
+   "score": 40,
+   "grade": "D"
+  },
+  "near_shoemaker": {
+   "id": "near_shoemaker",
+   "factors": {
+    "reach": 5,
+    "condition": 18,
+    "usefulness": 10,
+    "fixability": 4
+   },
+   "needsRepair": [
+    {
+     "part": "Mission ended",
+     "problem": "It was never built to land, but it touched down gently on asteroid Eros and sent data for about two weeks before the team stopped listening."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Visit Eros and look at how 25 years on an asteroid changed its metal and solar panels.",
+     "kind": "idea"
+    },
+    {
+     "text": "Land on asteroids on purpose: later missions like OSIRIS-REx touched asteroids to collect samples.",
+     "kind": "real",
+     "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2016-055A"
+    }
+   ],
+   "prompt": "NEAR Shoemaker landed on an asteroid it wasn't built for. How would you land softly on something with almost no gravity?",
+   "engineersSay": "Engineers slowed it down step by step until it touched down at about walking speed, then kept listening to it on the surface for about two weeks.",
+   "engineersSource": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-008A",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-008A",
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2016-055A"
+   ],
+   "score": 37,
+   "grade": "D"
+  },
+  "kepler": {
+   "id": "kepler",
+   "factors": {
+    "reach": 6,
+    "condition": 20,
+    "usefulness": 12,
+    "fixability": 8
+   },
+   "needsRepair": [
+    {
+     "part": "Pointing wheels",
+     "problem": "Two of the spinning wheels that held it steady broke, the second in 2013."
+    },
+    {
+     "part": "Fuel",
+     "problem": "It ran out of fuel in 2018 and was switched off."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Get clever with what still works. After the breakdown, engineers found a new way to point Kepler, switching its view every three months, and called it K2.",
+     "kind": "real",
+     "source": "https://www.nasa.gov/news-release/nasa-retires-kepler-space-telescope-passes-planet-hunting-torch/"
+    },
+    {
+     "text": "Repair it with astronauts. Hubble was built to be fixed this way, and five shuttle crews repaired and upgraded it.",
+     "kind": "real",
+     "source": "https://science.nasa.gov/mission/hubble/observatory/missions-to-hubble/"
+    },
+    {
+     "text": "Send a robot servicer to fit new wheels and fuel. Kepler is far behind Earth and was not designed for repairs.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Kepler lost the wheels that pointed it. How would you keep a telescope pointed at the same stars without them?",
+   "engineersSay": "Engineers found a fix that changed its view every three months, and the K2 mission went on to survey more than 500,000 stars.",
+   "engineersSource": "https://www.nasa.gov/news-release/nasa-retires-kepler-space-telescope-passes-planet-hunting-torch/",
+   "sources": [
+    "https://www.nasa.gov/news-release/nasa-retires-kepler-space-telescope-passes-planet-hunting-torch/",
+    "https://science.nasa.gov/mission/kepler/",
+    "https://science.nasa.gov/mission/hubble/observatory/missions-to-hubble/"
+   ],
+   "score": 46,
+   "grade": "D"
+  },
+  "spitzer": {
+   "id": "spitzer",
+   "factors": {
+    "reach": 6,
+    "condition": 20,
+    "usefulness": 12,
+    "fixability": 6
+   },
+   "needsRepair": [
+    {
+     "part": "Coolant",
+     "problem": "It ran out of the liquid helium that kept its coldest instruments working, and carried on with fewer cameras."
+    },
+    {
+     "part": "Switched off",
+     "problem": "NASA turned it off in 2020 while it trailed farther and farther behind Earth."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Keep working with what is left. After the coolant ran out, Spitzer kept doing science with its remaining cameras for years.",
+     "kind": "real",
+     "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-038A"
+    },
+    {
+     "text": "Refill it with coolant from a robotic tanker. It would have to chase Spitzer around the Sun first.",
+     "kind": "idea"
+    }
+   ],
+   "prompt": "Spitzer needed to be super cold to see heat from distant stars. How would you keep a telescope cold in space?",
+   "engineersSay": "Engineers kept Spitzer working long after its coolant ran out by using the instruments that still worked when warmer.",
+   "engineersSource": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-038A",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-038A",
+    "https://science.nasa.gov/mission/hubble/observatory/missions-to-hubble/"
+   ],
+   "score": 44,
+   "grade": "D"
+  },
+  "deep_impact_impactor": {
+   "id": "deep_impact_impactor",
+   "factors": {
+    "reach": 2,
+    "condition": 0,
+    "usefulness": 6,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "It was destroyed. There is nothing left to repair or recover."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Go back and look. In 2011 NASA's Stardust flew past comet Tempel 1 and photographed the crater the impactor made.",
+     "kind": "real",
+     "source": "https://www.jpl.nasa.gov/news/nasa-releases-images-of-man-made-crater-on-comet/"
+    }
+   ],
+   "prompt": "Six years after the crash, another spacecraft found the crater. What would you want to see when you came back?",
+   "engineersSay": "Engineers sent Stardust to Tempel 1 to see how the crater had changed after the comet passed the Sun.",
+   "engineersSource": "https://www.jpl.nasa.gov/news/nasa-releases-images-of-man-made-crater-on-comet/",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2005-001A",
+    "https://www.jpl.nasa.gov/news/nasa-releases-images-of-man-made-crater-on-comet/"
+   ],
+   "score": 8,
+   "grade": "F"
+  },
+  "stardust": {
+   "id": "stardust",
+   "factors": {
+    "reach": 4,
+    "condition": 20,
+    "usefulness": 8,
+    "fixability": 4
+   },
+   "needsRepair": [
+    {
+     "part": "Fuel",
+     "problem": "It used up its fuel in 2011 and was switched off in orbit around the Sun."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Bring the treasure home. Stardust dropped a capsule of comet dust to Earth in 2006, and scientists still study it.",
+     "kind": "real",
+     "source": "https://curator.jsc.nasa.gov/stardust/"
+    },
+    {
+     "text": "Give it a second job. After its first comet, Stardust visited Tempel 1.",
+     "kind": "real",
+     "source": "https://www.jpl.nasa.gov/news/nasa-releases-images-of-man-made-crater-on-comet/"
+    }
+   ],
+   "prompt": "Stardust sent its comet dust home in a capsule. Why is bringing a sample to Earth better than studying it in space?",
+   "engineersSay": "Engineers designed a capsule to survive the fastest re-entry ever at the time, so scientists on Earth could study comet dust with their best tools.",
+   "engineersSource": "https://curator.jsc.nasa.gov/stardust/",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1999-003A",
+    "https://curator.jsc.nasa.gov/stardust/",
+    "https://www.jpl.nasa.gov/news/nasa-releases-images-of-man-made-crater-on-comet/"
+   ],
+   "score": 36,
+   "grade": "D"
+  },
+  "dart": {
+   "id": "dart",
+   "factors": {
+    "reach": 3,
+    "condition": 0,
+    "usefulness": 10,
+    "fixability": 0
+   },
+   "needsRepair": [
+    {
+     "part": "Whole spacecraft",
+     "problem": "It was destroyed. There is nothing left to repair or recover."
+    }
+   ],
+   "approaches": [
+    {
+     "text": "Go back and look. Europe's Hera spacecraft launched in 2024 to study what DART did to asteroid Dimorphos.",
+     "kind": "real",
+     "source": "https://www.esa.int/Space_Safety/Hera/ESA_s_Hera_targets_early_arrival_at_Didymos_asteroids"
+    }
+   ],
+   "prompt": "DART crashed into an asteroid to nudge it. If you could fly there next, what would you measure to see if it worked?",
+   "engineersSay": "Engineers sent ESA's Hera to measure Dimorphos up close, including its mass and what the impact changed.",
+   "engineersSource": "https://www.esa.int/Space_Safety/Hera/ESA_s_Hera_targets_early_arrival_at_Didymos_asteroids",
+   "sources": [
+    "https://science.nasa.gov/mission/dart/",
+    "https://www.esa.int/Space_Safety/Hera/ESA_s_Hera_targets_early_arrival_at_Didymos_asteroids"
+   ],
+   "score": 13,
+   "grade": "F"
+  },
+  "osiris_apex": {
+   "id": "osiris_apex",
+   "needsRepair": [],
+   "approaches": [
+    {
+     "text": "Reuse a spacecraft. After returning its asteroid sample, OSIRIS-REx got a new job: visiting asteroid Apophis.",
+     "kind": "real",
+     "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2016-055A"
+    }
+   ],
+   "prompt": "OSIRIS-REx finished its job and got a brand-new one. What other old spacecraft would you give a second mission?",
+   "engineersSay": "Engineers check how much fuel and health a spacecraft has left, then look for a new target it can still reach.",
+   "engineersSource": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2016-055A",
+   "sources": [
+    "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2016-055A"
+   ],
+   "working": true,
+   "note": "Still working — not salvage, it's a mission.",
+   "score": null,
+   "grade": null
+  }
+ }
+}

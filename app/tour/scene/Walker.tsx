@@ -9,8 +9,10 @@ import { dismissIntro, openHotspot, tour } from "../state";
 import type { Stop } from "../stops";
 
 export const EYE = 1.7;
+// Crouched eye height: low enough to look a rover in the eye.
+const CROUCH_EYE = 0.85;
 
-type Key = "fwd" | "back" | "left" | "right" | "run";
+type Key = "fwd" | "back" | "left" | "right" | "run" | "up" | "down";
 const KEYS: Record<string, Key> = {
   KeyW: "fwd",
   ArrowUp: "fwd",
@@ -22,6 +24,11 @@ const KEYS: Record<string, Key> = {
   ArrowRight: "right",
   ShiftLeft: "run",
   ShiftRight: "run",
+  // Straight up and down, used when floating in space.
+  Space: "up",
+  KeyE: "up",
+  KeyC: "down",
+  KeyQ: "down",
 };
 
 const isTyping = (e: KeyboardEvent) => {
@@ -40,7 +47,7 @@ const next = new THREE.Vector3();
 export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk" | "float"; ground?: (x: number, z: number) => number; center: [number, number, number] }) {
   const { camera, gl } = useThree();
   const touch = useMemo(() => coarsePointer(), []);
-  const st = useRef({ yaw: 0, pitch: 0, vel: new THREE.Vector3(), keys: new Set<Key>(), drag: null as null | { x: number; y: number; moved: number }, active: false });
+  const st = useRef({ yaw: 0, pitch: 0, vel: new THREE.Vector3(), keys: new Set<Key>(), drag: null as null | { x: number; y: number; moved: number }, active: false, crouch: false, locked: false });
   const orbit = useRef<OrbitControls | null>(null);
 
   useEffect(() => {
@@ -52,6 +59,12 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
       if (!touch) el.setPointerCapture(e.pointerId);
     };
     const move = (e: PointerEvent) => {
+      // Mouse look: once the view has the mouse (after a click), moving the mouse turns your head, like a game.
+      if (s.locked) {
+        s.yaw -= e.movementX * 0.0024;
+        s.pitch = Math.max(-1.4, Math.min(1.4, s.pitch - e.movementY * 0.0024));
+        return;
+      }
       const d = s.drag;
       if (!d) return;
       const dx = e.clientX - d.x;
@@ -66,24 +79,67 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
       s.pitch = Math.max(-1.4, Math.min(1.4, s.pitch + dy * 0.0042));
     };
     const up = () => {
-      // A click on the scene (not a drag) closes the open hotspot card.
-      if (s.drag && s.drag.moved < 6) openHotspot(stop.id, null);
+      const click = s.drag && s.drag.moved < 6;
       s.drag = null;
+      if (!click || touch) return;
+      if (s.locked) {
+        // Clicking with the crosshair on (or near) a glowing dot opens it, and gives the mouse back to read the card.
+        const cx = innerWidth / 2, cy = innerHeight / 2;
+        let best: HTMLElement | null = null, bestD = 90;
+        document.querySelectorAll<HTMLElement>(".spot-wrap .spot").forEach((b) => {
+          const r = b.getBoundingClientRect();
+          if (!r.width || b.closest<HTMLElement>(".spot-wrap")?.style.visibility === "hidden") return;
+          const d = Math.hypot(r.left + r.width / 2 - cx, r.top + r.height / 2 - cy);
+          if (d < bestD) { bestD = d; best = b; }
+        });
+        if (best) { document.exitPointerLock(); (best as HTMLElement).click(); }
+        return;
+      }
+      // A click on the scene closes any open card and takes the mouse for looking around (Esc gives it back).
+      openHotspot(stop.id, null);
+      dismissIntro();
+      const req = el.requestPointerLock() as unknown as Promise<void> | undefined;
+      req?.catch?.(() => {});
+    };
+    const lockChange = () => {
+      s.locked = document.pointerLockElement === el;
+      el.closest(".tour")?.classList.toggle("looking", s.locked);
+    };
+    document.addEventListener("pointerlockchange", lockChange);
+    // Tapping Ctrl on its own toggles crouching. A toggle, not a hold (Ctrl+W would close the tab), and never
+    // when Ctrl is part of a shortcut like Ctrl+C or Ctrl+click.
+    let ctrlAlone = false;
+    const anyPointer = () => {
+      ctrlAlone = false;
     };
     const keyDown = (e: KeyboardEvent) => {
+      const isCtrl = e.code === "ControlLeft" || e.code === "ControlRight";
+      if (isCtrl) {
+        if (!e.repeat) ctrlAlone = true;
+        return;
+      }
+      ctrlAlone = false;
       const k = KEYS[e.code];
       if (!k || isTyping(e) || e.metaKey || e.ctrlKey || e.altKey) return;
       if (tour.get().phase !== "explore") return;
       s.keys.add(k);
       if (k !== "run") dismissIntro();
-      if (e.code.startsWith("Arrow")) e.preventDefault();
+      const onUi = (e.target as HTMLElement | null)?.closest?.("button, a, [role=button], .mfile, .fbank, .spot-card");
+      if (onUi) {
+        s.keys.delete(k);
+        return;
+      }
+      if (e.code.startsWith("Arrow") || e.code === "Space") e.preventDefault();
     };
     const keyUp = (e: KeyboardEvent) => {
+      if ((e.code === "ControlLeft" || e.code === "ControlRight") && ctrlAlone && !isTyping(e) && tour.get().phase === "explore") s.crouch = !s.crouch;
+      if (e.code === "ControlLeft" || e.code === "ControlRight") ctrlAlone = false;
       const k = KEYS[e.code];
       if (k) s.keys.delete(k);
     };
     const clear = () => s.keys.clear();
     el.addEventListener("pointerdown", down);
+    window.addEventListener("pointerdown", anyPointer, true);
     el.addEventListener("pointermove", move);
     el.addEventListener("pointerup", up);
     el.addEventListener("pointercancel", up);
@@ -92,9 +148,12 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
     window.addEventListener("blur", clear);
     return () => {
       el.removeEventListener("pointerdown", down);
+      window.removeEventListener("pointerdown", anyPointer, true);
       el.removeEventListener("pointermove", move);
       el.removeEventListener("pointerup", up);
       el.removeEventListener("pointercancel", up);
+      document.removeEventListener("pointerlockchange", lockChange);
+      if (document.pointerLockElement === el) document.exitPointerLock();
       window.removeEventListener("keydown", keyDown);
       window.removeEventListener("keyup", keyUp);
       window.removeEventListener("blur", clear);
@@ -145,8 +204,15 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
     else fwd.set(-Math.sin(s.yaw), 0, -Math.cos(s.yaw));
     right.set(Math.cos(s.yaw), 0, -Math.sin(s.yaw));
     want.copy(fwd).multiplyScalar(ahead).addScaledVector(right, side);
-    if (want.lengthSq() > 0) want.normalize().multiplyScalar((mode === "float" ? 3 : 2.2) * (k.has("run") ? 2.4 : 1));
-    s.vel.lerp(want, 1 - Math.exp(-dt * 7));
+    if (mode === "float") want.y += (k.has("up") ? 1 : 0) - (k.has("down") ? 1 : 0);
+    const pushing = want.lengthSq() > 0;
+    // On the ground, holding C crouches too (in space C means down).
+    const low = mode === "walk" && (s.crouch || k.has("down"));
+    if (pushing) want.normalize().multiplyScalar((mode === "float" ? 3 : 2.2) * (k.has("run") ? 4 : 1) * (low ? 0.45 : 1));
+    // On the ground you stop almost at once. In space you ease up to speed and coast briefly after letting go.
+    // Gentle drift: you coast for about a second after letting go, not several.
+    const grip = mode === "float" ? (pushing ? 3 : 1.6) : 7;
+    s.vel.lerp(want, 1 - Math.exp(-dt * grip));
     next.copy(camera.position).addScaledVector(s.vel, dt);
 
     for (const c of stop.colliders) {
@@ -172,7 +238,7 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
         next.x *= stop.bounds / d;
         next.z *= stop.bounds / d;
       }
-      const floor = (ground ? ground(next.x, next.z) : 0) + EYE;
+      const floor = (ground ? ground(next.x, next.z) : 0) + (low ? CROUCH_EYE : EYE);
       next.y += (floor - next.y) * (1 - Math.exp(-dt * 18));
     }
     camera.position.copy(next);

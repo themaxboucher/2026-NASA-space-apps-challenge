@@ -37,24 +37,28 @@
   },
   "mer": {
     "file": "models/mer.gltf.json",
-    "title": "Mars Exploration Rover - Opportunity (MER-B)",
-    "credit": "NASA/Ames Research Center",
-    "page": "https://science.nasa.gov/3d-resources/mars-exploration-rover-opportunity-mer-b/",
-    "bytes": 36668,
+    "title": "Spirit and Opportunity Rover",
+    "credit": "NASA/JPL-Caltech",
+    "page": "https://science.nasa.gov/resource/spirit-and-opportunity-rover-3d-model/",
+    "bytes": 967273,
     "covers": [
       "Spirit",
       "Opportunity"
-    ]
+    ],
+    "license": "NASA media usage guidelines (not subject to copyright in the US)",
+    "size_m": 2.279
   },
   "insight": {
     "file": "models/insight.gltf.json",
-    "title": "InSight Lander (arm deployed)",
-    "credit": "NASA/Brian E. Kumanchik",
-    "page": "https://science.nasa.gov/3d-resources/insight-cruise-lander/",
-    "bytes": 3949036,
+    "title": "InSight Lander, deployed",
+    "credit": "NASA/JPL-Caltech",
+    "page": "https://science.nasa.gov/resource/insight-lander-3d-model/",
+    "bytes": 3200646,
     "covers": [
       "InSight"
-    ]
+    ],
+    "license": "NASA media usage guidelines (not subject to copyright in the US)",
+    "size_m": 6.142
   },
   "ingenuity": {
     "file": "models/ingenuity.gltf.json",
@@ -78,13 +82,15 @@
   },
   "perseverance": {
     "file": "models/perseverance.gltf.json",
-    "title": "Mars 2020 Perseverance Rover",
-    "credit": "NASA/Jet Propulsion Laboratory",
-    "page": "https://science.nasa.gov/3d-resources/mars-2020-perseverance-rover/",
-    "bytes": 4987176,
+    "title": "Mars Perseverance Rover",
+    "credit": "NASA/JPL-Caltech",
+    "page": "https://science.nasa.gov/resource/mars-perseverance-rover-3d-model/",
+    "bytes": 2541187,
     "covers": [
       "Perseverance"
-    ]
+    ],
+    "license": "NASA media usage guidelines (not subject to copyright in the US)",
+    "size_m": 4.126
   },
   "pioneer": {
     "file": "models/pioneer.gltf.json",
@@ -212,21 +218,231 @@
   "juno": {
     "file": "models/juno.gltf.json",
     "title": "Juno",
-    "credit": "NASA",
-    "page": "https://science.nasa.gov/3d-resources/juno-b/",
-    "bytes": 262360,
+    "credit": "NASA/JPL/Eyes on the Solar System",
+    "page": "https://science.nasa.gov/3d-resources/juno-a/",
+    "bytes": 1554136,
     "covers": [
       "Juno"
-    ]
+    ],
+    "license": "NASA media usage guidelines (not subject to copyright in the US)",
+    "size_m": 18.543
   },
   "osiris-rex": {
     "file": "models/osiris-rex.gltf.json",
     "title": "OSIRIS-REx",
-    "credit": "NASA/Christopher R. Meaney",
-    "page": "https://science.nasa.gov/3d-resources/origins-spectral-interpretation-resource-identification-and-security-regolith-explorer-osiris-rex/",
-    "bytes": 1281308,
+    "credit": "NASA Visualization Technology Applications and Development (VTAD)",
+    "page": "https://science.nasa.gov/resource/osiris-rex-3d-model/",
+    "bytes": 460709,
     "covers": [
       "OSIRIS-REx"
-    ]
+    ],
+    "license": "NASA media usage guidelines (not subject to copyright in the US)",
+    "size_m": 6.2
+  },
+  "alsep": {
+    "file": "models/alsep.gltf.json",
+    "title": "Apollo ALSEP Central Station + RTG",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "page": null,
+    "size_m": 3.201,
+    "bytes": 89376,
+    "covers": [
+      "ALSEP"
+    ],
+    "note": "ALSEP central station (body, thermal plate, raised sunshield, gold side curtains, helical antenna) and SNAP-27 RTG on its pallet ~2.5 m away, linked by a power cable. Experiments not included."
+  },
+  "backshell": {
+    "file": "models/backshell.gltf.json",
+    "title": "Mars 2020 backshell and parachute",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "page": null,
+    "size_m": 18.328,
+    "bytes": 408173,
+    "covers": [
+      "Backshell"
+    ],
+    "note": "Perseverance's 4.5 m backshell lying tilted on Jezero's floor with its 21.5 m parachute collapsed behind it (orange/white 'Dare Mighty Things' pattern approximated, lines shortened). Cloth is a procedural heap, not a cloth simulation."
+  },
+  "easep": {
+    "file": "models/easep.gltf.json",
+    "title": "Apollo 11 EASEP Passive Seismometer",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "page": null,
+    "size_m": 4.44,
+    "bytes": 147062,
+    "covers": [
+      "EASEP"
+    ],
+    "note": "Apollo 11 Passive Seismic Experiment Package: gold-blanketed body, seismometer cover, two solar panel wings and S-band antenna. Dimensions scaled from photos (approx)."
+  },
+  "galileo-probe": {
+    "file": "models/galileo-probe.gltf.json",
+    "title": "Galileo atmospheric probe",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "page": null,
+    "size_m": 2.321,
+    "bytes": 245872,
+    "covers": [
+      "Galileo Probe"
+    ],
+    "note": "Galileo probe: assembled deceleration module (1.25 m carbon-phenolic heat shield + aft cover) beside the gold-blanketed descent module that parachuted into Jupiter. Instruments simplified to ports."
+  },
+  "lrrr-100": {
+    "file": "models/lrrr-100.gltf.json",
+    "title": "Laser Ranging Retro-Reflector (Apollo 11/14)",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "page": null,
+    "size_m": 1.45,
+    "bytes": 329826,
+    "covers": [
+      "Laser Ranging Retroreflector"
+    ],
+    "note": "100 corner-cube array (10x10, 46x46 cm) tilted ~25 deg on its base pallet; cubes shown as hex-faceted glass discs in dark cavities, no internal retainer rings."
+  },
+  "lrrr-300": {
+    "file": "models/lrrr-300.gltf.json",
+    "title": "Laser Ranging Retro-Reflector (Apollo 15)",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "page": null,
+    "size_m": 1.273,
+    "bytes": 725564,
+    "covers": [
+      "Apollo 15 Laser Ranging Retroreflector"
+    ],
+    "note": "300 corner cubes in a 204-cube main panel and a 96-cube side panel, tilted ~30 deg on a pallet; cubes simplified to faceted glass discs."
+  },
+  "lrv": {
+    "file": "models/lrv.gltf.json",
+    "title": "Apollo Lunar Roving Vehicle (LRV-3, Apollo 17 configuration)",
+    "credit": "\"Apollo LRV model by Alex Maietta\" (https://github.com/alexmaietta/apollo-lrv-asset), CC BY 4.0. Not affiliated with or endorsed by NASA or the Smithsonian.",
+    "license": "CC BY 4.0 (model assets; repo code is Apache-2.0)",
+    "page": "https://github.com/alexmaietta/apollo-lrv-asset",
+    "size_m": 3.69,
+    "bytes": 2132216,
+    "covers": [
+      "Lunar Roving Vehicle"
+    ],
+    "note": "Modified (CC BY requires noting changes): converted USD->GLB in Blender, decimated 710k->120k tris, textures shrunk to 128 px, normal maps dropped, Draco-compressed. Built from LRV-3 handbook drawings in metres; 3.69 x 2.17 x 2.41 m extents include extended fenders, HGA dish and TV camera (vehicle body ~3.1 m long). Wire-mesh tyre cut-outs render as solid. 494 meshes; merge on load if draw calls matter.",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "pathfinder": {
+    "file": "models/pathfinder.gltf.json",
+    "title": "Mars Pathfinder lander",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "page": null,
+    "size_m": 3.006,
+    "bytes": 615934,
+    "covers": [
+      "Pathfinder Lander"
+    ],
+    "note": "Pathfinder lander as left on Mars: tetrahedral base with 3 opened solar petals, bunched airbag remnants, IMP stereo camera mast, HGA and LGA, ASI/MET mast with wind socks, and two rover ramps."
+  },
+  "phoenix": {
+    "file": "models/phoenix.gltf.json",
+    "title": "Phoenix Mars Lander",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "page": null,
+    "size_m": 5.583,
+    "bytes": 568649,
+    "covers": [
+      "Phoenix"
+    ],
+    "note": "Phoenix on the Martian arctic plain: deck on 3 legs, two decagonal UltraFlex arrays (5.5 m span), 2.35 m robotic arm with scoop, SSI camera mast, MET mast with telltale, TEGA/MECA boxes."
+  },
+  "pioneer-venus-large": {
+    "file": "models/pioneer-venus-large.gltf.json",
+    "title": "Pioneer Venus Large Probe",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "page": null,
+    "size_m": 1.52,
+    "bytes": 120136,
+    "covers": [
+      "Pioneer Venus Large Probe"
+    ],
+    "note": "Pioneer Venus large probe: 1.5 m aeroshell with the 0.73 m titanium pressure sphere visible; aft cover omitted. Parachute and internal instruments omitted."
+  },
+  "pioneer-venus-orbiter": {
+    "file": "models/pioneer-venus-orbiter.gltf.json",
+    "title": "Pioneer Venus Orbiter",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "page": null,
+    "size_m": 7.281,
+    "bytes": 214647,
+    "covers": [
+      "Pioneer Venus Orbiter"
+    ],
+    "note": "Pioneer Venus orbiter: 2.5 m solar-cell drum, despun 1.09 m high-gain dish on its mast, 4.7 m magnetometer boom and orbit-insertion motor nozzle. Stood upright; instruments simplified to boxes."
+  },
+  "pioneer-venus-small": {
+    "file": "models/pioneer-venus-small.gltf.json",
+    "title": "Pioneer Venus Small Probe",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "page": null,
+    "size_m": 0.888,
+    "bytes": 147620,
+    "covers": [
+      "Pioneer Venus Small Probes"
+    ],
+    "note": "Pioneer Venus small probe: 0.8 m heat shield (retained to the surface) with the 0.46 m titanium pressure sphere and aft skirt; small sensors simplified."
+  },
+  "sojourner": {
+    "file": "models/sojourner.gltf.json",
+    "title": "Sojourner rover",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "page": null,
+    "size_m": 0.659,
+    "bytes": 437373,
+    "covers": [
+      "Sojourner"
+    ],
+    "note": "Sojourner (1997): 6 cleated wheels on rocker-bogie, gold warm electronics box, GaAs solar panel, front cameras, rear APXS and whip antenna. Antenna pushes height above the 0.30 m body."
+  },
+  "spitzer": {
+    "file": "models/spitzer.gltf.json",
+    "title": "Spitzer Space Telescope",
+    "credit": "NASA Visualization Technology Applications and Development (VTAD)",
+    "license": "NASA media usage guidelines: 3D model data not subject to copyright in the US (US Government work; public domain in the US)",
+    "page": "https://science.nasa.gov/resource/spitzer-space-telescope-3d-model/",
+    "size_m": 4.5,
+    "bytes": 151996,
+    "covers": [
+      "Spitzer"
+    ],
+    "note": "Textured, 10k tris; source was unscaled, rescaled so height = 4.5 m (real ~4.45 m tall, ~2.1 m wide). Textures cut to 512 px. Alternative untextured, already metre-scale version: nasa/NASA-3D-Resources '3D Models/Spitzer Space Telescope/Spitzer Space Telescope.glb' (62k tris, renders very dark).",
+    "licenseUrl": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+  },
+  "surveyor": {
+    "file": "models/surveyor.gltf.json",
+    "title": "Surveyor lander (Surveyor 3/7)",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "page": null,
+    "size_m": 4.051,
+    "bytes": 233968,
+    "covers": [
+      "Surveyor"
+    ],
+    "note": "Surveyor after landing: tripod frame, 3 legs with footpads, mast with planar antenna and solar panel, compartments A/B, TV camera, vernier engines and the surface-sampler scoop arm (S3/S7). Retro-rocket omitted (jettisoned in flight); cabling and small sensors omitted."
+  },
+  "lrv-team": {
+    "file": "models/lrv-team.gltf.json",
+    "title": "Apollo Lunar Roving Vehicle",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "license": "CC BY 4.0",
+    "size_m": 3.1,
+    "bytes": 802300,
+    "covers": []
   }
 }

@@ -1,0 +1,1216 @@
+{
+ "apollo11-lm": [
+  {
+   "file": "photos/by/apollo11-lm/aldrin-walks.jpg",
+   "w": 1600,
+   "h": 1562,
+   "caption": "Buzz Aldrin walks beside Eagle's landing leg on 20 July 1969. Neil Armstrong took this photo with a Hasselblad camera.",
+   "credit": "NASA (Neil Armstrong)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as11-40-5903"
+  },
+  {
+   "file": "photos/by/apollo11-lm/bootprint.jpg",
+   "w": 1600,
+   "h": 1607,
+   "caption": "A bootprint in the fine, powdery Moon dust at Tranquility Base, photographed to study how the soil packs down.",
+   "credit": "NASA (Buzz Aldrin)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as11-40-5878"
+  },
+  {
+   "file": "photos/by/apollo11-lm/flag.jpg",
+   "w": 1600,
+   "h": 1655,
+   "caption": "Buzz Aldrin stands beside the U.S. flag. Eagle's landing leg and footprints are all around.",
+   "credit": "NASA (Neil Armstrong)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as11-40-5875"
+  }
+ ],
+ "apollo12-lm": [
+  {
+   "file": "photos/by/apollo12-lm/surveyor3-and-intrepid.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "Two spacecraft on the Moon: Pete Conrad checks old Surveyor 3, with the Apollo 12 lander Intrepid on the horizon, 20 November 1969.",
+   "credit": "NASA (Alan Bean)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/AS12-48-7133"
+  },
+  {
+   "file": "photos/by/apollo12-lm/conrad-flag.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "Pete Conrad beside the flag on the Ocean of Storms during the first moonwalk, 19 November 1969.",
+   "credit": "NASA (Alan Bean)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as12-47-6897"
+  },
+  {
+   "file": "photos/by/apollo12-lm/bean-visor.jpg",
+   "w": 1600,
+   "h": 1580,
+   "caption": "Alan Bean by the tool carrier. Look closely: Pete Conrad, who took the photo, is reflected in Bean's visor.",
+   "credit": "NASA (Pete Conrad)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as12-49-7281"
+  }
+ ],
+ "surveyor3": [
+  {
+   "file": "photos/by/surveyor3/footpad.jpg",
+   "w": 1280,
+   "h": 1029,
+   "caption": "Surveyor 3's own TV camera looks at its round footpad on 20 April 1967. The mark beside it shows where the lander bounced while landing.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:Surface_of_the_Moon_as_seen_by_Surveyor_3_Press_release_67-H-458.jpg"
+  },
+  {
+   "file": "photos/by/surveyor3/scoop.jpg",
+   "w": 1280,
+   "h": 1310,
+   "caption": "Surveyor 3's scoop reaches out to dig the first trench on the Moon, 21 April 1967.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:Surface_of_the_Moon_as_seen_by_Surveyor_3_Press_release_67-H-467.jpg"
+  }
+ ],
+ "apollo14-lm": [
+  {
+   "file": "photos/by/apollo14-lm/antares-sun.jpg",
+   "w": 1600,
+   "h": 1662,
+   "caption": "The lander Antares with a jewel-like sun flare, seen during the first Apollo 14 moonwalk on 5 February 1971.",
+   "credit": "NASA",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as14-66-9306"
+  },
+  {
+   "file": "photos/by/apollo14-lm/shepard-flag.jpg",
+   "w": 1600,
+   "h": 1630,
+   "caption": "Alan Shepard, the first American in space, stands by the flag at Fra Mauro, 5 February 1971.",
+   "credit": "NASA (Edgar Mitchell)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as14_66_09232"
+  },
+  {
+   "file": "photos/by/apollo14-lm/mitchell-cart.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "Edgar Mitchell next to the two-wheeled cart the crew pulled across the Moon, 6 February 1971.",
+   "credit": "NASA (Alan Shepard)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as14-64-9140"
+  }
+ ],
+ "apollo15-lm": [
+  {
+   "file": "photos/by/apollo15-lm/irwin-salute.jpg",
+   "w": 1360,
+   "h": 1360,
+   "caption": "Jim Irwin salutes the flag at Hadley Base, with the lander Falcon and the rover nearby, 1 August 1971.",
+   "credit": "NASA (David Scott)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as15-88-11866"
+  },
+  {
+   "file": "photos/by/apollo15-lm/hadley-rille.jpg",
+   "w": 1600,
+   "h": 1577,
+   "caption": "A telephoto view across Hadley Rille, a winding valley on the Moon. The far wall is almost 2 km away.",
+   "credit": "NASA",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as15-89-12100"
+  },
+  {
+   "file": "photos/by/apollo15-lm/mount-hadley.jpg",
+   "w": 1600,
+   "h": 1568,
+   "caption": "Mount Hadley, a Moon mountain about 4.5 km tall, seen from the Apollo 15 science station.",
+   "credit": "NASA",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as15-87-11849"
+  }
+ ],
+ "apollo15-lrv": [
+  {
+   "file": "photos/by/apollo15-lrv/irwin-rover.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "Jim Irwin works at the rover during the first drive of a car on the Moon, 31 July 1971.",
+   "credit": "NASA (David Scott)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as15-86-11603"
+  },
+  {
+   "file": "photos/by/apollo15-lrv/rover-rille-edge.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "David Scott at the rover, parked on the edge of Hadley Rille, 31 July 1971.",
+   "credit": "NASA (Jim Irwin)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as15-85-11451"
+  }
+ ],
+ "apollo16-lm": [
+  {
+   "file": "photos/by/apollo16-lm/young-jump.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "John Young jumps while saluting the flag. Orion and the rover are on the left, Stone Mountain behind, 21 April 1972.",
+   "credit": "NASA (Charlie Duke)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as16-113-18339"
+  },
+  {
+   "file": "photos/by/apollo16-lm/orion-rover.jpg",
+   "w": 1600,
+   "h": 1658,
+   "caption": "The lander Orion and the rover in the Descartes highlands, during the first Apollo 16 moonwalk.",
+   "credit": "NASA (Charlie Duke)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as16-107-17436"
+  },
+  {
+   "file": "photos/by/apollo16-lm/duke-plum-crater.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "Charlie Duke collects rocks on the rim of Plum Crater, with the rover parked behind him.",
+   "credit": "NASA (John Young)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as16-114-18423"
+  }
+ ],
+ "apollo16-lrv": [
+  {
+   "file": "photos/by/apollo16-lrv/final-parking.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "John Young drives the rover to its final parking place on 23 April 1972. The big shadow is the lander.",
+   "credit": "NASA (Charlie Duke)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as16-115-18559"
+  },
+  {
+   "file": "photos/by/apollo16-lrv/tools.jpg",
+   "w": 1600,
+   "h": 1606,
+   "caption": "John Young puts tools back on the rover during the second Apollo 16 moonwalk, 22 April 1972.",
+   "credit": "NASA (Charlie Duke)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as16-110-17960"
+  }
+ ],
+ "apollo17-lm": [
+  {
+   "file": "photos/by/apollo17-lm/schmitt-earth.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "Harrison Schmitt beside the flag, with Earth hanging in the black sky above, December 1972.",
+   "credit": "NASA (Gene Cernan)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/AS17-134-20384"
+  },
+  {
+   "file": "photos/by/apollo17-lm/split-boulder.jpg",
+   "w": 1600,
+   "h": 1658,
+   "caption": "Harrison Schmitt next to a huge split boulder during the last moonwalk of Apollo, 13 December 1972.",
+   "credit": "NASA (Gene Cernan)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as17-140-21496"
+  }
+ ],
+ "apollo17-lrv": [
+  {
+   "file": "photos/by/apollo17-lrv/earth-over-antenna.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "Earth floats above the rover's dish antenna while Gene Cernan stands beside it, 13 December 1972.",
+   "credit": "NASA (Harrison Schmitt)",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as17-134-20473"
+  },
+  {
+   "file": "photos/by/apollo17-lrv/fender-fix.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "The rover's broken fender, fixed with maps and clamps after a hammer knocked part of it off.",
+   "credit": "NASA",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/as17-137-20979"
+  }
+ ],
+ "surveyor1": [
+  {
+   "file": "photos/by/surveyor1/shadow.jpg",
+   "w": 1600,
+   "h": 1590,
+   "caption": "Surveyor 1's long shadow on the Moon in the late afternoon, June 1966. It was the first U.S. soft landing on the Moon.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA02976"
+  },
+  {
+   "file": "photos/by/surveyor1/footpad.jpg",
+   "w": 578,
+   "h": 446,
+   "caption": "Surveyor 1 looks at its own footpad, which barely sank into the ground. This proved the Moon was firm enough for Apollo.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:Surveyor-1-foot-pad.jpg"
+  },
+  {
+   "file": "photos/by/surveyor1/self-portrait.jpg",
+   "w": 426,
+   "h": 425,
+   "caption": "A self-portrait: Surveyor 1's camera looks at part of the lander during its first day on the Moon.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:Surveyor_1_SP-168_p54.jpg"
+  }
+ ],
+ "surveyor5": [
+  {
+   "file": "photos/by/surveyor5/footpad.jpg",
+   "w": 873,
+   "h": 414,
+   "caption": "Surveyor 5's footpad in the soil. The trench beside it formed when the foot slid while landing, September 1967.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA02978"
+  },
+  {
+   "file": "photos/by/surveyor5/furrow.jpg",
+   "w": 1280,
+   "h": 1000,
+   "caption": "A close-up of the furrow dug by Surveyor 5's footpad as it landed on 10 September 1967.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:67-H-1282.jpg"
+  }
+ ],
+ "surveyor6": [
+  {
+   "file": "photos/by/surveyor6/hop-marks.jpg",
+   "w": 404,
+   "h": 395,
+   "caption": "Surveyor 6 made the first 'hop' on the Moon. This shows its first landing marks, blasted by its rocket engines when it took off again.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:Surveyor_6_Effects-of-the-vernier-rock.jpg"
+  },
+  {
+   "file": "photos/by/surveyor6/panorama.jpg",
+   "w": 1280,
+   "h": 620,
+   "caption": "A panorama of the flat plain of Sinus Medii around Surveyor 6, November 1967.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:Surveyor_6_Fig_7-41d1.jpg"
+  }
+ ],
+ "surveyor7": [
+  {
+   "file": "photos/by/surveyor7/tycho-hills.jpg",
+   "w": 625,
+   "h": 480,
+   "caption": "The rocky land near Tycho crater, January 1968. The hills on the horizon are about 13 km away.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA02977"
+  },
+  {
+   "file": "photos/by/surveyor7/horizon-glow.jpg",
+   "w": 1280,
+   "h": 512,
+   "caption": "A faint glow along the Moon's horizon after sunset. Scientists think it is dust floating just above the ground.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:20120927_surveyor7-levitating-dust.jpg"
+  }
+ ],
+ "ranger7": [
+  {
+   "file": "photos/by/ranger7/first-picture.jpg",
+   "w": 720,
+   "h": 707,
+   "caption": "The first picture of the Moon taken by a U.S. spacecraft, 31 July 1964, about 17 minutes before Ranger 7 crashed on purpose.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA02975"
+  },
+  {
+   "file": "photos/by/ranger7/guericke.jpg",
+   "w": 685,
+   "h": 720,
+   "caption": "Guericke crater, 63 km wide, 8.5 minutes before impact. Ranger 7 was about 1,335 km above the Moon.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:Guericke_Crater_as_seen_by_Ranger_7.jpg"
+  }
+ ],
+ "ranger8": [
+  {
+   "file": "photos/by/ranger8/ritter-sabine.jpg",
+   "w": 1018,
+   "h": 1035,
+   "caption": "The craters Ritter and Sabine from 302 km up, two and a half minutes before Ranger 8 hit the Moon on 20 February 1965.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:Ranger-moon-image.jpg"
+  }
+ ],
+ "ranger9": [
+  {
+   "file": "photos/by/ranger9/alphonsus.jpg",
+   "w": 360,
+   "h": 450,
+   "caption": "The Moon's surface photographed by Ranger 9 as it dived into Alphonsus crater on 24 March 1965. People watched its pictures live on TV.",
+   "credit": "NASA",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:1965_74994L.jpg"
+  }
+ ],
+ "lcross-ssc": [
+  {
+   "file": "photos/by/lcross-ssc/moon-swingby.jpg",
+   "w": 680,
+   "h": 513,
+   "caption": "LCROSS tests its visible-light camera on the Moon while swinging past it in June 2009.",
+   "credit": "NASA",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:Visible_light_camera_image_of_the_Moon_by_LCROSS.jpg"
+  },
+  {
+   "file": "photos/by/lcross-ssc/cabeus-target.jpg",
+   "w": 800,
+   "h": 600,
+   "caption": "The target inside dark Cabeus crater, seen by LCROSS minutes before its rocket stage hit, 9 October 2009.",
+   "credit": "NASA",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:LCROSS_Aufnahme_Zielgebiet_Centaur_im_Cabeus_Krater_VIS.jpg"
+  },
+  {
+   "file": "photos/by/lcross-ssc/impact-flash.jpg",
+   "w": 715,
+   "h": 477,
+   "caption": "The tiny white spot is the flash of the rocket stage hitting Cabeus, seen by LCROSS's heat-sensing camera just before LCROSS hit too.",
+   "credit": "NASA",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:LCROSS_Centaur_Impact_Flash.jpg"
+  }
+ ],
+ "grail-ebb": [
+  {
+   "file": "photos/by/grail-ebb/moonkam-1.jpg",
+   "w": 640,
+   "h": 432,
+   "caption": "A view of the Moon's surface taken by the MoonKAM camera on Ebb. School students chose where to point it.",
+   "credit": "NASA/Sally Ride Science",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:GRAIL_MoonKAM_NASA_mission_01.jpg"
+  },
+  {
+   "file": "photos/by/grail-ebb/moonkam-2.jpg",
+   "w": 640,
+   "h": 432,
+   "caption": "Craters seen by Ebb's MoonKAM camera in 2012, as part of a project run for middle-school students.",
+   "credit": "NASA/Sally Ride Science",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:GRAIL_MoonKAM_NASA_mission_04.jpg"
+  },
+  {
+   "file": "photos/by/grail-ebb/moonkam-3.jpg",
+   "w": 640,
+   "h": 480,
+   "caption": "More of the Moon from Ebb's MoonKAM, which took thousands of pictures requested by classrooms.",
+   "credit": "NASA/Sally Ride Science",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:GRAIL_MoonKAM_NASA_mission_16.jpg"
+  }
+ ],
+ "viking1": [
+  {
+   "file": "photos/by/viking1/first-photo.jpg",
+   "w": 1439,
+   "h": 512,
+   "caption": "The very first photo taken on the surface of Mars, minutes after Viking 1 landed on 20 July 1976. Rocks and dust lie next to the lander's footpad.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA00381"
+  },
+  {
+   "file": "photos/by/viking1/first-colour.jpg",
+   "w": 563,
+   "h": 512,
+   "caption": "Viking 1's first colour picture of Mars, July 1976: a rocky, rusty-red plain under a pinkish sky.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA00563"
+  }
+ ],
+ "viking2": [
+  {
+   "file": "photos/by/viking2/first-colour.jpg",
+   "w": 626,
+   "h": 512,
+   "caption": "The first colour view of the Viking 2 landing site in Utopia Planitia, September 1976. The ground is covered in rocks.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA00568"
+  },
+  {
+   "file": "photos/by/viking2/frost.jpg",
+   "w": 206,
+   "h": 512,
+   "caption": "A thin layer of white frost on the ground around Viking 2 during the Martian winter.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA00573"
+  }
+ ],
+ "pathfinder": [
+  {
+   "file": "photos/by/pathfinder/sunset-twin-peaks.jpg",
+   "w": 1024,
+   "h": 256,
+   "caption": "Sunset over the Twin Peaks hills, one minute after the Sun went down, August 1997. Dust high in the air keeps the sky glowing.",
+   "credit": "NASA/JPL/University of Arizona",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA00783"
+  },
+  {
+   "file": "photos/by/pathfinder/sojourner-yogi.jpg",
+   "w": 640,
+   "h": 480,
+   "caption": "Pathfinder's camera watches little Sojourner press its instrument against a rock nicknamed Yogi, July 1997.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA00766"
+  }
+ ],
+ "sojourner": [
+  {
+   "file": "photos/by/sojourner/rover-eye-lander.jpg",
+   "w": 768,
+   "h": 480,
+   "caption": "Sojourner's front camera looks back at its lander, with the ramp it drove down, on its 6th day on Mars (July 1997).",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA00673"
+  },
+  {
+   "file": "photos/by/sojourner/yogi.jpg",
+   "w": 768,
+   "h": 481,
+   "caption": "On day 70, Sojourner looks at the rock Yogi. Its own wheel cleats show at the bottom left.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA00998"
+  }
+ ],
+ "spirit": [
+  {
+   "file": "photos/by/spirit/mcmurdo-panorama.jpg",
+   "w": 1600,
+   "h": 453,
+   "caption": "The McMurdo panorama: a 360-degree view from the small hill where Spirit spent the Martian winter of 2006. Its own deck and solar panels are in the middle.",
+   "credit": "NASA/JPL-Caltech/Cornell/ASU",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA16440"
+  },
+  {
+   "file": "photos/by/spirit/sunset.jpg",
+   "w": 1600,
+   "h": 1232,
+   "caption": "The Sun sets behind the rim of Gusev crater on 19 May 2005, photographed by Spirit's Pancam.",
+   "credit": "NASA/JPL/Texas A&M/Cornell",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA07997"
+  },
+  {
+   "file": "photos/by/spirit/home-plate.jpg",
+   "w": 1021,
+   "h": 1024,
+   "caption": "Spirit says goodbye to Home Plate, a flat plateau of layered volcanic rock it explored in 2006.",
+   "credit": "NASA/JPL-Caltech/Cornell",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA02055"
+  }
+ ],
+ "opportunity": [
+  {
+   "file": "photos/by/opportunity/last-panorama.jpg",
+   "w": 900,
+   "h": 201,
+   "caption": "Opportunity's last panorama, made from 354 Pancam pictures between 13 May and 10 June 2018, just before a huge dust storm ended its mission.",
+   "credit": "NASA/JPL-Caltech/Cornell/ASU",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA22909"
+  },
+  {
+   "file": "photos/by/opportunity/perseverance-valley.jpg",
+   "w": 1600,
+   "h": 269,
+   "caption": "Looking down Perseverance Valley on the inner slope of Endeavour Crater, with Opportunity's own wheel tracks, autumn 2017.",
+   "credit": "NASA/JPL-Caltech/Cornell/ASU",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA22074"
+  },
+  {
+   "file": "photos/by/opportunity/victoria-crater.jpg",
+   "w": 1600,
+   "h": 211,
+   "caption": "Victoria Crater seen from the cliff called Cape Verde, about 800 m across, photographed in 2006.",
+   "credit": "NASA/JPL-Caltech/Cornell",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA09104"
+  }
+ ],
+ "phoenix": [
+  {
+   "file": "photos/by/phoenix/ice-lumps.jpg",
+   "w": 512,
+   "h": 1024,
+   "caption": "Lumps of ice in a trench Phoenix dug, 15 June 2008. A few days later they had vanished into the thin air: proof they were water ice.",
+   "credit": "NASA/JPL-Caltech/University of Arizona/Texas A&M",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA10910"
+  },
+  {
+   "file": "photos/by/phoenix/panorama.jpg",
+   "w": 1600,
+   "h": 375,
+   "caption": "A full circle around Phoenix on the flat arctic plain of Mars, made from more than 400 pictures.",
+   "credit": "NASA/JPL-Caltech/University of Arizona/Texas A&M",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA11734"
+  },
+  {
+   "file": "photos/by/phoenix/morning-frost.jpg",
+   "w": 512,
+   "h": 1024,
+   "caption": "Morning frost inside a trench dug by Phoenix, on its 113th day (September 2008), as Martian winter came.",
+   "credit": "NASA/JPL-Caltech/University of Arizona/Texas A&M",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA11182"
+  }
+ ],
+ "insight": [
+  {
+   "file": "photos/by/insight/first-image.jpg",
+   "w": 1024,
+   "h": 1024,
+   "caption": "InSight's first picture, taken minutes after landing on 26 November 2018. The dusty spots are on its protective lens cover.",
+   "credit": "NASA/JPL-Caltech",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA22829"
+  },
+  {
+   "file": "photos/by/insight/sunset.jpg",
+   "w": 1024,
+   "h": 1024,
+   "caption": "A Martian sunset seen by the camera on InSight's robot arm, 25 April 2019.",
+   "credit": "NASA/JPL-Caltech",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA23202"
+  },
+  {
+   "file": "photos/by/insight/final-selfie.jpg",
+   "w": 1600,
+   "h": 960,
+   "caption": "InSight's final selfie, 24 April 2022. Its solar panels are covered in dust, which slowly cut off its power.",
+   "credit": "NASA/JPL-Caltech",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA25287"
+  }
+ ],
+ "ingenuity": [
+  {
+   "file": "photos/by/ingenuity/first-shadow.jpg",
+   "w": 640,
+   "h": 480,
+   "caption": "Ingenuity's own shadow, photographed while hovering on 19 April 2021: the first powered, controlled flight on another planet.",
+   "credit": "NASA/JPL-Caltech",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA24584"
+  },
+  {
+   "file": "photos/by/ingenuity/first-colour-aerial.jpg",
+   "w": 1600,
+   "h": 1186,
+   "caption": "The first colour picture taken from the air on Mars, on flight 2 (22 April 2021), from 5.2 m up. The stripes are Perseverance's wheel tracks.",
+   "credit": "NASA/JPL-Caltech",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA24593"
+  },
+  {
+   "file": "photos/by/ingenuity/broken-blade.jpg",
+   "w": 1600,
+   "h": 1186,
+   "caption": "After flight 72 in January 2024, Ingenuity photographed the shadow of a damaged rotor blade. It never flew again.",
+   "credit": "NASA/JPL-Caltech",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA26243"
+  }
+ ],
+ "curiosity": [
+  {
+   "file": "photos/by/curiosity/mount-sharp.jpg",
+   "w": 1600,
+   "h": 221,
+   "caption": "Mount Sharp, the 5 km-tall mountain Curiosity is climbing. Colours are adjusted to look like Earth daylight, which makes the sky look too blue.",
+   "credit": "NASA/JPL-Caltech/MSSS",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA16768"
+  },
+  {
+   "file": "photos/by/curiosity/blue-sunset.jpg",
+   "w": 1344,
+   "h": 1080,
+   "caption": "A blue sunset in Gale Crater, 15 April 2015. Fine Martian dust lets blue light through near the Sun.",
+   "credit": "NASA/JPL-Caltech/MSSS/Texas A&M",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA19400"
+  },
+  {
+   "file": "photos/by/curiosity/earth-evening-star.jpg",
+   "w": 1600,
+   "h": 1000,
+   "caption": "Home seen from Mars: the brightest dot, a little left of centre, is Earth, with our Moon just below it. Twilight on 31 January 2014.",
+   "credit": "NASA/JPL-Caltech/MSSS/Texas A&M",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA17936"
+  },
+  {
+   "file": "photos/by/curiosity/gediz-vallis.jpg",
+   "w": 1600,
+   "h": 450,
+   "caption": "Inside the Gediz Vallis channel, September 2024. The panorama is stitched from 341 Mastcam pictures.",
+   "credit": "NASA/JPL-Caltech/MSSS",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA26410"
+  }
+ ],
+ "perseverance": [
+  {
+   "file": "photos/by/perseverance/first-360.jpg",
+   "w": 1600,
+   "h": 424,
+   "caption": "Perseverance's first 360-degree panorama, from 142 Mastcam-Z pictures taken on its third day on Mars (21 February 2021).",
+   "credit": "NASA/JPL-Caltech/ASU/MSSS",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA24264"
+  },
+  {
+   "file": "photos/by/perseverance/selfie-ingenuity.jpg",
+   "w": 1600,
+   "h": 1177,
+   "caption": "A selfie with the Ingenuity helicopter, 6 April 2021, stitched from 62 pictures taken by the camera on the rover's arm.",
+   "credit": "NASA/JPL-Caltech/MSSS",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA24542"
+  },
+  {
+   "file": "photos/by/perseverance/leopard-spots.jpg",
+   "w": 1600,
+   "h": 1165,
+   "caption": "The rock \"Cheyava Falls\", 18 July 2024. Its tiny \"leopard spots\" are one of the best clues yet that Mars may once have had life (it is still being studied).",
+   "credit": "NASA/JPL-Caltech/MSSS",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA26368"
+  }
+ ],
+ "pioneer10": [
+  {
+   "file": "photos/by/pioneer10/jupiter.jpg",
+   "w": 1600,
+   "h": 1067,
+   "caption": "Jupiter photographed by Pioneer 10 from 2.6 million km on 2 December 1973, during the first visit to the giant planet. A moon shows at upper right.",
+   "credit": "NASA Ames",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/ARC-1973-AC73-9253"
+  },
+  {
+   "file": "photos/by/pioneer10/great-red-spot.jpg",
+   "w": 1280,
+   "h": 1280,
+   "caption": "Jupiter's clouds and the Great Red Spot, a storm bigger than Earth, from Pioneer 10's 1973 flyby.",
+   "credit": "NASA Ames",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:Pioneer_10_Jupiter_1974_GPN-2000-001698_cropped.jpg"
+  }
+ ],
+ "pioneer11": [
+  {
+   "file": "photos/by/pioneer11/jupiter-pole.jpg",
+   "w": 640,
+   "h": 530,
+   "caption": "The first look at Jupiter from above, near its north pole, taken by Pioneer 11 in December 1974.",
+   "credit": "NASA Ames",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:The_planet_Jupiter_as_seen_from_above_its_north_pole_by_Pioneer_11.jpg"
+  },
+  {
+   "file": "photos/by/pioneer11/saturn-titan.jpg",
+   "w": 1280,
+   "h": 872,
+   "caption": "Saturn and its moon Titan, photographed by Pioneer 11, the first spacecraft to visit Saturn, in 1979.",
+   "credit": "NASA Ames",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:Saturn_and_Titan_from_Pioneer_11_-_GPN-2002-000060.jpg"
+  }
+ ],
+ "voyager1": [
+  {
+   "file": "photos/by/voyager1/pale-blue-dot.jpg",
+   "w": 1600,
+   "h": 1582,
+   "caption": "The Pale Blue Dot (2020 remastered version). On 14 February 1990, from about 6 billion km away, Voyager 1 looked back: Earth is the tiny speck in the sunbeam on the right.",
+   "credit": "NASA/JPL-Caltech",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA23645"
+  },
+  {
+   "file": "photos/by/voyager1/earth-moon.jpg",
+   "w": 565,
+   "h": 790,
+   "caption": "The first picture of Earth and the Moon together in one frame, taken by Voyager 1 on 18 September 1977, 11.7 million km from home.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA00013"
+  },
+  {
+   "file": "photos/by/voyager1/jupiter-io-europa.jpg",
+   "w": 820,
+   "h": 540,
+   "caption": "Jupiter with its moons Io (above the Great Red Spot) and Europa, 13 February 1979.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA00144"
+  }
+ ],
+ "voyager2": [
+  {
+   "file": "photos/by/voyager2/crescent-uranus.jpg",
+   "w": 540,
+   "h": 800,
+   "caption": "A thin crescent of Uranus, a view nobody had seen before Voyager 2 flew past it in January 1986.",
+   "credit": "NASA/JPL/USGS",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA00346"
+  },
+  {
+   "file": "photos/by/voyager2/neptune.jpg",
+   "w": 1600,
+   "h": 1598,
+   "caption": "Neptune with its Great Dark Spot storm, August 1989. Voyager 2 is still the only spacecraft to visit Neptune.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA01492"
+  },
+  {
+   "file": "photos/by/voyager2/neptune-triton-crescents.jpg",
+   "w": 800,
+   "h": 600,
+   "caption": "Leaving Neptune behind: the crescents of Neptune and its moon Triton, three days after the closest approach in 1989.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA02215"
+  },
+  {
+   "file": "photos/by/voyager2/triton.jpg",
+   "w": 795,
+   "h": 795,
+   "caption": "Triton, Neptune's largest moon, 22 August 1989. Its icy south pole was having summer.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA02211"
+  }
+ ],
+ "newhorizons": [
+  {
+   "file": "photos/by/newhorizons/pluto-colour.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "Pluto on 14 July 2015, with its colours boosted to show different kinds of ice. The pale heart shape is a giant plain of frozen nitrogen.",
+   "credit": "NASA/JHUAPL/SwRI",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA19952"
+  },
+  {
+   "file": "photos/by/newhorizons/pluto-sunset.jpg",
+   "w": 1600,
+   "h": 684,
+   "caption": "Looking back 15 minutes after the flyby: icy mountains up to 3.5 km tall, flat ice plains and layers of haze in Pluto's sky.",
+   "credit": "NASA/JHUAPL/SwRI",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA19948"
+  },
+  {
+   "file": "photos/by/newhorizons/arrokoth.jpg",
+   "w": 1280,
+   "h": 896,
+   "caption": "Arrokoth, a snowman-shaped object in the Kuiper Belt, visited on 1 January 2019: the farthest world any spacecraft has explored.",
+   "credit": "NASA/JHUAPL/SwRI/Roman Tkachenko",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:UltimaThule_CA06_color_20190516.png"
+  },
+  {
+   "file": "photos/by/newhorizons/io-volcano.jpg",
+   "w": 399,
+   "h": 852,
+   "caption": "On its way to Pluto in 2007, New Horizons caught a giant volcanic plume rising from Jupiter's moon Io.",
+   "credit": "NASA/JHUAPL/SwRI",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA09359"
+  }
+ ],
+ "juno": [
+  {
+   "file": "photos/by/juno/jupiter-north-pole.jpg",
+   "w": 1200,
+   "h": 1200,
+   "caption": "Jupiter's north pole, never seen this clearly before, photographed by JunoCam on 27 August 2016.",
+   "credit": "NASA/JPL-Caltech/SwRI/MSSS",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA21030"
+  },
+  {
+   "file": "photos/by/juno/ganymede.jpg",
+   "w": 1360,
+   "h": 2112,
+   "caption": "Ganymede, the largest moon in the Solar System, from about 1,000 km away on 7 June 2021 (green filter, so it looks black and white).",
+   "credit": "NASA/JPL-Caltech/SwRI/MSSS",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA24681"
+  },
+  {
+   "file": "photos/by/juno/europa.jpg",
+   "w": 1600,
+   "h": 1238,
+   "caption": "Cracks and ridges in Europa's ice shell, taken by Juno's star-tracking camera on 29 September 2022.",
+   "credit": "NASA/JPL-Caltech/SwRI",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA26332"
+  }
+ ],
+ "galileo": [
+  {
+   "file": "photos/by/galileo/europa.jpg",
+   "w": 1600,
+   "h": 1183,
+   "caption": "Jupiter's icy moon Europa, made from Galileo pictures from the late 1990s. An ocean is thought to hide under the cracked ice.",
+   "credit": "NASA/JPL-Caltech/SETI Institute",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA19048"
+  },
+  {
+   "file": "photos/by/galileo/io.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "Io in true colour, the most volcanic world in the Solar System. Its yellow and orange colours come from sulfur.",
+   "credit": "NASA/JPL/University of Arizona",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA02308"
+  },
+  {
+   "file": "photos/by/galileo/ida-dactyl.jpg",
+   "w": 905,
+   "h": 655,
+   "caption": "Asteroid Ida and its tiny moon Dactyl (the dot on the right), 28 August 1993: the first moon ever found around an asteroid. Colours are enhanced.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA00069"
+  }
+ ],
+ "cassini": [
+  {
+   "file": "photos/by/cassini/earth-smiled.jpg",
+   "w": 1600,
+   "h": 622,
+   "caption": "\"The Day the Earth Smiled\", 19 July 2013: Saturn and its rings, lit from behind. Earth is the tiny bright dot below the rings, lower right.",
+   "credit": "NASA/JPL-Caltech/SSI",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA17172"
+  },
+  {
+   "file": "photos/by/cassini/hexagon.jpg",
+   "w": 810,
+   "h": 910,
+   "caption": "Saturn's six-sided \"hexagon\" storm around its north pole, in November 2012 (top) and September 2016 (bottom). Its colour changed with Saturn's seasons.",
+   "credit": "NASA/JPL-Caltech/SSI/Hampton University",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA21049"
+  },
+  {
+   "file": "photos/by/cassini/enceladus-plume.jpg",
+   "w": 801,
+   "h": 1001,
+   "caption": "Jets of ice spraying out of the south pole of the moon Enceladus, from an ocean under its surface.",
+   "credit": "NASA/JPL/SSI",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA08954"
+  },
+  {
+   "file": "photos/by/cassini/titan-lakes.jpg",
+   "w": 1600,
+   "h": 1196,
+   "caption": "Lakes and seas of liquid methane near the north pole of Titan, seen on one of Cassini's last visits in 2017.",
+   "credit": "NASA/JPL-Caltech/SSI",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA22481"
+  }
+ ],
+ "messenger": [
+  {
+   "file": "photos/by/messenger/unseen-side.jpg",
+   "w": 1018,
+   "h": 1024,
+   "caption": "A side of Mercury that no spacecraft had ever seen, photographed on MESSENGER's first flyby, 14 January 2008.",
+   "credit": "NASA/JHUAPL/Carnegie Institution of Washington",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA10195"
+  },
+  {
+   "file": "photos/by/messenger/first-from-orbit.jpg",
+   "w": 1019,
+   "h": 1019,
+   "caption": "The first picture ever taken from orbit around Mercury, 29 March 2011 (colours from three camera filters).",
+   "credit": "NASA/JHUAPL/Carnegie Institution of Washington",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/GSFC_20171208_Archive_e001922"
+  },
+  {
+   "file": "photos/by/messenger/false-colour.jpg",
+   "w": 1600,
+   "h": 900,
+   "caption": "Mercury in false colours, which show the different kinds of rock. To your eyes it would look grey.",
+   "credit": "NASA/JHUAPL/Carnegie Institution of Washington",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/GSFC_20171208_Archive_e001545"
+  }
+ ],
+ "magellan": [
+  {
+   "file": "photos/by/magellan/venus-globe.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "Venus's surface, mapped by Magellan's radar, which can see through the thick clouds. Gaps are filled with older Pioneer Venus data.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA00478"
+  },
+  {
+   "file": "photos/by/magellan/maat-mons.jpg",
+   "w": 1600,
+   "h": 1280,
+   "caption": "Maat Mons, a giant volcano on Venus, shown in 3-D using radar data. The heights are stretched to make it easier to see.",
+   "credit": "NASA/JPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA00254"
+  }
+ ],
+ "pioneer_venus_orbiter": [
+  {
+   "file": "photos/by/pioneer_venus_orbiter/uv-clouds-1.jpg",
+   "w": 1280,
+   "h": 1368,
+   "caption": "Venus's clouds photographed in ultraviolet light on 5 February 1979. In ordinary light they look almost plain white.",
+   "credit": "NASA",
+   "license": "Public domain",
+   "source": "https://nssdc.gsfc.nasa.gov/photo_gallery/photogallery-venus.html"
+  },
+  {
+   "file": "photos/by/pioneer_venus_orbiter/uv-clouds-2.jpg",
+   "w": 1280,
+   "h": 1376,
+   "caption": "Ultraviolet view of Venus on 26 February 1979, showing the big Y-shaped cloud pattern that keeps forming again and again.",
+   "credit": "NASA",
+   "license": "Public domain",
+   "source": "https://nssdc.gsfc.nasa.gov/photo_gallery/photogallery-venus.html"
+  }
+ ],
+ "dawn": [
+  {
+   "file": "photos/by/dawn/vesta.jpg",
+   "w": 1237,
+   "h": 1212,
+   "caption": "The giant asteroid Vesta, full of craters and grooves, from 5,200 km on 24 July 2011.",
+   "credit": "NASA/JPL-Caltech/UCLA/MPS/DLR/IDA",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA14894"
+  },
+  {
+   "file": "photos/by/dawn/ceres.jpg",
+   "w": 1600,
+   "h": 1200,
+   "caption": "The dwarf planet Ceres on 5-6 May 2015, from 13,600 km. The bright spots are salty deposits.",
+   "credit": "NASA/JPL-Caltech/UCLA/MPS/DLR/IDA",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA19562"
+  },
+  {
+   "file": "photos/by/dawn/occator.jpg",
+   "w": 1024,
+   "h": 1024,
+   "caption": "Close-up of the bright spots of Occator Crater on Ceres, from Dawn's lowest orbit in 2016.",
+   "credit": "NASA/JPL-Caltech/UCLA/MPS/DLR/IDA",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA20653"
+  }
+ ],
+ "near_shoemaker": [
+  {
+   "file": "photos/by/near_shoemaker/mathilde.jpg",
+   "w": 640,
+   "h": 397,
+   "caption": "Asteroid Mathilde, the first picture NEAR took of it during a flyby in June 1997.",
+   "credit": "NASA/JPL/JHUAPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA02476"
+  },
+  {
+   "file": "photos/by/near_shoemaker/eros.jpg",
+   "w": 1024,
+   "h": 691,
+   "caption": "Asteroid Eros, shaped like a giant peanut about 33 km long. NEAR's first whole-Eros mosaic from orbit, 2000.",
+   "credit": "NASA/JPL/JHUAPL",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA02467"
+  }
+ ],
+ "kepler": [
+  {
+   "file": "photos/by/kepler/first-light.jpg",
+   "w": 1280,
+   "h": 960,
+   "caption": "Kepler's first full picture of its star field in Cygnus and Lyra, April 2009. It watched these stars for years, looking for planets.",
+   "credit": "NASA/Ames/JPL-Caltech",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA11984"
+  },
+  {
+   "file": "photos/by/kepler/tres-2.jpg",
+   "w": 1600,
+   "h": 1200,
+   "caption": "A zoom into the same picture. The star in the centre has a known giant planet, TrES-2b, that circles it every 2.5 days.",
+   "credit": "NASA/Ames/JPL-Caltech",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA11985"
+  }
+ ],
+ "spitzer": [
+  {
+   "file": "photos/by/spitzer/milky-way-centre.jpg",
+   "w": 1600,
+   "h": 900,
+   "caption": "The crowded centre of our Milky Way galaxy in infrared light, which shines through dust that hides it from our eyes.",
+   "credit": "NASA/JPL-Caltech",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA13932"
+  },
+  {
+   "file": "photos/by/spitzer/andromeda.jpg",
+   "w": 1600,
+   "h": 690,
+   "caption": "The Andromeda galaxy in infrared light. Blue shows starlight, red-orange shows dust (the background includes WISE data).",
+   "credit": "NASA/JPL-Caltech",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA26276"
+  },
+  {
+   "file": "photos/by/spitzer/eagle-nebula.jpg",
+   "w": 1360,
+   "h": 1555,
+   "caption": "The Eagle Nebula, a cloud where new stars are born, seen in infrared light.",
+   "credit": "NASA/JPL-Caltech",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA09107"
+  }
+ ],
+ "deep_impact_impactor": [
+  {
+   "file": "photos/by/deep_impact_impactor/tempel1-5min.jpg",
+   "w": 500,
+   "h": 500,
+   "caption": "Comet Tempel 1 about 5 minutes before the impactor hit it, 4 July 2005, taken by the impactor's own camera.",
+   "credit": "NASA/JPL-Caltech/UMD",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA02127"
+  },
+  {
+   "file": "photos/by/deep_impact_impactor/tempel1-30s.jpg",
+   "w": 480,
+   "h": 480,
+   "caption": "About 30 seconds before impact: craters and smooth patches on the comet's icy surface.",
+   "credit": "NASA/JPL-Caltech/UMD",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA02129"
+  }
+ ],
+ "stardust": [
+  {
+   "file": "photos/by/stardust/wild2.jpg",
+   "w": 1159,
+   "h": 1172,
+   "caption": "Comet Wild 2 on 2 January 2004, the closest short-exposure picture from Stardust as it collected comet dust to bring home.",
+   "credit": "NASA/JPL-Caltech",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA06285"
+  },
+  {
+   "file": "photos/by/stardust/wild2-jets.jpg",
+   "w": 1600,
+   "h": 1600,
+   "caption": "Jets of gas and dust spraying from comet Wild 2, made by laying a long-exposure picture over a short one from the same flyby.",
+   "credit": "NASA/JPL-Caltech",
+   "license": "Public domain",
+   "source": "https://images.nasa.gov/details/PIA05578"
+  }
+ ],
+ "dart": [
+  {
+   "file": "photos/by/dart/didymos-dimorphos.jpg",
+   "w": 1041,
+   "h": 1041,
+   "caption": "Asteroid Didymos (big) and its moonlet Dimorphos, about 2.5 minutes before DART crashed into Dimorphos on 26 September 2022.",
+   "credit": "NASA/Johns Hopkins APL",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:Last_image_showing_all_of_Didymos_%26_Dimorphos_by_DART.png"
+  },
+  {
+   "file": "photos/by/dart/dimorphos.jpg",
+   "w": 1041,
+   "h": 1041,
+   "caption": "Dimorphos 11 seconds before impact, from 68 km away. The crash changed its orbit: the first test of pushing an asteroid.",
+   "credit": "NASA/Johns Hopkins APL",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:Last_image_showing_all_of_Dimorphos_by_DART.png"
+  }
+ ],
+ "osiris_apex": [
+  {
+   "file": "photos/by/osiris_apex/bennu.jpg",
+   "w": 1280,
+   "h": 720,
+   "caption": "Asteroid Bennu, a rubble pile about 500 m wide, in a mosaic of OSIRIS-REx pictures.",
+   "credit": "NASA/Goddard/University of Arizona",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:Bennu_mosaic_OSIRIS-REx.jpg"
+  },
+  {
+   "file": "photos/by/osiris_apex/touch-and-go.jpg",
+   "w": 1024,
+   "h": 1024,
+   "caption": "The moment of \"touch-and-go\" on Bennu, 20 October 2020, when the spacecraft grabbed rock and dust to bring to Earth.",
+   "credit": "NASA/Goddard/University of Arizona",
+   "license": "Public domain",
+   "source": "https://commons.wikimedia.org/wiki/File:OSIRIS-REx_landing.jpg"
+  }
+ ]
+}

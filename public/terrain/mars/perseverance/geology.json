@@ -1,0 +1,15 @@
+{
+ "unit": "mNhm",
+ "unitName": "Middle Noachian highland massif unit",
+ "age": "Middle Noachian",
+ "color": "#a0a498",
+ "kidText": "On this world map the spot is part of the rocky hills around the huge Isidis impact basin, nearly 4 billion years old (Jezero crater is too small to show on a map of all of Mars).",
+ "lat": 18.4356,
+ "lon": 77.2332,
+ "source": {
+  "title": "Geologic Map of Mars (SIM 3292), scale 1:20,000,000",
+  "credit": "Tanaka, K.L., Skinner, J.A., Jr., Dohm, J.M., Irwin, R.P., III, Kolb, E.J., Fortezzo, C.M., Platz, T., Michael, G.G., and Hare, T.M., 2014, U.S. Geological Survey; served by NASA Mars Trek",
+  "url": "https://doi.org/10.3133/sim3292",
+  "license": "Public domain (U.S. Geological Survey)"
+ }
+}

@@ -1,58 +1,85 @@
 "use client";
 
 import { useFrame, useThree } from "@react-three/fiber";
-import { Suspense, useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { rng, skyDir } from "../lib/geo";
 import { STOPS, type Stop } from "../stops";
 import { makeEnvironment } from "./environment";
+import { groundMaterial } from "./ground";
 import { HotspotTracker } from "./Hotspots";
 import { Lrv } from "./Lrv";
 import { BladePiece, GltfMachine, LanderDescent, type Anchors } from "./Machine";
-import { Planet, Stars, SunGlow } from "./Space";
-import { groundGeometry, rockGeometry, terrainFor, type Terrain } from "./terrain";
-import { grainTexture } from "./textures";
+import { Planet, SunGlow } from "./Space";
+import { groundGeometry, onTerrainChange, rockGeometry, terrainFor, type Terrain } from "./terrain";
 import { Walker } from "./Walker";
 
 const MOON_R = 1_737_400;
 const MARS_R = 3_389_500;
+// Rock color, then the dust color it can be partly coated in. Mars rocks are dark grey basalt under red dust.
+const MOON_ROCK: [string, string] = ["#8a8780", "#6e6b66"];
+const MARS_ROCK: [string, string] = ["#463b35", "#7d5238"];
 
-function Rocks({ terrain, stop, count, color }: { terrain: Terrain; stop: Stop; count: number; color: string }) {
-  const mesh = useMemo(() => {
-    const geo = rockGeometry(3);
-    const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.95 });
-    const inst = new THREE.InstancedMesh(geo, mat, count);
+// Rock sizes follow a power law, as counted on Apollo and rover photos: for every boulder there are hundreds of
+// fist-sized stones. Small stones stay near you (far away they would be under a pixel) and use a coarser mesh.
+function Rocks({ terrain, stop, count, maxSize, colors }: { terrain: Terrain; stop: Stop; count: number; maxSize: number; colors: [string, string] }) {
+  const group = useMemo(() => {
     const rand = rng(17 + count);
-    const m = new THREE.Matrix4();
-    const q = new THREE.Quaternion();
-    const e = new THREE.Euler();
-    const c = new THREE.Color();
     const flat = (stop.setting.flatRadius ?? 4) + 0.6;
     const keepOut = (stop.extras ?? []).filter((x) => x.kind === "lm-descent").map((x) => x.pos);
-    let i = 0;
-    while (i < count) {
+    const lrv = stop.model.kind === "lrv";
+    const sets = [
+      { geo: rockGeometry(3, 1), items: [] as THREE.Matrix4[], tints: [] as THREE.Color[] },
+      { geo: rockGeometry(5, 2), items: [] as THREE.Matrix4[], tints: [] as THREE.Color[] },
+    ];
+    const q = new THREE.Quaternion();
+    const e = new THREE.Euler();
+    const [rock, dust] = colors.map((c) => new THREE.Color(c));
+    for (let tries = 0, n = 0; n < count && tries < count * 4; tries++) {
+      // Cumulative number bigger than s falls off about as s^-2.3 (half-size s in meters, 3 cm and up).
+      const s = Math.min(maxSize, 0.03 * Math.pow(1 - rand(), -1 / 2.3));
       const a = rand() * Math.PI * 2;
-      const d = flat + Math.pow(rand(), 1.8) * 140;
+      const d = flat + Math.pow(rand(), 1.5) * Math.min(140, 25 + s * 400);
       const x = Math.cos(a) * d;
       const z = Math.sin(a) * d;
       if (keepOut.some((p) => Math.hypot(x - p[0], z - p[2]) < 7)) continue;
-      const s = 0.03 + Math.pow(rand(), 4) * (stop.setting.terrain === "sand" ? 0.18 : 0.55);
+      // Keep the rover's wheel tracks clear (ground.ts draws them behind its rear wheels).
+      if (lrv && x > 0.6 && Math.abs(z - 0.006 * Math.max(x - 1.15, 0) ** 2) < 1.4) continue;
       e.set(rand() * 3, rand() * 6, rand() * 3);
       q.setFromEuler(e);
-      m.compose(new THREE.Vector3(x, terrain.height(x, z) - s * 0.25, z), q, new THREE.Vector3(s * (0.8 + rand() * 0.5), s, s * (0.8 + rand() * 0.5)));
-      inst.setMatrixAt(i, m);
-      const v = 0.82 + rand() * 0.3;
-      inst.setColorAt(i, c.set(color).multiplyScalar(v));
-      i++;
+      const set = sets[s < 0.09 ? 0 : 1];
+      set.items.push(
+        new THREE.Matrix4().compose(
+          new THREE.Vector3(x, terrain.height(x, z) - s * 0.25, z),
+          q,
+          new THREE.Vector3(s * (0.8 + rand() * 0.5), s, s * (0.8 + rand() * 0.5)),
+        ),
+      );
+      set.tints.push(rock.clone().lerp(dust, rand() * 0.6).multiplyScalar(0.85 + rand() * 0.3));
+      n++;
     }
-    inst.castShadow = true;
-    inst.receiveShadow = true;
-    return inst;
-  }, [terrain, stop, count, color]);
-  return <primitive object={mesh} />;
+    const g = new THREE.Group();
+    const mat = new THREE.MeshStandardMaterial({ roughness: 0.95 });
+    for (const set of sets) {
+      if (!set.items.length) continue;
+      const inst = new THREE.InstancedMesh(set.geo, mat, set.items.length);
+      set.items.forEach((m, i) => inst.setMatrixAt(i, m));
+      set.tints.forEach((c, i) => inst.setColorAt(i, c));
+      inst.castShadow = true;
+      inst.receiveShadow = true;
+      g.add(inst);
+    }
+    return g;
+  }, [terrain, stop, count, maxSize, colors]);
+  return <primitive object={group} />;
 }
 
-// Mars's daytime sky: butterscotch at the horizon, a little darker overhead, with a pale glow around the Sun.
+// Mars's daytime sky, from rover photos: butterscotch at the horizon and darker, browner overhead, because the
+// fine red dust absorbs blue light. The same dust scatters forward, so the sky brightens toward the Sun, and right
+// around the Sun a pale bluish glow appears (the effect that makes Martian sunsets blue).
+// Colors are display (sRGB) values, written straight out, so the far ground's haze can use the exact horizon color.
+const MARS_HORIZON = "#c9a07c";
+const raw = (hex: string) => new THREE.Color().setStyle(hex, THREE.LinearSRGBColorSpace);
 function MarsSky({ sun }: { sun: THREE.Vector3 }) {
   const group = useRef<THREE.Group>(null);
   const { camera } = useThree();
@@ -61,19 +88,27 @@ function MarsSky({ sun }: { sun: THREE.Vector3 }) {
       new THREE.ShaderMaterial({
         side: THREE.BackSide,
         depthWrite: false,
-        uniforms: { uSun: { value: sun.clone().normalize() } },
+        uniforms: {
+          uSun: { value: sun.clone().normalize() },
+          uHorizon: { value: raw(MARS_HORIZON) },
+          uZenith: { value: raw("#86604a") },
+          uHalo: { value: raw("#c4c8cc") },
+        },
         vertexShader: "varying vec3 vD; void main(){ vD = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
         fragmentShader: /* glsl */ `
-          uniform vec3 uSun; varying vec3 vD;
+          uniform vec3 uSun; uniform vec3 uHorizon; uniform vec3 uZenith; uniform vec3 uHalo; varying vec3 vD;
           void main() {
             vec3 d = normalize(vD);
             float h = max(d.y, 0.0);
-            vec3 horizon = vec3(0.84, 0.66, 0.5);
-            vec3 zenith = vec3(0.55, 0.38, 0.27);
-            vec3 col = mix(horizon, zenith, pow(h, 0.55));
-            float s = max(dot(d, uSun), 0.0);
-            col += vec3(0.95, 0.9, 0.85) * pow(s, 900.0) * 3.0 + vec3(0.75, 0.72, 0.68) * pow(s, 18.0) * 0.35;
-            if (d.y < 0.0) col = horizon * 0.92;
+            float s = dot(d, uSun);
+            float toward = max(s, 0.0);
+            vec3 col = mix(uHorizon, uZenith, pow(h, 0.5));
+            // Brighter toward the Sun, dimmer opposite; right at the horizon the haze evens it out.
+            col *= 1.0 + (0.32 * toward * toward * toward - 0.1 * max(-s, 0.0)) * smoothstep(0.0, 0.3, h);
+            col = mix(col, uHalo, 0.7 * pow(toward, 90.0));
+            // The Sun's disc: about 0.35 degrees across from Mars, two thirds of its size seen from Earth.
+            col += vec3(1.0, 0.98, 0.95) * (smoothstep(0.999988, 0.999993, s) * 1.5 + pow(toward, 2500.0) * 0.5);
+            if (d.y < 0.0) col = uHorizon;
             gl_FragColor = vec4(col, 1.0);
           }`,
       }),
@@ -83,11 +118,12 @@ function MarsSky({ sun }: { sun: THREE.Vector3 }) {
   return (
     <group ref={group}>
       <mesh material={mat} renderOrder={-20}>
-        <sphereGeometry args={[4000, 48, 24]} />
+        <sphereGeometry args={[4000, 64, 32]} />
       </mesh>
     </group>
   );
 }
+
 
 // Earth hanging in the lunar sky, about 2 degrees across, lit by the same Sun (so it shows the right phase).
 function EarthInSky({ dir, sun }: { dir: THREE.Vector3; sun: THREE.Vector3 }) {
@@ -123,12 +159,13 @@ export function SurfaceScene({ index }: { index: number }) {
   const stop = STOPS[index];
   const moon = stop.setting.kind === "moon";
   const { gl, scene, camera } = useThree();
-  const terrain = useMemo(() => terrainFor(index), [index]);
+  // The measured ground normally loads before you arrive; if it lands late, rebuild the scene on it.
+  const [groundVersion, setGroundVersion] = useState(0);
+  useEffect(() => onTerrainChange(() => setGroundVersion((v) => v + 1)), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const terrain = useMemo(() => terrainFor(index), [index, groundVersion]);
   const ground = useMemo(() => groundGeometry(terrain, 3000, moon ? MOON_R : MARS_R), [terrain, moon]);
-  const groundMat = useMemo(() => {
-    const t = grainTexture(moon ? "moon" : "mars");
-    return new THREE.MeshStandardMaterial({ vertexColors: true, map: t, roughness: 1, metalness: 0 });
-  }, [moon]);
+  const groundMat = useMemo(() => groundMaterial(stop), [stop]);
   const sun = useMemo(() => skyDir(stop.setting.sun.az, stop.setting.sun.el), [stop]);
   const earth = useMemo(() => (stop.setting.earth ? skyDir(stop.setting.earth.az, stop.setting.earth.el) : null), [stop]);
   const [anchors, setAnchors] = useState<Anchors>({});
@@ -140,11 +177,16 @@ export function SurfaceScene({ index }: { index: number }) {
     cam.far = 9000;
     cam.updateProjectionMatrix();
     gl.toneMappingExposure = moon ? 1.0 : 1.08;
-    const env = makeEnvironment(gl, moon ? "#05060a" : "#c8a283", moon ? "#77736d" : "#8a5636", sun, moon ? 60 : 30);
+    // Moon: no air, so no sky light and no haze. The only fill is sunlight bounced off the grey ground, which is
+    // why shadows there are nearly black. The environment's Sun is kept dim: it adds glints to foil, but an
+    // environment is never shadowed, so a bright one would light up the shadows too.
+    // Mars: the dusty sky lights the shadows warmly, and the same dust hazes the distance (about a third of the
+    // light gets through from 1.5 km; the horizon fades into the sky color).
+    const env = makeEnvironment(gl, moon ? "#000000" : "#c8a283", moon ? "#77736d" : "#8a5636", sun, moon ? 10 : 30);
     scene.environment = env.texture;
-    scene.environmentIntensity = moon ? 0.55 : 0.7;
+    scene.environmentIntensity = moon ? 0.45 : 0.7;
     scene.background = moon ? new THREE.Color("#000000") : null;
-    scene.fog = moon ? null : new THREE.Fog("#c9a47f", 60, 1400);
+    scene.fog = moon ? null : new THREE.FogExp2(MARS_HORIZON, 0.0007);
     return () => {
       scene.environment = null;
       scene.fog = null;
@@ -161,7 +203,9 @@ export function SurfaceScene({ index }: { index: number }) {
 
   return (
     <>
-      {moon ? <Stars radius={5000} count={2200} /> : <MarsSky sun={sun} />}
+      {/* No stars on the sunlit Moon: as in every Apollo surface photo, an exposure set for bright ground
+          cannot record them. The sky is plain black. */}
+      {!moon && <MarsSky sun={sun} />}
       {moon && <SunGlow dir={sun} distance={4500} size={520} intensity={1.4} />}
       {earth && (
         <Suspense fallback={null}>
@@ -171,10 +215,11 @@ export function SurfaceScene({ index }: { index: number }) {
       <directionalLight
         ref={light}
         position={lightPos}
-        intensity={moon ? 3.1 : 2.5}
-        color={moon ? "#fff8ee" : "#ffe7cf"}
+        intensity={moon ? 4.2 : 2.5}
+        color={moon ? "#fffaf3" : "#ffe9d4"}
         castShadow
         shadow-mapSize={[2048, 2048]}
+        shadow-radius={moon ? 1 : 3}
         shadow-bias={-0.0004}
         shadow-normalBias={0.03}
         shadow-camera-left={-16}
@@ -184,14 +229,20 @@ export function SurfaceScene({ index }: { index: number }) {
         shadow-camera-near={1}
         shadow-camera-far={120}
       />
-      <hemisphereLight args={[moon ? "#1b1e26" : "#d9b18d", moon ? "#6f6b65" : "#7a4a30", moon ? 0.45 : 0.85]} />
+      <hemisphereLight args={[moon ? "#000000" : "#d9b18d", moon ? "#5e5a54" : "#7a4a30", moon ? 0.4 : 0.85]} />
       <mesh geometry={ground} material={groundMat} receiveShadow />
-      <Rocks terrain={terrain} stop={stop} count={stop.setting.terrain === "sand" ? 90 : 420} color={moon ? "#85827c" : "#6c4430"} />
+      <Rocks
+        terrain={terrain}
+        stop={stop}
+        count={moon ? 1400 : stop.setting.terrain === "sand" ? 160 : 900}
+        maxSize={moon ? 1.2 : stop.setting.terrain === "sand" ? 0.3 : 0.8}
+        colors={moon ? MOON_ROCK : MARS_ROCK}
+      />
       <Suspense fallback={null}>
         <Machine stop={stop} onAnchors={onAnchors} />
         {(stop.extras ?? []).map((x, i) =>
           x.kind === "lm-descent" ? (
-            <LanderDescent key={i} position={x.pos} rotationY={x.rotationY} />
+            <LanderDescent key={i} position={[x.pos[0], terrain.height(x.pos[0], x.pos[2]), x.pos[2]]} rotationY={x.rotationY} />
           ) : (
             <BladePiece key={i} position={[x.pos[0], terrain.height(x.pos[0], x.pos[2]) + 0.012, x.pos[2]]} rotationY={x.rotationY} />
           ),

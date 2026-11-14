@@ -1,0 +1,121 @@
+/* Ghost Rover Atlas, field-guide typography and data display.
+   Loaded after atlas.css. Headings in a book serif, text in Public Sans, mono only for numbers and coordinates,
+   labels in sentence case. */
+:root{
+  --display:var(--font-serif),"Source Serif 4","Georgia",serif;
+  --body:var(--font-public),"Public Sans","Segoe UI",system-ui,sans-serif;
+  --alarm:#ff6a4d;
+}
+body{font:16.5px/1.6 var(--body);font-feature-settings:"ss01"}
+h1,h2,h3,.dossier h2,.roster h2,.rtitle,.foot-title,.ghud h3{font-family:var(--display);font-stretch:normal;font-optical-sizing:auto}
+h1{font-weight:600;letter-spacing:-.025em;font-size:clamp(2.6rem,7vw,5.2rem)}
+.lede{font-size:1.125rem;max-width:56ch}
+
+/* Labels: sentence case, no wide tracking. */
+.eyebrow,.label,.dossier h3,.facts dt,.fun strong,.fatecat,.ghead b,.cols h2,.legend,.hint,.axis,.lk,.src,.pin .tip,.worlds button,.btn,.walkbtn,#play,.gbtn,.pill,.mv::after,.model figcaption,.credit{
+  font-family:var(--body);letter-spacing:0;text-transform:none}
+.eyebrow,.label{font-size:.875rem;font-weight:600;color:var(--dim)}
+.btn,.walkbtn,#play{font-size:.9375rem;font-weight:600}
+.worlds button{font-size:.9375rem;font-weight:600;padding:14px 16px 12px}
+.worlds button span,.gn{font-family:var(--mono);font-weight:500}
+.legend,.hint,.axis{font-size:.8125rem;font-weight:500}
+.axis{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.pill{font-size:.875rem;font-weight:600}
+.credit,.model figcaption{font-size:.8125rem;font-weight:400}
+.src{font-size:.875rem;font-weight:600}
+.lk{font-size:.75rem;font-weight:700}
+.pin .tip{font-size:.8125rem;font-weight:600}
+#beyond text{font-family:var(--body)}
+
+/* Dossier */
+.dossier h2{font-weight:600;font-size:clamp(1.9rem,3.2vw,2.5rem);letter-spacing:-.015em;line-height:1.08}
+.dossier h3{font-size:1.25rem;font-weight:600;color:var(--ink);letter-spacing:-.005em;margin:1.7em 0 .55em;padding-top:1em}
+.summary{font-size:1.1rem;line-height:1.6}
+.voice{font:italic 400 1.3rem/1.5 var(--display);border-left:0;padding:0 0 0 1.1em;text-indent:-.45em;color:var(--ink)}
+.voice::before{content:"\201C";color:var(--signal)}
+.voice::after{content:"\201D";color:var(--signal)}
+.fun{padding:14px 16px;background:var(--raise)}
+.fun strong{font-size:.9375rem;font-weight:700;color:var(--signal)}
+
+/* What happened: a placard, not a callout strip. */
+.fate{border-left:0;border:1px solid var(--line2);padding:16px 18px;gap:6px}
+.fatecat{display:flex;align-items:center;gap:8px;margin:0;font-size:.875rem;font-weight:700;color:var(--signal)}
+.fatecat i{width:10px;height:10px;border-radius:50%;background:currentColor;flex:none}
+.fate.bad{border-color:rgba(255,106,77,.5)}
+.fate.bad .fatecat{color:var(--alarm)}
+.fatelabel{font:600 1.35rem/1.2 var(--display);margin:2px 0 0}
+
+/* At a glance: stat tiles */
+.glance{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;border:1px solid var(--line);background:var(--panel)}
+.glance .stat{box-shadow:inset -1px -1px 0 var(--line)}
+.stat{display:grid;align-content:start;gap:4px;padding:14px 16px 16px;background:var(--panel);min-width:0}
+.stat.wide{grid-column:1/-1}
+.stat .k{font-size:.875rem;font-weight:600;color:var(--dim)}
+.stat .v{font:600 1.9rem/1.05 var(--display);font-variant-numeric:lining-nums tabular-nums;letter-spacing:-.01em;overflow-wrap:anywhere}
+.stat .v small{font:500 1rem var(--body);color:var(--dim);letter-spacing:0}
+.stat .n{font-size:.875rem;color:var(--dim);font-variant-numeric:tabular-nums}
+.meter{position:relative;height:10px;margin:8px 0 4px;background:rgba(193,169,149,.12)}
+.meter b{position:absolute;inset:0 auto 0 0;background:var(--signal);border-radius:0 4px 4px 0}
+.meter i{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;background:var(--ink)}
+.where{margin:10px 0 0;color:var(--dim);font-size:.9375rem}
+.coord{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+
+/* Timeline: bigger hit targets and a real hover label */
+#yearOut,.big{font-family:var(--display);font-weight:600;font-stretch:normal;font-variant-numeric:lining-nums tabular-nums}
+#yearNote{font-size:1rem}
+.lives{gap:3px}
+.life{height:7px}
+.life b{height:7px;border-radius:0 3px 3px 0}
+.life b:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.lifetip{position:absolute;z-index:3;transform:translateY(-130%);padding:5px 9px;background:var(--ink);color:var(--void);font:600 .8125rem/1.2 var(--body);white-space:nowrap;pointer-events:none}
+
+/* Roster: name, what happened, years */
+.roster summary .eyebrow{font-size:.875rem}
+.rtitle,.roster h2{font-weight:600;letter-spacing:-.01em}
+.ghead{align-items:baseline}
+.ghead b{font:600 1.15rem/1.2 var(--display);color:var(--ink)}
+.gn{font-size:.9375rem;color:var(--dim)}
+.gbar{height:3px;border-radius:0 2px 2px 0}
+.roster button.grow{grid-template-columns:8px minmax(0,1fr) auto}
+.gname{font-weight:700;font-size:1rem}
+.glabel{grid-column:2;font-size:.9rem}
+.gyrs{grid-column:3;grid-row:1;align-self:baseline;font:500 .8125rem var(--mono);color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* Footer */
+.foot-title{font-weight:600;letter-spacing:-.02em}
+.cols h2{font-size:1rem;font-weight:700;color:var(--ink)}
+
+@media (prefers-reduced-motion:reduce){.lifetip{transition:none}}
+
+/* Explored vs not: a white ring marks every machine you've opened, on the map, in deep space and in the roster. */
+.pin.seen:not(.sel){box-shadow:0 0 0 2px var(--ink)}
+#beyond .craft.seen circle{stroke:var(--ink);stroke-width:3px}
+.roster button.seen::before{box-shadow:0 0 0 2px var(--ink)}
+.legend .seenmark{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--quiet);box-shadow:0 0 0 2px var(--ink);margin-right:6px;vertical-align:-1px}
+
+/* Progress: one bar for all machines, counts per world. */
+.explored{display:grid;gap:8px;padding:12px 0 2px}
+.explored-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px}
+#exploredText{font-weight:700;font-size:1rem}
+.explored-worlds{display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--dim);font-size:.875rem}
+.explored-worlds b{font:500 .875rem var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+.explored-worlds .here{color:var(--ink)}
+.explored-reset{margin-left:auto;padding:4px 10px;border:1px solid var(--line2);background:none;color:var(--dim);font-size:.8125rem;font-weight:600}
+.explored-reset:hover{color:var(--ink);border-color:var(--sand)}
+.explored-bar{height:8px;background:rgba(193,169,149,.12);overflow:hidden}
+.explored-bar b{display:block;height:100%;width:0;background:var(--signal);border-radius:0 4px 4px 0;transition:width .5s cubic-bezier(.22,1,.36,1)}
+@media (prefers-reduced-motion:reduce){.explored-bar b{transition:none}}
+
+/* Timeline as named lanes: machine name on the left, a dot where it arrived, the bar for how long it worked. */
+.time{--lw:168px}
+.lives{padding-left:var(--lw);gap:4px;max-height:480px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.life{height:16px}
+.life b{top:5px;height:6px}
+.life b::before{content:"";position:absolute;left:-4px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:var(--c);box-shadow:0 0 0 2px var(--panel)}
+.lname{position:absolute;right:calc(100% + 12px);top:0;width:calc(var(--lw) - 16px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right;font-size:.8125rem;line-height:16px;color:var(--dim);cursor:pointer}
+.lname:hover,.life:has(b.sel) .lname{color:var(--ink)}
+.life:has(b.sel) .lname{font-weight:700}
+.life:has(b.future) .lname{opacity:.4}
+#year,.axis{margin-left:var(--lw);width:calc(100% - var(--lw))}
+@media (max-width:600px){.time{--lw:112px}.lname{font-size:.75rem}}
+.lives .cursor{top:0;bottom:0}

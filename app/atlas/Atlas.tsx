@@ -2,6 +2,9 @@
 
 import { useEffect, type CSSProperties } from "react";
 import "./atlas.css";
+import "./atlas-type.css";
+import "./salvage.css";
+import "./live.css";
 
 // three.js r128 (UMD) and its loaders are self-hosted in /public/vendor/three; the engine expects the global THREE.
 const VENDOR = ["/vendor/three/three.min.js", "/vendor/three/GLTFLoader.js", "/vendor/three/DRACOLoader.js"];
@@ -31,7 +34,7 @@ export default function Atlas() {
       for (const src of VENDOR) await loadScript(src);
       const { startAtlas } = await import("./engine.js");
       startAtlas();
-    })().catch((err) => console.error("Ghost Rover Atlas failed to start", err));
+    })().catch((err) => console.error("Ruins Among the Stars atlas failed to start", err));
   }, []);
 
   return (
@@ -40,10 +43,11 @@ export default function Atlas() {
         <div className="hero-in">
           <div className="hero-copy">
             <p className="eyebrow">NASA Space Apps 2026 · Abandoned but not Forgotten</p>
-            <h1>Ghost Rover Atlas</h1>
+            <h1>Ruins Among the Stars</h1>
             <p className="lede">
-              Since the 1960s NASA has left rovers, landers, mirrors and probes all over the solar system. They are still
-              out there. Pick a world, find a machine, and let it tell you its story.
+              Since the 1960s NASA has left rovers, landers, mirrors and probes all over the solar system. They are not
+              junk: some still work, many could be fixed, and all of them have a story. Pick a world, find a machine, and
+              work out what it would take to bring it back.
             </p>
           </div>
           <div className="cta">
@@ -68,6 +72,17 @@ export default function Atlas() {
             <ul id="qres" role="listbox" hidden></ul>
           </div>
           <p className="eyebrow">Positions as of 14 Nov 2026</p>
+        </div>
+
+        <div className="explored" id="explored">
+          <div className="explored-top">
+            <span id="exploredText" aria-live="polite">You&apos;ve explored 0 machines</span>
+            <span className="explored-worlds" id="exploredWorlds"></span>
+            <button type="button" id="exploredReset" className="explored-reset" hidden>Start over</button>
+          </div>
+          <div className="explored-bar" id="exploredBar" role="progressbar" aria-label="Machines explored" aria-valuemin={0} aria-valuemax={79} aria-valuenow={0}>
+            <b></b>
+          </div>
         </div>
 
         <main className="console">
@@ -114,6 +129,7 @@ export default function Atlas() {
               <span><i style={dot("var(--quiet)")}></i>gone quiet</span>
               <span><i className="sq"></i>rover</span>
               <span><i className="ring"></i>impact / crash</span>
+              <span><i className="seenmark"></i>you&apos;ve explored it</span>
             </div>
           </div>
           <aside className="dossier" id="dossier" aria-live="polite"></aside>
@@ -184,7 +200,7 @@ export default function Atlas() {
           </div>
           <div className="foot-bottom">
             <p className="eyebrow">NASA Space Apps 2026 · Abandoned but not Forgotten</p>
-            <p className="eyebrow">Ghost Rover Atlas</p>
+            <p className="eyebrow">Ruins Among the Stars</p>
           </div>
         </div>
         <div className="strip" aria-hidden="true"></div>

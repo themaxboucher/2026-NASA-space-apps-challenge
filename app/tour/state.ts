@@ -26,6 +26,8 @@ export type TourState = {
   openSpot: string | null;
   found: Record<string, string[]>;
   sceneReady: boolean;
+  // Bumped when someone presses Next before finding every spot, so the HUD can point at what's left.
+  nudge: number;
 };
 
 // The start screen: Earth in the foreground, with the Moon off-screen ahead.
@@ -46,6 +48,7 @@ export const tour = createStore<TourState>({
   openSpot: null,
   found: {},
   sceneReady: false,
+  nudge: 0,
 });
 
 let requestId = 0;
@@ -58,9 +61,34 @@ export function startTour() {
   if (phase === "start" || phase === "end") requestTravel(0, "journey");
 }
 
+// Next turns into Skip while traveling; extra presses right after a skip must not start the next trip.
+let skippedAt = -Infinity;
 export function nextStop() {
   const s = tour.get();
-  if (s.phase === "travel") return skipTravel();
+  if (s.phase === "travel") {
+    skippedAt = performance.now();
+    return skipTravel();
+  }
+  if (s.phase !== "explore" || performance.now() - skippedAt < 700) return;
+  // The story moves on once every glowing spot on this machine has been found.
+  if (spotsLeft(s) > 0) {
+    tour.set((t) => ({ nudge: t.nudge + 1 }));
+    return;
+  }
+  requestTravel(s.stop < STOPS.length - 1 ? s.stop + 1 : "end", "journey");
+}
+
+// How many spots on the current stop are still unfound.
+export function spotsLeft(s: TourState = tour.get()) {
+  const stop = STOPS[s.stop];
+  if (!stop) return 0;
+  const seen = s.found[stop.id] ?? [];
+  return stop.hotspots.filter((h) => !seen.includes(h.id)).length;
+}
+
+// The quiet way out: move on without finding everything.
+export function skipStop() {
+  const s = tour.get();
   if (s.phase !== "explore") return;
   requestTravel(s.stop < STOPS.length - 1 ? s.stop + 1 : "end", "journey");
 }

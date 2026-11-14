@@ -1,0 +1,38 @@
+{
+  "lrv": {
+    "file": "models-src/found/lrv.glb",
+    "title": "Apollo Lunar Roving Vehicle (LRV-3, Apollo 17 configuration)",
+    "credit": "\"Apollo LRV model by Alex Maietta\" (https://github.com/alexmaietta/apollo-lrv-asset), CC BY 4.0. Not affiliated with or endorsed by NASA or the Smithsonian.",
+    "license": "CC BY 4.0 (model assets; repo code is Apache-2.0)",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "page": "https://github.com/alexmaietta/apollo-lrv-asset",
+    "source_file": "lrv-usd.zip v1.0.0 release (lrv/lrv.usda, default variants: Mission=a17, LCRU=radiator_open)",
+    "size_m": 3.69,
+    "bytes": 2132216,
+    "note": "Modified (CC BY requires noting changes): converted USD->GLB in Blender, decimated 710k->120k tris, textures shrunk to 128 px, normal maps dropped, Draco-compressed. Built from LRV-3 handbook drawings in metres; 3.69 x 2.17 x 2.41 m extents include extended fenders, HGA dish and TV camera (vehicle body ~3.1 m long). Wire-mesh tyre cut-outs render as solid. 494 meshes; merge on load if draw calls matter."
+  },
+  "spitzer": {
+    "file": "models-src/found/spitzer.glb",
+    "title": "Spitzer Space Telescope",
+    "credit": "NASA Visualization Technology Applications and Development (VTAD)",
+    "license": "NASA media usage guidelines: 3D model data not subject to copyright in the US (US Government work; public domain in the US)",
+    "licenseUrl": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+    "page": "https://science.nasa.gov/resource/spitzer-space-telescope-3d-model/",
+    "source_file": "SPITZER.glb (https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/09/s/SPITZER.glb)",
+    "size_m": 4.5,
+    "bytes": 151996,
+    "note": "Textured, 10k tris; source was unscaled, rescaled so height = 4.5 m (real ~4.45 m tall, ~2.1 m wide). Textures cut to 512 px. Alternative untextured, already metre-scale version: nasa/NASA-3D-Resources '3D Models/Spitzer Space Telescope/Spitzer Space Telescope.glb' (62k tris, renders very dark)."
+  },
+  "galileo-probe": {
+    "file": "models-src/found/galileo-probe.glb",
+    "title": "Galileo atmospheric entry probe (deceleration module)",
+    "credit": "NASA (NASA 3D Resources)",
+    "license": "NASA media usage guidelines: 3D model data not subject to copyright in the US (US Government work; public domain in the US); repo README: 'free and without copyright'",
+    "licenseUrl": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+    "page": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Printing/Galileo",
+    "source_file": "3D Printing/Galileo/Galileo probe.stl",
+    "size_m": 1.26,
+    "bytes": 8520,
+    "note": "Very low-fidelity 3D-print mesh (756 tris): heat-shield aeroshell with afterbody cover, no detail, no material (gets three.js default). STL had no units; scaled to 1.26 m diameter (real aeroshell ~1.25-1.26 m, ~0.86 m tall; model comes out 0.77 m tall)."
+  }
+}

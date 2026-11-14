@@ -1,0 +1,15 @@
+{
+ "unit": "eHt",
+ "unitName": "Early Hesperian transition unit",
+ "age": "Early Hesperian",
+ "color": "#e0b024",
+ "kidText": "InSight sits on flat plains of old lava rock about 3.6 billion years old, now covered by a blanket of dust and broken rock.",
+ "lat": 4.5024,
+ "lon": 135.6234,
+ "source": {
+  "title": "Geologic Map of Mars (SIM 3292), scale 1:20,000,000",
+  "credit": "Tanaka, K.L., Skinner, J.A., Jr., Dohm, J.M., Irwin, R.P., III, Kolb, E.J., Fortezzo, C.M., Platz, T., Michael, G.G., and Hare, T.M., 2014, U.S. Geological Survey; served by NASA Mars Trek",
+  "url": "https://doi.org/10.3133/sim3292",
+  "license": "Public domain (U.S. Geological Survey)"
+ }
+}

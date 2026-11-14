@@ -1,0 +1,18 @@
+{
+ "extent_m": [
+  240000.0,
+  240000.0
+ ],
+ "far_extent_m": [
+  840000.0,
+  840000.0
+ ],
+ "res_m": 469.67,
+ "far_res_m": 3294.12,
+ "source": {
+  "product": "Mars MGS MOLA - MEX HRSC Blended DEM Global 200 m v2, USGS Astrogeology",
+  "credit": "NASA/GSFC MOLA Science Team; ESA/DLR/FU Berlin HRSC Team; USGS Astrogeology (Fergason, Hare and Laura, 2018)",
+  "license": "Public domain",
+  "url": "https://astrogeology.usgs.gov/search/map/mars_mgs_mola_mex_hrsc_blended_dem_global_200m"
+ }
+}

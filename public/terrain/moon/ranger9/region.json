@@ -1,0 +1,18 @@
+{
+ "extent_m": [
+  120000.0,
+  120000.0
+ ],
+ "far_extent_m": [
+  420000.0,
+  420000.0
+ ],
+ "res_m": 234.83,
+ "far_res_m": 1647.06,
+ "source": {
+  "product": "Moon LRO LOLA DEM 118 m global (LDEM 256 px/deg), USGS Astrogeology",
+  "credit": "NASA/GSFC LOLA Science Team; USGS Astrogeology",
+  "license": "Public domain",
+  "url": "https://astrogeology.usgs.gov/search/map/moon_lro_lola_dem_118m"
+ }
+}

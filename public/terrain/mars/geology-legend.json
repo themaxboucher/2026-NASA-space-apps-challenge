@@ -1,0 +1,276 @@
+{
+ "source": {
+  "title": "Geologic Map of Mars (SIM 3292), scale 1:20,000,000",
+  "credit": "Tanaka, K.L., Skinner, J.A., Jr., Dohm, J.M., Irwin, R.P., III, Kolb, E.J., Fortezzo, C.M., Platz, T., Michael, G.G., and Hare, T.M., 2014, U.S. Geological Survey; served by NASA Mars Trek",
+  "url": "https://doi.org/10.3133/sim3292",
+  "license": "Public domain (U.S. Geological Survey)"
+ },
+ "image": "geology-global.png",
+ "projection": "equirectangular, lon -180..180, lat 90..-90",
+ "units": [
+  {
+   "unit": "AHi",
+   "unitName": "Amazonian and Hesperian impact unit",
+   "age": "Amazonian and Hesperian",
+   "color": "#fff100"
+  },
+  {
+   "unit": "AHtu",
+   "unitName": "Amazonian and Hesperian transition undivided unit",
+   "age": "Amazonian and Hesperian",
+   "color": "#e9e4d8"
+  },
+  {
+   "unit": "AHv",
+   "unitName": "Amazonian and Hesperian volcanic",
+   "age": "Amazonian and Hesperian",
+   "color": "#f8956a"
+  },
+  {
+   "unit": "ANa",
+   "unitName": "Amazonian and Noachian apron unit",
+   "age": "Amazonian and Noachian",
+   "color": "#bda633"
+  },
+  {
+   "unit": "Aa",
+   "unitName": "Amazonian apron unit",
+   "age": "Amazonian",
+   "color": "#eed112"
+  },
+  {
+   "unit": "Ap",
+   "unitName": "Amazonian polar unit",
+   "age": "Amazonian",
+   "color": "#009ccb"
+  },
+  {
+   "unit": "Apu",
+   "unitName": "Amazonian polar undivided unit",
+   "age": "Amazonian",
+   "color": "#9bb4be"
+  },
+  {
+   "unit": "Av",
+   "unitName": "Amazonian volcanic unit",
+   "age": "Amazonian",
+   "color": "#f8aa9e"
+  },
+  {
+   "unit": "Ave",
+   "unitName": "Amazonian volcanic edifice",
+   "age": "Amazonian",
+   "color": "#cc7c59"
+  },
+  {
+   "unit": "HNb",
+   "unitName": "Hesperian and Noachian basin unit",
+   "age": "Hesperian and Noachian",
+   "color": "#6da69f"
+  },
+  {
+   "unit": "HNhu",
+   "unitName": "Hesperian and Noachian highland undivided unit",
+   "age": "Hesperian and Noachian",
+   "color": "#ccc2bf"
+  },
+  {
+   "unit": "HNt",
+   "unitName": "Hesperian and Noachian transition unit",
+   "age": "Hesperian and Noachian",
+   "color": "#fba61c"
+  },
+  {
+   "unit": "Hp",
+   "unitName": "Hesperian polar unit",
+   "age": "Hesperian",
+   "color": "#009cb2"
+  },
+  {
+   "unit": "Hpe",
+   "unitName": "Hesperian polar edifice unit",
+   "age": "Hesperian",
+   "color": "#0089d0"
+  },
+  {
+   "unit": "Hpu",
+   "unitName": "Hesperian polar undivided unit",
+   "age": "Hesperian",
+   "color": "#81adbd"
+  },
+  {
+   "unit": "Ht",
+   "unitName": "Hesperian transition unit",
+   "age": "Hesperian",
+   "color": "#ffdda3"
+  },
+  {
+   "unit": "Hto",
+   "unitName": "Hesperian transition outflow unit",
+   "age": "Hesperian",
+   "color": "#aae1fa"
+  },
+  {
+   "unit": "Htu",
+   "unitName": "Hesperian transition undivided unit",
+   "age": "Hesperian",
+   "color": "#dcd5d2"
+  },
+  {
+   "unit": "Hve",
+   "unitName": "Hesperian volcanic edifice unit",
+   "age": "Hesperian",
+   "color": "#f36f23"
+  },
+  {
+   "unit": "Nhe",
+   "unitName": "Noachian highland edifice unit",
+   "age": "Noachian",
+   "color": "#a62c4e"
+  },
+  {
+   "unit": "Nhu",
+   "unitName": "Noachian highland undivided unit",
+   "age": "Noachian",
+   "color": "#b5aaa6"
+  },
+  {
+   "unit": "Nve",
+   "unitName": "Noachian volcanic edifice unit",
+   "age": "Noachian",
+   "color": "#c9242c"
+  },
+  {
+   "unit": "eAb",
+   "unitName": "Early Amazonian basin unit",
+   "age": "Early Amazonian",
+   "color": "#99d4bf"
+  },
+  {
+   "unit": "eHb",
+   "unitName": "Early Hesperian basin unit",
+   "age": "Early Hesperian",
+   "color": "#43a2ae"
+  },
+  {
+   "unit": "eHh",
+   "unitName": "Early Hesperian highland unit",
+   "age": "Early Hesperian",
+   "color": "#eaccaf"
+  },
+  {
+   "unit": "eHt",
+   "unitName": "Early Hesperian transition unit",
+   "age": "Early Hesperian",
+   "color": "#e0b024"
+  },
+  {
+   "unit": "eHv",
+   "unitName": "Early Hesperian volcanic unit",
+   "age": "Early Hesperian",
+   "color": "#b27ab5"
+  },
+  {
+   "unit": "eNh",
+   "unitName": "Early Noachian highland unit",
+   "age": "Early Noachian",
+   "color": "#b9875f"
+  },
+  {
+   "unit": "eNhm",
+   "unitName": "Early Noachian highland massif unit",
+   "age": "Early Noachian",
+   "color": "#8d8e82"
+  },
+  {
+   "unit": "lAa",
+   "unitName": "Late Amazonian apron unit",
+   "age": "Late Amazonian",
+   "color": "#ffd700"
+  },
+  {
+   "unit": "lApc",
+   "unitName": "Late Amazonian polar cap unit",
+   "age": "Late Amazonian",
+   "color": "#daf2fd"
+  },
+  {
+   "unit": "lApd",
+   "unitName": "Late Amazonian polar dunes unit",
+   "age": "Late Amazonian",
+   "color": "#feeaba"
+  },
+  {
+   "unit": "lAv",
+   "unitName": "Late Amazonian volcanic unit",
+   "age": "Late Amazonian",
+   "color": "#fabeb7"
+  },
+  {
+   "unit": "lAvf",
+   "unitName": "Late Amazonian volcanic field unit",
+   "age": "Late Amazonian",
+   "color": "#ccb0a6"
+  },
+  {
+   "unit": "lHb",
+   "unitName": "Late Hesperian basin unit",
+   "age": "Late Hesperian",
+   "color": "#9fb39f"
+  },
+  {
+   "unit": "lHl",
+   "unitName": "Late Hesperian lowland unit",
+   "age": "Late Hesperian",
+   "color": "#8cc63f"
+  },
+  {
+   "unit": "lHt",
+   "unitName": "Late Hesperian transition unit",
+   "age": "Late Hesperian",
+   "color": "#ffcb06"
+  },
+  {
+   "unit": "lHv",
+   "unitName": "Late Hesperian volcanic unit",
+   "age": "Late Hesperian",
+   "color": "#cc9e8f"
+  },
+  {
+   "unit": "lHvf",
+   "unitName": "Late Hesperian volcanic field unit",
+   "age": "Late Hesperian",
+   "color": "#cc9e8f"
+  },
+  {
+   "unit": "lNh",
+   "unitName": "Late Noachian highland unit",
+   "age": "Late Noachian",
+   "color": "#ceae88"
+  },
+  {
+   "unit": "lNv",
+   "unitName": "Late Noachian volcanic unit",
+   "age": "Late Noachian",
+   "color": "#8882bd"
+  },
+  {
+   "unit": "mAl",
+   "unitName": "Middle Amazonian lowland unit",
+   "age": "Middle Amazonian",
+   "color": "#bdc032"
+  },
+  {
+   "unit": "mNh",
+   "unitName": "Middle Noachian highland unit",
+   "age": "Middle Noachian",
+   "color": "#cd9d81"
+  },
+  {
+   "unit": "mNhm",
+   "unitName": "Middle Noachian highland massif unit",
+   "age": "Middle Noachian",
+   "color": "#a0a498"
+  }
+ ]
+}

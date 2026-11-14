@@ -1,0 +1,15 @@
+{
+ "unit": "HNt",
+ "unitName": "Hesperian and Noachian transition unit",
+ "age": "Hesperian and Noachian",
+ "color": "#fba61c",
+ "kidText": "This is flat ground from more than 3.5 billion years ago, on the border between the old southern highlands and the low northern plains.",
+ "lat": 18.452,
+ "lon": 77.432,
+ "source": {
+  "title": "Geologic Map of Mars (SIM 3292), scale 1:20,000,000",
+  "credit": "Tanaka, K.L., Skinner, J.A., Jr., Dohm, J.M., Irwin, R.P., III, Kolb, E.J., Fortezzo, C.M., Platz, T., Michael, G.G., and Hare, T.M., 2014, U.S. Geological Survey; served by NASA Mars Trek",
+  "url": "https://doi.org/10.3133/sim3292",
+  "license": "Public domain (U.S. Geological Survey)"
+ }
+}

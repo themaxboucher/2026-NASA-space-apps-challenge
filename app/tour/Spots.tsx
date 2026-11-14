@@ -37,7 +37,7 @@ function Spot({ stopId, spot }: { stopId: string; spot: Hotspot }) {
           <button type="button" className="spot-close" aria-label="Close" onClick={() => openHotspot(stopId, null)}>
             ×
           </button>
-          {spot.broken && <p className="spot-tag">Broken part</p>}
+          {spot.broken && <p className="spot-tag">{spot.tag ?? "Broken part"}</p>}
           <h3>{spot.title}</h3>
           <p>{spot.text}</p>
           <a href={spot.source.url} target="_blank" rel="noopener noreferrer">

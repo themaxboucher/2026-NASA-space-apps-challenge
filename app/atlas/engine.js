@@ -474,11 +474,6 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     if (!keepSel) { select(null); history.replaceState(null, '', '#' + w); }
   }
   document.querySelectorAll('.worlds button').forEach(b => b.onclick = () => setWorld(b.dataset.world));
-  // Hero and footer links: switch world even if the hash already matches, then bring the map into view.
-  document.querySelectorAll('[data-go]').forEach(a => a.onclick = e => {
-    e.preventDefault(); setWorld(a.dataset.go);
-    document.querySelector('.bar').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-  });
   $('year').oninput = e => { year = +e.target.value; stopPlay(); paint(); };
   let timer = null;
   function stopPlay() { clearInterval(timer); timer = null; $('play').textContent = '▶ Play history'; }

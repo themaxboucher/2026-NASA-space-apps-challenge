@@ -1,0 +1,18 @@
+{
+  "hero": {
+    "file": "img/hero/hero.jpg",
+    "title": "Apollo 15 Lunar Roving Vehicle at its final parking spot (AS15-88-11901)",
+    "caption": "The empty Apollo 15 Lunar Roving Vehicle, parked on the Moon at Hadley-Apennine in August 1971, where it still sits today. Cropped, darkened, and faded to black on the left for the page layout.",
+    "credit": "NASA / David R. Scott (Apollo 15); scan via Project Apollo Archive",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:AS15-88-11901_(21472944789).jpg"
+  },
+  "footer": {
+    "file": "img/hero/footer.jpg",
+    "title": "Mastcam-Z's First 360-Degree Panorama",
+    "caption": "Perseverance's first 360-degree Mastcam-Z panorama from its landing site in Jezero Crater, Mars (2021), with the rover deck in the foreground. Cropped to a 3.2:1 strip and slightly darkened.",
+    "credit": "NASA/JPL-Caltech/ASU/MSSS",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Mastcam-Z%27s_First_360-Degree_Panorama.jpg"
+  }
+}

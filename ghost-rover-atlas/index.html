@@ -535,6 +535,8 @@ const RADIUS_KM = { moon: 1737.4, mars: 3389.5 };
 const safeFile = f => /^img\/[\w\-./]+\.(jpe?g|png|webp)$/i.test(f || '') && !String(f).includes('..');
 const httpUrl = u => /^https?:\/\//.test(u || '');
 const link = (u, t) => httpUrl(u) ? `<a href="${esc(u)}" target="_blank" rel="noopener">${t}</a>` : t;
+// "Eagle (Apollo 11 LM descent stage)" -> "Eagle's mission"; names ending in s get a bare apostrophe.
+const missionOf = name => { const n = String(name).replace(/\s*\(.*?\)/g, '').trim(); return `${n}${/s$/i.test(n) ? '’' : '’s'} mission`; };
 function photoFig(p) {
   if (!p || !safeFile(p.file)) return '';
   const bits = [p.credit && 'Image: ' + esc(p.credit), p.license && link(p.licenseUrl, esc(p.license)), httpUrl(p.source) && link(p.source, 'source ↗')].filter(Boolean);
@@ -612,7 +614,7 @@ function dossier(it) {
     ${model ? `<h3>Turn it around</h3>${model}` : ''}
     ${it.story ? `<blockquote class="voice">${esc(it.story)}</blockquote>` : ''}
     ${it.lastWords && !it.fate ? `<h3>Its last day</h3><p>${esc(it.lastWords)}</p>` : ''}
-    <h3>Why it went</h3><p>${esc(it.why)}</p>
+    <h3>${esc(missionOf(it.name))}</h3><p>${esc(it.why)}</p>
     <h3>What it found</h3><p>${esc(it.science)}</p>
     ${it.funFact ? `<p class="fun"><strong>Fun fact</strong>${esc(it.funFact)}</p>` : ''}
     ${src}`;

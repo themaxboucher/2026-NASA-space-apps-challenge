@@ -1,0 +1,849 @@
+[
+  {
+    "id": "viking1",
+    "name": "Viking 1 Lander",
+    "body": "mars",
+    "type": "lander",
+    "mission": "Viking 1",
+    "lat": 22.27,
+    "lon": -47.95,
+    "arrived": "1976-07-20",
+    "lastContact": "1982-11-11",
+    "status": "Silent since 1982",
+    "mass_kg": 572,
+    "why": "The first NASA spacecraft to land safely on Mars and send back pictures from the surface.",
+    "science": "It took the first color photos from the Martian surface, reported the weather for more than six years, and tested the soil for signs of life. The life tests gave puzzling results that most scientists now think came from unusual soil chemistry, not living things.",
+    "story": "I landed on the plains of Chryse Planitia on 20 July 1976, exactly seven years after astronauts first walked on the Moon. For more than six years I watched the Martian seasons change and radioed home what I saw. Then a command sent from Earth went wrong, and I could no longer hear my team.",
+    "funFact": "In 1982 it was renamed the Thomas Mutch Memorial Station, after the leader of the Viking camera team.",
+    "lastWords": "In November 1982 a faulty command sent from Earth cut off communications, and every attempt to reconnect failed.",
+    "distance_km": null,
+    "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C",
+    "summary": "Viking 1 was the first NASA spacecraft to land safely on Mars, touching down on the plain of Chryse Planitia on 20 July 1976. For more than six years it took pictures, reported the weather and tested the soil for signs of life. It still stands where it landed, silent since November 1982.",
+    "fate": {
+      "category": "comms",
+      "label": "A bad command cut contact",
+      "summary": "In November 1982 engineers sent new software to help its ageing batteries, but the update accidentally overwrote the data the lander used to point its antenna at Earth. The team tried for months to reconnect but never heard from Viking 1 again."
+    },
+    "photo": {
+      "file": "img/viking1.jpg",
+      "caption": "A Viking lander test model, built like the real thing, on display at the Smithsonian's National Air and Space Museum.",
+      "credit": "Mark Pelligrino (Wikimedia Commons)",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "source": "https://commons.wikimedia.org/wiki/File:Viking_lander_model.jpg"
+    },
+    "orbit": {
+      "file": "img/viking1-orbit.jpg",
+      "caption": "Viking 1 seen from orbit by the HiRISE camera on Mars Reconnaissance Orbiter in late 2006, 30 years after it landed. The lander is the small bright spot with a dark shadow near the center.",
+      "credit": "NASA/JPL/University of Arizona",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:PSP_001521_2025_RED_VL-1_lander.png"
+    }
+  },
+  {
+    "id": "viking2",
+    "name": "Viking 2 Lander",
+    "body": "mars",
+    "type": "lander",
+    "mission": "Viking 2",
+    "lat": 47.67,
+    "lon": 134.28,
+    "arrived": "1976-09-03",
+    "lastContact": "1980-04-11",
+    "status": "Silent since 1980",
+    "mass_kg": 572,
+    "why": "Viking 1's twin, sent much farther north to see a different part of Mars.",
+    "science": "It landed on the rocky plain of Utopia Planitia and searched the soil for signs of life, just like its twin. In 1979 it photographed a thin layer of water frost on the ground during the Martian winter.",
+    "story": "I landed far to the north of my twin, on a plain covered in rocks. One winter my camera caught the ground around me turning white with frost. After 1,281 Mars days of work my batteries failed, and my team switched me off.",
+    "funFact": "Its winter photos showed frost on the ground of Mars, something nobody had seen up close before.",
+    "lastWords": "Turned off on 11 April 1980 when its batteries failed.",
+    "distance_km": null,
+    "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-083C",
+    "summary": "Viking 2 was Viking 1's twin, and it landed on 3 September 1976 on Utopia Planitia, a rocky plain much farther north. It searched the soil for life, watched the seasons change and photographed white frost on the ground in winter. It worked until 1980 and still sits on that plain today.",
+    "fate": {
+      "category": "power",
+      "label": "Its batteries wore out",
+      "summary": "After 1,281 Mars days of work, Viking 2's batteries failed. The team switched it off on 11 April 1980."
+    },
+    "photo": {
+      "file": "img/viking2.jpg",
+      "caption": "A technician checks the soil-sampling arm of a Viking lander on Earth in 1971, years before the twins flew to Mars.",
+      "credit": "NASA",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Technician_Checks_Soil_Sampler_on_Viking_Lander_-_GPN-2000-001650.jpg"
+    },
+    "orbit": {
+      "file": "img/viking2-orbit.jpg",
+      "caption": "Viking 2 seen from orbit by the HiRISE camera on Mars Reconnaissance Orbiter in late 2006. The lander is the small bright spot with a dark shadow near the center.",
+      "credit": "NASA/JPL/University of Arizona",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:PSP_001501_2280_RED_VL-2_lander.png"
+    }
+  },
+  {
+    "id": "pathfinder",
+    "name": "Mars Pathfinder Lander (Carl Sagan Memorial Station)",
+    "body": "mars",
+    "type": "lander",
+    "mission": "Mars Pathfinder",
+    "lat": 19.33,
+    "lon": -33.55,
+    "arrived": "1997-07-04",
+    "lastContact": "1997-09-27",
+    "status": "Silent since 1997",
+    "mass_kg": 264,
+    "why": "It tested a cheaper way to land, bouncing onto Mars inside giant airbags, and it carried the first Mars rover.",
+    "science": "It sent back more than 16,500 pictures and daily weather reports from Ares Vallis, an old channel that scientists think was carved by giant floods.",
+    "story": "I bounced onto Mars wrapped in airbags on the Fourth of July, 1997, then opened my petals to let my little rover roll out. For almost three months I sent Sojourner's pictures and my own weather reports to Earth. My last transmission arrived on 27 September 1997, and nobody knows exactly why I went quiet.",
+    "funFact": "The lander was renamed the Carl Sagan Memorial Station to honor the astronomer, who had died the year before.",
+    "lastWords": "Final data transmission received 27 September 1997; contact was lost for unknown reasons.",
+    "distance_km": null,
+    "source": "https://science.nasa.gov/mission/mars-pathfinder/",
+    "summary": "Mars Pathfinder bounced onto Mars inside giant airbags on 4 July 1997, landing in Ares Vallis, an ancient flood channel. It carried Sojourner, the first rover on Mars, and sent home thousands of pictures and daily weather reports. The lander, later named the Carl Sagan Memorial Station, still rests where it landed.",
+    "fate": {
+      "category": "comms",
+      "label": "Went quiet, cause unknown",
+      "summary": "Its last data reached Earth on 27 September 1997, almost three times longer than its planned 30-day mission. Engineers kept trying to call it, without success. Nobody knows for sure why it fell silent, but they suspect its worn-out battery could no longer keep its electronics warm through the freezing Martian nights."
+    },
+    "photo": {
+      "file": "img/pathfinder.jpg",
+      "caption": "The Pathfinder lander seen by Sojourner's front camera in July 1997, with deflated airbags around it, its ramp in the middle and the rock Barnacle Bill to the right.",
+      "credit": "NASA/JPL",
+      "license": "Public domain (NASA/JPL image use policy)",
+      "licenseUrl": null,
+      "source": "https://science.nasa.gov/photojournal/sojourners-success-image/"
+    },
+    "orbit": {
+      "file": "img/pathfinder-orbit.jpg",
+      "caption": "Part of a HiRISE image from Mars Reconnaissance Orbiter (released January 2007). Labels mark the Pathfinder lander (MPF) and, lower down, its backshell and parachute.",
+      "credit": "NASA/JPL/University of Arizona",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:MPT_Hardware_on_the_Surface_MRO_picture.jpg"
+    }
+  },
+  {
+    "id": "sojourner",
+    "name": "Sojourner Rover",
+    "body": "mars",
+    "type": "rover",
+    "mission": "Mars Pathfinder",
+    "lat": 19.33,
+    "lon": -33.55,
+    "arrived": "1997-07-04",
+    "lastContact": "1997-09-27",
+    "status": "Silent since 1997",
+    "mass_kg": 10.6,
+    "why": "The first wheeled robot ever to drive on another planet.",
+    "science": "It drove up to rocks nicknamed Barnacle Bill and Yogi and used its X-ray instrument to find out what they were made of. It proved that a small, careful rover could explore Mars on its own.",
+    "story": "I'm about the size of a microwave oven and I roll on six little wheels. I never went more than about 12 meters from my lander, because it was my only radio link to Earth. When my lander fell silent, I had no way left to call home.",
+    "funFact": "Sojourner is named after civil-rights hero Sojourner Truth; the name won an essay contest entered by a 12-year-old student.",
+    "lastWords": "It could only talk to Earth through the lander, so it went silent when the lander did on 27 September 1997. Its exact final spot is not known, but it was always within about 12 m of the lander.",
+    "distance_km": 0.1,
+    "source": "https://science.nasa.gov/mission/mars-pathfinder/",
+    "summary": "Sojourner was the first wheeled robot to explore another planet, a six-wheeled rover about the size of a microwave oven. It drove from rock to rock near the Pathfinder lander, studying what they were made of. Planned for a week, it worked for almost three months, and it is still somewhere within about 12 meters of its lander.",
+    "fate": {
+      "category": "comms",
+      "label": "Its radio link went silent",
+      "summary": "Sojourner could only talk to Earth through the Pathfinder lander. When the lander stopped transmitting on 27 September 1997, the rover had no way left to call home. Its exact final spot is not known."
+    },
+    "photo": {
+      "file": "img/sojourner.jpg",
+      "caption": "Sojourner on Mars in 1997, photographed by the Pathfinder lander next to a group of rocks nicknamed 'The Dice'.",
+      "credit": "NASA/JPL",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Sojourner_on_Mars_PIA01122.jpg"
+    },
+    "orbit": {
+      "file": "img/pathfinder-orbit.jpg",
+      "caption": "Part of a HiRISE image released in January 2007, with the Pathfinder lander labeled MPF. Sojourner never went more than about 12 meters from the lander, but it is too small to pick out for certain.",
+      "credit": "NASA/JPL/University of Arizona",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:MPT_Hardware_on_the_Surface_MRO_picture.jpg"
+    }
+  },
+  {
+    "id": "spirit",
+    "name": "Spirit Rover",
+    "body": "mars",
+    "type": "rover",
+    "mission": "Mars Exploration Rover (MER-A)",
+    "lat": -14.6004,
+    "lon": 175.5254,
+    "arrived": "2004-01-04",
+    "lastContact": "2010-03-22",
+    "status": "Silent since 2010",
+    "mass_kg": 185,
+    "why": "It was planned to work for 90 Mars days, but it explored Gusev crater for more than six years.",
+    "science": "Spirit found rocks and soils that formed with water. Near a volcanic plateau called Home Plate it found soil that is almost pure silica, a sign of ancient hot springs or steam vents.",
+    "story": "I landed in Gusev crater in January 2004 and climbed hills nobody expected me to reach. In 2009 my wheels broke through a crust into soft sand at a place called Troy, and I could not get out. I couldn't tilt my solar panels toward the winter Sun, and after March 2010 I fell silent.",
+    "funFact": "Spirit made one of its biggest discoveries by accident: its broken front wheel, dragging behind it, scraped up the bright white silica soil.",
+    "lastWords": "Last signal received 22 March 2010. NASA ended its efforts to contact Spirit on 25 May 2011.",
+    "path": [
+      [
+        -14.5658,
+        175.4758
+      ],
+      [
+        -14.5651,
+        175.4821
+      ],
+      [
+        -14.5694,
+        175.4908
+      ],
+      [
+        -14.5755,
+        175.4987
+      ],
+      [
+        -14.5804,
+        175.5072
+      ],
+      [
+        -14.5851,
+        175.515
+      ],
+      [
+        -14.585,
+        175.5207
+      ],
+      [
+        -14.5872,
+        175.5237
+      ],
+      [
+        -14.5905,
+        175.5281
+      ],
+      [
+        -14.5964,
+        175.527
+      ],
+      [
+        -14.6006,
+        175.5269
+      ],
+      [
+        -14.6004,
+        175.5254
+      ]
+    ],
+    "distance_km": 7.73,
+    "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-027A",
+    "summary": "Spirit was a solar-powered rover that landed in Gusev crater on 4 January 2004. Built to work for 90 Mars days, it explored for more than six years and found signs of ancient hot springs. Today it sits stuck in soft sand at a spot called Troy, next to a plateau named Home Plate.",
+    "fate": {
+      "category": "stuck",
+      "label": "Trapped in soft sand at Troy",
+      "summary": "In May 2009 Spirit's wheels broke through a crust into soft sand at a spot called Troy, and months of escape attempts failed. In January 2010 NASA turned it into a stationary science station, but it could not tilt its solar panels toward the low winter Sun. Its last signal arrived on 22 March 2010, and NASA ended its efforts to contact it on 25 May 2011."
+    },
+    "photo": {
+      "file": "img/spirit.jpg",
+      "caption": "Spirit's own dusty deck and solar panels, photographed by its panoramic camera in October 2007. Dust like this cut the power it could make from sunlight.",
+      "credit": "NASA/JPL-Caltech/Cornell",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Mars_Spirit_rover%27s_solar_panels_covered_with_Dust_-_October_2007.jpg"
+    },
+    "orbit": {
+      "file": "img/spirit-orbit.jpg",
+      "caption": "Spirit as a bright dot just left of the round plateau Home Plate, seen by HiRISE on 13 June 2009, about a month after it got stuck at Troy.",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "license": "Public domain (NASA/JPL image use policy)",
+      "licenseUrl": null,
+      "source": "https://science.nasa.gov/photojournal/orbital-view-of-spirit-at-troy/"
+    }
+  },
+  {
+    "id": "opportunity",
+    "name": "Opportunity Rover",
+    "body": "mars",
+    "type": "rover",
+    "mission": "Mars Exploration Rover (MER-B)",
+    "lat": -2.3288,
+    "lon": -5.3503,
+    "arrived": "2004-01-25",
+    "lastContact": "2018-06-10",
+    "status": "Silent since 2018",
+    "mass_kg": 185,
+    "why": "Built for a 90-day mission, it worked for more than 14 years and drove farther than a marathon.",
+    "science": "Opportunity found strong evidence that liquid water once soaked the ground at Meridiani Planum, including tiny round 'blueberries' made of the mineral hematite. At Endeavour crater it found veins of gypsum that formed when water flowed through cracks in the rock.",
+    "story": "I rolled to a stop inside a little crater called Eagle in January 2004 and went on to drive more than 45 kilometers. In June 2018 a dust storm covered the whole planet and blocked out my sunlight. My last data showed my power was almost gone and the sky was darker than ever. A reporter later summed that up as 'My battery is low and it's getting dark', but those were his words, not mine.",
+    "funFact": "In 2015 it became the first robot to drive a full marathon distance (42.2 km) on another world.",
+    "lastWords": "Last data received 10 June 2018 during a planet-wide dust storm, showing very low power and a very dark, dusty sky. The famous line 'My battery is low and it's getting dark' is a journalist's paraphrase of that data, not a real message. NASA sent its final wake-up commands on 12 February 2019 and declared the mission over on 13 February 2019.",
+    "path": [
+      [
+        -1.946,
+        -5.527
+      ],
+      [
+        -1.9667,
+        -5.5179
+      ],
+      [
+        -2.011,
+        -5.5181
+      ],
+      [
+        -2.0469,
+        -5.5117
+      ],
+      [
+        -2.0544,
+        -5.5078
+      ],
+      [
+        -2.0923,
+        -5.5186
+      ],
+      [
+        -2.1184,
+        -5.5354
+      ],
+      [
+        -2.1554,
+        -5.532
+      ],
+      [
+        -2.1634,
+        -5.4864
+      ],
+      [
+        -2.1736,
+        -5.4435
+      ],
+      [
+        -2.1946,
+        -5.3994
+      ],
+      [
+        -2.2269,
+        -5.3647
+      ],
+      [
+        -2.2338,
+        -5.3588
+      ],
+      [
+        -2.2716,
+        -5.361
+      ],
+      [
+        -2.313,
+        -5.3559
+      ],
+      [
+        -2.3288,
+        -5.3503
+      ]
+    ],
+    "distance_km": 45.16,
+    "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-032A",
+    "summary": "Opportunity was Spirit's twin rover, and it landed at Meridiani Planum on 25 January 2004. Planned to last 90 Mars days, it explored for more than 14 years, drove over 45 kilometers and found strong evidence that water once soaked the ground. It now rests in Perseverance Valley, on the rim of Endeavour crater.",
+    "fate": {
+      "category": "power",
+      "label": "Dust storm blocked its sunlight",
+      "summary": "In June 2018 a dust storm covered the whole planet and blocked the sunlight Opportunity's solar panels needed. Its last data arrived on 10 June 2018, showing very low power and a very dark sky. NASA kept calling for eight months, sent its final commands on 12 February 2019 and declared the mission over on 13 February 2019. The famous line 'My battery is low and it's getting dark' was a journalist's paraphrase of that data, not a real message from the rover."
+    },
+    "photo": {
+      "file": "img/opportunity.jpg",
+      "caption": "Opportunity's self-portrait from March 2014, after Martian winds had blown much of the dust off its solar panels.",
+      "credit": "NASA/JPL-Caltech/Cornell Univ./Arizona State Univ.",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:PIA18079-MarsOpportunityRover-SelfPortrait-201403.jpg"
+    },
+    "orbit": {
+      "file": "img/opportunity-orbit.jpg",
+      "caption": "Opportunity is the tiny blip inside the white square, in Perseverance Valley, seen by HiRISE on 20 September 2018 after the dust storm had cleared.",
+      "credit": "NASA/JPL-Caltech/Univ. of Arizona",
+      "license": "Public domain (NASA/JPL image use policy)",
+      "licenseUrl": null,
+      "source": "https://science.nasa.gov/photojournal/opportunity-after-the-dust-storm/"
+    }
+  },
+  {
+    "id": "phoenix",
+    "name": "Phoenix Lander",
+    "body": "mars",
+    "type": "lander",
+    "mission": "Phoenix",
+    "lat": 68.2188,
+    "lon": -125.7492,
+    "arrived": "2008-05-25",
+    "lastContact": "2008-11-02",
+    "status": "Silent since 2008",
+    "mass_kg": 350,
+    "why": "It landed in the Martian arctic to dig for ice and check whether the area could ever have supported life.",
+    "science": "Phoenix scraped down to water ice just under the soil and watched bits of it vanish into the thin air. It found perchlorate, a salt that matters for possible life and for future astronauts, and it saw snow falling from clouds, though the snow evaporated before reaching the ground.",
+    "story": "I landed near the north pole of Mars in May 2008 and used my robotic arm to dig trenches that uncovered bright ice. As autumn came, the Sun sank lower and my solar panels made less and less power. My last message reached Earth on 2 November 2008; that winter I was buried in carbon-dioxide frost, and later orbiter photos suggest my solar panels broke under the weight.",
+    "funFact": "Phoenix carries a DVD of Mars stories, art and messages, meant as a library for future human visitors.",
+    "lastWords": "Final transmission received 2 November 2008, just before its power ran out in the fading autumn sunlight.",
+    "distance_km": null,
+    "source": "https://www.planetary.org/articles/1472",
+    "summary": "Phoenix was a lander that touched down in the Martian arctic on 25 May 2008. Its robotic arm dug trenches that uncovered water ice just under the soil, and it spotted snow falling from Martian clouds. It went silent as winter arrived and still sits on the icy plain where it landed.",
+    "fate": {
+      "category": "power",
+      "label": "Arctic winter took its sunlight",
+      "summary": "As the arctic autumn arrived, the Sun sank lower and Phoenix's solar panels made less and less power. Its last signal reached Earth on 2 November 2008, and NASA ended the mission on 10 November 2008. Orbiters listened for it again in 2010 but heard nothing, and HiRISE photos suggested that the weight of carbon-dioxide frost had broken its solar panels."
+    },
+    "photo": {
+      "file": "img/phoenix.jpg",
+      "caption": "Phoenix's deck in May 2008, with the American flag and a mini-DVD of Mars stories and art. One of its round solar panels is at the left, and the arctic plain stretches beyond.",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "license": "Public domain (NASA/JPL image use policy)",
+      "licenseUrl": null,
+      "source": "https://science.nasa.gov/photojournal/american-flag-and-mini-dvd-attached-to-deck-of-phoenix/"
+    },
+    "orbit": {
+      "file": "img/phoenix-orbit.jpg",
+      "caption": "HiRISE views of Phoenix from orbit before winter (20 July 2008) and after (7 May 2010). In 2010 the lander is dusty and the shadow of one solar panel is missing, a sign the panel collapsed.",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "license": "Public domain (NASA/JPL image use policy)",
+      "licenseUrl": null,
+      "source": "https://science.nasa.gov/photojournal/image-from-mars-orbit-indicates-solar-panels-on-phoenix-lander-may-have-collapsed/"
+    }
+  },
+  {
+    "id": "insight",
+    "name": "InSight Lander",
+    "body": "mars",
+    "type": "lander",
+    "mission": "InSight",
+    "lat": 4.5024,
+    "lon": 135.6234,
+    "arrived": "2018-11-26",
+    "lastContact": "2022-12-15",
+    "status": "Silent since 2022",
+    "mass_kg": 360,
+    "why": "The first mission built to study the deep inside of Mars: its crust, mantle and core.",
+    "science": "Its seismometer recorded more than 1,300 marsquakes. Scientists used those quakes to measure how thick the crust is and how big Mars's liquid metal core is.",
+    "story": "I sat on a flat plain called Elysium Planitia for four years, listening to Mars shake. Dust slowly piled up on my solar panels until I had too little power to stay awake. My final transmission reached Earth on 15 December 2022.",
+    "funFact": "On 4 May 2022 it felt a magnitude 5 marsquake, the biggest quake ever detected on another planet.",
+    "lastWords": "Last transmission received 15 December 2022; NASA declared the mission over on 21 December 2022 after it missed two contacts. A few days earlier its team posted, in InSight's voice: 'My power's really low, so this may be the last image I can send you.' The team wrote that post, not the lander.",
+    "distance_km": null,
+    "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2018-042A",
+    "summary": "InSight was a lander that touched down on the flat plain of Elysium Planitia on 26 November 2018. Its super-sensitive seismometer recorded more than 1,300 marsquakes, which let scientists map the inside of Mars, from crust to core. It still sits on that plain, its solar panels covered in dust.",
+    "fate": {
+      "category": "power",
+      "label": "Dust covered its solar panels",
+      "summary": "Over four years, dust slowly piled up on InSight's solar panels, and its power dropped lower and lower. It last talked to Earth on 15 December 2022. After it missed two contacts in a row, NASA declared the mission over on 21 December 2022."
+    },
+    "photo": {
+      "file": "img/insight.jpg",
+      "caption": "InSight's final selfie, taken on 24 April 2022, with its solar panels covered in dust.",
+      "credit": "NASA/JPL-Caltech",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:PIA25287-InSights_Final_Selfie_main.png"
+    },
+    "orbit": {
+      "file": "img/insight-orbit.jpg",
+      "caption": "InSight seen from orbit by HiRISE on 11 December 2018, two weeks after landing, along with its heat shield and parachute.",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:HiRISE_views_InSight_and_hardware.jpg"
+    }
+  },
+  {
+    "id": "ingenuity",
+    "name": "Ingenuity Mars Helicopter",
+    "body": "mars",
+    "type": "helicopter",
+    "mission": "Mars 2020",
+    "lat": 18.4973,
+    "lon": 77.3225,
+    "arrived": "2021-02-18",
+    "lastContact": "2024-04-16",
+    "status": "Grounded since 2024",
+    "mass_kg": 1.8,
+    "why": "The first aircraft to make a powered, controlled flight on another planet.",
+    "science": "It proved that a helicopter can fly in Mars's air, which is only about 1% as thick as Earth's. Its aerial photos helped the Perseverance team scout routes and places to explore.",
+    "story": "I rode to Mars tucked under Perseverance's belly and first lifted off on 19 April 2021. I was planned for five test flights, but I flew 72 times. On my last flight, on 18 January 2024, I came down hard over smooth sand and broke my rotor blades. Now I rest at a spot my team named Valinor Hills, still keeping my flight records.",
+    "funFact": "It carries a stamp-sized piece of fabric from the Wright brothers' 1903 Flyer, the first airplane on Earth.",
+    "lastWords": "Flight 72 (18 January 2024) damaged its rotor blades, and the mission ended on 25 January 2024. Its final communication session, relayed through Perseverance, was on 16 April 2024; it was left set to keep recording data.",
+    "distance_km": 18.1,
+    "source": "https://www.jpl.nasa.gov/news/nasas-ingenuity-mars-helicopter-team-says-goodbye-for-now",
+    "summary": "Ingenuity was a small helicopter that rode to Mars under Perseverance's belly and became the first aircraft to make a powered, controlled flight on another planet, on 19 April 2021. It was planned for five test flights but flew 72 times, scouting the way for its rover partner. It now sits with broken rotor blades on a sandy spot nicknamed Valinor Hills.",
+    "fate": {
+      "category": "damaged",
+      "label": "Broke its rotor blades landing",
+      "summary": "On its 72nd flight, on 18 January 2024, Ingenuity flew over smooth, almost featureless sand. Investigators think its navigation camera could not find enough landmarks to track, so it landed hard and broke its rotor blades. NASA ended the mission on 25 January 2024. Its last contact, relayed through Perseverance, was on 16 April 2024, and it was left set to keep recording data."
+    },
+    "photo": {
+      "file": "img/ingenuity.jpg",
+      "caption": "Ingenuity standing on Mars on 5 April 2021, two weeks before its first flight, in a close-up taken by Perseverance's Mastcam-Z cameras.",
+      "credit": "NASA/JPL-Caltech/ASU/MSSS",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Mastcam-Z_Gives_Ingenuity_a_Close-up.jpg"
+    },
+    "orbit": null
+  },
+  {
+    "id": "mars-polar-lander",
+    "name": "Mars Polar Lander (crash site, approximate)",
+    "body": "mars",
+    "type": "crash",
+    "mission": "Mars Polar Lander",
+    "lat": -76.0,
+    "lon": 165.0,
+    "arrived": "1999-12-03",
+    "lastContact": "1999-12-03",
+    "status": "Lost while landing in 1999",
+    "mass_kg": 290,
+    "why": "It was meant to be the first lander near Mars's south pole, to study ice and climate.",
+    "science": "It was going to dig into the layered, icy ground near the south pole. Investigators think the jolt of its landing legs opening fooled its computer into thinking it had landed, so it shut off its engines too early.",
+    "story": "I headed for the icy layered land near the south pole of Mars on 3 December 1999. As planned, I went quiet while I entered the atmosphere, and Earth never heard from me again. Engineers think I fell the last 40 meters after my computer decided I had already touched down.",
+    "funFact": "No orbiter photo has ever confirmed where it crashed, so this map shows the spot it was aiming for.",
+    "lastWords": "Last signal before atmospheric entry on 3 December 1999; nothing was ever received after landing.",
+    "distance_km": null,
+    "source": "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html",
+    "summary": "Mars Polar Lander was meant to be the first spacecraft to land near Mars's south pole, to dig into its icy, layered ground. It went quiet as planned while entering the atmosphere on 3 December 1999, and it was never heard from again. Scientists believe it crashed, but its wreck has never been confirmed in orbiter photos.",
+    "fate": {
+      "category": "crash-accident",
+      "label": "Engines shut off too early",
+      "summary": "Contact ended as planned just before it entered the atmosphere on 3 December 1999, and no signal ever came back. Investigators concluded that the most likely cause was a software flaw: the jolt of its landing legs unfolding was read as touchdown, so the computer shut off the engines about 40 meters above the ground. It probably hit the surface at about 80 km/h."
+    },
+    "photo": {
+      "file": "img/mars-polar-lander.jpg",
+      "caption": "An artist's picture of Mars Polar Lander working on the icy ground near the south pole, as it was meant to.",
+      "credit": "NASA/JPL",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Mars_Polar_Lander_-_artist_depiction.png"
+    },
+    "orbit": null
+  },
+  {
+    "id": "deep-space-2",
+    "name": "Deep Space 2 probes Amundsen & Scott (impact site, approximate)",
+    "body": "mars",
+    "type": "crash",
+    "mission": "Deep Space 2",
+    "lat": -73.0,
+    "lon": 150.0,
+    "arrived": "1999-12-03",
+    "lastContact": null,
+    "status": "Never heard from (1999)",
+    "mass_kg": 3.5,
+    "why": "Two small test probes designed to smash into the ground at high speed and check the soil for water.",
+    "science": "Each probe was built to hit the ground at about 200 meters per second, drive a spike into the soil, and test it for water ice. No signal ever came back, so nobody knows what happened to them.",
+    "story": "We were two small probes, named Amundsen and Scott after the explorers who raced to Earth's South Pole. We rode to Mars with the Mars Polar Lander and let go just before arrival, planning to slam into the ground and radio home. No one ever heard from us.",
+    "funFact": "They were built to survive hitting the ground at about 200 m/s, faster than 700 km/h.",
+    "lastWords": "Separated from Mars Polar Lander on 3 December 1999; no signal was ever received from either probe.",
+    "distance_km": null,
+    "source": "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html",
+    "summary": "Deep Space 2 was a pair of small test probes, named Amundsen and Scott, that rode to Mars with Mars Polar Lander. They were built to smash into the ground at about 200 meters per second and check the soil for water ice. They hit somewhere near Mars's south pole on 3 December 1999, but no one ever heard from them.",
+    "fate": {
+      "category": "lost",
+      "label": "Never heard from after impact",
+      "summary": "The probes separated from Mars Polar Lander just before arrival on 3 December 1999, and no signal was ever received from either one. Because there was no data at all, investigators could only list possible causes, such as the probes' radios or batteries not surviving the impact."
+    },
+    "photo": {
+      "file": "img/deep-space-2.jpg",
+      "caption": "A Jet Propulsion Laboratory worker checks one of the Deep Space 2 microprobes in Florida in November 1998, before launch.",
+      "credit": "NASA (KSC-98PC-1643)",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Deep_Space_2_inspection.jpg"
+    },
+    "orbit": null
+  },
+  {
+    "id": "mars-climate-orbiter",
+    "name": "Mars Climate Orbiter (lost, location unknown)",
+    "body": "mars",
+    "type": "crash",
+    "mission": "Mars Climate Orbiter",
+    "lat": null,
+    "lon": null,
+    "arrived": "1999-09-23",
+    "lastContact": "1999-09-23",
+    "status": "Lost in 1999",
+    "mass_kg": 338,
+    "why": "A Mars weather satellite that was lost because of a mix-up between metric and imperial units.",
+    "science": "It was supposed to study Martian weather and relay messages for Mars Polar Lander. Some navigation numbers were sent in English (imperial) units instead of being converted to metric, so it flew far too close to Mars.",
+    "story": "I flew for nine months to reach Mars. On 23 September 1999 I fired my engine to slip into orbit and passed behind the planet, but I never came out the other side. I was aiming for 140 to 150 km above the surface but came in at about 57 km, so I probably burned up in the air or bounced back out into space.",
+    "funFact": "Its loss is now a famous lesson for engineers everywhere: always check your units.",
+    "lastWords": "Signal lost as expected when it passed behind Mars during orbit insertion on 23 September 1999; it was never heard again.",
+    "distance_km": null,
+    "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-073A",
+    "summary": "Mars Climate Orbiter was a weather satellite built to study the Martian air and relay messages for Mars Polar Lander. On 23 September 1999, as it fired its engine to go into orbit, it flew much too close to Mars and was lost. It probably burned up in the atmosphere or flew back out into space, so its location is unknown.",
+    "fate": {
+      "category": "lost",
+      "label": "Mixed-up units sent it off course",
+      "summary": "A piece of ground software reported thruster data in imperial units (pound-force seconds), but the navigation team's software expected metric units (newton-seconds). The small errors added up over the nine-month trip, so on 23 September 1999 the orbiter passed about 57 km above Mars instead of the planned 140 to 150 km. It was never heard from again."
+    },
+    "photo": {
+      "file": "img/mars-climate-orbiter.jpg",
+      "caption": "An artist's picture of Mars Climate Orbiter.",
+      "credit": "NASA/JPL/Corby Waste",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Mars_Climate_Orbiter_2.jpg"
+    },
+    "orbit": null
+  },
+  {
+    "id": "curiosity",
+    "name": "Curiosity Rover",
+    "body": "mars",
+    "type": "rover",
+    "mission": "Mars Science Laboratory",
+    "lat": -4.826,
+    "lon": 137.3889,
+    "arrived": "2012-08-06",
+    "lastContact": null,
+    "status": "Still working (position as of Nov 2026)",
+    "mass_kg": 899,
+    "why": "A car-sized, nuclear-powered rover sent to find out whether Mars ever had places where microbes could live.",
+    "science": "In its first year it showed that an ancient lake in Gale crater had water that could have supported microbes. Since then it has been climbing Mount Sharp, reading its rock layers like pages in a history book of how Mars dried out.",
+    "story": "A rocket-powered sky crane lowered me onto Mars in August 2012. Ever since, I've been climbing Mount Sharp, a mountain more than 5 kilometers tall, drilling rocks to learn how Mars changed from wet to dry. My power comes from plutonium, so dust storms can't switch me off.",
+    "funFact": "Holes in its wheels spell 'JPL' in Morse code, so it stamps the letters into the Martian ground as it drives.",
+    "path": [
+      [
+        -4.5895,
+        137.4416
+      ],
+      [
+        -4.6035,
+        137.4284
+      ],
+      [
+        -4.627,
+        137.4042
+      ],
+      [
+        -4.6477,
+        137.3848
+      ],
+      [
+        -4.666,
+        137.3735
+      ],
+      [
+        -4.6783,
+        137.3593
+      ],
+      [
+        -4.7092,
+        137.3586
+      ],
+      [
+        -4.7283,
+        137.3749
+      ],
+      [
+        -4.7266,
+        137.383
+      ],
+      [
+        -4.7311,
+        137.3913
+      ],
+      [
+        -4.7397,
+        137.4082
+      ],
+      [
+        -4.7546,
+        137.3959
+      ],
+      [
+        -4.7721,
+        137.4008
+      ],
+      [
+        -4.7833,
+        137.3996
+      ],
+      [
+        -4.8067,
+        137.3794
+      ],
+      [
+        -4.826,
+        137.3889
+      ]
+    ],
+    "distance_km": 38.3,
+    "source": "https://science.nasa.gov/mission/msl-curiosity/",
+    "summary": "Curiosity is a car-sized rover that landed in Gale crater on 6 August 2012, lowered to the ground by a rocket-powered sky crane. It showed that an ancient lake there could have supported microbes. It is still at work, climbing the slopes of Mount Sharp and reading its rock layers like a history book of Mars.",
+    "fate": {
+      "category": "operational",
+      "label": "Still exploring Mount Sharp",
+      "summary": "Curiosity is still working, powered by heat from decaying plutonium, so dust storms cannot shut it down. It keeps climbing Mount Sharp, drilling rocks and checking the weather. In 2025 it reached a region of 'boxwork' ridges that scientists think formed when groundwater flowed through cracks in the rock long ago."
+    },
+    "photo": {
+      "file": "img/curiosity.jpg",
+      "caption": "Curiosity's low-angle selfie at the 'Buckskin' drill site on lower Mount Sharp, taken with the camera on its arm on 5 August 2015.",
+      "credit": "NASA/JPL-Caltech/MSSS",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Pia19808-main_tight_crop-monday.jpg"
+    },
+    "orbit": {
+      "file": "img/curiosity-orbit.jpg",
+      "caption": "Curiosity is the dark speck near the bottom of this HiRISE view, taken on 28 February 2025 while the rover was driving on Mount Sharp.",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:HiRISE_Views_Curiosity_During_a_Drive_(PIA26553).jpg"
+    }
+  },
+  {
+    "id": "perseverance",
+    "name": "Perseverance Rover",
+    "body": "mars",
+    "type": "rover",
+    "mission": "Mars 2020",
+    "lat": 18.4356,
+    "lon": 77.2332,
+    "arrived": "2021-02-18",
+    "lastContact": null,
+    "status": "Still working (position as of Oct 2026)",
+    "mass_kg": 1025,
+    "why": "It is searching for signs of ancient microbial life and collecting rock samples that could one day come back to Earth.",
+    "science": "It landed in Jezero crater, an ancient lake with a river delta, and seals rock and soil samples in tubes. In 2024 it found a rock nicknamed 'Cheyava Falls' with 'leopard spot' patterns that scientists call a possible sign of ancient life, though not proof.",
+    "story": "I touched down in Jezero crater on 18 February 2021 with a little helicopter tucked under my belly. I've driven more than 45 kilometers, across an old river delta and up onto the crater rim, filling sample tubes along the way. I even left ten tubes on the ground as a backup stash at a place called Three Forks.",
+    "funFact": "It carries microphones and recorded the first sounds ever captured on Mars, including the hum of Ingenuity's rotors.",
+    "path": [
+      [
+        18.4446,
+        77.4509
+      ],
+      [
+        18.4307,
+        77.4432
+      ],
+      [
+        18.4573,
+        77.4619
+      ],
+      [
+        18.4571,
+        77.4218
+      ],
+      [
+        18.4568,
+        77.4087
+      ],
+      [
+        18.4655,
+        77.4006
+      ],
+      [
+        18.477,
+        77.3713
+      ],
+      [
+        18.4872,
+        77.348
+      ],
+      [
+        18.493,
+        77.3359
+      ],
+      [
+        18.4952,
+        77.3039
+      ],
+      [
+        18.4692,
+        77.2932
+      ],
+      [
+        18.4605,
+        77.2647
+      ],
+      [
+        18.456,
+        77.2555
+      ],
+      [
+        18.4286,
+        77.25
+      ],
+      [
+        18.4281,
+        77.2179
+      ],
+      [
+        18.4356,
+        77.2332
+      ]
+    ],
+    "distance_km": 45.25,
+    "source": "https://science.nasa.gov/mission/mars-2020-perseverance/",
+    "summary": "Perseverance is a rover that landed in Jezero crater, an ancient lake, on 18 February 2021. It searches for signs of past microbial life and seals rock samples in tubes that could one day be brought back to Earth. It is still exploring, now on and beyond the crater's western rim.",
+    "fate": {
+      "category": "operational",
+      "label": "Still exploring and collecting samples",
+      "summary": "Perseverance is still working. After crossing Jezero crater's old river delta and climbing its rim, it is exploring ancient rocks beyond the crater's western edge and collecting samples as it goes. In June 2026 it passed a full marathon of driving (42.2 km) on Mars."
+    },
+    "photo": {
+      "file": "img/perseverance.jpg",
+      "caption": "Perseverance's selfie over a rock nicknamed 'Rochette' on 10 September 2021; the two drill holes from its first rock samples are in the rock.",
+      "credit": "NASA/JPL-Caltech/MSSS",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:PIA24836_Perseverance%27s_Selfie_at_Rochette.jpg"
+    },
+    "orbit": {
+      "file": "img/perseverance-orbit.jpg",
+      "caption": "Perseverance (inside the yellow circle) with its tracks behind it, seen by HiRISE on 13 June 2026 in an area west of Jezero crater.",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:NASA%E2%80%99s_HiRISE_Captures_Perseverance_Marking_a_Milestone_on_Mars_(PIA26726_figA).png"
+    }
+  },
+  {
+    "id": "perseverance-backshell",
+    "name": "Perseverance's Backshell & Parachute",
+    "body": "mars",
+    "type": "edl-debris",
+    "mission": "Mars 2020",
+    "lat": 18.452,
+    "lon": 77.432,
+    "arrived": "2021-02-18",
+    "lastContact": null,
+    "status": "Thrown away during landing (2021)",
+    "mass_kg": null,
+    "why": "The cone-shaped cover and 21.5-meter parachute that slowed Perseverance down, then were cast off so the rover could land.",
+    "science": "Ingenuity flew over this wreckage on 19 April 2022 and took the first aerial photos of discarded landing gear on Mars. The backshell hit the ground at about 126 km/h (78 mph), and engineers used the pictures to learn how the hardware held up.",
+    "story": "I'm the backshell that shielded Perseverance on its fiery way down, and my parachute is still tied to me. About 2 kilometers above the ground I let the rover go so its sky crane could finish the landing. Now I lie in the sand of Jezero crater, about a kilometer from where the rover landed, and Ingenuity flew by to take my picture.",
+    "funFact": "The parachute's orange-and-white pattern hides a secret code that spells 'Dare Mighty Things' plus the map coordinates of JPL.",
+    "distance_km": null,
+    "source": "https://science.nasa.gov/resource/rovers-backshell-seen-from-the-air",
+    "summary": "This is the cone-shaped backshell and 21.5-meter parachute that protected and slowed Perseverance on its way down to Mars. They were thrown away during the landing on 18 February 2021, as planned. They now lie in the sand of Jezero crater, and Ingenuity flew over to photograph them in 2022.",
+    "fate": {
+      "category": "left-behind",
+      "label": "Cast off during landing, on purpose",
+      "summary": "About 2 kilometers above the ground, Perseverance dropped out of the backshell so its rocket-powered descent stage could finish the landing. The backshell and parachute were designed to be left behind; they fell to the ground, hitting at about 126 km/h. Ingenuity photographed them from the air on 19 April 2022 to help engineers learn how they performed."
+    },
+    "photo": {
+      "file": "img/perseverance-backshell.jpg",
+      "caption": "The backshell sitting upright in Jezero crater, with the parachute's lines and the parachute at upper left, photographed by Ingenuity from 8 meters up on 19 April 2022.",
+      "credit": "NASA/JPL-Caltech",
+      "license": "Public domain (NASA/JPL image use policy)",
+      "licenseUrl": null,
+      "source": "https://science.nasa.gov/photojournal/rovers-backshell-seen-from-the-air/"
+    },
+    "orbit": {
+      "file": "img/perseverance-backshell-orbit.jpg",
+      "caption": "HiRISE view from 19 February 2021, the day after landing, with labels showing the parachute and backshell, the rover, the descent stage and the heat shield.",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Perseverance_and_Mars_2020_Spacecraft_Components_on_the_Surface_(annotated).png"
+    }
+  }
+]

@@ -1,0 +1,604 @@
+{
+  "viking1": {
+    "highlights": [
+      "Launched on 20 August 1975 on a Titan IIIE-Centaur rocket from Cape Canaveral, Florida.",
+      "Reached orbit around Mars on 19 June 1976. Its landing, first planned for 4 July, was delayed to find a safer spot.",
+      "Minutes after touchdown it took the first-ever photo from the surface of Mars: a close-up of its own footpad.",
+      "Its orbiter partner kept circling Mars and mapping the planet until 7 August 1980.",
+      "Its record of more than six years working on Mars lasted until the Opportunity rover beat it in 2010."
+    ],
+    "links": [
+      {
+        "title": "Viking 1 (NASA Science)",
+        "url": "https://science.nasa.gov/mission/viking-1/",
+        "kind": "official"
+      },
+      {
+        "title": "Viking 1 Lander (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C",
+        "kind": "data"
+      },
+      {
+        "title": "Viking Project information (NSSDCA)",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/viking.html",
+        "kind": "archive"
+      },
+      {
+        "title": "HiRISE: Viking Lander 1 seen from orbit",
+        "url": "https://www.uahirise.org/PSP_001521_2025",
+        "kind": "images"
+      },
+      {
+        "title": "All About Mars (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/all-about-mars/en/",
+        "kind": "kids"
+      },
+      {
+        "title": "Viking 1 (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Viking_1",
+        "kind": "archive"
+      }
+    ]
+  },
+  "viking2": {
+    "highlights": [
+      "Launched on 9 September 1975 on a Titan IIIE-Centaur rocket from Cape Canaveral, Florida.",
+      "Reached orbit around Mars on 7 August 1976, then spent weeks scouting for a safe landing spot.",
+      "It landed thousands of kilometers from its twin, Viking 1, much farther north.",
+      "Its seismometer was the first to work on Mars, though wind shaking the lander made marsquakes hard to spot.",
+      "Its orbiter partner was switched off on 25 July 1978 after a fuel leak.",
+      "The lander was later renamed the Gerald Soffen Memorial Station, after the Viking project scientist."
+    ],
+    "links": [
+      {
+        "title": "Viking 2 (NASA Science)",
+        "url": "https://science.nasa.gov/mission/viking-2/",
+        "kind": "official"
+      },
+      {
+        "title": "Viking 2 Lander (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-083C",
+        "kind": "data"
+      },
+      {
+        "title": "Viking Project information (NSSDCA)",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/viking.html",
+        "kind": "archive"
+      },
+      {
+        "title": "HiRISE: Viking Lander 2 seen from orbit",
+        "url": "https://www.uahirise.org/PSP_001501_2280",
+        "kind": "images"
+      },
+      {
+        "title": "All About Mars (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/all-about-mars/en/",
+        "kind": "kids"
+      },
+      {
+        "title": "Viking 2 (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Viking_2",
+        "kind": "archive"
+      }
+    ]
+  },
+  "pathfinder": {
+    "highlights": [
+      "Launched on 4 December 1996 on a Delta II rocket from Cape Canaveral, Florida.",
+      "After a seven-month trip it flew straight into the Martian air without stopping in orbit first.",
+      "Wrapped in airbags, it bounced about 15 times across the ground before rolling to a stop.",
+      "Together with Sojourner it sent home about 2.3 billion bits of data, including millions of weather readings.",
+      "NASA declared the mission over on 4 November 1997, after weeks of trying to reach the silent lander.",
+      "HiRISE photographed the lander from orbit in December 2006, almost ten years after it landed."
+    ],
+    "links": [
+      {
+        "title": "Mars Pathfinder (NASA Science)",
+        "url": "https://science.nasa.gov/mission/mars-pathfinder/",
+        "kind": "official"
+      },
+      {
+        "title": "Mars Pathfinder (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-068A",
+        "kind": "data"
+      },
+      {
+        "title": "HiRISE: Mars Pathfinder landing site",
+        "url": "https://www.uahirise.org/PSP_001890_1995",
+        "kind": "images"
+      },
+      {
+        "title": "The Mars Rovers (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/mars-rovers/en/",
+        "kind": "kids"
+      },
+      {
+        "title": "Mars Pathfinder (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Mars_Pathfinder",
+        "kind": "archive"
+      }
+    ]
+  },
+  "sojourner": {
+    "highlights": [
+      "Launched on 4 December 1996, folded up on the Pathfinder lander, on a Delta II rocket.",
+      "It rolled down a ramp onto Mars on 5 July 1997 (US time), the day after landing.",
+      "It weighed only about 10.6 kg and crept along at about 1 centimeter per second.",
+      "It drove about 100 meters in total, zig-zagging between rocks near the lander.",
+      "It sent back about 550 pictures and studied the chemistry of rocks and soil.",
+      "It worked for 83 Mars days, about 12 times longer than its planned 7 days."
+    ],
+    "links": [
+      {
+        "title": "Mars Pathfinder and Sojourner (NASA Science)",
+        "url": "https://science.nasa.gov/mission/mars-pathfinder/",
+        "kind": "official"
+      },
+      {
+        "title": "Sojourner rover (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=MESURPR",
+        "kind": "data"
+      },
+      {
+        "title": "HiRISE: Mars Pathfinder landing site",
+        "url": "https://www.uahirise.org/PSP_001890_1995",
+        "kind": "images"
+      },
+      {
+        "title": "The Mars Rovers (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/mars-rovers/en/",
+        "kind": "kids"
+      },
+      {
+        "title": "Sojourner (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Sojourner_(rover)",
+        "kind": "archive"
+      }
+    ]
+  },
+  "spirit": {
+    "highlights": [
+      "Launched on 10 June 2003 on a Delta II rocket from Cape Canaveral, Florida.",
+      "Less than three weeks after landing a memory problem froze it; engineers fixed it by radio from Earth.",
+      "In August 2005 it climbed to the top of Husband Hill, with a view across Gusev crater.",
+      "Its right front wheel stopped turning in March 2006, so it drove backwards, dragging the broken wheel.",
+      "Martian whirlwinds called dust devils sometimes blew dust off its solar panels, giving it surprise power boosts.",
+      "It drove about 7.7 km in total before getting stuck at Troy."
+    ],
+    "links": [
+      {
+        "title": "Spirit and Opportunity (NASA Science)",
+        "url": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/",
+        "kind": "official"
+      },
+      {
+        "title": "Spirit rover (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-027A",
+        "kind": "data"
+      },
+      {
+        "title": "Orbital view of Spirit at Troy (NASA Photojournal)",
+        "url": "https://science.nasa.gov/photojournal/orbital-view-of-spirit-at-troy/",
+        "kind": "images"
+      },
+      {
+        "title": "HiRISE: Spirit imaging campaign at Troy",
+        "url": "https://www.uahirise.org/ESP_013499_1650",
+        "kind": "images"
+      },
+      {
+        "title": "The Mars Rovers: Spirit and Opportunity (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/mars-spirit-opportunity/en/",
+        "kind": "kids"
+      },
+      {
+        "title": "Spirit (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Spirit_(rover)",
+        "kind": "archive"
+      }
+    ]
+  },
+  "opportunity": {
+    "highlights": [
+      "Launched on 7 July 2003 (Florida time) on a Delta II Heavy rocket from Cape Canaveral.",
+      "It rolled to a stop inside a small crater called Eagle, a lucky landing nicknamed a 'hole in one'.",
+      "In January 2005 it found 'Heat Shield Rock', the first meteorite ever identified on another planet.",
+      "From 2006 to 2008 it explored Victoria crater, driving down inside it and back out.",
+      "On 9 August 2011 it reached the rim of giant Endeavour crater after a three-year drive.",
+      "In July 2014 it beat the Soviet Lunokhod 2 rover's record for the longest drive on another world."
+    ],
+    "links": [
+      {
+        "title": "Spirit and Opportunity (NASA Science)",
+        "url": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/",
+        "kind": "official"
+      },
+      {
+        "title": "Opportunity rover (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-032A",
+        "kind": "data"
+      },
+      {
+        "title": "Opportunity after the dust storm (NASA Photojournal)",
+        "url": "https://science.nasa.gov/photojournal/opportunity-after-the-dust-storm/",
+        "kind": "images"
+      },
+      {
+        "title": "HiRISE: Opportunity in western Endeavour crater",
+        "url": "https://www.uahirise.org/ESP_056955_1775",
+        "kind": "images"
+      },
+      {
+        "title": "HiRISE: Opportunity's tracks at Victoria crater",
+        "url": "https://www.uahirise.org/PSP_004289_1780",
+        "kind": "images"
+      },
+      {
+        "title": "The Mars Rovers: Spirit and Opportunity (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/mars-spirit-opportunity/en/",
+        "kind": "kids"
+      },
+      {
+        "title": "Opportunity (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Opportunity_(rover)",
+        "kind": "archive"
+      }
+    ]
+  },
+  "phoenix": {
+    "highlights": [
+      "Launched on 4 August 2007 on a Delta II rocket from Cape Canaveral, Florida.",
+      "It was built partly from a lander that was shelved after Mars Polar Lander was lost in 1999.",
+      "HiRISE photographed it hanging from its parachute, the first picture of a spacecraft landing on another world.",
+      "On 31 July 2008 its tiny ovens heated a soil sample and confirmed it contained water ice.",
+      "Planned for 90 Mars days, it worked for about five months before winter darkness arrived."
+    ],
+    "links": [
+      {
+        "title": "Mars Phoenix (NASA Science)",
+        "url": "https://science.nasa.gov/mission/mars-phoenix/",
+        "kind": "official"
+      },
+      {
+        "title": "Phoenix (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2007-034A",
+        "kind": "data"
+      },
+      {
+        "title": "Phoenix's solar panels may have collapsed (NASA Photojournal)",
+        "url": "https://science.nasa.gov/photojournal/image-from-mars-orbit-indicates-solar-panels-on-phoenix-lander-may-have-collapsed/",
+        "kind": "images"
+      },
+      {
+        "title": "HiRISE: Phoenix lander hardware after landing",
+        "url": "https://www.uahirise.org/PSP_008591_2485",
+        "kind": "images"
+      },
+      {
+        "title": "HiRISE: Phoenix lander after one Mars year",
+        "url": "https://www.uahirise.org/ESP_017716_2485",
+        "kind": "images"
+      },
+      {
+        "title": "Phoenix (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Phoenix_(spacecraft)",
+        "kind": "archive"
+      }
+    ]
+  },
+  "insight": {
+    "highlights": [
+      "Launched on 5 May 2018 on an Atlas V from Vandenberg, California: the first US planetary launch from the West Coast.",
+      "Two briefcase-sized satellites called MarCO flew alongside and radioed news of its landing back to Earth.",
+      "Its robotic arm set the seismometer down on the ground on 19 December 2018.",
+      "It detected its first marsquake on 6 April 2019.",
+      "Its heat probe, nicknamed 'the mole', could not dig deep, and the team stopped trying in January 2021.",
+      "On 24 December 2021 it felt a meteoroid hit; orbiters then found the new crater, with chunks of ice."
+    ],
+    "links": [
+      {
+        "title": "InSight Lander (NASA Science)",
+        "url": "https://science.nasa.gov/mission/insight/",
+        "kind": "official"
+      },
+      {
+        "title": "InSight (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2018-042A",
+        "kind": "data"
+      },
+      {
+        "title": "InSight raw images",
+        "url": "https://mars.nasa.gov/insight/multimedia/raw-images/",
+        "kind": "images"
+      },
+      {
+        "title": "HiRISE: InSight lander from orbit",
+        "url": "https://www.uahirise.org/ESP_057939_1845",
+        "kind": "images"
+      },
+      {
+        "title": "All About Mars (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/all-about-mars/en/",
+        "kind": "kids"
+      },
+      {
+        "title": "InSight (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/InSight",
+        "kind": "archive"
+      }
+    ]
+  },
+  "ingenuity": {
+    "highlights": [
+      "Launched on 30 July 2020, tucked under Perseverance, on an Atlas V rocket from Cape Canaveral.",
+      "Perseverance dropped it gently onto the ground on 3 April 2021.",
+      "It weighs only about 1.8 kg, and its blades spin about 2,400 times a minute to grip the thin air.",
+      "On 26 February 2022 HiRISE spotted it from orbit, about 200 meters from Perseverance.",
+      "Over 72 flights it flew about 17 km and spent a little over two hours in the air."
+    ],
+    "links": [
+      {
+        "title": "Ingenuity Mars Helicopter (NASA Science)",
+        "url": "https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/",
+        "kind": "official"
+      },
+      {
+        "title": "Mars 2020 with Ingenuity (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2020-052A",
+        "kind": "data"
+      },
+      {
+        "title": "HiRISE: Perseverance and Ingenuity in Jezero crater",
+        "url": "https://www.uahirise.org/ESP_073068_1985",
+        "kind": "images"
+      },
+      {
+        "title": "Perseverance raw images (include Ingenuity's photos)",
+        "url": "https://mars.nasa.gov/mars2020/multimedia/raw-images/",
+        "kind": "images"
+      },
+      {
+        "title": "Ingenuity (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Ingenuity_(helicopter)",
+        "kind": "archive"
+      }
+    ]
+  },
+  "mars-polar-lander": {
+    "highlights": [
+      "Launched on 3 January 1999 on a Delta II rocket from Cape Canaveral, Florida.",
+      "It carried the first microphone ever sent to Mars, meant to record Martian sounds.",
+      "It arrived at Mars on 3 December 1999 after an 11-month trip.",
+      "A NASA review board reported on the most likely cause of the loss in March 2000.",
+      "Orbiter cameras have searched its target area many times, but its wreck has never been confirmed."
+    ],
+    "links": [
+      {
+        "title": "Mars Polar Lander / Deep Space 2 (NASA Science)",
+        "url": "https://science.nasa.gov/mission/mars-polar-lander-deep-space-2/",
+        "kind": "official"
+      },
+      {
+        "title": "Mars Polar Lander (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1999-001A",
+        "kind": "data"
+      },
+      {
+        "title": "MPL and Deep Space 2 landing sites (NSSDCA)",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html",
+        "kind": "data"
+      },
+      {
+        "title": "Mars exploration timeline (NSSDCA)",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Mars Polar Lander (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Mars_Polar_Lander",
+        "kind": "archive"
+      }
+    ]
+  },
+  "deep-space-2": {
+    "highlights": [
+      "Launched on 3 January 1999, riding on Mars Polar Lander's cruise stage, on a Delta II rocket.",
+      "They were part of NASA's New Millennium Program, which tested new technology for future missions.",
+      "The probes were named Amundsen and Scott, after the first explorers to reach Earth's South Pole.",
+      "Each probe weighed about 3.6 kg, roughly as much as a house cat.",
+      "They were aimed at icy layered ground near 73 degrees south, close to Mars's south pole.",
+      "Building both probes cost about 29 million US dollars."
+    ],
+    "links": [
+      {
+        "title": "Mars Polar Lander / Deep Space 2 (NASA Science)",
+        "url": "https://science.nasa.gov/mission/mars-polar-lander-deep-space-2/",
+        "kind": "official"
+      },
+      {
+        "title": "Deep Space 2 (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=DEEPSP2",
+        "kind": "data"
+      },
+      {
+        "title": "MPL and Deep Space 2 landing sites (NSSDCA)",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html",
+        "kind": "data"
+      },
+      {
+        "title": "Mars exploration timeline (NSSDCA)",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Deep Space 2 (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Deep_Space_2",
+        "kind": "archive"
+      }
+    ]
+  },
+  "mars-climate-orbiter": {
+    "highlights": [
+      "Launched on 11 December 1998 on a Delta II rocket from Cape Canaveral, Florida.",
+      "It carried a color weather camera and an infrared sounder to measure the Martian air.",
+      "On 10 November 1999 a NASA board published its report naming the unit mix-up as the cause.",
+      "A copy of its weather instrument later flew to Mars on Mars Reconnaissance Orbiter, launched in 2005."
+    ],
+    "links": [
+      {
+        "title": "Mars Climate Orbiter (NASA Science)",
+        "url": "https://science.nasa.gov/mission/mars-climate-orbiter/",
+        "kind": "official"
+      },
+      {
+        "title": "Mars Climate Orbiter (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-073A",
+        "kind": "data"
+      },
+      {
+        "title": "Mishap Investigation Board Phase I Report (PDF)",
+        "url": "https://llis.nasa.gov/llis_lib/pdf/1009464main1_0641-mr.pdf",
+        "kind": "archive"
+      },
+      {
+        "title": "Mars exploration timeline (NSSDCA)",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Mars Climate Orbiter (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Mars_Climate_Orbiter",
+        "kind": "archive"
+      }
+    ]
+  },
+  "curiosity": {
+    "highlights": [
+      "Launched on 26 November 2011 on an Atlas V rocket from Cape Canaveral, Florida.",
+      "In September 2012 it found rounded pebbles from an ancient stream that once flowed in Gale crater.",
+      "In September 2014 it reached the base of Mount Sharp, its main goal.",
+      "In June 2018 scientists announced it had found organic molecules in 3-billion-year-old rocks.",
+      "In May 2024 it drove over a rock, cracked it open and revealed yellow crystals of pure sulfur.",
+      "In March 2025 scientists reported the largest organic molecules yet found on Mars, in a Curiosity sample."
+    ],
+    "links": [
+      {
+        "title": "Curiosity Rover (NASA Science)",
+        "url": "https://science.nasa.gov/mission/msl-curiosity/",
+        "kind": "official"
+      },
+      {
+        "title": "Where is Curiosity? Live location map",
+        "url": "https://science.nasa.gov/mission/msl-curiosity/location-map/",
+        "kind": "data"
+      },
+      {
+        "title": "Curiosity rover updates (latest news)",
+        "url": "https://science.nasa.gov/mission/msl-curiosity/science-updates/",
+        "kind": "official"
+      },
+      {
+        "title": "Curiosity raw images",
+        "url": "https://mars.nasa.gov/msl/multimedia/raw-images/",
+        "kind": "images"
+      },
+      {
+        "title": "Curiosity (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2011-070A",
+        "kind": "data"
+      },
+      {
+        "title": "The Mars Rovers: Curiosity (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/mars-curiosity/en/",
+        "kind": "kids"
+      },
+      {
+        "title": "Curiosity (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Curiosity_(rover)",
+        "kind": "archive"
+      }
+    ]
+  },
+  "perseverance": {
+    "highlights": [
+      "Launched on 30 July 2020 on an Atlas V rocket from Cape Canaveral, Florida.",
+      "While landing it used Terrain-Relative Navigation, matching camera views to a map to steer away from hazards.",
+      "Its landing spot was named Octavia E. Butler Landing, after the science-fiction author.",
+      "On 20 April 2021 its MOXIE experiment made oxygen from Martian air, a first on another planet.",
+      "On 6 September 2021 it sealed its first rock core sample in a tube.",
+      "In December 2022 and January 2023 it left ten sample tubes at a backup depot called Three Forks."
+    ],
+    "links": [
+      {
+        "title": "Perseverance Rover (NASA Science)",
+        "url": "https://science.nasa.gov/mission/mars-2020-perseverance/",
+        "kind": "official"
+      },
+      {
+        "title": "Where is Perseverance? Live location map",
+        "url": "https://science.nasa.gov/mission/mars-2020-perseverance/location-map/",
+        "kind": "data"
+      },
+      {
+        "title": "Perseverance rover updates (latest news)",
+        "url": "https://science.nasa.gov/mission/mars-2020-perseverance/science-updates/",
+        "kind": "official"
+      },
+      {
+        "title": "Perseverance raw images",
+        "url": "https://mars.nasa.gov/mars2020/multimedia/raw-images/",
+        "kind": "images"
+      },
+      {
+        "title": "HiRISE images of Perseverance",
+        "url": "https://www.uahirise.org/releases/perseverance/",
+        "kind": "images"
+      },
+      {
+        "title": "Mars 2020 Perseverance (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2020-052A",
+        "kind": "data"
+      },
+      {
+        "title": "Perseverance (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Perseverance_(rover)",
+        "kind": "archive"
+      }
+    ]
+  },
+  "perseverance-backshell": {
+    "highlights": [
+      "The parachute opened at supersonic speed, about 11 km above the ground.",
+      "HiRISE photographed Perseverance drifting under this parachute during the landing on 18 February 2021.",
+      "The backshell is about 4.5 meters wide, wider than a car is long.",
+      "Space fans cracked the parachute's hidden code within hours after NASA showed it on 22 February 2021."
+    ],
+    "links": [
+      {
+        "title": "Rover's backshell seen from the air (NASA Science)",
+        "url": "https://science.nasa.gov/resource/rovers-backshell-seen-from-the-air/",
+        "kind": "images"
+      },
+      {
+        "title": "HiRISE: the descent of Perseverance",
+        "url": "https://www.uahirise.org/ESP_068281_9024",
+        "kind": "images"
+      },
+      {
+        "title": "HiRISE: Perseverance hardware one day after landing",
+        "url": "https://www.uahirise.org/ESP_068294_1985",
+        "kind": "images"
+      },
+      {
+        "title": "Perseverance Rover (NASA Science)",
+        "url": "https://science.nasa.gov/mission/mars-2020-perseverance/",
+        "kind": "official"
+      },
+      {
+        "title": "Mars 2020 Perseverance (NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2020-052A",
+        "kind": "data"
+      }
+    ]
+  }
+}

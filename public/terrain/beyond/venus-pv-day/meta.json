@@ -1,0 +1,49 @@
+{
+  "site": "venus-pv-day",
+  "title": "Pioneer Venus Day Probe on Venus",
+  "machines": [
+    "pioneer_venus_small_probes"
+  ],
+  "places": [
+    {
+      "id": "pioneer_venus_small_probes",
+      "x_m": 0,
+      "y_m": 0
+    }
+  ],
+  "sources": {
+    "height": {
+      "product": "Venus Magellan Global Topography 4641m v2 (GTDR altimetry)",
+      "credit": "NASA/JPL/USGS Astrogeology",
+      "license": "Public domain",
+      "url": "https://planetarymaps.usgs.gov/mosaic/Venus_Magellan_Topography_Global_4641m_v02.tif"
+    },
+    "color": {
+      "product": "Venus Magellan SAR left-look global mosaic 75m (partial coverage; gap filled with synthetic filler, see note)",
+      "credit": "NASA/JPL/USGS Astrogeology",
+      "license": "Public domain",
+      "url": "https://planetarymaps.usgs.gov/mosaic/Venus_Magellan_LeftLook_mosaic_global_75m.tif"
+    }
+  },
+  "note": "Shows the Day Probe touchdown 1978-12-09 at 31.3 S, 317 E (NSSDCA 1978-078G); it kept transmitting for 67 min after landing. The other two small probes landed far away (North Probe 59.3 N, 4.8 E; Night Probe 28.7 S, 56.7 E) and have no tile. Colour is Magellan radar brightness (roughness), not visible light; the real ground is lit dim orange under thick clouds. Height is ~4.6 km/px altimetry upsampled to a ~98 m grid, so it only shows broad slopes. Projection: local tangent plane, north up. Coordinates are the NSSDCA-listed touchdown points; the probes were not tracked to the ground precisely, so the site is approximate (tens of km). Magellan has NO radar coverage over 72% of this tile (the western part); that area is neutral filler (topography shading + random speckle), not imagery.",
+  "body": "venus",
+  "world": "beyond",
+  "sky": "orange-haze",
+  "gravity_note": "Venus's gravity is 91% of Earth's, but the air is 90 times thicker and hot enough (465 C) to melt lead.",
+  "center": [
+    -31.3,
+    317.0
+  ],
+  "extent_m": [
+    50000,
+    50000
+  ],
+  "res_m": {
+    "height": 4641,
+    "color": 75
+  },
+  "heightRange_m": [
+    -267.4,
+    268.12
+  ]
+}

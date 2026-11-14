@@ -1,0 +1,622 @@
+{
+  "apollo11-lm": {
+    "summary": "This is the bottom half of Eagle, the lunar module that carried Neil Armstrong and Buzz Aldrin to the first crewed Moon landing on July 20, 1969. Its legs, fuel tanks and landing engine got them down safely, and it also carried their tools and experiments. It still stands at Tranquility Base, with a plaque on its front leg.",
+    "fate": {
+      "category": "left-behind",
+      "label": "Left behind as a launch pad",
+      "summary": "On July 21, 1969, the top half (the ascent stage) fired its engine and lifted off, using the descent stage as its launch platform. The descent stage was never meant to fly again, so it stayed at Tranquility Base. NASA's Lunar Reconnaissance Orbiter (LRO) has photographed it from orbit."
+    },
+    "photo": {
+      "file": "img/apollo11-lm.jpg",
+      "caption": "Eagle on the Moon, with Buzz Aldrin unloading experiments from a bay in the descent stage",
+      "credit": "NASA/Neil Armstrong",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_11_Lunar_Lander_-_5927_NASA.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo11-lm-orbit.jpg",
+      "caption": "LRO view of Tranquility Base from 24 km up, with Eagle's descent stage (LM), the laser reflector (LRRR) and the seismometer (PSEP) labeled",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_11-_%27A_Stark_Beauty_All_Its_Own%27_(6962456839).jpg"
+    }
+  },
+  "apollo11-pse": {
+    "summary": "The Passive Seismic Experiment was the first seismometer ever set up on another world, placed by Buzz Aldrin near Eagle in July 1969. It ran on solar panels, used small plutonium heaters to survive the freezing lunar night, and radioed home the Moon's tiny shakes, even the astronauts' footsteps. It has been silent since 1969 but still sits at Tranquility Base.",
+    "fate": {
+      "category": "comms",
+      "label": "Stopped answering commands from Earth",
+      "summary": "It worked for about three weeks. On August 25, 1969, it stopped responding to commands from Earth, probably because its electronics overheated in the hot midday Sun, and NASA ended the experiment a few days later. The longer-lasting, nuclear-powered stations left by later Apollo crews took over its job."
+    },
+    "photo": {
+      "file": "img/apollo11-pse.jpg",
+      "caption": "Buzz Aldrin beside the Passive Seismic Experiment, with its two solar panels spread out",
+      "credit": "NASA/Neil Armstrong",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:ALSEP_AS11-40-5951.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo11-lm-orbit.jpg",
+      "caption": "LRO view of Tranquility Base from 24 km up, with Eagle's descent stage (LM), the laser reflector (LRRR) and the seismometer (PSEP) labeled",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_11-_%27A_Stark_Beauty_All_Its_Own%27_(6962456839).jpg"
+    }
+  },
+  "apollo11-lrrr": {
+    "summary": "The Laser Ranging Retroreflector is a panel of 100 special mirrors, called corner cubes, that the Apollo 11 crew set on the ground at Tranquility Base. Observatories on Earth fire laser pulses at it and time how long the light takes to bounce back. It needs no power, so it still works more than 55 years later.",
+    "fate": {
+      "category": "passive",
+      "label": "Still bouncing lasers, no power needed",
+      "summary": "It is just glass prisms in an aluminum frame, so there is nothing to break down or run out of power. Moon dust has dimmed it over the decades, but laser stations still use it to measure the Earth-Moon distance to within millimeters, showing that the Moon drifts away by about 3.8 cm a year."
+    },
+    "photo": {
+      "file": "img/apollo11-lrrr.jpg",
+      "caption": "The Apollo 11 laser reflector on the ground at Tranquility Base, with Eagle in the background",
+      "credit": "NASA",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_11_Lunar_Laser_Ranging_Experiment.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo11-lm-orbit.jpg",
+      "caption": "LRO view of Tranquility Base from 24 km up, with Eagle's descent stage (LM), the laser reflector (LRRR) and the seismometer (PSEP) labeled",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_11-_%27A_Stark_Beauty_All_Its_Own%27_(6962456839).jpg"
+    }
+  },
+  "apollo12-lm": {
+    "summary": "This is the bottom half of Intrepid, which landed Pete Conrad and Alan Bean in the Ocean of Storms on November 19, 1969. It touched down so precisely that the robot lander Surveyor 3, which had arrived in 1967, was less than 200 meters away. When the crew left, it stayed behind as their launch pad.",
+    "fate": {
+      "category": "left-behind",
+      "label": "Left behind as a launch pad",
+      "summary": "On November 20, 1969, the ascent stage blasted off from it, and the descent stage stayed on the Moon as designed. LRO photos show it still sitting beside Surveyor crater, with the astronauts' footpaths leading to Surveyor 3 and to their science station."
+    },
+    "photo": {
+      "file": "img/apollo12-lm.jpg",
+      "caption": "Pete Conrad at the robot lander Surveyor 3, with Intrepid on the horizon behind him",
+      "credit": "NASA/Alan Bean",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Surveyor_3-Apollo_12.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo12-lm-orbit.jpg",
+      "caption": "Low-altitude LRO view of the Apollo 12 site, with Intrepid's descent stage, the ALSEP and Surveyor 3 marked",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Pinpoint_Landing_on_the_Ocean_of_Storms_(LROC401_-_M175428601RE_25cm_AP12_area).png"
+    }
+  },
+  "apollo12-alsep": {
+    "summary": "ALSEP stands for Apollo Lunar Surface Experiments Package: a set of science instruments wired to a central radio station. Pete Conrad and Alan Bean set this one up in November 1969, and it was the first Apollo station powered by a small nuclear generator, so it worked day and night. Its seismometer, magnetometer and other sensors sent data to Earth for almost eight years.",
+    "fate": {
+      "category": "switched-off",
+      "label": "Switched off in 1977 to save money",
+      "summary": "On September 30, 1977, NASA shut down all five Apollo science stations, mainly to save money; their nuclear generators were also slowly giving less power. The Apollo 12 station was still sending data when it was turned off, and it still stands where Conrad and Bean left it."
+    },
+    "photo": {
+      "file": "img/apollo12-alsep.jpg",
+      "caption": "Part of the Apollo 12 ALSEP on the Moon, with Alan Bean's shadow in front",
+      "credit": "NASA/JSC",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_12_Mission_image_-_View_of_part_of_the_deployed_Apollo_Lunar_Surface_Experiment_Package_(ALSEP)_(as12-47-6918).jpg"
+    },
+    "orbit": {
+      "file": "img/apollo12-lm-orbit.jpg",
+      "caption": "Low-altitude LRO view of the Apollo 12 site, with Intrepid's descent stage, the ALSEP and Surveyor 3 marked",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Pinpoint_Landing_on_the_Ocean_of_Storms_(LROC401_-_M175428601RE_25cm_AP12_area).png"
+    }
+  },
+  "apollo12-lm-ascent": {
+    "summary": "This was the top half of Intrepid, the cabin that lifted Pete Conrad and Alan Bean off the Moon on November 20, 1969 and carried them back to their command module, Yankee Clipper. Once the crew had climbed across, it was cut loose and steered into the Moon on purpose. Its crash was the first moonquake ever made on purpose.",
+    "fate": {
+      "category": "crash-planned",
+      "label": "Crashed on purpose to shake the Moon",
+      "summary": "Mission control fired its engine by radio to send it crashing into the Moon on November 20, 1969, about 75 km from the landing site. The Apollo 12 seismometer recorded the Moon vibrating for nearly an hour, far longer than expected, which showed that the Moon's outer layers are dry and broken up. Researchers suggested a possible crash site in LRO images in 2019, but it has not been confirmed."
+    },
+    "photo": {
+      "file": "img/apollo12-lm-ascent.jpg",
+      "caption": "Intrepid (both stages, before landing) flying over the Moon; the top half is the ascent stage",
+      "credit": "NASA",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Lunar_module_AS12-51-7507.jpg"
+    },
+    "orbit": null
+  },
+  "apollo13-sivb": {
+    "summary": "The S-IVB was the third and top stage of the Saturn V rocket: an 18-meter-long stage with its own engine that pushed the astronauts out of Earth orbit toward the Moon. After sending Apollo 13 on its way, this one was steered to hit the Moon on purpose. It crashed in April 1970 while the crew, whose spacecraft had been damaged by an oxygen tank explosion, were swinging around the Moon to get home.",
+    "fate": {
+      "category": "crash-planned",
+      "label": "Crashed on purpose to shake the Moon",
+      "summary": "It was the first Saturn V third stage crashed into the Moon on purpose, hitting on April 14, 1970 (Houston time) at about 2.6 km per second. The Apollo 12 seismometer, about 135 km away, recorded the ground shaking for hours. LRO later found its crater, about 30 meters across, north of Mare Cognitum."
+    },
+    "photo": {
+      "file": "img/apollo13-sivb.jpg",
+      "caption": "An S-IVB stage with a lunar module inside, just like Apollo 13's (this one is Apollo 11's)",
+      "credit": "NASA (via U.S. National Archives)",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:AS11-36-5313_-_Apollo_11_-_Apollo_11_Mission_image_-_Saturn_Launch_Vehicle_Third_Stage_(S-IVB)_with_Lunar_Module_(LM)_-_NARA_-_16683003.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo13-sivb-orbit.jpg",
+      "caption": "LRO image of the Apollo 13 S-IVB impact crater, about 30 meters wide, north of Mare Cognitum",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo13-booster-crater.jpg"
+    }
+  },
+  "apollo14-lm": {
+    "summary": "This is the bottom half of Antares, which landed Alan Shepard and Edgar Mitchell in the hilly Fra Mauro region on February 5, 1971, the spot Apollo 13 never reached. Before landing, a faulty abort switch nearly stopped the mission, until engineers on Earth worked out a fix for the computer. When the crew left, it stayed behind as their launch pad.",
+    "fate": {
+      "category": "left-behind",
+      "label": "Left behind as a launch pad",
+      "summary": "On February 6, 1971, after two moonwalks, the ascent stage lifted off from it. LRO images show the descent stage still at Fra Mauro, with the astronauts' trails leading to their science station and toward Cone crater."
+    },
+    "photo": {
+      "file": "img/apollo14-lm.jpg",
+      "caption": "Antares on the Moon at Fra Mauro, with the U.S. flag beside it",
+      "credit": "NASA",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_14_Lunar_Module_(LM)_on_the_moon.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo14-lm-orbit.jpg",
+      "caption": "LRO view of the Apollo 14 site in 2011, with Antares's descent stage in the center and the astronauts' trails",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:New_View_of_Apollo_14_(LROC285_-_M150633128LR_thumb).png"
+    }
+  },
+  "apollo14-alsep": {
+    "summary": "Apollo 14's ALSEP was a nuclear-powered science station that Alan Shepard and Edgar Mitchell set up at Fra Mauro in February 1971. Besides a seismometer, it had a line of ground sensors: Mitchell walked along it firing small 'thumper' charges so the sensors could feel how vibrations travel through the ground. It sent data to Earth for more than six years.",
+    "fate": {
+      "category": "switched-off",
+      "label": "Switched off in 1977 to save money",
+      "summary": "On September 30, 1977, NASA shut down all five Apollo science stations, mainly to save money; their nuclear generators were also slowly giving less power. The station's instruments still stand at Fra Mauro, and LRO can spot the site from orbit."
+    },
+    "photo": {
+      "file": "img/apollo14-alsep.jpg",
+      "caption": "The Apollo 14 ALSEP's finned nuclear generator, with the station's central box behind it",
+      "credit": "NASA/Alan Shepard",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:ALSEP_Apollo_14_RTG.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo14-lm-orbit.jpg",
+      "caption": "LRO view of the Apollo 14 site in 2011, with Antares's descent stage in the center and the astronauts' trails",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:New_View_of_Apollo_14_(LROC285_-_M150633128LR_thumb).png"
+    }
+  },
+  "apollo14-lrrr": {
+    "summary": "This laser reflector is a twin of Apollo 11's, with 100 corner-cube prisms that send light straight back to where it came from. Alan Shepard and Edgar Mitchell set it up at Fra Mauro in February 1971. Scientists still bounce lasers off it to measure the distance between Earth and the Moon.",
+    "fate": {
+      "category": "passive",
+      "label": "Still bouncing lasers, no power needed",
+      "summary": "It has no electronics or moving parts, so it has never stopped working. A laser pulse takes about 2.5 seconds to make the round trip, and timing those pulses lets scientists track the Moon's orbit and test ideas about gravity."
+    },
+    "photo": {
+      "file": "img/apollo14-lrrr.jpg",
+      "caption": "The Apollo 14 laser reflector set up on the dusty ground at Fra Mauro",
+      "credit": "NASA",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:ALSEP_AS14-67-9386.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo14-lm-orbit.jpg",
+      "caption": "LRO view of the Apollo 14 site in 2011, with Antares's descent stage in the center and the astronauts' trails",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:New_View_of_Apollo_14_(LROC285_-_M150633128LR_thumb).png"
+    }
+  },
+  "apollo14-sivb": {
+    "summary": "This is the third stage of the Saturn V that launched Apollo 14 on January 31, 1971. After it sent Antares and the command module Kitty Hawk toward the Moon, controllers steered the empty stage to hit the Moon on February 4, 1971. It left a crater about 35 meters wide, with bright rays of splashed-out soil.",
+    "fate": {
+      "category": "crash-planned",
+      "label": "Crashed on purpose to shake the Moon",
+      "summary": "It hit at about 2.5 km per second with a mass of about 14,000 kg, releasing as much energy as about 10 tonnes of TNT. The Apollo 12 seismometer recorded the shaking for about three hours, helping scientists study the Moon's crust. LRO photographed its crater in 2009."
+    },
+    "photo": {
+      "file": "img/apollo14-sivb.jpg",
+      "caption": "An S-IVB stage just after it released the spacecraft (this one is Apollo 17's, photographed by its crew)",
+      "credit": "NASA/JSC",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:View_of_the_expended_Saturn_IVB_stage_after_transposition-docking_(as17-148-22714).jpg"
+    },
+    "orbit": {
+      "file": "img/apollo14-sivb-orbit.jpg",
+      "caption": "LRO image of the Apollo 14 S-IVB impact crater, about 35 meters wide, with bright rays",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Lunar_Impact_from_Apollo_14_IVB_Booster_(3993965882).jpg"
+    }
+  },
+  "apollo14-lm-ascent": {
+    "summary": "This was the top half of Antares, the cabin that carried Alan Shepard and Edgar Mitchell off the Moon on February 6, 1971 and back to their command module, Kitty Hawk. Once the crew had moved across, it was released and sent back down to the surface on purpose. Its crash made another moonquake for scientists to study.",
+    "fate": {
+      "category": "crash-planned",
+      "label": "Crashed on purpose to shake the Moon",
+      "summary": "It struck the Moon on February 7, 1971, about 65 km west of the landing site, at a very shallow angle. The seismometers left by Apollo 12 and Apollo 14 both recorded the impact. Its crater has not been identified."
+    },
+    "photo": {
+      "file": "img/apollo14-lm-ascent.jpg",
+      "caption": "The top of Antares's ascent stage on the Moon, seen from its ladder, with a thin crescent Earth in the sky",
+      "credit": "NASA (via U.S. National Archives)",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:AS14-64-9193_-_Apollo_14_-_NARA_-_16697308.jpg"
+    },
+    "orbit": null
+  },
+  "apollo15-lm": {
+    "summary": "This is the bottom half of Falcon, which landed Dave Scott and Jim Irwin near Hadley Rille, at the foot of the Apennine Mountains, on July 30, 1971. Apollo 15 was the first of the longer Apollo missions: Falcon carried the first lunar rover folded against its side, and the crew stayed about three days. When they left, it stayed behind as their launch pad.",
+    "fate": {
+      "category": "left-behind",
+      "label": "Left behind as a launch pad",
+      "summary": "On August 2, 1971, the ascent stage lifted off from it while the rover's TV camera broadcast the launch to Earth. The descent stage remains at Hadley, and LRO photos show it with the rover and the science station nearby."
+    },
+    "photo": {
+      "file": "img/apollo15-lm.jpg",
+      "caption": "Jim Irwin salutes the flag beside Falcon and the lunar rover at Hadley",
+      "credit": "NASA/Dave Scott",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_15_flag,_rover,_LM,_Irwin.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo15-lm-orbit.jpg",
+      "caption": "Oblique LRO view of Hadley Rille taken on July 20, 2011, with the Apollo 15 landing site marked",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_15_Landing_Site_LRO_Photo_20_July_2011.png"
+    }
+  },
+  "apollo15-lrv": {
+    "summary": "The Lunar Roving Vehicle was a battery-powered, two-seat car that folded up to ride to the Moon on the side of the lunar module. Apollo 15's rover was the first car ever driven on another world, carrying Dave Scott and Jim Irwin about 28 km over three drives in July and August 1971. It is still parked at Hadley where the crew left it.",
+    "fate": {
+      "category": "left-behind",
+      "label": "Parked on purpose to film liftoff",
+      "summary": "At the end of the last moonwalk, Dave Scott parked it east of Falcon so its TV camera, steered from Houston, could broadcast the liftoff on August 2, 1971. Its batteries could not be recharged, so once they ran down the rover went quiet for good. LRO has photographed it in its final parking spot, with its tire tracks around it."
+    },
+    "photo": {
+      "file": "img/apollo15-lrv.jpg",
+      "caption": "Jim Irwin with the Apollo 15 rover, Mount Hadley in the background",
+      "credit": "NASA/David Scott",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_15_Lunar_Rover_and_Irwin.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo15-lrv-orbit.jpg",
+      "caption": "LRO view of the Apollo 15 rover at its final parking spot, with its tire tracks and the astronauts' path labeled",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_15-_A_Mission_of_Many_Firsts_(LROC1198_-_content_RoverVIPSite).png"
+    }
+  },
+  "apollo15-alsep": {
+    "summary": "Apollo 15's ALSEP was a nuclear-powered science station that Dave Scott and Jim Irwin set up on the plains near Hadley Rille in July 1971. It measured moonquakes, the Moon's magnetism, the solar wind and the heat flowing out from inside the Moon. It sent data to Earth for more than six years.",
+    "fate": {
+      "category": "switched-off",
+      "label": "Switched off in 1977 to save money",
+      "summary": "On September 30, 1977, NASA shut down all five Apollo science stations, mainly to save money; their nuclear generators were also slowly giving less power. Together with the Apollo 12 and 14 stations, its seismometer formed a triangle that let scientists work out where moonquakes happened."
+    },
+    "photo": {
+      "file": "img/apollo15-alsep.jpg",
+      "caption": "The Apollo 15 ALSEP central station and magnetometer, with Falcon in the distance",
+      "credit": "NASA",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_15_ALSEP_%26_LSM.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo15-lm-orbit.jpg",
+      "caption": "Oblique LRO view of Hadley Rille taken on July 20, 2011, with the Apollo 15 landing site marked",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_15_Landing_Site_LRO_Photo_20_July_2011.png"
+    }
+  },
+  "apollo15-lrrr": {
+    "summary": "This is the biggest Apollo laser reflector, with 300 glass corner-cube prisms, three times as many as Apollo 11's. Dave Scott and Jim Irwin set it up near Hadley Rille in 1971. Because it sends back more light than the smaller ones, it is the reflector laser stations aim at most often.",
+    "fate": {
+      "category": "passive",
+      "label": "Still bouncing lasers, no power needed",
+      "summary": "It has no power supply or moving parts, so it has never stopped working. Laser stations on Earth still bounce light off it to measure the Earth-Moon distance very precisely, showing that the Moon is slowly drifting away by about 3.8 cm a year."
+    },
+    "photo": {
+      "file": "img/apollo15-lrrr.jpg",
+      "caption": "Close-up of the Apollo 15 laser reflector and its 300 corner-cube prisms",
+      "credit": "NASA/Dave Scott",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:ALSEP_AS15-85-11468.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo15-lm-orbit.jpg",
+      "caption": "Oblique LRO view of Hadley Rille taken on July 20, 2011, with the Apollo 15 landing site marked",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_15_Landing_Site_LRO_Photo_20_July_2011.png"
+    }
+  },
+  "apollo15-sivb": {
+    "summary": "This is the third stage of the Saturn V that launched Apollo 15 on July 26, 1971. After sending Falcon and the command module Endeavour toward the Moon, the empty stage was steered to crash into the Moon on July 29, 1971, the day before the astronauts landed. It left a crater more than 30 meters wide.",
+    "fate": {
+      "category": "crash-planned",
+      "label": "Crashed on purpose to shake the Moon",
+      "summary": "It hit at about 2.6 km per second, and the seismometers left by Apollo 12 and 14 recorded the shaking. Crashes at known places and times let scientists measure how fast vibrations travel through the Moon's crust. LRO has since photographed its crater."
+    },
+    "photo": {
+      "file": "img/apollo15-sivb.jpg",
+      "caption": "The top of Apollo 15's S-IVB stage after the spacecraft pulled away, seen from the command module",
+      "credit": "NASA",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo-15_s-ivb.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo15-sivb-orbit.jpg",
+      "caption": "LRO image of the Apollo 15 S-IVB impact crater and its rays",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain (NASA media usage guidelines)",
+      "licenseUrl": null,
+      "source": "https://lroc.im-ldi.com/featured_sites/26"
+    }
+  },
+  "apollo15-lm-ascent": {
+    "summary": "This was the top half of Falcon, the cabin that lifted Dave Scott and Jim Irwin off the Moon on August 2, 1971, while the rover's TV camera broadcast the launch. It docked with the command module Endeavour, and once the crew had moved across it was released. The next day it was sent crashing back into the Moon on purpose.",
+    "fate": {
+      "category": "crash-planned",
+      "label": "Crashed on purpose to shake the Moon",
+      "summary": "It struck the Moon on August 3, 1971, about 90 km west of the landing site. The seismometers at the Apollo 12, 14 and 15 sites recorded the impact. Its crater has not been identified."
+    },
+    "photo": {
+      "file": "img/apollo15-lm-ascent.jpg",
+      "caption": "Falcon seconds before its ascent stage lifted off, seen by the rover's TV camera",
+      "credit": "NASA/JSC",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_15_Lunar_Module_%22Falcon%22_seen_before_ascent_stage_liftoff_(S71-41511).jpg"
+    },
+    "orbit": null
+  },
+  "apollo16-lm": {
+    "summary": "This is the bottom half of Orion, which landed John Young and Charlie Duke in the Descartes highlands on April 21, 1972, the first Apollo landing in the Moon's rugged central highlands. The landing was delayed almost six hours while engineers checked a problem with the command module's main engine. The crew lived in Orion for about three days, and when they left, it stayed behind as their launch pad.",
+    "fate": {
+      "category": "left-behind",
+      "label": "Left behind as a launch pad",
+      "summary": "On April 24, 1972, the ascent stage lifted off from it while the rover's TV camera watched. Orion's descent stage still stands in the Descartes highlands, and LRO photos show it with the rover parked nearby and the science station to the southwest."
+    },
+    "photo": {
+      "file": "img/apollo16-lm.jpg",
+      "caption": "Orion on the Moon in the Descartes highlands, with the lunar rover parked nearby",
+      "credit": "NASA",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_16_LM_Orion.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo16-lm-orbit.jpg",
+      "caption": "Annotated low-orbit LRO view of the Apollo 16 site, showing Orion's descent stage, the rover and the ALSEP",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Orion,_Up_Close_(LROC520_-_M175179080LRE_thumb_annotate).png"
+    }
+  },
+  "apollo16-lrv": {
+    "summary": "Apollo 16's Lunar Roving Vehicle carried John Young and Charlie Duke about 27 km across the Descartes highlands in April 1972. During a test drive nicknamed the 'Grand Prix', Young sped up and swerved while Duke filmed, so engineers could see how the rover handled. Its last job was to film the liftoff, and it is still parked near Orion.",
+    "fate": {
+      "category": "left-behind",
+      "label": "Parked on purpose to film liftoff",
+      "summary": "The crew parked it east of Orion so its TV camera, controlled from Houston, could broadcast the liftoff on April 24, 1972. Its batteries could not be recharged, so it went silent once they ran down. LRO photos show it still in its final parking spot."
+    },
+    "photo": {
+      "file": "img/apollo16-lrv.jpg",
+      "caption": "John Young with the Apollo 16 rover in the Descartes highlands",
+      "credit": "NASA/Charlie Duke",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Young_and_Rover_on_the_Descartes_-_GPN-2000-001133.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo16-lm-orbit.jpg",
+      "caption": "Annotated low-orbit LRO view of the Apollo 16 site, showing Orion's descent stage, the rover and the ALSEP",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Orion,_Up_Close_(LROC520_-_M175179080LRE_thumb_annotate).png"
+    }
+  },
+  "apollo16-alsep": {
+    "summary": "Apollo 16's ALSEP was a nuclear-powered science station that John Young and Charlie Duke set up near Orion in April 1972. While working, Young caught his foot on the cable of the heat-flow experiment and tore it loose, so that instrument never sent data. The seismometer, magnetometer and other instruments kept working for more than five years.",
+    "fate": {
+      "category": "switched-off",
+      "label": "Switched off in 1977 to save money",
+      "summary": "On September 30, 1977, NASA shut down all five Apollo science stations, mainly to save money; their nuclear generators were also slowly giving less power. By then the seismometers at the Apollo 12, 14, 15 and 16 sites had worked together as a network, recording thousands of moonquakes and meteorite hits."
+    },
+    "photo": {
+      "file": "img/apollo16-alsep.jpg",
+      "caption": "The Apollo 16 ALSEP central station on the Moon, with its antenna pointed at Earth",
+      "credit": "NASA",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:ALSEP_Apollo_16_Central_Station.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo16-lm-orbit.jpg",
+      "caption": "Annotated low-orbit LRO view of the Apollo 16 site, showing Orion's descent stage, the rover and the ALSEP",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Orion,_Up_Close_(LROC520_-_M175179080LRE_thumb_annotate).png"
+    }
+  },
+  "apollo16-sivb": {
+    "summary": "This is the third stage of the Saturn V that launched Apollo 16 on April 16, 1972. Like the other late Apollo third stages, it was aimed at the Moon to make a moonquake, and it crashed on April 19, 1972. Because its radio stopped working before the crash, nobody knew exactly where it hit for more than 40 years.",
+    "fate": {
+      "category": "crash-planned",
+      "label": "Crashed on purpose, then lost for decades",
+      "summary": "It hit Mare Insularum, but radio contact was lost before impact, so the crash site was only roughly known. In December 2015 the LROC team announced that they had found its crater, about 40 by 30 meters, roughly 30 km from the Apollo-era estimate."
+    },
+    "photo": {
+      "file": "img/apollo14-sivb.jpg",
+      "caption": "An S-IVB stage just after it released the spacecraft (this one is Apollo 17's, photographed by its crew)",
+      "credit": "NASA/JSC",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:View_of_the_expended_Saturn_IVB_stage_after_transposition-docking_(as17-148-22714).jpg"
+    },
+    "orbit": {
+      "file": "img/apollo16-sivb-orbit.jpg",
+      "caption": "LRO image of the Apollo 16 S-IVB impact crater on Mare Insularum, found in 2015",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:LRO_Finds_Apollo_16_Booster_Rocket_Impact_Site_(23130186729).jpg"
+    }
+  },
+  "apollo17-lm": {
+    "summary": "This is the bottom half of Challenger, the last Apollo lunar module, which landed Gene Cernan and Harrison Schmitt in the Taurus-Littrow valley on December 11, 1972. Schmitt was a geologist, the only professional scientist to walk on the Moon during Apollo, and the crew explored for about three days. When they left, it stayed behind as their launch pad, with a plaque marking the end of the Apollo landings.",
+    "fate": {
+      "category": "left-behind",
+      "label": "Left behind as a launch pad",
+      "summary": "On December 14, 1972, the ascent stage lifted off from it, and no one has set foot on the Moon since. LRO's close-up photos of Taurus-Littrow show the descent stage, the rover, the science station and the crew's tracks."
+    },
+    "photo": {
+      "file": "img/apollo17-lm.jpg",
+      "caption": "Challenger and the Apollo 17 rover in the Taurus-Littrow valley",
+      "credit": "NASA/Harrison Schmitt",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_17_LEM_and_Lunar_Roving_Vehicle,_AS17-147-22527.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo17-lm-orbit.jpg",
+      "caption": "Labeled LRO view of the Apollo 17 site at Taurus-Littrow, showing the descent stage, rover and ALSEP",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_17_landing_site,_labeled.jpg"
+    }
+  },
+  "apollo17-lrv": {
+    "summary": "Apollo 17's Lunar Roving Vehicle carried Gene Cernan and Harrison Schmitt about 36 km around the Taurus-Littrow valley in December 1972, the farthest any Apollo rover went. After Cernan accidentally knocked off part of a fender, the crew built a replacement out of maps, tape and clamps to stop the dust spray. It is still parked where its camera filmed the last Apollo liftoff.",
+    "fate": {
+      "category": "left-behind",
+      "label": "Parked on purpose to film liftoff",
+      "summary": "Cernan parked it east of Challenger so its TV camera, steered from Houston, could follow the ascent stage as it blasted off on December 14, 1972. Its batteries could not be recharged, so it went silent once they ran down. LRO photos show it still parked at Taurus-Littrow."
+    },
+    "photo": {
+      "file": "img/apollo17-lrv.jpg",
+      "caption": "Gene Cernan test-driving the Apollo 17 rover near Challenger",
+      "credit": "NASA/Harrison Schmitt",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_17_Lunar_Roving_Vehicle,_AS17-147-22526.jpg"
+    },
+    "orbit": {
+      "file": "img/apollo17-lm-orbit.jpg",
+      "caption": "Labeled LRO view of the Apollo 17 site at Taurus-Littrow, showing the descent stage, rover and ALSEP",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_17_landing_site,_labeled.jpg"
+    }
+  },
+  "apollo17-alsep": {
+    "summary": "Apollo 17's ALSEP was the last Apollo science station, set up by Gene Cernan and Harrison Schmitt in December 1972. It carried new experiments, including a gravity sensor and a set of ground sensors that felt explosive charges the astronauts had placed during their drives. The charges were set off by radio command after the crew had left, so the station could measure how their vibrations traveled through the valley.",
+    "fate": {
+      "category": "switched-off",
+      "label": "Switched off in 1977 to save money",
+      "summary": "It sent data for almost five years. On September 30, 1977, NASA shut down all five Apollo science stations, mainly to save money; their nuclear generators were also slowly giving less power. Its gravity sensor never worked as planned because of a design mistake, but the other instruments returned useful data."
+    },
+    "photo": {
+      "file": "img/apollo17-alsep.jpg",
+      "caption": "A seismic-experiment flag and camera gnomon in front, with the Apollo 17 ALSEP and North Massif behind",
+      "credit": "NASA/JSC",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_17_ALSEP_Panarama_taken_during_EVA_1_(as17-147-22548).jpg"
+    },
+    "orbit": {
+      "file": "img/apollo17-alsep-orbit.jpg",
+      "caption": "Annotated LRO view of the Apollo 17 ALSEP area and its geophones",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Skimming_the_Moon_(LROC379_-_M168000580R_ALSEP).png"
+    }
+  },
+  "apollo17-sivb": {
+    "summary": "This is the third stage of the last Saturn V to send astronauts to the Moon, which launched Apollo 17 on December 7, 1972, the only Saturn V launch at night. After sending Challenger and the command module America toward the Moon, the empty stage was aimed at the Moon itself. It crashed on December 10, 1972, the day before the astronauts landed, leaving a crater about 31 meters wide.",
+    "fate": {
+      "category": "crash-planned",
+      "label": "Crashed on purpose to shake the Moon",
+      "summary": "It hit at about 2.5 km per second, and the seismometers at the earlier Apollo sites recorded the shaking. LRO has photographed its crater many times under different lighting."
+    },
+    "photo": {
+      "file": "img/apollo14-sivb.jpg",
+      "caption": "Apollo 17's S-IVB stage after the spacecraft separated, photographed by the crew",
+      "credit": "NASA/JSC",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:View_of_the_expended_Saturn_IVB_stage_after_transposition-docking_(as17-148-22714).jpg"
+    },
+    "orbit": {
+      "file": "img/apollo17-sivb-orbit.jpg",
+      "caption": "LRO image of the Apollo 17 S-IVB impact crater, about 31 meters wide",
+      "credit": "NASA/GSFC/Arizona State University",
+      "license": "Public domain (NASA media usage guidelines)",
+      "licenseUrl": null,
+      "source": "https://lroc.im-ldi.com/featured_sites/27"
+    }
+  },
+  "apollo17-lm-ascent": {
+    "summary": "This was the top half of Challenger, the cabin that lifted Gene Cernan and Harrison Schmitt off the Moon on December 14, 1972, the last launch from the lunar surface so far. The rover's TV camera followed it as it rose into the black sky. After the crew moved into the command module America, it was released and sent back down to crash on purpose.",
+    "fate": {
+      "category": "crash-planned",
+      "label": "Crashed on purpose to shake the Moon",
+      "summary": "It struck the Moon on December 15, 1972, about 10 km southwest of the landing site, coming in almost sideways. The ground sensors the crew had left behind and the older Apollo seismometers recorded the impact. Its crater has not been identified."
+    },
+    "photo": {
+      "file": "img/apollo17-lm-ascent.jpg",
+      "caption": "Challenger's ascent stage approaching the command module America after leaving the Moon",
+      "credit": "NASA",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_17_LM_Ascent_Stage.jpg"
+    },
+    "orbit": null
+  }
+}

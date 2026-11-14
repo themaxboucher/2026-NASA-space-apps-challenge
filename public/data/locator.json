@@ -1,0 +1,1492 @@
+{
+ "credits": {
+  "mars-wide": {
+   "layer": "MDIM21_color — Viking MDIM 2.1 Colorized Global Mosaic (231 m/px)",
+   "credit": "NASA/USGS Astrogeology — Viking MDIM 2.1 mosaic, colorized by NASA Ames",
+   "license": "Public domain",
+   "source": "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/mars/mars_simp_cyl.map"
+  },
+  "mars-close": {
+   "layer": "THEMIS — THEMIS IR Day 100m Global Mosaic v12",
+   "credit": "NASA/JPL-Caltech/Arizona State University — Mars Odyssey THEMIS day-IR global mosaic, via USGS Astrogeology",
+   "license": "Public domain",
+   "source": "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/mars/mars_simp_cyl.map"
+  },
+  "moon-wide": {
+   "layer": "LROC_WAC — LRO WAC Global Mosaic (100 m/px, ASU 2013, edge fix 2016)",
+   "credit": "NASA/GSFC/Arizona State University — LRO WAC global mosaic, via USGS Astrogeology",
+   "license": "Public domain",
+   "source": "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl.map"
+  },
+  "moon-close": {
+   "layer": "LROC_WAC — LRO WAC Global Mosaic (100 m/px, ASU 2013, edge fix 2016)",
+   "credit": "NASA/GSFC/Arizona State University — LRO WAC global mosaic, via USGS Astrogeology",
+   "license": "Public domain",
+   "source": "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl.map"
+  },
+  "moon-fallback": {
+   "layer": "LOLA_color — LOLA Color Shaded Relief (256 px/deg; blue = low, red = high)",
+   "credit": "NASA/GSFC/USGS Astrogeology — LRO LOLA colorized shaded relief",
+   "license": "Public domain",
+   "source": "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl.map"
+  }
+ },
+ "sites": {
+  "apollo11-lm": {
+   "wide": {
+    "file": "img/loc/apollo11-lm-wide.jpg",
+    "bbox": [
+     13.47314,
+     -5.82584,
+     33.47314,
+     7.17416
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo11-lm-close.jpg",
+    "bbox": [
+     23.07314,
+     0.40916,
+     23.87314,
+     0.93916
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo11-pse": {
+   "wide": {
+    "file": "img/loc/apollo11-pse-wide.jpg",
+    "bbox": [
+     13.47315,
+     -5.82678,
+     33.47315,
+     7.17322
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo11-pse-close.jpg",
+    "bbox": [
+     23.07315,
+     0.40822,
+     23.87315,
+     0.93822
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo11-lrrr": {
+   "wide": {
+    "file": "img/loc/apollo11-lrrr-wide.jpg",
+    "bbox": [
+     13.47307,
+     -5.82655,
+     33.47307,
+     7.17345
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo11-lrrr-close.jpg",
+    "bbox": [
+     23.07307,
+     0.40845,
+     23.87307,
+     0.93845
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo12-lm": {
+   "wide": {
+    "file": "img/loc/apollo12-lm-wide.jpg",
+    "bbox": [
+     -33.4219,
+     -9.5128,
+     -13.4219,
+     3.4872
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo12-lm-close.jpg",
+    "bbox": [
+     -23.8219,
+     -3.2778,
+     -23.0219,
+     -2.7478
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo12-alsep": {
+   "wide": {
+    "file": "img/loc/apollo12-alsep-wide.jpg",
+    "bbox": [
+     -33.4249,
+     -9.5098,
+     -13.4249,
+     3.4902
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo12-alsep-close.jpg",
+    "bbox": [
+     -23.8249,
+     -3.2748,
+     -23.0249,
+     -2.7448
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo12-lm-ascent": {
+   "wide": {
+    "file": "img/loc/apollo12-lm-ascent-wide.jpg",
+    "bbox": [
+     -31.2,
+     -10.44,
+     -11.2,
+     2.56
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo12-lm-ascent-close.jpg",
+    "bbox": [
+     -21.6,
+     -4.205,
+     -20.8,
+     -3.675
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "surveyor3": {
+   "wide": {
+    "file": "img/loc/surveyor3-wide.jpg",
+    "bbox": [
+     -33.418,
+     -9.5162,
+     -13.418,
+     3.4838
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/surveyor3-close.jpg",
+    "bbox": [
+     -23.818,
+     -3.2812,
+     -23.018,
+     -2.7512
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo13-sivb": {
+   "wide": {
+    "file": "img/loc/apollo13-sivb-wide.jpg",
+    "bbox": [
+     -37.8875,
+     -9.055,
+     -17.8875,
+     3.945
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo13-sivb-close.jpg",
+    "bbox": [
+     -28.2875,
+     -2.82,
+     -27.4875,
+     -2.29
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo14-lm": {
+   "wide": {
+    "file": "img/loc/apollo14-lm-wide.jpg",
+    "bbox": [
+     -27.47194,
+     -10.14589,
+     -7.47194,
+     2.85411
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo14-lm-close.jpg",
+    "bbox": [
+     -17.87194,
+     -3.91089,
+     -17.07194,
+     -3.38089
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo14-alsep": {
+   "wide": {
+    "file": "img/loc/apollo14-alsep-wide.jpg",
+    "bbox": [
+     -27.47768,
+     -10.14419,
+     -7.47768,
+     2.85581
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo14-alsep-close.jpg",
+    "bbox": [
+     -17.87768,
+     -3.90919,
+     -17.07768,
+     -3.37919
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo14-lrrr": {
+   "wide": {
+    "file": "img/loc/apollo14-lrrr-wide.jpg",
+    "bbox": [
+     -27.47865,
+     -10.14417,
+     -7.47865,
+     2.85583
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo14-lrrr-close.jpg",
+    "bbox": [
+     -17.87865,
+     -3.90917,
+     -17.07865,
+     -3.37917
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo14-sivb": {
+   "wide": {
+    "file": "img/loc/apollo14-sivb-wide.jpg",
+    "bbox": [
+     -36.0305,
+     -14.681,
+     -16.0305,
+     -1.681
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo14-sivb-close.jpg",
+    "bbox": [
+     -26.4305,
+     -8.446,
+     -25.6305,
+     -7.916
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo14-lm-ascent": {
+   "wide": {
+    "file": "img/loc/apollo14-lm-ascent-wide.jpg",
+    "bbox": [
+     -29.67,
+     -9.92,
+     -9.67,
+     3.08
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo14-lm-ascent-close.jpg",
+    "bbox": [
+     -20.07,
+     -3.685,
+     -19.27,
+     -3.155
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo15-lm": {
+   "wide": {
+    "file": "img/loc/apollo15-lm-wide.jpg",
+    "bbox": [
+     -6.3667,
+     19.63239,
+     13.6333,
+     32.63239
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo15-lm-close.jpg",
+    "bbox": [
+     3.2333,
+     25.86739,
+     4.0333,
+     26.39739
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo15-lrv": {
+   "wide": {
+    "file": "img/loc/apollo15-lrv-wide.jpg",
+    "bbox": [
+     -6.36197,
+     19.63174,
+     13.63803,
+     32.63174
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo15-lrv-close.jpg",
+    "bbox": [
+     3.23803,
+     25.86674,
+     4.03803,
+     26.39674
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo15-alsep": {
+   "wide": {
+    "file": "img/loc/apollo15-alsep-wide.jpg",
+    "bbox": [
+     -6.37009,
+     19.63406,
+     13.62991,
+     32.63406
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo15-alsep-close.jpg",
+    "bbox": [
+     3.22991,
+     25.86906,
+     4.02991,
+     26.39906
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo15-lrrr": {
+   "wide": {
+    "file": "img/loc/apollo15-lrrr-wide.jpg",
+    "bbox": [
+     -6.3715,
+     19.63341,
+     13.6285,
+     32.63341
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo15-lrrr-close.jpg",
+    "bbox": [
+     3.2285,
+     25.86841,
+     4.0285,
+     26.39841
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo15-sivb": {
+   "wide": {
+    "file": "img/loc/apollo15-sivb-wide.jpg",
+    "bbox": [
+     -21.8245,
+     -7.7897,
+     -1.8245,
+     5.2103
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo15-sivb-close.jpg",
+    "bbox": [
+     -12.2245,
+     -1.5547,
+     -11.4245,
+     -1.0247
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo15-lm-ascent": {
+   "wide": {
+    "file": "img/loc/apollo15-lm-ascent-wide.jpg",
+    "bbox": [
+     -9.75,
+     19.86,
+     10.25,
+     32.86
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo15-lm-ascent-close.jpg",
+    "bbox": [
+     -0.15,
+     26.095,
+     0.65,
+     26.625
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo16-lm": {
+   "wide": {
+    "file": "img/loc/apollo16-lm-wide.jpg",
+    "bbox": [
+     5.5011,
+     -15.4734,
+     25.5011,
+     -2.4734
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo16-lm-close.jpg",
+    "bbox": [
+     15.1011,
+     -9.2384,
+     15.9011,
+     -8.7084
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo16-lrv": {
+   "wide": {
+    "file": "img/loc/apollo16-lrv-wide.jpg",
+    "bbox": [
+     5.5037,
+     -15.4729,
+     25.5037,
+     -2.4729
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo16-lrv-close.jpg",
+    "bbox": [
+     15.1037,
+     -9.2379,
+     15.9037,
+     -8.7079
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo16-alsep": {
+   "wide": {
+    "file": "img/loc/apollo16-alsep-wide.jpg",
+    "bbox": [
+     5.4986,
+     -15.4759,
+     25.4986,
+     -2.4759
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo16-alsep-close.jpg",
+    "bbox": [
+     15.0986,
+     -9.2409,
+     15.8986,
+     -8.7109
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo16-sivb": {
+   "wide": {
+    "file": "img/loc/apollo16-sivb-wide.jpg",
+    "bbox": [
+     -34.623,
+     -4.579,
+     -14.623,
+     8.421
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo16-sivb-close.jpg",
+    "bbox": [
+     -25.023,
+     1.656,
+     -24.223,
+     2.186
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo17-lm": {
+   "wide": {
+    "file": "img/loc/apollo17-lm-wide.jpg",
+    "bbox": [
+     20.7723,
+     13.6911,
+     40.7723,
+     26.6911
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo17-lm-close.jpg",
+    "bbox": [
+     30.3723,
+     19.9261,
+     31.1723,
+     20.4561
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo17-lrv": {
+   "wide": {
+    "file": "img/loc/apollo17-lrv-wide.jpg",
+    "bbox": [
+     20.7769,
+     13.6896,
+     40.7769,
+     26.6896
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo17-lrv-close.jpg",
+    "bbox": [
+     30.3769,
+     19.9246,
+     31.1769,
+     20.4546
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo17-alsep": {
+   "wide": {
+    "file": "img/loc/apollo17-alsep-wide.jpg",
+    "bbox": [
+     20.7655,
+     13.6923,
+     40.7655,
+     26.6923
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo17-alsep-close.jpg",
+    "bbox": [
+     30.3655,
+     19.9273,
+     31.1655,
+     20.4573
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo17-sivb": {
+   "wide": {
+    "file": "img/loc/apollo17-sivb-wide.jpg",
+    "bbox": [
+     -22.3307,
+     -10.6681,
+     -2.3307,
+     2.3319
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo17-sivb-close.jpg",
+    "bbox": [
+     -12.7307,
+     -4.4331,
+     -11.9307,
+     -3.9031
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "apollo17-lm-ascent": {
+   "wide": {
+    "file": "img/loc/apollo17-lm-ascent-wide.jpg",
+    "bbox": [
+     20.49,
+     13.47,
+     40.49,
+     26.47
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/apollo17-lm-ascent-close.jpg",
+    "bbox": [
+     30.09,
+     19.705,
+     30.89,
+     20.235
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "surveyor1": {
+   "wide": {
+    "file": "img/loc/surveyor1-wide.jpg",
+    "bbox": [
+     -53.3398,
+     -8.9745,
+     -33.3398,
+     4.0255
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/surveyor1-close.jpg",
+    "bbox": [
+     -43.7398,
+     -2.7395,
+     -42.9398,
+     -2.2095
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "surveyor5": {
+   "wide": {
+    "file": "img/loc/surveyor5-wide.jpg",
+    "bbox": [
+     13.1943,
+     -5.0449,
+     33.1943,
+     7.9551
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/surveyor5-close.jpg",
+    "bbox": [
+     22.7943,
+     1.1901,
+     23.5943,
+     1.7201
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "surveyor6": {
+   "wide": {
+    "file": "img/loc/surveyor6-wide.jpg",
+    "bbox": [
+     -11.4275,
+     -6.0258,
+     8.5725,
+     6.9742
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/surveyor6-close.jpg",
+    "bbox": [
+     -1.8275,
+     0.2092,
+     -1.0275,
+     0.7392
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "surveyor7": {
+   "wide": {
+    "file": "img/loc/surveyor7-wide.jpg",
+    "bbox": [
+     -21.5127,
+     -47.4812,
+     -1.5127,
+     -34.4812
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/surveyor7-close.jpg",
+    "bbox": [
+     -11.9127,
+     -41.2462,
+     -11.1127,
+     -40.7162
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "ranger6": {
+   "wide": {
+    "file": "img/loc/ranger6-wide.jpg",
+    "bbox": [
+     11.4806,
+     2.8864,
+     31.4806,
+     15.8864
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/ranger6-close.jpg",
+    "bbox": [
+     21.0806,
+     9.1214,
+     21.8806,
+     9.6514
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "ranger7": {
+   "wide": {
+    "file": "img/loc/ranger7-wide.jpg",
+    "bbox": [
+     -30.677,
+     -17.134,
+     -10.677,
+     -4.134
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/ranger7-close.jpg",
+    "bbox": [
+     -21.077,
+     -10.899,
+     -20.277,
+     -10.369
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "ranger8": {
+   "wide": {
+    "file": "img/loc/ranger8-wide.jpg",
+    "bbox": [
+     14.7881,
+     -3.8624,
+     34.7881,
+     9.1376
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/ranger8-close.jpg",
+    "bbox": [
+     24.3881,
+     2.3726,
+     25.1881,
+     2.9026
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "ranger9": {
+   "wide": {
+    "file": "img/loc/ranger9-wide.jpg",
+    "bbox": [
+     -12.3884,
+     -19.3281,
+     7.6116,
+     -6.3281
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/ranger9-close.jpg",
+    "bbox": [
+     -2.7884,
+     -13.0931,
+     -1.9884,
+     -12.5631
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "lcross-centaur": {
+   "wide": {
+    "file": "img/loc/lcross-centaur-wide.jpg",
+    "bbox": [
+     -58.7093,
+     -90.0,
+     -38.7093,
+     -78.1796
+    ],
+    "w": 800,
+    "h": 473,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/lcross-centaur-close.jpg",
+    "bbox": [
+     -49.1093,
+     -84.9446,
+     -48.3093,
+     -84.4146
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-fallback"
+   }
+  },
+  "lcross-ssc": {
+   "wide": {
+    "file": "img/loc/lcross-ssc-wide.jpg",
+    "bbox": [
+     -59.61,
+     -90.0,
+     -39.61,
+     -78.219
+    ],
+    "w": 800,
+    "h": 471,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/lcross-ssc-close.jpg",
+    "bbox": [
+     -50.01,
+     -84.984,
+     -49.21,
+     -84.454
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-fallback"
+   }
+  },
+  "grail-ebb": {
+   "wide": {
+    "file": "img/loc/grail-ebb-wide.jpg",
+    "bbox": [
+     -36.594,
+     69.1088,
+     -16.594,
+     82.1088
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/grail-ebb-close.jpg",
+    "bbox": [
+     -26.994,
+     75.3438,
+     -26.194,
+     75.8738
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "grail-flow": {
+   "wide": {
+    "file": "img/loc/grail-flow-wide.jpg",
+    "bbox": [
+     -36.8341,
+     69.1508,
+     -16.8341,
+     82.1508
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/grail-flow-close.jpg",
+    "bbox": [
+     -27.2341,
+     75.3858,
+     -26.4341,
+     75.9158
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "ladee": {
+   "wide": {
+    "file": "img/loc/ladee-wide.jpg",
+    "bbox": [
+     -103.2494,
+     5.3494,
+     -83.2494,
+     18.3494
+    ],
+    "w": 800,
+    "h": 520,
+    "credit": "moon-wide"
+   },
+   "close": {
+    "file": "img/loc/ladee-close.jpg",
+    "bbox": [
+     -93.6494,
+     11.5844,
+     -92.8494,
+     12.1144
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-close"
+   }
+  },
+  "lunar-prospector": {
+   "wide": {
+    "file": "img/loc/lunar-prospector-wide.jpg",
+    "bbox": [
+     32.0,
+     -90.0,
+     52.0,
+     -81.2
+    ],
+    "w": 800,
+    "h": 352,
+    "credit": "moon-fallback"
+   },
+   "close": {
+    "file": "img/loc/lunar-prospector-close.jpg",
+    "bbox": [
+     41.6,
+     -87.965,
+     42.4,
+     -87.435
+    ],
+    "w": 800,
+    "h": 530,
+    "credit": "moon-fallback"
+   }
+  },
+  "viking1": {
+   "wide": {
+    "file": "img/loc/viking1-wide.jpg",
+    "bbox": [
+     -62.95,
+     12.27,
+     -32.95,
+     32.27
+    ],
+    "w": 800,
+    "h": 533,
+    "credit": "mars-wide"
+   },
+   "close": {
+    "file": "img/loc/viking1-close.jpg",
+    "bbox": [
+     -48.75,
+     21.735,
+     -47.15,
+     22.805
+    ],
+    "w": 800,
+    "h": 535,
+    "credit": "mars-close"
+   }
+  },
+  "viking2": {
+   "wide": {
+    "file": "img/loc/viking2-wide.jpg",
+    "bbox": [
+     119.28,
+     37.67,
+     149.28,
+     57.67
+    ],
+    "w": 800,
+    "h": 533,
+    "credit": "mars-wide"
+   },
+   "close": {
+    "file": "img/loc/viking2-close.jpg",
+    "bbox": [
+     133.48,
+     47.135,
+     135.08,
+     48.205
+    ],
+    "w": 800,
+    "h": 535,
+    "credit": "mars-close"
+   }
+  },
+  "pathfinder": {
+   "wide": {
+    "file": "img/loc/pathfinder-wide.jpg",
+    "bbox": [
+     -48.55,
+     9.33,
+     -18.55,
+     29.33
+    ],
+    "w": 800,
+    "h": 533,
+    "credit": "mars-wide"
+   },
+   "close": {
+    "file": "img/loc/pathfinder-close.jpg",
+    "bbox": [
+     -34.35,
+     18.795,
+     -32.75,
+     19.865
+    ],
+    "w": 800,
+    "h": 535,
+    "credit": "mars-close"
+   }
+  },
+  "sojourner": {
+   "wide": {
+    "file": "img/loc/sojourner-wide.jpg",
+    "bbox": [
+     -48.55,
+     9.33,
+     -18.55,
+     29.33
+    ],
+    "w": 800,
+    "h": 533,
+    "credit": "mars-wide"
+   },
+   "close": {
+    "file": "img/loc/sojourner-close.jpg",
+    "bbox": [
+     -34.35,
+     18.795,
+     -32.75,
+     19.865
+    ],
+    "w": 800,
+    "h": 535,
+    "credit": "mars-close"
+   }
+  },
+  "spirit": {
+   "wide": {
+    "file": "img/loc/spirit-wide.jpg",
+    "bbox": [
+     160.5254,
+     -24.6004,
+     190.5254,
+     -4.6004
+    ],
+    "w": 800,
+    "h": 533,
+    "credit": "mars-wide"
+   },
+   "close": {
+    "file": "img/loc/spirit-close.jpg",
+    "bbox": [
+     174.7254,
+     -15.1354,
+     176.3254,
+     -14.0654
+    ],
+    "w": 800,
+    "h": 535,
+    "credit": "mars-close"
+   }
+  },
+  "opportunity": {
+   "wide": {
+    "file": "img/loc/opportunity-wide.jpg",
+    "bbox": [
+     -20.3503,
+     -12.3288,
+     9.6497,
+     7.6712
+    ],
+    "w": 800,
+    "h": 533,
+    "credit": "mars-wide"
+   },
+   "close": {
+    "file": "img/loc/opportunity-close.jpg",
+    "bbox": [
+     -6.1503,
+     -2.8638,
+     -4.5503,
+     -1.7938
+    ],
+    "w": 800,
+    "h": 535,
+    "credit": "mars-close"
+   }
+  },
+  "phoenix": {
+   "wide": {
+    "file": "img/loc/phoenix-wide.jpg",
+    "bbox": [
+     -140.7492,
+     58.2188,
+     -110.7492,
+     78.2188
+    ],
+    "w": 800,
+    "h": 533,
+    "credit": "mars-wide"
+   },
+   "close": {
+    "file": "img/loc/phoenix-close.jpg",
+    "bbox": [
+     -126.5492,
+     67.6838,
+     -124.9492,
+     68.7538
+    ],
+    "w": 800,
+    "h": 535,
+    "credit": "mars-close"
+   }
+  },
+  "insight": {
+   "wide": {
+    "file": "img/loc/insight-wide.jpg",
+    "bbox": [
+     120.6234,
+     -5.4976,
+     150.6234,
+     14.5024
+    ],
+    "w": 800,
+    "h": 533,
+    "credit": "mars-wide"
+   },
+   "close": {
+    "file": "img/loc/insight-close.jpg",
+    "bbox": [
+     134.8234,
+     3.9674,
+     136.4234,
+     5.0374
+    ],
+    "w": 800,
+    "h": 535,
+    "credit": "mars-close"
+   }
+  },
+  "ingenuity": {
+   "wide": {
+    "file": "img/loc/ingenuity-wide.jpg",
+    "bbox": [
+     62.3225,
+     8.4973,
+     92.3225,
+     28.4973
+    ],
+    "w": 800,
+    "h": 533,
+    "credit": "mars-wide"
+   },
+   "close": {
+    "file": "img/loc/ingenuity-close.jpg",
+    "bbox": [
+     76.5225,
+     17.9623,
+     78.1225,
+     19.0323
+    ],
+    "w": 800,
+    "h": 535,
+    "credit": "mars-close"
+   }
+  },
+  "mars-polar-lander": {
+   "wide": {
+    "file": "img/loc/mars-polar-lander-wide.jpg",
+    "bbox": [
+     150.0,
+     -86.0,
+     180.0,
+     -66.0
+    ],
+    "w": 800,
+    "h": 533,
+    "credit": "mars-wide"
+   },
+   "close": {
+    "file": "img/loc/mars-polar-lander-close.jpg",
+    "bbox": [
+     164.2,
+     -76.535,
+     165.8,
+     -75.465
+    ],
+    "w": 800,
+    "h": 535,
+    "credit": "mars-close"
+   }
+  },
+  "deep-space-2": {
+   "wide": {
+    "file": "img/loc/deep-space-2-wide.jpg",
+    "bbox": [
+     135.0,
+     -83.0,
+     165.0,
+     -63.0
+    ],
+    "w": 800,
+    "h": 533,
+    "credit": "mars-wide"
+   },
+   "close": {
+    "file": "img/loc/deep-space-2-close.jpg",
+    "bbox": [
+     149.2,
+     -73.535,
+     150.8,
+     -72.465
+    ],
+    "w": 800,
+    "h": 535,
+    "credit": "mars-close"
+   }
+  },
+  "curiosity": {
+   "wide": {
+    "file": "img/loc/curiosity-wide.jpg",
+    "bbox": [
+     122.3889,
+     -14.826,
+     152.3889,
+     5.174
+    ],
+    "w": 800,
+    "h": 533,
+    "credit": "mars-wide"
+   },
+   "close": {
+    "file": "img/loc/curiosity-close.jpg",
+    "bbox": [
+     136.5889,
+     -5.361,
+     138.1889,
+     -4.291
+    ],
+    "w": 800,
+    "h": 535,
+    "credit": "mars-close"
+   }
+  },
+  "perseverance": {
+   "wide": {
+    "file": "img/loc/perseverance-wide.jpg",
+    "bbox": [
+     62.2332,
+     8.4356,
+     92.2332,
+     28.4356
+    ],
+    "w": 800,
+    "h": 533,
+    "credit": "mars-wide"
+   },
+   "close": {
+    "file": "img/loc/perseverance-close.jpg",
+    "bbox": [
+     76.4332,
+     17.9006,
+     78.0332,
+     18.9706
+    ],
+    "w": 800,
+    "h": 535,
+    "credit": "mars-close"
+   }
+  },
+  "perseverance-backshell": {
+   "wide": {
+    "file": "img/loc/perseverance-backshell-wide.jpg",
+    "bbox": [
+     62.432,
+     8.452,
+     92.432,
+     28.452
+    ],
+    "w": 800,
+    "h": 533,
+    "credit": "mars-wide"
+   },
+   "close": {
+    "file": "img/loc/perseverance-backshell-close.jpg",
+    "bbox": [
+     76.632,
+     17.917,
+     78.232,
+     18.987
+    ],
+    "w": 800,
+    "h": 535,
+    "credit": "mars-close"
+   }
+  }
+ }
+}

@@ -1,0 +1,49 @@
+{
+  "site": "tempel1-deep-impact",
+  "body": "tempel1",
+  "title": "Deep Impact on Comet Tempel 1",
+  "machines": [
+    "deep_impact_impactor"
+  ],
+  "center": [
+    -28,
+    16
+  ],
+  "res_m": {
+    "height": 90,
+    "color": 90
+  },
+  "gravity_note": "Tempel 1's gravity is roughly 1/25,000 of Earth's. Escape speed is only about 1.5 m/s, a brisk walk: jump and you are gone.",
+  "places": [
+    {
+      "id": "deep_impact_impactor",
+      "x_m": 0,
+      "y_m": 0
+    }
+  ],
+  "sources": {
+    "height": {
+      "product": "Plate shape model of comet 9P/Tempel 1 v2.0 (Thomas et al. 2013; 16,022 vertices), DIF-C-HRIV/ITS/MRI-5-TEMPEL1-SHAPE-V2.0",
+      "credit": "P. Thomas et al. / NASA Deep Impact and Stardust-NExT; PDS Small Bodies Node",
+      "license": "Public domain (NASA PDS)",
+      "url": "https://pdssbn.astro.umd.edu/holdings/dif-c-hriv_its_mri-5-tempel1-shape-v2.0/data/tempel1_2012_plan.tab"
+    },
+    "color": {
+      "product": "Shaded relief rendered from the same shape model",
+      "credit": "Derived from the Thomas et al. 2013 Tempel 1 shape model (NASA)",
+      "license": "Public domain (NASA PDS)",
+      "url": "https://pdssbn.astro.umd.edu/holdings/dif-c-hriv_its_mri-5-tempel1-shape-v2.0/"
+    }
+  },
+  "note": "Impact site (2005-07-04) at about 28 S, 16 E in the Thomas et al. (2013) model frame, as converted by Nagdimunov et al. 2014 (arXiv:1406.3308). The site is approximate, uncertain by a few hundred metres, because ejecta hid it from the shape-model control points. The ~50 m crater that Stardust-NExT saw in 2011 is NOT in the model. The shape model has a vertex spacing of about 90 m, so this patch is a smooth, low-detail surface interpolated onto a 3.9 m grid. \"Up\" = best-fit plane normal within 500 m; \"north\" = spin axis projected onto that plane. Colour is shaded relief rendered from the shape model (sun from the north-west), not a photograph; the shape model has no albedo, so brightness only shows slopes. Heights smoothed with a 40 m Gaussian to hide plate facets.",
+  "extent_m": [
+    2000,
+    2000
+  ],
+  "heightRange_m": [
+    -168.83,
+    74.26
+  ],
+  "world": "beyond",
+  "sky": "black"
+}

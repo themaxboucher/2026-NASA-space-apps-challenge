@@ -1,0 +1,49 @@
+{
+  "site": "eros-near",
+  "body": "eros",
+  "title": "NEAR Shoemaker on Eros",
+  "machines": [
+    "near_shoemaker"
+  ],
+  "center": [
+    -37.2,
+    81.6
+  ],
+  "res_m": {
+    "height": 25,
+    "color": 25
+  },
+  "gravity_note": "Eros's gravity is about 1/2000 of Earth's. A jump would keep you floating for minutes, and a really hard one could throw you off Eros for good (escape speed is only about 10 m/s).",
+  "places": [
+    {
+      "id": "near_shoemaker",
+      "x_m": 0,
+      "y_m": 0
+    }
+  ],
+  "sources": {
+    "height": {
+      "product": "Gaskell Eros shape model v1.0 (512q, ~1.6M vertices) from NEAR MSI images; NAIF DSK near-a-msi-5-erosshape-v1_0_512q.bds",
+      "credit": "R. Gaskell (PSI) / NASA / JHUAPL; PDS Small Bodies Node; NAIF",
+      "license": "Public domain (NASA PDS)",
+      "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/dsk/asteroids/eros/near-a-msi-5-erosshape-v1_0_512q.bds"
+    },
+    "color": {
+      "product": "Shaded relief rendered from the same shape model",
+      "credit": "Derived from the Gaskell Eros shape model (NASA/JHUAPL/PSI)",
+      "license": "Public domain (NASA PDS)",
+      "url": "https://sbn.psi.edu/pds/resource/erosshape.html"
+    }
+  },
+  "note": "Landing site 37.2 S, 81.6 E (IAU planetocentric; = 278.4 W in the NEAR catalog convention), just south of the Himeros saddle; touchdown 2001-02-12. Source: PDS SBN \"NEAR Coordinate Systems\" document. \"Up\" is the normal of the best-fit plane of the terrain within 500 m of the site; \"north\" (row 0 side) is the Eros spin axis projected onto that plane. The shape model has a vertex spacing of about 25-30 m, so it does not resolve boulders or spacecraft-sized features; the 3.9 m grid is interpolated from the facets. Colour is shaded relief rendered from the shape model (sun from the north-west), not a photograph; the shape model has no albedo, so brightness only shows slopes. Heights smoothed with a 25 m Gaussian to hide plate facets.",
+  "extent_m": [
+    2000,
+    2000
+  ],
+  "heightRange_m": [
+    -380.28,
+    149.88
+  ],
+  "world": "beyond",
+  "sky": "black"
+}

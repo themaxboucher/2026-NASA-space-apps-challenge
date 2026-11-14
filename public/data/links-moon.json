@@ -1,0 +1,1503 @@
+{
+  "apollo11-lm": {
+    "highlights": [
+      "July 16, 1969: Apollo 11 launched on a Saturn V rocket from Launch Complex 39A at Kennedy Space Center, Florida.",
+      "Neil Armstrong stepped onto the Moon at 10:56 p.m. EDT on July 20, 1969; Buzz Aldrin followed about 19 minutes later.",
+      "Their only moonwalk lasted about 2 hours 31 minutes, and they never went more than about 100 meters from Eagle.",
+      "Eagle's crew spent about 21.5 hours on the surface before the ascent stage lifted off on July 21, 1969.",
+      "July 24, 1969: the crew splashed down safely in the Pacific Ocean, completing the first Moon landing mission."
+    ],
+    "links": [
+      {
+        "title": "Apollo 11 Lunar Module / EASEP (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 11 Lunar Surface Journal: The Landing",
+        "url": "https://apollojournals.org/alsj/a11/a11.landing.html",
+        "kind": "archive"
+      },
+      {
+        "title": "LROC Apollo 11 flip book: the landing site from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-11/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "Lunar Module LM-2 (Smithsonian National Air and Space Museum)",
+        "url": "https://airandspace.si.edu/collection-objects/lunar-module-2-apollo/nasm_A19711598000",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 11 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-11/",
+        "kind": "official"
+      },
+      {
+        "title": "What Was the Apollo Program? (NASA, grades K-4)",
+        "url": "https://www.nasa.gov/learning-resources/for-kids-and-students/what-was-the-apollo-program-grades-k-4/",
+        "kind": "kids"
+      }
+    ]
+  },
+  "apollo11-pse": {
+    "highlights": [
+      "July 21, 1969 (UT): mission control switched the seismometer on while Armstrong and Aldrin were still outside.",
+      "It sat about 17 meters south of Eagle as part of EASEP, a 48 kg kit that also held a dust detector.",
+      "August 3, 1969: controllers turned it off before its first lunar sunset because its solar power was fading.",
+      "It woke up again for a second lunar day, but stopped obeying commands in late August 1969."
+    ],
+    "links": [
+      {
+        "title": "Apollo 11 EASEP (Apollo Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a11/a11EASEP.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 11 Lunar Module / EASEP (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 11 Lunar Surface Journal",
+        "url": "https://apollojournals.org/alsj/a11/a11.html",
+        "kind": "archive"
+      },
+      {
+        "title": "LROC Apollo 11 temporal traverse: the site seen from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-11/temporal-traverse",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 11 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-11/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo11-lrrr": {
+    "highlights": [
+      "July 21, 1969 (UT): Aldrin and Armstrong set it about 5 meters from the seismometer at Tranquility Base.",
+      "August 1, 1969: Lick Observatory in California caught the first laser echoes from it.",
+      "Its 100 fused-silica corner cubes are each about 3.8 cm across, about the size of a golf ball.",
+      "Laser stations such as Apache Point in New Mexico and Grasse in France still aim at it today."
+    ],
+    "links": [
+      {
+        "title": "Laser Ranging Retroreflector (NASA NSSDCA experiment catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/experiment/display.action?id=1969-059C-04",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 11 EASEP and laser reflector (Apollo Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a11/a11EASEP.html",
+        "kind": "archive"
+      },
+      {
+        "title": "LROC Apollo 11 flip book: the landing site from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-11/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 11 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-11/",
+        "kind": "official"
+      },
+      {
+        "title": "How Far Away Is the Moon? (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/moon-distance/en/",
+        "kind": "kids"
+      }
+    ]
+  },
+  "apollo12-lm": {
+    "highlights": [
+      "November 14, 1969: lightning struck Apollo 12's Saturn V twice during launch, but the crew reset the power and flew on.",
+      "Intrepid landed in the Ocean of Storms on November 19, 1969, at 06:54 UT.",
+      "Conrad and Bean made two moonwalks totaling about 7 hours 45 minutes.",
+      "The first color TV camera on the Moon broke early when it was accidentally pointed at the Sun.",
+      "The crew brought home about 34 kg of rocks and soil, plus parts of Surveyor 3."
+    ],
+    "links": [
+      {
+        "title": "Apollo 12 Lunar Module / ALSEP (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 12 Lunar Surface Journal: The Landing",
+        "url": "https://apollojournals.org/alsj/a12/a12.landing.html",
+        "kind": "archive"
+      },
+      {
+        "title": "LROC Apollo 12 flip book: the landing site from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-12/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "LROC Apollo 12 simple traverse: the crew's walking paths",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-12/simple-traverse",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 12 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-12/",
+        "kind": "official"
+      },
+      {
+        "title": "Apollo 12 mission overview (Lunar and Planetary Institute)",
+        "url": "https://www.lpi.usra.edu/lunar/missions/apollo/apollo_12/",
+        "kind": "archive"
+      }
+    ]
+  },
+  "apollo12-alsep": {
+    "highlights": [
+      "November 19, 1969: Bean and Conrad set it up on their first moonwalk, about 130 meters from Intrepid.",
+      "Its SNAP-27 nuclear generator made about 70 watts, a little more than a bright light bulb uses.",
+      "Its instruments included a seismometer, a magnetometer, a solar wind spectrometer and an ion detector.",
+      "April 1970: it felt the Apollo 13 rocket stage crash about 135 km away and rang for hours."
+    ],
+    "links": [
+      {
+        "title": "ALSEP deployment (Apollo 12 Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a12/a12.alsepdep.html",
+        "kind": "archive"
+      },
+      {
+        "title": "ALSEP off-load (Apollo 12 Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a12/a12.alsepoff.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 12 Passive Seismic Experiment (NASA NSSDCA experiment catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/experiment/display.action?id=1969-099C-03",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 12 Lunar Module / ALSEP (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Apollo 12 temporal traverse",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-12/temporal-traverse",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 12 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-12/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo12-lm-ascent": {
+    "highlights": [
+      "November 20, 1969, 14:25 UT: Intrepid's ascent stage lifted off after about 31.5 hours on the Moon.",
+      "About 3.5 hours later it docked with Yankee Clipper, and the crew moved across with their samples.",
+      "Controllers then jettisoned it and fired its engine to send it down, hitting the Moon on November 20 at 22:17 UT."
+    ],
+    "links": [
+      {
+        "title": "Apollo 12 Flight Journal: LM jettison",
+        "url": "https://apollojournals.org/afj/ap12fj/18day6_lmjett_rev33_35.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 12 Lunar Surface Journal: Return to Orbit",
+        "url": "https://apollojournals.org/alsj/a12/a12.launch.html",
+        "kind": "archive"
+      },
+      {
+        "title": "LROC 3-D map of the possible Apollo 12 ascent stage impact site",
+        "url": "https://data.lroc.im-ldi.com/lroc/view_rdr_product/NAC_DTM_A12LMAS_M1243793524_110CM",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 12 Lunar Module / ALSEP (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 12 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-12/",
+        "kind": "official"
+      }
+    ]
+  },
+  "surveyor3": {
+    "highlights": [
+      "April 17, 1967: Surveyor 3 launched on an Atlas-Centaur rocket from Cape Kennedy, Florida.",
+      "It sent back 6,315 TV pictures before its first lunar sunset.",
+      "November 20, 1969: Conrad and Bean walked to it on their second moonwalk and cut off its camera and scoop.",
+      "Scientists reported Earth germs inside its camera, but later reviews suggest they got in after it came home."
+    ],
+    "links": [
+      {
+        "title": "Surveyor 3 mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/surveyor-3/",
+        "kind": "official"
+      },
+      {
+        "title": "Surveyor 3 (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Surveyor 3 flip book: the lander seen from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/surveyor-3/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "Surveyor III camera returned by Apollo 12 (Smithsonian National Air and Space Museum)",
+        "url": "https://airandspace.si.edu/multimedia-gallery/image/2006-1139hjpg",
+        "kind": "images"
+      },
+      {
+        "title": "Surveyor missions (Lunar and Planetary Institute)",
+        "url": "https://www.lpi.usra.edu/lunar/missions/surveyor/",
+        "kind": "archive"
+      }
+    ]
+  },
+  "apollo13-sivb": {
+    "highlights": [
+      "April 11, 1970: Apollo 13 launched from Kennedy Space Center on its Saturn V.",
+      "April 13, 1970: about 56 hours into the flight, an oxygen tank exploded in the service module.",
+      "April 17, 1970: the crew splashed down safely in the Pacific, two days after this stage hit the Moon."
+    ],
+    "links": [
+      {
+        "title": "Apollo 13 SIVB (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1970-029B",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Apollo 13 S-IVB flip book: the impact crater",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-13-s-ivb/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "LROC: NAC images of the Apollo S-IVB impact craters",
+        "url": "https://lroc.im-ldi.com/images/1261",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 13 Flight Journal",
+        "url": "https://apollojournals.org/afj/ap13fj/index.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 13 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-13/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo14-lm": {
+    "highlights": [
+      "January 31, 1971: Apollo 14 launched after a 40-minute weather delay.",
+      "Antares landed at Fra Mauro on February 5, 1971, at 09:18 UT.",
+      "Alan Shepard, age 47, was the only Mercury astronaut to walk on the Moon.",
+      "The crew's two moonwalks lasted about 9 hours 22 minutes in total.",
+      "LRO images later showed they came within about 30 meters of Cone crater's rim without knowing it."
+    ],
+    "links": [
+      {
+        "title": "Apollo 14 Lunar Module /ALSEP (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-008C",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 14 Lunar Surface Journal: The Landing",
+        "url": "https://apollojournals.org/alsj/a14/a14.landing.html",
+        "kind": "archive"
+      },
+      {
+        "title": "LROC Apollo 14 flip book: the landing site from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-14/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "LROC Apollo 14 simple traverse: the crew's walking paths",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-14/simple-traverse",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 14 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-14/",
+        "kind": "official"
+      },
+      {
+        "title": "Apollo 14 mission overview (Lunar and Planetary Institute)",
+        "url": "https://www.lpi.usra.edu/lunar/missions/apollo/apollo_14/",
+        "kind": "archive"
+      }
+    ]
+  },
+  "apollo14-alsep": {
+    "highlights": [
+      "February 5, 1971: Shepard and Mitchell set it up during their first moonwalk.",
+      "It carried a seismometer, an active seismic experiment, an ion detector, a pressure gauge and a particle detector.",
+      "A mortar box with small grenades was meant to make later moonquakes, but it was never fired.",
+      "Like Apollo 12's station, it ran on a SNAP-27 plutonium generator, so it worked day and night."
+    ],
+    "links": [
+      {
+        "title": "ALSEP deployment (Apollo 14 Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a14/a14.alsepdep.html",
+        "kind": "archive"
+      },
+      {
+        "title": "ALSEP off-load (Apollo 14 Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a14/a14.alsepoff.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 14 Active Seismic Experiment (NASA NSSDCA experiment catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/experiment/display.action?id=1971-008C-05",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 14 Passive Seismic Experiment (NASA NSSDCA experiment catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/experiment/display.action?id=1971-008C-04",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Apollo 14 temporal traverse",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-14/temporal-traverse",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 14 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-14/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo14-lrrr": {
+    "highlights": [
+      "February 5, 1971: Shepard and Mitchell set it up on their first moonwalk at Fra Mauro.",
+      "Its 100 corner-cube prisms match the Apollo 11 reflector, giving scientists a second target far away.",
+      "Since 2006 the APOLLO laser station at Apache Point, New Mexico, has used it to measure distances to about a millimeter."
+    ],
+    "links": [
+      {
+        "title": "Apollo 14 Laser Ranging Retroreflector (NASA NSSDCA experiment catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/experiment/display.action?id=1971-008C-09",
+        "kind": "data"
+      },
+      {
+        "title": "ALSEP deployment (Apollo 14 Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a14/a14.alsepdep.html",
+        "kind": "archive"
+      },
+      {
+        "title": "LROC Apollo 14 flip book: the landing site from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-14/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 14 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-14/",
+        "kind": "official"
+      },
+      {
+        "title": "How Far Away Is the Moon? (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/moon-distance/en/",
+        "kind": "kids"
+      }
+    ]
+  },
+  "apollo14-sivb": {
+    "highlights": [
+      "January 31, 1971: this stage lifted off as the top of Apollo 14's Saturn V rocket.",
+      "That day, pilot Stuart Roosa needed six tries to dock with Antares while it was still attached to this stage.",
+      "LRO's camera has photographed its crater under many different Sun angles."
+    ],
+    "links": [
+      {
+        "title": "Apollo 14 SIVB (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-008B",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Apollo 14 S-IVB flip book: the impact crater",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-14-s-ivb/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "LROC: NAC images of the Apollo S-IVB impact craters",
+        "url": "https://lroc.im-ldi.com/images/1261",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 14 Flight Journal: Transposition, Docking and Extraction",
+        "url": "https://apollojournals.org/afj/ap14fj/03_day1_tde.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 14 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-14/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo14-lm-ascent": {
+    "highlights": [
+      "February 6, 1971, 18:48 UT: Antares lifted off from Fra Mauro.",
+      "It made the first direct rendezvous, reaching Kitty Hawk in less than one orbit, under two hours.",
+      "After the crew moved across, it was released and sent to crash, hitting on February 7, 1971."
+    ],
+    "links": [
+      {
+        "title": "Apollo 14 Lunar Surface Journal: Return to Orbit",
+        "url": "https://apollojournals.org/alsj/a14/a14.launch.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 14 Flight Journal: Lunar liftoff and rendezvous",
+        "url": "https://apollojournals.org/afj/ap14fj/23_day6_lunar_liftoff_rendezvous.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 14 Lunar Module /ALSEP (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-008C",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 14 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-14/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo15-lm": {
+    "highlights": [
+      "July 26, 1971: Apollo 15 launched carrying the heaviest Apollo payload yet, including the first lunar rover.",
+      "Falcon landed near Hadley Rille on July 30, 1971, at 22:16 UT.",
+      "Before walking, Dave Scott stood up through the top hatch to survey the landing site.",
+      "Three moonwalks lasted about 18.5 hours, and the crew brought home about 77 kg of samples.",
+      "August 1971: the crew left a small 'Fallen Astronaut' statue and plaque honoring astronauts who had died."
+    ],
+    "links": [
+      {
+        "title": "Apollo 15 Lunar Module /ALSEP (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 15 Lunar Surface Journal: The Landing",
+        "url": "https://apollojournals.org/alsj/a15/a15.landing.html",
+        "kind": "archive"
+      },
+      {
+        "title": "LROC Apollo 15 flip book: the landing site from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-15/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 15 (Smithsonian National Air and Space Museum)",
+        "url": "https://airandspace.si.edu/explore/stories/apollo-missions/apollo-15",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 15 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-15/",
+        "kind": "official"
+      },
+      {
+        "title": "Apollo 15 mission overview (Lunar and Planetary Institute)",
+        "url": "https://www.lpi.usra.edu/lunar/missions/apollo/apollo_15/",
+        "kind": "archive"
+      }
+    ]
+  },
+  "apollo15-lrv": {
+    "highlights": [
+      "July 31, 1971: Scott and Irwin unfolded the rover from Falcon's side at the start of their first moonwalk.",
+      "Its longest drive, on the second moonwalk, covered about 12.5 km.",
+      "A navigation system tracked direction and distance so the crew could always find the way back to Falcon.",
+      "The rover was built by Boeing and runs on two non-rechargeable silver-zinc batteries."
+    ],
+    "links": [
+      {
+        "title": "LRV deployment (Apollo 15 Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a15/a15.lrvdep.html",
+        "kind": "archive"
+      },
+      {
+        "title": "The Virtual LRV (Apollo Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/VirtualLRV.html",
+        "kind": "archive"
+      },
+      {
+        "title": "LROC Apollo 15 simple traverse: the rover tracks from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-15/simple-traverse",
+        "kind": "images"
+      },
+      {
+        "title": "Lunar Roving Vehicle test unit (Smithsonian National Air and Space Museum)",
+        "url": "https://airandspace.si.edu/collection-objects/lunar-roving-vehicle-qualification-test-unit/nasm_A19760746000",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 15 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-15/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo15-alsep": {
+    "highlights": [
+      "July 31, 1971: Scott and Irwin set up the station during their first moonwalk.",
+      "Besides a seismometer, it carried a heat-flow experiment, a magnetometer, a solar wind spectrometer and a dust detector.",
+      "On the third moonwalk Scott pulled up a deep drill core about 2.4 meters long from nearby.",
+      "Its plutonium generator kept it running through about six years of lunar nights."
+    ],
+    "links": [
+      {
+        "title": "ALSEP deployment (Apollo 15 Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a15/a15.alsepdep.html",
+        "kind": "archive"
+      },
+      {
+        "title": "ALSEP off-load (Apollo 15 Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a15/a15.alsepoff.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 15 Heat Flow Experiment (NASA NSSDCA experiment catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/experiment/display.action?id=1971-063C-06",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 15 Passive Seismic Experiment (NASA NSSDCA experiment catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/experiment/display.action?id=1971-063C-01",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Apollo 15 temporal traverse",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-15/temporal-traverse",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 15 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-15/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo15-lrrr": {
+    "highlights": [
+      "July 31, 1971: Scott and Irwin set it up near the science station at Hadley.",
+      "Its 300 prisms sit in a panel about one meter wide.",
+      "Laser stations in the U.S., France, Italy and Germany have aimed at it for decades."
+    ],
+    "links": [
+      {
+        "title": "Apollo 15 Laser Ranging Retroreflector (NASA NSSDCA experiment catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/experiment/display.action?id=1971-063C-08",
+        "kind": "data"
+      },
+      {
+        "title": "ALSEP deployment (Apollo 15 Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a15/a15.alsepdep.html",
+        "kind": "archive"
+      },
+      {
+        "title": "LROC Apollo 15 flip book: the landing site from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-15/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 15 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-15/",
+        "kind": "official"
+      },
+      {
+        "title": "How Far Away Is the Moon? (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/moon-distance/en/",
+        "kind": "kids"
+      }
+    ]
+  },
+  "apollo15-sivb": {
+    "highlights": [
+      "July 26, 1971, 9:34 a.m. EDT: this stage launched as the top of Apollo 15's Saturn V.",
+      "It pushed the heaviest Apollo spacecraft so far toward the Moon, including Falcon and its folded-up rover.",
+      "LRO's camera has photographed its crater under different lighting."
+    ],
+    "links": [
+      {
+        "title": "Apollo 15 SIVB (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063B",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Apollo 15 S-IVB flip book: the impact crater",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-15-s-ivb/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "LROC: NAC images of the Apollo S-IVB impact craters",
+        "url": "https://lroc.im-ldi.com/images/1261",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 15 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-15/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo15-lm-ascent": {
+    "highlights": [
+      "August 2, 1971, 17:11 UT: Falcon's ascent stage lifted off after about 67 hours on the Moon.",
+      "About two hours later it docked with Endeavour in lunar orbit.",
+      "A leaky hatch seal delayed its release while the crew rechecked the tunnel between the two craft.",
+      "Once released, it was sent down to crash on August 3, 1971."
+    ],
+    "links": [
+      {
+        "title": "Apollo 15 Flight Journal: Leaking tunnel and jettison of the LM",
+        "url": "https://apollojournals.org/afj/ap15fj/18tunnel_leak_lm_jett.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 15 Flight Journal: Rendezvous and docking",
+        "url": "https://apollojournals.org/afj/ap15fj/17rndz_dock.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 15 Lunar Surface Journal: Return to Orbit",
+        "url": "https://apollojournals.org/alsj/a15/a15.launch.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 15 Lunar Module /ALSEP (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 15 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-15/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo16-lm": {
+    "highlights": [
+      "April 16, 1972: Apollo 16 launched from Kennedy Space Center.",
+      "Orion landed in the Descartes highlands on April 21, 1972, at 02:23 UT.",
+      "Three moonwalks lasted about 20 hours 14 minutes, and the crew collected about 96 kg of samples.",
+      "The crew set up the first telescope on the Moon, a far-ultraviolet camera built by George Carruthers.",
+      "John Young leaped off the ground while saluting the flag, a famous photo from April 21, 1972."
+    ],
+    "links": [
+      {
+        "title": "Apollo 16 Lunar Module /ALSEP (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-031C",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 16 Lunar Surface Journal: The Landing",
+        "url": "https://apollojournals.org/alsj/a16/a16.landing.html",
+        "kind": "archive"
+      },
+      {
+        "title": "LROC Apollo 16 flip book: the landing site from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-16/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "LROC Apollo 16 simple traverse: the crew's paths",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-16/simple-traverse",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 16 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-16/",
+        "kind": "official"
+      },
+      {
+        "title": "Apollo 16 mission overview (Lunar and Planetary Institute)",
+        "url": "https://www.lpi.usra.edu/lunar/missions/apollo/apollo_16/",
+        "kind": "archive"
+      }
+    ]
+  },
+  "apollo16-lrv": {
+    "highlights": [
+      "April 21, 1972: Young and Duke unloaded the rover at the start of their first moonwalk.",
+      "At first its rear steering did not work, but it started working again during the first drive.",
+      "The 'Grand Prix' test drive was filmed at the end of the first moonwalk on April 21, 1972."
+    ],
+    "links": [
+      {
+        "title": "LRV deployment (Apollo 16 Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a16/a16.lrvdep.html",
+        "kind": "archive"
+      },
+      {
+        "title": "The Virtual LRV (Apollo Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/VirtualLRV.html",
+        "kind": "archive"
+      },
+      {
+        "title": "LROC Apollo 16 temporal traverse: rover tracks from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-16/temporal-traverse",
+        "kind": "images"
+      },
+      {
+        "title": "Lunar rover wheel (Smithsonian National Air and Space Museum)",
+        "url": "https://airandspace.si.edu/collection-objects/wheel-lunar-rover/nasm_A19750830000",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 16 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-16/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo16-alsep": {
+    "highlights": [
+      "April 21, 1972: Young and Duke set up the station on their first moonwalk.",
+      "It carried a seismometer, an active seismic experiment, a heat-flow experiment and a magnetometer.",
+      "Its plutonium generator kept it running through more than 60 freezing lunar nights."
+    ],
+    "links": [
+      {
+        "title": "ALSEP off-load (Apollo 16 Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a16/a16.alsepoff.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 16 Passive Seismic Experiment (NASA NSSDCA experiment catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/experiment/display.action?id=1972-031C-01",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 16 Heat Flow Experiment (NASA NSSDCA experiment catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/experiment/display.action?id=1972-031C-04",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Apollo 16 flip book: the landing site from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-16/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 16 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-16/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo16-sivb": {
+    "highlights": [
+      "April 16, 1972: this stage launched as the top of Apollo 16's Saturn V.",
+      "Jeff Plescia of the Johns Hopkins Applied Physics Lab spotted its crater in LRO images.",
+      "Its crater lies on Mare Insularum, about 260 km southwest of Copernicus crater."
+    ],
+    "links": [
+      {
+        "title": "LROC: Found! Apollo 16 S-IVB Impact Crater",
+        "url": "https://lroc.im-ldi.com/images/894",
+        "kind": "images"
+      },
+      {
+        "title": "LRO finds Apollo 16 booster rocket impact site (NASA)",
+        "url": "https://www.nasa.gov/image-article/lro-finds-apollo-16-booster-rocket-impact-site/",
+        "kind": "official"
+      },
+      {
+        "title": "Apollo 16 SIVB (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-031B",
+        "kind": "data"
+      },
+      {
+        "title": "LROC: NAC images of the Apollo S-IVB impact craters",
+        "url": "https://lroc.im-ldi.com/images/1261",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 16 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-16/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo17-lm": {
+    "highlights": [
+      "December 7, 1972: Apollo 17 launched, and that day the crew took the famous 'Blue Marble' photo of Earth.",
+      "Challenger landed at Taurus-Littrow on December 11, 1972, at 19:54 UT.",
+      "Three moonwalks lasted about 22 hours, the longest of any Apollo mission.",
+      "The crew stayed on the Moon for about 75 hours, also an Apollo record.",
+      "December 19, 1972: the crew splashed down in the Pacific, ending the Apollo Moon landings."
+    ],
+    "links": [
+      {
+        "title": "Apollo 17 Lunar Module /ALSEP (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096C",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 17 Lunar Surface Journal: The Landing",
+        "url": "https://apollojournals.org/alsj/a17/a17.landing.html",
+        "kind": "archive"
+      },
+      {
+        "title": "LROC Apollo 17 flip book: the landing site from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-17/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "LROC Apollo 17 simple traverse: the crew's paths",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-17/simple-traverse",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 17 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-17/",
+        "kind": "official"
+      },
+      {
+        "title": "Apollo 17 mission overview (Lunar and Planetary Institute)",
+        "url": "https://www.lpi.usra.edu/lunar/missions/apollo/apollo_17/",
+        "kind": "archive"
+      }
+    ]
+  },
+  "apollo17-lrv": {
+    "highlights": [
+      "December 11, 1972: Cernan and Schmitt unfolded the rover on their first moonwalk.",
+      "On the second moonwalk it drove about 20 km, the longest single Apollo drive.",
+      "It took the crew as far as about 7.6 km from Challenger, farther than any other rover trip.",
+      "The map-and-tape fender patch came home and is now in the Smithsonian's collection."
+    ],
+    "links": [
+      {
+        "title": "LRV deployment (Apollo 17 Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a17/a17.lrvdep.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 17 Lunar Rover (Apollo Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a17/A17_LunarRover2.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Maps fender extension, Apollo 17 rover (Smithsonian National Air and Space Museum)",
+        "url": "https://airandspace.si.edu/collection-objects/maps-fender-extension-lunar-roving-vehicle-apollo-17/nasm_A19760010000",
+        "kind": "archive"
+      },
+      {
+        "title": "LROC Apollo 17 temporal traverse: rover tracks from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-17/temporal-traverse",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 17 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-17/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo17-alsep": {
+    "highlights": [
+      "December 1972: Cernan and Schmitt set up the station on their first moonwalk.",
+      "New instruments sniffed the Moon's thin air and found gases such as helium and argon.",
+      "Its heat-flow probes were placed in holes about 2.3 meters deep.",
+      "Others watched for dust and tiny meteorites, and listened for blasts with a line of geophones."
+    ],
+    "links": [
+      {
+        "title": "ALSEP deployment (Apollo 17 Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a17/a17.alsepdep.html",
+        "kind": "archive"
+      },
+      {
+        "title": "ALSEP off-load (Apollo 17 Lunar Surface Journal)",
+        "url": "https://apollojournals.org/alsj/a17/a17.alsepoff.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 17 Heat Flow Experiment (NASA NSSDCA experiment catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/experiment/display.action?id=1972-096C-01",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 17 Lunar Atmospheric Composition Experiment (NASA NSSDCA experiment catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/experiment/display.action?id=1972-096C-08",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 17 Lunar Surface Gravimeter (NASA NSSDCA experiment catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/experiment/display.action?id=1972-096C-09",
+        "kind": "data"
+      },
+      {
+        "title": "Apollo 17 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-17/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo17-sivb": {
+    "highlights": [
+      "December 7, 1972: the launch was delayed about 2 hours 40 minutes by a countdown computer problem.",
+      "This stage then sent Apollo 17 toward the Moon before being aimed at the Moon itself.",
+      "The LROC team built a 3-D height map of its crater from stereo images."
+    ],
+    "links": [
+      {
+        "title": "Apollo 17 SIVB (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096B",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Apollo 17 S-IVB flip book: the impact crater",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-17-s-ivb/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "LROC 3-D map (DTM) of the Apollo 17 S-IVB crater",
+        "url": "https://data.lroc.im-ldi.com/lroc/view_rdr_product/NAC_DTM_A17SIVB_M144708115_60CM",
+        "kind": "data"
+      },
+      {
+        "title": "LROC: NAC images of the Apollo S-IVB impact craters",
+        "url": "https://lroc.im-ldi.com/images/1261",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 17 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-17/",
+        "kind": "official"
+      }
+    ]
+  },
+  "apollo17-lm-ascent": {
+    "highlights": [
+      "December 14, 1972, 22:55 UT: Challenger's ascent stage lifted off, the last launch from the Moon so far.",
+      "Before climbing aboard, Gene Cernan said they left 'as we came and, God willing, as we shall return.'",
+      "About two hours later it docked with the command module America in lunar orbit."
+    ],
+    "links": [
+      {
+        "title": "Apollo 17 Lunar Surface Journal: Return to Orbit",
+        "url": "https://apollojournals.org/alsj/a17/a17.launch.html",
+        "kind": "archive"
+      },
+      {
+        "title": "Apollo 17 Lunar Module /ALSEP (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096C",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Apollo 17 flip book: the landing site from orbit",
+        "url": "https://lroc.im-ldi.com/featured_sites/apollo-17/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "Apollo 17 mission page (NASA)",
+        "url": "https://www.nasa.gov/mission/apollo-17/",
+        "kind": "official"
+      },
+      {
+        "title": "What Was the Apollo Program? (NASA, grades K-4)",
+        "url": "https://www.nasa.gov/learning-resources/for-kids-and-students/what-was-the-apollo-program-grades-k-4/",
+        "kind": "kids"
+      }
+    ]
+  },
+  "surveyor1": {
+    "highlights": [
+      "May 30, 1966: Surveyor 1 launched on an Atlas-Centaur rocket from Cape Kennedy.",
+      "Its trip to the Moon took about 63 hours.",
+      "Radar and braking rockets slowed it to about 3 meters per second for touchdown.",
+      "2009: LRO spotted it from orbit by the long shadow it cast in low sunlight."
+    ],
+    "links": [
+      {
+        "title": "Surveyor 1 mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/surveyor-1/",
+        "kind": "official"
+      },
+      {
+        "title": "Surveyor 1 (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-045A",
+        "kind": "data"
+      },
+      {
+        "title": "LROC: Surveyor 1, America's first soft lunar landing",
+        "url": "https://lroc.im-ldi.com/images/13",
+        "kind": "images"
+      },
+      {
+        "title": "LROC Surveyor 1 flip book",
+        "url": "https://lroc.im-ldi.com/featured_sites/surveyor-1/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "Surveyor missions (Lunar and Planetary Institute)",
+        "url": "https://www.lpi.usra.edu/lunar/missions/surveyor/",
+        "kind": "archive"
+      },
+      {
+        "title": "All About the Moon (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/all-about-the-moon/en/",
+        "kind": "kids"
+      }
+    ]
+  },
+  "surveyor5": {
+    "highlights": [
+      "September 8, 1967: Surveyor 5 launched on an Atlas-Centaur rocket.",
+      "It came to rest on a slope of about 20 degrees inside a small crater.",
+      "Controllers briefly fired its engines on the ground to see how rocket exhaust disturbs lunar soil."
+    ],
+    "links": [
+      {
+        "title": "Surveyor 5 mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/surveyor-5/",
+        "kind": "official"
+      },
+      {
+        "title": "Surveyor 5 (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-084A",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Surveyor 5 flip book",
+        "url": "https://lroc.im-ldi.com/featured_sites/surveyor-5/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "Surveyor missions (Lunar and Planetary Institute)",
+        "url": "https://www.lpi.usra.edu/lunar/missions/surveyor/",
+        "kind": "archive"
+      },
+      {
+        "title": "All About the Moon (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/all-about-the-moon/en/",
+        "kind": "kids"
+      }
+    ]
+  },
+  "surveyor6": {
+    "highlights": [
+      "November 7, 1967: Surveyor 6 launched on an Atlas-Centaur rocket.",
+      "It returned 30,027 pictures, more than any other Surveyor.",
+      "No Apollo crew ever landed at Sinus Medii, but Surveyor 6 showed it would have been safe."
+    ],
+    "links": [
+      {
+        "title": "Surveyor 6 mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/surveyor-6/",
+        "kind": "official"
+      },
+      {
+        "title": "Surveyor 6 (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-112A",
+        "kind": "data"
+      },
+      {
+        "title": "LROC: Surveyor 6 on the plains of Sinus Medii",
+        "url": "https://lroc.im-ldi.com/images/7",
+        "kind": "images"
+      },
+      {
+        "title": "LROC Surveyor 6 flip book",
+        "url": "https://lroc.im-ldi.com/featured_sites/surveyor-6/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "Surveyor missions (Lunar and Planetary Institute)",
+        "url": "https://www.lpi.usra.edu/lunar/missions/surveyor/",
+        "kind": "archive"
+      }
+    ]
+  },
+  "surveyor7": {
+    "highlights": [
+      "January 7, 1968: Surveyor 7 launched on an Atlas-Centaur rocket.",
+      "It landed on January 10, 1968, the last of five successful Surveyor landings.",
+      "Its robot scoop dug trenches and pushed small rocks around so scientists could test them."
+    ],
+    "links": [
+      {
+        "title": "Surveyor 7 mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/surveyor-7/",
+        "kind": "official"
+      },
+      {
+        "title": "Surveyor 7 (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1968-001A",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Surveyor 7 flip book",
+        "url": "https://lroc.im-ldi.com/featured_sites/surveyor-7/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "Surveyor missions (Lunar and Planetary Institute)",
+        "url": "https://www.lpi.usra.edu/lunar/missions/surveyor/",
+        "kind": "archive"
+      },
+      {
+        "title": "All About the Moon (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/all-about-the-moon/en/",
+        "kind": "kids"
+      }
+    ]
+  },
+  "ranger6": {
+    "highlights": [
+      "January 30, 1964: Ranger 6 launched on an Atlas-Agena B rocket from Cape Canaveral.",
+      "It flew for about 65.5 hours before hitting the Moon on February 2, 1964.",
+      "LRO's camera has photographed its small impact crater in the Sea of Tranquility."
+    ],
+    "links": [
+      {
+        "title": "Ranger 6 mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/ranger-6/",
+        "kind": "official"
+      },
+      {
+        "title": "Ranger 6 (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-007A",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Ranger 6 flip book: the impact crater",
+        "url": "https://lroc.im-ldi.com/featured_sites/ranger-6/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "Ranger missions (Lunar and Planetary Institute)",
+        "url": "https://www.lpi.usra.edu/lunar/missions/ranger/",
+        "kind": "archive"
+      },
+      {
+        "title": "Ranger Block III spacecraft (Smithsonian National Air and Space Museum)",
+        "url": "https://airandspace.si.edu/collection-objects/lunar-probe-ranger-block-iii/nasm_A19770993000",
+        "kind": "archive"
+      }
+    ]
+  },
+  "ranger7": {
+    "highlights": [
+      "July 28, 1964: Ranger 7 launched on an Atlas-Agena B rocket.",
+      "Its crater is about 14 meters wide.",
+      "1972: Apollo 16's orbital camera photographed the Ranger 7 crater, one of the first new craters ever confirmed on the Moon."
+    ],
+    "links": [
+      {
+        "title": "Ranger 7 mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/ranger-7/",
+        "kind": "official"
+      },
+      {
+        "title": "Ranger 7 (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-041A",
+        "kind": "data"
+      },
+      {
+        "title": "LROC: Making an Impact on History (Ranger craters)",
+        "url": "https://lroc.im-ldi.com/images/52",
+        "kind": "images"
+      },
+      {
+        "title": "LROC Ranger 7 flip book: the impact crater",
+        "url": "https://lroc.im-ldi.com/featured_sites/ranger-7/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "Ranger Block III spacecraft (Smithsonian National Air and Space Museum)",
+        "url": "https://airandspace.si.edu/collection-objects/lunar-probe-ranger-block-iii/nasm_A19770993000",
+        "kind": "archive"
+      },
+      {
+        "title": "Ranger missions (Lunar and Planetary Institute)",
+        "url": "https://www.lpi.usra.edu/lunar/missions/ranger/",
+        "kind": "archive"
+      }
+    ]
+  },
+  "ranger8": {
+    "highlights": [
+      "February 17, 1965: Ranger 8 launched on an Atlas-Agena B rocket.",
+      "It hit the Sea of Tranquility on February 20, 1965, about 64.9 hours after launch.",
+      "LRO's camera has imaged its crater many times under different lighting."
+    ],
+    "links": [
+      {
+        "title": "Ranger 8 mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/ranger-8/",
+        "kind": "official"
+      },
+      {
+        "title": "Ranger 8 (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-010A",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Ranger 8 flip book: the impact crater",
+        "url": "https://lroc.im-ldi.com/featured_sites/ranger-8/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "LROC: Making an Impact on History (Ranger craters)",
+        "url": "https://lroc.im-ldi.com/images/52",
+        "kind": "images"
+      },
+      {
+        "title": "Ranger missions (Lunar and Planetary Institute)",
+        "url": "https://www.lpi.usra.edu/lunar/missions/ranger/",
+        "kind": "archive"
+      },
+      {
+        "title": "Ranger Block III spacecraft (Smithsonian National Air and Space Museum)",
+        "url": "https://airandspace.si.edu/collection-objects/lunar-probe-ranger-block-iii/nasm_A19770993000",
+        "kind": "archive"
+      }
+    ]
+  },
+  "ranger9": {
+    "highlights": [
+      "March 21, 1965: Ranger 9 launched on an Atlas-Agena B rocket.",
+      "It hit Alphonsus crater at 14:08 UT on March 24, 1965.",
+      "Its impact left a crater about 14 meters across, later photographed by LRO."
+    ],
+    "links": [
+      {
+        "title": "Ranger 9 mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/ranger-9/",
+        "kind": "official"
+      },
+      {
+        "title": "Ranger 9 (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-023A",
+        "kind": "data"
+      },
+      {
+        "title": "LROC Ranger 9 flip book: the impact crater",
+        "url": "https://lroc.im-ldi.com/featured_sites/ranger-9/flip-book",
+        "kind": "images"
+      },
+      {
+        "title": "LROC: Making an Impact on History (Ranger craters)",
+        "url": "https://lroc.im-ldi.com/images/52",
+        "kind": "images"
+      },
+      {
+        "title": "Ranger missions (Lunar and Planetary Institute)",
+        "url": "https://www.lpi.usra.edu/lunar/missions/ranger/",
+        "kind": "archive"
+      }
+    ]
+  },
+  "lcross-centaur": {
+    "highlights": [
+      "June 18, 2009: an Atlas V rocket launched LCROSS and LRO from Cape Canaveral, Florida.",
+      "June 23, 2009: the Centaur and LCROSS swung past the Moon into long looping orbits around Earth.",
+      "October 9, 2009, 11:31 UT: the Centaur hit Cabeus crater.",
+      "November 13, 2009: NASA announced that the impact had found water on the Moon."
+    ],
+    "links": [
+      {
+        "title": "LCROSS mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/lcross/",
+        "kind": "official"
+      },
+      {
+        "title": "Lunar Crater Observation and Sensing Satellite (LCROSS) (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B",
+        "kind": "data"
+      },
+      {
+        "title": "Modeling the LCROSS Impact Site (NASA Scientific Visualization Studio)",
+        "url": "https://svs.gsfc.nasa.gov/3654",
+        "kind": "video"
+      },
+      {
+        "title": "All About the Moon (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/all-about-the-moon/en/",
+        "kind": "kids"
+      }
+    ]
+  },
+  "lcross-ssc": {
+    "highlights": [
+      "April 2006: NASA chose LCROSS as a low-cost mission riding along with LRO.",
+      "October 9, 2009: it separated from the Centaur about 10 hours before impact, then dove in itself.",
+      "November 13, 2009: NASA announced that its instruments had found water in the plume."
+    ],
+    "links": [
+      {
+        "title": "LCROSS mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/lcross/",
+        "kind": "official"
+      },
+      {
+        "title": "Lunar Crater Observation and Sensing Satellite (LCROSS) (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B",
+        "kind": "data"
+      },
+      {
+        "title": "Modeling the LCROSS Impact Site (NASA Scientific Visualization Studio)",
+        "url": "https://svs.gsfc.nasa.gov/3654",
+        "kind": "video"
+      },
+      {
+        "title": "All About the Moon (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/all-about-the-moon/en/",
+        "kind": "kids"
+      }
+    ]
+  },
+  "grail-ebb": {
+    "highlights": [
+      "September 10, 2011: GRAIL's twins launched together on a Delta II rocket from Cape Canaveral.",
+      "Ebb took a slow, fuel-saving route and entered lunar orbit on December 31, 2011.",
+      "The main gravity-mapping mission ran from March to May 2012, followed by an extended mission.",
+      "Early 2013: LRO's camera photographed the small craters left by Ebb and Flow."
+    ],
+    "links": [
+      {
+        "title": "GRAIL mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/grail/",
+        "kind": "official"
+      },
+      {
+        "title": "GRAIL-A (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2011-046A",
+        "kind": "data"
+      },
+      {
+        "title": "LROC: GRAIL impact before and after",
+        "url": "https://lroc.im-ldi.com/images/596",
+        "kind": "images"
+      },
+      {
+        "title": "LROC GRAIL A before/after",
+        "url": "https://lroc.im-ldi.com/featured_sites/grail-a/before-after",
+        "kind": "images"
+      },
+      {
+        "title": "GRAIL impact sites (NASA Science)",
+        "url": "https://science.nasa.gov/resource/grail-impact-sites/",
+        "kind": "images"
+      },
+      {
+        "title": "What Is Gravity? (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/what-is-gravity/en/",
+        "kind": "kids"
+      }
+    ]
+  },
+  "grail-flow": {
+    "highlights": [
+      "September 10, 2011: Flow launched with Ebb on a single Delta II rocket.",
+      "Flow entered lunar orbit on January 1, 2012, a day after Ebb.",
+      "During the main mission the twins flew about 55 km above the Moon.",
+      "Early 2013: LRO's camera photographed Flow's crater on the mountainside."
+    ],
+    "links": [
+      {
+        "title": "GRAIL mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/grail/",
+        "kind": "official"
+      },
+      {
+        "title": "GRAIL-B (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2011-046B",
+        "kind": "data"
+      },
+      {
+        "title": "LROC GRAIL B before/after",
+        "url": "https://lroc.im-ldi.com/featured_sites/grail-b/before-after",
+        "kind": "images"
+      },
+      {
+        "title": "LROC: GRAIL impact before and after",
+        "url": "https://lroc.im-ldi.com/images/596",
+        "kind": "images"
+      },
+      {
+        "title": "GRAIL impact sites (NASA Science)",
+        "url": "https://science.nasa.gov/resource/grail-impact-sites/",
+        "kind": "images"
+      },
+      {
+        "title": "What Is Gravity? (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/what-is-gravity/en/",
+        "kind": "kids"
+      }
+    ]
+  },
+  "ladee": {
+    "highlights": [
+      "September 6, 2013: LADEE launched on a Minotaur V rocket.",
+      "October 6, 2013: it slipped into orbit around the Moon.",
+      "Its main science phase ran from November 2013 until April 2014.",
+      "October 28, 2014: the LROC team announced they had found its crater on the rim of Sundman V crater."
+    ],
+    "links": [
+      {
+        "title": "LADEE mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/ladee/",
+        "kind": "official"
+      },
+      {
+        "title": "LADEE (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2013-047A",
+        "kind": "data"
+      },
+      {
+        "title": "LROC: LADEE impact crater found",
+        "url": "https://lroc.im-ldi.com/images/822",
+        "kind": "images"
+      },
+      {
+        "title": "LROC LADEE before/after",
+        "url": "https://lroc.im-ldi.com/featured_sites/ladee/before-after",
+        "kind": "images"
+      },
+      {
+        "title": "NASA's LRO captures images of LADEE's impact crater (NASA)",
+        "url": "https://www.nasa.gov/solar-system/nasas-lro-spacecraft-captures-images-of-ladees-impact-crater/",
+        "kind": "official"
+      }
+    ]
+  },
+  "lunar-prospector": {
+    "highlights": [
+      "January 6, 1998: Lunar Prospector launched on an Athena II rocket from Cape Canaveral.",
+      "January 11, 1998: it entered orbit around the Moon.",
+      "March 5, 1998: scientists announced its first hints of water ice at the poles.",
+      "It carried no camera; it 'smelled' the Moon with instruments that counted neutrons and gamma rays."
+    ],
+    "links": [
+      {
+        "title": "Lunar Prospector mission page (NASA Science)",
+        "url": "https://science.nasa.gov/mission/lunar-prospector/",
+        "kind": "official"
+      },
+      {
+        "title": "Lunar Prospector (NASA NSSDCA catalog)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-001A",
+        "kind": "data"
+      },
+      {
+        "title": "All About the Moon (NASA Space Place)",
+        "url": "https://spaceplace.nasa.gov/all-about-the-moon/en/",
+        "kind": "kids"
+      }
+    ]
+  }
+}

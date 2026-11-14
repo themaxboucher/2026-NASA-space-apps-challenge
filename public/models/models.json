@@ -1,0 +1,232 @@
+{
+  "apollo-lm": {
+    "file": "models/apollo-lm.gltf.json",
+    "title": "Apollo Lunar Module",
+    "credit": "NASA/Michael D. Carbajal",
+    "page": "https://science.nasa.gov/3d-resources/apollo-lunar-module/",
+    "bytes": 716840,
+    "covers": [
+      "Apollo 11 LM",
+      "Apollo 12 LM",
+      "Apollo 14 LM",
+      "Apollo 15 LM",
+      "Apollo 16 LM",
+      "Apollo 17 LM"
+    ]
+  },
+  "ladee": {
+    "file": "models/ladee.gltf.json",
+    "title": "Lunar Atmosphere and Dust Environment Explorer (LADEE)",
+    "credit": "NASA/Christopher R. Meaney",
+    "page": "https://science.nasa.gov/3d-resources/lunar-atmosphere-and-dust-environment-explorer-ladee/",
+    "bytes": 235468,
+    "covers": [
+      "LADEE"
+    ]
+  },
+  "viking": {
+    "file": "models/viking.gltf.json",
+    "title": "Viking Lander",
+    "credit": "NASA/Michael D. Carbajal",
+    "page": "https://science.nasa.gov/3d-resources/viking-lander/",
+    "bytes": 1849384,
+    "covers": [
+      "Viking 1 Lander",
+      "Viking 2 Lander"
+    ]
+  },
+  "mer": {
+    "file": "models/mer.gltf.json",
+    "title": "Mars Exploration Rover - Opportunity (MER-B)",
+    "credit": "NASA/Ames Research Center",
+    "page": "https://science.nasa.gov/3d-resources/mars-exploration-rover-opportunity-mer-b/",
+    "bytes": 36668,
+    "covers": [
+      "Spirit",
+      "Opportunity"
+    ]
+  },
+  "insight": {
+    "file": "models/insight.gltf.json",
+    "title": "InSight Lander (arm deployed)",
+    "credit": "NASA/Brian E. Kumanchik",
+    "page": "https://science.nasa.gov/3d-resources/insight-cruise-lander/",
+    "bytes": 3949036,
+    "covers": [
+      "InSight"
+    ]
+  },
+  "ingenuity": {
+    "file": "models/ingenuity.gltf.json",
+    "title": "Mars Ingenuity Helicopter",
+    "credit": "NASA/JPL-Caltech",
+    "page": "https://science.nasa.gov/resource/mars-ingenuity-helicopter-3d-model/",
+    "bytes": 1809044,
+    "covers": [
+      "Ingenuity"
+    ]
+  },
+  "curiosity": {
+    "file": "models/curiosity.gltf.json",
+    "title": "Curiosity Rover",
+    "credit": "NASA/JPL-Caltech",
+    "page": "https://science.nasa.gov/resource/curiosity-rover-3d-model/",
+    "bytes": 11860016,
+    "covers": [
+      "Curiosity"
+    ]
+  },
+  "perseverance": {
+    "file": "models/perseverance.gltf.json",
+    "title": "Mars 2020 Perseverance Rover",
+    "credit": "NASA/Jet Propulsion Laboratory",
+    "page": "https://science.nasa.gov/3d-resources/mars-2020-perseverance-rover/",
+    "bytes": 4987176,
+    "covers": [
+      "Perseverance"
+    ]
+  },
+  "pioneer": {
+    "file": "models/pioneer.gltf.json",
+    "title": "Pioneer 10",
+    "credit": "NASA/JPL/Eyes on the Solar System",
+    "page": "https://science.nasa.gov/3d-resources/pioneer/",
+    "bytes": 2049840,
+    "covers": [
+      "Pioneer 10",
+      "Pioneer 11"
+    ]
+  },
+  "voyager": {
+    "file": "models/voyager.gltf.json",
+    "title": "Voyager",
+    "credit": "NASA/Michael D. Carbajal",
+    "page": "https://science.nasa.gov/3d-resources/voyager-probe-b/",
+    "bytes": 1720864,
+    "covers": [
+      "Voyager 1",
+      "Voyager 2"
+    ]
+  },
+  "new-horizons": {
+    "file": "models/new-horizons.gltf.json",
+    "title": "New Horizons",
+    "credit": "NASA Visualization Technology Applications and Development (VTAD)",
+    "page": "https://science.nasa.gov/resource/new-horizons-3d-model/",
+    "bytes": 3293532,
+    "covers": [
+      "New Horizons"
+    ]
+  },
+  "dawn": {
+    "file": "models/dawn.gltf.json",
+    "title": "Dawn",
+    "credit": "NASA/Brian E. Kumanchik",
+    "page": "https://science.nasa.gov/3d-resources/dawn/",
+    "bytes": 927020,
+    "covers": [
+      "Dawn"
+    ]
+  },
+  "near": {
+    "file": "models/near.gltf.json",
+    "title": "NEAR Shoemaker",
+    "credit": "NASA",
+    "page": "https://science.nasa.gov/3d-resources/near-shoemaker/",
+    "bytes": 701808,
+    "covers": [
+      "NEAR Shoemaker"
+    ]
+  },
+  "kepler": {
+    "file": "models/kepler.gltf.json",
+    "title": "Kepler Space Telescope",
+    "credit": "NASA/Brian E. Kumanchik; NASA/Christian A. Lopez",
+    "page": "https://science.nasa.gov/3d-resources/kepler-a/",
+    "bytes": 2003276,
+    "covers": [
+      "Kepler"
+    ]
+  },
+  "galileo": {
+    "file": "models/galileo.gltf.json",
+    "title": "Galileo",
+    "credit": "NASA/JPL/Solar System Simulator",
+    "page": "https://science.nasa.gov/3d-resources/galileo/",
+    "bytes": 248532,
+    "covers": [
+      "Galileo"
+    ]
+  },
+  "cassini": {
+    "file": "models/cassini.gltf.json",
+    "title": "Cassini-Huygens",
+    "credit": "NASA/Brian E. Kumanchik",
+    "page": "https://science.nasa.gov/3d-resources/cassini-huygens-a/",
+    "bytes": 1660492,
+    "covers": [
+      "Cassini"
+    ]
+  },
+  "messenger": {
+    "file": "models/messenger.gltf.json",
+    "title": "MESSENGER",
+    "credit": "NASA",
+    "page": "https://science.nasa.gov/3d-resources/mercury-surface-space-environment-geochemistry-and-ranging-messenger/",
+    "bytes": 2673396,
+    "covers": [
+      "MESSENGER"
+    ]
+  },
+  "magellan": {
+    "file": "models/magellan.gltf.json",
+    "title": "Magellan",
+    "credit": "NASA/Brian E. Kumanchik; NASA/Christian A. Lopez",
+    "page": "https://science.nasa.gov/3d-resources/magellan/",
+    "bytes": 3156768,
+    "covers": [
+      "Magellan"
+    ]
+  },
+  "deep-impact": {
+    "file": "models/deep-impact.gltf.json",
+    "title": "Deep Impact",
+    "credit": "NASA/Brian E. Kumanchik; NASA/Christian A. Lopez",
+    "page": "https://science.nasa.gov/3d-resources/deep-impact/",
+    "bytes": 1537224,
+    "covers": [
+      "Deep Impact",
+      "Deep Impact impactor"
+    ]
+  },
+  "stardust": {
+    "file": "models/stardust.gltf.json",
+    "title": "Stardust",
+    "credit": "NASA/Brian E. Kumanchik; NASA/Christian A. Lopez",
+    "page": "https://science.nasa.gov/3d-resources/stardust/",
+    "bytes": 3800544,
+    "covers": [
+      "Stardust"
+    ]
+  },
+  "juno": {
+    "file": "models/juno.gltf.json",
+    "title": "Juno",
+    "credit": "NASA",
+    "page": "https://science.nasa.gov/3d-resources/juno-b/",
+    "bytes": 262360,
+    "covers": [
+      "Juno"
+    ]
+  },
+  "osiris-rex": {
+    "file": "models/osiris-rex.gltf.json",
+    "title": "OSIRIS-REx",
+    "credit": "NASA/Christopher R. Meaney",
+    "page": "https://science.nasa.gov/3d-resources/origins-spectral-interpretation-resource-identification-and-security-regolith-explorer-osiris-rex/",
+    "bytes": 1281308,
+    "covers": [
+      "OSIRIS-REx"
+    ]
+  }
+}

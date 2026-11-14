@@ -1,0 +1,49 @@
+{
+  "site": "dimorphos-dart",
+  "body": "dimorphos",
+  "title": "DART impact on Dimorphos",
+  "machines": [
+    "dart"
+  ],
+  "center": [
+    -8.96,
+    263.13
+  ],
+  "res_m": {
+    "height": 0.5,
+    "color": 0.5
+  },
+  "gravity_note": "Dimorphos's gravity is about 1/100,000 of Earth's. Escape speed is only about 5 cm/s, slower than a crawling baby, so even standing up too fast could launch you into space.",
+  "places": [
+    {
+      "id": "dart",
+      "x_m": 0,
+      "y_m": 0
+    }
+  ],
+  "sources": {
+    "height": {
+      "product": "DART Dimorphos SPC shape model v004, global 0.487 m (dimorphos_g_0487mm_spc_obj_0000n00000_v004.obj)",
+      "credit": "NASA / JHUAPL / DART Investigation Team (Daly, Barnouin et al.); PDS Small Bodies Node",
+      "license": "Public domain (NASA PDS)",
+      "url": "https://pdssbn.astro.umd.edu/holdings/pds4-dart_shapemodel-v1.0/data_derived_dimorphos_model_v004/"
+    },
+    "color": {
+      "product": "Shaded relief rendered from the same shape model",
+      "credit": "Derived from DART Dimorphos shape model v004 (NASA/JHUAPL)",
+      "license": "Public domain (NASA PDS)",
+      "url": "https://pdssbn.astro.umd.edu/holdings/pds4-dart_shapemodel-v1.0/"
+    }
+  },
+  "note": "Impact site (2022-09-26) from dimorphos_impact_point_model_v004.txt: lat -8.96 +/- 0.45, E long 263.13 +/- 0.47, XYZ (-9.7, -80.4, -12.8) m. This is the PRE-impact surface: DART reshaped Dimorphos, so the real place looks different now. The model resolves 0.49 m on the side DRACO imaged; the hemisphere DRACO never saw is a smooth, low-detail fill. Dimorphos is only about 177 x 174 x 116 m, so a 200 m patch wraps past its edges. \"Up\" = best-fit plane normal within 50 m; \"north\" = spin axis projected onto that plane. Colour is shaded relief rendered from the shape model (sun from the north-west), not a photograph; the shape model has no albedo, so brightness only shows slopes. 60% of the patch is beyond the edge of the body (no ground): height there is clamped to the lowest point and colour is black.",
+  "extent_m": [
+    200,
+    200
+  ],
+  "heightRange_m": [
+    -32.24,
+    74.97
+  ],
+  "world": "beyond",
+  "sky": "black"
+}

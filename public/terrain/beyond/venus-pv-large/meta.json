@@ -1,0 +1,49 @@
+{
+  "site": "venus-pv-large",
+  "title": "Pioneer Venus Large Probe on Venus",
+  "machines": [
+    "pioneer_venus_large_probe"
+  ],
+  "places": [
+    {
+      "id": "pioneer_venus_large_probe",
+      "x_m": 0,
+      "y_m": 0
+    }
+  ],
+  "sources": {
+    "height": {
+      "product": "Venus Magellan Global Topography 4641m v2 (GTDR altimetry)",
+      "credit": "NASA/JPL/USGS Astrogeology",
+      "license": "Public domain",
+      "url": "https://planetarymaps.usgs.gov/mosaic/Venus_Magellan_Topography_Global_4641m_v02.tif"
+    },
+    "color": {
+      "product": "Venus Magellan SAR left-look global mosaic 75m (FMAP)",
+      "credit": "NASA/JPL/USGS Astrogeology",
+      "license": "Public domain",
+      "url": "https://planetarymaps.usgs.gov/mosaic/Venus_Magellan_LeftLook_mosaic_global_75m.tif"
+    }
+  },
+  "note": "Large (Sounder) Probe touchdown 1978-12-09 at 4.4 N, 304 E (NSSDCA 1978-078D). Colour is Magellan radar brightness (roughness), not visible light; the real ground is lit dim orange under thick clouds. Height is ~4.6 km/px altimetry upsampled to a ~98 m grid, so it only shows broad slopes. Projection: local tangent plane, north up. Coordinates are the NSSDCA-listed touchdown points; the probes were not tracked to the ground precisely, so the site is approximate (tens of km).",
+  "body": "venus",
+  "world": "beyond",
+  "sky": "orange-haze",
+  "gravity_note": "Venus's gravity is 91% of Earth's, but the air is 90 times thicker and hot enough (465 C) to melt lead.",
+  "center": [
+    4.4,
+    304.0
+  ],
+  "extent_m": [
+    50000,
+    50000
+  ],
+  "res_m": {
+    "height": 4641,
+    "color": 75
+  },
+  "heightRange_m": [
+    -144.19,
+    153.13
+  ]
+}

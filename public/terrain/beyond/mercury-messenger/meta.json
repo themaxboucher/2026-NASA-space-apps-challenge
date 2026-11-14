@@ -1,0 +1,49 @@
+{
+  "site": "mercury-messenger",
+  "body": "mercury",
+  "title": "MESSENGER on Mercury",
+  "machines": [
+    "messenger"
+  ],
+  "gravity_note": "Mercury's gravity is about 38% of Earth's, the same as Mars: you could jump almost 3 times higher.",
+  "places": [
+    {
+      "id": "messenger",
+      "x_m": 0,
+      "y_m": 0
+    }
+  ],
+  "sources": {
+    "height": {
+      "product": "Mercury MESSENGER Global DEM 665m v2 (USGS Astrogeology, from MDIS stereo/MLA)",
+      "credit": "NASA/JHUAPL/Carnegie Institution of Washington/USGS Astrogeology",
+      "license": "Public domain",
+      "url": "https://planetarymaps.usgs.gov/mosaic/Mercury_Messenger_USGS_DEM_Global_665m_v2.tif"
+    },
+    "color": {
+      "product": "Mercury MESSENGER MDIS Basemap BDR Mosaic Global 166m",
+      "credit": "NASA/JHUAPL/Carnegie Institution of Washington/USGS Astrogeology",
+      "license": "Public domain",
+      "url": "https://planetarymaps.usgs.gov/mosaic/Mercury_MESSENGER_MDIS_Basemap_BDR_Mosaic_Global_166m.tif"
+    }
+  },
+  "note": "Impact point is the final navigation-team estimate (54.4398 N, 210.1205 E, 2015-04-30 19:26:01 UTC; NASA PIA19497), on a ridge just NE of Shakespeare basin. The ~16 m crater it made has not been imaged, so the exact spot is approximate. Height is 665 m/px data upsampled to 78 m grid; colour is 166 m/px imagery upsampled (soft). Projection: local tangent plane, north up.",
+  "center": [
+    54.4398,
+    210.1205
+  ],
+  "extent_m": [
+    40000,
+    40000
+  ],
+  "res_m": {
+    "height": 665,
+    "color": 166
+  },
+  "heightRange_m": [
+    -524.01,
+    649.62
+  ],
+  "world": "beyond",
+  "sky": "black"
+}

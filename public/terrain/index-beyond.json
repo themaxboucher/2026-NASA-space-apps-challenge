@@ -1,0 +1,8 @@
+{
+  "near_shoemaker": "beyond/eros-near",
+  "messenger": "beyond/mercury-messenger",
+  "deep_impact_impactor": "beyond/tempel1-deep-impact",
+  "dart": "beyond/dimorphos-dart",
+  "pioneer_venus_large_probe": "beyond/venus-pv-large",
+  "pioneer_venus_small_probes": "beyond/venus-pv-day"
+}

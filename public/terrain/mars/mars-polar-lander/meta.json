@@ -1,0 +1,84 @@
+{
+  "site": "mars-polar-lander",
+  "world": "mars",
+  "title": "South polar layered terrain (target area)",
+  "machines": [
+    "mars-polar-lander"
+  ],
+  "center": [
+    -76.0,
+    165.0
+  ],
+  "extent_m": [
+    6000.0,
+    6000.0
+  ],
+  "res_m": {
+    "height": 199.61,
+    "color": 5.86
+  },
+  "heightRange_m": [
+    -129.66,
+    52.55
+  ],
+  "sunAzimuth_deg": 29.1,
+  "sunElevation_deg": 14.8,
+  "places": [
+    {
+      "id": "mars-polar-lander",
+      "x_m": 0.0,
+      "y_m": 0.0
+    }
+  ],
+  "sources": {
+    "height": {
+      "product": "HRSC-MOLA blended DEM v2",
+      "kind": "blend",
+      "credit": "NASA/JPL/GSFC (MOLA), ESA/DLR/FU Berlin (HRSC), USGS Astrogeology",
+      "license": "USGS Astrogeology product; HRSC data ESA/DLR/FU Berlin (CC BY-SA 3.0 IGO), MOLA public domain",
+      "url": "https://planetarymaps.usgs.gov/mosaic/Mars/HRSC_MOLA_Blend/Mars_HRSC_MOLA_BlendDEM_Global_200mp_v2.tif",
+      "native_res_m": 199.61
+    },
+    "color": {
+      "product": "ESP_075663_1040_RED",
+      "kind": "hirise-obs",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "license": "Public domain (NASA/JPL/UArizona)",
+      "url": "https://astrogeo-ard.s3-us-west-2.amazonaws.com/mars/mro/hirise/uncontrolled/ESP_075663_1040_RED/ESP_075663_1040_RED.tif",
+      "native_res_m": 0.25,
+      "date": "2022-09-16",
+      "fill": [
+        {
+          "product": "ESP_075571_1040_RED",
+          "kind": "hirise-obs",
+          "credit": "NASA/JPL-Caltech/University of Arizona",
+          "license": "Public domain (NASA/JPL/UArizona)",
+          "url": "https://astrogeo-ard.s3-us-west-2.amazonaws.com/mars/mro/hirise/uncontrolled/ESP_075571_1040_RED/ESP_075571_1040_RED.tif",
+          "native_res_m": 0.25,
+          "tile_fraction": 0.004,
+          "date": "2022-09-09"
+        },
+        {
+          "product": "ESP_014080_1040_RED",
+          "kind": "hirise-obs",
+          "credit": "NASA/JPL-Caltech/University of Arizona",
+          "license": "Public domain (NASA/JPL/UArizona)",
+          "url": "https://astrogeo-ard.s3-us-west-2.amazonaws.com/mars/mro/hirise/uncontrolled/ESP_014080_1040_RED/ESP_014080_1040_RED.tif",
+          "native_res_m": 0.25,
+          "tile_fraction": 0.011,
+          "date": "2009-07-28"
+        },
+        {
+          "product": "THEMIS Day IR global mosaic v12 (100 m)",
+          "kind": "themis",
+          "credit": "NASA/JPL-Caltech/Arizona State University",
+          "license": "Public domain (NASA/JPL/ASU)",
+          "url": "https://planetarymaps.usgs.gov/mosaic/Mars_MO_THEMIS-IR-Day_mosaic_global_100m_v12.tif",
+          "native_res_m": 100.0,
+          "tile_fraction": 0.145
+        }
+      ]
+    }
+  },
+  "note": "Approximate target point only: the lander was never found, so its true crash spot is unknown. No HiRISE or CTX terrain model covers this spot, so heights come from the ~200 m HRSC-MOLA blend, smoothly upsampled; small rocks and craters are missing. Image is greyscale (HiRISE RED band); tint it in the app for a Martian look. Image is HiRISE ESP_075663_1040_RED (2022-09-16), an uncontrolled frame not tied to the terrain model, so it may be offset by tens of metres. HiRISE covers about 85% of the tile; the western strip is filled from the blurry 100 m THEMIS mosaic."
+}

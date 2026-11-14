@@ -1,0 +1,65 @@
+{
+ "site": "apollo16",
+ "world": "moon",
+ "title": "Descartes Highlands (Apollo 16)",
+ "machines": [
+  "apollo16-lm",
+  "apollo16-lrv",
+  "apollo16-alsep"
+ ],
+ "center": [
+  -8.97407,
+  15.50113
+ ],
+ "extent_m": [
+  4000,
+  4000
+ ],
+ "res_m": {
+  "height": 2.0,
+  "color": 2.0
+ },
+ "heightRange_m": [
+  -110.5,
+  108.7
+ ],
+ "sunAzimuth_deg": null,
+ "sunElevation_deg": null,
+ "places": [
+  {
+   "id": "apollo16-lm",
+   "x_m": -0.9,
+   "y_m": 20.3
+  },
+  {
+   "id": "apollo16-lrv",
+   "x_m": 77.0,
+   "y_m": 35.5
+  },
+  {
+   "id": "apollo16-alsep",
+   "x_m": -75.8,
+   "y_m": -55.5
+  }
+ ],
+ "sources": {
+  "height": {
+   "product": "LROC NAC DTM NAC_DTM_APOLLO16_E091S0155 (2.0 m/px, 100% of tile)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_APOLLO16"
+  },
+  "color": {
+   "product": "LROC NAC orthoimage NAC_DTM_APOLLO16_MOSAIC_2M (2.0 m/px, 100% of tile)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_APOLLO16"
+  }
+ },
+ "grid": {
+  "height_px": 512,
+  "color_px": 1024,
+  "encoding": "terrarium, metres relative to tile mean",
+  "projection": "azimuthal equidistant centred on 'center', north up, row 0 = north, col 0 = west"
+ }
+}

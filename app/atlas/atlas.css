@@ -194,9 +194,10 @@ h1{font:300 clamp(2.5rem,7.4vw,5.6rem)/1 var(--display);font-stretch:112.5%;lett
 .roster[open]>summary{margin-bottom:18px}
 .roster>summary:hover .rtitle{color:var(--sand)}
 /* Street-level explorer: drag the person onto a glowing site */
-.peg{position:absolute;right:12px;bottom:12px;z-index:3;display:flex;align-items:center;gap:8px;padding:8px 12px 8px 10px;background:var(--sand);color:var(--void);border:0;border-radius:0;font:600 .6875rem var(--mono);letter-spacing:.12em;text-transform:uppercase;cursor:grab;touch-action:none;user-select:none}
-.peg svg{width:16px;height:22px;flex:none}
-.peg.dragging{cursor:grabbing;z-index:20;box-shadow:0 10px 28px rgba(0,0,0,.65)}
+.peg{position:absolute;right:10px;bottom:10px;z-index:3;display:grid;place-items:center;width:48px;height:56px;padding:0;background:none;color:var(--sand);border:0;cursor:grab;touch-action:none;user-select:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.8))}
+.peg svg{width:26px;height:36px}
+.peg:hover{color:var(--ink)}
+.peg.dragging{cursor:grabbing;z-index:20;filter:drop-shadow(0 10px 14px rgba(0,0,0,.85))}
 .stage.pegging .pin.walk{box-shadow:0 0 0 3px var(--void),0 0 0 6px var(--echo),0 0 18px 6px var(--echo)}
 .stage.pegging .pin:not(.walk){opacity:.35}
 .pin.droptarget{outline:3px solid var(--ink);outline-offset:5px}

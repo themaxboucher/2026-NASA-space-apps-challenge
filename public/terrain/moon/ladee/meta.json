@@ -1,0 +1,53 @@
+{
+ "site": "ladee",
+ "world": "moon",
+ "title": "LADEE impact",
+ "machines": [
+  "ladee"
+ ],
+ "center": [
+  11.8494,
+  -93.2494
+ ],
+ "extent_m": [
+  3000,
+  3000
+ ],
+ "res_m": {
+  "height": 5.0,
+  "color": 5.0
+ },
+ "heightRange_m": [
+  -490.8,
+  324.8
+ ],
+ "sunAzimuth_deg": 101.2,
+ "sunElevation_deg": 41.2,
+ "places": [
+  {
+   "id": "ladee",
+   "x_m": 0.0,
+   "y_m": 0.0
+  }
+ ],
+ "sources": {
+  "height": {
+   "product": "LROC NAC DTM NAC_DTM_LADEE1_E118N2666 (5.0 m/px, 66% of tile), NAC_DTM_LADEE2_E117N2668 (5.0 m/px, 34% of tile)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_LADEE1"
+  },
+  "color": {
+   "product": "LROC NAC orthoimage NAC_DTM_LADEE1_M1106524331_5M (5.0 m/px, 65% of tile), NAC_DTM_LADEE2_M1158347242_5M (5.0 m/px, 35% of tile)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_LADEE1"
+  }
+ },
+ "grid": {
+  "height_px": 512,
+  "color_px": 1024,
+  "encoding": "terrarium, metres relative to tile mean",
+  "projection": "azimuthal equidistant centred on 'center', north up, row 0 = north, col 0 = west"
+ }
+}

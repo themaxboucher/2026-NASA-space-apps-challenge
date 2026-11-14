@@ -1,0 +1,53 @@
+{
+ "site": "grail-flow",
+ "world": "moon",
+ "title": "Flow (GRAIL-B) impact",
+ "machines": [
+  "grail-flow"
+ ],
+ "center": [
+  75.6508,
+  -26.8341
+ ],
+ "extent_m": [
+  3000,
+  3000
+ ],
+ "res_m": {
+  "height": 6.0,
+  "color": 5.0
+ },
+ "heightRange_m": [
+  -637.0,
+  410.2
+ ],
+ "sunAzimuth_deg": null,
+ "sunElevation_deg": null,
+ "places": [
+  {
+   "id": "grail-flow",
+   "x_m": 0.0,
+   "y_m": 0.0
+  }
+ ],
+ "sources": {
+  "height": {
+   "product": "LROC NAC DTM NAC_DTM_GRAIL_P762N3334 (6.0 m/px, 100% of tile)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_GRAIL"
+  },
+  "color": {
+   "product": "LROC NAC orthoimage NAC_ROI_GRAIL___LOA_P757N3329_5M (5.0 m/px, 100% of tile)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_ROI_GRAIL___LOA"
+  }
+ },
+ "grid": {
+  "height_px": 512,
+  "color_px": 1024,
+  "encoding": "terrarium, metres relative to tile mean",
+  "projection": "azimuthal equidistant centred on 'center', north up, row 0 = north, col 0 = west"
+ }
+}

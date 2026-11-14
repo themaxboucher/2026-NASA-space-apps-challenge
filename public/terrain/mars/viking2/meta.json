@@ -1,0 +1,57 @@
+{
+  "site": "viking2",
+  "world": "mars",
+  "title": "Utopia Planitia",
+  "machines": [
+    "viking2"
+  ],
+  "center": [
+    47.67,
+    134.28
+  ],
+  "extent_m": [
+    3000.0,
+    3000.0
+  ],
+  "res_m": {
+    "height": 5.86,
+    "color": 2.93
+  },
+  "heightRange_m": [
+    -18.7,
+    9.72
+  ],
+  "sunAzimuth_deg": 151.3,
+  "sunElevation_deg": 14.7,
+  "places": [
+    {
+      "id": "viking2",
+      "x_m": 0.0,
+      "y_m": 0.0
+    }
+  ],
+  "sources": {
+    "height": {
+      "product": "DTEEC_002055_2280_001976_2280_A01",
+      "kind": "hirise",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "license": "Public domain (NASA/JPL/UArizona)",
+      "url": "https://astrogeo-ard.s3-us-west-2.amazonaws.com/mars/mro/hirise/controlled/dtm/PSP_002055_2280_PSP_001976_2280/DTEEC_002055_2280_001976_2280_A01.tif",
+      "native_res_m": 1.13
+    },
+    "color": {
+      "product": "ESP_086806_2280_RED",
+      "kind": "hirise-obs",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "license": "Public domain (NASA/JPL/UArizona)",
+      "url": "https://astrogeo-ard.s3-us-west-2.amazonaws.com/mars/mro/hirise/uncontrolled/ESP_086806_2280_RED/ESP_086806_2280_RED.tif",
+      "native_res_m": 0.58,
+      "registered_shift_m": [
+        43.9,
+        140.6
+      ],
+      "date": "2025-02-01"
+    }
+  },
+  "note": "Image is greyscale (HiRISE RED band); tint it in the app for a Martian look. Image is HiRISE ESP_086806_2280_RED (2025-02-01), an uncontrolled frame aligned to the terrain model by image matching."
+}

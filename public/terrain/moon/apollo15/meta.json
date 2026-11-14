@@ -1,0 +1,71 @@
+{
+ "site": "apollo15",
+ "world": "moon",
+ "title": "Hadley-Apennine (Apollo 15)",
+ "machines": [
+  "apollo15-lm",
+  "apollo15-lrv",
+  "apollo15-alsep",
+  "apollo15-lrrr"
+ ],
+ "center": [
+  26.1329,
+  3.63244
+ ],
+ "extent_m": [
+  4000,
+  4000
+ ],
+ "res_m": {
+  "height": 2.0,
+  "color": 2.0
+ },
+ "heightRange_m": [
+  -284.0,
+  47.8
+ ],
+ "sunAzimuth_deg": 131.5,
+ "sunElevation_deg": 51.4,
+ "places": [
+  {
+   "id": "apollo15-lm",
+   "x_m": 23.4,
+   "y_m": -15.5
+  },
+  {
+   "id": "apollo15-lrv",
+   "x_m": 152.2,
+   "y_m": -35.2
+  },
+  {
+   "id": "apollo15-alsep",
+   "x_m": -68.9,
+   "y_m": 35.2
+  },
+  {
+   "id": "apollo15-lrrr",
+   "x_m": -107.3,
+   "y_m": 15.5
+  }
+ ],
+ "sources": {
+  "height": {
+   "product": "LROC NAC DTM NAC_DTM_APOLLO15_E261N0036 (2.0 m/px, 82% of tile), NAC_DTM_APOLLO15_2_E260N0036 (5.0 m/px, 18% of tile)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_APOLLO15"
+  },
+  "color": {
+   "product": "LROC NAC orthoimage NAC_DTM_APOLLO15_M111571816_2M (2.0 m/px, 82% of tile), NAC_DTM_APOLLO15_2_M1121209902_5M (5.0 m/px, 18% of tile)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_APOLLO15"
+  }
+ },
+ "grid": {
+  "height_px": 512,
+  "color_px": 1024,
+  "encoding": "terrarium, metres relative to tile mean",
+  "projection": "azimuthal equidistant centred on 'center', north up, row 0 = north, col 0 = west"
+ }
+}

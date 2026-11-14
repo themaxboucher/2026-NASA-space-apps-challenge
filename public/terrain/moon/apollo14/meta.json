@@ -1,0 +1,65 @@
+{
+ "site": "apollo14",
+ "world": "moon",
+ "title": "Fra Mauro (Apollo 14)",
+ "machines": [
+  "apollo14-lm",
+  "apollo14-alsep",
+  "apollo14-lrrr"
+ ],
+ "center": [
+  -3.64475,
+  -17.47609
+ ],
+ "extent_m": [
+  4000,
+  4000
+ ],
+ "res_m": {
+  "height": 2.0,
+  "color": 2.0
+ },
+ "heightRange_m": [
+  -64.8,
+  148.8
+ ],
+ "sunAzimuth_deg": 273.1,
+ "sunElevation_deg": 30.1,
+ "places": [
+  {
+   "id": "apollo14-lm",
+   "x_m": 125.6,
+   "y_m": -34.6
+  },
+  {
+   "id": "apollo14-alsep",
+   "x_m": -48.1,
+   "y_m": 17.0
+  },
+  {
+   "id": "apollo14-lrrr",
+   "x_m": -77.5,
+   "y_m": 17.6
+  }
+ ],
+ "sources": {
+  "height": {
+   "product": "LROC NAC DTM NAC_DTM_APOLLO14_E034S3425 (2.0 m/px, 87% of tile); gaps filled with LOLA LDEM_1024 15S_00S_330_360 (1024 px/deg, ~30 m/px)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_APOLLO14"
+  },
+  "color": {
+   "product": "LROC NAC orthoimage NAC_DTM_APOLLO14_M150633128_2M (2.0 m/px, 87% of tile), NAC_ROI_APOLLO14LOA_E038S3426_5M (5.0 m/px, 13% of tile)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_APOLLO14"
+  }
+ },
+ "grid": {
+  "height_px": 512,
+  "color_px": 1024,
+  "encoding": "terrarium, metres relative to tile mean",
+  "projection": "azimuthal equidistant centred on 'center', north up, row 0 = north, col 0 = west"
+ }
+}

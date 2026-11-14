@@ -1,0 +1,53 @@
+{
+ "site": "apollo12-lm-ascent",
+ "world": "moon",
+ "title": "Intrepid ascent stage impact (Apollo 12)",
+ "machines": [
+  "apollo12-lm-ascent"
+ ],
+ "center": [
+  -3.94,
+  -21.2
+ ],
+ "extent_m": [
+  3000,
+  3000
+ ],
+ "res_m": {
+  "height": 5.0,
+  "color": 5.0
+ },
+ "heightRange_m": [
+  -60.5,
+  59.9
+ ],
+ "sunAzimuth_deg": 87.4,
+ "sunElevation_deg": 39.5,
+ "places": [
+  {
+   "id": "apollo12-lm-ascent",
+   "x_m": 0.0,
+   "y_m": 0.0
+  }
+ ],
+ "sources": {
+  "height": {
+   "product": "LROC NAC DTM NAC_DTM_A12LMAS_E039S3387 (5.0 m/px, 100% of tile)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_A12LMAS"
+  },
+  "color": {
+   "product": "LROC NAC orthoimage NAC_DTM_A12LMAS_M1243793524_5M (5.0 m/px, 100% of tile)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_A12LMAS"
+  }
+ },
+ "grid": {
+  "height_px": 512,
+  "color_px": 1024,
+  "encoding": "terrarium, metres relative to tile mean",
+  "projection": "azimuthal equidistant centred on 'center', north up, row 0 = north, col 0 = west"
+ }
+}

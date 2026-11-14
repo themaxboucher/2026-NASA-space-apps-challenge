@@ -71,12 +71,11 @@ export default function Atlas() {
               {/* SVG has no typed `hidden` prop; the engine toggles the attribute itself. */}
               <svg id="beyond" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet" {...{ hidden: true }}></svg>
               <p className="hint" id="hint">Drag to spin · scroll to zoom</p>
-              <button className="peg" id="peg" type="button" aria-label="Explorer: drag onto a glowing site to walk around it">
+              <button className="peg" id="peg" type="button" aria-label="Explorer: drag onto a glowing site to walk around it" title="Drag me onto a glowing site">
                 <svg viewBox="0 0 16 22" aria-hidden="true">
                   <circle cx="8" cy="3.5" r="3.2" fill="currentColor" />
                   <path d="M3 9.5c0-1.4 1.1-2.5 2.5-2.5h5c1.4 0 2.5 1.1 2.5 2.5V15h-2v7H5v-7H3z" fill="currentColor" />
                 </svg>
-                Drag to explore
               </button>
               <div className="ground" id="ground" hidden>
                 <canvas id="groundCv" tabIndex={0}></canvas>

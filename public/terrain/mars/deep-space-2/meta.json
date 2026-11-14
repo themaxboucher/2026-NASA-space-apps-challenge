@@ -1,0 +1,52 @@
+{
+  "site": "deep-space-2",
+  "world": "mars",
+  "title": "South polar layered terrain (target area)",
+  "machines": [
+    "deep-space-2"
+  ],
+  "center": [
+    -73.0,
+    150.0
+  ],
+  "extent_m": [
+    6000.0,
+    6000.0
+  ],
+  "res_m": {
+    "height": 199.61,
+    "color": 100.0
+  },
+  "heightRange_m": [
+    -143.81,
+    87.66
+  ],
+  "sunAzimuth_deg": null,
+  "sunElevation_deg": null,
+  "places": [
+    {
+      "id": "deep-space-2",
+      "x_m": 0.0,
+      "y_m": 0.0
+    }
+  ],
+  "sources": {
+    "height": {
+      "product": "HRSC-MOLA blended DEM v2",
+      "kind": "blend",
+      "credit": "NASA/JPL/GSFC (MOLA), ESA/DLR/FU Berlin (HRSC), USGS Astrogeology",
+      "license": "USGS Astrogeology product; HRSC data ESA/DLR/FU Berlin (CC BY-SA 3.0 IGO), MOLA public domain",
+      "url": "https://planetarymaps.usgs.gov/mosaic/Mars/HRSC_MOLA_Blend/Mars_HRSC_MOLA_BlendDEM_Global_200mp_v2.tif",
+      "native_res_m": 199.61
+    },
+    "color": {
+      "product": "THEMIS Day IR global mosaic v12 (100 m)",
+      "kind": "themis",
+      "credit": "NASA/JPL-Caltech/Arizona State University",
+      "license": "Public domain (NASA/JPL/ASU)",
+      "url": "https://planetarymaps.usgs.gov/mosaic/Mars_MO_THEMIS-IR-Day_mosaic_global_100m_v12.tif",
+      "native_res_m": 100.0
+    }
+  },
+  "note": "Approximate target point only: the two probes were never found, so their true impact spots are unknown. No HiRISE or CTX terrain model covers this spot, so heights come from the ~200 m HRSC-MOLA blend, smoothly upsampled; small rocks and craters are missing. Image is the 100 m THEMIS daytime infrared mosaic (brightness shows temperature, not colour), upsampled."
+}

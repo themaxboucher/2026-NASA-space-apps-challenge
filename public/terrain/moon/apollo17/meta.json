@@ -1,0 +1,65 @@
+{
+ "site": "apollo17",
+ "world": "moon",
+ "title": "Taurus-Littrow (Apollo 17)",
+ "machines": [
+  "apollo17-lm",
+  "apollo17-lrv",
+  "apollo17-alsep"
+ ],
+ "center": [
+  20.191,
+  30.77157
+ ],
+ "extent_m": [
+  4000,
+  4000
+ ],
+ "res_m": {
+  "height": 2.0,
+  "color": 2.0
+ },
+ "heightRange_m": [
+  -96.7,
+  56.6
+ ],
+ "sunAzimuth_deg": 258.7,
+ "sunElevation_deg": 26.2,
+ "places": [
+  {
+   "id": "apollo17-lm",
+   "x_m": 20.8,
+   "y_m": 3.0
+  },
+  {
+   "id": "apollo17-lrv",
+   "x_m": 151.7,
+   "y_m": -42.5
+  },
+  {
+   "id": "apollo17-alsep",
+   "x_m": -172.8,
+   "y_m": 39.4
+  }
+ ],
+ "sources": {
+  "height": {
+   "product": "LROC NAC DTM NAC_DTM_APOLLO17_1_E199N0308 (2.0 m/px, 96% of tile), NAC_DTM_APOLLO17_E203N0308 (5.0 m/px, 4% of tile)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_APOLLO17_1"
+  },
+  "color": {
+   "product": "LROC NAC orthoimage NAC_DTM_APOLLO17_1_M134985003_2M (2.0 m/px, 96% of tile), NAC_DTM_APOLLO17_MOSAIC_5M (5.0 m/px, 4% of tile)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_APOLLO17_1"
+  }
+ },
+ "grid": {
+  "height_px": 512,
+  "color_px": 1024,
+  "encoding": "terrarium, metres relative to tile mean",
+  "projection": "azimuthal equidistant centred on 'center', north up, row 0 = north, col 0 = west"
+ }
+}

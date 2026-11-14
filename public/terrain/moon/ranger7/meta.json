@@ -1,0 +1,53 @@
+{
+ "site": "ranger7",
+ "world": "moon",
+ "title": "Ranger 7 impact",
+ "machines": [
+  "ranger7"
+ ],
+ "center": [
+  -10.634,
+  -20.677
+ ],
+ "extent_m": [
+  3000,
+  3000
+ ],
+ "res_m": {
+  "height": 29.6,
+  "color": 100.0
+ },
+ "heightRange_m": [
+  -19.4,
+  12.3
+ ],
+ "sunAzimuth_deg": null,
+ "sunElevation_deg": null,
+ "places": [
+  {
+   "id": "ranger7",
+   "x_m": 0.0,
+   "y_m": 0.0
+  }
+ ],
+ "sources": {
+  "height": {
+   "product": "LOLA LDEM_1024 15S_00S_330_360 (1024 px/deg, ~30 m/px), upsampled smoothly",
+   "credit": "NASA/GSFC/LOLA Science Team",
+   "license": "Public domain",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/cylindrical/img/ldem_1024_15s_00s_330_360.img"
+  },
+  "color": {
+   "product": "LROC WAC global mosaic (~100 m/px, via NASA Moon Trek WMTS), upsampled smoothly",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://trek.nasa.gov/tiles/Moon/EQ/LRO_WAC_Mosaic_Global_303ppd_v02/1.0.0"
+  }
+ },
+ "grid": {
+  "height_px": 512,
+  "color_px": 1024,
+  "encoding": "terrarium, metres relative to tile mean",
+  "projection": "azimuthal equidistant centred on 'center', north up, row 0 = north, col 0 = west"
+ }
+}

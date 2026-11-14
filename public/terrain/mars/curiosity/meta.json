@@ -1,0 +1,68 @@
+{
+  "site": "curiosity",
+  "world": "mars",
+  "title": "Mount Sharp, Gale crater",
+  "machines": [
+    "curiosity"
+  ],
+  "center": [
+    -4.826,
+    137.3889
+  ],
+  "extent_m": [
+    3000.0,
+    3000.0
+  ],
+  "res_m": {
+    "height": 5.86,
+    "color": 2.93
+  },
+  "heightRange_m": [
+    -341.5,
+    271.98
+  ],
+  "sunAzimuth_deg": 211.4,
+  "sunElevation_deg": 15.4,
+  "places": [
+    {
+      "id": "curiosity",
+      "x_m": 0.0,
+      "y_m": 0.0
+    }
+  ],
+  "sources": {
+    "height": {
+      "product": "DTEEC_019698_1750_019988_1750_U01",
+      "kind": "hirise",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "license": "Public domain (NASA/JPL/UArizona)",
+      "url": "https://astrogeo-ard.s3-us-west-2.amazonaws.com/mars/mro/hirise/controlled/dtm/ESP_019698_1750_ESP_019988_1750/DTEEC_019698_1750_019988_1750_U01.tif",
+      "native_res_m": 1.01,
+      "fill": [
+        {
+          "product": "DTEEC_009149_1750_009294_1750_U01",
+          "kind": "hirise",
+          "credit": "NASA/JPL-Caltech/University of Arizona",
+          "license": "Public domain (NASA/JPL/UArizona)",
+          "url": "https://astrogeo-ard.s3-us-west-2.amazonaws.com/mars/mro/hirise/controlled/dtm/PSP_009149_1750_PSP_009294_1750/DTEEC_009149_1750_009294_1750_U01.tif",
+          "native_res_m": 1.01,
+          "tile_fraction": 0.003
+        }
+      ]
+    },
+    "color": {
+      "product": "ESP_053732_1750_RED",
+      "kind": "hirise-obs",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "license": "Public domain (NASA/JPL/UArizona)",
+      "url": "https://astrogeo-ard.s3-us-west-2.amazonaws.com/mars/mro/hirise/uncontrolled/ESP_053732_1750_RED/ESP_053732_1750_RED.tif",
+      "native_res_m": 0.25,
+      "registered_shift_m": [
+        5.9,
+        87.9
+      ],
+      "date": "2018-01-12"
+    }
+  },
+  "note": "Heights mix sources: hirise 100%, hirise 0%, blended smoothly at the seams. Image is greyscale (HiRISE RED band); tint it in the app for a Martian look. Image is HiRISE ESP_053732_1750_RED (2018-01-12), an uncontrolled frame aligned to the terrain model by image matching."
+}

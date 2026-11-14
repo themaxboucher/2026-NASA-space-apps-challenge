@@ -1,0 +1,65 @@
+{
+ "site": "apollo11",
+ "world": "moon",
+ "title": "Tranquility Base (Apollo 11)",
+ "machines": [
+  "apollo11-lm",
+  "apollo11-pse",
+  "apollo11-lrrr"
+ ],
+ "center": [
+  0.67361,
+  23.47312
+ ],
+ "extent_m": [
+  4000,
+  4000
+ ],
+ "res_m": {
+  "height": 2.0,
+  "color": 2.0
+ },
+ "heightRange_m": [
+  -39.4,
+  51.0
+ ],
+ "sunAzimuth_deg": 270.5,
+ "sunElevation_deg": 27.4,
+ "places": [
+  {
+   "id": "apollo11-lm",
+   "x_m": 0.6,
+   "y_m": 16.7
+  },
+  {
+   "id": "apollo11-pse",
+   "x_m": 0.9,
+   "y_m": -11.8
+  },
+  {
+   "id": "apollo11-lrrr",
+   "x_m": -1.5,
+   "y_m": -4.9
+  }
+ ],
+ "sources": {
+  "height": {
+   "product": "LROC NAC DTM NAC_DTM_APOLLO11_E008N0234 (2.0 m/px, 78% of tile); gaps filled with LOLA LDEM_1024 00N_15N_000_030 (1024 px/deg, ~30 m/px)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_APOLLO11"
+  },
+  "color": {
+   "product": "LROC NAC orthoimage NAC_DTM_APOLLO11_M150361817_2M (2.0 m/px, 78% of tile), NAC_ROI_APOLLO11HIA_E010N0234_5M (5.0 m/px, 22% of tile)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_APOLLO11"
+  }
+ },
+ "grid": {
+  "height_px": 512,
+  "color_px": 1024,
+  "encoding": "terrarium, metres relative to tile mean",
+  "projection": "azimuthal equidistant centred on 'center', north up, row 0 = north, col 0 = west"
+ }
+}

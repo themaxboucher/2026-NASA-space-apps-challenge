@@ -1,0 +1,52 @@
+{
+  "site": "ingenuity",
+  "world": "mars",
+  "title": "Valinor Hills, Jezero crater",
+  "machines": [
+    "ingenuity"
+  ],
+  "center": [
+    18.4973,
+    77.3225
+  ],
+  "extent_m": [
+    3000.0,
+    3000.0
+  ],
+  "res_m": {
+    "height": 5.86,
+    "color": 2.93
+  },
+  "heightRange_m": [
+    -93.44,
+    251.4
+  ],
+  "sunAzimuth_deg": null,
+  "sunElevation_deg": null,
+  "places": [
+    {
+      "id": "ingenuity",
+      "x_m": 0.0,
+      "y_m": 0.0
+    }
+  ],
+  "sources": {
+    "height": {
+      "product": "Mars 2020 TRN HiRISE DTM mosaic",
+      "kind": "trn",
+      "credit": "NASA/JPL-Caltech/University of Arizona/USGS Astrogeology (Fergason et al. 2020)",
+      "license": "Public domain (NASA/JPL/UArizona)",
+      "url": "https://planetarymaps.usgs.gov/mosaic/mars2020_trn/HiRISE/JEZ_hirise_soc_006_DTM_MOLAtopography_DeltaGeoid_1m_Eqc_latTs0_lon0_blend40.tif",
+      "native_res_m": 1.0
+    },
+    "color": {
+      "product": "Mars 2020 TRN HiRISE ortho mosaic (25 cm)",
+      "kind": "trn",
+      "credit": "NASA/JPL-Caltech/University of Arizona/USGS Astrogeology (Fergason et al. 2020)",
+      "license": "Public domain (NASA/JPL/UArizona)",
+      "url": "https://planetarymaps.usgs.gov/mosaic/mars2020_trn/HiRISE/JEZ_hirise_soc_006_orthoMosaic_25cm_Eqc_latTs0_lon0_first.tif",
+      "native_res_m": 0.25
+    }
+  },
+  "note": "Image is greyscale (HiRISE RED band); tint it in the app for a Martian look."
+}

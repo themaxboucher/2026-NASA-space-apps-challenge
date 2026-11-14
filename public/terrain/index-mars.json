@@ -1,0 +1,16 @@
+{
+  "viking1": "mars/viking1",
+  "viking2": "mars/viking2",
+  "pathfinder": "mars/pathfinder",
+  "sojourner": "mars/pathfinder",
+  "spirit": "mars/spirit",
+  "opportunity": "mars/opportunity",
+  "phoenix": "mars/phoenix",
+  "insight": "mars/insight",
+  "ingenuity": "mars/ingenuity",
+  "mars-polar-lander": "mars/mars-polar-lander",
+  "deep-space-2": "mars/deep-space-2",
+  "curiosity": "mars/curiosity",
+  "perseverance": "mars/perseverance",
+  "perseverance-backshell": "mars/perseverance-backshell"
+}

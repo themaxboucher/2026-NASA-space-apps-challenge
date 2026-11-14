@@ -1,0 +1,57 @@
+{
+  "site": "perseverance-backshell",
+  "world": "mars",
+  "title": "Jezero crater floor, backshell crash site",
+  "machines": [
+    "perseverance-backshell"
+  ],
+  "center": [
+    18.452,
+    77.432
+  ],
+  "extent_m": [
+    3000.0,
+    3000.0
+  ],
+  "res_m": {
+    "height": 5.86,
+    "color": 2.93
+  },
+  "heightRange_m": [
+    -49.03,
+    92.26
+  ],
+  "sunAzimuth_deg": 167.9,
+  "sunElevation_deg": 15.8,
+  "places": [
+    {
+      "id": "perseverance-backshell",
+      "x_m": 0.0,
+      "y_m": 0.0
+    }
+  ],
+  "sources": {
+    "height": {
+      "product": "DTEEC_045994_1985_046060_1985_U01",
+      "kind": "hirise",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "license": "Public domain (NASA/JPL/UArizona)",
+      "url": "https://astrogeo-ard.s3-us-west-2.amazonaws.com/mars/mro/hirise/controlled/dtm/ESP_045994_1985_ESP_046060_1985/DTEEC_045994_1985_046060_1985_U01.tif",
+      "native_res_m": 1.02
+    },
+    "color": {
+      "product": "ESP_073068_1985_RED",
+      "kind": "hirise-obs",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "license": "Public domain (NASA/JPL/UArizona)",
+      "url": "https://astrogeo-ard.s3-us-west-2.amazonaws.com/mars/mro/hirise/uncontrolled/ESP_073068_1985_RED/ESP_073068_1985_RED.tif",
+      "native_res_m": 0.25,
+      "registered_shift_m": [
+        -32.2,
+        70.3
+      ],
+      "date": "2022-02-26"
+    }
+  },
+  "note": "Image is greyscale (HiRISE RED band); tint it in the app for a Martian look. Image is HiRISE ESP_073068_1985_RED (2022-02-26), an uncontrolled frame aligned to the terrain model by image matching."
+}

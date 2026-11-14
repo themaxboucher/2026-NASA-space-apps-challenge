@@ -1,0 +1,53 @@
+{
+ "site": "apollo17-sivb",
+ "world": "moon",
+ "title": "Apollo 17 S-IVB rocket stage impact",
+ "machines": [
+  "apollo17-sivb"
+ ],
+ "center": [
+  -4.1681,
+  -12.3307
+ ],
+ "extent_m": [
+  3000,
+  3000
+ ],
+ "res_m": {
+  "height": 2.0,
+  "color": 2.0
+ },
+ "heightRange_m": [
+  -47.2,
+  14.9
+ ],
+ "sunAzimuth_deg": 87.8,
+ "sunElevation_deg": 40.2,
+ "places": [
+  {
+   "id": "apollo17-sivb",
+   "x_m": 0.0,
+   "y_m": 0.0
+  }
+ ],
+ "sources": {
+  "height": {
+   "product": "LROC NAC DTM NAC_DTM_A17SIVB_E042S3476 (2.0 m/px, 93% of tile); gaps filled with LOLA LDEM_1024 15S_00S_330_360 (1024 px/deg, ~30 m/px)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_A17SIVB"
+  },
+  "color": {
+   "product": "LROC NAC orthoimage NAC_DTM_A17SIVB_M144701329_2M (2.0 m/px, 93% of tile); gaps filled with LROC WAC global mosaic (~100 m/px)",
+   "credit": "NASA/GSFC/Arizona State University",
+   "license": "Public domain",
+   "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_A17SIVB"
+  }
+ },
+ "grid": {
+  "height_px": 512,
+  "color_px": 1024,
+  "encoding": "terrarium, metres relative to tile mean",
+  "projection": "azimuthal equidistant centred on 'center', north up, row 0 = north, col 0 = west"
+ }
+}

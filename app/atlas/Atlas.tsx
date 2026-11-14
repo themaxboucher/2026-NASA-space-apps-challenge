@@ -60,6 +60,10 @@ export default function Atlas() {
             <button role="tab" data-world="mars" aria-selected="false">Mars<span className="n"></span></button>
             <button role="tab" data-world="beyond" aria-selected="false">Deep space<span className="n"></span></button>
           </nav>
+          <div className="search">
+            <input id="q" type="search" placeholder="Search machines and places…" aria-label="Search machines and places" aria-controls="qres" autoComplete="off" />
+            <ul id="qres" role="listbox" hidden></ul>
+          </div>
           <p className="eyebrow">Positions as of 14 Nov 2026</p>
         </div>
 
@@ -71,11 +75,9 @@ export default function Atlas() {
               {/* SVG has no typed `hidden` prop; the engine toggles the attribute itself. */}
               <svg id="beyond" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet" {...{ hidden: true }}></svg>
               <p className="hint" id="hint">Drag to spin · scroll to zoom</p>
+              <button className="gbtn fsbtn" id="fsBtn" type="button" aria-pressed="false">⛶ Full screen</button>
               <button className="peg" id="peg" type="button" aria-label="Explorer: drag onto a glowing site to walk around it" title="Drag me onto a glowing site">
-                <svg viewBox="0 0 16 22" aria-hidden="true">
-                  <circle cx="8" cy="3.5" r="3.2" fill="currentColor" />
-                  <path d="M3 9.5c0-1.4 1.1-2.5 2.5-2.5h5c1.4 0 2.5 1.1 2.5 2.5V15h-2v7H5v-7H3z" fill="currentColor" />
-                </svg>
+                <svg viewBox="-6 -2 52 72" aria-hidden="true"><g className="pm-legL"><rect x="13" y="37" width="7" height="17" rx="3.2" fill="#ebe5dc" stroke="#2a1a12" strokeWidth="1.3"/><rect x="11.8" y="51" width="9.2" height="6.5" rx="2.4" fill="#8f877d" stroke="#2a1a12" strokeWidth="1.3"/></g><g className="pm-legR"><rect x="20" y="37" width="7" height="17" rx="3.2" fill="#ebe5dc" stroke="#2a1a12" strokeWidth="1.3"/><rect x="19" y="51" width="9.2" height="6.5" rx="2.4" fill="#8f877d" stroke="#2a1a12" strokeWidth="1.3"/></g><rect x="9" y="18.5" width="22" height="17" rx="2.5" fill="#b9b0a4" stroke="#2a1a12" strokeWidth="1.3"/><g className="pm-armL"><rect x="4.6" y="21" width="6.4" height="15" rx="3.2" fill="#ebe5dc" stroke="#2a1a12" strokeWidth="1.3"/><circle cx="7.8" cy="37" r="3.1" fill="#8f877d" stroke="#2a1a12" strokeWidth="1.3"/></g><g className="pm-armR"><rect x="29" y="21" width="6.4" height="15" rx="3.2" fill="#ebe5dc" stroke="#2a1a12" strokeWidth="1.3"/><circle cx="32.2" cy="37" r="3.1" fill="#8f877d" stroke="#2a1a12" strokeWidth="1.3"/></g><rect x="11.5" y="19.5" width="17" height="20" rx="4.5" fill="#f4efe8" stroke="#2a1a12" strokeWidth="1.3"/><rect x="16" y="25" width="8" height="5" rx="1.2" fill="#d9814a"/><circle cx="20" cy="11.5" r="10" fill="#f4efe8" stroke="#2a1a12" strokeWidth="1.3"/><rect x="12.6" y="7.2" width="14.8" height="9.4" rx="4.7" fill="#2f2219"/><path d="M15 9.6c1.6-1.2 3.4-1.5 5.2-1.2" stroke="#c9a27e" strokeWidth="1.3" fill="none" strokeLinecap="round"/></svg>
               </button>
               <div className="ground" id="ground" hidden>
                 <canvas id="groundCv" tabIndex={0}></canvas>
@@ -83,6 +85,7 @@ export default function Atlas() {
                 <div className="ghud top">
                   <button className="gbtn primary" id="gBack" type="button">← Back to the map</button>
                   <div><p className="eyebrow" id="gWorld"></p><h3 id="gTitle"></h3></div>
+                  <button className="gbtn" id="gFs" type="button" aria-pressed="false">⛶ Full screen</button>
                   <span id="gCompass" aria-live="off">N</span>
                 </div>
                 <div className="ghud bottom">
@@ -90,12 +93,13 @@ export default function Atlas() {
                   <div className="gctl">
                     <button className="gbtn" data-k="KeyW" type="button" aria-label="Walk forward">▲</button>
                     <button className="gbtn" data-k="KeyS" type="button" aria-label="Walk back">▼</button>
-                    <button className="gbtn" id="gJump" type="button">Jump</button>
+                    <button className="gbtn" id="gJump" data-k="Space" type="button" aria-label="Fly up (hold)">Fly up</button>
+                    <button className="gbtn" id="gDown" data-k="KeyC" type="button" aria-label="Fly down (hold)">Down</button>
                     <button className="gbtn" id="gMode" type="button" aria-pressed="false">Fly over</button>
-                    <label htmlFor="gExag">Hills ×<input type="range" id="gExag" min="1" max="5" step="0.5" defaultValue="1" /></label>
+                    <button className="gbtn primary" id="gPhoto" type="button" aria-pressed="false" hidden>Real photo 360°</button>
                   </div>
                   <p className="gnote" id="gHelp">
-                    Drag to look around · W A S D or arrow keys to walk (Shift runs) · double-click the ground to go there · Space to jump
+                    Click the view to look around with your mouse · W A S D or arrow keys to walk (Shift runs) · hold Space to fly up, C to go down · double-click the ground to go there
                   </p>
                   <p className="gnote credit" id="gCredit"></p>
                 </div>

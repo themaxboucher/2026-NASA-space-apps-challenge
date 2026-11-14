@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sky Detectives</title>
+<meta name="theme-color" content="#11162e">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://irsa.ipac.caltech.edu" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: a detective's field notebook. The live blink is the hero; an "invisible rainbow" of the six
+     SPHEREx bands (validated categorical order, dataviz skill) threads through chips, dots and the spectrum. */
+  :root {
+    color-scheme: dark;
+    --night: #11162e;      /* page */
+    --surface: #161c3a;    /* panels + chart surface (palette validated against this) */
+    --raised: #1f2752;     /* controls */
+    --line: #313b70;       /* hairlines, recessive grid */
+    --ink: #eef1ff;        /* primary text */
+    --ink-2: #c6cced;      /* secondary text */
+    --ink-3: #a3abd6;      /* small print, still >= 4.5:1 on --surface */
+    --found: #ffd166;      /* "found it!" highlight + focus ring; never a data colour */
+    --b1: #3987e5; --b2: #d95926; --b3: #199e70; --b4: #c98500; --b5: #d55181; --b6: #0ca30c;  /* D1..D6 */
+    --src-spherex: #3987e5; --src-wise: #d95926;
+    --font-display: Fredoka, "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+    --font-body: "Atkinson Hyperlegible", Verdana, system-ui, sans-serif;
+    --step--1: 15px; --step-0: 18px; --step-1: 21px; --step-2: 26px; --step-3: clamp(30px, 3.6vw, 40px); --step-4: clamp(44px, 6.6vw, 82px);
+    --rainbow: linear-gradient(90deg, var(--b1) 0 16.2%, transparent 0 16.8%, var(--b2) 0 32.9%, transparent 0 33.5%, var(--b3) 0 49.7%, transparent 0 50.3%, var(--b4) 0 66.5%, transparent 0 67.1%, var(--b5) 0 83.2%, transparent 0 83.8%, var(--b6) 0);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; background: var(--night); }
+  body { margin: 0; background: var(--night); color: var(--ink); font: var(--step-0)/1.6 var(--font-body); }
+  .wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.1; text-wrap: balance; margin: 0; }
+  h1 { font-size: var(--step-4); } h2 { font-size: var(--step-3); } h3 { font-size: var(--step-1); }
+  p { margin: 0; max-width: 62ch; }
+  a { color: #9cc7ff; }
+  .small { color: var(--ink-3); font-size: var(--step--1); }
+  .lead { font-size: var(--step-1); color: var(--ink-2); }
+  :focus-visible { outline: 3px solid var(--found); outline-offset: 3px; border-radius: 6px; }
+  [hidden] { display: none !important; }
+  button, a, label, summary { touch-action: manipulation; -webkit-tap-highlight-color: rgba(255, 209, 102, .25); }
+  section[id] { scroll-margin-top: 16px; }
+  .skip { position: absolute; left: 12px; top: -60px; z-index: 30; background: var(--found); color: #1a1530; padding: 10px 16px; border-radius: 8px; font-weight: 700; }
+  .skip:focus { top: 12px; }
+
+  /* invisible rainbow: six band segments with 2px gaps */
+  .rainbow { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px; height: 6px; width: 100%; }
+  .rainbow i { background: var(--c); border-radius: 3px; }
+
+  header.top { padding-block: 14px; }
+  header.top .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .logo { display: flex; align-items: center; gap: 10px; font: 600 var(--step-1) var(--font-display); color: var(--ink); text-decoration: none; }
+  .logo svg { width: 36px; height: 36px; }
+  nav ul { display: flex; gap: 6px 18px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+  nav a { color: var(--ink-2); text-decoration: none; padding: 10px 2px; display: inline-block; }
+  nav a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 6px; }
+
+  section { padding-block: clamp(56px, 8vw, 104px); }
+  section > .wrap > h2 + .lead { margin-top: 12px; }
+  /* one card style everywhere: surface panel with the invisible-rainbow strip on top */
+  .card { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .card::before { content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: var(--rainbow); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 10px 20px; border-radius: 999px; border: 2px solid var(--line); background: var(--raised); color: var(--ink); font: 600 var(--step-0) var(--font-display); cursor: pointer; text-decoration: none; touch-action: manipulation; }
+  .btn:hover { border-color: var(--ink-3); }
+  .btn.go { background: var(--found); border-color: var(--found); color: #1a1530; }
+  .btn.go:hover { background: #ffe09a; }
+  .btn[aria-pressed=true] { border-color: var(--found); }
+
+  /* hero = the live mini blink */
+  .hero { position: relative; overflow: hidden; padding-block: clamp(32px, 5vw, 72px) clamp(56px, 7vw, 96px); }
+  /* slow-drifting starfield behind the hero; static under reduced motion */
+  .hero::before { content: ""; position: absolute; inset: -200px 0 0; pointer-events: none; opacity: .7;
+    background-image: radial-gradient(1.4px 1.4px at 12% 22%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 38% 70%, #dfe6ff 50%, transparent 51%),
+      radial-gradient(1.2px 1.2px at 62% 18%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 84% 56%, #cfd8ff 50%, transparent 51%),
+      radial-gradient(1.6px 1.6px at 26% 88%, #ffe9b8 50%, transparent 51%), radial-gradient(1px 1px at 72% 92%, #fff 50%, transparent 51%);
+    background-size: 340px 260px; animation: drift 90s linear infinite; }
+  @keyframes drift { to { transform: translateY(200px); } }
+  .hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 45fr) minmax(0, 55fr); gap: clamp(28px, 4vw, 56px); align-items: center; }
+  @media (max-width: 860px) { .hero .wrap { grid-template-columns: 1fr; } }
+  .hero-copy { display: grid; gap: 18px; max-width: 520px; }
+  .hero-copy .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+  .hero-found { min-height: 3.2em; font-size: var(--step-1); }
+  .hero-found b { color: var(--found); }
+  .polaroid { padding: 18px 18px 14px; display: grid; gap: 12px; width: 100%; max-width: 640px; justify-self: end;
+    box-shadow: 0 0 0 1px #3987e522, 0 30px 80px -20px #3987e555, 0 0 120px -30px #d5518155; }
+  @media (max-width: 860px) { .polaroid { justify-self: center; } }
+  .stage::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 50% 50%, transparent 58%, #070a18cc 100%); }
+  .stage svg.layer, .stage .compass, .stage .waiting { z-index: 1; }
+  .polaroid figcaption { display: flex; justify-content: space-between; gap: 10px; font-size: var(--step--1); color: var(--ink-2); flex-wrap: wrap; }
+  .polaroid figcaption b { font: 600 var(--step-1) var(--font-display); color: var(--ink); }
+
+  /* shared stage */
+  .stage { position: relative; width: 100%; max-width: 100%; aspect-ratio: 1; background: #070a18; border-radius: 10px; overflow: hidden; }
+  .stage img { width: 100%; height: 100%; image-rendering: auto; display: block; }
+  .stage.pixels img { image-rendering: pixelated; }
+  .stage .ghost { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+  .stage img:not([src]) { visibility: hidden; }  /* no broken-image alt text while photos load */
+  .stage svg.layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  .stage .waiting { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px; color: var(--ink-2); }
+  .found-ring { fill: none; stroke: var(--found); stroke-width: 3; vector-effect: non-scaling-stroke; }
+  .compass { position: absolute; right: 10px; bottom: 8px; font-size: 13px; color: var(--ink-2); pointer-events: none; text-shadow: 0 0 4px #000; }
+
+  /* how it works */
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 28px; list-style: none; padding: 0; }
+  @media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+  .steps li { padding: 26px 24px 24px; display: grid; gap: 10px; align-content: start; }
+  .steps svg { width: 76px; height: 76px; }
+  .steps .num { font: 600 var(--step--1) var(--font-display); color: var(--ink-3); letter-spacing: .08em; text-transform: uppercase; }
+  .bands { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; padding: 0; list-style: none; }
+  .bands li { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px 6px 8px; font-size: var(--step--1); }
+  .swatch { width: 16px; height: 16px; border-radius: 50%; background: var(--c); flex: none; box-shadow: 0 0 0 2px var(--surface); }
+
+  /* detective's desk */
+  .cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-top: 18px; }
+  .cases button { text-align: left; color: var(--ink); padding: 0 0 14px; cursor: pointer; display: grid; gap: 4px; font: inherit; min-height: 48px; align-content: start;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+  .cases button > b, .cases button > span { padding-inline: 14px; }
+  .cases button:hover { transform: translateY(-4px); border-color: var(--ink-3); box-shadow: 0 14px 30px -12px #000a; }
+  .cases button:focus-visible { border-color: var(--found); }
+  .thumb { aspect-ratio: 1; width: 100%; max-width: 100%; display: block; object-fit: cover; margin-bottom: 8px; background: #070a18; }
+  .thumb.loading { background: linear-gradient(100deg, #161c3a 30%, #2a3366 50%, #161c3a 70%) 0 0 / 300% 100%; animation: shimmer 1.4s linear infinite; }
+  @keyframes shimmer { to { background-position: -150% 0; } }
+  .cases button b { font: 600 var(--step-1) var(--font-display); }
+  .cases button span { color: var(--ink-2); font-size: var(--step--1); line-height: 1.4; }
+  form.ask { display: grid; gap: 18px; margin-top: 32px; padding: 26px 22px 22px; }
+  form.ask .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: end; }
+  form.ask label, form.ask fieldset { display: grid; gap: 6px; font-weight: 700; min-width: 0; }
+  form.ask label .small, form.ask legend .small { font-weight: 400; }
+  fieldset { border: 0; padding: 0; margin: 0; min-inline-size: 0; }
+  legend { padding: 0; margin-bottom: 8px; max-width: 100%; white-space: normal; }
+  form.ask .row > label:not(.check) { flex: 1 1 220px; }
+  form.ask .row select, form.ask .row input[type=text] { width: 100%; }
+  input[type=text], select { background: var(--raised); color: var(--ink); border: 2px solid var(--line); border-radius: 10px; padding: 10px 12px; font: var(--step-0) var(--font-body); min-height: 48px; max-width: 100%; }
+  #target { width: min(340px, 100%); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  form.ask .chips label { display: inline-flex; align-items: center; gap: 8px; background: var(--raised); border: 2px solid var(--line); border-radius: 999px; padding: 8px 14px 8px 10px; cursor: pointer; font-weight: 400; min-height: 44px; }
+  .chips input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  form.ask .chips label:has(input:checked) { border-color: var(--found); background: #2a2f5c; }
+  .chips label:has(input:focus-visible) { outline: 3px solid var(--found); outline-offset: 3px; }
+  .chips .mix { width: 18px; height: 18px; border-radius: 50%; background: conic-gradient(var(--b1) 0 33%, var(--b3) 0 66%, var(--b6) 0); flex: none; }
+  .chips .um { color: var(--ink-3); font-size: 13px; }
+  .check { display: flex !important; grid-auto-flow: column; align-items: center; gap: 12px !important; font-weight: 400 !important; cursor: pointer; }
+  .check input { width: 24px; height: 24px; accent-color: var(--found); flex: none; }
+  #status { min-height: 1.6em; margin-top: 14px; }
+  #status.err { color: #ffb3a8; }
+
+  .desk { display: grid; grid-template-columns: minmax(0, 1fr) 370px; gap: 28px; align-items: start; margin-top: 22px; }
+  @media (max-width: 940px) { .desk { grid-template-columns: 1fr; } }
+  .viewer { display: grid; gap: 12px; min-width: 0; }
+  .viewer .date { font: 600 var(--step-3) var(--font-display); min-height: 1.1em; }
+  .viewer .source { color: var(--ink-2); font-size: var(--step--1); min-height: 1.4em; }
+  #stage { view-transition-name: desk-stage; cursor: crosshair; max-width: 720px; }
+  .quest { background: #1d2a3a; border: 2px solid #3d5a78; border-radius: var(--radius); padding: 12px 16px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; max-width: 720px; }
+  .quest b { color: var(--found); }
+  .gaia-layer circle { fill: none; stroke: #ffffffb0; stroke-width: 1.2; vector-effect: non-scaling-stroke; pointer-events: all; }
+  .gaia-layer line { stroke: var(--found); stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+  .mark-layer * { fill: none; stroke: #fff; stroke-width: 2; vector-effect: non-scaling-stroke; }
+  .rgb-legend { display: flex; gap: 8px 20px; flex-wrap: wrap; font-size: var(--step--1); color: var(--ink-2); max-width: 720px; }
+  .rgb-legend span { display: inline-flex; align-items: center; gap: 8px; }
+
+  .timeline { position: relative; max-width: 720px; height: 64px; }
+  .timeline .rail { position: absolute; left: 16px; right: 16px; top: 21px; height: 1px; background: var(--line); }
+  .timeline button { position: absolute; top: 5px; width: 32px; height: 32px; margin-left: -16px; border: 0; padding: 0; background: none; cursor: pointer; border-radius: 50%; }
+  .timeline button::after { content: ""; position: absolute; left: 9px; top: 9px; width: 14px; height: 14px; border-radius: 50%; background: var(--c, var(--src-spherex)); box-shadow: 0 0 0 2px var(--night); opacity: .6; }
+  .timeline button:hover::after { opacity: 1; }
+  .timeline button[aria-current=true]::after { opacity: 1; left: 6px; top: 6px; width: 20px; height: 20px; box-shadow: 0 0 0 2px var(--night), 0 0 0 4px var(--found); }
+  .timeline .year { position: absolute; top: 42px; font-size: 14px; color: var(--ink-3); transform: translateX(-50%); font-variant-numeric: tabular-nums; }
+  .legend { display: flex; gap: 8px 20px; flex-wrap: wrap; font-size: var(--step--1); color: var(--ink-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; }
+  .controls label.range { display: grid; gap: 2px; font-size: var(--step--1); color: var(--ink-2); }
+  input[type=range] { accent-color: var(--found); width: 170px; min-height: 32px; }
+  .toggles { display: grid; gap: 10px; }
+
+  aside.inspect { padding: 26px 22px 22px; display: grid; gap: 12px; min-width: 0; align-content: start; }
+  aside.inspect h3 { font-size: var(--step-2); }
+  .verdict { font-size: var(--step-1); }
+  .verdict.new b { color: var(--found); }
+  #spec svg { width: 100%; height: auto; display: block; }
+  #spec .tick, #spec .lab { fill: var(--ink-2); font: 12px var(--font-body); }
+  #spec .unit { fill: var(--ink-3); font: 11px var(--font-body); }
+  #spec .grid { stroke: var(--line); stroke-width: 1; }
+  .table-wrap { max-height: 240px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: right; padding: 4px 10px; border-bottom: 1px solid var(--line); }
+  th { position: sticky; top: 0; background: var(--raised); }
+  td:first-child, th:first-child { text-align: left; }
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 3px solid var(--line); border-top-color: var(--found); border-radius: 50%; animation: spin 1s linear infinite; vertical-align: -3px; margin-right: 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* pick any spot (Aladin) */
+  .skybox { overscroll-behavior: contain; position: relative; margin-top: 22px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: #070a18; aspect-ratio: 16 / 10; max-height: 640px; width: 100%; max-width: 100%; }
+  @media (max-width: 640px) { .skybox { aspect-ratio: 4 / 5; } }
+  #sky { position: absolute; inset: 0; }
+  .skybox .reticle { position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; margin: -23px 0 0 -23px; border: 2px dashed var(--found); border-radius: 50%; pointer-events: none; }
+  .skybar { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: space-between; align-items: center; pointer-events: none; }
+  .skybar > * { pointer-events: auto; }
+  .skybar .views { display: flex; gap: 6px; }
+  .skybar .views .btn { min-height: 44px; padding: 6px 14px; font-size: var(--step--1); background: #11162ee0; }
+  .skyfail { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: var(--ink-2); }
+
+  details.grownups { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 20px; }
+  details.grownups summary { cursor: pointer; font: 600 var(--step-1) var(--font-display); min-height: 32px; }
+  details.grownups p { margin-top: 12px; color: var(--ink-2); font-size: var(--step--1); max-width: 80ch; }
+  footer { padding-block: 30px 50px; color: var(--ink-3); font-size: var(--step--1); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .spinner, .hero::before, .thumb.loading { animation: none; }
+    .cases button { transition: none; } .cases button:hover { transform: none; }
+    ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#desk">Skip to the detective’s desk</a>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#spot" translate="no">
+      <svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="15" cy="15" r="11" fill="#1f2752" stroke="#ffd166" stroke-width="3"/><path d="M23 23 L33 33" stroke="#ffd166" stroke-width="4" stroke-linecap="round"/><path d="M15 9 l1.6 3.8 4 .4 -3 2.7 .9 4 -3.5 -2.1 -3.5 2.1 .9 -4 -3 -2.7 4 -.4z" fill="#eef1ff"/></svg>
+      Sky Detectives
+    </a>
+    <nav aria-label="Sections"><ul>
+      <li><a href="#spot">Play</a></li><li><a href="#how">How it works</a></li><li><a href="#desk">Detective’s desk</a></li><li><a href="#pick">Pick a spot</a></li>
+    </ul></nav>
+  </div>
+  <div class="wrap" style="margin-top:12px"><div class="rainbow" aria-hidden="true"><i style="--c:var(--b1)"></i><i style="--c:var(--b2)"></i><i style="--c:var(--b3)"></i><i style="--c:var(--b4)"></i><i style="--c:var(--b5)"></i><i style="--c:var(--b6)"></i></div></div>
+</header>
+
+<main>
+<section class="hero" id="spot" aria-labelledby="hero-title">
+  <div class="wrap">
+    <div class="hero-copy">
+      <h1 id="hero-title">Can you spot what moved?</h1>
+      <p class="lead">Real photos of one patch of sky, taken months apart by NASA’s SPHEREx space telescope. Most dots stay still. One is sliding across.</p>
+      <p class="hero-found" id="hero-found" aria-live="polite">Watch the photos flip. Then press <b>Show me</b> to check.</p>
+      <div class="actions">
+        <button class="btn go" id="hero-reveal" type="button" aria-pressed="false">Show me</button>
+        <button class="btn" id="hero-play" type="button">Pause</button>
+        <a class="btn" href="#desk" id="hero-open">Look closer at the desk</a>
+      </div>
+    </div>
+    <figure class="polaroid card" style="margin:0">
+      <div class="stage" id="hero-stage">
+        <img id="hero-img" width="640" height="640" fetchpriority="high" alt="Real SPHEREx photo of the sky around Barnard’s Star"><img class="ghost" id="hero-ghost" width="640" height="640" alt="">
+        <svg class="layer" id="hero-ring"></svg>
+        <div class="waiting" id="hero-wait"><p><span class="spinner"></span>Fetching real photos of Barnard’s Star…</p></div>
+      </div>
+      <figcaption><b id="hero-date">Barnard’s Star</b><span>A patch of sky about 1/4 as wide as the Moon</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="how" aria-labelledby="how-title">
+  <div class="wrap">
+    <h2 id="how-title">What am I looking at?</h2>
+    <ol class="steps">
+      <li class="card">
+        <svg viewBox="0 0 76 76" aria-hidden="true"><circle cx="38" cy="38" r="36" fill="#1f2752"/><g fill="#eef1ff"><circle cx="15" cy="17" r="1.6"/><circle cx="60" cy="13" r="1.3"/><circle cx="62" cy="55" r="1.6"/><circle cx="11" cy="52" r="1.1"/></g><g transform="rotate(-25 38 40)"><rect x="19" y="32" width="36" height="17" rx="4" fill="#c6cced"/><rect x="53" y="28" width="9" height="25" rx="3" fill="#3987e5"/><rect x="9" y="36" width="11" height="9" rx="3" fill="#a3abd6"/></g></svg>
+        <span class="num">Step 1</span>
+        <p>SPHEREx is a space telescope. It takes photos of the whole sky every 6 months.</p>
+      </li>
+      <li class="card">
+        <svg viewBox="0 0 76 76" aria-hidden="true"><rect x="18" y="16" width="42" height="50" rx="5" fill="#313b70"/><rect x="13" y="11" width="42" height="50" rx="5" fill="#3a4580"/><rect x="8" y="6" width="42" height="50" rx="5" fill="#11162e" stroke="#ffd166" stroke-width="2.5"/><circle cx="20" cy="20" r="2" fill="#eef1ff"/><circle cx="38" cy="42" r="2" fill="#eef1ff"/><circle cx="31" cy="27" r="3.4" fill="#ffd166"/><path d="M55 64 q9 -6 13 -19" stroke="#c6cced" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M64 46 l4 -3 l1.4 5" stroke="#c6cced" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+        <span class="num">Step 2</span>
+        <p>We show you photos of the same spot taken months apart, like a flip-book.</p>
+      </li>
+      <li class="card">
+        <svg viewBox="0 0 76 76" aria-hidden="true"><rect x="2" y="2" width="72" height="72" rx="10" fill="#1f2752"/><g fill="#eef1ff"><circle cx="15" cy="19" r="2"/><circle cx="59" cy="21" r="2"/><circle cx="21" cy="59" r="2"/><circle cx="57" cy="57" r="2"/></g><circle cx="29" cy="43" r="4" fill="#ffd166" opacity=".35"/><circle cx="45" cy="33" r="4.5" fill="#ffd166"/><path d="M33 41 L40 36" stroke="#ffd166" stroke-width="2.5" stroke-dasharray="2 3" stroke-linecap="round"/></svg>
+        <span class="num">Step 3</span>
+        <p>Most stars stay still. If something jumps, it’s close by: maybe a brown dwarf (a “failed star”) or an asteroid!</p>
+      </li>
+    </ol>
+    <div style="margin-top:30px; display:grid; gap:6px">
+      <h3>Light your eyes can’t see</h3>
+      <p>SPHEREx sees light our eyes can’t, like the heat from a warm stove. It splits that light into six invisible colours. We give each one a crayon colour so you can see it:</p>
+      <ul class="bands" id="band-key"></ul>
+    </div>
+  </div>
+</section>
+
+<section id="desk" aria-labelledby="desk-title">
+  <div class="wrap">
+    <h2 id="desk-title">The detective’s desk</h2>
+    <p class="lead" style="margin-top:8px">Open a famous case, or type any sky address.</p>
+    <div class="cases" id="cases"></div>
+
+    <form class="ask card" id="f">
+      <div class="row">
+        <label for="target">Sky address <span class="small">A star’s name, or its RA and Dec numbers</span><input type="text" id="target" name="target" required placeholder="Barnard’s Star, or 269.45 4.77…" autocomplete="off" spellcheck="false"></label>
+        <label for="size">How much sky
+          <select id="size" name="size">
+            <option value="120">A tiny bit (1/15 of the Moon’s width)</option>
+            <option value="180" selected>A small patch (1/10 of the Moon’s width)</option>
+            <option value="300">Medium (1/6 of the Moon’s width)</option>
+            <option value="600">Big (1/3 of the Moon’s width)</option>
+          </select></label>
+        <label for="mode">Photos
+          <select id="mode" name="mode"><option value="epoch">One per visit (clearer)</option><option value="frame">Every snapshot (smoother)</option></select></label>
+      </div>
+      <fieldset>
+        <legend>Which invisible colour <span class="small">Each chip is one of SPHEREx’s six light detectors</span></legend>
+        <div class="chips" id="band-chips"></div>
+      </fieldset>
+      <div class="row">
+        <label class="check" for="wise"><input type="checkbox" id="wise" name="wise" value="1"><span>Add older photos (2010 to 2024)<br><span class="small">From WISE, an earlier space telescope</span></span></label>
+        <button class="btn go" type="submit">Show me the photos</button>
+      </div>
+    </form>
+    <p id="status" role="status"></p>
+
+    <div class="desk">
+      <div class="viewer">
+        <p class="date" id="date">Pick a case to begin</p>
+        <p class="source" id="label"></p>
+        <div class="quest" id="quest" hidden><p id="quest-text"></p><button class="btn" id="reveal" type="button" aria-pressed="false">Show me</button></div>
+        <div class="stage" id="stage" role="button" tabindex="0" aria-label="Photo of the chosen patch of sky. Tap a dot to inspect it, or press Enter to inspect the dot in the middle.">
+          <img id="img" width="720" height="720" alt=""><img class="ghost" id="ghost" width="720" height="720" alt="">
+          <svg class="layer gaia-layer" id="gaia-layer"></svg><svg class="layer mark-layer" id="mark-layer"></svg><svg class="layer" id="reveal-layer"></svg>
+          <div class="compass">North ↑ East ←</div>
+          <div class="waiting" id="empty"><p>Pick a case above, or a spot on the sky map further down. Then tap any dot to inspect it.</p></div>
+        </div>
+        <div class="rgb-legend" id="rgb-legend" hidden>
+          <span><i class="swatch" style="--c:#ff5a4a"></i>Red: cooler, dustier things glow here</span>
+          <span><i class="swatch" style="--c:#4aa8ff"></i>Blue: hot stars</span>
+        </div>
+        <div class="timeline" id="timeline" aria-label="When each photo was taken"><div class="rail"></div></div>
+        <div class="legend" id="src-legend" hidden><span><i class="swatch" style="--c:var(--src-spherex)"></i>SPHEREx photo</span><span><i class="swatch" style="--c:var(--src-wise)"></i>WISE photo (older telescope)</span></div>
+        <div class="controls">
+          <button class="btn" id="prev" type="button" aria-label="Previous photo">◀</button>
+          <button class="btn go" id="play" type="button">Play</button>
+          <button class="btn" id="next" type="button" aria-label="Next photo">▶</button>
+          <label class="range" for="speed">Flip speed: <span id="fps-out">6 photos a second</span><input id="speed" type="range" min="1" max="20" value="6"></label>
+        </div>
+        <div class="toggles">
+          <label class="check" for="fade"><input id="fade" type="checkbox" checked> Fade between photos</label>
+          <label class="check" for="pixels"><input id="pixels" type="checkbox"><span>Show real pixels<br><span class="small">Each square is one SPHEREx pixel, 6.15″ of sky</span></span></label>
+          <label class="check" for="diff"><input id="diff" type="checkbox"><span>Show only what changed<br><span class="small">Each photo minus the middle-of-the-road photo</span></span></label>
+          <label class="check" for="gaia"><input id="gaia" type="checkbox"><span>Show known stars (and where they’re heading)<br><span class="small">From the Gaia star catalogue: a circle for each star, a yellow line for fast movers</span></span></label>
+        </div>
+      </div>
+      <aside class="inspect card" id="inspect" aria-live="polite">
+        <h3>What’s this dot?</h3>
+        <p>Tap any dot in the photo. You’ll see whether it’s a known star, and its rainbow of invisible light.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="pick" aria-labelledby="pick-title">
+  <div class="wrap">
+    <h2 id="pick-title">Pick any spot in the sky</h2>
+    <p class="lead" style="margin-top:8px">SPHEREx photographs the whole sky, so any spot works, not only the famous cases. Drag the map, put a spot in the yellow circle, then press <b>Blink this spot</b>. You can also tap a glowing name, or type a sky address at the detective’s desk.</p>
+    <div class="skybox">
+      <div id="sky" role="application" aria-label="Map of the whole sky. Drag to move it."></div>
+      <div class="reticle" aria-hidden="true"></div>
+      <div class="skybar">
+        <button class="btn go" id="blink-here" type="button" disabled>Blink this spot</button>
+        <div class="views" role="group" aria-label="Map picture">
+          <button class="btn" type="button" data-hips="https://irsa.ipac.caltech.edu/data/hips/CDS/2MASS/Color" aria-pressed="true">Infrared colours</button>
+          <button class="btn" type="button" data-hips="https://irsa.ipac.caltech.edu/data/hips/CDS/AllWISE/RGB-W4-W2-W1" aria-pressed="false">Heat view</button>
+        </div>
+      </div>
+      <div class="skyfail" id="sky-fail" hidden><p>The sky map needs a newer browser. You can still type a sky address at the detective’s desk.</p></div>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="grown-title" style="padding-top:0">
+  <div class="wrap">
+    <details class="grownups card">
+      <summary id="grown-title">For astronomers</summary>
+      <p>Frames are SPHEREx DR1/QR Level 2 images with zodiacal light subtracted, reprojected north-up onto a TAN grid at 6.15″ per pixel and median-stacked per survey pass. The sky address accepts RA/Dec in decimal degrees or sexagesimal, or a resolvable name. Chips are detector arrays D1 to D6; the colour mix maps D6 to red, D3 to green and D1 to blue. “Show only what changed” subtracts the median of all frames. Known stars are Gaia DR3 (CfA VizieR mirror) propagated from epoch 2016.0 by proper motion. Spectra are aperture photometry on every SPHEREx exposure covering the tapped position, with per-pixel wavelengths from the spectral WCS. Views are shareable with <code>?target=…&amp;size=…&amp;band=…&amp;wise=1</code>. The sky map uses IRSA’s 2MASS and AllWISE HiPS: SPHEREx’s own all-sky cube has no tiles at whole-sky zoom yet.</p>
+      <p id="tech"></p>
+    </details>
+  </div>
+</section>
+</main>
+<footer><div class="wrap">Data: NASA/IPAC Infrared Science Archive (SPHEREx, 2MASS and AllWISE maps), ESA Gaia DR3 via the CfA VizieR mirror, NASA WISE/NEOWISE. Made for the 2026 NASA Space Apps Challenge.</div></footer>
+
+<script>
+const f = document.getElementById('f'), $ = id => document.getElementById(id);
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function vt(fn) {  // native View Transitions; the update still runs if the browser isn't painting (background tab)
+  let done = false; const run = () => { if (!done) { done = true; fn(); } };
+  if (reduced || !document.startViewTransition) return run();
+  const t = document.startViewTransition(run);
+  t.ready.catch(() => {}); t.finished.catch(() => {});  // an aborted transition is harmless; don't log it
+  setTimeout(run, 500);
+}
+let data = null, i = 0, timer = null, inspected = null, quest = null, revealed = false;
+
+const BANDS = [  // D1..D6, colours = validated categorical order (dataviz skill), names a 5-year-old can read
+  { v: 'D1', c: 'var(--b1)', name: 'Just past red', um: '0.75 to 1.1 µm' },
+  { v: 'D2', c: 'var(--b2)', name: 'Near infrared', um: '1.1 to 1.6 µm' },
+  { v: 'D3', c: 'var(--b3)', name: 'Near infrared', um: '1.6 to 2.4 µm' },
+  { v: 'D4', c: 'var(--b4)', name: 'Warm infrared', um: '2.4 to 3.8 µm' },
+  { v: 'D5', c: 'var(--b5)', name: 'Warm infrared', um: '3.8 to 4.4 µm' },
+  { v: 'D6', c: 'var(--b6)', name: 'Heat glow', um: '4.4 to 5.0 µm' },
+];
+$('band-key').innerHTML = BANDS.map(b => `<li><i class="swatch" style="--c:${b.c}"></i>${b.name} <span class="small">${b.um}</span></li>`).join('');
+$('band-chips').innerHTML = `<label><input type="radio" name="band" value="RGB" checked><i class="mix"></i>Colour mix of three</label>` +
+  BANDS.map(b => `<label><input type="radio" name="band" value="${b.v}"><i class="swatch" style="--c:${b.c}"></i>${b.name} <span class="um">${b.um}</span></label>`).join('');
+
+// Challenge test targets. Positions are where each object sits around 2026 (WISE 0855 uses the challenge's
+// older coordinates, so the mover sits right of centre). pm in mas/yr from `epoch` (MJD) for the reveal ring.
+const TARGETS = [
+  { name: 'Barnard’s Star', blurb: 'The fastest-moving star in our sky', t: '269.4463 4.7682', ra: 269.4463, dec: 4.7682, s: 180,
+    pmra: -801.6, pmde: 10362.4, epoch: 61041, kind: 'move' },
+  { name: 'WISE 0855', blurb: 'The coldest brown dwarf known, as cold as a freezer', t: '08h55m10.831s -7d14m42.53s', ra: 133.7951, dec: -7.2451, s: 300,
+    pmra: -8118, pmde: 673, epoch: 55400, kind: 'move' },
+  { name: 'Epsilon Indi B', blurb: 'Two brown dwarfs racing along together', t: '331.0961 -56.8010', ra: 331.0961, dec: -56.8010, s: 180,
+    pmra: 3980, pmde: -2470, epoch: 61041, kind: 'move' },
+  { name: 'RW Aurigae', blurb: 'A baby star that flickers', t: '05h07m49.54s +30d24m05.1s', ra: 76.9564, dec: 30.4014, s: 180, kind: 'blink' },
+  { name: 'R Draconis', blurb: 'A giant old star that slowly pulses', t: '16h32m40.2s +66d45m18s', ra: 248.1675, dec: 66.7550, s: 180, kind: 'blink' },
+];
+function go(t, s) {  // load a target at the desk and scroll to it
+  f.elements.target.value = t; if (s) f.elements.size.value = s;
+  $('desk').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+  load();
+}
+for (const tg of TARGETS) {  // case cards with a thumbnail of the first photo (server pre-warms these)
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'card';
+  b.innerHTML = `<img class="thumb loading" width="240" height="240" alt="" loading="lazy"><b>${tg.name}</b><span>${tg.blurb}</span>`;
+  b.onclick = () => go(tg.t, tg.s); $('cases').append(b);
+  const img = b.querySelector('img');
+  fetch(`/api/blink?${new URLSearchParams({ target: tg.t, size: tg.s, band: 'RGB', mode: 'epoch' })}`)
+    .then(r => r.ok ? r.json() : Promise.reject()).then(j => { img.src = j.frames[0].img; }).catch(() => {})
+    .finally(() => img.classList.remove('loading'));
+}
+window.TARGETS_FOR_SKY = TARGETS; window.goTarget = go;  // used by the sky-map module below
+
+// "Photo taken in Nov 2025" from labels like "2025-11-10 → 2025-12-13"
+const monthYear = new Intl.DateTimeFormat(undefined, { month: 'short', year: 'numeric', timeZone: 'UTC' });
+const monthOnly = new Intl.DateTimeFormat(undefined, { month: 'short', timeZone: 'UTC' });
+function friendlyDate(fr) {
+  const ds = (fr.label.match(/\d{4}-\d{2}-\d{2}/g) || []).map(s => new Date(s + 'T00:00:00Z'));
+  if (!ds.length) return fr.label;
+  const a = ds[0], b = ds[ds.length - 1], what = fr.n > 1 ? 'Photos' : 'Photo';
+  if (monthYear.format(a) === monthYear.format(b)) return `${what} taken in ${monthYear.format(a)}`;
+  const from = a.getUTCFullYear() === b.getUTCFullYear() ? monthOnly.format(a) : monthYear.format(a);
+  return `${what} taken ${from} to ${monthYear.format(b)}`;
+}
+const srcOf = fr => fr.source || (data && data.band !== 'RGB' ? `SPHEREx ${data.band}` : 'SPHEREx');
+const isWise = fr => /wise/i.test(srcOf(fr));
+
+// gaia-math: frame is a north-up, east-left TAN image, d.pixels square at 6.15"/px, centered on d.ra/d.dec.
+const R = Math.PI / 180, PIX = 6.15 / 3600;
+function project(ra, dec, d) {  // -> SVG viewBox units, (0,0) = top-left of the PNG
+  const a = (ra - d.ra) * R, s0 = Math.sin(d.dec * R), c0 = Math.cos(d.dec * R), s = Math.sin(dec * R), c = Math.cos(dec * R);
+  const cosc = s0 * s + c0 * c * Math.cos(a);
+  const xi = c * Math.sin(a) / cosc / R, eta = (c0 * s - s0 * c * Math.cos(a)) / cosc / R;  // gnomonic, deg
+  return [d.pixels / 2 - xi / PIX, d.pixels / 2 - eta / PIX];
+}
+function at(s, mjd) {  // Gaia DR3 position (Ep 2016.0 = MJD 57388.5) moved to mjd; pmRA already includes cos(dec)
+  const dt = (mjd - 57388.5) / 365.25;
+  return [s.ra + s.pmra * dt / 3.6e6 / Math.cos(s.dec * R), s.dec + s.pmde * dt / 3.6e6];
+}
+// end gaia-math
+
+// inspect-math: inverse of project() (gnomonic), pixel in viewBox units -> [ra, dec] deg
+function unproject(x, y, d) {
+  const xi = (d.pixels / 2 - x) * PIX * R, eta = (d.pixels / 2 - y) * PIX * R, rho = Math.hypot(xi, eta);
+  if (!rho) return [d.ra, d.dec];
+  const c = Math.atan(rho), s0 = Math.sin(d.dec * R), c0 = Math.cos(d.dec * R);
+  const dec = Math.asin(Math.cos(c) * s0 + eta * Math.sin(c) * c0 / rho) / R;
+  const ra = d.ra + Math.atan2(xi * Math.sin(c), rho * c0 * Math.cos(c) - eta * s0 * Math.sin(c)) / R;
+  return [(ra + 360) % 360, dec];
+}
+// end inspect-math
+
+function moverAt(t, mjd) {  // a famous target's position on a photo's date
+  if (!t.pmra) return [t.ra, t.dec];
+  const dt = (mjd - t.epoch) / 365.25;
+  return [t.ra + t.pmra * dt / 3.6e6 / Math.cos(t.dec * R), t.dec + t.pmde * dt / 3.6e6];
+}
+function ring(svg, d, t, mjd) {
+  const [x, y] = project(...moverAt(t, mjd), d);
+  svg.setAttribute('viewBox', `0 0 ${d.pixels} ${d.pixels}`);
+  svg.innerHTML = `<circle class="found-ring" cx="${x}" cy="${y}" r="${Math.max(2.5, d.pixels / 12)}"/>`;
+}
+function swap(img, ghost, src, fps) {  // crossfade: the old photo sits on top and fades out
+  if (img.src && img.src !== src && !reduced) {
+    ghost.style.transition = 'none'; ghost.src = img.src; ghost.style.opacity = 1;
+    ghost.offsetWidth;  // commit opacity 1 before starting the transition
+    ghost.style.transition = `opacity ${0.8 / fps}s linear`; ghost.style.opacity = 0;
+  } else ghost.style.opacity = 0;
+  img.src = src;
+}
+
+// ---- hero: a live mini blink of Barnard's Star ----
+(() => {
+  const T = TARGETS[0];
+  let hd = null, k = 0, ht = null, shown = false;
+  const draw = () => {
+    const fr = hd.frames[k];
+    swap($('hero-img'), $('hero-ghost'), fr.img, 2);
+    $('hero-date').textContent = friendlyDate(fr);
+    if (shown) ring($('hero-ring'), hd, T, fr.mjd);
+  };
+  const playHero = on => {
+    clearInterval(ht); ht = on && hd && hd.frames.length > 1 ? setInterval(() => { k = (k + 1) % hd.frames.length; draw(); }, 700) : null;
+    $('hero-play').textContent = ht ? 'Pause' : 'Play';
+  };
+  $('hero-play').onclick = () => playHero(!ht);
+  $('hero-reveal').onclick = () => vt(() => {
+    shown = !shown;
+    $('hero-reveal').setAttribute('aria-pressed', shown);
+    $('hero-reveal').textContent = shown ? 'Hide' : 'Show me';
+    $('hero-found').innerHTML = shown
+      ? `<b>There it is!</b> Barnard’s Star, the fastest-moving star in our sky. It slides upward a little every year.`
+      : 'Watch the photos flip. Then press <b>Show me</b> to check.';
+    if (shown && hd) ring($('hero-ring'), hd, T, hd.frames[k].mjd); else $('hero-ring').replaceChildren();
+  });
+  $('hero-open').onclick = e => { e.preventDefault(); go(T.t, T.s); };
+  fetch('/api/blink?target=269.4463+4.7682&size=420&band=RGB&mode=epoch').then(r => r.ok ? r.json() : Promise.reject())
+    .then(j => { hd = j; $('hero-wait').hidden = true; for (const fr of j.frames) new Image().src = fr.img; draw(); playHero(!reduced); })
+    .catch(() => { $('hero-wait').innerHTML = '<p>The photos didn’t load. Reload the page to try again.</p>'; });
+})();
+
+// ---- the desk ----
+function show() {
+  if (!data) return;
+  const fr = data.frames[i];
+  if ($('fade').checked) swap($('img'), $('ghost'), $('diff').checked ? fr.diff : fr.img, +$('speed').value);
+  else { $('ghost').style.opacity = 0; $('img').src = $('diff').checked ? fr.diff : fr.img; }
+  $('date').textContent = friendlyDate(fr);
+  $('label').textContent = `${isWise(fr) ? 'WISE' : 'SPHEREx'} telescope · photo ${i + 1} of ${data.frames.length}` + (fr.n > 1 ? ` · made from ${fr.n} snapshots` : '');
+  for (const [k, b] of [...$('timeline').querySelectorAll('button')].entries()) b.setAttribute('aria-current', k === i);
+  drawGaia();
+  if (quest && revealed) ring($('reveal-layer'), data, quest, fr.mjd); else $('reveal-layer').replaceChildren();
+}
+
+function timeline() {
+  const tl = $('timeline'), fr = data.frames;
+  tl.querySelectorAll('button,.year').forEach(e => e.remove());
+  const t0 = fr[0].mjd, t1 = fr[fr.length - 1].mjd, span = t1 - t0 || 1;
+  const pos = mjd => `calc(16px + (100% - 32px) * ${(mjd - t0) / span})`;
+  fr.forEach((x, k) => {
+    const b = document.createElement('button'); b.type = 'button';
+    b.style.left = pos(x.mjd); if (isWise(x)) b.style.setProperty('--c', 'var(--src-wise)');
+    b.setAttribute('aria-label', `${friendlyDate(x)}, ${isWise(x) ? 'WISE' : 'SPHEREx'}`); b.title = b.getAttribute('aria-label');
+    b.onclick = () => { play(false); i = k; show(); };
+    tl.append(b);
+  });
+  const y0 = new Date((t0 - 40587) * 864e5).getUTCFullYear(), y1 = new Date((t1 - 40587) * 864e5).getUTCFullYear();
+  const step = Math.max(1, Math.ceil((y1 - y0) / 8));
+  for (let y = y0; y <= y1 + 1; y += step) {
+    const mjd = Date.UTC(y, 0, 1) / 864e5 + 40587;
+    if (mjd < t0 - 1 || mjd > t1 + 1) continue;
+    const s = document.createElement('span'); s.className = 'year'; s.style.left = pos(mjd); s.textContent = y; tl.append(s);
+  }
+  $('src-legend').hidden = !(fr.some(isWise) && fr.some(x => !isWise(x)));  // legend only when two sources share the strip
+}
+
+const gaiaCache = {};
+function gaia(d) {  // CORS-enabled VizieR mirrors (CDS Strasbourg itself is down)
+  const key = `${d.ra},${d.dec},${d.size}`;
+  const qs = encodeURI(`?-source=I/355/gaiadr3&-c=${d.ra} ${d.dec}&-c.rs=${d.size / 2 * 1.42}&-out=RA_ICRS,DE_ICRS,pmRA,pmDE,Gmag&-out.max=2000`);
+  return gaiaCache[key] ??= (async () => {
+    for (const host of ['vizier.cfa.harvard.edu', 'vizier.idia.ac.za']) {
+      try {
+        const r = await fetch(`https://${host}/viz-bin/asu-tsv${qs}`);
+        if (!r.ok) continue;
+        // TSV: '#' comments, then names, units, dashes, rows. Blank pm -> Number('  ') = 0.
+        return (await r.text()).split('\n').filter(l => l.trim() && !l.startsWith('#')).slice(3).map(l => {
+          const [ra, dec, pmra, pmde, g] = l.split('\t').map(Number);
+          return { ra, dec, pmra, pmde, g };
+        });
+      } catch {}
+    }
+    delete gaiaCache[key];
+    throw new Error('The star catalogue didn’t answer. Try again in a minute.');
+  })();
+}
+async function drawGaia() {
+  const svg = $('gaia-layer');
+  if (!data || !$('gaia').checked) return svg.replaceChildren();
+  const d = data, fr = d.frames[i];
+  let stars;
+  try { stars = await gaia(d); } catch (e) { $('gaia').checked = false; $('status').textContent = e.message; return; }
+  if (d !== data || fr !== data.frames[i]) return;  // a newer frame already redrew
+  svg.setAttribute('viewBox', `0 0 ${d.pixels} ${d.pixels}`);
+  svg.innerHTML = stars.map(s => {
+    const [x, y] = project(...at(s, fr.mjd), d), pm = Math.hypot(s.pmra, s.pmde);
+    const tip = `<title>Gaia DR3 G=${s.g.toFixed(2)} pmRA=${s.pmra} pmDE=${s.pmde} mas/yr</title>`;
+    // line points where the star is heading: +pmRA = east = left, +pmDE = north = up
+    const arrow = pm > 100 ? `<line x1="${x}" y1="${y}" x2="${x - s.pmra / pm * 4}" y2="${y - s.pmde / pm * 4}"/>` : '';
+    return `<circle cx="${x}" cy="${y}" r="1.5">${tip}</circle>${arrow}`;
+  }).join('');
+}
+
+// ---- "Spot the mover!" for the famous cases ----
+function setQuest() {
+  quest = TARGETS.find(t => t.t === f.elements.target.value) || null; revealed = false;
+  $('reveal').textContent = 'Show me'; $('reveal').setAttribute('aria-pressed', false);
+  $('quest').hidden = !quest;
+  if (quest) $('quest-text').innerHTML = quest.kind === 'move'
+    ? `<b>Spot the mover!</b> Press Play and watch closely. One dot slides across the photo.`
+    : `<b>Spot the change!</b> One star gets brighter and dimmer between photos.`;
+}
+$('reveal').onclick = () => vt(() => {
+  revealed = !revealed;
+  $('reveal').textContent = revealed ? 'Hide' : 'Show me'; $('reveal').setAttribute('aria-pressed', revealed);
+  if (revealed) $('quest-text').innerHTML = `<b>There it is!</b> ${quest.name}: ${quest.blurb.toLowerCase()}.` + (quest.kind === 'move' ? ' The yellow ring follows it.' : '');
+  else setQuest();
+  show();
+});
+
+// ---- inspect: tap the photo -> known star?, SIMBAD link, spectrum ----
+$('stage').onclick = e => {
+  if (!data) return;
+  const box = $('stage').getBoundingClientRect();
+  inspect((e.clientX - box.left) / box.width * data.pixels, (e.clientY - box.top) / box.height * data.pixels);
+};
+$('stage').onkeydown = e => {  // keyboard: Enter or Space inspects the dot in the middle
+  if (!data || (e.key !== 'Enter' && e.key !== ' ')) return;
+  e.preventDefault(); inspect(data.pixels / 2, data.pixels / 2);
+};
+async function inspect(x, y) {
+  const d = data;
+  const [ra, dec] = unproject(x, y, d), fr = d.frames[i], key = inspected = `${ra},${dec}`;
+  const mark = $('mark-layer'); mark.setAttribute('viewBox', `0 0 ${d.pixels} ${d.pixels}`);
+  mark.innerHTML = `<circle cx="${x}" cy="${y}" r="2.2"/><line x1="${x}" y1="${y - 4}" x2="${x}" y2="${y - 2.8}"/><line x1="${x}" y1="${y + 2.8}" x2="${x}" y2="${y + 4}"/>`;
+  const simbad = `https://simbad.harvard.edu/simbad/sim-coo?Coord=${ra.toFixed(6)}+${dec >= 0 ? '+' : ''}${dec.toFixed(6)}&Radius=6&Radius.unit=arcsec`;
+  $('inspect').innerHTML = `<h3>What’s this dot?</h3>
+    <p class="small">Sky address: RA ${ra.toFixed(5)}°, Dec ${dec.toFixed(5)}°</p>
+    <p id="match" class="verdict"><span class="spinner"></span>Checking the star catalogue…</p>
+    <p><a href="${simbad}" target="_blank" rel="noopener">Look it up in the SIMBAD star database</a></p>
+    <h3 style="font-size:var(--step-1)">Its rainbow of invisible light</h3>
+    <p class="small">How bright it is in each invisible colour. Bumps and dips tell astronomers what it’s made of.</p>
+    <div id="spec"><p><span class="spinner"></span>Measuring it in every SPHEREx photo… this takes about a minute.</p></div>`;
+
+  gaia(d).then(stars => {
+    if (inspected !== key) return;
+    let best = null, bestSep = 10;  // arcsec: about 1.6 pixels, forgiving for small fingers
+    for (const s of stars) {
+      const [sr, sd] = at(s, fr.mjd), sep = Math.hypot((sr - ra) * Math.cos(dec * R), sd - dec) * 3600;
+      if (sep < bestSep) { best = s; bestSep = sep; }
+    }
+    const m = $('match');
+    if (best) {
+      const pm = Math.hypot(best.pmra, best.pmde);
+      m.className = 'verdict';
+      m.innerHTML = `A known star.${pm > 500 ? ' It’s a fast mover!' : ''}<br><span class="small">Gaia DR3, ${bestSep.toFixed(1)}″ away · G = ${best.g.toFixed(2)} · moves ${pm.toFixed(0)} mas/yr</span>`;
+    } else {
+      m.className = 'verdict new';
+      m.innerHTML = `<b>Not in the star catalogue.</b> It could be something that moves, or something new!<br><span class="small">No Gaia DR3 source within 10″ on this photo’s date.</span>`;
+    }
+  }, err => { if (inspected === key) $('match').textContent = err.message; });
+
+  try {
+    const r = await fetch(`/api/spectrum?ra=${ra}&dec=${dec}`);
+    const j = r.ok ? await r.json() : null;
+    if (inspected !== key) return;
+    if (!j || !j.points) throw new Error(r.status === 404 ? 'The rainbow tool isn’t switched on yet.' : 'Its light couldn’t be measured this time. Tap the dot again to retry.');
+    $('spec').innerHTML = spectrumSvg(j.points);
+  } catch (err) {  // network errors arrive as raw TypeErrors ("Failed to fetch"); keep the message for a child to read
+    const msg = err instanceof TypeError ? 'Its light couldn’t be measured this time. Tap the dot again to retry.' : err.message;
+    if (inspected === key) $('spec').innerHTML = `<p class="small">${msg}</p>`;
+  }
+}
+
+function niceTicks(lo, hi, n = 4) {  // clean round numbers for the y axis
+  const raw = (hi - lo) / n, mag = 10 ** Math.floor(Math.log10(raw)), step = [1, 2, 5, 10].map(m => m * mag).find(s => raw <= s);
+  const out = []; for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(+v.toPrecision(6));
+  return out;
+}
+function spectrumSvg(pts) {
+  // dataviz: one axis, hairline recessive grid, >=8px markers with a 2px surface ring, band colour carries identity
+  // (secondary to x position), legend present, text in ink tokens, table view for the numbers.
+  const ok = pts.filter(p => p.flux_mjy != null && isFinite(p.flux_mjy) && isFinite(p.wl_um));
+  if (!ok.length) return '<p class="small">SPHEREx has no clear measurements of this spot.</p>';
+  const W = 340, H = 236, L = 46, B = 52, T = 12, Rr = 10, yb = H - B;
+  const fl = ok.map(p => p.flux_mjy).sort((a, b) => a - b), q = k => fl[Math.min(fl.length - 1, Math.floor(k * fl.length))];
+  let lo = Math.min(0, q(0.02)), hi = q(0.98) * 1.12 || 1; if (hi <= lo) hi = lo + 1;
+  const ticks = niceTicks(lo, hi); hi = Math.max(hi, ticks[ticks.length - 1]);
+  const X = w => L + (w - 0.75) / (5 - 0.75) * (W - L - Rr), Y = v => T + (1 - (Math.min(Math.max(v, lo), hi) - lo) / (hi - lo)) * (yb - T);
+  const col = b => (BANDS.find(x => x.v === String(b).replace('SPHEREx-', '')) || {}).c || 'var(--ink-3)';
+  let g = '';
+  for (const v of ticks) g += `<line class="grid" x1="${L}" x2="${W - Rr}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tick" x="${L - 6}" y="${Y(v) + 4}" text-anchor="end">${v.toLocaleString()}</text>`;
+  for (const w of [1, 2, 3, 4, 5]) g += `<text class="unit" x="${X(w)}" y="${yb + 16}" text-anchor="middle">${w} µm</text>`;
+  g += `<text class="lab" x="${(L + W) / 2}" y="${H - 18}" text-anchor="middle">Colour (invisible infrared) →</text>`;
+  g += `<text class="unit" x="${(L + W) / 2}" y="${H - 4}" text-anchor="middle">wavelength in micrometres</text>`;
+  g += `<text class="lab" x="12" y="${(T + yb) / 2}" text-anchor="middle" transform="rotate(-90 12 ${(T + yb) / 2})">How bright (mJy) →</text>`;
+  for (const p of ok) {
+    const c = col(p.band), x = X(p.wl_um), y = Y(p.flux_mjy);
+    if (p.err_mjy != null && isFinite(p.err_mjy)) g += `<line x1="${x}" x2="${x}" y1="${Y(p.flux_mjy - p.err_mjy)}" y2="${Y(p.flux_mjy + p.err_mjy)}" stroke="${c}" stroke-opacity=".5" stroke-width="1"/>`;
+    g += `<circle cx="${x}" cy="${y}" r="4" fill="${p.flagged ? 'var(--surface)' : c}" stroke="${p.flagged ? c : 'var(--surface)'}" stroke-width="2"><title>${p.wl_um.toFixed(3)} µm · ${p.flux_mjy.toFixed(3)} mJy${p.flagged ? ' · may be spoiled' : ''}</title></circle>`;
+  }
+  const used = BANDS.filter(b => ok.some(p => String(p.band).endsWith(b.v)));
+  const legend = `<div class="legend" style="margin-top:6px">${used.map(b => `<span><i class="swatch" style="--c:${b.c}"></i>${b.name} ${b.v}</span>`).join('')}</div>`;
+  const rows = ok.slice().sort((a, b) => a.wl_um - b.wl_um).map(p => `<tr><td>${String(p.band).replace('SPHEREx-', '')}</td><td>${p.wl_um.toFixed(3)}</td><td>${p.flux_mjy.toFixed(3)}</td><td>${p.err_mjy != null ? p.err_mjy.toFixed(3) : ''}</td><td>${p.flagged ? 'yes' : ''}</td></tr>`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Brightness of this dot in each infrared colour, ${ok.length} measurements">${g}</svg>${legend}
+    <p class="small">${ok.length} measurements. Hollow dots may be spoiled: something got in the way.</p>
+    <details><summary class="small">See the numbers</summary><div class="table-wrap"><table><thead><tr><th>Detector</th><th>µm</th><th>mJy</th><th>±</th><th>Spoiled?</th></tr></thead><tbody>${rows}</tbody></table></div></details>`;
+}
+
+function play(on) {
+  clearInterval(timer); timer = null;
+  const v = +$('speed').value;
+  $('fps-out').textContent = `${v} photo${v > 1 ? 's' : ''} a second`;
+  if (on && data && data.frames.length > 1) timer = setInterval(() => { i = (i + 1) % data.frames.length; show(); }, 1000 / v);
+  $('play').textContent = timer ? 'Pause' : 'Play';
+}
+async function load(userAsked = true) {  // false = the page's own starting example: no URL change, no autoplay
+  let p = new URLSearchParams(new FormData(f)), note = '';
+  if (userAsked) history.replaceState(null, '', '?' + p + location.hash);
+  $('status').className = '';
+  $('status').innerHTML = '<span class="spinner"></span>Fetching photos from the SPHEREx archive… the first time can take a minute.';
+  play(false);
+  const get = async q => { try { const r = await fetch('/api/blink?' + q); return [r, await r.json()]; } catch (e) { return [null, { error: e.message }]; } };
+  let [r, j] = await get(p);
+  if ((!r || !r.ok) && p.get('wise')) {  // older WISE photos not available: fall back to SPHEREx only
+    p.delete('wise'); [r, j] = await get(p);
+    note = ' The older WISE photos aren’t ready yet, so these are SPHEREx photos only.';
+  }
+  if (!r || !r.ok) { $('status').className = 'err'; $('status').textContent = `Those photos didn’t load: ${j.error || `error ${r.status}`}. Check the sky address and try again.`; return; }
+  vt(() => {
+    data = j; i = 0; inspected = null; $('mark-layer').replaceChildren(); $('empty').hidden = true;
+    for (const fr of j.frames) for (const k of ['img', 'diff']) new Image().src = fr[k];  // pre-decode so swaps don't stutter
+    $('status').textContent = `Ready! ${j.frames.length} photo${j.frames.length > 1 ? 's' : ''} of this spot. Press Play to flip through them.` + note;
+    $('tech').textContent = `RA ${j.ra.toFixed(5)}, Dec ${j.dec.toFixed(5)} · ${j.images} exposures · ${j.frames.length} frames · ${j.pixels}×${j.pixels} px at 6.15″ · band ${j.band}`;
+    $('rgb-legend').hidden = j.band !== 'RGB';
+    setQuest(); timeline(); show(); play(userAsked && !reduced);  // inside: View Transitions run this callback later
+  });
+}
+f.onsubmit = e => { e.preventDefault(); load(); };
+$('prev').onclick = () => { if (!data) return; play(false); i = (i - 1 + data.frames.length) % data.frames.length; show(); };
+$('next').onclick = () => { if (!data) return; play(false); i = (i + 1) % data.frames.length; show(); };
+$('play').onclick = () => play(!timer);
+$('speed').oninput = () => play(!!timer);
+$('diff').onchange = show;
+$('gaia').onchange = drawGaia;
+
+// Coordinates in the URL make views shareable and embeddable: ?target=...&size=...&band=...&wise=1
+const q = new URLSearchParams(location.search);
+for (const [k, v] of q) {
+  const el = f.elements[k]; if (!el) continue;
+  if (el instanceof RadioNodeList) el.value = v; else if (el.type === 'checkbox') el.checked = v === '1'; else el.value = v;
+}
+if (q.get('target')) { load(); if (!location.hash) $('desk').scrollIntoView(); }
+else { f.elements.target.value = TARGETS[0].t; f.elements.size.value = TARGETS[0].s; load(false); }  // the desk is never empty
+$('pixels').onchange = () => $('stage').classList.toggle('pixels', $('pixels').checked);
+</script>
+
+<script type="module">
+// "Pick any spot in the sky": Aladin Lite v3 (WebGL2) on IRSA-hosted sky maps.
+import A from 'https://cdn.jsdelivr.net/npm/aladin-lite@3.8.2/dist/aladin.js';
+const sky = document.getElementById('sky');
+try {
+  await A.init;
+  const views = [...document.querySelectorAll('.views button')];
+  const aladin = A.aladin(sky, {
+    log: false,  // usage ping goes to CDS Strasbourg, which is offline since its Nov 2026 security incident
+    survey: views[0].dataset.hips, projection: 'SIN', fov: 120, target: '269.4463 4.7682', cooFrame: 'ICRSd', backgroundColor: 'rgb(7,10,24)',
+    showReticle: false, showZoomControl: false, showFullscreenControl: false, showLayersControl: false, showGotoControl: false,
+    showFrame: false, showCooGrid: false, showCooGridControl: false, showProjectionControl: false, showSettingsControl: false,
+    showShareControl: false, showSimbadPointerControl: false, showStatusBar: false, showContextMenu: false, showCooLocation: false, showFov: false,
+  });
+  views.forEach(b => b.onclick = () => {
+    aladin.setBaseImageLayer(aladin.newImageSurvey(b.dataset.hips));
+    views.forEach(x => x.setAttribute('aria-pressed', x === b));
+  });
+  const glow = (src, ctx) => {  // glowing marker for each famous case
+    ctx.save(); ctx.shadowColor = '#ffd166'; ctx.shadowBlur = 16; ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(src.x, src.y, 10, 0, 2 * Math.PI); ctx.stroke();
+    ctx.fillStyle = '#eef1ff'; ctx.beginPath(); ctx.arc(src.x, src.y, 3, 0, 2 * Math.PI); ctx.fill(); ctx.restore();
+  };
+  const cat = A.catalog({ name: 'Famous cases', shape: glow, sourceSize: 26, displayLabel: true, labelColumn: 'name', labelColor: '#eef1ff', labelFont: '17px "Atkinson Hyperlegible", sans-serif' });
+  aladin.addCatalog(cat);
+  cat.addSources(window.TARGETS_FOR_SKY.map(t => A.source(t.ra, t.dec, { name: t.name, t: t.t, s: t.s })));
+  aladin.on('objectClicked', o => { if (o && o.data && o.data.t) window.goTarget(o.data.t, o.data.s); });
+  const here = document.getElementById('blink-here');
+  here.disabled = false;
+  here.onclick = () => { const [ra, dec] = aladin.getRaDec(); window.goTarget(`${ra.toFixed(5)} ${dec.toFixed(5)}`); };
+  sky.addEventListener('dblclick', e => {  // double-click a spot to blink it
+    const b = sky.getBoundingClientRect(), w = aladin.pix2world(e.clientX - b.left, e.clientY - b.top);
+    if (w) window.goTarget(`${w[0].toFixed(5)} ${w[1].toFixed(5)}`);
+  });
+} catch (e) {
+  console.warn('Sky map unavailable:', e);
+  document.getElementById('sky-fail').hidden = false;
+}
+</script>
+</body>
+</html>

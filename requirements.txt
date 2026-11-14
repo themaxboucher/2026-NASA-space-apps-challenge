@@ -1,0 +1,6 @@
+astropy
+numpy
+pillow
+reproject
+fsspec
+aiohttp

@@ -1,0 +1,648 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ghost Rover Atlas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: mission-archive console. World tabs up top, spinning globe left, machine dossier right, lifelines (arrival to last signal) along the bottom. Deliberately single dark theme: it is a map of space. */
+:root{
+  --void:#0a0d16; --panel:#121827; --raise:#1a2236; --line:#273149;
+  --ink:#ece6d6; --dim:#9aa3ba;
+  --signal:#ffb547; /* still sending data */
+  --echo:#8fd6c0;   /* passive but still used (laser mirrors) */
+  --quiet:#6f7c9c;  /* silent */
+  --display:"Bricolage Grotesque","Trebuchet MS",sans-serif;
+  --body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--void);color:var(--ink);font:16px/1.55 var(--body)}
+.wrap{max-width:1280px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px;display:grid;gap:18px}
+:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+button{font:inherit;color:inherit;cursor:pointer}
+.eyebrow{font:500 .72rem/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:0}
+header{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:end;justify-content:space-between}
+h1{font:800 clamp(2.1rem,5.2vw,3.7rem)/1 var(--display);letter-spacing:-.025em;margin:.25em 0 .2em;text-wrap:balance}
+.lede{margin:0;max-width:58ch;color:var(--dim)}
+.worlds{display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px}
+.worlds button{border:0;background:none;border-radius:999px;padding:9px 18px;font-weight:700}
+.worlds button .n{font:500 .78rem var(--mono);color:var(--dim);margin-left:4px}
+.worlds button[aria-selected="true"]{background:var(--signal);color:var(--void)}
+.worlds button[aria-selected="true"] .n{color:var(--void)}
+.console{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:18px}
+@media (max-width:880px){.console{grid-template-columns:minmax(0,1fr)}}
+.stage{position:relative;height:clamp(360px,64vh,640px);border:1px solid var(--line);border-radius:16px;overflow:hidden;background:radial-gradient(circle at 50% 50%,#141c31 0,var(--void) 70%)}
+#globe{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+#globe:active{cursor:grabbing}
+.pins{position:absolute;inset:0;pointer-events:none}
+.pin{position:absolute;left:0;top:0;width:14px;height:14px;margin:-7px 0 0 -7px;padding:0;border:2px solid var(--void);border-radius:50%;background:var(--c);pointer-events:auto;transition:opacity .2s}
+.pin.rover{border-radius:3px}
+.pin.impact{background:transparent;border:2.5px solid var(--c)}
+.pin.far{opacity:0;pointer-events:none}
+.pin.sel{width:20px;height:20px;margin:-10px 0 0 -10px;box-shadow:0 0 0 3px var(--void),0 0 0 5px var(--c)}
+.pin .tip{position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);white-space:nowrap;background:var(--raise);border:1px solid var(--line);color:var(--ink);font:500 .75rem var(--mono);padding:3px 8px;border-radius:6px;opacity:0;pointer-events:none}
+.pin:hover .tip,.pin:focus-visible .tip,.pin.sel .tip{opacity:1}
+#beyond{position:absolute;inset:0;width:100%;height:100%}
+#beyond text{font-family:var(--mono);font-size:15px;fill:var(--dim)}
+#beyond .orbit{fill:none;stroke:var(--line)}
+#beyond .helio{fill:none;stroke:var(--echo);stroke-dasharray:3 5;opacity:.6}
+#beyond .craft{cursor:pointer}
+#beyond .craft text{fill:var(--ink);font-size:18px;paint-order:stroke;stroke:var(--void);stroke-width:4px}
+#beyond .craft:hover text,#beyond .craft:focus-visible text{fill:var(--signal)}
+#beyond .craft.nolabel text{display:none}
+#beyond .craft.nolabel:hover text,#beyond .craft.nolabel:focus-visible text,#beyond .craft.nolabel.sel text{display:inline}
+#beyond .craft.sel circle{stroke:var(--ink);stroke-width:2.5}
+.mapcol{display:grid;gap:10px;min-width:0;align-content:start}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;padding:0 4px;font:500 .74rem var(--mono);color:var(--dim)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;background:var(--c)}
+.legend i.sq{border-radius:2px;background:var(--dim)}
+.legend i.ring{background:transparent;border:2px solid var(--dim)}
+.hint{position:absolute;right:12px;top:10px;margin:0;font:500 .72rem var(--mono);color:var(--dim)}
+.dossier{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 22px 26px;min-width:0;max-height:clamp(360px,64vh,640px);overflow:auto}
+@media (max-width:880px){.dossier{max-height:none}}
+.dossier h2{font:800 1.75rem/1.1 var(--display);letter-spacing:-.015em;margin:.3em 0 .45em;text-wrap:balance}
+.dossier h3{font:500 .72rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:1.3em 0 .3em}
+.dossier p{margin:0}
+.pill{display:inline-flex;align-items:center;gap:8px;font:500 .8rem var(--mono);padding:4px 11px;border-radius:999px;background:var(--raise);border:1px solid var(--line)}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px;margin:16px 0 0}
+.facts div{min-width:0}
+.facts dt{font:500 .68rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.facts dd{margin:2px 0 0;font:500 .95rem var(--mono);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.voice{margin:20px 0 0;font:italic 1.15rem/1.5 var(--body);position:relative;padding-top:18px}
+.voice::before{content:"\201C";position:absolute;top:-14px;left:-4px;font:800 3.4rem/1 var(--display);color:var(--signal)}
+.fun{margin-top:18px!important;padding:12px 14px;background:var(--raise);border-radius:10px}
+.fun strong{display:block;font:500 .68rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--signal);margin-bottom:3px}
+.model{margin:16px 0 0;display:grid;gap:6px}
+.mv{position:relative;aspect-ratio:16/10;max-width:100%;border-radius:12px;background:radial-gradient(circle at 50% 40%,var(--raise),var(--void) 75%);border:1px solid var(--line);overflow:hidden;cursor:grab;touch-action:none}
+.mv canvas{display:block;width:100%;height:100%}
+.mv::after{content:"Loading NASA 3D model…";position:absolute;inset:0;display:grid;place-items:center;font:500 .75rem var(--mono);color:var(--dim);pointer-events:none}
+.mv.ready::after{content:none}
+.mv.fail::after{content:"3D model didn't load"}
+.model figcaption{font:500 .72rem var(--mono);color:var(--dim)}
+.summary{font-size:1.06rem;margin-top:14px!important}
+.photo{margin:16px 0 0;display:grid;gap:6px}
+.photo img{display:block;width:100%;max-height:300px;object-fit:cover;border-radius:12px;border:1px solid var(--line);background:var(--raise)}
+.photo figcaption,.loc figcaption{font-size:.84rem;color:var(--dim);display:grid;gap:3px}
+.credit{font:500 .7rem/1.4 var(--mono)}
+.credit a,.loc figcaption a{color:var(--echo)}
+.fate{display:grid;gap:4px;padding:12px 14px;border-radius:10px;background:var(--raise)}
+.fatecat{font:500 .68rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--signal)}
+.fatelabel{font-weight:700;font-size:1.05rem}
+.locs{display:grid;gap:12px}
+.loc{margin:0;display:grid;gap:6px}
+.locimg{position:relative;max-width:100%;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:var(--raise)}
+.locimg img,.locimg svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.locimg .you{fill:none;stroke:var(--signal);stroke-width:3.5}
+.locimg .youdot{fill:var(--signal)}
+.locimg .other{fill:var(--ink);opacity:.75;stroke:var(--void);stroke-width:1.5}
+.locimg .trail{fill:none;stroke:var(--signal);stroke-width:3;stroke-dasharray:7 5}
+.locimg .zoombox{fill:none;stroke:var(--ink);stroke-width:2;stroke-dasharray:5 4}
+.locimg .scale rect{fill:var(--ink)}
+.locimg text{fill:var(--ink);font:500 22px var(--mono);paint-order:stroke;stroke:var(--void);stroke-width:5px}
+.src{display:inline-block;margin-top:16px;color:var(--echo);font:500 .8rem var(--mono)}
+.intro p+p{margin-top:.8em}
+.big{font:800 3rem/1 var(--display);color:var(--signal)}
+.time{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px 18px;display:grid;gap:12px}
+.timehead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+#play{border:1px solid var(--line);background:var(--raise);border-radius:999px;padding:7px 16px;font-weight:700}
+#yearOut{font:800 2rem/1 var(--display);color:var(--signal);font-variant-numeric:tabular-nums;min-width:3ch}
+#yearNote{color:var(--dim);font-size:.92rem;min-width:0;flex:1 1 260px}
+.lives{position:relative;display:grid;gap:2px;padding-top:2px}
+.life{position:relative;height:5px}
+.life b{position:absolute;top:0;height:5px;min-width:5px;border-radius:3px;background:var(--c);cursor:pointer;border:0;padding:0}
+.life b.sel{outline:2px solid var(--ink);outline-offset:1px}
+.life b.future{opacity:.15}
+.cursor{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);opacity:.7;pointer-events:none}
+#year{width:100%;accent-color:var(--signal);margin:0}
+.axis{display:flex;justify-content:space-between;font:500 .72rem var(--mono);color:var(--dim)}
+.roster h2{font:800 1.3rem var(--display);margin:0 0 10px}
+.roster ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.roster button{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 13px;font-size:.9rem}
+.roster button::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+.roster button[aria-pressed="true"]{border-color:var(--signal)}
+.roster ul.groups{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr))}
+.groups>li{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 14px 10px;display:grid;gap:8px;align-content:start;min-width:0}
+.ghead{display:grid;grid-template-columns:auto auto minmax(0,1fr);align-items:center;gap:10px;padding:0 8px}
+.ghead b{font:800 1.05rem var(--display)}
+.gn{font:500 .8rem var(--mono);color:var(--dim)}
+.gbar{display:block;height:6px;border-radius:3px;background:var(--signal);opacity:.75}
+.grows{display:grid;gap:2px}
+.roster button.grow{display:grid;grid-template-columns:8px minmax(0,1fr);column-gap:10px;text-align:left;border:0;border-radius:8px;background:none;padding:6px 8px;align-items:center;width:100%}
+.roster button.grow::before{grid-row:span 2}
+.roster button.grow:hover,.roster button.grow[aria-pressed="true"]{background:var(--raise)}
+.gname{font-weight:700;font-size:.92rem}
+.glabel{grid-column:2;color:var(--dim);font-size:.84rem}
+footer{color:var(--dim);font-size:.82rem;max-width:90ch}
+footer a{color:var(--echo)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <p class="eyebrow">NASA Space Apps 2026 · Abandoned but not Forgotten</p>
+      <h1>Ghost Rover Atlas</h1>
+      <p class="lede">Since the 1960s NASA has left rovers, landers, mirrors and probes all over the solar system. They are still out there. Pick a world, find a machine, and let it tell you its story.</p>
+    </div>
+    <nav class="worlds" role="tablist" aria-label="Choose a world">
+      <button role="tab" data-world="moon" aria-selected="true">Moon<span class="n"></span></button>
+      <button role="tab" data-world="mars" aria-selected="false">Mars<span class="n"></span></button>
+      <button role="tab" data-world="beyond" aria-selected="false">Deep space<span class="n"></span></button>
+    </nav>
+  </header>
+
+  <main class="console">
+    <div class="mapcol">
+    <section class="stage" aria-label="Map">
+      <canvas id="globe" aria-label="Spinning globe. Use the machine list below to pick a machine with the keyboard."></canvas>
+      <div class="pins" id="pins"></div>
+      <svg id="beyond" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet" hidden></svg>
+      <p class="hint" id="hint">Drag to spin · scroll to zoom</p>
+    </section>
+      <div class="legend">
+        <span><i style="--c:var(--signal)"></i>still sending data</span>
+        <span><i style="--c:var(--echo)"></i>silent, still used</span>
+        <span><i style="--c:var(--quiet)"></i>gone quiet</span>
+        <span><i class="sq"></i>rover</span>
+        <span><i class="ring"></i>impact / crash</span>
+      </div>
+    </div>
+    <aside class="dossier" id="dossier" aria-live="polite"></aside>
+  </main>
+
+  <section class="time" aria-label="Timeline">
+    <div class="timehead">
+      <button id="play" type="button">▶ Play history</button>
+      <output id="yearOut" for="year">2026</output>
+      <span id="yearNote"></span>
+    </div>
+    <div class="lives" id="lives"><div class="cursor" id="cursor"></div></div>
+    <input type="range" id="year" min="1959" max="2026" step="1" value="2026" aria-label="Year">
+    <div class="axis" aria-hidden="true"><span>1959</span><span>1970</span><span>1980</span><span>1990</span><span>2000</span><span>2010</span><span>2026</span></div>
+  </section>
+
+  <section class="roster">
+    <h2 id="rosterTitle">Machines</h2>
+    <ul id="list"></ul>
+  </section>
+
+  <footer>
+    Machine facts compiled from NASA's NSSDCA catalog and NASA/JPL mission pages; every dossier links its source. Moon map: NASA/GSFC/Arizona State University (LROC, SVS CGI Moon Kit). Mars map: Solar System Scope, CC BY 4.0, from NASA data. 3D spacecraft: <a href="https://science.nasa.gov/3d-resources/" target="_blank" rel="noopener">NASA 3D Resources</a> (free under NASA media guidelines; each model links its page). Deep-space positions: JPL Horizons for 14 Nov 2026; other planets approximate.
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
+<script>
+const D = Math.PI / 180, NOW = new Date('2026-11-14');
+const WORLDS = {
+  moon:   { file: 'data/moon.json', tex: 'tex/moon.jpg', name: 'the Moon',
+            intro: 'Twelve astronauts walked here between 1969 and 1972 and left their landers, cars and science stations behind. Robots came before and after them. Nothing on the Moon rusts or blows away, so it all still looks almost the way it did on its last day.' },
+  mars:   { file: 'data/mars.json', tex: 'tex/mars.jpg', name: 'Mars',
+            intro: 'Mars is a rover graveyard and a rover playground at the same time. Some machines here went quiet decades ago under red dust. Two are still driving today, and one is a helicopter that will never fly again.' },
+  beyond: { file: 'data/deepspace.json', name: 'deep space',
+            intro: 'Some machines never landed anywhere. They orbit dead worlds, rest on asteroids, plunged into giant planets on purpose, or are sailing out of the solar system forever.' },
+};
+const DATA = { moon: [], mars: [], beyond: [] };
+let world = 'moon', year = 2026, selected = null;
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const yr = s => s ? +String(s).slice(0, 4) : null;
+const born = it => it.arrived || it.launched;
+const died = it => it.lastContact || it.ended;
+const COLOR = { alive: 'var(--signal)', echo: 'var(--echo)', silent: 'var(--quiet)', future: 'var(--quiet)' };
+
+function activeNow(it) {
+  const s = it.status || '';
+  return !died(it) && /\b(still|active|operational|working|transmitting)\b/i.test(s) && !/inactive|silent|dead|lost|ended/i.test(s);
+}
+// What a machine was doing in year Y.
+function stateAt(it, Y) {
+  const a = yr(born(it));
+  if (a && a > Y) return 'future';
+  if (/reflector/i.test(it.type)) return 'echo';
+  const end = yr(died(it));
+  if (!end) return activeNow(it) ? 'alive' : 'silent';
+  return end >= Y ? 'alive' : 'silent';
+}
+const shape = it => /rover|helicopter/i.test(it.type) ? 'rover' : /impact|crash|debris/i.test(it.type) ? 'impact' : '';
+
+/* ---------- globe ---------- */
+const cv = $('globe'), stage = cv.parentElement;
+const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.outputEncoding = THREE.sRGBEncoding;
+const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(32, 1, 0.1, 400);
+cam.position.z = 4.2;
+const globe = new THREE.Group(); scene.add(globe);
+const mat = new THREE.MeshStandardMaterial({ roughness: 1, metalness: 0 });
+globe.add(new THREE.Mesh(new THREE.SphereGeometry(1, 128, 64), mat));
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+const sun = new THREE.DirectionalLight(0xfff2dc, 0.85); sun.position.set(-4, 2, 3); scene.add(sun);
+{ // starfield
+  const n = 1400, p = new Float32Array(n * 3);
+  for (let i = 0; i < n; i++) { const v = new THREE.Vector3().randomDirection ? new THREE.Vector3().randomDirection() : new THREE.Vector3(Math.random()-.5, Math.random()-.5, Math.random()-.5).normalize(); v.multiplyScalar(80 + Math.random() * 60).toArray(p, i * 3); }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(p, 3));
+  scene.add(new THREE.Points(g, new THREE.PointsMaterial({ color: 0x9fb0d0, size: 0.35 })));
+}
+const textures = {}, loader = new THREE.TextureLoader();
+function setTexture(w) {
+  if (!textures[w]) { textures[w] = loader.load(WORLDS[w].tex); textures[w].encoding = THREE.sRGBEncoding; textures[w].anisotropy = 4; }
+  mat.map = textures[w]; mat.needsUpdate = true;
+}
+// Lat/lon (east-positive) to a point on three.js's default sphere UV layout (u=0 at lon -180).
+function ll(lat, lon, r = 1) {
+  const p = (lon + 180) * D, t = lat * D;
+  return new THREE.Vector3(-Math.cos(p) * Math.cos(t) * r, Math.sin(t) * r, Math.sin(p) * Math.cos(t) * r);
+}
+let rotX = 0.3, rotY = 0, target = null, dragging = false, lastInteract = 0;
+function faceTo(lat, lon) {
+  let ty = Math.PI / 2 - (lon + 180) * D;
+  ty += Math.round((rotY - ty) / (2 * Math.PI)) * 2 * Math.PI; // shortest way round
+  target = { x: lat * D, y: ty };
+  if (reduceMotion) { rotX = target.x; rotY = target.y; target = null; }
+}
+cv.addEventListener('pointerdown', e => { dragging = { x: e.clientX, y: e.clientY }; target = null; cv.setPointerCapture(e.pointerId); });
+cv.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  rotY += (e.clientX - dragging.x) * 0.006; rotX += (e.clientY - dragging.y) * 0.006;
+  rotX = Math.max(-1.3, Math.min(1.3, rotX)); dragging = { x: e.clientX, y: e.clientY }; lastInteract = performance.now();
+});
+addEventListener('pointerup', () => { dragging = false; lastInteract = performance.now(); });
+let zoom = 1; // 1 = whole globe fits the narrow side of the stage
+const fitCam = () => { cam.position.z = zoom * 4.2 / Math.min(1, cam.aspect); };
+cv.addEventListener('wheel', e => { e.preventDefault(); zoom = Math.max(0.4, Math.min(1.5, zoom * (1 + e.deltaY * 0.001))); fitCam(); }, { passive: false });
+
+let pins = [];
+function buildPins() {
+  const box = $('pins'); box.innerHTML = '';
+  pins = DATA[world].filter(it => Number.isFinite(it.lat) && Number.isFinite(it.lon)).map(it => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'pin ' + shape(it);
+    b.setAttribute('aria-label', it.name);
+    b.innerHTML = `<span class="tip">${esc(it.name)}</span>`;
+    b.onclick = () => select(it.id);
+    box.appendChild(b);
+    return { it, el: b, v: ll(it.lat, it.lon, 1.004) };
+  });
+  paint();
+}
+const tmp = new THREE.Vector3(), toCam = new THREE.Vector3();
+function placePins() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  for (const p of pins) {
+    tmp.copy(p.v).applyMatrix4(globe.matrixWorld);
+    toCam.copy(cam.position).sub(tmp).normalize();
+    const facing = tmp.clone().normalize().dot(toCam) > 0.12;
+    const hidden = !facing || p.state === 'future';
+    p.el.classList.toggle('far', hidden); p.el.tabIndex = hidden ? -1 : 0;
+    tmp.project(cam);
+    p.el.style.transform = `translate(${(tmp.x + 1) / 2 * w}px,${(1 - tmp.y) / 2 * h}px)`;
+  }
+}
+function resize() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  if (!w || !h) return;
+  renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); fitCam();
+}
+new ResizeObserver(resize).observe(stage);
+/* ---------- NASA 3D models, shown in the dossier ---------- */
+let MODELS = {};
+// Overrides checked before models.json "covers": null means "no honest model for this one".
+const MODEL_MATCH = [[/backshell|galileo_probe/i, null]];
+const MODEL_NOTE = {
+  'apollo-lm': 'Only the bottom half, the descent stage, stayed on the Moon. The top half carried the astronauts back up.',
+  'deep-impact': 'The impactor was the small copper-heavy part that split off. The bigger flyby spacecraft watched it hit.',
+};
+function modelKeyFor(it) {
+  const s = `${it.id} ${it.name} ${it.mission}`;
+  for (const [re, k] of MODEL_MATCH) if (re.test(s)) return MODELS[k] ? k : null;
+  for (const [k, m] of Object.entries(MODELS)) if ((m.covers || []).some(c => s.toLowerCase().includes(String(c).toLowerCase()))) return k;
+  return null;
+}
+const mv = { r: null, scene: null, cam: null, obj: null, key: null, spin: 0, drag: null };
+const gltfLoader = THREE.GLTFLoader ? new THREE.GLTFLoader() : null, modelCache = {};
+// Most NASA models are Draco-compressed. Decoder ships with the page (the artifact sandbox blocks runtime CDN fetches); JS build avoids needing WASM.
+if (gltfLoader && THREE.DRACOLoader) gltfLoader.setDRACOLoader(new THREE.DRACOLoader().setDecoderPath('vendor/draco/').setDecoderConfig({ type: 'js' }));
+function mountModel(key) {
+  const host = $('mv'); if (!host || !key || !gltfLoader) return;
+  if (!mv.r) {
+    mv.r = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    mv.r.outputEncoding = THREE.sRGBEncoding; mv.r.setPixelRatio(Math.min(devicePixelRatio, 2));
+    mv.scene = new THREE.Scene(); mv.cam = new THREE.PerspectiveCamera(30, 1.6, 0.01, 100);
+    mv.cam.position.set(0, 0.9, 3.6); mv.cam.lookAt(0, 0, 0);
+    mv.scene.add(new THREE.HemisphereLight(0xffffff, 0x2a3048, 1.2));
+    const d = new THREE.DirectionalLight(0xfff2dc, 1.1); d.position.set(3, 4, 2); mv.scene.add(d);
+    const c = mv.r.domElement;
+    c.addEventListener('pointerdown', e => { mv.drag = e.clientX; c.setPointerCapture(e.pointerId); });
+    c.addEventListener('pointermove', e => { if (mv.drag === null) return; mv.spin += (e.clientX - mv.drag) * 0.01; mv.drag = e.clientX; });
+    c.addEventListener('pointerup', () => { mv.drag = null; });
+  }
+  host.appendChild(mv.r.domElement);
+  mv.r.setSize(host.clientWidth, host.clientHeight, false);
+  mv.cam.aspect = host.clientWidth / host.clientHeight; mv.cam.updateProjectionMatrix();
+  if (mv.obj) mv.scene.remove(mv.obj);
+  mv.obj = null; mv.key = key;
+  const show = o => { if (mv.key !== key) return; mv.obj = o; mv.scene.add(o); host.classList.add('ready'); };
+  if (modelCache[key]) return show(modelCache[key]);
+  gltfLoader.load(MODELS[key].file, g => {
+    const o = g.scene, box = new THREE.Box3().setFromObject(o), size = box.getSize(new THREE.Vector3()).length() || 1;
+    const s = 2.2 / size; o.scale.setScalar(s); o.position.copy(box.getCenter(new THREE.Vector3()).multiplyScalar(-s));
+    const pivot = new THREE.Group(); pivot.add(o); modelCache[key] = pivot; show(pivot);
+  }, undefined, () => host.classList.add('fail'));
+}
+
+function frame(t) {
+  requestAnimationFrame(frame);
+  if (mv.obj && $('mv')) {
+    if (mv.drag === null && !reduceMotion) mv.spin += 0.005;
+    mv.obj.rotation.y = mv.spin; mv.r.render(mv.scene, mv.cam);
+  }
+  if (world === 'beyond') return;
+  if (target) {
+    rotX += (target.x - rotX) * 0.08; rotY += (target.y - rotY) * 0.08;
+    if (Math.abs(target.x - rotX) + Math.abs(target.y - rotY) < 1e-3) target = null;
+  } else if (!dragging && !selected && !reduceMotion && t - lastInteract > 2500) rotY += 0.0012;
+  globe.rotation.set(rotX, rotY, 0);
+  globe.updateMatrixWorld();
+  renderer.render(scene, cam);
+  placePins();
+}
+requestAnimationFrame(frame);
+
+/* ---------- deep space map (log distance from the Sun) ---------- */
+const PLANETS = { // a (AU), mean longitude at J2000 (deg), deg/day. Circular-orbit approximation.
+  mercury: [0.387, 252.25, 4.09233], venus: [0.723, 181.98, 1.60213], earth: [1, 100.46, 0.98561],
+  mars: [1.524, 355.45, 0.52403], jupiter: [5.203, 34.40, 0.08309], saturn: [9.537, 49.94, 0.03346],
+  uranus: [19.19, 313.23, 0.01173], neptune: [30.07, 304.88, 0.00598] };
+const daysJ2000 = (NOW - new Date('2000-01-01T12:00Z')) / 864e5;
+// Prefer a real (Horizons) longitude from any machine parked at that planet; else the circular-orbit estimate.
+const planetLon = k => { const hit = DATA.beyond.find(it => hostOf(it) === k && Number.isFinite(it.ecl_lon)); return hit ? hit.ecl_lon : (PLANETS[k][1] + PLANETS[k][2] * daysJ2000) % 360; };
+const R = au => 34 + 430 * Math.log10(Math.max(au, 0.3) / 0.3) / Math.log10(220 / 0.3);
+const xy = (au, lonDeg) => [R(au) * Math.cos(lonDeg * D), -R(au) * Math.sin(lonDeg * D)];
+function hostOf(it) { const b = String(it.body || '').toLowerCase(); return PLANETS[b] ? b : null; }
+function beyondPos(it, i) {
+  if (Number.isFinite(it.distance_au) && Number.isFinite(it.ecl_lon)) return xy(it.distance_au, it.ecl_lon);
+  const h = hostOf(it);
+  if (h) return xy(PLANETS[h][0], planetLon(h) + (i % 3 - 1) * 7);
+  if (Number.isFinite(it.distance_au)) return xy(it.distance_au, 200 + i * 37);
+  return null;
+}
+function drawBeyond() {
+  const s = $('beyond');
+  let g = '<circle r="10" fill="#ffcf6b"/><text y="26" text-anchor="middle">Sun</text>';
+  const cap = s => s[0].toUpperCase() + s.slice(1);
+  // ponytail: greedy label placement (first come keeps its label); hidden labels reappear on hover/focus.
+  const boxes = [], fits = b => b.x1 > -500 && b.x2 < 500 && !boxes.some(o => b.x1 < o.x2 && b.x2 > o.x1 && b.y1 < o.y2 && b.y2 > o.y1);
+  for (const [k, [a]] of Object.entries(PLANETS)) {
+    const [x, y] = xy(a, planetLon(k)), w = k.length * 9.6;
+    boxes.push({ x1: x - 10 - w, x2: x - 6, y1: y - 12, y2: y + 6 }, { x1: x - 5, x2: x + 5, y1: y - 5, y2: y + 5 });
+    g += `<circle class="orbit" r="${R(a).toFixed(1)}"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="var(--dim)"/><text x="${(x - 10).toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="end">${cap(k)}</text>`;
+  }
+  g += `<circle class="helio" r="${R(121.6).toFixed(1)}"/><text x="0" y="${(-R(121.6) - 8).toFixed(1)}" text-anchor="middle">Heliopause · edge of the Sun's bubble · ~120 AU</text>`;
+  g += `<text x="-490" y="480">Distance from the Sun on a log scale · 1 AU = Earth–Sun distance</text>`;
+  // Machines at the same place (4 at Venus, 3 at Jupiter) stack into a short column instead of overlapping.
+  const spots = {};
+  DATA.beyond.forEach((it, i) => {
+    const p = beyondPos(it, i); if (!p) return;
+    (spots[p.map(v => Math.round(v / 8)).join()] ||= { p, items: [] }).items.push(it);
+  });
+  const crafts = [];
+  for (const { p, items } of Object.values(spots)) items.forEach((it, j) => crafts.push({ it, x: p[0], y: p[1] + (j - (items.length - 1) / 2) * 24 }));
+  crafts.forEach(c => boxes.push({ x1: c.x - 9, x2: c.x + 9, y1: c.y - 9, y2: c.y + 9 }));
+  // Still-talking machines claim label space first.
+  crafts.sort((a, b) => (stateAt(b.it, 2026) === 'alive') - (stateAt(a.it, 2026) === 'alive'));
+  for (const { it, x, y } of crafts) {
+    const b = String(it.body || '').toLowerCase(), at = b && b !== 'heliocentric' && !PLANETS[b] ? ` · ${cap(b === 'tempel1' ? 'Tempel 1' : b)}` : '';
+    const label = String(it.name).replace(/\s*\(.*?\)/g, '').replace(/ Space Telescope$/, '') + at, w = label.length * 11;
+    const right = { x1: x + 12, x2: x + 14 + w, y1: y - 13, y2: y + 7 }, left = { x1: x - 14 - w, x2: x - 12, y1: y - 13, y2: y + 7 };
+    const side = fits(right) ? 'r' : fits(left) ? 'l' : '';
+    if (side) boxes.push(side === 'r' ? right : left);
+    g += `<g class="craft${side ? '' : ' nolabel'}" data-id="${esc(it.id)}" tabindex="0" role="button" aria-label="${esc(it.name)}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="9" stroke="var(--void)" stroke-width="2"/><text x="${(side === 'l' ? x - 14 : x + 14).toFixed(1)}" y="${(y + 6).toFixed(1)}"${side === 'l' ? ' text-anchor="end"' : ''}>${esc(label)}</text></g>`;
+  }
+  s.innerHTML = g;
+  s.querySelectorAll('.craft').forEach(el => {
+    el.onclick = () => select(el.dataset.id);
+    el.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(el.dataset.id); } };
+  });
+  paint();
+}
+
+/* ---------- photos, fates, location renders ---------- */
+const FATES = { // display order for the "what happened" groups
+  operational: 'Still working', passive: 'Still useful, needs no power', 'left-behind': 'Left behind on purpose',
+  'switched-off': 'Switched off by NASA', power: 'Ran out of power', comms: 'Lost contact', stuck: 'Got stuck',
+  damaged: 'Damaged', 'crash-accident': 'Crashed by accident', 'crash-planned': 'Crashed on purpose', lost: 'Fate unknown' };
+let LOC = { credits: {}, sites: {} };
+const RADIUS_KM = { moon: 1737.4, mars: 3389.5 };
+const safeFile = f => /^img\/[\w\-./]+\.(jpe?g|png|webp)$/i.test(f || '') && !String(f).includes('..');
+const httpUrl = u => /^https?:\/\//.test(u || '');
+const link = (u, t) => httpUrl(u) ? `<a href="${esc(u)}" target="_blank" rel="noopener">${t}</a>` : t;
+function photoFig(p) {
+  if (!p || !safeFile(p.file)) return '';
+  const bits = [p.credit && 'Image: ' + esc(p.credit), p.license && link(p.licenseUrl, esc(p.license)), httpUrl(p.source) && link(p.source, 'source ↗')].filter(Boolean);
+  return `<figure class="photo"><img src="${esc(p.file)}" alt="${esc(p.caption || '')}" loading="lazy">
+    <figcaption>${esc(p.caption || '')}<span class="credit">${bits.join(' · ')}</span></figcaption></figure>`;
+}
+function fateBlock(f) {
+  if (!f) return '';
+  return `<h3>What happened</h3><div class="fate"><span class="fatecat">${esc(FATES[f.category] || f.category)}</span>
+    <p class="fatelabel">${esc(f.label)}</p><p>${esc(f.summary)}</p></div>`;
+}
+// One map crop (equirectangular bbox) with the machine, its neighbours, rover trail and a km scale bar drawn on top.
+function locView(it, kind) {
+  const v = LOC.sites[it.id]?.[kind];
+  if (!v || !safeFile(v.file) || !Array.isArray(v.bbox) || v.bbox.length !== 4) return '';
+  const [x0, y0, x1, y1] = v.bbox.map(Number), W = +v.w || 800, H = +v.h || 530;
+  const px = (lat, lon) => [(lon - x0) / (x1 - x0) * W, (y1 - lat) / (y1 - y0) * H];
+  const inView = ([a, b]) => a >= 0 && a <= W && b >= 0 && b <= H;
+  let g = '';
+  if (kind === 'wide') { const c = LOC.sites[it.id]?.close?.bbox; if (Array.isArray(c)) { const [a, b] = px(c[3], c[0]), [d, e] = px(c[1], c[2]); g += `<rect class="zoombox" x="${a.toFixed(1)}" y="${b.toFixed(1)}" width="${Math.max(4, d - a).toFixed(1)}" height="${Math.max(4, e - b).toFixed(1)}"/>`; } }
+  const [mx, my] = px(it.lat, it.lon);
+  for (const o of DATA[world]) {
+    if (o.id === it.id || !Number.isFinite(o.lat)) continue;
+    const q = px(o.lat, o.lon);
+    if (inView(q) && Math.hypot(q[0] - mx, q[1] - my) > 12) g += `<circle class="other" cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="6"><title>${esc(o.name)}</title></circle>`;
+  }
+  if (Array.isArray(it.path) && it.path.length > 1) g += `<polyline class="trail" points="${it.path.map(p => px(p[0], p[1]).map(n => n.toFixed(1)).join(',')).join(' ')}"/>`;
+  g += `<circle class="you" cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="13"/><circle class="youdot" cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="4.5"/>`;
+  // Scale bar measured along the site's latitude, rounded to 1/2/5 x 10^n km.
+  const kmPerPx = (x1 - x0) * D * RADIUS_KM[world] * Math.max(Math.cos(it.lat * D), 0.02) / W;
+  const want = W * 0.22 * kmPerPx, p10 = 10 ** Math.floor(Math.log10(want));
+  const km = [5, 2, 1].map(m => m * p10).find(n => n <= want) || p10, bar = km / kmPerPx;
+  g += `<g class="scale"><rect x="20" y="${H - 28}" width="${bar.toFixed(1)}" height="7" rx="2"/><text x="20" y="${H - 38}">${km >= 1 ? km : km.toFixed(1)} km</text></g>`;
+  const cr = LOC.credits?.[v.credit] || LOC.credits?.[`${world}-${kind}`] || {};
+  const relief = /fallback/.test(v.credit || '') ? ' (sunlight never reaches here, so this is a height map: blue is low, red is high)' : '';
+  return `<figure class="loc"><div class="locimg" style="aspect-ratio:${W}/${H}"><img src="${esc(v.file)}" alt="${kind === 'wide' ? 'Regional' : 'Close-up'} map around ${esc(it.name)}" loading="lazy">
+    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${g}</svg></div>
+    <figcaption>${kind === 'wide' ? 'The region (dashed box = close-up)' : 'Close-up'}${Array.isArray(it.path) && kind === 'close' ? ', dashed line = its drive' : ''}${relief}<span class="credit">${esc(cr.credit || '')}${cr.license ? ' · ' + esc(cr.license) : ''}</span></figcaption></figure>`;
+}
+function locatorBlock(it) {
+  if (!Number.isFinite(it.lat) || world === 'beyond') return '';
+  const views = locView(it, 'close') + locView(it, 'wide');
+  return views ? `<h3>Where it is on ${esc(WORLDS[world].name)}</h3><div class="locs">${views}</div>` : '';
+}
+
+/* ---------- dossier, timeline, roster ---------- */
+const fmt = s => s ? String(s).slice(0, 10) : '—';
+const yearsSince = s => ((NOW - new Date(String(s).slice(0, 10))) / 3.15576e10);
+function dossier(it) {
+  const st = stateAt(it, 2026), end = died(it);
+  const rows = [
+    [it.arrived ? 'Arrived' : 'Launched', fmt(born(it))],
+    ['Last heard from', st === 'alive' ? 'Today' : fmt(end)],
+  ];
+  if (end && st !== 'alive') rows.push([st === 'echo' ? 'Working unpowered for' : 'Silent for', `${Math.floor(yearsSince(end))} years`]);
+  if (Number.isFinite(it.lat)) rows.push(['Where', `${Math.abs(it.lat).toFixed(2)}°${it.lat >= 0 ? 'N' : 'S'} ${Math.abs(it.lon).toFixed(2)}°${it.lon >= 0 ? 'E' : 'W'}`]);
+  if (Number.isFinite(it.distance_au)) rows.push(['From the Sun', `${it.distance_au.toFixed(1)} AU`]);
+  if (Number.isFinite(it.lightTime_hours)) rows.push(['Radio hello takes', `${it.lightTime_hours.toFixed(1)} h one way`]);
+  if (Number.isFinite(it.distance_km) && it.distance_km > 0) rows.push(['Drove', `${it.distance_km} km (${(it.distance_km / 42.195).toFixed(2)} marathons)`]);
+  if (Number.isFinite(it.mass_kg)) rows.push(['Mass', `${it.mass_kg.toLocaleString()} kg`]);
+  const src = /^https?:\/\//.test(it.source || '') ? `<a class="src" href="${esc(it.source)}" target="_blank" rel="noopener">Source ↗</a>` : '';
+  const mk = modelKeyFor(it), m = mk && MODELS[mk];
+  const model = m ? `<figure class="model"><div class="mv" id="mv" role="img" aria-label="3D model of ${esc(m.title)}"></div>
+    ${MODEL_NOTE[mk] ? `<figcaption>${esc(MODEL_NOTE[mk])}</figcaption>` : ''}
+    <figcaption>NASA 3D model: ${esc(m.title)} · drag to turn${/^https?:\/\//.test(m.page || '') ? ` · <a href="${esc(m.page)}" target="_blank" rel="noopener" style="color:var(--echo)">model page ↗</a>` : ''}</figcaption></figure>` : '';
+  return `<p class="eyebrow">${esc(it.mission)} · ${esc(it.type)}</p>
+    <h2>${esc(it.name)}</h2>
+    <span class="pill" style="--c:${COLOR[st]}">${esc(it.status)}</span>
+    ${photoFig(it.photo)}
+    ${it.summary ? `<p class="summary">${esc(it.summary)}</p>` : ''}
+    ${fateBlock(it.fate)}
+    ${locatorBlock(it)}
+    ${it.orbit ? `<h3>Seen from orbit today</h3>${photoFig(it.orbit)}` : ''}
+    <dl class="facts">${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
+    ${model ? `<h3>Turn it around</h3>${model}` : ''}
+    ${it.story ? `<blockquote class="voice">${esc(it.story)}</blockquote>` : ''}
+    ${it.lastWords && !it.fate ? `<h3>Its last day</h3><p>${esc(it.lastWords)}</p>` : ''}
+    <h3>Why it went</h3><p>${esc(it.why)}</p>
+    <h3>What it found</h3><p>${esc(it.science)}</p>
+    ${it.funFact ? `<p class="fun"><strong>Fun fact</strong>${esc(it.funFact)}</p>` : ''}
+    ${src}`;
+}
+function intro() {
+  const list = DATA[world], alive = list.filter(it => stateAt(it, 2026) === 'alive').length;
+  const echo = list.filter(it => stateAt(it, 2026) === 'echo').length;
+  return `<div class="intro"><p class="eyebrow">Welcome to ${esc(WORLDS[world].name)}</p>
+    <p class="big">${list.length}</p><p>machines on this map. ${alive} still send data home${echo ? `, and ${echo} silent mirrors still get used by scientists every week` : ''}.</p>
+    <p>${esc(WORLDS[world].intro)}</p><p>Click a dot, or pick a name from the list below.</p></div>`;
+}
+function paint() {
+  for (const p of pins) {
+    p.state = stateAt(p.it, year);
+    p.el.style.setProperty('--c', COLOR[p.state]);
+    p.el.classList.toggle('sel', p.it.id === selected);
+  }
+  if (world === 'beyond') DATA.beyond.forEach(it => {
+    const el = $('beyond').querySelector(`[data-id="${CSS.escape(it.id)}"]`); if (!el) return;
+    const st = stateAt(it, year);
+    el.style.display = st === 'future' ? 'none' : '';
+    el.querySelector('circle').setAttribute('fill', COLOR[st]);
+    el.classList.toggle('sel', it.id === selected);
+  });
+  document.querySelectorAll('.life b').forEach(b => {
+    const st = stateAt(byId(b.dataset.id), year);
+    b.style.setProperty('--c', COLOR[st === 'future' ? 'silent' : st]);
+    b.classList.toggle('future', st === 'future'); b.classList.toggle('sel', b.dataset.id === selected);
+  });
+  document.querySelectorAll('#list button').forEach(b => {
+    b.style.setProperty('--c', COLOR[stateAt(byId(b.dataset.id), year)]);
+    b.setAttribute('aria-pressed', b.dataset.id === selected);
+  });
+  $('yearOut').value = year;
+  const list = DATA[world], here = list.filter(it => stateAt(it, year) !== 'future');
+  const talking = here.filter(it => stateAt(it, year) === 'alive').length;
+  $('yearNote').textContent = here.length
+    ? `In ${year}: ${here.length} machine${here.length === 1 ? '' : 's'} had reached ${WORLDS[world].name}, ${talking} still talking.`
+    : `In ${year}: nothing from NASA had reached ${WORLDS[world].name} yet.`;
+  $('cursor').style.left = `calc(${(year - 1959) / (2026 - 1959) * 100}% - 1px)`;
+}
+const byId = id => DATA[world].find(it => it.id === id);
+function buildTimeline() {
+  const box = $('lives'); box.querySelectorAll('.life').forEach(n => n.remove());
+  const pct = d => ((yr(d) - 1959 + (+String(d).slice(5, 7) || 6) / 12) / (2026 - 1959 + 1) * 100);
+  [...DATA[world]].filter(born).sort((a, b) => String(born(a)).localeCompare(String(born(b)))).forEach(it => {
+    const row = document.createElement('div'); row.className = 'life';
+    const a = pct(born(it)), e = activeNow(it) || /reflector/i.test(it.type) ? 100 : died(it) ? pct(died(it)) : a;
+    row.innerHTML = `<b data-id="${esc(it.id)}" title="${esc(it.name)}: ${esc(fmt(born(it)))} to ${esc(activeNow(it) ? 'today' : fmt(died(it)))}" style="left:${a}%;width:${Math.max(0, e - a)}%"></b>`;
+    row.firstChild.onclick = () => select(it.id);
+    box.appendChild(row);
+  });
+  buildRoster();
+}
+// Moon/Mars machines are grouped by what happened to them; deep space stays a flat list.
+function buildRoster() {
+  const ul = $('list'), list = DATA[world], grouped = list.some(it => it.fate);
+  ul.innerHTML = ''; ul.className = grouped ? 'groups' : '';
+  const go = id => { select(id); $('dossier').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' }); };
+  $('rosterTitle').textContent = grouped ? `What happened to every machine on ${WORLDS[world].name}` : `Every machine on ${WORLDS[world].name}`;
+  if (!grouped) {
+    list.forEach(it => { const li = document.createElement('li'); li.innerHTML = `<button type="button" data-id="${esc(it.id)}">${esc(it.name)}</button>`; ul.appendChild(li); });
+  } else {
+    const groups = {};
+    list.forEach(it => (groups[it.fate?.category || 'lost'] ||= []).push(it));
+    const keys = [...Object.keys(FATES).filter(k => groups[k]), ...Object.keys(groups).filter(k => !FATES[k])];
+    const most = Math.max(...keys.map(k => groups[k].length));
+    for (const k of keys) {
+      const li = document.createElement('li');
+      li.innerHTML = `<div class="ghead"><b>${esc(FATES[k] || k)}</b><span class="gn">${groups[k].length}</span><i class="gbar" style="width:${(groups[k].length / most * 100).toFixed(0)}%"></i></div>
+        <div class="grows">${groups[k].map(it => `<button type="button" class="grow" data-id="${esc(it.id)}"><span class="gname">${esc(it.name)}</span><span class="glabel">${esc(it.fate?.label || it.status)}</span></button>`).join('')}</div>`;
+      ul.appendChild(li);
+    }
+  }
+  ul.querySelectorAll('button').forEach(b => b.onclick = () => go(b.dataset.id));
+}
+function select(id) {
+  const it = byId(id);
+  selected = it ? id : null;
+  $('dossier').innerHTML = it ? dossier(it) : intro();
+  $('dossier').scrollTop = 0;
+  if (it) mountModel(modelKeyFor(it)); else mv.key = null;
+  if (it && Number.isFinite(it.lat) && world !== 'beyond') faceTo(it.lat, it.lon);
+  if (it && location.hash.slice(1) !== id) history.replaceState(null, '', '#' + id);
+  paint();
+}
+function setWorld(w, keepSel) {
+  world = w;
+  document.querySelectorAll('.worlds button').forEach(b => b.setAttribute('aria-selected', b.dataset.world === w));
+  const deep = w === 'beyond';
+  cv.hidden = deep; $('pins').hidden = deep; $('beyond').toggleAttribute('hidden', !deep); // SVG has no .hidden property
+  $('hint').textContent = deep ? 'Directions and distances are approximate' : 'Drag to spin · scroll to zoom';
+  buildTimeline();
+  if (deep) { pins = []; drawBeyond(); } else { setTexture(w); buildPins(); }
+  if (!keepSel) { select(null); history.replaceState(null, '', '#' + w); }
+}
+document.querySelectorAll('.worlds button').forEach(b => b.onclick = () => setWorld(b.dataset.world));
+$('year').oninput = e => { year = +e.target.value; stopPlay(); paint(); };
+let timer = null;
+function stopPlay() { clearInterval(timer); timer = null; $('play').textContent = '▶ Play history'; }
+$('play').onclick = () => {
+  if (timer) return stopPlay();
+  if (year >= 2026) year = 1959;
+  $('play').textContent = '❚❚ Pause';
+  timer = setInterval(() => { year++; $('year').value = year; paint(); if (year >= 2026) stopPlay(); }, reduceMotion ? 600 : 260);
+};
+
+function route(h = decodeURIComponent(location.hash.slice(1))) {
+  if (WORLDS[h]) { if (h !== world) setWorld(h); return; }
+  for (const w of Object.keys(WORLDS)) if (DATA[w].some(it => it.id === h)) { if (w !== world) setWorld(w, true); select(h); return; }
+}
+addEventListener('hashchange', () => route());
+const startHash = decodeURIComponent(location.hash.slice(1));
+
+Promise.allSettled([
+  ...Object.entries(WORLDS).map(([w, c]) => fetch(c.file).then(r => r.ok ? r.json() : []).then(d => { DATA[w] = Array.isArray(d) ? d : []; })),
+  fetch('models/models.json').then(r => r.ok ? r.json() : {}).then(m => { MODELS = m && typeof m === 'object' ? m : {}; }),
+  fetch('data/locator.json').then(r => r.ok ? r.json() : null).then(l => { if (l && l.sites) LOC = { credits: l.credits || {}, sites: l.sites }; }),
+])
+  .then(() => {
+    document.querySelectorAll('.worlds button').forEach(b => b.querySelector('.n').textContent = DATA[b.dataset.world].length);
+    setWorld('moon');
+    route(startHash);
+  });
+</script>

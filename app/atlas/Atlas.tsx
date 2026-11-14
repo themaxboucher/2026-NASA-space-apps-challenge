@@ -39,34 +39,19 @@ export default function Atlas() {
 
   return (
     <>
-      <header className="hero">
-        <div className="hero-in">
-          <div className="hero-copy">
-            <p className="eyebrow">NASA Space Apps 2026 · Abandoned but not Forgotten</p>
-            <h1>Ruins Among the Stars</h1>
-            <p className="lede">
-              Since the 1960s NASA has left rovers, landers, mirrors and probes all over the solar system. They are not
-              junk: some still work, many could be fixed, and all of them have a story. Pick a world, find a machine, and
-              work out what it would take to bring it back.
-            </p>
-          </div>
-          <div className="cta">
+      <div className="wrap">
+        <h1 className="sr-only">Ruins Among the Stars</h1>
+        <div className="bar">
+          <div className="barl">
             {/* A full page load on purpose: the tour runs its own WebGL scene, and Next keeps visited routes mounted. */}
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-            <a className="btn ghost" href="/">← Back to the tour</a>
-            <a className="btn" href="#moon" data-go="moon">Explore the Moon →</a>
-            <a className="btn ghost" href="#mars" data-go="mars">Visit Mars →</a>
+            <a className="back" href="/" aria-label="Back to the tour">←<span className="backtxt"> Tour</span></a>
+            <nav className="worlds" role="tablist" aria-label="Choose a world">
+              <button role="tab" data-world="moon" aria-selected="true">Moon<span className="n"></span></button>
+              <button role="tab" data-world="mars" aria-selected="false">Mars<span className="n"></span></button>
+              <button role="tab" data-world="beyond" aria-selected="false">Deep space<span className="n"></span></button>
+            </nav>
           </div>
-        </div>
-      </header>
-
-      <div className="wrap">
-        <div className="bar">
-          <nav className="worlds" role="tablist" aria-label="Choose a world">
-            <button role="tab" data-world="moon" aria-selected="true">Moon<span className="n"></span></button>
-            <button role="tab" data-world="mars" aria-selected="false">Mars<span className="n"></span></button>
-            <button role="tab" data-world="beyond" aria-selected="false">Deep space<span className="n"></span></button>
-          </nav>
           <div className="search">
             <input id="q" type="search" placeholder="Search machines and places…" aria-label="Search machines and places" aria-controls="qres" autoComplete="off" />
             <ul id="qres" role="listbox" hidden></ul>
@@ -155,56 +140,17 @@ export default function Atlas() {
           </summary>
           <ul id="list"></ul>
         </details>
-      </div>
 
-      <footer className="foot">
-        <div className="foot-in">
-          <div className="foot-top">
-            <p className="foot-title">Every machine has a story.</p>
-            <a className="btn ghost" href="#beyond" data-go="beyond">Into deep space →</a>
-          </div>
-          <div className="cols">
-            <div>
-              <h2>Explore</h2>
-              <ul>
-                <li><a href="#moon" data-go="moon">Moon</a></li>
-                <li><a href="#mars" data-go="mars">Mars</a></li>
-                <li><a href="#beyond" data-go="beyond">Deep space</a></li>
-              </ul>
-            </div>
-            <div>
-              <h2>Sources</h2>
-              <ul>
-                <li><a href="https://nssdc.gsfc.nasa.gov/" target="_blank" rel="noopener">NSSDCA catalog ↗</a></li>
-                <li><a href="https://science.nasa.gov/3d-resources/" target="_blank" rel="noopener">NASA 3D Resources ↗</a></li>
-                <li><a href="https://www.lroc.asu.edu/" target="_blank" rel="noopener">LROC ↗</a></li>
-                <li><a href="https://astrogeology.usgs.gov/" target="_blank" rel="noopener">USGS Astrogeology ↗</a></li>
-              </ul>
-            </div>
-            <div className="creds">
-              <h2>Credits</h2>
-              <p>Machine facts compiled from NASA&apos;s NSSDCA catalog and NASA/JPL mission pages; every dossier links its source.</p>
-              <p>Moon map: NASA/GSFC/Arizona State University (LROC, SVS CGI Moon Kit). Mars map: Solar System Scope, CC BY 4.0, from NASA data.</p>
-              <p>
-                Header photo: Apollo 15 rover at its final parking spot, AS15-88-11901, NASA/David R. Scott, public domain (
-                <a href="https://commons.wikimedia.org/wiki/File:AS15-88-11901_(21472944789).jpg" target="_blank" rel="noopener">source</a>).
-                Footer panorama: Perseverance Mastcam-Z at Jezero, NASA/JPL-Caltech/ASU/MSSS, public domain (
-                <a href="https://commons.wikimedia.org/wiki/File:Mastcam-Z%27s_First_360-Degree_Panorama.jpg" target="_blank" rel="noopener">source</a>).
-              </p>
-              <p>
-                3D spacecraft: <a href="https://science.nasa.gov/3d-resources/" target="_blank" rel="noopener">NASA 3D Resources</a> (free under
-                NASA media guidelines; each model links its page).
-              </p>
-              <p>Deep-space positions: JPL Horizons for 14 Nov 2026; other planets approximate.</p>
-            </div>
-          </div>
-          <div className="foot-bottom">
-            <p className="eyebrow">NASA Space Apps 2026 · Abandoned but not Forgotten</p>
-            <p className="eyebrow">Ruins Among the Stars</p>
-          </div>
-        </div>
-        <div className="strip" aria-hidden="true"></div>
-      </footer>
+        {/* CC BY material (the team's Blender models, the Apollo LRV model) needs its attribution on the page. */}
+        <p className="credits">
+          Facts: <a href="https://nssdc.gsfc.nasa.gov/" target="_blank" rel="noopener">NASA NSSDCA</a> and mission pages, linked in each dossier ·
+          Moon map: NASA SVS CGI Moon Kit (LRO LROC/LOLA) · Mars map: USGS Astrogeology Viking MDIM 2.1 and MGS MOLA ·
+          Mars surroundings: NASA/JPL/MSSS/The Caltech Murray Lab/Esri (CTX) · Geology: USGS SIM 3292 ·
+          Team 3D models (Blender, from NASA reference photos): CC BY 4.0 · Photos: NASA, public domain, credited on each ·
+          3D models: <a href="https://science.nasa.gov/3d-resources/" target="_blank" rel="noopener">NASA 3D Resources</a> ·
+          Deep-space positions: JPL Horizons, 14 Nov 2026
+        </p>
+      </div>
     </>
   );
 }

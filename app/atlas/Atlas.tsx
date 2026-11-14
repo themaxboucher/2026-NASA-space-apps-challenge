@@ -47,6 +47,9 @@ export default function Atlas() {
             </p>
           </div>
           <div className="cta">
+            {/* A full page load on purpose: the tour runs its own WebGL scene, and Next keeps visited routes mounted. */}
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+            <a className="btn ghost" href="/">← Back to the tour</a>
             <a className="btn" href="#moon" data-go="moon">Explore the Moon →</a>
             <a className="btn ghost" href="#mars" data-go="mars">Visit Mars →</a>
           </div>

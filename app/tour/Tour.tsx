@@ -1323,7 +1323,7 @@ function EndScreen() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.9, ease }}
       >
-        Every space object has a story.
+        Mission complete!
       </motion.h2>
       <motion.p
         className="end-lede"
@@ -1332,8 +1332,8 @@ function EndScreen() {
         transition={{ delay: 0.6, duration: 0.8, ease }}
       >
         You surveyed {visited} {visited === 1 ? "space object" : "space objects"}
-        {n ? ` of the ${n} in this atlas` : ""}, worked out why each was left, and judged whether it could be used
-        again. The rest are still out there: on the Moon, on Mars, and sailing between the planets.
+        {n ? ` of the ${n} in this atlas` : ""}. The rest are still out there: on the Moon, on Mars, and sailing between
+        the planets.
       </motion.p>
       <Verdicts />
       <motion.div
@@ -1345,15 +1345,6 @@ function EndScreen() {
         {/* Next step after the tour: the atlas, where the reader picks their level and digs into every space object. */}
         <a className="start-btn" href="/explore">
           Explore {allMachines(n)} <ArrowUpRight aria-hidden="true" />
-        </a>
-        <a className="ghost-btn" href="/signals">
-          Open what we heard back
-        </a>
-        <button type="button" className="ghost-btn" onClick={startTour}>
-          Replay the trip
-        </button>
-        <a className="ghost-btn" href="/solar">
-          Fly around the solar system →
         </a>
       </motion.div>
       <motion.details

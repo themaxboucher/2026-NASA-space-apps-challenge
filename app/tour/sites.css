@@ -246,12 +246,9 @@
 /* Straight on the scene, no card: a shadow keeps the lines readable over Earth. */
 .verdicts {
   width: min(560px, 100%);
-  margin-top: 22px;
-  text-align: left;
+  margin: 22px auto 0;
+  text-align: center;
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.85);
-}
-.verdicts li:last-child {
-  border-bottom: 0;
 }
 .verdicts ul {
   margin: 8px 0 0;
@@ -259,11 +256,7 @@
   list-style: none;
 }
 .verdicts li {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-  padding: 7px 0;
-  border-bottom: 1px solid var(--line);
+  padding: 4px 0;
   font-size: 0.9375rem;
 }
 .verdicts em {

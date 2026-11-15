@@ -1290,12 +1290,8 @@ p.keysbar {
   display: none;
 }
 
-/* Music on/off: a round icon button under the atlas link. */
+/* Sound controls: round icon buttons (mute, settings) side by side under the atlas link. */
 .music-btn {
-  position: absolute;
-  z-index: 60;
-  top: calc(max(16px, env(safe-area-inset-top, 0px)) + 44px);
-  right: var(--gut-r);
   display: grid;
   place-items: center;
   width: 40px;
@@ -1585,7 +1581,7 @@ p.keysbar {
   .scrim-bottom[data-on="story"] ~ .spot-progress .minimap {
     display: none;
   }
-  .music-btn {
+  .sound {
     top: calc(max(16px, env(safe-area-inset-top, 0px)) + 56px);
   }
   .story-photo {

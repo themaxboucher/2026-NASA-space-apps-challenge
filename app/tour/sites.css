@@ -393,7 +393,68 @@
 
 /* Sound panel under the speaker button: music on/off and volume, and a separate volume for clips and radio. */
 .sound {
-  position: relative;
+  position: absolute;
+  z-index: 60;
+  top: calc(max(16px, env(safe-area-inset-top, 0px)) + 44px);
+  right: var(--gut-r);
+  display: flex;
+  gap: 8px;
+}
+.music-btn {
+  cursor: pointer;
+}
+.music-btn:focus-visible,
+.sound-panel :focus-visible {
+  outline: 2px solid var(--accent-hi);
+  outline-offset: 2px;
+}
+.music-btn[aria-pressed="true"] {
+  color: var(--dim);
+}
+.music-btn.settings-btn[aria-expanded="true"] {
+  border-color: var(--accent-hi);
+}
+.sound-title {
+  margin: 0;
+  font: 600 0.875rem/1.2 var(--body);
+}
+.sound-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.sound-check input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+.sound-check kbd {
+  margin-left: auto;
+  padding: 1px 6px;
+  border: 1px solid var(--line2);
+  border-radius: 4px;
+  color: var(--dim);
+  font: 500 0.6875rem/1.4 var(--mono, monospace);
+}
+.sound-row select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--line2);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+}
+.sound-note {
+  margin: 0;
+  color: var(--ink2);
+  font-size: 0.75rem;
+}
+.sound-row input:disabled,
+.sound-check input:disabled {
+  opacity: 0.45;
 }
 .sound-panel {
   position: absolute;
@@ -402,7 +463,7 @@
   right: 0;
   display: grid;
   gap: 10px;
-  width: 240px;
+  width: 260px;
   padding: 14px 16px;
   border: 1px solid var(--line2);
   border-radius: var(--r-lg);

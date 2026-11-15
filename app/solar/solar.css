@@ -1,16 +1,16 @@
 /* /solar: free flight around the solar system. Self-contained: everything is scoped to .solar.
-   Follows the site's design (the team's polish): Instrument Sans, cool greys, dark panels. Status colours
-   (--signal still working, --echo silent but used) stay as in the atlas legend. */
+   Same look as the atlas (/explore): pure black, white type, neutral greys, and blue only for "still sending data".
+   Status colours (--signal still working, --echo silent but used) match the atlas legend. */
 .solar {
-  --void: #0a0c10;
-  --ink: #f3f5f8;
-  --dim: #969eac;
-  --sand: #c8ced8;
-  --signal: #d9814a;
-  --echo: #5ea6d6;
-  --panel: rgba(18, 21, 27, 0.86);
-  --line: #232833;
-  --line2: #343b48;
+  --void: #000;
+  --ink: #fff;
+  --dim: #a3a3a3;
+  --sand: #d4d4d4;
+  --signal: #4d94ff;
+  --echo: #e5e5e5;
+  --panel: rgba(0, 0, 0, 0.86);
+  --line: #262626;
+  --line2: #333;
   --display: var(--font-instrument-sans), "Instrument Sans", "Segoe UI", system-ui, sans-serif;
   --body: var(--font-instrument-sans), "Instrument Sans", "Segoe UI", system-ui, sans-serif;
   --gut: max(16px, env(safe-area-inset-left, 0px));
@@ -195,7 +195,7 @@
 }
 .sol-list button:hover,
 .sol-list button:focus-visible {
-  background: rgba(193, 169, 149, 0.12);
+  background: rgba(255, 255, 255, 0.08);
 }
 .sol-list button span {
   display: grid;
@@ -299,12 +299,12 @@
 .sol-land {
   padding: 7px 14px;
   border-radius: 999px;
-  background: var(--signal);
-  color: #170b05 !important;
+  background: var(--ink);
+  color: var(--void) !important;
   text-decoration: none;
 }
 .sol-land:hover {
-  background: #e99a66;
+  background: var(--sand);
 }
 
 /* Speed and help */
@@ -358,7 +358,7 @@
   padding: 2px 8px;
   border: 0;
   border-radius: 999px;
-  background: rgba(5, 3, 2, 0.55);
+  background: rgba(0, 0, 0, 0.55);
   color: var(--ink);
   font-size: 0.8125rem;
   font-weight: 600;
@@ -373,7 +373,7 @@
   translate: 10px -50%;
 }
 .sol-label.site.hot {
-  background: rgba(5, 3, 2, 0.85);
+  background: rgba(0, 0, 0, 0.85);
   outline: 1px solid var(--line2);
 }
 .sol-label.body {
@@ -384,7 +384,7 @@
 .sol-label small {
   padding: 0 6px;
   border-radius: 999px;
-  background: rgba(193, 169, 149, 0.2);
+  background: rgba(255, 255, 255, 0.12);
   font-size: 0.8125rem;
 }
 .solar:has(.sol-cross) .sol-label {
@@ -398,7 +398,7 @@
   width: 14px;
   height: 14px;
   margin: -7px 0 0 -7px;
-  border: 1.5px solid rgba(239, 229, 218, 0.7);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -468,10 +468,10 @@
   margin-top: 12px;
   border-radius: 6px;
   overflow: hidden;
-  background: #8f97a6;
+  background: #6b6b6b;
 }
 .sol-bar span {
-  background: #f0a873;
+  background: var(--signal);
 }
 .sol-barkey {
   display: flex;
@@ -485,10 +485,10 @@
   gap: 6px;
 }
 .sol-dot.work {
-  background: #f0a873;
+  background: var(--signal);
 }
 .sol-dot.dead {
-  background: #8f97a6;
+  background: #6b6b6b;
 }
 .sol-facts {
   display: grid;
@@ -527,7 +527,7 @@
   padding: 3px 9px;
   border: 1px solid var(--line2);
   border-radius: 999px;
-  background: rgba(10, 12, 16, 0.82);
+  background: rgba(0, 0, 0, 0.82);
   color: var(--ink);
   font: 500 0.8125rem/1.3 var(--body);
   white-space: nowrap;
@@ -583,24 +583,24 @@
 .solar-map-handover text {
   font-family: var(--font-spline-mono), "Spline Sans Mono", ui-monospace, monospace;
   font-size: 15px;
-  fill: #969eac;
+  fill: #a3a3a3;
 }
 .solar-map-handover .orbit {
   fill: none;
-  stroke: #343b48;
+  stroke: #262626;
   vector-effect: non-scaling-stroke;
 }
 .solar-map-handover .helio {
   fill: none;
-  stroke: #969eac;
+  stroke: #a3a3a3;
   stroke-dasharray: 3 5;
   opacity: 0.6;
 }
 .solar-map-handover .craft text {
-  fill: #f3f5f8;
+  fill: #fff;
   font-size: 18px;
   paint-order: stroke;
-  stroke: #0a0c10;
+  stroke: #000;
   stroke-width: 4px;
 }
 .solar-map-handover .craft.nolabel text {
@@ -611,7 +611,7 @@
 }
 .solar-map-handover .craft.seen circle,
 .solar-map-handover .craft.complete circle {
-  stroke: #34d399;
+  stroke: #fff;
   stroke-width: 3px;
 }
 
@@ -677,7 +677,7 @@
 /* Shared progress with the atlas (localStorage gra-explored): a check on opened space objects */
 .sol-seen {
   margin-left: auto;
-  color: #34d399;
+  color: var(--ink);
   font-weight: 700;
 }
 .sol-label .sol-seen {

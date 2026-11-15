@@ -132,7 +132,7 @@ export function startAtlas() {
   });
   addEventListener('pointerup', () => { dragging = false; lastInteract = performance.now(); });
   let zoom = 1; // 1 = whole globe fits the narrow side of the stage
-  const fitCam = () => { cam.position.z = zoom * 4.2 / Math.min(1, cam.aspect); };
+  const fitCam = () => { cam.position.z = zoom * 4.9 / Math.min(1, cam.aspect); };
   const zoomBy = f => { zoom = Math.max(0.4, Math.min(1.5, zoom * f)); fitCam(); };
   // Plain wheel scrolls the page; Ctrl/⌘ + wheel (and trackpad pinch, which arrives as ctrl+wheel) zooms.
   cv.addEventListener('wheel', e => { if (!e.ctrlKey && !e.metaKey) return; e.preventDefault(); zoomBy(1 + e.deltaY * 0.004); }, { passive: false });
@@ -246,6 +246,7 @@ function tintFault(obj, it, bag) {
 const dropFaultMats = bag => { bag.forEach(m => { faultMats.delete(m); m.dispose(); }); bag.length = 0; };
 // Model viewer zoom: wheel or the +/- buttons; 1 = whole model fits.
 function mvCam() { mv.cam.position.set(0, 0.9 * mv.zoom, 3.6 * mv.zoom); mv.cam.lookAt(0, 0, 0); }
+function sizeMv() { const h = $('mv'); if (!mv.r || !h || !h.clientWidth) return; mv.r.setSize(h.clientWidth, h.clientHeight, false); mv.cam.aspect = h.clientWidth / h.clientHeight; mv.cam.updateProjectionMatrix(); }
 function mvZoom(f) { if (!mv.cam) return; mv.zoom = Math.max(0.55, Math.min(2.5, mv.zoom * f)); mvCam(); }
 const mv = { r: null, scene: null, cam: null, obj: null, key: null, spin: 0, drag: null };
   const gltfLoader = THREE.GLTFLoader ? new THREE.GLTFLoader() : null, modelCache = {};
@@ -269,8 +270,7 @@ const mv = { r: null, scene: null, cam: null, obj: null, key: null, spin: 0, dra
     host.appendChild(mv.r.domElement);
   mv.zoom = 1; mvCam();
   host.parentElement.querySelectorAll('[data-mvz]').forEach(b => { b.onclick = () => mvZoom(+b.dataset.mvz); });
-    mv.r.setSize(host.clientWidth, host.clientHeight, false);
-    mv.cam.aspect = host.clientWidth / host.clientHeight; mv.cam.updateProjectionMatrix();
+    sizeMv();
     if (mv.obj) mv.scene.remove(mv.obj);
     mv.obj = null; mv.key = key;
     dropFaultMats(mv.faults || (mv.faults = []));
@@ -422,8 +422,8 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
   }
   function fateBlock(f) {
     if (!f) return '';
-    return `<h3>What happened</h3><div class="fate${BAD.has(f.category) ? ' bad' : ''}"><p class="fatecat"><i aria-hidden="true"></i>${esc(FATES[f.category] || f.category)}</p>
-      <p class="fatelabel">${esc(f.label)}</p><p>${esc(f.summary)}</p></div>`;
+    return `<section class="fate${BAD.has(f.category) ? ' bad' : ''}"><h3>What happened · ${esc(FATES[f.category] || f.category)}</h3>
+      <p class="fatelabel">${esc(f.label)}</p><p>${esc(f.summary)}</p></section>`;
   }
   // One map crop (equirectangular bbox) with the machine, its neighbours, rover trail and a km scale bar drawn on top.
   function locView(it, kind) {
@@ -477,25 +477,29 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
       ${MODEL_NOTE[mk] ? `<figcaption>${esc(MODEL_NOTE[mk])}</figcaption>` : ''}
       ${FAULTS[it.id] ? `<figcaption class="faultnote"><i aria-hidden="true"></i><span><b>Glowing red is what gave out:</b> the ${esc(FAULTS[it.id].note)}</span></figcaption>` : ''}
       <figcaption>${/^NASA/.test(m.credit || 'NASA') ? 'NASA 3D model' : '3D model'}: ${esc(m.title)}${/^NASA/.test(m.credit || 'NASA') ? '' : ` (${esc(m.credit)}, ${esc(m.license || '')})`} · drag to turn, +/− or Ctrl + scroll to zoom${/^https?:\/\//.test(m.page || '') ? ` · <a href="${esc(m.page)}" target="_blank" rel="noopener" style="color:var(--signal)">model page ${ICON.external}</a>` : ''}</figcaption></figure>` : '';
+    const salv = salvageBlock(SALV[it.id]).replace(/<h3[^>]*>Could we salvage it\?<\/h3>/, '').replace(/ aria-labelledby="[^"]*"/, '');
+    const live = liveBlock(LIVE[it.id]).replace(/<h3[^>]*>Right now<\/h3>/, '').replace(/ aria-labelledby="[^"]*"/, '');
+    const shots = photosBlock(PHOTOS_BY[it.id]).replace(/<h3[^>]*>Photos it took<\/h3>/, '').replace(/ aria-labelledby="[^"]*"/, '');
     return `<p class="eyebrow">${esc(it.mission)} · ${esc(it.type)}</p>
       <h2>${esc(it.name)}</h2>
-      <span class="pill" style="--c:${COLOR[st]}">${esc(it.status)}</span>
-      ${TERRAIN[it.id] ? `<br><button type="button" class="walkbtn" data-walk="${esc(it.id)}">Walk around this site ${ICON.go}</button>` : ''}
-    ${world === 'beyond' && mk ? `<br><a class="walkbtn" href="/fly#${esc(it.id)}">Fly around it ${ICON.go}</a>` : ''}
-      ${TERRAIN[it.id] || (world === 'beyond' && mk) ? '' : '<br>'}<a class="walkbtn alt" href="/solar?from=${encodeURIComponent(it.id)}">See it in the solar system ${ICON.go}</a>
+      <p class="status" style="--c:${COLOR[st]}"><i aria-hidden="true"></i>${esc(it.status)}</p>
+      <div class="dacts">${TERRAIN[it.id] ? `<button type="button" class="walkbtn" data-walk="${esc(it.id)}">Walk around this site ${ICON.go}</button>` : ''}${world === 'beyond' && mk ? `<a class="walkbtn" href="/fly#${esc(it.id)}">Fly around it ${ICON.go}</a>` : ''}<a class="walkbtn alt" href="/solar?from=${encodeURIComponent(it.id)}">See it in the solar system ${ICON.go}</a></div>
       ${glance(it, st, end)}
       ${photoFig(it.photo)}
       ${it.summary ? `<p class="summary">${esc(it.summary)}</p>` : ''}
       ${fateBlock(it.fate)}
       ${scienceHTML(SCI[it.id], getLevel())}
-      ${salvageBlock(SALV[it.id])}
-      ${liveBlock(LIVE[it.id])}${photosBlock(PHOTOS_BY[it.id])}
-      ${model ? `<h3>Turn it around</h3>${model}` : `<h3>3D model</h3><p class="nomodel">${crashedIt(it) ? 'No 3D model to turn around: this one ended in a crash, so nothing is left in one piece.' : "We don't have a 3D model of this one yet."}</p>`}
       ${it.funFact ? `<p class="fun"><strong>Fun fact</strong>${esc(it.funFact)}</p>` : ''}
+      <div class="folds">
+      ${fold('Could we salvage it?', salv)}
+      ${fold('Right now', live)}
+      ${fold('Photos it took', shots)}
+      ${fold('Turn it around in 3D', model || `<p class="nomodel">${crashedIt(it) ? 'No 3D model to turn around: this one ended in a crash, so nothing is left in one piece.' : "We don't have a 3D model of this one yet."}</p>`)}
       ${fold('In its own words', it.story ? `<blockquote class="voice">${esc(it.story)}</blockquote>` : '')}
       ${fold(`Where it is${world === 'beyond' ? '' : ' on ' + esc(WORLDS[world].name)}`, locatorBlock(it) + (it.orbit ? `<h4>Seen from orbit today</h4>${photoFig(it.orbit)}` : ''))}
       ${fold(esc(missionOf(it.name)) + ' and what it found', `<p>${esc(it.why)}</p><p>${esc(it.science)}</p>${it.lastWords && !it.fate ? `<h4>Its last day</h4><p>${esc(it.lastWords)}</p>` : ''}`)}
-      ${fold('More about the mission', learnMore(LINKS[it.id]))}
+      ${fold('Links', learnMore(LINKS[it.id]))}
+      </div>
       ${src}`;
   }
   // Long sections fold away so the page reads: status, numbers, what happened, then extras on demand.
@@ -523,13 +527,6 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     const where = Number.isFinite(it.lat) ? `<p class="where">Where it is: <span class="coord">${Math.abs(it.lat).toFixed(2)}°${it.lat >= 0 ? 'N' : 'S'} ${Math.abs(it.lon).toFixed(2)}°${it.lon >= 0 ? 'E' : 'W'}</span></p>` : '';
     return `<div class="glance" aria-label="At a glance" role="group">${t.join('')}${drove}</div>${where}`;
   }
-  function intro() {
-    const list = DATA[world], alive = list.filter(it => stateAt(it, 2026) === 'alive').length;
-    const echo = list.filter(it => stateAt(it, 2026) === 'echo').length;
-    return `<div class="intro"><p class="eyebrow">Welcome to ${esc(WORLDS[world].name)}</p>
-      <p class="big">${list.length}</p><p>space objects on this map. ${alive} still send data home${echo ? `, and ${echo} silent mirrors still get used by scientists every week` : ''}.</p>
-      <p>${esc(WORLDS[world].intro)}</p><p>Click a dot, or pick a name from the list below.</p></div>`;
-  }
   function paint() {
     for (const p of pins) {
       // A site shows its liveliest machine; the pin's shape repeats the state so it isn't colour alone.
@@ -549,18 +546,13 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
       const st = stateAt(byId(b.dataset.id), year);
       b.style.setProperty('--c', COLOR[st === 'future' ? 'silent' : st]);
       b.classList.toggle('future', st === 'future'); b.classList.toggle('sel', b.dataset.id === selected);
-    });
-    document.querySelectorAll('#list button').forEach(b => {
-      b.style.setProperty('--c', COLOR[stateAt(byId(b.dataset.id), year)]);
-      b.setAttribute('aria-pressed', b.dataset.id === selected);
+      b.parentElement.classList.toggle('sel', b.dataset.id === selected); b.parentElement.classList.toggle('future', st === 'future');
     });
     pins.forEach(p => p.el.classList.toggle('seen', p.items.every(it => seen.has(it.id))));
     const full = complete();
     pins.forEach(p => p.el.classList.toggle('complete', p.items.every(it => full.has(it.id))));
     $('beyond').querySelectorAll('.craft').forEach(g => g.classList.toggle('complete', full.has(g.dataset.id)));
-    document.querySelectorAll('#list button').forEach(b => b.classList.toggle('complete', full.has(b.dataset.id)));
     $('beyond').querySelectorAll('.craft').forEach(g => g.classList.toggle('seen', seen.has(g.dataset.id)));
-    document.querySelectorAll('#list button').forEach(b => b.classList.toggle('seen', seen.has(b.dataset.id)));
     showExplored();
     $('yearOut').value = year;
     const list = DATA[world], here = list.filter(it => stateAt(it, year) !== 'future');
@@ -571,19 +563,13 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     $('cursor').style.left = `calc(var(--lw) + (100% - var(--lw)) * ${(yPct(year + 0.5) / 100).toFixed(4)} - 1px)`;
   }
   const byId = id => DATA[world].find(it => it.id === id);
-  // "You've explored 12 of 79": one bar for everything, and a count per world.
+  // "2 / 79": how many space objects this visitor has opened, across all worlds.
   function showExplored() {
-    const box = $('explored'); if (!box) return;
-    const names = { moon: 'Moon', mars: 'Mars', beyond: 'Deep space' };
-    const per = Object.keys(DATA).map(w => [w, DATA[w].filter(it => seen.has(it.id)).length, DATA[w].length]);
-    const done = per.reduce((s, x) => s + x[1], 0), all = per.reduce((s, x) => s + x[2], 0);
-    if (!all) return;
-    const full = [...complete()].filter((id) => Object.values(DATA).some((l) => l.some((it) => it.id === id))).length;
-    $('exploredText').textContent = (done ? `You've opened ${done} of ${all} space objects` : `You've opened 0 of ${all} space objects. Click a dot to start.`) + (full ? ` · fully explored ${full}` : '');
-    const bar = $('exploredBar'); bar.setAttribute('aria-valuenow', done); bar.setAttribute('aria-valuemax', all);
-    bar.querySelector('b').style.width = `${(done / all * 100).toFixed(1)}%`;
-    $('exploredWorlds').innerHTML = per.map(([w, d, n]) => `<span${w === world ? ' class="here"' : ''}>${names[w]} <b>${d}/${n}</b>${d === n ? ' ' + ICON.check : ''}</span>`).join('');
-    $('exploredReset').hidden = !done;
+    const el = $('count'); if (!el) return;
+    const all = Object.values(DATA).reduce((n, l) => n + l.length, 0); if (!all) return;
+    const done = Object.values(DATA).reduce((n, l) => n + l.filter(it => seen.has(it.id)).length, 0);
+    el.textContent = `${done} / ${all}`;
+    el.title = el.ariaLabel = `You've opened ${done} of ${all} space objects`;
   }
   function buildTimeline() {
     const box = $('lives'); box.querySelectorAll('.life').forEach(n => n.remove());
@@ -595,54 +581,36 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
       const a = pct(born(it)), e = activeNow(it) || /reflector/i.test(it.type) ? 100 : died(it) ? pct(died(it)) : a;
       const label = `${it.name.replace(/\s*\(.*?\)\s*/g, ' ').trim()} · ${yrs(it)}`;
       // Every lane is named, with a dot where it landed (or launched): no hovering needed to see what's what.
-      row.innerHTML = `<b data-id="${esc(it.id)}" role="button" tabindex="0" aria-label="${esc(label)}" style="left:${a}%;width:${Math.max(0, e - a)}%"></b><span class="lname" aria-hidden="true">${esc(label.split(' · ')[0])}</span>`;
-      row.querySelector('.lname').onclick = () => select(it.id);
-      const b = row.firstChild;
-      b.onclick = () => select(it.id);
-      b.onkeydown = ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); select(it.id); } };
+      row.innerHTML = `<b data-id="${esc(it.id)}" aria-hidden="true" style="left:${a}%;width:${Math.max(0, e - a)}%"></b><button type="button" class="lname" aria-label="${esc(label)}">${esc(label.split(' · ')[0])}</button>`;
+      const b = row.firstChild, name = row.querySelector('.lname');
+      const open = () => { select(it.id); stage.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' }); };
+      name.onclick = open; b.onclick = open;
       const show = () => { tip.textContent = label; tip.style.top = `${row.offsetTop}px`; tip.style.left = `calc(var(--lw) + (100% - var(--lw)) * ${(Math.min(a, 70) / 100).toFixed(3)})`; tip.hidden = false; };
-      b.onpointerenter = show; b.onfocus = show; b.onpointerleave = b.onblur = () => { tip.hidden = true; };
+      b.onpointerenter = show; name.onfocus = show; b.onpointerleave = name.onblur = () => { tip.hidden = true; };
       box.appendChild(row);
     });
-    buildRoster();
-  }
-  // Moon/Mars machines are grouped by what happened to them; deep space stays a flat list.
-  function buildRoster() {
-    const ul = $('list'), list = DATA[world], grouped = list.some(it => it.fate);
-    ul.innerHTML = ''; ul.className = grouped ? 'groups' : '';
-    const go = id => { select(id); $('dossier').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' }); };
-    $('rosterTitle').textContent = grouped ? `What happened to every space object on ${WORLDS[world].name}` : `Every space object on ${WORLDS[world].name}`;
-    if (!grouped) {
-      list.forEach(it => { const li = document.createElement('li'); li.innerHTML = `<button type="button" data-id="${esc(it.id)}">${esc(it.name)}</button>`; ul.appendChild(li); });
-    } else {
-      const groups = {};
-      list.forEach(it => (groups[it.fate?.category || 'lost'] ||= []).push(it));
-      const keys = [...Object.keys(FATES).filter(k => groups[k]), ...Object.keys(groups).filter(k => !FATES[k])];
-      const most = Math.max(...keys.map(k => groups[k].length));
-      for (const k of keys) {
-        const li = document.createElement('li');
-        li.innerHTML = `<div class="ghead"><b>${esc(FATES[k] || k)}</b><span class="gn">${groups[k].length}</span><i class="gbar" style="width:${(groups[k].length / most * 100).toFixed(0)}%"></i></div>
-          <div class="grows">${groups[k].map(it => `<button type="button" class="grow" data-id="${esc(it.id)}"><span class="gname">${esc(it.name)}</span><span class="glabel">${esc(it.fate?.label || it.status)}</span><span class="gyrs">${esc(yrs(it))}</span></button>`).join('')}</div>`;
-        ul.appendChild(li);
-      }
-    }
-    ul.querySelectorAll('button').forEach(b => b.onclick = () => go(b.dataset.id));
   }
   function select(id) {
     const it = byId(id);
     selected = it ? id : null;
     if (it && !seen.has(id)) { seen.add(id); saveSeen(); }
     stopLive();
-    $('dossier').innerHTML = it ? dossier(it) : intro();
+    const box = $('dbody'), wasOpen = !$('dossier').hidden;
+    box.innerHTML = it ? dossier(it) : '';
+    $('dossier').hidden = !it; stage.classList.toggle('open', !!it);
+    if (it && !wasOpen && matchMedia('(max-width: 880px)').matches) $('dClose').focus({ preventScroll: true });
     $('announce').textContent = it ? `Opened ${it.name}` : `Showing ${WORLDS[world].name}`;
-    stopLive = it && LIVE[it.id] ? startLive($('dossier'), LIVE[it.id]) || (() => {}) : () => {};
+    stopLive = it && LIVE[it.id] ? startLive(box, LIVE[it.id]) || (() => {}) : () => {};
     $('dossier').scrollTop = 0;
-    $('dossier').querySelector('[data-walk]')?.addEventListener('click', e => openGround(e.currentTarget.dataset.walk));
-    if (it) geologyOf(id).then(g => { const w = g && selected === id && $('dossier').querySelector('[data-walk]'); if (w) w.insertAdjacentHTML('afterend', `<p class="geo"><i style="background:${hexOk(g.color)}"></i><b>Ground:</b> ${geoName(g)}. ${esc(g.kidText)} <span class="credit">USGS geologic map of Mars, Tanaka et al. 2014</span></p>`); });
+    box.querySelector('[data-walk]')?.addEventListener('click', e => openGround(e.currentTarget.dataset.walk));
+    // The 3D model sits in a fold: size its canvas when the fold opens.
+    box.querySelectorAll('details.fold').forEach(d => d.addEventListener('toggle', () => { if (d.open && d.querySelector('#mv')) sizeMv(); }));
+    if (it) geologyOf(id).then(g => { const w = g && selected === id && box.querySelector('.dacts'); if (w) w.insertAdjacentHTML('afterend', `<p class="geo"><i style="background:${hexOk(g.color)}"></i><b>Ground:</b> ${geoName(g)}. ${esc(g.kidText)} <span class="credit">USGS geologic map of Mars, Tanaka et al. 2014</span></p>`); });
     if (it) mountModel(modelKeyFor(it), it); else mv.key = null;
     if (it && Number.isFinite(it.lat) && world !== 'beyond') faceTo(it.lat, it.lon);
   if (world === 'beyond') zoomBeyond(it ? id : null);
     if (it && location.hash.slice(1) !== id) history.replaceState(null, '', '#' + id);
+    if (!it && location.hash.slice(1) !== world) history.replaceState(null, '', '#' + world);
     paint();
   }
   function setWorld(w, keepSel) {
@@ -651,21 +619,25 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     document.querySelectorAll('.worlds button').forEach(b => b.setAttribute('aria-selected', b.dataset.world === w));
     const deep = w === 'beyond';
     cv.hidden = deep; $('pins').hidden = deep; $('gZoom').hidden = deep; $('fly3d').hidden = !deep; $('beyond').toggleAttribute('hidden', !deep); // SVG has no .hidden property
-    $('hint').textContent = deep ? 'Directions and distances are approximate' : 'Drag to spin · +/− or Ctrl + scroll to zoom';
+    $('hint').textContent = '';
     buildTimeline();
     if (deep) { pins = []; drawBeyond(); } else { setTexture(w); buildPins(); }
     syncGeo();
     if (!keepSel) { select(null); history.replaceState(null, '', '#' + w); }
   }
   document.querySelectorAll('.worlds button').forEach(b => b.onclick = () => setWorld(b.dataset.world));
+  $('dClose').onclick = () => select(null);
+  addEventListener('keydown', e => { if (e.key === 'Escape' && selected && !G.open && !pinMenu && document.activeElement !== $('q')) select(null); });
+  // Key: the three statuses, folded behind a small toggle.
+  $('keyBtn').onclick = () => { const on = $('key').hidden; $('key').hidden = !on; $('keyBtn').setAttribute('aria-expanded', on); };
+  addEventListener('pointerdown', e => { if (!$('key').hidden && !e.target.closest('.keybox')) { $('key').hidden = true; $('keyBtn').setAttribute('aria-expanded', 'false'); } });
   $('year').oninput = e => { year = +e.target.value; stopPlay(); paint(); };
   let timer = null;
-  function stopPlay() { clearInterval(timer); timer = null; $('play').innerHTML = `${ICON.play} Play history`; }
-  $('exploredReset').onclick = () => { if (confirm('Clear the list of space objects you have explored?')) { seen.clear(); saveSeen(); paint(); } };
+  function stopPlay() { clearInterval(timer); timer = null; $('play').innerHTML = ICON.play; $('play').setAttribute('aria-label', 'Play history'); }
   $('play').onclick = () => {
     if (timer) return stopPlay();
     if (year >= 2026) year = 1959;
-    $('play').innerHTML = `${ICON.pause} Pause`;
+    $('play').innerHTML = ICON.pause; $('play').setAttribute('aria-label', 'Pause');
     timer = setInterval(() => { year++; $('year').value = year; paint(); if (year >= 2026) stopPlay(); }, reduceMotion ? 600 : 260);
   };
 
@@ -1192,6 +1164,7 @@ const kickSway = () => { if (!sway.raf && !reduceMotion) sway.raf = requestAnima
     if (id) { select(id); openGround(id); return; }
     const n = (world === 'beyond' ? DATA.beyond : DATA[world]).filter(it => TERRAIN[it.id]).length;
     $('hint').textContent = n ? (moved ? 'Drop the explorer right on a glowing site' : 'Drag the explorer onto a glowing site') : 'Ground views for this world are still loading';
+    clearTimeout(pegEnd.t); pegEnd.t = setTimeout(() => { $('hint').textContent = ''; }, 3500);
   };
   peg.addEventListener('pointerup', pegEnd);
   peg.addEventListener('pointercancel', pegEnd);
@@ -1219,11 +1192,14 @@ function renderSearch() {
 }
 function goSearch(i) {
   const h = qHits[i]; if (!h) return;
-  qIn.value = ''; qRes.hidden = true;
+  qIn.value = ''; qRes.hidden = true; qOpen(false);
   if (h.w !== world) setWorld(h.w, true);
   select(h.it.id);
   stage.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
 }
+const qBox = $('search'), qBtn = $('qBtn');
+const qOpen = on => { qBox.classList.toggle('open', on); qBtn.setAttribute('aria-expanded', on); if (on) qIn.focus(); };
+qBtn.onclick = () => { if (qBox.classList.contains('open') && !qIn.value.trim()) qOpen(false); else qOpen(true); };
 qIn.addEventListener('input', renderSearch);
 qIn.addEventListener('keydown', e => {
   if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
@@ -1232,10 +1208,10 @@ qIn.addEventListener('keydown', e => {
     qRes.querySelectorAll('li[data-i]').forEach(li => li.setAttribute('aria-selected', +li.dataset.i === qActive));
     qIn.setAttribute('aria-activedescendant', 'qo' + qActive);
   } else if (e.key === 'Enter') { e.preventDefault(); goSearch(Math.max(0, qActive)); }
-  else if (e.key === 'Escape') { qIn.value = ''; qRes.hidden = true; }
+  else if (e.key === 'Escape') { qIn.value = ''; qRes.hidden = true; qOpen(false); qBtn.focus(); }
 });
 qRes.addEventListener('mousedown', e => { const li = e.target.closest('li[data-i]'); if (li) { e.preventDefault(); goSearch(+li.dataset.i); } });
-qIn.addEventListener('blur', () => setTimeout(() => { qRes.hidden = true; }, 120));
+qIn.addEventListener('blur', () => setTimeout(() => { qRes.hidden = true; if (!qIn.value.trim() && document.activeElement !== qBtn) qOpen(false); }, 120));
 qIn.addEventListener('focus', () => { if (qIn.value.trim()) renderSearch(); });
 
 // Full screen for the interactive area (globe or ground view). Where the browser refuses or ignores real full screen
@@ -1253,7 +1229,6 @@ function toggleFs() {
 }
 document.addEventListener('fullscreenchange', fsLabel);
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && stage.classList.contains('maxed') && !G.open) toggleFs(); });
-$('fsBtn').onclick = toggleFs;
 $('gFs').onclick = toggleFs;
 
 

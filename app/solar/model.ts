@@ -24,7 +24,7 @@ export type Machine = {
 
 export type Status = "alive" | "echo" | "silent";
 // The atlas's colours and words (app/atlas/atlas.css --signal, --echo, --quiet; its legend).
-export const STATUS_COLOR: Record<Status, string> = { alive: "#d9814a", echo: "#5ea6d6", silent: "#a8937f" };
+export const STATUS_COLOR: Record<Status, string> = { alive: "#4d94ff", echo: "#e5e5e5", silent: "#6b6b6b" };
 export const STATUS_LABEL: Record<Status, string> = { alive: "Still sending data", echo: "Silent mirror, still used", silent: "Gone quiet" };
 const RANK: Record<Status, number> = { alive: 2, echo: 1, silent: 0 };
 

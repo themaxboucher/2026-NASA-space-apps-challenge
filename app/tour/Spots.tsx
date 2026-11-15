@@ -6,6 +6,7 @@ import { openHotspot, spotEls, spotKey, tour } from "./state";
 import { STOPS, type Hotspot } from "./stops";
 
 // One clickable marker per hotspot. The 3D scene positions each marker every frame (see scene/Hotspots.tsx).
+// Its story shows at the bottom left of the screen (Story in Tour.tsx).
 function Spot({ stopId, spot }: { stopId: string; spot: Hotspot }) {
   const key = spotKey(stopId, spot.id);
   const open = useStore(tour, (s) => s.openSpot === spot.id);
@@ -32,19 +33,6 @@ function Spot({ stopId, spot }: { stopId: string; spot: Hotspot }) {
           {spot.title}
         </span>
       </button>
-      {open && (
-        <div className={`spot-card${spot.broken ? " broken" : ""}`} role="dialog" aria-label={spot.title}>
-          <button type="button" className="spot-close" aria-label="Close" onClick={() => openHotspot(stopId, null)}>
-            ×
-          </button>
-          {spot.broken && <p className="spot-tag">{spot.tag ?? "Broken part"}</p>}
-          <h3>{spot.title}</h3>
-          <p>{spot.text}</p>
-          <a href={spot.source.url} target="_blank" rel="noopener noreferrer">
-            {spot.source.label} ↗
-          </a>
-        </div>
-      )}
     </div>
   );
 }

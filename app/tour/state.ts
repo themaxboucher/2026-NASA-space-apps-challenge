@@ -24,10 +24,10 @@ export type TourState = {
   cruise: { label: string; dest: string; from: number; to: number } | null;
   introOpen: boolean;
   openSpot: string | null;
+  // The full-screen mission file for the current stop.
+  fileOpen: boolean;
   found: Record<string, string[]>;
   sceneReady: boolean;
-  // Bumped when someone presses Next before finding every spot, so the HUD can point at what's left.
-  nudge: number;
 };
 
 // The start screen: Earth in the foreground, with the Moon off-screen ahead.
@@ -46,14 +46,18 @@ export const tour = createStore<TourState>({
   cruise: null,
   introOpen: false,
   openSpot: null,
+  fileOpen: false,
   found: {},
   sceneReady: false,
-  nudge: 0,
 });
 
 let requestId = 0;
 export function requestTravel(to: Target, mode: "journey" | "jump") {
-  tour.set({ request: { id: ++requestId, to, mode }, openSpot: null });
+  tour.set({ request: { id: ++requestId, to, mode }, openSpot: null, fileOpen: false });
+}
+
+export function setFileOpen(open: boolean) {
+  tour.set({ fileOpen: open });
 }
 
 export function startTour() {
@@ -61,42 +65,23 @@ export function startTour() {
   if (phase === "start" || phase === "end") requestTravel(0, "journey");
 }
 
-// Next turns into Skip while traveling; extra presses right after a skip must not start the next trip.
-let skippedAt = -Infinity;
+// The "Next machine" button: on to the next stop, or home to the end screen after the last one.
 export function nextStop() {
   const s = tour.get();
+  if (s.phase !== "explore") return;
+  requestTravel(s.stop < STOPS.length - 1 ? s.stop + 1 : "end", "journey");
+}
+
+// A tick in the top trail. Forward flies there; backward is a quick fade. During a trip, the destination's tick
+// skips the rest of the trip.
+export function goToStop(i: number) {
+  const s = tour.get();
   if (s.phase === "travel") {
-    skippedAt = performance.now();
-    return skipTravel();
-  }
-  if (s.phase !== "explore" || performance.now() - skippedAt < 700) return;
-  // The story moves on once every glowing spot on this machine has been found.
-  if (spotsLeft(s) > 0) {
-    tour.set((t) => ({ nudge: t.nudge + 1 }));
+    if (i === s.stop) skipTravel();
     return;
   }
-  requestTravel(s.stop < STOPS.length - 1 ? s.stop + 1 : "end", "journey");
-}
-
-// How many spots on the current stop are still unfound.
-export function spotsLeft(s: TourState = tour.get()) {
-  const stop = STOPS[s.stop];
-  if (!stop) return 0;
-  const seen = s.found[stop.id] ?? [];
-  return stop.hotspots.filter((h) => !seen.includes(h.id)).length;
-}
-
-// The quiet way out: move on without finding everything.
-export function skipStop() {
-  const s = tour.get();
-  if (s.phase !== "explore") return;
-  requestTravel(s.stop < STOPS.length - 1 ? s.stop + 1 : "end", "journey");
-}
-
-export function previousStop() {
-  const s = tour.get();
-  if (s.phase !== "explore") return;
-  requestTravel(s.stop > 0 ? s.stop - 1 : "start", "jump");
+  if (s.phase !== "explore" || i === s.stop) return;
+  requestTravel(i, i > s.stop ? "journey" : "jump");
 }
 
 export function skipTravel() {
@@ -110,6 +95,7 @@ export function openHotspot(stopId: string, spotId: string | null) {
     return {
       openSpot: spotId,
       introOpen: false,
+      fileOpen: false,
       found: seen.includes(spotId) ? s.found : { ...s.found, [stopId]: [...seen, spotId] },
     };
   });

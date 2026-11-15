@@ -1,90 +1,22 @@
-/* "What went wrong": a trigger in the bottom-right corner (top-right under the atlas link on phones) and a side panel that stops above the bottom bar. Uses the .tour tokens. */
-.fbank-btn {
-  position: fixed;
-  z-index: 56;
-  right: var(--gut-r);
-  bottom: var(--gut-b);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 48px;
-  padding: 9px 14px;
-  border: 1px solid rgba(255, 90, 60, 0.5);
-  background: rgba(5, 3, 2, 0.55);
-  backdrop-filter: blur(8px);
-  color: var(--ink);
-  font: 500 0.6875rem/1.2 var(--mono);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  transition: border-color 0.2s, background 0.2s;
-}
-.fbank-btn:hover,
-.fbank-btn[aria-expanded="true"] {
-  border-color: var(--alarm);
-  background: rgba(255, 90, 60, 0.12);
-}
-.fbank-btn i {
-  flex: none;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--alarm);
-  box-shadow: 0 0 8px 2px rgba(255, 90, 60, 0.6);
-}
-
+/* "What went wrong": every failed mission in the atlas, at the end of the mission file overlay. Uses the .tour tokens. */
 .fbank {
-  position: fixed;
-  z-index: 58;
-  top: calc(max(16px, env(safe-area-inset-top, 0px)) + 48px);
-  right: var(--gut-r);
-  bottom: calc(var(--gut-b) + 76px);
-  width: min(400px, calc(100vw - var(--gut-l) - var(--gut-r)));
-  overflow: auto;
-  overscroll-behavior: contain;
-  padding: 0 16px 16px;
-  border: 1px solid var(--line);
-  background: rgba(12, 8, 6, 0.94);
-  backdrop-filter: blur(10px);
-  user-select: text;
+  margin-top: clamp(72px, 12vh, 128px);
 }
 .fbank-head {
-  position: sticky;
-  top: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin: 0 -16px;
-  padding: 14px 16px 10px;
-  background: rgb(12, 8, 6);
-  border-bottom: 1px solid var(--line);
+  max-width: 720px;
+  margin-bottom: clamp(32px, 5vh, 52px);
 }
 .fbank-head h2 {
-  margin: 2px 0 0;
-  font: 300 1.5rem/1.15 var(--display);
-  font-stretch: 112.5%;
+  margin: 8px 0 0;
+  font: 500 clamp(1.8rem, 3.6vw, 2.6rem)/1.05 var(--display);
+  letter-spacing: -0.02em;
 }
-.fbank-close {
-  width: 40px;
-  height: 40px;
-  margin: -6px -8px 0 0;
-  border: 0;
-  background: none;
-  color: var(--sand);
-  font-size: 1.5rem;
-  line-height: 1;
-}
-.fbank-close:hover {
-  color: var(--ink);
-}
-.fbank-lede {
-  margin: 12px 0 0;
-  color: var(--sand);
-  font-size: 0.92rem;
-}
-.fbank-group {
-  margin-top: 20px;
-  padding-left: 12px;
-  border-left: 2px solid var(--alarm);
+
+.fbank-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(380px, 100%), 1fr));
+  gap: clamp(40px, 6vh, 64px) clamp(32px, 5vw, 72px);
+  align-items: start;
 }
 .fbank-group h3 {
   display: flex;
@@ -93,8 +25,8 @@
   justify-content: space-between;
   gap: 4px 12px;
   margin: 0;
-  font: 400 1.15rem/1.2 var(--display);
-  font-stretch: 112.5%;
+  font: 500 1.375rem/1.2 var(--display);
+  letter-spacing: -0.01em;
 }
 .fbank-count {
   color: var(--dim);
@@ -103,14 +35,13 @@
   text-transform: uppercase;
 }
 .fbank-why {
-  margin: 4px 0 10px;
-  color: var(--sand);
-  font-size: 0.88rem;
-  line-height: 1.45;
+  margin: 6px 0 12px;
+  color: var(--ink2);
+  font-size: 0.9375rem;
+  line-height: 1.5;
 }
 .fbank-group ul {
   display: grid;
-  gap: 6px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -118,88 +49,52 @@
 .fbank-group li a {
   display: grid;
   gap: 2px;
-  padding: 8px 10px;
-  border: 1px solid var(--line);
-  background: rgba(193, 169, 149, 0.05);
+  padding: 10px 0;
   color: var(--ink);
   text-decoration: none;
-  transition: border-color 0.2s, background 0.2s;
 }
-.fbank-group li a:hover {
-  border-color: var(--sand);
-  background: rgba(193, 169, 149, 0.1);
-}
-.fbank-group li.seen a {
-  border-color: rgba(94, 166, 214, 0.6);
-  background: rgba(94, 166, 214, 0.1);
+.fbank-group li a:hover .fbank-name {
+  color: var(--signal);
 }
 .fbank-name {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 8px;
-  font-weight: 700;
-  font-size: 0.95rem;
+  align-items: baseline;
+  gap: 4px 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.2s;
 }
 .fbank-seen {
-  padding: 2px 6px;
-  border: 1px solid var(--echo);
-  color: var(--echo);
-  font: 500 0.625rem/1.2 var(--mono);
+  color: var(--signal);
+  font: 500 0.6875rem/1.2 var(--mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .fbank-meta {
-  color: var(--sand);
-  font-size: 0.85rem;
+  color: var(--ink2);
+  font-size: 0.875rem;
 }
 .fbank-part {
-  color: #ff8a70;
+  color: #ff7a70;
   font: 500 0.75rem/1.4 var(--mono);
 }
 .fbank-lesson {
-  margin: 10px 0 0;
-  padding: 8px 10px;
-  background: rgba(94, 166, 214, 0.08);
-  border-left: 2px solid var(--echo);
-  font-size: 0.86rem;
-  line-height: 1.45;
+  margin: 12px 0 0;
+  color: var(--ink2);
+  font-size: 0.9375rem;
+  line-height: 1.5;
 }
 .fbank-lesson b {
   display: block;
-  color: var(--echo);
-  font: 500 0.625rem/1.4 var(--mono);
+  margin-bottom: 4px;
+  color: var(--signal);
+  font: 500 0.6875rem/1.4 var(--mono);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 .fbank-lesson a {
-  color: var(--echo);
+  color: var(--signal);
   font: 500 0.75rem var(--mono);
   white-space: nowrap;
-}
-
-/* Here the centred bottom bar would reach the corner, so the trigger sits just above it. */
-@media (max-width: 1180px) {
-  .fbank-btn {
-    bottom: calc(var(--gut-b) + 76px);
-  }
-  .fbank {
-    bottom: calc(var(--gut-b) + 132px);
-  }
-}
-/* Below this width the bottom bar fills the row and the mission file moves to the bottom, so the trigger goes top-right, under the atlas link, and the panel opens beneath it. */
-@media (max-width: 760px) {
-  .fbank-btn {
-    bottom: auto;
-    top: calc(max(16px, env(safe-area-inset-top, 0px)) + 56px);
-    max-width: 140px;
-    min-height: 40px;
-    padding: 8px 10px;
-    line-height: 1.3;
-    text-align: left;
-  }
-  .fbank {
-    top: calc(max(16px, env(safe-area-inset-top, 0px)) + 112px);
-    bottom: calc(var(--gut-b) + 84px);
-  }
 }

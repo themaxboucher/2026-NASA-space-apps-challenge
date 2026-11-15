@@ -53,11 +53,10 @@ export function HotspotTracker({ stop, anchors, ground }: { stop: Stop; anchors:
       el.style.opacity = a.toFixed(3);
       el.style.visibility = a > 0.01 ? "visible" : "hidden";
       el.style.pointerEvents = a > 0.3 ? "auto" : "none";
-      // Keep the card on the side of the marker with more room.
+      // Keep the hover label on the side of the marker with more room.
       el.dataset.side = x > size.width * 0.6 ? "left" : "right";
-      el.dataset.low = y > size.height * 0.62 ? "1" : "0";
       const open = s.openSpot === spot.id;
-      // An open card stays open until its spot is behind you (the reader may be far from it, e.g. Falcon, 130 m).
+      // An open story stays open until its spot is behind you (the reader may be far from it, e.g. Falcon, 130 m).
       if (open && projected.z >= 1) openHotspot(stop.id, null);
       if (open && spot.broken) target = 1.6;
     }

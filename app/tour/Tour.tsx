@@ -1,49 +1,81 @@
 "use client";
 
-import { animate, AnimatePresence, motion, MotionConfig } from "motion/react";
+import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
-import { coarsePointer } from "./lib/device";
+import FootprintMark from "./FootprintMark";
 import { useStore } from "./lib/store";
 import { FailureBank } from "./FailureBank";
 // Shared with the atlas: photos each machine took, and live numbers for the ones still working.
 import { liveNumbers, loadLive, photosFor } from "../atlas/live.js";
+import { Overlay } from "./Overlay";
 import { Spots } from "./Spots";
-import { dismissIntro, hud, nextStop, openHotspot, previousStop, requestTravel, skipStop, spotsLeft, startTour, tour } from "./state";
-import { CHAPTERS, CREDITS, STOP_INDEX, STOPS } from "./stops";
+import {
+  dismissIntro,
+  goToStop,
+  hud,
+  nextStop,
+  openHotspot,
+  requestTravel,
+  setFileOpen,
+  startTour,
+  tour,
+} from "./state";
+import {
+  CREDITS,
+  STOP_INDEX,
+  STOPS,
+  type Hotspot,
+  type Stop,
+} from "./stops";
 import "./tour.css";
 
 // The 3D scene only runs in the browser; the start screen's text and button render right away.
 const TourCanvas = dynamic(() => import("./TourCanvas"), { ssr: false });
 
-const TITLE = "Ruins Among the Stars";
-const TAGLINE = "Rovers, landers and probes we left on other worlds. Find out what broke, what still works, and what we could fix or bring home one day.";
+const TITLE = "Left Behind";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 function StartScreen() {
   const ready = useStore(tour, (s) => s.sceneReady);
   return (
-    <motion.section className="start" initial={{ opacity: 1 }} exit={{ opacity: 0, y: -40, transition: { duration: 0.7, ease } }}>
+    <motion.section
+      className="start"
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, y: -40, transition: { duration: 0.7, ease } }}
+    >
       <h1 aria-label={TITLE}>
-        {TITLE.split("").map((ch, i) => (
-          <motion.span
-            key={i}
-            aria-hidden="true"
-            initial={{ opacity: 0, y: 26, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ delay: 0.25 + i * 0.045, duration: 0.9, ease }}
-          >
-            {ch === " " ? " " : ch}
-          </motion.span>
-        ))}
+        <motion.span
+          className="start-logo"
+          aria-hidden="true"
+          initial={{ opacity: 0, y: 18, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ delay: 0.1, duration: 0.9, ease }}
+        >
+          <FootprintMark />
+        </motion.span>
+        <span className="start-word">
+          {TITLE.split("").map((ch, i) => (
+            <motion.span
+              key={i}
+              aria-hidden="true"
+              initial={{ opacity: 0, y: 26, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ delay: 0.25 + i * 0.045, duration: 0.9, ease }}
+            >
+              {ch === " " ? " " : ch}
+            </motion.span>
+          ))}
+        </span>
       </h1>
       <motion.p
-        className="start-sub"
-        initial={{ opacity: 0, y: 10 }}
+        className="start-lede"
+        initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.25 + TITLE.length * 0.045 + 0.2, duration: 0.9, ease }}
+        transition={{ delay: 1.0, duration: 0.8, ease }}
       >
-        {TAGLINE}
+        Since the 1960s, NASA has left machines on the Moon, on Mars and in deep
+        space. Visit them and discover their stories.
       </motion.p>
       <motion.button
         type="button"
@@ -52,165 +84,241 @@ function StartScreen() {
         disabled={!ready}
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.3, duration: 0.8, ease }}
+        transition={{ delay: 1.4, duration: 0.8, ease }}
       >
         {ready ? "Start" : "Loading…"}
       </motion.button>
+      {/* This project is a NASA Space Apps Challenge 2026 entry; official logo from spaceappschallenge.org/brand. */}
+      <motion.a
+        className="start-badge"
+        href="https://www.spaceappschallenge.org/"
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8, duration: 0.8, ease }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG needs no image optimization */}
+        <img
+          src="/img/space-apps-logo.svg"
+          alt="NASA Space Apps Challenge"
+          width={561}
+          height={221}
+        />
+      </motion.a>
     </motion.section>
   );
 }
 
 function ExploreLink() {
-  const stop = useStore(tour, (s) => (s.phase === "explore" || s.phase === "travel" ? s.stop : -1));
+  const stop = useStore(tour, (s) =>
+    s.phase === "explore" || s.phase === "travel" ? s.stop : -1,
+  );
   const id = stop >= 0 ? STOPS[stop]?.id : null;
   // A full page load on purpose: the atlas runs its own 3D engine.
   return (
     <a className="explore-link" href={id ? `/explore#${id}` : "/explore"}>
-      Explore all 79 machines <span aria-hidden="true">↗</span>
+      Explore all 79 machines
+      <svg
+        className="explore-arrow"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M4.5 11.5l7-7M5.5 4.5h6v6" />
+      </svg>
     </a>
   );
 }
 
-function Trail() {
+// Top centre (bottom left on phones): one tick per stop, done, here (or flying there), and still to come.
+// Each tick takes you to its machine; its name shows on hover. During a trip, the destination's tick skips it.
+function Progress() {
   const stop = useStore(tour, (s) => s.stop);
   const phase = useStore(tour, (s) => s.phase);
+  const traveling = phase === "travel";
   return (
-    <ol className="trail" aria-label="Tour progress">
-      {CHAPTERS.map((chapter) => (
-        <li key={chapter} className="trail-group">
-          <span className="trail-label">{chapter}</span>
-          <span className="trail-dots">
-            {STOPS.map((s, i) =>
-              s.chapter !== chapter ? null : (
-                <span
-                  key={s.id}
-                  className={`trail-dot${i < stop ? " done" : ""}${i === stop ? (phase === "travel" ? " going" : " here") : ""}`}
-                  aria-label={`${s.name}${i === stop ? " (current)" : ""}`}
-                  title={s.name}
-                />
-              ),
-            )}
-          </span>
-        </li>
-      ))}
-    </ol>
+    <motion.nav
+      className="progress"
+      aria-label="Tour"
+      initial={{ opacity: 0, y: -16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -16 }}
+      transition={{ duration: 0.6, ease }}
+    >
+      <ol className="trail">
+        {STOPS.map((s, i) => {
+          const here = i === stop;
+          const state = i < stop ? " done" : here ? (traveling ? " going" : " here") : "";
+          const label = here ? (traveling ? `${s.name} (skip the trip)` : `${s.name} (you are here)`) : `Go to ${s.name}`;
+          return (
+            <li key={s.id}>
+              <button
+                type="button"
+                className={`trail-tick${state}`}
+                data-name={s.name}
+                aria-label={label}
+                aria-current={here ? "step" : undefined}
+                disabled={traveling ? !here : here}
+                onClick={() => goToStop(i)}
+              />
+            </li>
+          );
+        })}
+      </ol>
+    </motion.nav>
   );
 }
 
-function Controls() {
-  const phase = useStore(tour, (s) => s.phase);
-  const stop = useStore(tour, (s) => s.stop);
-  const traveling = phase === "travel";
-  const last = stop === STOPS.length - 1;
-  const left = useStore(tour, (s) => (s.phase === "explore" ? spotsLeft(s) : 0));
-  const nudge = useStore(tour, (s) => s.nudge);
-  const locked = left > 0;
-  // Shake the locked button when pressed early, without remounting it (that would drop keyboard focus).
-  const nextRef = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    if (nudge && nextRef.current) animate(nextRef.current, { x: [0, -7, 7, -5, 5, 0] }, { duration: 0.4 });
-  }, [nudge]);
-  const nextLabel = traveling ? "Skip" : locked ? `Find ${left} more` : last ? "Fly home" : "Next";
-  const nextName = traveling ? null : locked ? "glowing spot" + (left === 1 ? "" : "s") + " to go on" : last ? "Earth" : STOPS[stop + 1]?.name;
+function Chevron() {
   return (
-    <motion.nav className="controls" aria-label="Tour" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 24 }} transition={{ duration: 0.6, ease }}>
-      <button type="button" className="nav-btn" onClick={previousStop} disabled={traveling}>
-        <span aria-hidden="true">‹</span> Back
-      </button>
-      <Trail />
-      <motion.button
-        ref={nextRef}
-        type="button"
-        className={`nav-btn primary${locked ? " locked" : ""}`}
-        onClick={nextStop}
-        aria-disabled={locked || undefined}
-      >
-        <span className="nav-main">
-          {locked && <span aria-hidden="true">🔒 </span>}
-          {nextLabel} {!locked && <span aria-hidden="true">›</span>}
-        </span>
-        {nextName && <span className="nav-sub">{nextName}</span>}
-      </motion.button>
-      {locked && !traveling && (
-        <button type="button" className="skip-stop" onClick={skipStop}>
-          skip
-        </button>
-      )}
-    </motion.nav>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M9 5l7 7-7 7" />
+    </svg>
+  );
+}
+
+const NONE: string[] = [];
+
+// Bottom right: one dot per glowing spot on this machine, filled once you've opened it. With every spot
+// explored, the count gives way to the Next machine button.
+function SpotProgress() {
+  const stop = useStore(tour, (s) => s.stop);
+  const s = STOPS[stop];
+  const seen = useStore(tour, (t) => (s && t.found[s.id]) || NONE);
+  if (!s) return null;
+  const total = s.hotspots.length;
+  const count = s.hotspots.filter((h) => seen.includes(h.id)).length;
+  const done = count >= total;
+  const last = stop === STOPS.length - 1;
+  return (
+    <motion.div
+      key={s.id}
+      className="spot-progress"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 12 }}
+      transition={{ delay: 0.3, duration: 0.6, ease }}
+    >
+      <ol className="spot-pips" aria-hidden="true">
+        {s.hotspots.map((h) => (
+          <li key={h.id} className={`spot-pip${seen.includes(h.id) ? " seen" : ""}${h.broken ? " broken" : ""}`} />
+        ))}
+      </ol>
+      <AnimatePresence mode="wait" initial={false}>
+        {done ? (
+          <motion.button
+            key="next"
+            type="button"
+            className="next-machine"
+            onClick={nextStop}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease }}
+          >
+            {last ? "Fly home" : "Next machine"}
+            <Chevron />
+          </motion.button>
+        ) : (
+          <motion.p key="count" className="spot-count" aria-live="polite" exit={{ opacity: 0, transition: { duration: 0.2 } }}>
+            {count} of {total} explored
+          </motion.p>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
 function NamePlate() {
   const stop = useStore(tour, (s) => s.stop);
-  const found = useStore(tour, (s) => (s.found[STOPS[s.stop]?.id ?? ""] ?? []).length);
   const s = STOPS[stop];
   if (!s) return null;
   return (
     <motion.header
       key={s.id}
       className="plate"
-      aria-live="polite"
       initial={{ opacity: 0, x: -24 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -24 }}
       transition={{ duration: 0.6, ease }}
     >
-      <p className="eyebrow">
-        {s.chapter} · {s.mission}
-      </p>
-      <h2>{s.name}</h2>
+      <p className="eyebrow">{s.mission}</p>
+      <h2 aria-live="polite">{s.name}</h2>
       <p className="plate-status">{s.status}</p>
-      <p className="plate-found">
-        {found} of {s.hotspots.length} spots found
-      </p>
+      <button
+        type="button"
+        className="learn-more"
+        aria-haspopup="dialog"
+        onClick={() => setFileOpen(true)}
+      >
+        Learn more
+      </button>
     </motion.header>
   );
 }
 
-function IntroCard() {
+// Bottom left, straight on the scene over a shadow from the bottom edge: the arrival introduction, or the story
+// of the glowing spot that's open.
+function Story() {
   const stop = useStore(tour, (s) => s.stop);
+  const introOpen = useStore(tour, (s) => s.introOpen);
+  const openSpot = useStore(tour, (s) => s.openSpot);
   const s = STOPS[stop];
-  if (!s) return null;
-  const space = s.setting.kind === "space";
-  // Only ever rendered in the browser (the server always renders the start screen), so this is safe.
-  const touch = coarsePointer();
+  const spot =
+    s && openSpot ? s.hotspots.find((h) => h.id === openSpot) : undefined;
   return (
-    <motion.aside
-      className="intro"
-      initial={{ opacity: 0, y: 30, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 16, transition: { duration: 0.45 } }}
+    <div className="story" aria-live="polite">
+      <AnimatePresence mode="wait">
+        {s && spot ? (
+          <SpotStory key={spot.id} spot={spot} />
+        ) : s && introOpen ? (
+          <Intro key={`intro-${s.id}`} s={s} />
+        ) : null}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function SpotStory({ spot }: { spot: Hotspot }) {
+  return (
+    <motion.article
+      className={`story-spot${spot.broken ? " broken" : ""}`}
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 8, transition: { duration: 0.2 } }}
+      transition={{ duration: 0.45, ease }}
+    >
+      {spot.broken && <p className="story-tag">{spot.tag ?? "Broken part"}</p>}
+      <h3>{spot.title}</h3>
+      <p className="story-text">{spot.text}</p>
+      <a
+        className="story-source"
+        href={spot.source.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {spot.source.label} <span aria-hidden="true">↗</span>
+      </a>
+    </motion.article>
+  );
+}
+
+function Intro({ s }: { s: Stop }) {
+  return (
+    <motion.div
+      className="story-intro"
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 12, transition: { duration: 0.3 } }}
       transition={{ delay: 0.15, duration: 0.7, ease }}
     >
-      <button type="button" className="intro-close" aria-label="Close" onClick={dismissIntro}>
-        ×
-      </button>
-      <p className="eyebrow">
-        {s.chapter} · {s.mission} · {s.when}
-      </p>
-      <h2>{s.name}</h2>
-      <p className="pill">{s.status}</p>
-      <p className="intro-text">{s.intro}</p>
-      <p className="hint">
-        {touch ? (
-          "Drag to circle around it · tap the glowing dots"
-        ) : (
-          <>
-            Click the view to look around with your mouse (<kbd>Esc</kbd> lets go) · <kbd>W</kbd>
-            <kbd>A</kbd>
-            <kbd>S</kbd>
-            <kbd>D</kbd> to {space ? "fly" : "walk"} · hold <kbd>Shift</kbd> to go faster
-            {space && (
-              <>
-                {" "}
-                · <kbd>Space</kbd> up · <kbd>C</kbd> down · you keep drifting after you let go
-              </>
-            )}{" "}
-            {!space && <> · tap <kbd>Ctrl</kbd> to crouch</>} · aim at a glowing dot and click
-          </>
-        )}
-      </p>
-    </motion.aside>
+      <p className="eyebrow">{s.when}</p>
+      <p className="story-text">{s.intro}</p>
+    </motion.div>
   );
 }
 
@@ -229,9 +337,20 @@ const FATE_WORDS: Record<string, string> = {
   "crash-planned": "Ended on purpose",
   lost: "Fate unknown",
 };
-const FAILED = new Set(["power", "comms", "stuck", "damaged", "crash-accident", "lost"]);
+const FAILED = new Set([
+  "power",
+  "comms",
+  "stuck",
+  "damaged",
+  "crash-accident",
+  "lost",
+]);
 type AtlasRecord = { id: string; fate?: Fate; funFact?: string };
-type Route = { segments: { name?: string; points: [number, number][] }[]; credit?: string; source?: string };
+type Route = {
+  segments: { name?: string; points: [number, number][] }[];
+  credit?: string;
+  source?: string;
+};
 let routeData: Promise<Record<string, Route>> | null = null;
 function loadRoutes() {
   routeData ??= fetch("/data/routes.json")
@@ -246,28 +365,59 @@ function RouteMap({ route, body }: { route: Route; body: string }) {
   const pts = route.segments.flatMap((g) => g.points);
   const R = RADIUS_KM[body];
   if (pts.length < 2 || !R) return null;
-  const lat0 = (pts.reduce((a, p) => a + p[0], 0) / pts.length) * (Math.PI / 180);
+  const lat0 =
+    (pts.reduce((a, p) => a + p[0], 0) / pts.length) * (Math.PI / 180);
   // Kilometres east and north of the first point.
-  const km = (p: [number, number]): [number, number] => [((p[1] - pts[0][1]) * Math.PI / 180) * R * Math.cos(lat0), ((p[0] - pts[0][0]) * Math.PI / 180) * R];
+  const km = (p: [number, number]): [number, number] => [
+    (((p[1] - pts[0][1]) * Math.PI) / 180) * R * Math.cos(lat0),
+    (((p[0] - pts[0][0]) * Math.PI) / 180) * R,
+  ];
   const xy = pts.map(km);
-  const xs = xy.map((p) => p[0]), ys = xy.map((p) => p[1]);
-  const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
-  const W = 260, H = 150, pad = 12;
-  const k = Math.min((W - 2 * pad) / Math.max(x1 - x0, 1e-3), (H - 2 * pad) / Math.max(y1 - y0, 1e-3));
-  const ox = (W - (x1 - x0) * k) / 2, oy = (H - (y1 - y0) * k) / 2;
-  const P = ([x, y]: [number, number]) => [ox + (x - x0) * k, H - (oy + (y - y0) * k)] as const;
+  const xs = xy.map((p) => p[0]),
+    ys = xy.map((p) => p[1]);
+  const [x0, x1, y0, y1] = [
+    Math.min(...xs),
+    Math.max(...xs),
+    Math.min(...ys),
+    Math.max(...ys),
+  ];
+  const W = 260,
+    H = 150,
+    pad = 12;
+  const k = Math.min(
+    (W - 2 * pad) / Math.max(x1 - x0, 1e-3),
+    (H - 2 * pad) / Math.max(y1 - y0, 1e-3),
+  );
+  const ox = (W - (x1 - x0) * k) / 2,
+    oy = (H - (y1 - y0) * k) / 2;
+  const P = ([x, y]: [number, number]) =>
+    [ox + (x - x0) * k, H - (oy + (y - y0) * k)] as const;
   const d = route.segments
-    .map((g) => g.points.map((p, i) => { const [a, b] = P(km(p)); return `${i ? "L" : "M"}${a.toFixed(1)} ${b.toFixed(1)}`; }).join(""))
+    .map((g) =>
+      g.points
+        .map((p, i) => {
+          const [a, b] = P(km(p));
+          return `${i ? "L" : "M"}${a.toFixed(1)} ${b.toFixed(1)}`;
+        })
+        .join(""),
+    )
     .join("");
   const [sx, sy] = P(xy[0]);
   const [ex, ey] = P(xy[xy.length - 1]);
   // A round scale length about a quarter of the map's width.
-  const want = (W / 4) / k;
-  const nice = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100].find((v) => v >= want) ?? Math.round(want);
+  const want = W / 4 / k;
+  const nice =
+    [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100].find(
+      (v) => v >= want,
+    ) ?? Math.round(want);
   const label = nice < 1 ? `${Math.round(nice * 1000)} m` : `${nice} km`;
   return (
     <figure className="mfile-trail">
-      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Map of the path it drove, from start to where it stopped">
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        role="img"
+        aria-label="Map of the path it drove, from start to where it stopped"
+      >
         <path d={d} className="trail-line" />
         <circle cx={sx} cy={sy} r="4.5" className="trail-start" />
         <circle cx={ex} cy={ey} r="5" className="trail-end" />
@@ -275,17 +425,31 @@ function RouteMap({ route, body }: { route: Route; body: string }) {
           <rect width={nice * k} height="3" className="trail-scale" />
           <text y="-5">{label}</text>
         </g>
-        <text x={W - pad} y={pad + 4} textAnchor="end">N ↑</text>
+        <text x={W - pad} y={pad + 4} textAnchor="end">
+          N ↑
+        </text>
       </svg>
       <figcaption>
-        <span><i className="legend-dot legend-start" /> Start</span> <span><i className="legend-dot legend-end" /> Where it stopped</span>
+        <span>
+          <i className="legend-dot legend-start" /> Start
+        </span>{" "}
+        <span>
+          <i className="legend-dot legend-end" /> Where it stopped
+        </span>
       </figcaption>
     </figure>
   );
 }
 let atlasData: Promise<Record<string, AtlasRecord>> | null = null;
 function loadAtlas() {
-  atlasData ??= Promise.all(["moon", "mars", "deepspace"].map((w) => fetch(`/data/${w}.json`).then((r) => (r.ok ? r.json() : [])) as Promise<AtlasRecord[]>))
+  atlasData ??= Promise.all(
+    ["moon", "mars", "deepspace"].map(
+      (w) =>
+        fetch(`/data/${w}.json`).then((r) => (r.ok ? r.json() : [])) as Promise<
+          AtlasRecord[]
+        >,
+    ),
+  )
     .then((lists) => Object.fromEntries(lists.flat().map((m) => [m.id, m])))
     .catch(() => ({}));
   return atlasData;
@@ -296,13 +460,36 @@ function MissionFile() {
   const stop = useStore(tour, (s) => s.stop);
   const s = STOPS[stop];
   // Kept with the stop's id so a slow load never shows the previous stop's fate.
-  const [got, setGot] = useState<{ id: string; fate: Fate | null; fun?: string; route?: Route } | null>(null);
+  const [got, setGot] = useState<{
+    id: string;
+    fate: Fate | null;
+    fun?: string;
+    route?: Route;
+  } | null>(null);
   const fate = s && got?.id === s.id ? got.fate : null;
   const fun = s && got?.id === s.id ? got.fun : undefined;
   const route = s && got?.id === s.id ? got.route : undefined;
-  type Photo = { file: string; w: number; h: number; caption: string; credit: string; license: string; source?: string };
-  type LiveRow = { key: string; label: string; value: string; note: string; kind: string };
-  const [media, setMedia] = useState<{ id: string; photos: Photo[]; live: unknown } | null>(null);
+  type Photo = {
+    file: string;
+    w: number;
+    h: number;
+    caption: string;
+    credit: string;
+    license: string;
+    source?: string;
+  };
+  type LiveRow = {
+    key: string;
+    label: string;
+    value: string;
+    note: string;
+    kind: string;
+  };
+  const [media, setMedia] = useState<{
+    id: string;
+    photos: Photo[];
+    live: unknown;
+  } | null>(null);
   const photos = s && media?.id === s.id ? media.photos : [];
   const liveEntry = s && media?.id === s.id ? media.live : null;
   const [rows, setRows] = useState<LiveRow[]>([]);
@@ -310,7 +497,15 @@ function MissionFile() {
     let off = false;
     if (s)
       Promise.all([photosFor(s.id), loadLive()])
-        .then(([p, l]) => !off && setMedia({ id: s.id, photos: (p as Photo[]).slice(0, 3), live: (l as Record<string, unknown>)[s.id] ?? null }))
+        .then(
+          ([p, l]) =>
+            !off &&
+            setMedia({
+              id: s.id,
+              photos: (p as Photo[]).slice(0, 3),
+              live: (l as Record<string, unknown>)[s.id] ?? null,
+            }),
+        )
         .catch(() => {});
     return () => {
       off = true;
@@ -327,12 +522,20 @@ function MissionFile() {
       clearTimeout(first);
     };
   }, [liveEntry]);
-  const [open, setOpen] = useState(true);
-  const introOpen = useStore(tour, (t) => t.introOpen);
-  const spotOpen = useStore(tour, (t) => !!t.openSpot);
+  const open = useStore(tour, (t) => t.fileOpen);
   useEffect(() => {
     let off = false;
-    if (s) Promise.all([loadAtlas(), loadRoutes()]).then(([d, r]) => !off && setGot({ id: s.id, fate: d[s.id]?.fate ?? null, fun: d[s.id]?.funFact, route: r[s.id] }));
+    if (s)
+      Promise.all([loadAtlas(), loadRoutes()]).then(
+        ([d, r]) =>
+          !off &&
+          setGot({
+            id: s.id,
+            fate: d[s.id]?.fate ?? null,
+            fun: d[s.id]?.funFact,
+            route: r[s.id],
+          }),
+      );
     return () => {
       off = true;
     };
@@ -345,130 +548,159 @@ function MissionFile() {
   const scale = (v: number) => v / big;
   const failed = fate && FAILED.has(fate.category);
   return (
-    <motion.aside
-      key={s.id}
-      className={`mfile${open ? "" : " closed"}${introOpen ? " under-intro" : ""}${spotOpen ? " under-spot" : ""}`}
-      aria-label="Mission file"
-      initial={{ opacity: 0, x: 24 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 24 }}
-      transition={{ duration: 0.6, ease }}
+    <Overlay
+      open={open}
+      onClose={() => setFileOpen(false)}
+      label="Mission file"
+      className="mfile"
     >
-      <button type="button" className="mfile-toggle" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
-        Mission file <span aria-hidden="true">{open ? "−" : "+"}</span>
-      </button>
-      {open && (
-        <div className="mfile-body">
-          {fate && (
-            <div className={`mfile-fate${failed ? " bad" : ""}`}>
-              <p className="eyebrow">What happened</p>
-              <p className="mfile-fate-cat">
-                <i aria-hidden="true" />
-                {FATE_WORDS[fate.category] ?? fate.category}
-              </p>
-              <p className="mfile-fate-label">{fate.label}</p>
+      <header className="overlay-head">
+        <p className="eyebrow">{s.mission}</p>
+        <h2>{s.name}</h2>
+        <p className="overlay-lede">{s.status}</p>
+      </header>
+      <div className="mfile-body">
+        {fate && (
+          <div className={`mfile-fate${failed ? " bad" : ""}`}>
+            <p className="eyebrow">What happened</p>
+            <p className="mfile-fate-cat">
+              {FATE_WORDS[fate.category] ?? fate.category}
+            </p>
+            <p className="mfile-fate-label">{fate.label}</p>
+          </div>
+        )}
+        {broken.length > 0 && (
+          <div className="mfile-broken">
+            <p className="eyebrow">{broken[0].tag ?? "Broken part"}</p>
+            <ul>
+              {broken.map((h) => (
+                <li key={h.id}>
+                  <button type="button" onClick={() => openHotspot(s.id, h.id)}>
+                    {h.title}
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <p className="mfile-small">
+              Glowing red on the machine. Pick one to read what happened.
+            </p>
+          </div>
+        )}
+        {s.info && (
+          <dl className="mfile-stats">
+            {s.info.stats.map((x) => (
+              <div key={x.label}>
+                <dt>{x.label}</dt>
+                <dd>{x.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+        {plan && (
+          <div className="mfile-plan">
+            <p className="eyebrow">{plan.label}</p>
+            <div className="mfile-bar">
+              <span className="lbl">Planned</span>
+              <span className="track">
+                <b
+                  className="planned"
+                  style={{
+                    width: `${(scale(plan.planned) * 100).toFixed(1)}%`,
+                  }}
+                />
+              </span>
+              <span className="num">
+                {plan.planned.toLocaleString("en-US")}
+              </span>
             </div>
-          )}
-          {broken.length > 0 && (
-            <div className="mfile-broken">
-              <p className="eyebrow">{broken[0].tag ?? "Broken part"}</p>
-              <ul>
-                {broken.map((h) => (
-                  <li key={h.id}>
-                    <button type="button" onClick={() => openHotspot(s.id, h.id)}>
-                      <i aria-hidden="true" />
-                      {h.title}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              <p className="mfile-small">Glowing red on the machine. Click to read what happened.</p>
+            <div className="mfile-bar">
+              <span className="lbl">
+                {plan.actual >= plan.planned ? "Actual" : "Used"}
+              </span>
+              <span className="track">
+                <b
+                  className="actual"
+                  style={{
+                    width: `${(scale(plan.actual) * 100).toFixed(1)}%`,
+                  }}
+                />
+              </span>
+              <span className="num">{plan.actual.toLocaleString("en-US")}</span>
             </div>
-          )}
-          {s.info && (
+            <p className="mfile-small">
+              {plan.note} <span className="unit">({plan.unit})</span>
+            </p>
+          </div>
+        )}
+        {route && (
+          <div>
+            <p className="eyebrow">The path it took</p>
+            <RouteMap route={route} body={s.body} />
+          </div>
+        )}
+        {!!liveEntry && rows.length > 0 && (
+          <div className="mfile-live">
+            <p className="eyebrow">Right now</p>
             <dl className="mfile-stats">
-              {s.info.stats.map((x) => (
-                <div key={x.label}>
-                  <dt>{x.label}</dt>
-                  <dd>{x.value}</dd>
+              {rows.slice(0, 4).map((r) => (
+                <div key={r.key}>
+                  <dt>{r.label}</dt>
+                  <dd>{r.value}</dd>
                 </div>
               ))}
             </dl>
-          )}
-          {plan && (
-            <div className="mfile-plan">
-              <p className="eyebrow">{plan.label}</p>
-              <div className="mfile-bar">
-                <span className="lbl">Planned</span>
-                <span className="track">
-                  <b className="planned" style={{ width: `${(scale(plan.planned) * 100).toFixed(1)}%` }} />
-                </span>
-                <span className="num">{plan.planned.toLocaleString("en-US")}</span>
-              </div>
-              <div className="mfile-bar">
-                <span className="lbl">{plan.actual >= plan.planned ? "Actual" : "Used"}</span>
-                <span className="track">
-                  <b className="actual" style={{ width: `${(scale(plan.actual) * 100).toFixed(1)}%` }} />
-                </span>
-                <span className="num">{plan.actual.toLocaleString("en-US")}</span>
-              </div>
-              <p className="mfile-small">
-                {plan.note} <span className="unit">({plan.unit})</span>
-              </p>
+            <p className="mfile-small">
+              Calculated from NASA/JPL tracking data, updating every second.
+            </p>
+          </div>
+        )}
+        {photos.length > 0 && (
+          <div className="mfile-wide">
+            <p className="eyebrow">Photos</p>
+            <div className="mfile-photos">
+              {photos.map((p) => (
+                <figure key={p.file}>
+                  <a
+                    href={p.source || `/${p.file}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {/* Plain img: the site is also published as a static artifact with no image optimiser. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`/${p.file}`}
+                      width={p.w}
+                      height={p.h}
+                      alt={p.caption}
+                      loading="lazy"
+                    />
+                  </a>
+                  <figcaption>
+                    {p.caption}{" "}
+                    <span className="credit">
+                      {p.credit} · {p.license}
+                    </span>
+                  </figcaption>
+                </figure>
+              ))}
             </div>
-          )}
-          {route && (
-            <div>
-              <p className="eyebrow">The path it took</p>
-              <RouteMap route={route} body={s.body} />
-            </div>
-          )}
-          {!!liveEntry && rows.length > 0 && (
-            <div className="mfile-live">
-              <p className="eyebrow">Right now</p>
-              <dl className="mfile-stats">
-                {rows.slice(0, 4).map((r) => (
-                  <div key={r.key}>
-                    <dt>{r.label}</dt>
-                    <dd>{r.value}</dd>
-                  </div>
-                ))}
-              </dl>
-              <p className="mfile-small">Calculated from NASA/JPL tracking data, updating every second.</p>
-            </div>
-          )}
-          {photos.length > 0 && (
-            <div>
-              <p className="eyebrow">Photos it took</p>
-              <div className="mfile-photos">
-                {photos.map((p) => (
-                  <figure key={p.file}>
-                    <a href={p.source || `/${p.file}`} target="_blank" rel="noopener noreferrer">
-                      {/* Plain img: the site is also published as a static artifact with no image optimiser. */}
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={`/${p.file}`} width={p.w} height={p.h} alt={p.caption} loading="lazy" />
-                    </a>
-                    <figcaption>
-                      {p.caption} <span className="credit">{p.credit} · {p.license}</span>
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
-            </div>
-          )}
-          {fun && (
-            <div className="mfile-fun">
-              <p className="eyebrow">Fun fact</p>
-              <p>{fun}</p>
-            </div>
-          )}
-          {/* A full page load on purpose: the atlas runs its own 3D engine. */}
-          <a className="mfile-more" href={`/explore#${s.id}`}>
-            Full story, photos and links in the atlas <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-      )}
-    </motion.aside>
+          </div>
+        )}
+        {fun && (
+          <div className="mfile-fun">
+            <p className="eyebrow">Fun fact</p>
+            <p>{fun}</p>
+          </div>
+        )}
+        {/* A full page load on purpose: the atlas runs its own 3D engine. */}
+        <a className="mfile-more mfile-wide" href={`/explore#${s.id}`}>
+          Full story, photos and links in the atlas{" "}
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+      {/* Every failed mission in the atlas, grouped by cause, under this machine's own file. */}
+      <FailureBank />
+    </Overlay>
   );
 }
 
@@ -503,14 +735,35 @@ function Cruise() {
 
 function EndScreen() {
   return (
-    <motion.section className="end" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
-      <motion.h2 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.9, ease }}>
+    <motion.section
+      className="end"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <motion.h2
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.9, ease }}
+      >
         Every machine has a story.
       </motion.h2>
-      <motion.p className="end-lede" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.8, ease }}>
-        You visited 6 of the 79 machines in this atlas. The rest are still out there: on the Moon, on Mars, and sailing between the planets.
+      <motion.p
+        className="end-lede"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.8, ease }}
+      >
+        You visited 6 of the 79 machines in this atlas. The rest are still out
+        there: on the Moon, on Mars, and sailing between the planets.
       </motion.p>
-      <motion.div className="end-actions" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85, duration: 0.8, ease }}>
+      <motion.div
+        className="end-actions"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.85, duration: 0.8, ease }}
+      >
         <button type="button" className="start-btn" onClick={startTour}>
           Replay the trip
         </button>
@@ -518,7 +771,12 @@ function EndScreen() {
           Explore all 79 machines ↗
         </a>
       </motion.div>
-      <motion.details className="credits" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1, duration: 0.8 }}>
+      <motion.details
+        className="credits"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.1, duration: 0.8 }}
+      >
         <summary>Credits and sources</summary>
         {CREDITS.map((c) => (
           <p key={c}>{c}</p>
@@ -546,15 +804,18 @@ function useHashSync() {
     return () => removeEventListener("hashchange", go);
   }, []);
   useEffect(() => {
-    const id = phase === "explore" || phase === "travel" ? STOPS[stop]?.id : null;
+    const id =
+      phase === "explore" || phase === "travel" ? STOPS[stop]?.id : null;
     const want = id ? `#${id}` : "";
-    if (location.hash !== want) history.replaceState(null, "", want || location.pathname);
+    if (location.hash !== want)
+      history.replaceState(null, "", want || location.pathname);
   }, [phase, stop]);
 }
 
 export default function Tour() {
   const phase = useStore(tour, (s) => s.phase);
   const introOpen = useStore(tour, (s) => s.introOpen);
+  const openSpot = useStore(tour, (s) => s.openSpot);
   const fade = useRef<HTMLDivElement>(null);
   useHashSync();
 
@@ -574,21 +835,43 @@ export default function Tour() {
   }, []);
 
   const touring = phase === "travel" || phase === "explore";
+  const reading = phase === "explore" && (introOpen || !!openSpot);
   return (
     <MotionConfig reducedMotion="user">
       <div className="tour">
         <TourCanvas />
+        {/* Soft shadows from the screen edges, so text can sit straight on the scene without a card. */}
+        <div
+          className="scrim scrim-top"
+          data-on={touring || undefined}
+          aria-hidden="true"
+        />
+        <div
+          className="scrim scrim-bottom"
+          data-on={reading ? "story" : touring ? "nav" : undefined}
+          aria-hidden="true"
+        />
         <Spots />
         <div className="fade" ref={fade} aria-hidden="true" />
         <ExploreLink />
-        <AnimatePresence>{phase === "start" && <StartScreen key="start" />}</AnimatePresence>
-        <AnimatePresence>{phase === "explore" && <NamePlate key="plate" />}</AnimatePresence>
-        <AnimatePresence>{phase === "explore" && introOpen && <IntroCard key="intro" />}</AnimatePresence>
-        <AnimatePresence>{phase === "explore" && <MissionFile key="mfile" />}</AnimatePresence>
+        <AnimatePresence>
+          {phase === "start" && <StartScreen key="start" />}
+        </AnimatePresence>
+        <AnimatePresence>
+          {phase === "explore" && <NamePlate key="plate" />}
+        </AnimatePresence>
+        {phase === "explore" && <Story />}
+        <AnimatePresence>
+          {phase === "explore" && <SpotProgress key="spots" />}
+        </AnimatePresence>
+        {phase === "explore" && <MissionFile />}
         <Cruise />
-        <AnimatePresence>{touring && <Controls key="controls" />}</AnimatePresence>
-        {touring && <FailureBank />}
-        <AnimatePresence>{phase === "end" && <EndScreen key="end" />}</AnimatePresence>
+        <AnimatePresence>
+          {touring && <Progress key="progress" />}
+        </AnimatePresence>
+        <AnimatePresence>
+          {phase === "end" && <EndScreen key="end" />}
+        </AnimatePresence>
       </div>
     </MotionConfig>
   );

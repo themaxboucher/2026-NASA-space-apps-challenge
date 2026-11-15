@@ -157,9 +157,9 @@ export const STOPS: Stop[] = [
   {
     id: "apollo11-lm",
     story: {
-      kicker: "Chapter 1 · Apollo 11 · The Moon · 20 July 1969",
+      kicker: "The Moon · Apollo 11 · 20 July 1969",
       title: "One giant leap for mankind",
-      text: "Neil Armstrong and Buzz Aldrin landed in the Sea of Tranquility. Hours later, about 600 million people watched on TV as Armstrong stepped onto the dust and said: “That’s one small step for man, one giant leap for mankind.” For the first time, people had travelled to another world and come home safely. They flew back in the top half of their lander. The bottom half is still standing there.",
+      text: "Armstrong and Aldrin landed, and hours later 600 million people watched on TV as they stepped out: the first people to visit another world. They flew home in the top half of their lander. The bottom half is still there.",
     },
     chapter: "Moon",
     body: "moon",
@@ -252,9 +252,9 @@ export const STOPS: Stop[] = [
   {
     id: "apollo15-lrv",
     story: {
-      kicker: "Chapter 2 · Apollo 15 · The Moon · July 1971",
+      kicker: "The Moon · Apollo 15 · July 1971",
       title: "Man must explore",
-      text: "Stepping onto the Moon, Dave Scott said: “Man must explore. And this is exploration at its greatest.” This time the astronauts brought a car. The Lunar Roving Vehicle carried Scott and Jim Irwin almost 28 km, to mountains and a deep canyon no walker could reach. When they flew home, the car stayed behind, parked where its camera filmed them leaving.",
+      text: "This time the astronauts brought a car. The Lunar Roving Vehicle carried Dave Scott and Jim Irwin almost 28 km, to mountains no walker could reach. When they flew home, it stayed behind.",
     },
     chapter: "Moon",
     body: "moon",
@@ -346,9 +346,9 @@ export const STOPS: Stop[] = [
   {
     id: "opportunity",
     story: {
-      kicker: "Chapter 3 · Opportunity · Mars · 2004–2018",
+      kicker: "Mars · Opportunity · 2004–2018",
       title: "I’ll be seeing you",
-      text: "Where people couldn’t go yet, robots went. Opportunity was built to last 90 Mars days. It kept driving for more than 14 years and found proof that water once soaked the ground of Mars, until a giant dust storm blotted out the Sun. With its last wake-up call in 2019, the team played Billie Holiday’s song “I’ll Be Seeing You”.",
+      text: "Opportunity was built to last 90 days on Mars. It drove for 14 years and proved water once soaked the ground, until a dust storm blotted out the Sun. Its farewell song: “I’ll Be Seeing You”.",
     },
     chapter: "Mars",
     body: "mars",
@@ -424,9 +424,9 @@ export const STOPS: Stop[] = [
   {
     id: "ingenuity",
     story: {
-      kicker: "Chapter 4 · Ingenuity · Mars · 2021–2024",
+      kicker: "Mars · Ingenuity · 2021–2024",
       title: "A Wright brothers moment on Mars",
-      text: "Mars air is about 100 times thinner than Earth’s, so many people thought nothing could fly there. Ingenuity proved them wrong, carrying a tiny piece of cloth from the Wright brothers’ first airplane under its solar panel. It weighs about as much as a big bag of sugar, and it flew 72 times before a hard landing broke its blades.",
+      text: "Mars air is 100 times thinner than Earth’s, so few thought anything could fly there. Carrying a scrap of the Wright brothers’ first airplane, Ingenuity flew 72 times before a hard landing.",
     },
     chapter: "Mars",
     body: "mars",
@@ -507,9 +507,9 @@ export const STOPS: Stop[] = [
   {
     id: "cassini",
     story: {
-      kicker: "Chapter 5 · Cassini · Saturn · 2004–2017",
+      kicker: "Saturn · Cassini · 2004–2017",
       title: "The Grand Finale",
-      text: "Cassini went around Saturn 294 times. It found an ocean hidden under the ice of the moon Enceladus and dropped the Huygens probe onto the moon Titan. When its fuel ran low, NASA sent it diving between Saturn and its rings 22 times, then steered it into Saturn on purpose, so it could never crash into a moon that might hold life.",
+      text: "Cassini circled Saturn 294 times and found a hidden ocean on the moon Enceladus. Low on fuel, it was steered into Saturn on purpose, so it could never crash into a moon that might hold life.",
     },
     chapter: "Deep space",
     body: "saturn",
@@ -578,9 +578,9 @@ export const STOPS: Stop[] = [
   {
     id: "voyager1",
     story: {
-      kicker: "Chapter 6 · Voyager 1 · Deep space · since 1977",
+      kicker: "Deep space · Voyager 1 · since 1977",
       title: "The Pale Blue Dot",
-      text: "In 1990, from 6 billion km away, Voyager 1 turned its camera back and photographed Earth: a speck smaller than a pixel. Carl Sagan called it a pale blue dot: “That’s here. That’s home. That’s us.” Today Voyager 1 is the farthest thing people have ever built, about 25 billion km away. Its power is fading, but it still phones home.",
+      text: "In 1990, Voyager 1 looked back and photographed Earth as a speck: a pale blue dot. Now 25 billion km away, it is the farthest thing people have ever built. Its power is fading, but it still phones home.",
     },
     chapter: "Deep space",
     body: "deep",

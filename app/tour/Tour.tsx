@@ -55,7 +55,7 @@ function briefing(n: number) {
     },
     {
       title: "You're the salvage scout",
-      text: `You'll first visit ${STORY_COUNT} of them, one chapter at a time. At each one, your job is to survey the site: discover what we sent there, what we left behind, and why it was left. The glowing spots are your clues: blue ones tell the story, red ones show what broke. Each clue you find opens your case file. Then think like an engineer and decide: could we repair it, put it to a new use, bring it home, or should we leave it as history?`,
+      text: `You'll visit ${STORY_COUNT} of them. At each site, find out what we left behind and why. Glowing spots are your clues: blue tells the story, red shows what broke. Then decide like an engineer: repair it, repurpose it, bring it home, or leave it as history?`,
     },
     {
       title: "Are you ready?",
@@ -155,7 +155,7 @@ function StartScreen() {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.5, ease }}
           >
-            <p className="chapter-kicker">Mission briefing · {step + 1} of {steps.length}</p>
+            <p className="chapter-kicker">Mission briefing</p>
             <h2 id="brief-title">{card.title}</h2>
             <p className="chapter-text">{card.text}</p>
             <div className="chapter-actions brief-actions">
@@ -165,7 +165,7 @@ function StartScreen() {
                 </button>
               ) : (
                 <button type="button" className="start-btn" autoFocus onClick={startTour}>
-                  Launch
+                  Let&apos;s go
                 </button>
               )}
               {step < steps.length - 1 && (
@@ -178,28 +178,13 @@ function StartScreen() {
           </motion.div>
         )}
       </AnimatePresence>
-      {/* The NASA Space Apps logo with the team who made the site stacked under it, bottom left. */}
+      {/* The team who made the site, bottom left. */}
       <motion.div
         className="start-credit"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8, duration: 0.8, ease }}
       >
-        {/* This project is a NASA Space Apps Challenge 2026 entry; official logo from spaceappschallenge.org/brand. */}
-        <motion.a
-          className="start-badge"
-          href="https://www.spaceappschallenge.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG needs no image optimization */}
-          <img
-            src="/img/space-apps-logo.svg"
-            alt="NASA Space Apps Challenge"
-            width={561}
-            height={221}
-          />
-        </motion.a>
         <p className="start-team">
           <span>Designed by</span>
           <span>Jonathan Eng</span>
@@ -208,11 +193,30 @@ function StartScreen() {
           <span>Abdelrahman ElSayed</span>
         </p>
       </motion.div>
+      {/* The NASA Space Apps logo, bottom right. This project is a NASA Space Apps Challenge 2026 entry;
+          official logo from spaceappschallenge.org/brand. */}
+      <motion.a
+        className="start-badge"
+        href="https://www.spaceappschallenge.org/"
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8, duration: 0.8, ease }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG needs no image optimization */}
+        <img
+          src="/img/space-apps-logo.svg"
+          alt="NASA Space Apps Challenge"
+          width={561}
+          height={221}
+        />
+      </motion.a>
     </motion.section>
   );
 }
 
-// Bottom right of the start screen: the junk circling Earth, from ESA's counts; it opens the Earth's orbit card.
+// Start screen, just off Earth's upper-right edge: the junk circling Earth, from ESA's counts; it opens the Earth's orbit card.
 function DebrisChip() {
   const [d, setD] = useState<EarthOrbit | null>(null);
   const [open, setOpen] = useState(false);
@@ -222,12 +226,11 @@ function DebrisChip() {
   if (!d) return null;
   return (
     <>
-      <motion.button type="button" className="debris-chip" aria-haspopup="dialog" onClick={() => setOpen(true)} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 1.2 }}>
+      <motion.button type="button" className="debris-chip" aria-haspopup="dialog" aria-label={`${d.tracked.toLocaleString("en-US")} objects circle Earth that we can track. Only ${d.satellitesWorking.toLocaleString("en-US")} of them work.`} onClick={() => setOpen(true)} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 1.2 }}>
         <i aria-hidden="true" />
-        <span>
+        <span aria-hidden="true">
           {d.tracked.toLocaleString("en-US")} objects circle Earth that we can track. Only {d.satellitesWorking.toLocaleString("en-US")} of them work.
         </span>
-        <b>What’s up there?</b>
       </motion.button>
       {/* Rendered at the top of the tour, so it covers the whole screen and not just the start screen's layer. */}
       {createPortal(<EarthOrbitCard d={d} open={open} onClose={() => setOpen(false)} />, document.querySelector(".tour") ?? document.body)}
@@ -543,11 +546,11 @@ function Minimap() {
   );
 }
 
-// Captions and a Skip button while the ghosts re-enact what happened here (scene/Ghost.tsx writes the lines).
+// Captions and a Skip button while the ghosts re-enact what happened here (scene/Ghost.tsx writes the lines, and
+// setCaption in state.ts decodes each one in like a received transmission).
 function ReplayBar() {
   return (
     <motion.div className="replay" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5, ease }}>
-      <p className="replay-tag">Back in time</p>
       <p
         className="replay-line"
         aria-live="polite"
@@ -555,14 +558,7 @@ function ReplayBar() {
           hud.replayLine = el;
         }}
       />
-      <span className="replay-progress" aria-hidden="true">
-        <b
-          ref={(el) => {
-            hud.replayBar = el;
-          }}
-        />
-      </span>
-      <ConfirmSkip className="replay-skip" question="Skip what happened here?" yes="Yes, skip" no="Keep watching" onConfirm={() => endReplay()} askEvent="gra-ask-skip-replay" />
+      <ConfirmSkip className="replay-skip" label={<>Skip <ChevronRight aria-hidden="true" /></>} ariaLabel="Skip" question="Skip what happened here?" yes="Yes, skip" no="Keep watching" onConfirm={() => endReplay()} askEvent="gra-ask-skip-replay" />
     </motion.div>
   );
 }
@@ -1126,7 +1122,6 @@ function Cruise() {
         >
           <p className="eyebrow">{cruise.label}</p>
           <p className="cruise-num" ref={counterRef} data-label={cruise.label} />
-          <p className="cruise-dest">{cruise.dest}</p>
         </motion.div>
       )}
     </AnimatePresence>

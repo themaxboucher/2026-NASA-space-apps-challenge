@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 
 // A Skip button that asks first: one click opens a small "Skip this?" with Yes and No, so nobody misses a part
 // by accident. `askEvent` lets a key (Esc during a replay) open the same question.
@@ -14,7 +14,7 @@ export function ConfirmSkip({
   ariaLabel,
   askEvent,
 }: {
-  label?: string;
+  label?: ReactNode;
   question: string;
   yes?: string;
   no?: string;

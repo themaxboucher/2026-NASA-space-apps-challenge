@@ -158,7 +158,7 @@ export const STOPS: Stop[] = [
     id: "apollo11-lm",
     story: {
       kicker: "The Moon · Apollo 11 · 20 July 1969",
-      title: "One giant leap for mankind",
+      title: "One Small Step, One Giant Leap",
       text: "Armstrong and Aldrin landed, and hours later 600 million people watched on TV as they stepped out: the first people to visit another world. They flew home in the top half of their lander. The bottom half is still there.",
     },
     chapter: "Moon",

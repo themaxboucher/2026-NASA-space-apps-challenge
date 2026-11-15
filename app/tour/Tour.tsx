@@ -1272,47 +1272,32 @@ function Cruise() {
   );
 }
 
-// What the scout concluded: each story machine visited, what happened to it and its salvage grade.
+// Each story machine visited and what happened to it (plus your own call on it, if you made one).
 function Verdicts() {
   const visitedIds = useStore(tour, (s) => s.visited.join(","));
   const calls = useStore(tour, (s) => s.calls);
-  const sv = useSalvage();
   const [atlas, setAtlas] = useState<Record<string, { fate?: Fate }>>({});
   useEffect(() => {
     loadAtlas().then(setAtlas);
   }, []);
   const seen = STOPS.slice(0, STORY_COUNT).filter((s) => visitedIds.split(",").includes(s.id));
   if (!seen.length) return null;
-  const grades = seen.map((s) => sv?.machines[s.id]);
-  const reusable = grades.filter((m) => m?.grade && "ABC".includes(m.grade)).length;
-  const gone = grades.filter((m) => m?.grade && "DF".includes(m.grade)).length;
-  const working = grades.filter((m) => m?.working).length;
   return (
     <motion.div className="verdicts" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75, duration: 0.8, ease }}>
       <p className="eyebrow">End of the tour · what you found at each stop</p>
       <ul>
         {seen.map((s) => {
-          const g = gradeLine(sv, s.id);
           const fate = s.info?.fate ?? atlas[s.id]?.fate;
           return (
             <li key={s.id}>
-              <b className="verdict-grade">{g?.grade ?? "?"}</b>
               <span>
                 <strong>{s.name}</strong> · {fate ? FATE_WORDS[fate.category] ?? fate.category : s.status}
-                {calls[s.id] ? <em> · Your call: {CALLS[calls[s.id]]}</em> : g?.meaning && <em> · {g.meaning}</em>}
+                {calls[s.id] && <em> · Your call: {CALLS[calls[s.id]]}</em>}
               </span>
             </li>
           );
         })}
       </ul>
-      {sv && (
-        <p className="verdict-sum">
-          {Object.keys(calls).length > 0 && `You made ${Object.keys(calls).length} ${Object.keys(calls).length === 1 ? "call" : "calls"}. `}
-          The engineers&apos; view: {reusable} could be visited, studied or reused one day
-          {gone ? `, ${gone} ${gone === 1 ? "is" : "are"} out of reach or gone for good` : ""}
-          {working ? `, and ${working} ${working === 1 ? "is" : "are"} still working` : ""}.
-        </p>
-      )}
     </motion.div>
   );
 }

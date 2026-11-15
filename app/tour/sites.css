@@ -18,48 +18,101 @@
   border-color: var(--ink2);
 }
 
-/* The orbital-debris label on the title screen, low and quiet. */
+/* The orbital-debris marker on the title screen: a pulsing dot whose label slides in on hover. */
 .debris-chip {
+  --hit: 14px; /* invisible padding around the dot that still counts as hovering it */
+  --dot: 6px;
   position: absolute;
-  right: var(--gut-r);
-  bottom: var(--gut-b);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  max-width: min(420px, calc(100vw - var(--gut-l) - var(--gut-r)));
-  margin: 0;
-  padding: 6px 12px;
-  border: 1px solid var(--line);
-  border-radius: var(--pill);
-  background: rgba(10, 12, 16, 0.6);
-  color: var(--dim);
+  /* Just off Earth's upper-right edge. The camera's field of view is vertical, so Earth is centred
+     horizontally and its size and height follow the viewport height: centre about 78vh down, radius about 35vh.
+     The negative margin keeps the dot itself on that spot despite the hit padding. */
+  left: calc(50% + 31vh);
+  bottom: 41vh;
+  display: block;
+  margin: calc(-1 * var(--hit));
+  padding: var(--hit);
+  border: 0;
+  background: none;
+  color: var(--ink2);
   font: 500 0.75rem/1.4 var(--body);
   text-align: left;
-}
-button.debris-chip {
   pointer-events: auto;
   cursor: pointer;
-  border-radius: var(--r-lg);
-  transition: border-color 0.2s, background 0.2s;
-}
-button.debris-chip:hover {
-  border-color: var(--line2);
-  background: rgba(26, 30, 38, 0.85);
-}
-.debris-chip b {
-  flex: none;
-  color: var(--accent-hi);
-  font: 600 0.6875rem/1 var(--mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 .debris-chip i {
-  flex: none;
-  width: 6px;
-  height: 6px;
+  display: block;
+  width: var(--dot);
+  height: var(--dot);
   border-radius: 50%;
   background: #d9e4ff;
-  box-shadow: 0 0 6px #d9e4ff;
+  box-shadow: 0 0 0 0 rgba(217, 228, 255, 0.5);
+  animation: debris-beckon 2.6s ease-out 3.4s infinite;
+}
+@keyframes debris-beckon {
+  0% {
+    box-shadow: 0 0 0 0 rgba(217, 228, 255, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(217, 228, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(217, 228, 255, 0);
+  }
+}
+/* The label: beside the dot, its first line centred on it; balanced so the second line never holds one word. */
+.debris-chip span {
+  position: absolute;
+  left: calc(var(--hit) + var(--dot) + 10px);
+  top: calc(var(--hit) + var(--dot) / 2 - 0.75rem * 0.7);
+  width: 17.5em;
+  text-wrap: balance;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  transform: translateX(-6px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.debris-chip:hover span,
+.debris-chip:focus-visible span {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.debris-chip:focus-visible {
+  outline: none;
+}
+.debris-chip:focus-visible i {
+  outline: 2px solid var(--accent-hi);
+  outline-offset: 3px;
+}
+/* Touch screens can't hover, so the label stays shown. */
+@media (hover: none) {
+  .debris-chip span {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+/* Tall or narrow screens: Earth's edge runs off the side, so the dot goes to the bottom right, above the logo,
+   with its label to its left. */
+@media (max-aspect-ratio: 5/4) {
+  .debris-chip {
+    left: auto;
+    right: var(--gut-r);
+    /* Above the Space Apps logo (its height plus padding), which holds the very corner. */
+    bottom: calc(var(--gut-b) + clamp(40px, 6vh, 56px) + 28px);
+  }
+  .debris-chip span {
+    left: auto;
+    right: calc(var(--hit) + var(--dot) + 10px);
+    text-align: right;
+    transform: translateX(6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .debris-chip i {
+    animation: none;
+  }
 }
 
 /* Caption chip naming what you fly past (written by the Director). */
@@ -444,7 +497,7 @@ button.debris-chip:hover {
   }
 }
 
-/* Space Apps logo with the team's names stacked under it (bottom left of the start screen). */
+/* The team's names, bottom left of the start screen. */
 .start-credit {
   position: absolute;
   left: var(--gut-l);
@@ -453,9 +506,6 @@ button.debris-chip:hover {
   justify-items: start;
   gap: 6px;
   pointer-events: auto;
-}
-.start-credit .start-badge {
-  position: static;
 }
 .start-team {
   display: grid;

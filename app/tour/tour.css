@@ -155,7 +155,7 @@ body {
 /* Hackathon credit: the official NASA Space Apps logo, bottom left, linking to the challenge. */
 .start-badge {
   position: absolute;
-  left: var(--gut-l);
+  right: var(--gut-r);
   bottom: var(--gut-b);
   display: block;
   padding: 6px;

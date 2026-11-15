@@ -177,28 +177,13 @@ function StartScreen() {
           </motion.div>
         )}
       </AnimatePresence>
-      {/* The NASA Space Apps logo with the team who made the site stacked under it, bottom left. */}
+      {/* The team who made the site, bottom left. */}
       <motion.div
         className="start-credit"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8, duration: 0.8, ease }}
       >
-        {/* This project is a NASA Space Apps Challenge 2026 entry; official logo from spaceappschallenge.org/brand. */}
-        <motion.a
-          className="start-badge"
-          href="https://www.spaceappschallenge.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG needs no image optimization */}
-          <img
-            src="/img/space-apps-logo.svg"
-            alt="NASA Space Apps Challenge"
-            width={561}
-            height={221}
-          />
-        </motion.a>
         <p className="start-team">
           <span>Designed by</span>
           <span>Jonathan Eng</span>
@@ -207,11 +192,30 @@ function StartScreen() {
           <span>Abdelrahman ElSayed</span>
         </p>
       </motion.div>
+      {/* The NASA Space Apps logo, bottom right. This project is a NASA Space Apps Challenge 2026 entry;
+          official logo from spaceappschallenge.org/brand. */}
+      <motion.a
+        className="start-badge"
+        href="https://www.spaceappschallenge.org/"
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8, duration: 0.8, ease }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG needs no image optimization */}
+        <img
+          src="/img/space-apps-logo.svg"
+          alt="NASA Space Apps Challenge"
+          width={561}
+          height={221}
+        />
+      </motion.a>
     </motion.section>
   );
 }
 
-// Bottom right of the start screen: the junk circling Earth, from ESA's counts; it opens the Earth's orbit card.
+// Start screen, just off Earth's upper-right edge: the junk circling Earth, from ESA's counts; it opens the Earth's orbit card.
 function DebrisChip() {
   const [d, setD] = useState<EarthOrbit | null>(null);
   const [open, setOpen] = useState(false);
@@ -221,12 +225,11 @@ function DebrisChip() {
   if (!d) return null;
   return (
     <>
-      <motion.button type="button" className="debris-chip" aria-haspopup="dialog" onClick={() => setOpen(true)} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 1.2 }}>
+      <motion.button type="button" className="debris-chip" aria-haspopup="dialog" aria-label={`${d.tracked.toLocaleString("en-US")} objects circle Earth that we can track. Only ${d.satellitesWorking.toLocaleString("en-US")} of them work.`} onClick={() => setOpen(true)} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 1.2 }}>
         <i aria-hidden="true" />
-        <span>
+        <span aria-hidden="true">
           {d.tracked.toLocaleString("en-US")} objects circle Earth that we can track. Only {d.satellitesWorking.toLocaleString("en-US")} of them work.
         </span>
-        <b>What’s up there?</b>
       </motion.button>
       {/* Rendered at the top of the tour, so it covers the whole screen and not just the start screen's layer. */}
       {createPortal(<EarthOrbitCard d={d} open={open} onClose={() => setOpen(false)} />, document.querySelector(".tour") ?? document.body)}

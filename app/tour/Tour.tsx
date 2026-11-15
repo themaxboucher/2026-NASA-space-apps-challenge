@@ -628,7 +628,7 @@ function SpotStory({ stopId, spot }: { stopId: string; spot: Hotspot }) {
         </a>
         {film && (
           <button type="button" className="story-film" onClick={() => playCutscene(key)}>
-            <Play aria-hidden="true" /> Watch what it saw
+            <Play aria-hidden="true" /> Watch video
           </button>
         )}
       </div>

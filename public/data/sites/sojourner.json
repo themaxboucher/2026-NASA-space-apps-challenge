@@ -25,7 +25,8 @@
       "source": {
         "label": "NASA: Mars Pathfinder",
         "url": "https://science.nasa.gov/mission/mars-pathfinder/"
-      }
+      },
+      "glowRadius": 0.09
     },
     {
       "id": "solar-panel",

@@ -30,11 +30,10 @@
       "title": "Worn wheels",
       "text": "Curiosity’s thin aluminium wheels have holes and cracks from sharp rocks. A scout would check them closely: they still roll, and new driving software from 2017 adjusts each wheel’s speed to slow the damage.",
       "anchor": {
-        "part": "wheels",
-        "at": [
-          1,
-          0.6,
-          0.88
+        "pos": [
+          1.24,
+          0.3,
+          0.6
         ]
       },
       "source": {

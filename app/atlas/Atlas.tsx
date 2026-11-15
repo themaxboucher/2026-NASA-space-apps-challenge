@@ -6,6 +6,8 @@ import "./atlas.css";
 import "./atlas-type.css";
 import "./salvage.css";
 import "./live.css";
+import "./science.css";
+import { WhoPicker } from "./WhoPicker";
 
 // three.js r128 (UMD) and its loaders are self-hosted in /public/vendor/three; the engine expects the global THREE.
 const VENDOR = ["/vendor/three/three.min.js", "/vendor/three/GLTFLoader.js", "/vendor/three/DRACOLoader.js"];
@@ -35,19 +37,21 @@ export default function Atlas() {
       for (const src of VENDOR) await loadScript(src);
       const { startAtlas } = await import("./engine.js");
       startAtlas();
-    })().catch((err) => console.error("Ruins Among the Stars failed to start", err));
+    })().catch((err) => console.error("Echoes of Exploration failed to start", err));
   }, []);
 
   return (
     <>
       <div className="wrap">
-        <h1 className="sr-only">Ruins Among the Stars</h1>
+        <h1 className="sr-only">Echoes of Exploration</h1>
         <div className="bar">
           <div className="barl">
             {/* A full page load on purpose: the tour runs its own WebGL scene, and Next keeps visited routes mounted. */}
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a className="back" href="/" aria-label="Back to the tour"><ArrowLeft aria-hidden="true" /><span className="backtxt"> Tour</span></a>
             <a className="back solar-cta" href="/solar">Fly around the solar system <ArrowRight aria-hidden="true" /></a>
+            { }
+            <a className="back" href="/signals">What we heard back</a>
             <nav className="worlds" role="tablist" aria-label="Choose a world">
               <button role="tab" data-world="moon" aria-selected="true">Moon<span className="n"></span></button>
               <button role="tab" data-world="mars" aria-selected="false">Mars<span className="n"></span></button>
@@ -58,6 +62,7 @@ export default function Atlas() {
             <input id="q" type="search" placeholder="Search space objects and places…" aria-label="Search space objects and places" aria-controls="qres" autoComplete="off" />
             <ul id="qres" role="listbox" hidden></ul>
           </div>
+          <WhoPicker />
           <p className="eyebrow">Positions as of 14 Nov 2026</p>
         </div>
 

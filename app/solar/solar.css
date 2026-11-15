@@ -673,3 +673,161 @@
 .solar:has(.sol-back) .sol-card :is(a, button) {
   pointer-events: auto;
 }
+
+/* Shared progress with the atlas (localStorage gra-explored): a check on opened space objects */
+.sol-seen {
+  margin-left: auto;
+  color: #34d399;
+  font-weight: 700;
+}
+.sol-label .sol-seen {
+  margin-left: 0;
+}
+.sol-progress {
+  margin: 0 0 8px;
+  color: var(--dim);
+  font-size: 0.8125rem;
+}
+.sol-progress b {
+  color: var(--ink);
+}
+
+/* Timeline: a month slider from 1959 to today (Solar.tsx Timeline) */
+.sol-time {
+  position: absolute;
+  z-index: 24;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(400px, calc(100vw - 2 * var(--gut) - 640px));
+  min-width: 260px;
+  padding: 8px 14px 8px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+.sol-time p {
+  margin: 0;
+}
+.sol-time-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--dim);
+}
+.sol-time-head b {
+  color: var(--ink);
+  font: 600 1.0625rem/1.3 var(--display);
+  font-variant-numeric: tabular-nums;
+}
+.sol-time-head button {
+  margin-left: auto;
+  padding: 2px 10px;
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.8125rem;
+}
+.sol-time-head button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.sol-time input {
+  display: block;
+  width: 100%;
+  margin: 6px 0 0;
+  accent-color: var(--signal);
+}
+.sol-time-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Distance from Earth, next to the speed */
+.sol-dist {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+.sol-dist b {
+  color: var(--ink);
+  font-size: 0.9375rem;
+}
+
+/* "How it worked" in the card: app/atlas/science.css, given the atlas tokens it expects in this scope */
+.sol-card {
+  --raise: rgba(255, 255, 255, 0.04);
+  --ink2: var(--sand);
+  --accent: var(--signal);
+  --mono: ui-monospace, Consolas, monospace;
+  --r: 8px;
+  --r-lg: 10px;
+  --pill: 999px;
+}
+.sol-sci {
+  margin-top: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+}
+.sol-sci summary {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--sand);
+  cursor: pointer;
+}
+.sol-sci .sci {
+  gap: 14px;
+  margin-top: 10px;
+}
+.sol-sci .sci-head .eyebrow {
+  display: none;
+}
+.sol-sci .eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--dim);
+}
+.sol-sci .sci-lead {
+  margin: 0;
+  font: 600 1.0625rem/1.35 var(--display);
+}
+.sol-sci .sci-tech {
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+.sol-sci .sci-tech li {
+  padding: 12px;
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+.sol-sci .sci-tech li + li {
+  padding-top: 12px;
+}
+.sol-sci .sci-tech h3 {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+.sol-sci .sci-facts li + li {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.sol-sci .sci-tech p,
+.sol-sci .sci-facts li,
+.sol-sci .sci-legacy p,
+.sol-sci .sci-try p {
+  font-size: 0.875rem;
+}
+.sol-sci .sci-try {
+  padding: 10px 12px;
+}
+/* In orbit view the card lets clicks through to the markers; once "How it worked" is open it's for reading. */
+.solar:has(.sol-back) .sol-card :is(summary, select) {
+  pointer-events: auto;
+}
+.solar:has(.sol-back) .sol-card:has(.sol-sci[open]) {
+  pointer-events: auto;
+}

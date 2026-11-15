@@ -3,7 +3,7 @@
   "setting": "impact",
   "model": null,
   "name": "Ranger 7",
-  "intro": "After six Ranger missions failed, Ranger 7 finally did it. It dove into the Moon taking pictures all the way down and sent home 4,308 sharp close-ups in its last 17 minutes. Its crater is in a sea later named Mare Cognitum, “the Sea that has become known”.",
+  "intro": "After six Ranger missions failed, Ranger 7 finally did it. It dove into the Moon taking pictures all the way down and sent home 4,308 sharp close-ups in its last 17 minutes. Its crater is in a sea later named Mare Cognitum, “the Sea that has become known”. Look up, too: some spots hang in the sky, where things happened on the way down.",
   "status": "Crashed on purpose, 31 July 1964",
   "whyLeft": "Rangers were built to crash: they took pictures until they hit the ground at 2.6 km per second.",
   "repurpose": "Its crater is a known-age scar, so scientists can use it like a clock to measure how quickly fresh craters darken and fade.",
@@ -51,9 +51,10 @@
       "anchor": {
         "pos": [
           0,
-          30,
+          8,
           10
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "NASA NSSDCA: Ranger 7",
@@ -80,9 +81,10 @@
       "anchor": {
         "pos": [
           0,
-          22,
+          6,
           6
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "NASA NSSDCA: Ranger 7",

@@ -1,7 +1,7 @@
 "use client";
 
 import { useFrame, useThree } from "@react-three/fiber";
-import { Suspense, useEffect, useLayoutEffect, useMemo } from "react";
+import { Suspense, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { rng } from "../lib/geo";
 import { TRAVEL_SUN } from "../plans";
@@ -9,6 +9,9 @@ import { live, tour, type SceneDesc } from "../state";
 import { TILT } from "./Earth";
 import { BODY_RADIUS, NORMAL, Planet, Stars, Streaks, SunGlow, TEXTURE } from "./Space";
 import { LitGlobe } from "./LitGlobe";
+import { disposeSprite, glowSprite } from "./replays/cassini";
+import { label } from "./replays/voyager1";
+import { dotTexture } from "./textures";
 
 // Mounts once Earth's texture has loaded, which is when the start screen is ready to go.
 function Ready() {
@@ -55,6 +58,8 @@ export function TravelScene({ desc }: { desc: Extract<SceneDesc, { kind: "travel
         </group>
       ))}
       {desc.heliopause && <Heliopause {...desc.heliopause} />}
+      {desc.belt && <Belt z={desc.belt.z} />}
+      {desc.voyager2 && <Voyager2Mark {...desc.voyager2} />}
     </>
   );
 }
@@ -169,5 +174,61 @@ function Heliopause({ center, radius }: { center: [number, number, number]; radi
     <mesh position={center} material={material} frustumCulled={false}>
       <sphereGeometry args={[radius, 96, 64]} />
     </mesh>
+  );
+}
+
+// The asteroid belt: a few thousand dim rocks scattered through a flat slab across the path (real asteroids are
+// far sparser; this just lets you feel the belt go by). A narrow lane is left clear right along the flight path.
+function Belt({ z }: { z: [number, number] }) {
+  const { geometry, material } = useMemo(() => {
+    const rand = rng(77);
+    const n = 2600;
+    const pos = new Float32Array(n * 3), col = new Float32Array(n * 3);
+    for (let i = 0; i < n; i++) {
+      let x = (rand() + rand() + rand() - 1.5) * 60;
+      const y = (rand() + rand() - 1) * 4;
+      if (Math.abs(x) < 0.9 && Math.abs(y - 0.4) < 0.9) x += x < 0 ? -1.2 : 1.2;
+      pos.set([x, y, z[0] + rand() * (z[1] - z[0])], i * 3);
+      const b = 0.35 + rand() * 0.45, warm = rand() * 0.12;
+      col.set([b, b * (0.9 - warm * 0.5), b * (0.78 - warm)], i * 3);
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    g.setAttribute("color", new THREE.BufferAttribute(col, 3));
+    const m = new THREE.PointsMaterial({ map: dotTexture(), size: 0.09, vertexColors: true, transparent: true, depthWrite: false });
+    return { geometry: g, material: m };
+  }, [z]);
+  useEffect(() => () => (geometry.dispose(), material.dispose()), [geometry, material]);
+  return <points geometry={geometry} material={material} frustumCulled={false} />;
+}
+
+// Voyager 2 on the sky: far too faint to see for real, so a soft blue mark and a name tag show where it is.
+// It sits on the sky sphere (it is 200-odd AU away) and fades out once the camera passes fadeZ.
+function Voyager2Mark({ dir, fadeZ }: { dir: [number, number, number]; fadeZ: number }) {
+  const { camera } = useThree();
+  const group = useRef<THREE.Group>(null);
+  const parts = useMemo(() => {
+    const glow = glowSprite("#9fd8ff");
+    glow.material.sizeAttenuation = false;
+    glow.scale.setScalar(0.035);
+    const tag = label("Voyager 2", [0.5, -0.5]);
+    const at = new THREE.Vector3(...dir).normalize().multiplyScalar(700);
+    glow.position.copy(at);
+    tag.position.copy(at);
+    return { glow, tag };
+  }, [dir]);
+  useEffect(() => () => (disposeSprite(parts.glow), disposeSprite(parts.tag)), [parts]);
+  useFrame(() => {
+    group.current?.position.copy(camera.position);
+    const f = Math.min(1, Math.max(0, (fadeZ - camera.position.z) / 10));
+    const a = f * f * (3 - 2 * f);
+    parts.glow.material.opacity = a * (0.85 + 0.15 * Math.sin(live.time * 3));
+    parts.tag.material.opacity = a * 0.9;
+  });
+  return (
+    <group ref={group}>
+      <primitive object={parts.glow} />
+      <primitive object={parts.tag} />
+    </group>
   );
 }

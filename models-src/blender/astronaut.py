@@ -388,7 +388,7 @@ data = json.load(open(jpath)) if os.path.exists(jpath) else {}
 data[KEY] = {
     "file": f"models-src/blender/{KEY}.glb",
     "title": "Apollo astronaut (A7L suit)",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference photos)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference photos)",
     "license": "CC BY 4.0",
     "size_m": round(max(dims), 3),
     "bytes": os.path.getsize(glb),

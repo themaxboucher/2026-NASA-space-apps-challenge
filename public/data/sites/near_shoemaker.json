@@ -13,16 +13,15 @@
       "title": "Landed on its panels",
       "text": "NEAR touched down at about walking speed, landing on the tips of two solar panels and the bottom of its body. It came to rest tilted on the dusty ground.",
       "anchor": {
-        "part": "shiny_panels",
-        "at": [
-          0.02,
-          0.5,
-          0.5
+        "pos": [
+          2.3,
+          0.15,
+          -0.42
         ]
       },
       "source": {
-        "label": "NASA NSSDCA: NEAR Shoemaker",
-        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-008A"
+        "label": "Johns Hopkins APL: NEAR Shoemaker, first landing on an asteroid",
+        "url": "https://www.jhuapl.edu/destinations/missions/near"
       },
       "photo": {
         "file": "photos/sites/near_shoemaker--last-pictures.jpg",
@@ -41,11 +40,10 @@
       "title": "The last pictures",
       "text": "On the way down, the camera took 69 pictures. The last one, from about 120 meters up, shows rocks and dust only a few meters across.",
       "anchor": {
-        "part": "foil_silver",
-        "at": [
-          0.5,
-          0,
-          0.5
+        "pos": [
+          -0.77,
+          1.13,
+          1.0
         ]
       },
       "source": {
@@ -58,11 +56,10 @@
       "title": "Better on the ground",
       "text": "Sitting on Eros, NEAR’s gamma-ray instrument could measure the asteroid’s rock much better than from orbit, so the team kept listening for two more weeks.",
       "anchor": {
-        "part": "foil_silver",
-        "at": [
-          1,
-          0.5,
-          0.5
+        "pos": [
+          -0.06,
+          0.61,
+          0.86
         ]
       },
       "source": {
@@ -75,11 +72,10 @@
       "title": "A missed turn",
       "text": "In December 1998 NEAR’s engine burn to slow down at Eros cut off early, and it flew right past. Engineers worked out a new path, and it came back a year later.",
       "anchor": {
-        "part": "foil_gold",
-        "at": [
-          0.5,
-          0.2,
-          0.5
+        "pos": [
+          0.64,
+          1.29,
+          0.49
         ]
       },
       "source": {
@@ -94,17 +90,20 @@
       "broken": true,
       "tag": "Why it’s silent",
       "anchor": {
-        "part": "foil_gold",
-        "at": [
-          0.5,
-          1,
-          0.5
+        "pos": [
+          0.95,
+          2.34,
+          -0.95
         ]
       },
       "source": {
         "label": "NASA NSSDCA: NEAR Shoemaker",
         "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-008A"
-      }
+      },
+      "glowRadius": 0.8,
+      "glow": [
+        "foil_gold"
+      ]
     }
   ],
   "funFact": "NEAR went into orbit around Eros, an asteroid named after the god of love, on Valentine’s Day, 14 February 2000.",
@@ -125,5 +124,10 @@
       "label": "Landing speed",
       "value": "About 1.6 m/s"
     }
+  ],
+  "modelTilt": [
+    -38.95,
+    14.25,
+    -38.95
   ]
 }

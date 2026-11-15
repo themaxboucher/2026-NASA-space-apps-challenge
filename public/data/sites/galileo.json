@@ -32,11 +32,10 @@
       "title": "Where the probe rode",
       "text": "Galileo carried a probe here for nearly six years. It let go in July 1995, and the probe dove into Jupiter’s air five months later.",
       "anchor": {
-        "part": "Group",
-        "at": [
-          0.5,
-          0.18,
-          0.05
+        "pos": [
+          -0.24,
+          -2.96,
+          -1.18
         ]
       },
       "source": {
@@ -49,11 +48,10 @@
       "title": "The camera",
       "text": "On the way to Jupiter, Galileo’s camera found the first moon of an asteroid: tiny Dactyl, circling the asteroid Ida.",
       "anchor": {
-        "part": "Group",
-        "at": [
-          0.62,
-          0.2,
-          0.1
+        "pos": [
+          1.09,
+          -2.23,
+          -1.96
         ]
       },
       "source": {

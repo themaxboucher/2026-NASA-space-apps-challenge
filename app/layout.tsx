@@ -8,7 +8,7 @@ const instrumentSans = Instrument_Sans({ subsets: ["latin"], style: ["normal", "
 const splineMono = Spline_Sans_Mono({ subsets: ["latin"], variable: "--font-spline-mono" });
 
 export const metadata: Metadata = {
-  title: "Ruins Among the Stars",
+  title: "Echoes of Exploration",
   description: "Explore the space objects NASA left on the Moon, on Mars and in deep space: what happened to each one, and what it would take to fix it or bring it home.",
 };
 

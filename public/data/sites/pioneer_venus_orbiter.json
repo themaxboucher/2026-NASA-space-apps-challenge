@@ -1,9 +1,9 @@
 {
   "id": "pioneer_venus_orbiter",
-  "setting": "impact",
-  "model": null,
+  "setting": "space",
+  "model": "pioneer-venus-orbiter",
   "name": "Pioneer Venus Orbiter",
-  "intro": "Pioneer Venus Orbiter circled Venus for almost 14 years, watching its clouds and making the first radar map of most of its surface. In October 1992 its fuel ran out, and it sank into the atmosphere and burned up.",
+  "intro": "Pioneer Venus Orbiter circled Venus for almost 14 years, watching its clouds and making the first radar map of most of its surface. In October 1992 its fuel ran out, and it sank into the atmosphere and burned up. Nothing is left, so this model is a memorial above Venus’s clouds.",
   "status": "Burned up in Venus’s sky in 1992",
   "whyLeft": "It ran out of the fuel it needed to keep its orbit high. Its orbit sank into the thick air, where it burned up in October 1992.",
   "repurpose": "Nothing is left to recover. It made the most of its ending: as its orbit dropped, it measured the upper atmosphere lower than ever before.",
@@ -14,11 +14,10 @@
       "text": "In ultraviolet light, Venus’s yellowish clouds show dark swirls. The orbiter watched them whip around the whole planet in about four days.",
       "anchor": {
         "pos": [
-          0,
-          0.3,
-          0
-        ],
-        "ground": true
+          0.84,
+          0.07,
+          1.03
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: Pioneer Venus Orbiter",
@@ -41,12 +40,12 @@
       "title": "The first radar map",
       "text": "A radar on board measured the height of the hidden ground and made the first map of most of Venus’s surface, years before Magellan.",
       "anchor": {
-        "pos": [
-          5,
-          0.3,
-          -4
-        ],
-        "ground": true
+        "part": "black",
+        "at": [
+          0.5,
+          0,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: Pioneer Venus Orbiter",
@@ -58,12 +57,12 @@
       "title": "Watching Halley’s Comet",
       "text": "In 1986, when Halley’s Comet was too close to the Sun to be seen from Earth, the orbiter studied it from Venus.",
       "anchor": {
-        "pos": [
-          -5,
-          0.3,
-          4
-        ],
-        "ground": true
+        "part": "mast",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: Pioneer Venus Orbiter",
@@ -78,16 +77,21 @@
       "tag": "Why it ended",
       "anchor": {
         "pos": [
-          6,
-          0.3,
-          6
-        ],
-        "ground": true
+          -0.26,
+          -0.4,
+          1.3
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: Pioneer Venus Orbiter",
         "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-051A"
-      }
+      },
+      "glow": [
+        "pvcell",
+        "pvcell2",
+        "pvcell3"
+      ],
+      "glowRadius": 0.6
     }
   ],
   "funFact": "It reached Venus on 4 December 1978 and kept working until 1992, almost 14 years.",

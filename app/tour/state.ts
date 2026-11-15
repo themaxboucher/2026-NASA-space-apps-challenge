@@ -10,7 +10,16 @@ export type BodyPlacement = { key: BodyKey; pos: [number, number, number]; rotY:
 
 export type SceneDesc =
   // `heliopause`: the edge of the Sun's bubble, a huge faint shell the trip to Voyager 1 flies through.
-  | { kind: "travel"; key: string; bodies: BodyPlacement[]; heliopause?: { center: [number, number, number]; radius: number } }
+  // `belt`: a field of asteroids between these z values. `voyager2`: a labelled marker for Voyager 2 on the sky, in
+  // this direction, shown until the camera passes z = fadeZ.
+  | {
+      kind: "travel";
+      key: string;
+      bodies: BodyPlacement[];
+      heliopause?: { center: [number, number, number]; radius: number };
+      belt?: { z: [number, number] };
+      voyager2?: { dir: [number, number, number]; fadeZ: number };
+    }
   | { kind: "surface"; key: string; stop: number }
   | { kind: "space"; key: string; stop: number };
 

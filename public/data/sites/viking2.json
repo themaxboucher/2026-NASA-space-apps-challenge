@@ -77,17 +77,20 @@
       "broken": true,
       "tag": "What gave out",
       "anchor": {
-        "part": "polySurfa2",
-        "at": [
-          0.5,
-          1,
-          0.5
+        "pos": [
+          -0.34,
+          0.8,
+          0.11
         ]
       },
       "source": {
         "label": "NASA NSSDCA: Viking 2 Lander",
         "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-083C"
-      }
+      },
+      "glowRadius": 0.35,
+      "glow": [
+        "polySurfa2"
+      ]
     },
     {
       "id": "footpad",

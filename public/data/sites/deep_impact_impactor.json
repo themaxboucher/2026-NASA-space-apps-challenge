@@ -16,9 +16,9 @@
       "tag": "Destroyed on purpose",
       "anchor": {
         "pos": [
-          0,
-          0.2,
-          0
+          -18.0,
+          0.4,
+          24.0
         ],
         "ground": true
       },
@@ -33,9 +33,9 @@
       "text": "The flyby spacecraft watched from a safe distance as the hit made a bright flash and a huge cloud of dust. The dust was as fine as powder, with water ice and carbon-rich material.",
       "anchor": {
         "pos": [
-          4,
-          0.5,
-          -3
+          -44.1,
+          0.4,
+          18.9
         ],
         "ground": true
       },
@@ -61,9 +61,9 @@
       "text": "The impactor was built with lots of copper, because copper would not confuse the measurements of what the comet is made of.",
       "anchor": {
         "pos": [
-          -3,
-          0.3,
-          3
+          -5.7,
+          0.4,
+          47.7
         ],
         "ground": true
       },
@@ -89,9 +89,9 @@
       "text": "The impactor’s own camera sent pictures of the comet’s surface until just seconds before the crash, steering itself to the target.",
       "anchor": {
         "pos": [
-          -5,
-          0.3,
-          -5
+          -31.2,
+          0.4,
+          41.6
         ],
         "ground": true
       },
@@ -119,5 +119,15 @@
       "label": "Crater",
       "value": "About 150 m wide"
     }
-  ]
+  ],
+  "crater": {
+    "diameterM": 150,
+    "depthM": 12,
+    "ejecta": "none",
+    "source": {
+      "label": "NASA Photojournal: Tempel 1 Impact Site (Stardust-NExT, 2011: about 150 m across and shallow; depth estimated)",
+      "url": "https://science.nasa.gov/photojournal/tempel-1-impact-site-2"
+    },
+    "seen": true
+  }
 }

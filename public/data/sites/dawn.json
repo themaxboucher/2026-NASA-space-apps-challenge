@@ -43,17 +43,20 @@
       "broken": true,
       "tag": "What ran out",
       "anchor": {
-        "part": "black_krinkle",
-        "at": [
-          0.5,
-          0.5,
-          0.5
+        "pos": [
+          0.59,
+          0.02,
+          0.9
         ]
       },
       "source": {
         "label": "NASA JPL: Dawn’s mission comes to an end",
         "url": "https://www.jpl.nasa.gov/news/nasas-dawn-mission-to-asteroid-belt-comes-to-end/"
-      }
+      },
+      "glowRadius": 0.35,
+      "glow": [
+        "black_krinkle"
+      ]
     },
     {
       "id": "solar-wings",
@@ -77,11 +80,10 @@
       "title": "Bright spots",
       "text": "Dawn’s camera found glowing white spots on Ceres. Up close they turned out to be salts left behind when salty water seeped up from below and dried.",
       "anchor": {
-        "part": "foil_gold",
-        "at": [
-          0.5,
-          0.5,
-          0.5
+        "pos": [
+          0.19,
+          0.43,
+          -0.18
         ]
       },
       "source": {

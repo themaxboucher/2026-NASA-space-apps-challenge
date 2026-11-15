@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Fly from "./Fly";
 
 export const metadata: Metadata = {
-  title: "Fly around it · Ruins Among the Stars",
+  title: "Fly around it · Echoes of Exploration",
   description: "Float around a NASA space object in deep space at real size and find out what it did and what happened to it.",
 };
 

@@ -49,11 +49,10 @@
       "title": "The plaque",
       "text": "A gold-coloured plaque bolted here shows a man, a woman and a map of where the Sun is, in case anyone out there ever finds this spacecraft.",
       "anchor": {
-        "part": "Pioneer_silver_02",
-        "at": [
-          0.5,
-          0.5,
-          0.5
+        "pos": [
+          0.38,
+          0.28,
+          1.26
         ]
       },
       "source": {
@@ -66,11 +65,10 @@
       "title": "First to Saturn",
       "text": "Jupiter’s gravity flung Pioneer 11 across the solar system to Saturn. On 1 September 1979 it became Saturn’s first visitor and discovered a thin new ring, now called the F ring.",
       "anchor": {
-        "part": "foil_gold",
-        "at": [
-          0.5,
-          0.88,
-          0.3
+        "pos": [
+          0.55,
+          -0.68,
+          1.09
         ]
       },
       "source": {

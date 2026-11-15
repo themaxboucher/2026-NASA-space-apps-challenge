@@ -13,11 +13,10 @@
       "title": "A giant camera",
       "text": "At the bottom of the telescope sat a camera made of 42 light sensors, about 95 megapixels in all. It measured the brightness of thousands of stars at once.",
       "anchor": {
-        "part": "tex_01",
-        "at": [
-          0.5,
-          0.3,
-          0.5
+        "pos": [
+          0.65,
+          -0.66,
+          0.98
         ]
       },
       "source": {
@@ -60,17 +59,20 @@
       "broken": true,
       "tag": "Broke first",
       "anchor": {
-        "part": "foil_silver",
-        "at": [
-          0.5,
-          0.5,
-          0.5
+        "pos": [
+          1.32,
+          -1.47,
+          0.05
         ]
       },
       "source": {
         "label": "NASA: Kepler",
         "url": "https://science.nasa.gov/mission/kepler/"
-      }
+      },
+      "glow": [
+        "foil_silver"
+      ],
+      "glowRadius": 0.45
     },
     {
       "id": "fuel",
@@ -79,28 +81,30 @@
       "broken": true,
       "tag": "Why it stopped",
       "anchor": {
-        "part": "foil_silver",
-        "at": [
-          0.5,
-          0,
-          0.5
+        "pos": [
+          -0.25,
+          -2.07,
+          1.14
         ]
       },
       "source": {
         "label": "NASA: Kepler retires",
         "url": "https://www.nasa.gov/news-release/nasa-retires-kepler-space-telescope-passes-planet-hunting-torch/"
-      }
+      },
+      "glow": [
+        "foil_silver"
+      ],
+      "glowRadius": 0.45
     },
     {
       "id": "dish",
       "title": "The antenna",
       "text": "Kepler sent its star measurements home through this dish. Today it follows Earth around the Sun, slowly falling farther behind.",
       "anchor": {
-        "part": "dish_AO",
-        "at": [
-          0.5,
-          0.5,
-          0.5
+        "pos": [
+          -0.2,
+          -2.45,
+          -1.15
         ]
       },
       "source": {
@@ -127,5 +131,17 @@
       "label": "Stars watched",
       "value": "More than 150,000"
     }
-  ]
+  ],
+  "spawn": {
+    "pos": [
+      5.6,
+      0.4,
+      7.0
+    ],
+    "look": [
+      0,
+      -0.2,
+      0
+    ]
+  }
 }

@@ -1,0 +1,274 @@
+/* What We Heard Back: an encyclopedia of collected signals. Same palette as the tour and atlas, set like a printed book. */
+.book {
+  --void: #0a0c10;
+  --panel: #12151b;
+  --raise: #1a1e26;
+  --line: #232833;
+  --line2: #343b48;
+  --ink: #f3f5f8;
+  --ink2: #c8ced8;
+  --dim: #969eac;
+  --accent: #146ef5;
+  --signal: #4d94ff;
+  --gold: #e8b64c;
+  --r-lg: 12px;
+  --pill: 999px;
+  --display: var(--font-instrument-sans), "Instrument Sans", system-ui, sans-serif;
+  --body: var(--font-instrument-sans), "Instrument Sans", system-ui, sans-serif;
+  --mono: var(--font-spline-mono), "Spline Sans Mono", ui-monospace, monospace;
+  min-height: 100vh;
+  padding: 0 max(20px, 4vw) 80px;
+  background: var(--void);
+  color: var(--ink);
+  font: 400 1rem/1.55 var(--body);
+}
+.book a {
+  color: var(--signal);
+}
+.book-cover {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px 0 40px;
+  border-bottom: 1px solid var(--line);
+}
+.book-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 48px;
+}
+.book-nav a,
+.book-nav button,
+.book-cert button {
+  padding: 7px 14px;
+  border: 1px solid var(--line2);
+  border-radius: var(--pill);
+  background: none;
+  color: var(--ink);
+  font: 500 0.8125rem var(--body);
+  text-decoration: none;
+  cursor: pointer;
+}
+.book-nav a:hover,
+.book-nav button:hover {
+  border-color: var(--ink2);
+}
+.book-nav button {
+  margin-left: auto;
+}
+.book-kicker {
+  margin: 0;
+  color: var(--signal);
+  font: 500 0.6875rem/1.4 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.book h1 {
+  margin: 10px 0 16px;
+  font: 500 clamp(2.5rem, 6vw, 4rem)/1 var(--display);
+  letter-spacing: -0.03em;
+}
+.book-lede {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--ink2);
+  font-size: 1.125rem;
+}
+.book-progress {
+  display: grid;
+  gap: 8px;
+  margin-top: 28px;
+  color: var(--ink2);
+}
+.book-progress b {
+  color: var(--ink);
+  font: 500 1.5rem var(--display);
+}
+.book-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--raise);
+  overflow: hidden;
+}
+.book-bar i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+.book-note {
+  color: var(--dim);
+  font-size: 0.8125rem;
+}
+.book-world {
+  max-width: 1200px;
+  margin: 56px auto 0;
+}
+.book-world h2 {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  margin: 0 0 18px;
+  font: 500 1.75rem/1.2 var(--display);
+}
+.book-world h2 span {
+  color: var(--dim);
+  font: 500 0.8125rem var(--mono);
+}
+.book-pages {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.book-page {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  border: 1px dashed var(--line2);
+  border-radius: var(--r-lg);
+  color: var(--dim);
+  break-inside: avoid;
+}
+.book-page.on {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+}
+.book-page.sealed {
+  border-color: color-mix(in srgb, var(--gold) 55%, var(--line));
+}
+.book-page figure {
+  margin: -18px -18px 4px;
+}
+.book-page img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  background: #000;
+}
+.book-page figcaption {
+  padding: 4px 18px 0;
+  color: var(--dim);
+  font-size: 0.6875rem;
+}
+.book-page h3 {
+  margin: 0;
+  font: 500 1.125rem/1.25 var(--display);
+}
+.book-page:not(.on) h3 {
+  color: var(--ink2);
+}
+.bp-meta {
+  margin: 0;
+  color: var(--dim);
+  font: 500 0.6875rem var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.bp-status {
+  margin: 0;
+  color: var(--ink2);
+  font-size: 0.875rem;
+}
+.bp-gave {
+  margin: 4px 0 0;
+  font: 500 1rem/1.4 var(--display);
+}
+.bp-sci {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--raise);
+}
+.bp-sci b {
+  font-size: 0.875rem;
+}
+.bp-sci p {
+  margin: 0;
+  color: var(--ink2);
+  font-size: 0.875rem;
+}
+.bp-sci a {
+  font-size: 0.75rem;
+}
+.bp-locked {
+  margin: 0;
+  font-size: 0.875rem;
+}
+.bp-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: auto 0 0;
+  padding-top: 8px;
+  color: var(--dim);
+  font-size: 0.75rem;
+}
+.bp-seal {
+  color: var(--gold);
+  font-weight: 600;
+}
+.book-cert {
+  max-width: 760px;
+  margin: 72px auto 0;
+  padding: 40px;
+  border: 2px solid var(--gold);
+  border-radius: var(--r-lg);
+  text-align: center;
+}
+.book-cert h2 {
+  margin: 10px 0 14px;
+  font: 500 2.25rem/1.1 var(--display);
+}
+.book-cert p {
+  color: var(--ink2);
+}
+.cert-sign {
+  margin-top: 24px;
+  font: 500 0.75rem var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Printed: white paper, no buttons, every page kept whole. */
+@media print {
+  .book {
+    --void: #fff;
+    --panel: #fff;
+    --raise: #f2f3f5;
+    --line: #ccc;
+    --line2: #bbb;
+    --ink: #111;
+    --ink2: #333;
+    --dim: #666;
+    padding: 0;
+  }
+  .book-nav,
+  .book-cert button,
+  .bp-foot a {
+    display: none;
+  }
+  .book-pages {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.bp-last {
+  margin: 0;
+  color: var(--dim);
+  font: 500 0.75rem var(--mono);
+}
+.bp-words {
+  margin: 0;
+  padding-left: 10px;
+  border-left: 2px solid var(--line2);
+  color: var(--ink2);
+  font-size: 0.8125rem;
+  font-style: italic;
+}

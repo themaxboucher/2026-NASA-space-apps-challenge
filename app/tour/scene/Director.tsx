@@ -164,7 +164,10 @@ export function Director() {
       } else hud.fade.style.opacity = live.fade.toFixed(3);
       if (shownTint !== tint) hud.fade.style.backgroundColor = shownTint = tint;
     }
-    if (hud.counter && tour.get().cruise) hud.counter.textContent = formatKm(live.counter);
+    // Only into the readout showing this shot's label: on the frame a shot starts, React hasn't swapped the readout
+    // yet, and the old one (say "Height above Mars") would show the new shot's figure as it fades out.
+    const cruise = tour.get().cruise;
+    if (hud.counter && cruise && hud.counter.dataset.label === cruise.label) hud.counter.textContent = formatKm(live.counter);
     // The caption chip naming what you're flying past; it fades between captions (CSS on [data-on]).
     if (hud.chip && hud.chip.dataset.text !== chip) {
       hud.chip.dataset.text = chip;

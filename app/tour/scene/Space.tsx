@@ -13,6 +13,62 @@ import { ceresTexture, dotTexture, glowTexture, jupiterTexture, mercuryTexture, 
 export const BODY_RADIUS: Record<BodyKey, number> = { earth: 1, moon: 0.6, mars: 0.75, saturn: 2.6, jupiter: 3, venus: 0.95, mercury: 0.4, uranus: 1.1, neptune: 1.05, pluto: 0.3, ceres: 0.25, rock: 0.2 };
 export const TEXTURE: Partial<Record<BodyKey, string>> = { earth: "/tex/earth.jpg", moon: "/tex/moon.jpg", mars: "/tex/mars.jpg" };
 
+// Star colours by type, from hot to cool: [share of stars so far, r, g, b]. Most look white; the rest lean blue or
+// orange, a touch stronger than the eye sees them, so the sky isn't flat grey.
+const STAR_TINTS: [number, number, number, number][] = [
+  [0.1, 0.68, 0.79, 1],
+  [0.28, 0.84, 0.9, 1],
+  [0.62, 1, 1, 1],
+  [0.8, 1, 0.94, 0.82],
+  [0.94, 1, 0.82, 0.62],
+  [1, 1, 0.7, 0.52],
+];
+// The Milky Way band's great circle (the same one the extra stars crowd around) and a point on it for the bright core.
+const BAND_AXIS = new THREE.Vector3(1, 0, 0.3).normalize();
+const BAND_N = new THREE.Vector3(0, 1, 0).applyAxisAngle(BAND_AXIS, 1.05);
+const BAND_CORE = new THREE.Vector3(1, 0, 0).applyAxisAngle(BAND_AXIS, 1.05);
+
+// A faint glow behind the stars: the Milky Way's milky band with dark dust lanes and a warmer core, plus a few very
+// dim coloured nebula patches. Drawn once per pixel on a sphere just inside the stars, additive and very low.
+function skyGlowMaterial() {
+  return new THREE.ShaderMaterial({
+    uniforms: { uN: { value: BAND_N }, uC: { value: BAND_CORE } },
+    vertexShader: /* glsl */ `
+      varying vec3 vD;
+      void main() {
+        vD = position;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }`,
+    fragmentShader: /* glsl */ `
+      uniform vec3 uN; uniform vec3 uC; varying vec3 vD;
+      float hash(vec3 p) { p = fract(p * 0.3183099 + 0.1); p *= 17.0; return fract(p.x * p.y * p.z * (p.x + p.y + p.z)); }
+      float noise(vec3 x) {
+        vec3 i = floor(x), f = fract(x);
+        f = f * f * (3.0 - 2.0 * f);
+        return mix(mix(mix(hash(i), hash(i + vec3(1, 0, 0)), f.x), mix(hash(i + vec3(0, 1, 0)), hash(i + vec3(1, 1, 0)), f.x), f.y),
+                   mix(mix(hash(i + vec3(0, 0, 1)), hash(i + vec3(1, 0, 1)), f.x), mix(hash(i + vec3(0, 1, 1)), hash(i + vec3(1, 1, 1)), f.x), f.y), f.z);
+      }
+      float fbm(vec3 p) { return 0.5 * noise(p) + 0.3 * noise(p * 2.1) + 0.2 * noise(p * 4.3); }
+      void main() {
+        vec3 d = normalize(vD);
+        float lat = dot(d, uN);
+        float c = max(dot(d, uC), 0.0);
+        float band = exp(-lat * lat / 0.02);
+        float core = exp(-lat * lat / 0.035) * pow(c, 5.0);
+        float lanes = smoothstep(0.45, 0.75, fbm(d * 7.0 + 5.0)) * exp(-lat * lat / 0.004);
+        float glow = band * (0.35 + 0.9 * fbm(d * 3.5)) * (1.0 - 0.6 * lanes) + core * 0.9;
+        vec3 col = mix(vec3(0.6, 0.68, 0.95), vec3(1.0, 0.85, 0.66), clamp(core * 2.0 + 0.25 * c, 0.0, 1.0)) * glow * 0.08;
+        float neb = smoothstep(0.58, 0.85, fbm(d * 2.2 + 11.0));
+        col += neb * mix(vec3(0.55, 0.22, 0.6), vec3(0.2, 0.45, 0.6), noise(d * 1.5 + 3.0)) * 0.03;
+        gl_FragColor = vec4(col, 1.0);
+      }`,
+    side: THREE.BackSide,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  });
+}
+
 // Stars on a big sphere that travels with the camera, so they look infinitely far away.
 export function Stars({ radius = 900, count = 2600 }: { radius?: number; count?: number }) {
   const group = useRef<THREE.Group>(null);
@@ -31,7 +87,7 @@ export function Stars({ radius = 900, count = 2600 }: { radius?: number; count?:
           const a = rand() * Math.PI * 2;
           const lat = (rand() + rand() + rand() - 1.5) * 0.22;
           v.set(Math.cos(a) * Math.cos(lat), Math.sin(lat), Math.sin(a) * Math.cos(lat));
-          v.applyAxisAngle(new THREE.Vector3(1, 0, 0.3).normalize(), 1.05);
+          v.applyAxisAngle(BAND_AXIS, 1.05);
         } else {
           v.set(rand() * 2 - 1, rand() * 2 - 1, rand() * 2 - 1);
           if (v.lengthSq() > 1 || v.lengthSq() < 1e-4) {
@@ -44,9 +100,10 @@ export function Stars({ radius = 900, count = 2600 }: { radius?: number; count?:
         pos.set([v.x, v.y, v.z], i * 3);
         const lim = 6.5;
         const m = Math.max(maxMag, lim + Math.log10(Math.max(rand(), 1e-6)) / 0.48);
-        const b = Math.min(1, 0.07 + 0.93 * Math.min(1, Math.pow(10, -0.4 * (m - lim)) / 60));
+        const b = Math.min(1, 0.05 + 0.95 * Math.min(1, Math.pow(10, -0.4 * (m - lim)) / 45));
         const t = rand();
-        col.set([b * (t < 0.15 ? 0.8 : 1), b * (t < 0.15 ? 0.88 : t > 0.85 ? 0.92 : 1), b * (t > 0.85 ? 0.78 : 1)], i * 3);
+        const [, r, g, bl] = STAR_TINTS.find(([share]) => t <= share)!;
+        col.set([b * r, b * g, b * bl], i * 3);
       }
       const g = new THREE.BufferGeometry();
       g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
@@ -58,13 +115,17 @@ export function Stars({ radius = 900, count = 2600 }: { radius?: number; count?:
   }, [radius, count]);
   const [faintMat, brightMat] = useMemo(() => {
     const base = { map: dotTexture(), vertexColors: true, transparent: true, depthWrite: false, sizeAttenuation: false, blending: THREE.AdditiveBlending };
-    return [new THREE.PointsMaterial({ ...base, size: 1.9 }), new THREE.PointsMaterial({ ...base, size: 3.4 })];
+    return [new THREE.PointsMaterial({ ...base, size: 1.9 }), new THREE.PointsMaterial({ ...base, size: 3.8 })];
   }, []);
+  const glowMat = useMemo(() => skyGlowMaterial(), []);
   useFrame(() => group.current?.position.copy(camera.position));
   return (
     <group ref={group}>
       <points geometry={faint} material={faintMat} renderOrder={-10} frustumCulled={false} />
       <points geometry={bright} material={brightMat} renderOrder={-10} frustumCulled={false} />
+      <mesh material={glowMat} renderOrder={-11} frustumCulled={false}>
+        <sphereGeometry args={[radius * 0.97, 48, 24]} />
+      </mesh>
     </group>
   );
 }
@@ -229,7 +290,8 @@ function Haze({ radius, color, sun }: { radius: number; color: string; sun: THRE
   );
 }
 
-// Moon: NASA SVS CGI Moon Kit (LRO LROC WAC colour + LOLA elevation), public domain, https://svs.gsfc.nasa.gov/4720
+// Moon: NASA SVS CGI Moon Kit, https://svs.gsfc.nasa.gov/4720: LROC WAC colour (NASA/GSFC/ASU, educational use with
+// credit) + LOLA elevation (public domain).
 // Mars: USGS Astrogeology Viking MDIM 2.1 colour mosaic + MGS MOLA MEGDR 16 px/deg elevation, public domain.
 // The normal maps are derived from the elevation (relief exaggerated about 4x on the Moon, 2.5x on Mars).
 export const NORMAL: Partial<Record<BodyKey, string>> = { moon: "/tex/moon-normal.jpg", mars: "/tex/mars-normal.jpg" };

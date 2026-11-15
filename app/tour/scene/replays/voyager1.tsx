@@ -1,160 +1,301 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useMemo, useRef } from "react";
+import { use, useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { reducedMotion } from "../../lib/device";
 import { useStore } from "../../lib/store";
-import { endReplay, live, REPLAYS, setCaption, tour } from "../../state";
+import { eclToScene, VOYAGER_ECL } from "../../plans";
+import { endReplay, hud, live, REPLAYS, setCaption, tour } from "../../state";
 import { STOP_INDEX, type Stop } from "../../stops";
-import { ghostMaterial, smooth, type Cue } from "../Ghost";
-import { prepareModel, type GltfSpec } from "../Machine";
-import { useModel } from "../useModel";
-import { caption, disposeSprite, glowSprite, spaceShell } from "./cassini";
+import { smooth, type Cue } from "../Ghost";
+import { jupiterTexture, RING_INNER, RING_OUTER, ringTexture, saturnTexture } from "../textures";
+import { caption, disposeSprite, glowSprite } from "./cassini";
 
 REPLAYS.add("voyager1");
 
-// NASA's Voyager model is one big mesh ("tex_01") plus the dish. Its pieces are found by where they sit
-// (in the placed model, metres): the magnetometer boom runs up and back from its canister at about
-// (0, -1.15, 1.2) to (0, 7.4, 12.6); the science boom runs out along -z with the scan platform (cameras) at its end.
-const BOOM_ROOT = new THREE.Vector3(0, -1.15, 1.2);
-const BOOM_DIR = new THREE.Vector3(0, 8.57, 11.4).normalize();
-const BOOM_BASE = 0.85; // the canister ends here; the boom slid out of it
-enum Part {
-  Body,
-  Boom,
-  Scan, // the scan platform: cameras and other instruments, switched off in 1990
-  Mid, // instruments along the science boom, switched off as the power faded
-  Near,
-}
-function partOf(c: THREE.Vector3) {
-  const r = c.clone().sub(BOOM_ROOT);
-  const along = r.dot(BOOM_DIR);
-  if (along > BOOM_BASE && r.addScaledVector(BOOM_DIR, -along).length() < 0.3) return Part.Boom;
-  if (c.z < -3) return Part.Scan;
-  if (c.z < -2.2) return Part.Mid;
-  if (c.z < -1.3) return Part.Near;
-  return Part.Body;
-}
+// Voyager 1's real path, from JPL Horizons (public/data/voyager1-trajectory.json): heliocentric ecliptic positions in
+// AU for Voyager 1, Earth, Jupiter and Saturn on one shared time grid (days since 5 Sep 1977), plus Voyager's speed
+// relative to the Sun in km/s. The grid is every 6 hours around the two flybys, so they line up with the real planets.
+type Track = { t: number[]; voyager1: number[]; earth: number[]; jupiter: number[]; saturn: number[]; speed: number[] };
+let trackData: Promise<Track | null> | null = null;
+const loadTrack = () => (trackData ??= fetch("/data/voyager1-trajectory.json").then((r) => (r.ok ? r.json() : null)).catch(() => null));
 
-// Split a mesh into one mesh per part, by where each triangle's middle is. The new geometries share the
-// original's vertex data, so on cleanup only their own index is released (see dispose below).
-function split(mesh: THREE.Mesh) {
-  const g = mesh.geometry;
-  const pos = g.attributes.position;
-  const count = g.index ? g.index.count : pos.count;
-  const at = (i: number) => (g.index ? g.index.getX(i) : i);
-  const lists: number[][] = [[], [], [], [], []];
-  const boxes = lists.map(() => new THREE.Box3());
-  const a = new THREE.Vector3(),
-    c = new THREE.Vector3();
-  for (let i = 0; i < count; i += 3) {
-    c.set(0, 0, 0);
-    for (let k = 0; k < 3; k++) c.add(a.fromBufferAttribute(pos, at(i + k)));
-    c.divideScalar(3).applyMatrix4(mesh.matrixWorld);
-    const p = partOf(c);
-    lists[p].push(at(i), at(i + 1), at(i + 2));
-    boxes[p].expandByPoint(c);
-  }
-  const parts = lists.map((list) => {
-    const geo = new THREE.BufferGeometry();
-    for (const k in g.attributes) geo.setAttribute(k, g.attributes[k]);
-    geo.setIndex(list);
-    const m = mesh.clone();
-    m.geometry = geo;
-    mesh.parent!.add(m);
-    return m;
+const DAY0 = Date.UTC(1977, 8, 5);
+const day = (y: number, m: number, d: number) => (Date.UTC(y, m - 1, d) - DAY0) / 864e5;
+const dateOf = (d: number) => new Date(DAY0 + d * 864e5).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+const PBD = day(1990, 2, 14) + 0.2; // the Pale Blue Dot
+const TODAY = day(2026, 11, 15);
+// Voyager 2 today (public/data/deepspace.json), and back in time along the same line from the Sun: since Neptune
+// (1989) it has been coasting almost straight out, about 3.05 AU a year (from ~32 AU in early 1990 to 144 AU now).
+const V2_NOW = eclToScene(VOYAGER_ECL.voyager2);
+const V2_AU_PER_DAY = 3.05 / 365.25;
+const V2_FROM = day(1990, 3, 1); // drawn only once the timeline is past its last planet
+
+// The replay clock (seconds) against the mission clock (days). A smooth, never-backwards curve through these:
+// slow at launch and at each flyby, a pause for the Pale Blue Dot, then the long years flash by.
+const KEYS: [number, number][] = [
+  [0, 0.54], // launch, 12:56 UTC
+  [5, 40],
+  [11, 505],
+  [14, 546.5], // Jupiter closest approach, 5 March 1979
+  [17, 590],
+  [22.5, 1125],
+  [25.5, 1165], // Saturn closest approach, 12 November 1980 (Titan the same morning)
+  [28.5, 1210],
+  [35, PBD],
+  [43, PBD + 0.3],
+  [48, day(2012, 8, 25)], // into interstellar space
+  [51, day(2025, 2, 25)], // cosmic ray detector off
+  [53.5, day(2026, 4, 17)], // particle detector off
+  [56, TODAY],
+];
+// Monotone cubic (Fritsch-Butland slopes), so the mission clock eases between keys and never runs backwards.
+function monotone(keys: [number, number][]) {
+  const n = keys.length;
+  const sec = keys.slice(1).map((k, i) => (k[1] - keys[i][1]) / (k[0] - keys[i][0]));
+  const m = keys.map((_, k) => {
+    if (k === 0) return sec[0];
+    if (k === n - 1) return 0; // come to rest at today
+    const h0 = keys[k][0] - keys[k - 1][0],
+      h1 = keys[k + 1][0] - keys[k][0];
+    return sec[k - 1] * sec[k] <= 0 ? 0 : (3 * (h0 + h1)) / ((2 * h1 + h0) / sec[k - 1] + (h1 + 2 * h0) / sec[k]);
   });
-  mesh.removeFromParent();
-  return { parts, boxes };
+  return (t: number) => {
+    if (t <= keys[0][0]) return keys[0][1];
+    if (t >= keys[n - 1][0]) return keys[n - 1][1];
+    let k = 0;
+    while (t > keys[k + 1][0]) k++;
+    const h = keys[k + 1][0] - keys[k][0],
+      s = (t - keys[k][0]) / h;
+    const s2 = s * s,
+      s3 = s2 * s;
+    return (2 * s3 - 3 * s2 + 1) * keys[k][1] + (s3 - 2 * s2 + s) * h * m[k] + (3 * s2 - 2 * s3) * keys[k + 1][1] + (s3 - s2) * h * m[k + 1];
+  };
 }
+const missionDay = monotone(KEYS);
 
-const SCAN_TURN = 17; // 14 February 1990: the scan platform turns back toward home
-const DOT = 20; // the Pale Blue Dot appears
-const REVEAL = 38.5;
-const END = 44;
+const REVEAL = 57.5; // the real Voyager appears where the ghost has arrived: today
+const END = 63;
 const CUES: Cue[] = [
-  { at: 0, text: "5 September 1977: Voyager 1 blasts off from Florida, headed for the giant planets." },
-  { at: 3, text: "Out in space it unfolds its magnetometer boom, 13 meters long, to keep that sensor far from the spacecraft’s own electronics." },
-  { at: 8.5, text: "March 1979: it flies past Jupiter and discovers volcanoes erupting on the moon Io." },
-  { at: 12.5, text: "November 1980: it swings past Saturn and its giant moon Titan, which flings it up and out of the planets’ path, toward the stars." },
-  { at: 16.5, text: "14 February 1990. Six billion km from home, Voyager 1 turns its cameras back for one last look." },
-  { at: DOT + 0.5, text: "It takes a Family Portrait of the planets. In one picture, Earth is just a pale blue dot, smaller than a single pixel." },
-  { at: 25.5, text: "Soon after, its cameras are switched off for good, to save power for the long trip ahead." },
-  { at: 29.5, text: "Its nuclear power slowly fades, so over the years engineers switch off one instrument after another." },
-  { at: 33.5, text: "The cosmic ray detector went quiet in 2025, and a particle detector in April 2026. Just two instruments are still on." },
-  { at: REVEAL - 0.5, text: "Today Voyager 1 is about 25 billion km away and still talking to us. Its messages take almost a whole day to reach Earth." },
+  { at: 0, text: "5 September 1977: Voyager 1 blasts off from Florida and races away from Earth, headed for the giant planets." },
+  { at: 5.5, text: "Climbing away from the Sun slows it down, like a ball thrown uphill. For 18 months it coasts toward Jupiter." },
+  { at: 11, text: "5 March 1979: it swings close past Jupiter. Jupiter’s gravity flings it faster, from about 13 to about 24 km every second!" },
+  { at: 15, text: "Its cameras discover volcanoes erupting on Jupiter’s moon Io: the first active volcanoes ever seen beyond Earth." },
+  { at: 18, text: "Jupiter has bent its path toward Saturn. Twenty months later it gets there." },
+  { at: 22.5, text: "12 November 1980: Voyager 1 flies close past Titan, Saturn’s giant moon, and then past Saturn itself." },
+  { at: 25.5, text: "Saturn’s gravity bends its path up and out of the flat plane where the planets travel. It will never meet another planet." },
+  { at: 29, text: "Year after year it climbs away from the Sun, toward the stars." },
+  { at: 34.5, text: "14 February 1990. Six billion km from home, Voyager 1 turns its cameras back for one last look." },
+  { at: 38, text: "It takes a Family Portrait of the planets. In one picture, Earth is just a pale blue dot, smaller than a single pixel." },
+  { at: 43, text: "Soon after, its cameras are switched off for good, to save power for the long trip ahead." },
+  { at: 45.5, text: "Its nuclear power slowly fades, so over the years engineers switch off one instrument after another." },
+  { at: 48, text: "25 August 2012: Voyager 1 leaves the Sun’s giant bubble and becomes the first spacecraft in interstellar space. Its twin, Voyager 2, follows in 2018." },
+  { at: 51, text: "The cosmic ray detector went quiet in 2025, and a particle detector in April 2026. Just two instruments are still on." },
+  { at: 54.5, text: "Today Voyager 1 is more than 25 billion km away and still talking to us. Its messages take almost a whole day to reach Earth." },
 ];
 
-type View = { pos: [number, number, number]; look: [number, number, number] };
-const V_BOOM: View = { pos: [20, 3, 4.5], look: [0, 2.5, 4.5] };
-const V_FLYBY: View = { pos: [9, 2, 10], look: [0, 0.5, 0] };
-// Looking past the scan platform toward a point of light far away: home.
-const EYE = new THREE.Vector3(5, 0.3, 1.5);
-const toScan = new THREE.Vector3(0, -1.1, -3.6).sub(EYE).normalize();
-const toDot = toScan.clone().add(new THREE.Vector3(-0.15, 0.45, 0)).normalize();
-const DOT_AT = EYE.clone().addScaledVector(toDot, 900);
-const between = EYE.clone().addScaledVector(toScan.clone().add(toDot).normalize(), 10);
-const V_DOT: View = { pos: EYE.toArray(), look: between.toArray() };
-const V_DIM: View = { pos: [8, 1, 8], look: [0, -0.5, -1.5] };
-const V_NOW: View = { pos: [7, 1, 8], look: [0, 0, 0] };
-const BLUE = new THREE.Color("#9fd8ff");
-const GREY = new THREE.Color("#4a5560");
+// The ghost Voyager always sits at the scene's middle (where the real model is) and the Solar System is drawn
+// around it: world = (position - Voyager) * S, at S scene units per AU. Changing S is a zoom; distances between
+// things stay to scale. Only the Sun's and planets' sizes are not (see the readout note).
+// The camera, per beat: its place in a frame that turns with Voyager (ahead = its direction of travel seen from above,
+// up = ecliptic north, side = to its left, back = straight out along the line from the Sun), and what it looks at: a mix of
+// the Sun's, Jupiter's and Saturn's places.
+type Beat = { at: number; S: number; cam: [number, number, number, number]; sun: number; jup: number; sat: number; v2?: number; glow: number };
+const BEATS: Beat[] = [
+  { at: 0, S: 8, cam: [-7, 4, -2, 0], sun: 0.3, jup: 0, sat: 0, glow: 0.09 }, // launch
+  { at: 5, S: 1.4, cam: [-5, 8, 2, 0], sun: 0, jup: 0.45, sat: 0, glow: 0.07 }, // coasting to Jupiter
+  { at: 11, S: 12, cam: [-2, 9, 2, 0], sun: 0, jup: 0.6, sat: 0, glow: 0.07 }, // the Jupiter flyby, from above: the bend
+  { at: 17.5, S: 1.1, cam: [-5, 8, 2, 0], sun: 0, jup: 0, sat: 0.4, glow: 0.07 }, // on to Saturn
+  { at: 22, S: 14, cam: [-4, 1.2, -8, 0], sun: 0, jup: 0, sat: 0.5, glow: 0.07 }, // the Saturn flyby
+  { at: 26, S: 3, cam: [0, 0.4, -10, 0], sun: 0, jup: 0, sat: 0.5, glow: 0.06 }, // side on: bent up out of the plane
+  { at: 29, S: 0.45, cam: [-2, 1.5, -10, 0], sun: 0.45, jup: 0, sat: 0, glow: 0.06 }, // climbing out
+  { at: 33.5, S: 30, cam: [0, 0.9, 0.6, 5], sun: 1, jup: 0, sat: 0, glow: 0.022 }, // looking back home
+  { at: 43, S: 0.04, cam: [-1, 2.5, -10, 0], sun: 0.5, jup: 0, sat: 0, glow: 0.05 }, // the whole trip, side on
+  { at: 47.5, S: 0.03, cam: [-1, 3, -10, 0], sun: 0.3, jup: 0, sat: 0, v2: 0.4, glow: 0.05 }, // and Voyager 2, far to the south
+];
+const EASE = 2.2; // seconds to glide from one beat to the next
+const V_NOW = { pos: [7, 1, 8] as [number, number, number], look: [0, 0, 0] as [number, number, number] };
+// Saturn's north pole (RA 40.59°, Dec 83.54°) in ecliptic coordinates is lon 79.5°, lat 61.9°; its rings lie in its equator.
+const SATURN_POLE = new THREE.Vector3(0.0857, 0.8825, -0.4622).normalize();
+// Drawn radii in AU (true: Jupiter 0.00048, Saturn 0.00039), so the giants show up beside the path.
+const R_JUP = 0.02,
+  R_SAT = 0.017;
+const AU_KM = 149597870.7;
+
+// Ecliptic (x, y, z north) into the scene's axes (y up).
+const put = (a: number[], i: number, out: THREE.Vector3) => out.set(a[3 * i], a[3 * i + 2], -a[3 * i + 1]);
+// Position at sample i + f, moving along the arc (radius, longitude, height) rather than the straight chord, so a
+// planet sampled every 60 days still goes round its orbit rather than cutting corners.
+function at(a: number[], i: number, f: number, out: THREE.Vector3) {
+  const ax = a[3 * i],
+    ay = a[3 * i + 1],
+    bx = a[3 * i + 3],
+    by = a[3 * i + 4];
+  const ra = Math.hypot(ax, ay),
+    la = Math.atan2(ay, ax);
+  let dl = Math.atan2(by, bx) - la;
+  dl -= 2 * Math.PI * Math.round(dl / (2 * Math.PI));
+  const r = ra + (Math.hypot(bx, by) - ra) * f,
+    l = la + dl * f;
+  return out.set(r * Math.cos(l), a[3 * i + 2] + (a[3 * i + 5] - a[3 * i + 2]) * f, -r * Math.sin(l));
+}
+
+// The sample just before mission day d, and how far on toward the next one.
+function sample(T: number[], d: number): [number, number] {
+  let lo = 0,
+    hi = T.length - 2;
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1;
+    if (T[mid] <= d) lo = mid;
+    else hi = mid - 1;
+  }
+  return [lo, Math.min(1, Math.max(0, (d - T[lo]) / (T[lo + 1] - T[lo])))];
+}
+
+function line(points: THREE.Vector3[], color: string, opacity: number, loop = false) {
+  const g = new THREE.BufferGeometry().setFromPoints(points);
+  const m = new THREE.LineBasicMaterial({ color, transparent: true, opacity, depthWrite: false });
+  return loop ? new THREE.LineLoop(g, m) : new THREE.Line(g, m);
+}
+
+// A name tag that stays the same size on screen, sitting just above its point (or wherever `center` puts it).
+export function label(text: string, center: [number, number] = [0.5, -0.6]) {
+  const c = document.createElement("canvas");
+  c.width = 256;
+  c.height = 64;
+  const g = c.getContext("2d")!;
+  g.font = "600 30px system-ui, sans-serif";
+  g.textAlign = "center";
+  g.textBaseline = "middle";
+  g.shadowColor = "rgba(0,0,0,0.9)";
+  g.shadowBlur = 8;
+  g.fillStyle = "#e8f2ff";
+  g.fillText(text, 128, 32);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false, depthWrite: false, sizeAttenuation: false }));
+  s.scale.set(0.11, 0.0275, 1);
+  s.center.set(...center);
+  s.renderOrder = 1002;
+  return s;
+}
+
+// A globe lit from the Sun's actual direction (the stop's own light shines straight down, which would be wrong here).
+function globeMaterial(map: THREE.Texture, sun: { value: THREE.Vector3 }, alpha: { value: number }) {
+  return new THREE.ShaderMaterial({
+    uniforms: { map: { value: map }, uSun: sun, uAlpha: alpha },
+    vertexShader: /* glsl */ `
+      varying vec3 vN; varying vec3 vW; varying vec2 vUv;
+      void main() {
+        vec4 w = modelMatrix * vec4(position, 1.0);
+        vW = w.xyz; vN = normalize(mat3(modelMatrix) * normal); vUv = uv;
+        gl_Position = projectionMatrix * viewMatrix * w;
+      }`,
+    fragmentShader: /* glsl */ `
+      uniform sampler2D map; uniform vec3 uSun; uniform float uAlpha;
+      varying vec3 vN; varying vec3 vW; varying vec2 vUv;
+      void main() {
+        float d = max(dot(normalize(vN), normalize(uSun - vW)), 0.0);
+        gl_FragColor = vec4(texture2D(map, vUv).rgb * (0.1 + 0.9 * d), uAlpha);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }`,
+    transparent: true,
+  });
+}
+
+function build(track: Track) {
+  const N = track.t.length;
+  const sunU = { value: new THREE.Vector3() },
+    alphaU = { value: 0 };
+  const sys = new THREE.Group(); // in AU, moved and scaled each frame so Voyager sits at the middle
+  // Each planet's orbit, from the first full lap of its own Horizons positions.
+  const orbit = (a: number[], period: number, color: string) => {
+    const pts: THREE.Vector3[] = [];
+    for (let i = 0; i < N - 1 && track.t[i] - track.t[0] < period; i++) for (let k = 0; k < 4; k++) pts.push(at(a, i, k / 4, new THREE.Vector3()));
+    return line(pts, color, 0.35, true);
+  };
+  const orbits = [orbit(track.earth, 365.25, "#5f8fd0"), orbit(track.jupiter, 4332.6, "#b59a74"), orbit(track.saturn, 10759.2, "#b5a681")];
+  // The trail: every sample Voyager has passed, plus a short piece from the last one to where it is now.
+  const trail = line(
+    Array.from({ length: N }, (_, i) => put(track.voyager1, i, new THREE.Vector3())),
+    "#9fd8ff",
+    0.9,
+  );
+  const head = line([new THREE.Vector3(), new THREE.Vector3()], "#9fd8ff", 0.9);
+  for (const l of [trail, head]) {
+    l.material.depthTest = false; // drawn over the (enlarged) planets it skims past
+    l.renderOrder = 1000;
+    l.frustumCulled = false;
+  }
+  const jupiter = new THREE.Mesh(new THREE.SphereGeometry(R_JUP, 64, 32), globeMaterial(jupiterTexture(), sunU, alphaU));
+  jupiter.scale.y = 0.935;
+  const saturn = new THREE.Group();
+  const satBody = new THREE.Mesh(new THREE.SphereGeometry(R_SAT, 64, 32), globeMaterial(saturnTexture(), sunU, alphaU));
+  satBody.scale.y = 0.902;
+  const ringGeo = new THREE.RingGeometry(R_SAT * RING_INNER, R_SAT * RING_OUTER, 128, 1);
+  const p = ringGeo.attributes.position,
+    uv = ringGeo.attributes.uv;
+  for (let i = 0; i < p.count; i++) uv.setXY(i, (Math.hypot(p.getX(i), p.getY(i)) / R_SAT - RING_INNER) / (RING_OUTER - RING_INNER), 0.5);
+  const ring = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ map: ringTexture(), transparent: true, side: THREE.DoubleSide, depthWrite: false }));
+  ring.rotation.x = -Math.PI / 2;
+  saturn.add(satBody, ring);
+  saturn.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), SATURN_POLE);
+  sys.add(...orbits, trail, head, jupiter, saturn);
+
+  // Screen-sized glows and name tags (outside the scaled group, so they keep their size at any zoom).
+  const glow = (color: string, hideInside: boolean) => {
+    const s = glowSprite(color);
+    s.material.sizeAttenuation = false;
+    s.material.depthTest = hideInside; // a planet's glow hides inside its globe once you are close enough to see it
+    if (hideInside) s.renderOrder = 0;
+    return s;
+  };
+  const glows = { sun: glow("#fff1c8", false), earth: glow("#6fa8ff", true), jupiter: glow("#e8c99a", true), saturn: glow("#e6d3a0", true), voyager: glow("#9fd8ff", false), voyager2: glow("#9fd8ff", false) };
+  const labels = { sun: label("Sun", [0.5, 1.6]), earth: label("Earth"), jupiter: label("Jupiter"), saturn: label("Saturn"), voyager: label("Voyager 1", [-0.08, 0.5]), voyager2: label("Voyager 2", [-0.08, 0.5]) };
+  const root = new THREE.Group();
+  root.add(sys, ...Object.values(glows), ...Object.values(labels));
+
+  // The live readout, shown in the caption box under "Back in time".
+  const readout = document.createElement("p");
+  readout.setAttribute("aria-hidden", "true");
+  readout.style.cssText = "grid-column:1/-1;margin:0;color:var(--ink);font:500 0.75rem/1.5 var(--mono);letter-spacing:0.04em";
+  const now = document.createElement("span");
+  const note = document.createElement("span");
+  note.style.opacity = "0.6";
+  note.textContent = "Distances to scale. The Sun and planets are drawn much bigger than real.";
+  readout.append(now, document.createElement("br"), note);
+  return { track, root, sys, sunU, alphaU, orbits, trail, head, jupiter, saturn, ring, glows, labels, readout, now };
+}
 
 export function Voyager1Replay({ stop }: { stop: Stop; ground?: (x: number, z: number) => number }) {
+  const track = use(loadTrack());
+  return track ? <Trip stop={stop} track={track} /> : <NoTrack stop={stop} />;
+}
+
+// Without the trajectory there is nothing to replay: hand straight back to the site.
+function NoTrack({ stop }: { stop: Stop }) {
   const on = useStore(tour, (s) => s.replay);
-  const spec = stop.model as GltfSpec;
-  const gltf = useModel(spec.url);
-  const scene = useMemo(() => {
-    const mats = [ghostMaterial(), ghostMaterial(), ghostMaterial(), ghostMaterial()]; // body + boom, scan, mid, near
-    const { object } = prepareModel(gltf.scene, spec, []);
-    const root = new THREE.Group();
-    root.add(object);
-    root.updateMatrixWorld(true);
-    object.traverse((o) => {
-      const m = o as THREE.Mesh;
-      if (!m.isMesh) return;
-      // The placeholder cube on the root node: empty it, so the ghost's depth copy doesn't draw it either.
-      if (m.name === "_root") m.geometry = new THREE.BufferGeometry();
-      m.material = mats[0];
-      m.castShadow = m.receiveShadow = false;
-    });
-    const main = object.getObjectByName("tex_01") as THREE.Mesh | undefined;
-    let boom: THREE.Object3D | null = null,
-      scan: THREE.Object3D | null = null;
-    if (main?.isMesh) {
-      const { parts, boxes } = split(main);
-      parts[Part.Scan].material = mats[1];
-      parts[Part.Mid].material = mats[2];
-      parts[Part.Near].material = mats[3];
-      root.updateMatrixWorld(true);
-      // The boom extends from the end of its canister: a pivot there, its z axis along the boom, scales it.
-      boom = new THREE.Group();
-      boom.position.copy(BOOM_ROOT).addScaledVector(BOOM_DIR, BOOM_BASE);
-      boom.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), BOOM_DIR);
-      // The scan platform turns about its own middle.
-      scan = new THREE.Group();
-      boxes[Part.Scan].getCenter(scan.position);
-      root.add(boom, scan);
-      root.updateMatrixWorld(true);
-      boom.attach(parts[Part.Boom]);
-      scan.attach(parts[Part.Scan]);
-    }
-    spaceShell(root);
-    // Home, seen from six billion km: a tiny pale blue point of light.
-    const dot = glowSprite("#6fa8ff");
-    dot.position.copy(DOT_AT);
-    dot.scale.setScalar(14);
-    root.add(dot);
-    return { root, mats, boom, scan, dot };
-  }, [gltf, spec]);
+  useEffect(() => {
+    if (on) endReplay(stop.id);
+  }, [on, stop.id]);
+  return null;
+}
+
+function Trip({ stop, track }: { stop: Stop; track: Track }) {
+  const on = useStore(tour, (s) => s.replay);
+  const scene = useMemo(() => build(track), [track]);
   useEffect(
     () => () => {
-      for (const m of scene.mats) m.dispose();
-      disposeSprite(scene.dot);
-      // ponytail: the split meshes are left for GC, not disposed: they share the real model's vertex data, and
-      // stripping it here broke the ghost when React re-ran this effect on the same memo (only the dish drew).
-      // Leaks their small index buffers per visit; dispose them in a mount-scoped effect if that ever matters.
+      // Only what build() made: the planet textures are shared (textures.ts caches them), so they stay.
+      scene.root.traverse((o) => {
+        const m = o as THREE.Mesh;
+        if (m.geometry && !(o as THREE.Sprite).isSprite) m.geometry.dispose();
+        if (m.material && !(o as THREE.Sprite).isSprite) (m.material as THREE.Material).dispose();
+      });
+      for (const s of Object.values(scene.glows)) disposeSprite(s);
+      for (const s of Object.values(scene.labels)) disposeSprite(s);
       live.hideMachine = false;
       live.replayLook = null;
       live.replayView = null;
@@ -165,52 +306,133 @@ export function Voyager1Replay({ stop }: { stop: Stop; ground?: (x: number, z: n
   const t0 = useRef(-1);
   const shown = useRef({ text: "", at: -1 });
   const gentle = useRef(false);
+  const view = useRef({ pos: [0, 0, 0] as [number, number, number], look: [0, 0, 0] as [number, number, number] });
   useEffect(() => {
     if (!on) return;
     t0.current = -1;
     gentle.current = reducedMotion();
     return () => {
       shown.current = { text: "", at: -1 };
+      scene.readout.remove();
       live.replayLook = null;
       live.replayView = null;
       setCaption("", 0);
     };
-  }, [on]);
+  }, [on, scene]);
 
+  const v = useMemo(() => {
+    const n = () => new THREE.Vector3();
+    return { craft: n(), w: n(), a: n(), b: n(), out: n(), ahead: n(), sunW: n(), jupW: n(), satW: n(), earthW: n(), v2W: n() };
+  }, []);
   useFrame((state) => {
     const s = tour.get();
     const t = on && t0.current >= 0 ? state.clock.elapsedTime - t0.current : -1;
-    live.hideMachine = !s.revealed.includes(stop.id) && t < REVEAL;
-    scene.root.visible = on;
+    live.hideMachine = (on || !s.revealed.includes(stop.id)) && t < REVEAL;
+    scene.root.visible = on && t >= 0;
     if (!on) return;
     if (t0.current < 0) {
       t0.current = state.clock.elapsedTime;
       return;
     }
+    const { t: T, voyager1, earth, jupiter, saturn, speed } = scene.track;
 
-    // The boom slides out of its canister (never quite zero: a zero scale breaks the lighting maths).
-    const out = smooth(3.5, 8.5, t);
-    if (scene.boom) {
-      scene.boom.scale.set(1, 1, Math.max(0.001, out));
-      scene.boom.visible = out > 0.01;
+    // Where everything is on this mission day.
+    const D = missionDay(t);
+    const [lo, f] = sample(T, D);
+    at(voyager1, lo, f, v.craft);
+    const pos = (a: number[], d: number, out: THREE.Vector3) => at(a, ...sample(T, d), out);
+
+    // The camera beat, and the zoom (blended in log steps, so zooming feels even).
+    let S = Math.log(BEATS[0].S),
+      cam = [...BEATS[0].cam],
+      look = [BEATS[0].sun, BEATS[0].jup, BEATS[0].sat, BEATS[0].v2 ?? 0],
+      glowSize = BEATS[0].glow;
+    for (const b of BEATS.slice(1)) {
+      const k = smooth(b.at, b.at + EASE, t);
+      S += (Math.log(b.S) - S) * k;
+      cam = cam.map((c, i) => c + (b.cam[i] - c) * k);
+      look = [look[0] + (b.sun - look[0]) * k, look[1] + (b.jup - look[1]) * k, look[2] + (b.sat - look[2]) * k, look[3] + ((b.v2 ?? 0) - look[3]) * k];
+      glowSize += (b.glow - glowSize) * k;
     }
-    // 1990: the scan platform swings round toward home.
-    const turn = smooth(SCAN_TURN, SCAN_TURN + 3, t);
-    scene.scan?.rotation.set(-0.35 * turn, 1.1 * turn, 0);
+    S = Math.exp(S);
+    scene.sys.scale.setScalar(S);
+    scene.sys.position.copy(v.craft).multiplyScalar(-S);
+    const world = (p: THREE.Vector3, out: THREE.Vector3) => out.copy(p).sub(v.craft).multiplyScalar(S);
 
-    // Ghost parts dim one by one as instruments are switched off: the cameras, then the others along the boom.
-    const alpha = smooth(0, 1.5, t) * (1 - smooth(REVEAL, REVEAL + 2.5, t));
-    const off = [0, smooth(26, 27.5, t), smooth(30, 31.5, t), smooth(34, 35.5, t)];
-    scene.mats.forEach((m, i) => {
-      m.uniforms.uAlpha.value = alpha * (1 - 0.75 * off[i]);
-      m.uniforms.uColor.value.lerpColors(BLUE, GREY, off[i]);
-    });
+    // Trail up to the last sample passed, then a short piece to here.
+    scene.trail.geometry.setDrawRange(0, lo + 1);
+    const hp = scene.head.geometry.attributes.position as THREE.BufferAttribute;
+    put(voyager1, lo, v.a);
+    hp.setXYZ(0, v.a.x, v.a.y, v.a.z);
+    hp.setXYZ(1, v.craft.x, v.craft.y, v.craft.z);
+    hp.needsUpdate = true;
 
-    // The Pale Blue Dot, twinkling softly (steady with reduced motion).
-    const twinkle = gentle.current ? 1 : 0.85 + 0.15 * Math.sin(t * 3);
-    scene.dot.material.opacity = smooth(DOT - 0.5, DOT + 1, t) * (1 - smooth(25, 27, t)) * twinkle;
+    // Sun, planets, their glows and tags.
+    const { glows, labels } = scene;
+    const sunW = world(v.a.set(0, 0, 0), v.sunW);
+    scene.sunU.value.copy(sunW);
+    glows.sun.position.copy(sunW);
+    labels.sun.position.copy(sunW);
+    const jupW = world(at(jupiter, lo, f, scene.jupiter.position), v.jupW);
+    const satW = world(at(saturn, lo, f, scene.saturn.position), v.satW);
+    const earthW = world(at(earth, lo, f, v.b), v.earthW);
+    glows.jupiter.position.copy(jupW);
+    labels.jupiter.position.copy(jupW);
+    glows.saturn.position.copy(satW);
+    labels.saturn.position.copy(satW);
+    glows.earth.position.copy(earthW);
+    labels.earth.position.copy(earthW);
+    // Voyager 2, where it really is relative to Voyager 1 on this day (once it has left the planets behind).
+    const v2W = world(v.b.copy(V2_NOW).setLength(Math.max(1, V2_NOW.length() - (TODAY - D) * V2_AU_PER_DAY)), v.v2W);
+    glows.voyager2.position.copy(v2W);
+    labels.voyager2.position.copy(v2W);
 
-    live.replayView = t < 8.5 ? V_BOOM : t < 16.5 ? V_FLYBY : t < 28.5 ? V_DOT : t < REVEAL ? V_DIM : V_NOW;
+    // Fade in, and out again as the real Voyager takes over.
+    const alpha = smooth(0, 1, t) * (1 - smooth(REVEAL - 1.5, REVEAL, t));
+    scene.alphaU.value = alpha;
+    (scene.ring.material as THREE.Material).opacity = alpha;
+    for (const o of scene.orbits) o.material.opacity = 0.35 * alpha;
+    scene.trail.material.opacity = scene.head.material.opacity = 0.9 * alpha;
+    const twinkle = gentle.current ? 1 : 0.85 + 0.15 * Math.sin(t * 4);
+    glows.sun.material.opacity = alpha;
+    glows.sun.scale.setScalar(glowSize * 1.6);
+    for (const k of ["earth", "jupiter", "saturn"] as const) {
+      glows[k].material.opacity = alpha;
+      glows[k].scale.setScalar(k === "earth" ? 0.022 : 0.026);
+    }
+    glows.voyager.material.opacity = alpha * twinkle;
+    glows.voyager.scale.setScalar(0.04);
+    for (const l of Object.values(labels)) l.material.opacity = alpha * 0.9;
+    const v2a = alpha * smooth(V2_FROM, V2_FROM + 400, D);
+    glows.voyager2.material.opacity = v2a * twinkle;
+    glows.voyager2.scale.setScalar(0.032);
+    labels.voyager2.material.opacity = v2a * 0.9;
+
+    // The camera, in a frame that turns with Voyager.
+    // Its direction of travel: a chord across 60 days, so the camera doesn't whip round at a flyby.
+    pos(voyager1, D + 30, v.ahead).sub(pos(voyager1, D - 30, v.out)).setY(0).normalize();
+    v.out.set(0, 1, 0).cross(v.ahead); // side
+    const vw = view.current;
+    if (t < REVEAL - 1) {
+      v.w.copy(v.ahead).multiplyScalar(cam[0]).addScaledVector(v.out, cam[2]);
+      v.w.y += cam[1];
+      v.w.addScaledVector(v.b.copy(sunW).normalize(), -cam[3]);
+      vw.pos = [v.w.x, v.w.y, v.w.z];
+      v.w.copy(sunW).multiplyScalar(look[0]).addScaledVector(jupW, look[1]).addScaledVector(satW, look[2]).addScaledVector(v2W, look[3]);
+      // Aim no further than a few units from Voyager, so it stays in the picture while the view swings round.
+      if (v.w.length() > 6) v.w.setLength(6);
+      vw.look = [v.w.x, v.w.y, v.w.z];
+      live.replayView = vw;
+    } else live.replayView = V_NOW;
+    live.replayLook = null;
+
+    // Readout: the date, how far from the Sun, how fast (relative to the Sun, from Horizons).
+    if (!scene.readout.isConnected && hud.replayLine?.parentElement) hud.replayLine.parentElement.insertBefore(scene.readout, hud.replayLine);
+    const r = v.craft.length() * AU_KM;
+    const far = r < 1e9 ? `${Math.round(r / 1e6)} million km` : `${(r / 1e9).toFixed(1)} billion km`;
+    const kms = speed[lo] + (speed[lo + 1] - speed[lo]) * f;
+    const text = `${dateOf(D)} · ${far} from the Sun · ${kms.toFixed(1)} km/s`;
+    if (scene.now.textContent !== text) scene.now.textContent = text;
 
     caption(CUES, t, END, shown.current);
     // Only end our own replay: if you jump away mid-replay, endReplay would mark the stop you are going to.

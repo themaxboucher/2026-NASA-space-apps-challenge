@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Solar from "./Solar";
 
 export const metadata: Metadata = {
-  title: "Fly the solar system · Ruins Among the Stars",
+  title: "Fly the solar system · Echoes of Exploration",
   description: "Fly freely around the Sun, the planets and all 79 space objects NASA left on the Moon, on Mars and in deep space, then land at any of them.",
 };
 

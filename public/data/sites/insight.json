@@ -49,11 +49,11 @@
       "title": "The robotic arm",
       "text": "This arm lifted the seismometer and the heat probe off the deck and set them on the ground. Later it trickled sand into the wind to knock dust off a solar panel, which gave InSight a bit more power.",
       "anchor": {
-        "part": "arm_03",
+        "part": "grapple",
         "at": [
           0.5,
-          1,
-          0.9
+          0.5,
+          0.5
         ]
       },
       "source": {
@@ -79,17 +79,12 @@
       "broken": true,
       "tag": "Didn’t work",
       "anchor": {
-        "part": "InSIGHT_AO_07",
-        "at": [
-          0,
-          0.2,
-          0
+        "pos": [
+          -2,
+          0.1,
+          1.33
         ],
-        "offset": [
-          -0.4,
-          0,
-          0
-        ]
+        "ground": true
       },
       "source": {
         "label": "NASA: InSight",

@@ -25,6 +25,9 @@ export type Hotspot = {
   broken?: boolean;
   // Extra named parts to glow (when the anchor is a fixed position), and the card's label instead of "Broken part".
   glow?: string[];
+  // Only glow within this many metres of the spot (for a broken part that is one big piece of the model). 0 = the whole
+  // part. Left out, a part bigger than a third of the machine glows only near the spot.
+  glowRadius?: number;
   tag?: string;
   // From a site file (public/data/sites/<id>.json): a real photo for the card and a clip to play.
   photo?: SitePhoto;
@@ -51,6 +54,10 @@ export type ModelSpec =
       origin: "ground" | "center";
       // Optional names of parts that define the center (spacecraft have very long booms).
       centerOn?: string[];
+      // How it lies, as rotations about x, y, z in radians (applied before it is stood on the ground).
+      tilt?: Vec3;
+      // Pieces no longer there: triangles whose middle is inside one of these boxes (placed metres) are cut away.
+      cut?: { min: Vec3; max: Vec3 }[];
     }
   | { kind: "lrv" }
   // No model: an impact site (a crater and scattered pieces) or a machine with no honest 3D model.
@@ -61,6 +68,8 @@ export type Setting = {
   // Surface terrain style.
   terrain?: "mare" | "highlands" | "slope" | "sand";
   sun: { az: number; el: number };
+  // Extra soft light from all around, for a place the Sun never reaches (light bounced off far sunlit crater rims).
+  fill?: number;
   // Earth's position in the lunar sky (azimuth from north, elevation), from the site's latitude and longitude.
   earth?: { az: number; el: number };
   // What hangs in the sky behind a machine in space: the body it orbits (or hit), or just a far, small Sun.
@@ -150,7 +159,7 @@ export const STOPS: Stop[] = [
     story: {
       kicker: "Chapter 1 · Apollo 11 · The Moon · 20 July 1969",
       title: "One giant leap for mankind",
-      text: "Neil Armstrong and Buzz Aldrin landed in the Sea of Tranquility while about 600 million people watched on TV. Stepping onto the dust, Armstrong said: “That’s one small step for man, one giant leap for mankind.” For the first time, people had travelled to another world and come home safely. They flew back in the top half of their lander. The bottom half is still standing there.",
+      text: "Neil Armstrong and Buzz Aldrin landed in the Sea of Tranquility. Hours later, about 600 million people watched on TV as Armstrong stepped onto the dust and said: “That’s one small step for man, one giant leap for mankind.” For the first time, people had travelled to another world and come home safely. They flew back in the top half of their lander. The bottom half is still standing there.",
     },
     chapter: "Moon",
     body: "moon",
@@ -660,14 +669,14 @@ export const CHAPTERS = ["Moon", "Mars", "Deep space"] as const;
 
 export const CREDITS = [
   "Earth: NASA Earth Observatory: Blue Marble: Next Generation (November 2004), Blue Marble clouds (Terra MODIS, 2001) and Earth at Night / Black Marble 2016 (Suomi NPP VIIRS). Public domain.",
-  "Moon map and relief: NASA Scientific Visualization Studio CGI Moon Kit (LRO LROC WAC colour mosaic: NASA/GSFC/Arizona State University; LOLA elevation: NASA/GSFC). Public domain.",
+  "Moon map and relief: NASA Scientific Visualization Studio CGI Moon Kit (LRO LROC WAC colour mosaic: NASA/GSFC/Arizona State University, educational use with credit; LOLA elevation: NASA/GSFC, public domain).",
   "Mars map and relief: USGS Astrogeology Science Center / NASA: Viking MDIM 2.1 colourised global mosaic and MGS MOLA elevation (MOLA Science Team, NASA/GSFC). Public domain.",
-  "3D spacecraft: NASA 3D Resources (Apollo Lunar Module and Voyager: NASA/Michael D. Carbajal; Mars Exploration Rover: NASA/Ames Research Center; Ingenuity: NASA/JPL-Caltech; Cassini-Huygens: NASA/Brian E. Kumanchik).",
+  "3D spacecraft: NASA 3D Resources (Apollo Lunar Module and Voyager: NASA/Michael D. Carbajal; Mars Exploration Rover: NASA/JPL-Caltech; Ingenuity: NASA/JPL-Caltech; Cassini-Huygens: NASA/Brian E. Kumanchik).",
   "The Apollo 15 rover was built for this site from NASA NSSDCA measurements. Saturn and its rings are drawn in code from their real sizes.",
   "Facts: NASA, NASA JPL and the NSSDCA catalog. Every hotspot links the page it came from.",
-  "Film, photos and radio: NASA, NASA JPL and the Apollo Lunar Surface Journal (NASA). Public domain. Each clip and photo names its source.",
+  "Film, photos and radio: NASA, NASA JPL and the Apollo Lunar Surface Journal (NASA). Public domain except where marked (LROC images from NASA/GSFC/Arizona State University are used for education with credit). Each clip and photo names its source and licence.",
   "Uranus, Neptune, Pluto, Jupiter, Venus, Mercury and the heliopause are drawn in code from their real colours and features (NASA Voyager, New Horizons and Juno images as reference).",
   "Space debris around Earth: the swarm is illustrative, its shells follow real orbits (low Earth orbit, GPS, geostationary). Its numbers: ESA Space Debris Office, “Space debris by the numbers” (see the Earth’s orbit card on the start screen).",
   "Other sites: hotspots, photos and clips from public/data/sites, each with its own source and licence; salvage grades from the atlas salvage file.",
-  "Music: Satie, Gymnopédie No. 1 (Robin Alciatore, Musopen, public domain) · Debussy, Clair de lune (Laurens Goedhart, CC BY 3.0) · Grieg, Morning Mood (Musopen Symphony, public domain) · Dvořák, Symphony No. 9, Largo (Musopen, public domain).",
+  "Music: Satie, Gymnopédie No. 1 (Robin Alciatore, Musopen, public domain) · Debussy, Clair de lune (Laurens Goedhart, CC BY 3.0, https://creativecommons.org/licenses/by/3.0/, excerpt) · Grieg, Morning Mood (Musopen Symphony, public domain) · Dvořák, Symphony No. 9, Largo (Musopen, public domain).",
 ];

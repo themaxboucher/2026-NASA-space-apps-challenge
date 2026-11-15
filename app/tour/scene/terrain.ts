@@ -77,7 +77,7 @@ type TileMeta = {
   extent_m: [number, number];
   res_m?: { height?: number };
   places?: { id: string; x_m: number; y_m: number }[];
-  sources?: { height?: { credit?: string; product?: string } };
+  sources?: { height?: { credit?: string; product?: string; license?: string } };
 };
 
 export function loadRealTerrain(index: number): Promise<boolean> {
@@ -122,7 +122,9 @@ export function loadRealTerrain(index: number): Promise<boolean> {
       const tile: RealTile = { h, n, w, d, ox: place?.x_m ?? 0, oz: -(place?.y_m ?? 0), zero: 0, res: meta.res_m?.height ?? 6, lum, ln, lumMean, credit: "" };
       tile.zero = realHeight(tile, 0, 0);
       const src = meta.sources?.height;
-      tile.credit = `Ground shape: ${src?.credit ?? "NASA"}${src?.product ? ` (${src.product})` : ""}`;
+      // Share-alike data (the HRSC part of the Mars blend) must show its licence; the rest is credit only.
+      const sa = /CC BY-SA 3\.0 IGO/.test(src?.license ?? "") ? ". HRSC data: CC BY-SA 3.0 IGO, https://creativecommons.org/licenses/by-sa/3.0/igo/" : "";
+      tile.credit = `Ground shape: ${src?.credit ?? "NASA"}${src?.product ? ` (${src.product})` : ""}${sa}`;
       realTiles.set(index, tile);
       built.delete(index);
       listeners.forEach((fn) => fn());

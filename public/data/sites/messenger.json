@@ -125,5 +125,15 @@
       "label": "Crater",
       "value": "About 16 m wide"
     }
-  ]
+  ],
+  "crater": {
+    "diameterM": 16,
+    "depthM": 3.2,
+    "ejecta": "bright",
+    "source": {
+      "label": "NASA Photojournal: Best Determination of MESSENGER's Impact Location (16 m estimate; depth assumed a fifth of the width, as for fresh craters)",
+      "url": "https://science.nasa.gov/photojournal/best-determination-of-messengers-impact-location"
+    },
+    "seen": false
+  }
 }

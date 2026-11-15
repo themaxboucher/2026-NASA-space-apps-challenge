@@ -474,3 +474,165 @@ button.debris-chip:hover {
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
+
+/* Skip asks first: a small question above the Skip button. */
+.confirm-skip {
+  position: relative;
+  display: inline-flex;
+}
+.confirm-pop {
+  position: absolute;
+  z-index: 80;
+  right: 0;
+  bottom: calc(100% + 10px);
+  display: grid;
+  gap: 10px;
+  width: max-content;
+  max-width: 280px;
+  padding: 12px 14px;
+  border: 1px solid var(--line2);
+  border-radius: var(--r-lg);
+  background: var(--panel);
+  box-shadow: var(--shadow-lg);
+  color: var(--ink);
+  font: 500 0.875rem/1.35 var(--body);
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none;
+}
+.confirm-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.confirm-btns button {
+  padding: 6px 12px;
+  border: 1px solid var(--line2);
+  border-radius: var(--pill);
+  background: none;
+  color: var(--ink2);
+  font: 600 0.8125rem/1.2 var(--body);
+  letter-spacing: normal;
+  text-transform: none;
+  cursor: pointer;
+}
+.confirm-btns button:hover {
+  color: var(--ink);
+  border-color: var(--ink2);
+}
+.confirm-btns .confirm-yes {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+.confirm-btns .confirm-yes:hover {
+  color: #fff;
+  background: var(--accent-hi, var(--accent));
+}
+/* In the centred briefing card the question opens centred above its button. */
+.brief-actions .confirm-pop {
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* The closing tribute (Tribute.tsx): a scrolling chapter card. */
+.trib {
+  place-items: start center;
+  overflow-y: auto;
+}
+.trib-card {
+  width: min(820px, 100%);
+  padding: 24px 0 48px;
+}
+.trib h2 {
+  margin: 8px 0 16px;
+  font: 500 clamp(2rem, 5vw, 3.25rem)/1.05 var(--display);
+  letter-spacing: -0.02em;
+}
+.trib-lead,
+.trib-p {
+  color: var(--ink2);
+  font-size: clamp(1rem, 1.7vw, 1.125rem);
+  line-height: 1.6;
+}
+.trib-lead {
+  margin: 0 0 24px;
+  color: var(--ink);
+}
+.trib-h {
+  margin: 36px 0 12px;
+  font: 500 1.375rem/1.2 var(--display);
+}
+.trib-honest {
+  padding-left: 14px;
+  border-left: 3px solid var(--line2);
+}
+.trib-src {
+  display: inline-flex;
+  gap: 2px;
+  align-items: center;
+  color: var(--dim);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+.trib-src:hover {
+  color: var(--ink);
+}
+.trib-time {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 2px solid var(--accent);
+}
+.trib-time li {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 12px;
+  padding-left: 16px;
+  color: var(--ink2);
+  line-height: 1.5;
+}
+.trib-time b {
+  color: var(--ink);
+  font: 500 0.8125rem/1.6 var(--mono);
+}
+.trib-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: 16px;
+  margin-top: 32px;
+}
+.trib-photos figure {
+  margin: 0;
+}
+.trib-photos img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+  background: #000;
+}
+.trib-photos figcaption {
+  margin-top: 8px;
+  color: var(--ink2);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+.trib-close {
+  margin: 40px 0 0;
+  padding: 24px 28px;
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+.trib-close p {
+  margin: 0;
+  font: 500 clamp(1.25rem, 2.4vw, 1.625rem)/1.35 var(--display);
+}
+.trib-close p + p {
+  margin-top: 10px;
+  color: var(--ink2);
+}

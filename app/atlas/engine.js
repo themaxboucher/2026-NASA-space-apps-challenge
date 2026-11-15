@@ -1,9 +1,11 @@
-// Ruins Among the Stars engine: plain JS that drives the DOM rendered by Atlas.tsx.
+// Echoes of Exploration engine: plain JS that drives the DOM rendered by Atlas.tsx.
 // Needs the global THREE (r128) plus GLTFLoader/DRACOLoader, loaded by Atlas.tsx from /vendor/three.
 /* eslint-disable */
 import { loadSalvage, salvageBlock } from './salvage.js';
 import { loadPhotosBy, loadLive, photosBlock, liveBlock, startLive } from './live.js';
 import { ICON } from './icons.js';
+import { loadScience, scienceHTML } from './science.js';
+import { getLevel } from './level.js';
 export function startAtlas() {
   const D = Math.PI / 180, NOW = new Date('2026-11-14');
   const WORLDS = {
@@ -20,6 +22,10 @@ export function startAtlas() {
   // Machines whose every spot you've found in the tour (written by app/tour/state.ts).
   const complete = () => { try { return new Set(JSON.parse(localStorage.getItem('gra-complete') || '[]')); } catch { return new Set(); } };
   const seen = new Set((() => { try { return JSON.parse(localStorage.getItem(SEEN_KEY) || '[]'); } catch { return []; } })());
+  // Opened in /solar (or another tab) while this page sat in the back/forward cache: pick that up.
+  const reloadSeen = () => { try { const v = JSON.parse(localStorage.getItem(SEEN_KEY) || '[]'); seen.clear(); v.forEach(id => seen.add(id)); } catch { return; } paint(); };
+  addEventListener('pageshow', e => { if (e.persisted) reloadSeen(); });
+  addEventListener('storage', e => { if (e.key === SEEN_KEY) reloadSeen(); });
   const saveSeen = () => { try { localStorage.setItem(SEEN_KEY, JSON.stringify([...seen])); } catch { /* private mode: progress lasts this visit */ } };
   let world = 'moon', year = 2026, selected = null;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -201,6 +207,7 @@ export function startAtlas() {
     'apollo-lm': 'Only the bottom half, the descent stage, stayed on the Moon. The top half carried the astronauts back up.',
     'deep-impact': 'The impactor was the small copper-heavy part that split off. The bigger flyby spacecraft watched it hit.',
   };
+  const crashedIt = it => /impact|crash/i.test(it.type) || /crash|smash|plunge|impact/i.test(it.status || '');
   function modelKeyFor(it) {
     const s = `${it.id} ${it.name} ${it.mission}`;
     for (const [re, k] of MODEL_MATCH) if (re.test(s)) return MODELS[k] ? k : null;
@@ -394,6 +401,7 @@ function drawBeyond() {
   const missionOf = name => { const n = String(name).replace(/\s*\(.*?\)/g, '').trim(); return `${n}${/s$/i.test(n) ? '’' : '’s'} mission`; };
   const LINKS = {};
   let SALV = {}; // salvage grade per machine (public/data/salvage.json)
+  let SCI = {}; // "How it worked" per space object (public/data/science.json)
   let PHOTOS_BY = {}, LIVE = {}, stopLive = () => {}; // photos each machine took; live numbers for working ones
 const PANOS = {}; // id -> real ground panorama { file, hfov_deg, vtop_deg, vbottom_deg, left_azimuth_deg, caption, credit, license, source }
 const ROUTES = {}; // id -> { segments: [{ name, points: [[lat, lon], ...] }], distance_km, credit, ... }
@@ -474,13 +482,15 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
       <span class="pill" style="--c:${COLOR[st]}">${esc(it.status)}</span>
       ${TERRAIN[it.id] ? `<br><button type="button" class="walkbtn" data-walk="${esc(it.id)}">Walk around this site ${ICON.go}</button>` : ''}
     ${world === 'beyond' && mk ? `<br><a class="walkbtn" href="/fly#${esc(it.id)}">Fly around it ${ICON.go}</a>` : ''}
+      ${TERRAIN[it.id] || (world === 'beyond' && mk) ? '' : '<br>'}<a class="walkbtn alt" href="/solar?from=${encodeURIComponent(it.id)}">See it in the solar system ${ICON.go}</a>
       ${glance(it, st, end)}
       ${photoFig(it.photo)}
       ${it.summary ? `<p class="summary">${esc(it.summary)}</p>` : ''}
       ${fateBlock(it.fate)}
+      ${scienceHTML(SCI[it.id], getLevel())}
       ${salvageBlock(SALV[it.id])}
       ${liveBlock(LIVE[it.id])}${photosBlock(PHOTOS_BY[it.id])}
-      ${model ? `<h3>Turn it around</h3>${model}` : ''}
+      ${model ? `<h3>Turn it around</h3>${model}` : `<h3>3D model</h3><p class="nomodel">${crashedIt(it) ? 'No 3D model to turn around: this one ended in a crash, so nothing is left in one piece.' : "We don't have a 3D model of this one yet."}</p>`}
       ${it.funFact ? `<p class="fun"><strong>Fun fact</strong>${esc(it.funFact)}</p>` : ''}
       ${fold('In its own words', it.story ? `<blockquote class="voice">${esc(it.story)}</blockquote>` : '')}
       ${fold(`Where it is${world === 'beyond' ? '' : ' on ' + esc(WORLDS[world].name)}`, locatorBlock(it) + (it.orbit ? `<h4>Seen from orbit today</h4>${photoFig(it.orbit)}` : ''))}
@@ -714,7 +724,7 @@ const regionAt = (x, z) => G.region ? (gridAt(G.region.g, G.region.ext, x, z) ??
 const TREK = {
   mars: { layer: 'Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m', zmax: 7, R: 3389500, tint: 0xffb68a, rings: [5000, 20000, 60000, 210000], credit: 'NASA/USGS Viking MDIM 2.1 colour mosaic via NASA Mars Trek (public domain)',
     sharp: { url: (z, y, x) => `https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/${z}/${y}/${x}`, zmax: 12, credit: 'MRO CTX global mosaic beta01, ~5 m/px: NASA/JPL/MSSS/The Caltech Murray Lab/Esri (free use for all purposes), via NASA Mars Trek' } },
-  moon: { layer: 'Moon/EQ/LRO_WAC_Mosaic_Global_303ppd_v02', zmax: 8, R: 1737400, tint: 0xffffff, rings: [30000, 105000], credit: 'NASA/GSFC/ASU LRO WAC mosaic via NASA Moon Trek (public domain)' },
+  moon: { layer: 'Moon/EQ/LRO_WAC_Mosaic_Global_303ppd_v02', zmax: 8, R: 1737400, tint: 0xffffff, rings: [30000, 105000], credit: 'NASA/GSFC/ASU LRO WAC mosaic via NASA Moon Trek (educational use with credit)' },
 };
 const loadImg = src => { const img = new Image(); img.crossOrigin = 'anonymous'; img.src = src; return img.decode().then(() => img, () => null); };
 async function surroundRing(T, lat0, lon0, halfM, yOff, order, hfn, holeHalf) {
@@ -857,7 +867,7 @@ function groundGeometry() {
       // 1-px marker line: findable from far away, never blocks the view up close
       g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, beamH, 0)]), new THREE.LineBasicMaterial({ color: col })));
       const lab = labelSprite(String(it.name).replace(/\s*\(.*?\)/g, ''), col); lab.position.y = beamH * 1.05; g.add(lab);
-      const key = modelKeyFor(it), crashed = /impact|crash/i.test(it.type) || /crash|smash|plunge|impact/i.test(it.status || ''); // wrecks get a crater ring, not an intact model
+      const key = modelKeyFor(it), crashed = crashedIt(it); // wrecks get a crater ring, not an intact model
       if (key && gltfLoader && !crashed) gltfLoader.load(MODELS[key].file, m => {
         const o = m.scene, box = new THREE.Box3().setFromObject(o), size = box.getSize(new THREE.Vector3()).length() || 1;
         o.scale.setScalar((REAL_SIZE[key] || +MODELS[key]?.size_m || 3) / size);
@@ -955,7 +965,7 @@ function resizeGround() {
       G.orbit = { yaw: 0.6, pitch: 0.6, dist: span * 0.35 };
       $('gTitle').textContent = meta.title || it.name;
       $('gWorld').textContent = `${WORLDS[world].name} · ${Math.round(G.ext[0] / 100) / 10} km across${meta.res_m?.height ? ` · ${meta.res_m.height} m height detail` : ''}`;
-      const s = meta.sources || {}, cr = [s.height && `Terrain: ${s.height.credit || ''} ${s.height.product ? '(' + s.height.product + ')' : ''}`, s.color && `Image: ${s.color.credit || ''}`].filter(Boolean).map(esc).join(' · ');
+      const s = meta.sources || {}, cr = [s.height && `Terrain: ${s.height.credit || ''} ${s.height.product ? '(' + s.height.product + ')' : ''}${/CC BY-SA 3\.0 IGO/.test(s.height.license || '') ? ', HRSC data CC BY-SA 3.0 IGO (creativecommons.org/licenses/by-sa/3.0/igo)' : ''}`, s.color && `Image: ${s.color.credit || ''}`].filter(Boolean).map(esc).join(' · ');
       $('gCredit').innerHTML = `<details><summary>About this map data</summary>${cr}${meta.note ? `<br>${esc(meta.note)}` : ''}</details>`;
       if (!$('gGeo')) $('gHelp').insertAdjacentHTML('beforebegin', '<p class="gnote ggeo" id="gGeo" hidden></p>');
       $('gGeo').hidden = true;
@@ -1252,12 +1262,15 @@ $('gFs').onclick = toggleFs;
     for (const w of Object.keys(WORLDS)) if (DATA[w].some(it => it.id === h)) { if (w !== world) setWorld(w, true); select(h); return; }
   }
   addEventListener('hashchange', () => route());
+  // A new reading level rewrites just the "How it worked" section of the open dossier.
+  addEventListener('gra-level', () => { const sec = selected && $('dossier').querySelector('.sci'); if (sec) sec.outerHTML = scienceHTML(SCI[selected], getLevel()); });
   const startHash = decodeURIComponent(location.hash.slice(1));
 
   Promise.allSettled([
     ...Object.entries(WORLDS).map(([w, c]) => fetch(c.file).then(r => r.ok ? r.json() : []).then(d => { DATA[w] = Array.isArray(d) ? d : []; })),
     fetch('models/models.json').then(r => r.ok ? r.json() : {}).then(m => { MODELS = m && typeof m === 'object' ? m : {}; }),
     loadSalvage().then(s => { SALV = s?.machines || {}; }).catch(() => {}),
+    loadScience().then(s => { SCI = s || {}; }),
     loadPhotosBy().then(p => { PHOTOS_BY = p || {}; }).catch(() => {}),
     loadLive().then(l => { LIVE = l || {}; }).catch(() => {}),
     fetch('data/locator.json').then(r => r.ok ? r.json() : null).then(l => { if (l && l.sites) LOC = { credits: l.credits || {}, sites: l.sites }; }),

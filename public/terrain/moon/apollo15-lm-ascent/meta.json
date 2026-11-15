@@ -40,7 +40,7 @@
   "color": {
    "product": "LROC NAC orthoimage NAC_ROI_APENNINELOB_E254N0008_5M (5.0 m/px, 86% of tile); gaps filled with LROC WAC global mosaic (~100 m/px)",
    "credit": "NASA/GSFC/Arizona State University",
-   "license": "Public domain",
+   "license": "Educational use with credit",
    "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_ROI_APENNINELOB"
   }
  },

@@ -107,7 +107,7 @@
         "poster": "media/sites/apollo13-sivb--flash.jpg",
         "caption": "Animation: the impact flashes on the night side of the Moon, then the view flies down to LRO’s real photo of the crater.",
         "credit": "NASA’s Scientific Visualization Studio (Ernie Wright); LRO image NASA/GSFC/Arizona State University",
-        "license": "Public domain",
+        "license": "Educational use with credit",
         "source": "https://svs.gsfc.nasa.gov/4803",
         "licenseEvidence": "NASA SVS page 4803, \"Raw frames (no text overlays)\" version sivbraw_360p30.mp4; credit \"NASA’s Scientific Visualization Studio\". The music and Apollo audio credited on that page belong to a separate narrated video, not this silent animation. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/).",
         "real": false

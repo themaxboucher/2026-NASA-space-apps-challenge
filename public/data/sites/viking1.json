@@ -25,7 +25,8 @@
       "source": {
         "label": "NASA NSSDCA: Viking 1 Lander",
         "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C"
-      }
+      },
+      "glowRadius": 0.45
     },
     {
       "id": "cameras",
@@ -77,11 +78,10 @@
       "title": "Nuclear power",
       "text": "Two small nuclear generators on top kept Viking 1 warm and charged its batteries. A scout would check them first: they still give off a little heat, but the lander’s 1970s electronics have sat in the freezing cold for more than 40 years.",
       "anchor": {
-        "part": "polySurfa2",
-        "at": [
-          0.5,
-          1,
-          0.5
+        "pos": [
+          -0.34,
+          0.8,
+          0.11
         ]
       },
       "source": {

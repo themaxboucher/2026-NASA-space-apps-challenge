@@ -1,26 +1,26 @@
 {
   "id": "pioneer_venus_large_probe",
-  "setting": "impact",
-  "model": null,
+  "setting": "space",
+  "model": "pioneer-venus-large",
   "name": "Pioneer Venus Large Probe",
-  "intro": "The Large Probe was the biggest of four probes dropped into Venus on 9 December 1978. It parachuted into the clouds, then fell freely to the scorching ground, measuring the air all the way down. It stopped sending when it hit the surface.",
+  "intro": "The Large Probe was the biggest of four probes dropped into Venus on 9 December 1978. It parachuted into the clouds, then fell freely to the scorching ground, measuring the air all the way down. It stopped sending when it hit the surface. Nobody can visit the scorching ground where it lies, so this model floats above Venus’s clouds as a memorial.",
   "status": "Silent on Venus since 1978",
   "whyLeft": "It was a one-way drop and was never built to work on the ground. Venus’s surface is about 460 °C, hot enough to melt lead, so nothing built in 1978 can still work there.",
   "repurpose": "It cannot be repaired. Future Venus explorers would need electronics that work in an oven, or balloons that float in the cooler clouds high above.",
   "hotspots": [
     {
       "id": "landing",
-      "title": "Where it hit",
-      "text": "The probe fell for nearly an hour and went silent when it hit the ground. Its titanium shell may still lie here, baking at about 460 °C.",
+      "title": "When it hit",
+      "text": "The probe fell for nearly an hour and went silent when it hit the ground. Its titanium shell may still lie on the ground far below, baking at about 460 °C.",
       "broken": true,
       "tag": "Why it went quiet",
       "anchor": {
-        "pos": [
+        "part": "cphenolic",
+        "at": [
+          0.5,
           0,
-          0.3,
-          0
-        ],
-        "ground": true
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: Pioneer Venus Large Probe",
@@ -32,12 +32,12 @@
       "title": "A titanium ball",
       "text": "The instruments sat inside a sealed titanium ball, built like a submarine to survive air pressure about 90 times greater than on Earth.",
       "anchor": {
-        "pos": [
-          1.2,
-          0.4,
-          0.8
-        ],
-        "ground": true
+        "part": "darkalu",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: Pioneer Venus Large Probe",
@@ -49,12 +49,12 @@
       "title": "Parachute, then free fall",
       "text": "High in the clouds the probe opened a parachute, then let it go about 47 km up and fell freely the rest of the way, because the thick air slowed it enough.",
       "anchor": {
-        "pos": [
-          -3,
-          0.3,
-          2
-        ],
-        "ground": true
+        "part": "ribbed",
+        "at": [
+          0.15,
+          0.8,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: Pioneer Venus Large Probe",
@@ -66,12 +66,12 @@
       "title": "A diamond window",
       "text": "One instrument looked out through a window made from a real diamond, tough enough for Venus’s heat and acid clouds.",
       "anchor": {
-        "pos": [
-          2,
-          0.3,
-          -2.5
-        ],
-        "ground": true
+        "part": "cphenolic",
+        "at": [
+          1,
+          0.6,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: Pioneer Venus Large Probe",
@@ -108,5 +108,17 @@
       "label": "Width",
       "value": "About 1.5 m"
     }
-  ]
+  ],
+  "spawn": {
+    "pos": [
+      2.4,
+      0.9,
+      3.0
+    ],
+    "look": [
+      0,
+      0,
+      0
+    ]
+  }
 }

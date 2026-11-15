@@ -340,6 +340,8 @@ export function SurfaceScene({ index }: { index: number }) {
         shadow-camera-far={120}
       />
       <hemisphereLight args={[moon ? "#000000" : "#d9b18d", moon ? "#5e5a54" : "#7a4a30", moon ? 0.4 : 0.85]} />
+      {/* A floor the Sun never reaches is lit only by light bounced off far, sunlit crater walls: dim and from all round. */}
+      {stop.setting.fill && <hemisphereLight args={["#8d8a85", "#5e5a54", stop.setting.fill]} />}
       <mesh geometry={ground} material={groundMat} receiveShadow />
       <Rocks
         terrain={terrain}

@@ -1,9 +1,9 @@
 {
   "id": "pioneer_venus_small_probes",
-  "setting": "impact",
-  "model": null,
+  "setting": "space",
+  "model": "pioneer-venus-small",
   "name": "Pioneer Venus Small Probes",
-  "intro": "Three identical small probes, named North, Day and Night, plunged into different parts of Venus on 9 December 1978. None was built to land, but all three reached the ground, and the Day Probe kept talking from the surface for more than an hour.",
+  "intro": "Three identical small probes, named North, Day and Night, plunged into different parts of Venus on 9 December 1978. None was built to land, but all three reached the ground, and the Day Probe kept talking from the surface for more than an hour. Nobody can visit them on the scorching ground, so this model floats above Venus’s clouds as a memorial.",
   "status": "Silent on Venus since 1978",
   "whyLeft": "They were one-way probes, dropped without parachutes. On Venus’s 460 °C surface, their batteries and electronics soon gave out.",
   "repurpose": "They cannot be repaired. What they teach is how tough a Venus lander must be: the Day Probe’s 67 minutes on the ground showed it can be done.",
@@ -15,12 +15,12 @@
       "broken": true,
       "tag": "Last to go quiet",
       "anchor": {
-        "pos": [
+        "part": "cphenolic",
+        "at": [
+          0.5,
           0,
-          0.3,
-          0
-        ],
-        "ground": true
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: Pioneer Venus Day Probe",
@@ -32,12 +32,12 @@
       "title": "No parachutes",
       "text": "The small probes had no parachutes. Venus’s air is so thick that it slowed them down on its own, and they kept their heat shields on all the way to the ground.",
       "anchor": {
-        "pos": [
-          3,
-          0.3,
-          -3
-        ],
-        "ground": true
+        "part": "cphenolic",
+        "at": [
+          1,
+          0.5,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: Pioneer Venus Day Probe",
@@ -49,12 +49,12 @@
       "title": "Triplets far apart",
       "text": "North, Day and Night were aimed thousands of kilometers apart. Measuring three places at once showed how the temperature and winds change across Venus.",
       "anchor": {
-        "pos": [
-          -4,
-          0.3,
-          3
-        ],
-        "ground": true
+        "part": "darkalu",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: Pioneer Venus Multiprobe",
@@ -64,14 +64,14 @@
     {
       "id": "bus",
       "title": "The mother ship",
-      "text": "All four probes rode to Venus on this bus. After letting them go, the bus dove in too and measured the thin upper air until it burned up.",
+      "text": "All four probes rode to Venus on a mother ship called the bus. After letting them go, the bus dove in too and measured the thin upper air until it burned up.",
       "anchor": {
-        "pos": [
-          5,
-          0.3,
-          5
-        ],
-        "ground": true
+        "part": "black",
+        "at": [
+          0,
+          1,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: Pioneer Venus Multiprobe",
@@ -108,5 +108,17 @@
       "label": "Day Probe on the ground",
       "value": "67 minutes"
     }
-  ]
+  ],
+  "spawn": {
+    "pos": [
+      1.4,
+      0.55,
+      1.75
+    ],
+    "look": [
+      0,
+      0,
+      0
+    ]
+  }
 }

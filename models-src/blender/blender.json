@@ -2,7 +2,7 @@
   "alsep": {
     "file": "models-src/blender/alsep.glb",
     "title": "Apollo ALSEP Central Station + RTG",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 3.201,
     "bytes": 68856,
@@ -12,7 +12,7 @@
   "astronaut": {
     "file": "models-src/blender/astronaut.glb",
     "title": "Apollo astronaut (A7L suit)",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference photos)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference photos)",
     "license": "CC BY 4.0",
     "size_m": 2.019,
     "bytes": 285488,
@@ -22,7 +22,7 @@
   "backshell": {
     "file": "models-src/blender/backshell.glb",
     "title": "Mars 2020 backshell and parachute",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 18.328,
     "bytes": 307808,
@@ -32,7 +32,7 @@
   "easep": {
     "file": "models-src/blender/easep.glb",
     "title": "Apollo 11 EASEP Passive Seismometer",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 4.44,
     "bytes": 111740,
@@ -42,7 +42,7 @@
   "galileo-probe": {
     "file": "models-src/blender/galileo-probe.glb",
     "title": "Galileo atmospheric probe",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 2.321,
     "bytes": 186568,
@@ -52,7 +52,7 @@
   "lrrr-100": {
     "file": "models-src/blender/lrrr-100.glb",
     "title": "Laser Ranging Retro-Reflector (Apollo 11/14)",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 1.45,
     "bytes": 248400,
@@ -62,7 +62,7 @@
   "lrrr-300": {
     "file": "models-src/blender/lrrr-300.glb",
     "title": "Laser Ranging Retro-Reflector (Apollo 15)",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 1.273,
     "bytes": 545020,
@@ -72,7 +72,7 @@
   "lrv": {
     "file": "models-src/blender/lrv.glb",
     "title": "Apollo Lunar Roving Vehicle",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 3.274,
     "bytes": 328116,
@@ -82,7 +82,7 @@
   "lrv-team": {
     "file": "models-src/blender/lrv-team.glb",
     "title": "Apollo Lunar Roving Vehicle (true scale)",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 3.654,
     "bytes": 610604,
@@ -92,7 +92,7 @@
   "pathfinder": {
     "file": "models-src/blender/pathfinder.glb",
     "title": "Mars Pathfinder lander",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 3.006,
     "bytes": 464324,
@@ -102,7 +102,7 @@
   "phoenix": {
     "file": "models-src/blender/phoenix.glb",
     "title": "Phoenix Mars Lander",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 5.583,
     "bytes": 429140,
@@ -112,7 +112,7 @@
   "pioneer-venus-large": {
     "file": "models-src/blender/pioneer-venus-large.glb",
     "title": "Pioneer Venus Large Probe",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 1.52,
     "bytes": 91088,
@@ -122,7 +122,7 @@
   "pioneer-venus-orbiter": {
     "file": "models-src/blender/pioneer-venus-orbiter.glb",
     "title": "Pioneer Venus Orbiter",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 7.281,
     "bytes": 163164,
@@ -132,7 +132,7 @@
   "pioneer-venus-small": {
     "file": "models-src/blender/pioneer-venus-small.glb",
     "title": "Pioneer Venus Small Probe",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 0.888,
     "bytes": 112188,
@@ -142,7 +142,7 @@
   "sojourner": {
     "file": "models-src/blender/sojourner.glb",
     "title": "Sojourner rover",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 0.659,
     "bytes": 329972,
@@ -152,7 +152,7 @@
   "spitzer": {
     "file": "models-src/blender/spitzer.glb",
     "title": "Spitzer Space Telescope",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 4.432,
     "bytes": 73320,
@@ -162,7 +162,7 @@
   "surveyor": {
     "file": "models-src/blender/surveyor.glb",
     "title": "Surveyor lander (Surveyor 3/7)",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 4.051,
     "bytes": 177112,

@@ -3,7 +3,7 @@
   "setting": "impact",
   "model": null,
   "name": "LCROSS",
-  "intro": "LCROSS was the shepherding spacecraft that steered the Centaur rocket stage to the Moon. It let go 10 hours before impact, followed behind, flew through the Centaur’s plume measuring everything, then crashed into Cabeus crater too, about four minutes later.",
+  "intro": "LCROSS was the shepherding spacecraft that steered the Centaur rocket stage to the Moon. It let go 10 hours before impact, followed behind, flew through the Centaur’s plume measuring everything, then crashed into Cabeus crater too, about four minutes later. The Sun never climbs above the big crater’s rim here, so the faint light is turned up for you; look up, too, for spots in the sky.",
   "status": "Crashed on purpose, 9 October 2009",
   "whyLeft": "Its whole mission was planned so that its most important science happened in the last four minutes, ending in its own crash.",
   "repurpose": "Its crater is a second dig into the same icy floor, a ready-made target for a future rover with lights to study the ice up close.",
@@ -47,13 +47,14 @@
     {
       "id": "last-view",
       "title": "Last view",
-      "text": "On the way down, LCROSS’s cameras watched the target area. It carried two visible-light cameras, three infrared cameras, three spectrometers and a light meter.",
+      "text": "On the way down, LCROSS’s cameras watched the target area. It carried one visible-light camera, two near-infrared and two mid-infrared cameras, three spectrometers and a light meter.",
       "anchor": {
         "pos": [
           0,
-          20,
+          7,
           8
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "NASA NSSDCA: LCROSS",
@@ -78,9 +79,10 @@
       "anchor": {
         "pos": [
           -4,
-          12,
+          6,
           -6
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "Colaprete et al. (NASA Ames), Science 2010: water in the LCROSS plume",
@@ -127,5 +129,10 @@
       "url": "https://arxiv.org/abs/1103.1687"
     },
     "seen": false
-  }
+  },
+  "sun": {
+    "az": 100,
+    "el": 2
+  },
+  "fill": 0.55
 }

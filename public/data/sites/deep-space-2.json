@@ -36,7 +36,8 @@
           0,
           -0.4,
           0
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "NASA NSSDCA: Mars Polar Lander and Deep Space 2 landing sites",

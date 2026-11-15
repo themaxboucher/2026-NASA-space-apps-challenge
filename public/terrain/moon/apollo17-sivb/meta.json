@@ -34,13 +34,13 @@
   "height": {
    "product": "LROC NAC DTM NAC_DTM_A17SIVB_E042S3476 (2.0 m/px, 93% of tile); gaps filled with LOLA LDEM_1024 15S_00S_330_360 (1024 px/deg, ~30 m/px)",
    "credit": "NASA/GSFC/Arizona State University",
-   "license": "Public domain",
+   "license": "Educational use with credit",
    "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_A17SIVB"
   },
   "color": {
    "product": "LROC NAC orthoimage NAC_DTM_A17SIVB_M144701329_2M (2.0 m/px, 93% of tile); gaps filled with LROC WAC global mosaic (~100 m/px)",
    "credit": "NASA/GSFC/Arizona State University",
-   "license": "Public domain",
+   "license": "Educational use with credit",
    "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_A17SIVB"
   }
  },

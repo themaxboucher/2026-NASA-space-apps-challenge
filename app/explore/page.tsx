@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Atlas from "../atlas/Atlas";
 
 export const metadata: Metadata = {
-  title: "Explore all 79 space objects · Ruins Among the Stars",
+  title: "Explore all 79 space objects · Echoes of Exploration",
   description: "The full atlas: every space object NASA left on the Moon, on Mars and in deep space, on a spinning globe with a timeline.",
 };
 

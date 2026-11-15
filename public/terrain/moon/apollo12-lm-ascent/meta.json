@@ -34,13 +34,13 @@
   "height": {
    "product": "LROC NAC DTM NAC_DTM_A12LMAS_E039S3387 (5.0 m/px, 100% of tile)",
    "credit": "NASA/GSFC/Arizona State University",
-   "license": "Public domain",
+   "license": "Educational use with credit",
    "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_A12LMAS"
   },
   "color": {
    "product": "LROC NAC orthoimage NAC_DTM_A12LMAS_M1243793524_5M (5.0 m/px, 100% of tile)",
    "credit": "NASA/GSFC/Arizona State University",
-   "license": "Public domain",
+   "license": "Educational use with credit",
    "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_A12LMAS"
   }
  },

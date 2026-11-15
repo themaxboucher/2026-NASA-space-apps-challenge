@@ -1,4 +1,4 @@
-/* Ruins Among the Stars atlas: data display for the field-guide features (stat tiles, meters, named timeline lanes,
+/* Echoes of Exploration atlas: data display for the field-guide features (stat tiles, meters, named timeline lanes,
    explored progress). Loaded after atlas.css and uses its tokens: Instrument Sans for headings and text,
    Spline Sans Mono for small uppercase labels and numbers, neutral grays, one blue accent, rounded surfaces. */
 :root{--alarm:#f04438}

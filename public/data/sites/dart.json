@@ -33,9 +33,9 @@
       "text": "DART’s camera sent one picture a second as it closed in, steering itself without help from Earth. The rocky moon grew from a dot to a boulder field before the signal stopped.",
       "anchor": {
         "pos": [
-          3,
-          1.5,
-          -3
+          2.5,
+          1.2,
+          -1.5
         ],
         "ground": true
       },
@@ -114,6 +114,23 @@
       "source": {
         "label": "NASA: DART",
         "url": "https://science.nasa.gov/mission/dart/"
+      }
+    },
+    {
+      "id": "crater-unknown",
+      "title": "A crater nobody has seen",
+      "text": "Did DART leave a crater, or reshape the whole little moon? Nobody has seen it up close yet, so the dent drawn here is only a guess. Europe’s Hera spacecraft reached Didymos and Dimorphos in November 2026 to find out.",
+      "anchor": {
+        "pos": [
+          -3,
+          0.4,
+          5
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "ESA: Hera",
+        "url": "https://www.esa.int/Space_Safety/Hera"
       }
     }
   ],

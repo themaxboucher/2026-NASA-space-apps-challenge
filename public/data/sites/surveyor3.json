@@ -152,9 +152,9 @@
       "text": "NASA’s Lunar Reconnaissance Orbiter can still spot Surveyor 3 from about 50 km up, along with the astronauts’ footpaths leading to it. Anyone planning a new visit could use these pictures as a map.",
       "anchor": {
         "pos": [
-          0,
-          4.2,
-          0
+          1.0,
+          3.0,
+          -1.0
         ]
       },
       "source": {
@@ -172,6 +172,20 @@
         "source": "https://svs.gsfc.nasa.gov/4767",
         "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
       }
+    }
+  ],
+  "modelCut": [
+    {
+      "min": [
+        -0.17,
+        1.03,
+        0.53
+      ],
+      "max": [
+        0.17,
+        1.8,
+        0.8
+      ]
     }
   ]
 }

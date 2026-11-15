@@ -91,11 +91,10 @@
       "title": "A special passenger",
       "text": "A small container on New Horizons holds some of the ashes of Clyde Tombaugh, the astronomer who discovered Pluto in 1930. He finally got to visit it.",
       "anchor": {
-        "part": "foil_gold",
-        "at": [
-          0.3,
-          0.95,
-          0.3
+        "pos": [
+          0.47,
+          0.28,
+          0.45
         ]
       },
       "source": {

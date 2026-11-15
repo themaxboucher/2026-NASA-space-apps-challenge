@@ -3,7 +3,7 @@
   "setting": "impact",
   "model": null,
   "name": "Ranger 6",
-  "intro": "Ranger 6 was a camera spacecraft built to dive straight into the Moon, taking pictures until the very end. It flew perfectly and hit its target in the Sea of Tranquility, but its cameras never turned on. All that’s left is a small crater and scattered scraps.",
+  "intro": "Ranger 6 was a camera spacecraft built to dive straight into the Moon, taking pictures until the very end. It flew perfectly and hit its target in the Sea of Tranquility, but its cameras never turned on. All that’s left is a small crater and scattered scraps. Look up, too: some spots hang in the sky, where things happened on the way down.",
   "status": "Crashed 2 February 1964",
   "whyLeft": "Rangers had no brakes or legs: hitting the Moon was always the plan. Ranger 6 just did it without sending a single picture.",
   "repurpose": "There is nothing left to fix, but its crater is a time marker: scientists can compare it with nearby natural craters to see how fast fresh scars fade.",
@@ -53,9 +53,10 @@
       "anchor": {
         "pos": [
           0,
-          22,
+          7,
           6
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "NASA NSSDCA: Ranger 6",

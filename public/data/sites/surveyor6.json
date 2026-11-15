@@ -119,9 +119,9 @@
       "text": "With the Sun low in the sky, the Lunar Reconnaissance Orbiter photographed Surveyor 6 casting a shadow about 18 m long. Shadows make small machines easy to find from orbit.",
       "anchor": {
         "pos": [
-          0,
-          4.2,
-          0
+          1.0,
+          3.0,
+          -1.0
         ]
       },
       "source": {

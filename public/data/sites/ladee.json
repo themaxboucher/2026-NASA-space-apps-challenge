@@ -3,7 +3,7 @@
   "setting": "impact",
   "model": null,
   "name": "LADEE",
-  "intro": "LADEE was a robot explorer that orbited very low over the Moon to sniff its extremely thin air and look for floating dust. Flying that low used up fuel fast, so its mission was always planned to end with a crash. It hit the far side in April 2014.",
+  "intro": "LADEE was a robot explorer that orbited very low over the Moon to sniff its extremely thin air and look for floating dust. Flying that low used up fuel fast, so its mission was always planned to end with a crash. It hit the far side in April 2014. Look up, too: some spots hang in the sky, where things happened on the way down.",
   "status": "Crashed on purpose, 18 April 2014",
   "whyLeft": "It needed engine burns to stay up in its low orbit, and when the fuel ran out the Moon’s gravity pulled it down, just as planned.",
   "repurpose": "Its bright splash of debris is a fresh marker; watching it fade over the years shows how fast the Moon’s surface changes.",
@@ -92,9 +92,10 @@
       "anchor": {
         "pos": [
           0,
-          16,
+          7,
           10
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "NASA NSSDCA: LADEE",
@@ -108,9 +109,10 @@
       "anchor": {
         "pos": [
           10,
-          10,
+          5,
           -10
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "NASA NSSDCA: LADEE",

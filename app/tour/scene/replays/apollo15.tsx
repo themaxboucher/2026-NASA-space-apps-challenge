@@ -239,7 +239,9 @@ export function Apollo15Replay({ stop, ground }: { stop: Stop; ground?: (x: numb
     const k = smooth(CAM_TURN[0], CAM_TURN[1], t);
     const [x, z] = lerp2([VIEW_DRIVE.pos[0], VIEW_DRIVE.pos[2]], [VIEW_TV[0], VIEW_TV[2]], k);
     live.replayView = { pos: [x, 0, z], look: VIEW_DRIVE.look };
-    const ay = scene.ascent.position.y + 3;
+    // Watch Falcon's top half climb away, then settle back to eye level before handing over, so the site isn't left
+    // looking at the sky.
+    const ay = (scene.ascent.position.y + 3) * (1 - smooth(END - 4, END - 0.5, t)) + VIEW_DRIVE.look[1] * smooth(END - 4, END - 0.5, t);
     live.replayLook =
       t < PARK + 1
         ? [cp.x, cp.y + 1, cp.z]

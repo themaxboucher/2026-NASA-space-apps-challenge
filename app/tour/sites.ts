@@ -71,11 +71,24 @@ export type SalvageFile = { rubric: { grades: { grade: string; min: number; mean
 let salvageP: Promise<SalvageFile | null> | null = null;
 export const loadSalvage = () => (salvageP ??= json<SalvageFile | null>("/data/salvage.json", null));
 
-// Models whose files carry no real size (models.json size_m): their real longest side in metres.
+// Models whose files carry no real size (models.json size_m): their real longest side in metres, booms included
+// (prepareModel fits the model's longest side to it). Pioneer and Voyager's files are already true size: their dishes
+// are 2.74 m and 3.7 m across (NSSDCA: https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-012A ,
+// https://science.nasa.gov/mission/voyager/spacecraft/), and their magnetometer booms make the longest side.
 const SPAN: Record<string, number> = {
-  "apollo-lm": 9.4, ladee: 2.4, viking: 3, curiosity: 3, pioneer: 2.9, voyager: 3.7, "new-horizons": 2.7, dawn: 19.7, near: 5, kepler: 4.7,
+  "apollo-lm": 9.4, ladee: 2.4, viking: 3, curiosity: 3, pioneer: 8.25, voyager: 16.9, "new-horizons": 2.7, dawn: 19.7, near: 5, kepler: 4.7,
   galileo: 9, cassini: 6.8, messenger: 6, magellan: 6.4, "deep-impact": 3.3, stardust: 4.8, ingenuity: 1.2,
 };
+// Spacecraft whose long booms would pull the middle (and the view) off the main body: the parts to centre on, and
+// the main body's size, which sets where you appear and how close you can float.
+const BODY: Record<string, { centerOn: string[]; size: number }> = {
+  pioneer: { centerOn: ["dish_AO"], size: 2.9 },
+  voyager: { centerOn: ["tex_02_AO", "tex_02_AO_dark"], size: 3.7 }, // as the Voyager 1 story stop
+  "pioneer-venus-orbiter": { centerOn: ["pvcell"], size: 2.6 },
+  dawn: { centerOn: ["black_krinkle"], size: 2 }, // its solar wings span 19.7 m
+  juno: { centerOn: ["foil_gold"], size: 3.6 }, // its solar wings span about 20 m
+};
+const DEG_V = (v: [number, number, number]): Vec3 => [v[0] * DEG, v[1] * DEG, v[2] * DEG];
 
 // What hangs behind a machine in space, by what it orbits (or hit); and roughly how far that is from the Sun (AU).
 const BACKDROP: Record<string, [BodyKey, number]> = {
@@ -118,11 +131,17 @@ export function buildStop(rec: AtlasRecord, site: SiteFile | null, models: Recor
 
   const key = impact ? null : site ? site.model : guessModel(rec.name, models);
   const info = key ? models[key] : undefined;
-  const size = info ? info.size_m ?? SPAN[key!] ?? 3 : 3;
+  const span = info ? info.size_m ?? SPAN[key!] ?? 3 : 3;
+  const body = key ? BODY[key] : undefined;
+  const size = body?.size ?? span; // what you came to see, for framing
   let model: ModelSpec = { kind: "none" };
   if (info && key === "apollo-lm") model = { kind: "gltf", url: "/models/apollo-lm.gltf.json", scale: 1.43, hideAbove: 2.95, origin: "ground" }; // the descent stage left behind
   else if (info && key === "lrv-team") model = { kind: "gltf", url: `/${info.file}`, scale: 1, rotationY: Math.PI / 2, origin: "ground", centerOn: ["chassis"] }; // as the Apollo 15 story stop
-  else if (info) model = { kind: "gltf", url: `/${info.file}`, span: size, origin: space ? "center" : "ground" };
+  else if (info) model = { kind: "gltf", url: `/${info.file}`, span, origin: space ? "center" : "ground", centerOn: body?.centerOn };
+  if (model.kind === "gltf") {
+    if (site?.modelTilt) model.tilt = DEG_V(site.modelTilt);
+    if (site?.modelCut) model.cut = site.modelCut;
+  }
 
   // An impact's crater radius: the real one from the site file, else a guess (an S-IVB's is about 35 m across).
   const crater = impact ? (site?.crater ? site.crater.diameterM / 2 : /sivb/.test(rec.id) ? 17 : 6) : undefined;
@@ -152,6 +171,8 @@ export function buildStop(rec: AtlasRecord, site: SiteFile | null, models: Recor
     if (info) colliders = [{ pos: [0, 0, 0], r: Math.max(0.4, size * 0.4) }];
     bounds = Math.max(40, size * 12);
   }
+  if (site?.spawn) spawn = site.spawn;
+  if (site?.bounds) bounds = site.bounds;
 
   const spots = [...(site?.hotspots ?? [])];
   // A crater nobody has photographed is drawn from the best estimate, and says so (on the far rim, in view on arrival).
@@ -172,6 +193,8 @@ export function buildStop(rec: AtlasRecord, site: SiteFile | null, models: Recor
     anchor: "part" in h.anchor && model.kind === "none" ? { pos: ringPos(i, spots.length, crater ? crater * 0.7 : 3, 0.4), ground: !space } : h.anchor,
     face: null,
     broken: h.broken,
+    glow: h.glow,
+    glowRadius: h.glowRadius,
     tag: h.tag,
     photo: h.photo,
     video: h.video,
@@ -206,7 +229,8 @@ export function buildStop(rec: AtlasRecord, site: SiteFile | null, models: Recor
       : {
           kind,
           terrain: kind === "mars" ? "slope" : HIGHLANDS.test(rec.id) ? "highlands" : "mare",
-          sun: kind === "mars" ? { az: 150, el: 40 } : { az: 100, el: 24 },
+          sun: site?.sun ?? (kind === "mars" ? { az: 150, el: 40 } : { az: 100, el: 24 }),
+          fill: site?.fill,
           earth: world === "moon" && hasSite ? earthFrom(rec.lat!, rec.lon!) : undefined,
           flatRadius: crater ? crater * 1.1 : Math.max(1.6, size * 0.9), // rocks keep off a crater and its rim
           crater,

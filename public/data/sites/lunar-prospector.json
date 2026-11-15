@@ -3,11 +3,11 @@
   "setting": "impact",
   "model": null,
   "name": "Lunar Prospector",
-  "intro": "Lunar Prospector orbited the Moon for a year and a half, mapping what its surface is made of and finding hints of ice at the poles. At the end it was crashed into a permanently shadowed crater near the south pole, now called Shoemaker. Its crater lies hidden in permanent darkness.",
+  "intro": "Lunar Prospector orbited the Moon for a year and a half, mapping what its surface is made of and finding hints of ice at the poles. At the end it was crashed into a permanently shadowed crater near the south pole, now called Shoemaker. Its crater lies hidden in permanent darkness. The Sun never climbs above the big crater’s rim here, so the faint light is turned up for you; look up, too, for spots in the sky.",
   "status": "Crashed on purpose, 31 July 1999",
   "whyLeft": "Its fuel was almost gone, so NASA used the last of it for one final experiment: crash into a dark crater and see if water vapour splashed up.",
   "repurpose": "The ice it hinted at is the prize: NASA’s plans for the south pole include turning ice like this into water, air and rocket fuel.",
-  "funFact": "Lunar Prospector carried part of the ashes of Eugene Shoemaker, a planetary scientist who helped train Apollo astronauts in geology. The crater it hit is named after him.",
+  "funFact": "The whole mission cost $62.8 million, and the spacecraft had no computer on board: every command came from controllers on Earth.",
   "stats": [
     {
       "label": "Impact",
@@ -64,9 +64,10 @@
       "anchor": {
         "pos": [
           0,
-          12,
+          6,
           0
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "NASA NSSDCA: Lunar Prospector",
@@ -107,9 +108,9 @@
       "text": "Lunar Prospector was a small drum with three long arms holding its instruments away from the body. It had no camera at all, just detectors that ‘smelled’ the Moon’s surface.",
       "anchor": {
         "pos": [
-          8,
+          4,
           0.1,
-          -9
+          -1
         ],
         "ground": true
       },
@@ -156,5 +157,10 @@
       "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html"
     },
     "seen": false
-  }
+  },
+  "sun": {
+    "az": 100,
+    "el": 2
+  },
+  "fill": 0.55
 }

@@ -5,7 +5,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { smoother } from "../tour/lib/geo";
-import { auR, cardDist, fly, flyTo, HELIOPAUSE_AU, labelDist, STATUS_COLOR, ui, viewFor, Y, type Body, type Key, type World } from "./model";
+import { auR, cardDist, distanceText, fly, flyTo, HELIOPAUSE_AU, kmFromEarth, labelDist, STATUS_COLOR, ui, viewFor, Y, type Body, type Key, type Target, type World } from "./model";
 
 export const markerColors = { attr: null as THREE.BufferAttribute | null };
 
@@ -38,21 +38,31 @@ function hidden(cam: THREE.Vector3, p: THREE.Vector3, bodies: Body[], skip?: Bod
 }
 
 type Trip = { key: string; t: number; dur: number; look: THREE.Vector3; u0: THREE.Vector3; u1: THREE.Vector3; d0: number; d1: number; q0: THREE.Quaternion };
-// Orbit view: circling one world on a sphere (azimuth, elevation, distance), always looking at its centre.
-type Orbit = { b: Body; az: number; el: number; dist: number; goal: number; min: number; max: number; start: number };
+// Orbit view: circling one world or space object on a sphere (azimuth, elevation, distance), always looking at it.
+// The sphere's pole `up` is world up, or the ground's normal for a landing site (so you never go under the ground);
+// `e1`/`e2` span its equator. `b`: the world it belongs to (whose other machines get labels and cards).
+type Orbit = { key: string; c: THREE.Vector3; b: Body | null; up: THREE.Vector3; e1: THREE.Vector3; e2: THREE.Vector3; az: number; el: number; elMin: number; dist: number; goal: number; min: number; max: number; start: number; settle: number };
 // Field-of-view zoom (magnification against the normal 50 deg view): from ~75 deg wide to a ~1 deg telescope.
 const ZOOM_MIN = Math.tan((25 * Math.PI) / 180) / Math.tan((37.5 * Math.PI) / 180);
 const ZOOM_MAX = Math.tan((25 * Math.PI) / 180) / Math.tan((0.5 * Math.PI) / 180);
+function basis(t: Target) {
+  const up = (t.normal ?? Y).clone();
+  const e1 = new THREE.Vector3(1, 0, 0).addScaledVector(up, -up.x);
+  if (e1.lengthSq() < 1e-4) e1.set(0, 0, 1).addScaledVector(up, -up.z);
+  e1.normalize();
+  return { up, e1, e2: new THREE.Vector3().crossVectors(e1, up) };
+}
 
 export function Flight({ world, start, still }: { world: World; start: string; still: boolean }) {
   const { camera, gl, size } = useThree();
   const st = useRef({
-    yaw: 0, pitch: 0, vel: new THREE.Vector3(), boost: 1, hold: 0, trip: null as Trip | null, goN: 0, started: false, frame: 0, introAt: 0,
+    yaw: 0, pitch: 0, roll: 0, vel: new THREE.Vector3(), boost: 1, hold: 0, trip: null as Trip | null, goN: 0, started: false, frame: 0, introAt: 0,
     drag: null as null | { x: number; y: number; moved: number }, speedTxt: "", near: ["", ""], cursor: false,
     orbit: null as Orbit | null,
     focus: null as string | null, // the site an auto-flight just brought you to: its card wins over a closer neighbour's
     pinned: null as string | null, // in orbit view, the machine you last pointed at (its card stays up)
-    zoom: 1, zoomGoal: 1, zoomTxt: "",
+    zoom: 1, zoomGoal: 1, zoomTxt: "", distTxt: "",
+    world, // the world (date) last drawn: when the timeline moves, what you're circling or flying to moves too
   });
   const colors = useMemo(() => world.sites.map((s) => new THREE.Color(STATUS_COLOR[s.status])), [world]);
   const bodyTargets = useMemo(() => world.bodies.map((b) => world.targets.get(`b:${b.key}`)!), [world]);
@@ -62,18 +72,29 @@ export function Flight({ world, start, still }: { world: World; start: string; s
     euler.setFromQuaternion(camera.quaternion, "YXZ");
     st.current.yaw = euler.y;
     st.current.pitch = clampPitch(euler.x);
+    st.current.roll = euler.z; // eased back to level in free flight
   };
-  const enterOrbit = (b: Body) => {
-    const off = camera.position.clone().sub(b.pos);
-    const dist = off.length();
-    const frame = b.frame ?? b.r;
-    st.current.orbit = { b, az: Math.atan2(off.x, off.z), el: Math.asin(off.y / dist), dist, goal: dist, start: dist, min: b.r * 1.3, max: Math.max(b.r * 14, frame * 6) };
-    st.current.pinned = null;
+  const enterOrbit = (t: Target) => {
+    const body = t.kind === "body" ? t.host! : null;
+    const { up, e1, e2 } = basis(t);
+    const off = camera.position.clone().sub(t.pos);
+    const dist = Math.max(off.length(), 1e-4);
+    const frame = body ? (body.frame ?? body.r) : 0;
+    const view = viewFor(t).pos.distanceTo(t.pos);
+    st.current.orbit = {
+      key: t.key, c: t.pos, b: t.host, up, e1, e2,
+      az: Math.atan2(off.dot(e1), off.dot(e2)), el: Math.asin(Math.max(-1, Math.min(1, off.dot(up) / dist))), elMin: t.normal ? 0.08 : -1.45,
+      dist, goal: dist, start: dist, settle: 0,
+      min: body ? body.r * 1.3 : view * 0.2, max: body ? Math.max(body.r * 14, frame * 6) : view * 5,
+    };
+    st.current.pinned = t.kind === "site" ? t.key : null;
     st.current.zoomGoal = 1;
     if (document.pointerLockElement) document.exitPointerLock();
-    ui.set({ orbit: b.key });
+    ui.set({ orbit: t.key });
   };
   const exitOrbit = () => {
+    // Leaving a space object's orbit keeps its card up until you fly away from it.
+    if (st.current.orbit?.key.startsWith("c:")) st.current.focus = st.current.orbit.key;
     st.current.orbit = null;
     st.current.pinned = null;
     sync();
@@ -108,10 +129,10 @@ export function Flight({ world, start, still }: { world: World; start: string; s
       d.y = e.clientY;
       d.moved += Math.abs(dx) + Math.abs(dy);
       if (s.trip) return;
-      // In orbit view, dragging turns the world under you ("grab the globe").
+      // In orbit view, dragging turns the world or space object in front of you ("grab the globe").
       if (s.orbit) {
         s.orbit.az -= dx * 0.005;
-        s.orbit.el = Math.max(-1.45, Math.min(1.45, s.orbit.el + dy * 0.005));
+        s.orbit.el = Math.max(s.orbit.elMin, Math.min(1.45, s.orbit.el + dy * 0.005));
         return;
       }
       // Drag to look: "grab the sky", like the tour and Street View.
@@ -224,6 +245,15 @@ export function Flight({ world, start, still }: { world: World; start: string; s
       s.trip = { key, t: 0, dur: instant ? 0 : Math.min(9, Math.max(2.6, 2.2 + 0.7 * Math.abs(Math.log(d0 / d1)))), look: view.look, u0: off0.divideScalar(d0), u1: off1.divideScalar(d1), d0, d1, q0: cam.quaternion.clone() };
       s.vel.set(0, 0, 0);
     };
+    // The timeline moved: keep circling (or flying to) the same thing at its new place, or let go if it's not there yet.
+    if (s.world !== world) {
+      s.world = world;
+      const t = s.orbit && world.targets.get(s.orbit.key);
+      if (s.orbit && !t) exitOrbit();
+      else if (s.orbit && t) Object.assign(s.orbit, { c: t.pos, b: t.host }, basis(t));
+      const tt = s.trip && world.targets.get(s.trip.key);
+      if (s.trip && tt) s.trip.look = tt.pos;
+    }
     if (!s.started) {
       s.started = true;
       // Arriving from the explore page's map (/solar?intro=map): start straight overhead, framed like that map
@@ -257,16 +287,23 @@ export function Flight({ world, start, still }: { world: World; start: string; s
       }
     }
 
-    // "Back to the solar system" (in the overlay) clears ui.orbit.
-    if (s.orbit && ui.get().orbit !== s.orbit.b.key) exitOrbit();
+    // "Fly freely" (in the overlay) clears ui.orbit.
+    if (s.orbit && ui.get().orbit !== s.orbit.key) exitOrbit();
     const keys = fly.keys;
     const trip = s.trip;
     const o = s.orbit;
     if (o) {
       o.dist += (o.goal - o.dist) * (1 - Math.exp(-dt * 8));
-      pos.set(Math.cos(o.el) * Math.sin(o.az), Math.sin(o.el), Math.cos(o.el) * Math.cos(o.az)).multiplyScalar(o.dist).add(o.b.pos);
-      m4.lookAt(pos, o.b.pos, Y);
+      const ce = Math.cos(o.el) * o.dist;
+      pos.copy(o.c).addScaledVector(o.e1, ce * Math.sin(o.az)).addScaledVector(o.e2, ce * Math.cos(o.az)).addScaledVector(o.up, Math.sin(o.el) * o.dist);
+      // Level with the ground at a landing site: the horizon rolls round to it over the first second.
+      m4.lookAt(pos, o.c, o.up);
       cam.quaternion.setFromRotationMatrix(m4);
+      if (o.settle < 1) {
+        o.settle = still ? 1 : Math.min(1, o.settle + dt / 1.2);
+        qa.copy(cam.quaternion);
+        cam.quaternion.setFromRotationMatrix(m4.lookAt(pos, o.c, Y)).slerp(qa, smoother(o.settle));
+      }
       s.boost = 1;
     } else if (trip) {
       trip.t = trip.dur ? Math.min(1, trip.t + dt / trip.dur) : 1;
@@ -280,10 +317,9 @@ export function Flight({ world, start, still }: { world: World; start: string; s
       if (trip.t >= 1) {
         s.trip = null;
         sync();
-        // Arriving at a world opens its orbit view; arriving at a machine shows that machine's card.
+        // Arriving at a world or a space object circles it (drag turns it); its card shows for a space object.
         const t = world.targets.get(trip.key);
-        if (t?.kind === "body") enterOrbit(t.host!);
-        else s.focus = trip.key;
+        if (t) enterOrbit(t);
       }
       s.boost = 1;
     } else {
@@ -307,7 +343,8 @@ export function Flight({ world, start, still }: { world: World; start: string; s
       s.boost = Math.exp(lg + (lb - lg) * Math.exp(-dt * (lg > lb ? 3 : 4)));
       const base = Math.max(0.02, Math.min(2.5, dSurf * 0.5));
       pos.addScaledVector(s.vel, base * s.boost * dt);
-      euler.set(s.pitch, s.yaw, 0, "YXZ");
+      s.roll *= Math.exp(-dt * 2.5);
+      euler.set(s.pitch, s.yaw, s.roll, "YXZ");
       cam.quaternion.setFromEuler(euler);
     }
     // Never inside a world.
@@ -377,7 +414,7 @@ export function Flight({ world, start, still }: { world: World; start: string; s
         }
       }
       // Labels: the near ones; in orbit view, every machine at this world; zoomed in, whatever the lens brings close.
-      if (vis && (dist / s.zoom < labelDist(site) || (o && site.host === o.b))) shown.push([dist, site.key, sx, sy]);
+      if (vis && (dist / s.zoom < labelDist(site) || (o?.b && site.host === o.b))) shown.push([dist, site.key, sx, sy]);
     });
     const attr = markerColors.attr;
     if (attr) {
@@ -418,7 +455,7 @@ export function Flight({ world, start, still }: { world: World; start: string; s
     fly.hovered = hovered;
     // In orbit view, pointing at one of this world's machines brings up its card (and it stays up).
     const hot = hovered ? world.targets.get(hovered) : undefined;
-    if (o && hot?.kind === "site" && hot.host === o.b) s.pinned = hot.key;
+    if (o?.b && hot?.kind === "site" && hot.host === o.b) s.pinned = hot.key;
     if (!!hovered !== s.cursor) {
       s.cursor = !!hovered;
       gl.domElement.style.cursor = hovered && !locked ? "pointer" : "";
@@ -484,6 +521,9 @@ export function Flight({ world, start, still }: { world: World; start: string; s
       if (s.near[0] !== where && fly.hud.nearBody) fly.hud.nearBody.textContent = s.near[0] = where;
       const machine = nd < 60 ? ns.name : "None close by";
       if (s.near[1] !== machine && fly.hud.nearMachine) fly.hud.nearMachine.textContent = s.near[1] = machine;
+      // How far from Earth the place you're at really is (model.ts kmFromEarth undoes the map's squeezed scale).
+      const dist = distanceText(kmFromEarth(pos, earth.pos));
+      if (dist !== s.distTxt && fly.hud.dist) fly.hud.dist.textContent = s.distTxt = dist;
     }
     if (s.frame % 3 === 0) drawMinimap(world, pos, cam.quaternion);
   });

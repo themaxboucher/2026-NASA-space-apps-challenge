@@ -1,9 +1,9 @@
 {
   "id": "magellan",
-  "setting": "impact",
-  "model": null,
+  "setting": "space",
+  "model": "magellan",
   "name": "Magellan",
-  "intro": "Magellan used radar to see through Venus’s thick clouds and mapped 98% of its surface. In October 1994 it was steered deep into the atmosphere to study it, and it burned up. If any pieces reached the ground, nobody knows where.",
+  "intro": "Magellan used radar to see through Venus’s thick clouds and mapped 98% of its surface. In October 1994 it was steered deep into the atmosphere to study it, and it burned up. If any pieces reached the ground, nobody knows where, so this model floats above Venus’s clouds as a memorial.",
   "status": "Burned up in Venus’s sky in 1994",
   "whyLeft": "Its mapping was done and its power was dropping, so NASA used its last days for one more experiment: a dive into Venus’s thick air, where it broke apart and burned.",
   "repurpose": "Nothing is left to fix. Its ending was itself a reuse: the final dive turned the whole spacecraft into an instrument for measuring the atmosphere.",
@@ -13,12 +13,12 @@
       "title": "Seeing through clouds",
       "text": "Venus is always covered in clouds, so Magellan bounced radar off the ground, like seeing with echoes. Its map shows volcanoes, lava plains and craters across 98% of the planet.",
       "anchor": {
-        "pos": [
-          0,
-          0.3,
-          0
-        ],
-        "ground": true
+        "part": "dish_AO_01",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA: Magellan",
@@ -43,17 +43,18 @@
       "broken": true,
       "tag": "How it ended",
       "anchor": {
-        "pos": [
-          5,
-          0.3,
-          -4
-        ],
-        "ground": true
+        "part": "shiny_panel",
+        "at": [
+          0.03,
+          0.5,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA: Magellan",
         "url": "https://science.nasa.gov/mission/magellan/"
-      }
+      },
+      "glowRadius": 0
     },
     {
       "id": "shuttle",
@@ -61,11 +62,10 @@
       "text": "In 1989 Magellan became the first planetary explorer launched from a Space Shuttle. Astronauts on Atlantis released it from the cargo bay.",
       "anchor": {
         "pos": [
-          -5,
-          0.3,
-          4
-        ],
-        "ground": true
+          -0.04,
+          -1.18,
+          0.99
+        ]
       },
       "source": {
         "label": "NASA: Magellan",
@@ -88,12 +88,12 @@
       "title": "Built from spares",
       "text": "Magellan was partly built from spare parts left over from other missions. Its big dish antenna was a spare from Voyager.",
       "anchor": {
-        "pos": [
-          7,
-          0.3,
-          6
-        ],
-        "ground": true
+        "part": "dish_AO_01",
+        "at": [
+          1,
+          0.4,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA: Magellan",
@@ -105,12 +105,12 @@
       "title": "Braking with air",
       "text": "In 1993 Magellan dipped into the top of Venus’s atmosphere again and again to shrink its orbit, the first planetary spacecraft to brake this way. Mars orbiters use the trick today.",
       "anchor": {
-        "pos": [
-          -7,
-          0.3,
-          -6
-        ],
-        "ground": true
+        "part": "aluminum.001",
+        "at": [
+          0.5,
+          0,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA: Magellan",

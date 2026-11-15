@@ -123,9 +123,9 @@
       "text": "In 2009 the Lunar Reconnaissance Orbiter found Surveyor 1 still standing, a bright dot casting a long shadow. It has not moved since 1966.",
       "anchor": {
         "pos": [
-          0,
-          4.2,
-          0
+          1.0,
+          3.0,
+          -1.0
         ]
       },
       "source": {

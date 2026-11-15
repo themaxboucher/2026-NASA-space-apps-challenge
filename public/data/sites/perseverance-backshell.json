@@ -58,11 +58,10 @@
       "title": "Suspension lines",
       "text": "These lines tied the parachute to the backshell. Ingenuity’s photos showed the parachute still attached and stretched out behind it.",
       "anchor": {
-        "part": "line",
-        "at": [
-          0.5,
-          0.5,
-          0.5
+        "pos": [
+          2.35,
+          0.1,
+          0.89
         ]
       },
       "source": {

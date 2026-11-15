@@ -92,5 +92,6 @@ export const UP = new THREE.Vector3(0, 1, 0);
 export function formatKm(km: number) {
   if (km >= 1e9) return `${(km / 1e9).toFixed(km >= 1e10 ? 1 : 2)} billion km`;
   if (km >= 1e6) return `${Math.round(km / 1e6).toLocaleString("en-US")} million km`;
+  if (km < 1) return `${Math.max(0, Math.round(km * 1000)).toLocaleString("en-US")} m`;
   return `${Math.round(km).toLocaleString("en-US")} km`;
 }

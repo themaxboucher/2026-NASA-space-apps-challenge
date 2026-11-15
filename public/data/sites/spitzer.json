@@ -42,7 +42,8 @@
       "source": {
         "label": "NASA: Spitzer",
         "url": "https://science.nasa.gov/mission/spitzer/"
-      }
+      },
+      "glowRadius": 0.7
     },
     {
       "id": "sunshield",
@@ -85,11 +86,10 @@
       "title": "Seven planets",
       "text": "Spitzer helped show that the star TRAPPIST-1 has seven Earth-sized planets. It also found a giant, nearly invisible ring around Saturn.",
       "anchor": {
-        "part": "BUS002",
-        "at": [
-          0.5,
-          1,
-          0.5
+        "pos": [
+          -0.79,
+          -0.44,
+          0.48
         ]
       },
       "source": {
@@ -116,5 +116,17 @@
       "label": "Mirror",
       "value": "85 cm wide"
     }
-  ]
+  ],
+  "spawn": {
+    "pos": [
+      5.4,
+      0.6,
+      6.8
+    ],
+    "look": [
+      0,
+      -0.1,
+      0
+    ]
+  }
 }

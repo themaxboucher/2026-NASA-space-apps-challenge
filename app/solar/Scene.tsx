@@ -11,7 +11,7 @@ import { fbm, noise2, rng } from "../tour/lib/geo";
 import { Atmosphere, Planet, Stars } from "../tour/scene/Space";
 import { dotTexture, glowTexture } from "../tour/scene/textures";
 import { Flight, markerColors } from "./Flight";
-import { auR, HELIOPAUSE_AU, type Body, type World } from "./model";
+import { auR, eclToScene, HELIOPAUSE_AU, j2000Days, type Body, type Tracks, type World } from "./model";
 
 // Textures drawn in code for the worlds with no NASA map here (Venus's cloud tops, Uranus, Neptune, Pluto, Ceres, the Sun).
 const texCache = new Map<string, THREE.Texture>();
@@ -237,8 +237,8 @@ function Orbits({ bodies }: { bodies: Body[] }) {
       const r = Math.hypot(b.pos.x, b.pos.z);
       for (let i = 0; i < n; i++) {
         const t0 = (i / n) * Math.PI * 2, t1 = ((i + 1) / n) * Math.PI * 2;
-        a.set(Math.cos(t0) * r, 0, Math.sin(t0) * r);
-        c.set(Math.cos(t1) * r, 0, Math.sin(t1) * r);
+        a.set(Math.cos(t0) * r, b.pos.y, Math.sin(t0) * r);
+        c.set(Math.cos(t1) * r, b.pos.y, Math.sin(t1) * r);
         mid.addVectors(a, c).multiplyScalar(0.5);
         if (gaps.some((g) => mid.distanceTo(g.c) < g.r)) continue;
         seg.push(a.x, a.y, a.z, c.x, c.y, c.z);
@@ -392,7 +392,37 @@ function Markers({ world }: { world: World }) {
   return <points geometry={geo} material={mat} renderOrder={20} frustumCulled={false} />;
 }
 
-export function SolarScene({ world, start, still, working }: { world: World; start: string; still: boolean; working: number }) {
+// The real paths of the far travellers (JPL Horizons, public/data/trajectories.json): the whole path faint once
+// launched, the part already flown by the timeline's date brighter. Their markers sit on it (model.ts trackAt).
+function Paths({ tracks, date }: { tracks: Tracks; date: number }) {
+  const lines = useMemo(
+    () =>
+      Object.entries(tracks).map(([id, t]) => {
+        const pos = new Float32Array(t.points.length * 3);
+        const v = new THREE.Vector3();
+        t.points.forEach(([, x, y, z], i) => pos.set(eclToScene(x, y, z, v).toArray(), i * 3));
+        const attr = new THREE.BufferAttribute(pos, 3);
+        const all = new THREE.BufferGeometry().setAttribute("position", attr);
+        const flown = new THREE.BufferGeometry().setAttribute("position", attr);
+        const mk = (g: THREE.BufferGeometry, opacity: number) => new THREE.Line(g, new THREE.LineBasicMaterial({ color: "#e8eef7", transparent: true, opacity, depthWrite: false }));
+        return { id, days: t.points.map((p) => p[0]), all: mk(all, 0.1), flown: mk(flown, 0.42) };
+      }),
+    [tracks],
+  );
+  const now = j2000Days(date);
+  return lines.map((l) => {
+    const n = l.days.findIndex((d) => d > now);
+    l.flown.geometry.setDrawRange(0, n < 0 ? l.days.length : n);
+    return now < l.days[0] ? null : (
+      <group key={l.id}>
+        <primitive object={l.all} />
+        <primitive object={l.flown} />
+      </group>
+    );
+  });
+}
+
+export function SolarScene({ world, tracks, date, start, still, working }: { world: World; tracks: Tracks; date: number; start: string; still: boolean; working: number }) {
   const earth = world.bodies.find((b) => b.key === "earth")!;
   return (
     <>
@@ -406,6 +436,7 @@ export function SolarScene({ world, start, still, working }: { world: World; sta
       <Orbits bodies={world.bodies} />
       <Belt />
       <Heliopause />
+      <Paths tracks={tracks} date={date} />
       <Debris earth={earth} still={still} working={working} />
       <Markers world={world} />
       <Flight world={world} start={start} still={still} />

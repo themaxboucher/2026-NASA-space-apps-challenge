@@ -3,7 +3,7 @@
   "setting": "impact",
   "model": null,
   "name": "LCROSS Centaur",
-  "intro": "This was the empty Centaur upper stage of the rocket that launched LCROSS and the Lunar Reconnaissance Orbiter. Instead of drifting in space, it was aimed at Cabeus, a crater near the south pole whose floor never sees sunlight. Its crash threw up a plume that contained water.",
+  "intro": "This was the empty Centaur upper stage of the rocket that launched LCROSS and the Lunar Reconnaissance Orbiter. Instead of drifting in space, it was aimed at Cabeus, a crater near the south pole whose floor never sees sunlight. Its crash threw up a plume that contained water. The Sun never climbs above the big crater’s rim here, so the faint light is turned up for you; look up, too, for spots in the sky.",
   "status": "Crashed on purpose, 9 October 2009",
   "whyLeft": "It was used up after launch, so NASA turned the empty rocket stage into a giant hammer to dig into the dark crater.",
   "repurpose": "The ice it uncovered is the real treasure: future crews may turn ice like this into drinking water, air and rocket fuel.",
@@ -47,9 +47,10 @@
       "anchor": {
         "pos": [
           0,
-          6,
+          4,
           0
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "NASA NSSDCA: LCROSS",
@@ -74,9 +75,10 @@
       "anchor": {
         "pos": [
           -4,
-          15,
+          7,
           -4
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "Colaprete et al. (NASA Ames), Science 2010: water in the LCROSS plume",
@@ -140,5 +142,10 @@
       "url": "https://eos.org/research-spotlights/fifteen-years-later-scientists-locate-a-lunar-impact-site"
     },
     "seen": true
-  }
+  },
+  "sun": {
+    "az": 100,
+    "el": 2
+  },
+  "fill": 0.55
 }

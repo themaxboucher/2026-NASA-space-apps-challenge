@@ -3,11 +3,11 @@
   "setting": "impact",
   "model": null,
   "name": "Flow (GRAIL-B)",
-  "intro": "Flow was Ebb’s twin. For almost a year it followed Ebb around the Moon, and in the end it followed Ebb down too, hitting the same mountain about 20 seconds later. NASA named the crash site after Sally Ride, the first American woman in space.",
+  "intro": "Flow was Ebb’s twin. For almost a year it followed Ebb around the Moon, and in the end it followed Ebb down too, hitting the same mountain about 20 seconds later. NASA named the crash site after Sally Ride, the first American woman in space. Look up, too: some spots hang in the sky, where things happened on the way down.",
   "status": "Crashed on purpose, 17 December 2012",
   "whyLeft": "With fuel nearly gone and its orbit dropping, Flow was steered into a remote mountain so it could never fall onto a historic landing site.",
   "repurpose": "The Sally K. Ride Impact Site could be a memorial stop for future explorers, honouring the astronaut who led the twins’ student camera program.",
-  "funFact": "Flow’s MoonKAM once filmed NASA’s Lunar Reconnaissance Orbiter zooming past about 20 km away, the first video of one spacecraft taken by another at the Moon.",
+  "funFact": "Flow and Ebb each carried a MoonKAM camera run for students: middle school classes chose spots on the Moon for the cameras to photograph.",
   "stats": [
     {
       "label": "Impact",
@@ -109,9 +109,10 @@
       "anchor": {
         "pos": [
           5,
-          8,
+          6,
           4
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "NASA JPL: GRAIL impact site named for Sally Ride",

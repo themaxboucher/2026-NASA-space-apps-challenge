@@ -16,8 +16,15 @@ const safe = (f?: string) => (f && /^media\/(sites\/)?[\w.-]+$/.test(f) ? "/" + 
 
 /* ---------- music: starts on the Start click (a user gesture), one piece per chapter, quiet under videos ---------- */
 const MUTE_KEY = "gra-music-off";
-type Track = { file: string; title: string; credit: string; license: string };
-type MusicState = { el: HTMLAudioElement | null; key: string; ducked: boolean; credit: string; on: boolean };
+// Licence deeds, linked wherever a CC licence is shown (CC BY requires the link).
+const LICENSE_URL: Record<string, string> = {
+  "CC BY 3.0": "https://creativecommons.org/licenses/by/3.0/",
+  "CC BY 4.0": "https://creativecommons.org/licenses/by/4.0/",
+  "CC BY-SA 3.0": "https://creativecommons.org/licenses/by-sa/3.0/",
+  "CC BY-SA 4.0": "https://creativecommons.org/licenses/by-sa/4.0/",
+};
+type Track = { file: string; title: string; credit: string; license: string; source?: string };
+type MusicState = { el: HTMLAudioElement | null; key: string; ducked: boolean; credit: string; on: boolean; source?: string; license?: string };
 // Kept on window, so a hot reload during development reuses the same player instead of leaving an
 // unreachable one playing in the background.
 const g = (typeof window !== "undefined" ? window : {}) as { __graMusic?: MusicState };
@@ -97,7 +104,9 @@ function playTrack(key: string) {
     el.volume = 0;
     music.el = el;
     music.key = key;
-    music.credit = `${tr.title} · ${tr.credit} · ${tr.license}`;
+    music.credit = `${tr.title} · ${tr.credit}`;
+    music.license = tr.license;
+    music.source = tr.source;
     if (music.on) {
       el.play().catch(() => {});
       fadeVol(el, musicLevel(), 1800);
@@ -171,7 +180,20 @@ export function MusicToggle() {
             <span>Videos and radio</span>
             <input type="range" min={0} max={1} step={0.05} defaultValue={vol.media} onChange={(e) => setVolume("media", +e.target.value)} aria-label="Videos and mission radio volume" />
           </label>
-          <p className="sound-credit">{music.credit}</p>
+          <p className="sound-credit">
+            {music.credit} ·{" "}
+            {LICENSE_URL[music.license ?? ""] ? (
+              <a href={LICENSE_URL[music.license!]} target="_blank" rel="noopener noreferrer">{music.license}</a>
+            ) : (
+              music.license
+            )}
+            {music.source && (
+              <>
+                {" "}·{" "}
+                <a href={music.source} target="_blank" rel="noopener noreferrer">source</a>
+              </>
+            )}
+          </p>
         </div>
       )}
     </div>

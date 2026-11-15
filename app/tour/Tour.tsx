@@ -12,6 +12,9 @@ import { FailureBank } from "./FailureBank";
 import { liveNumbers, loadLive, photosFor } from "../atlas/live.js";
 import { Overlay } from "./Overlay";
 import { Spots } from "./Spots";
+import { Science } from "./Science";
+import { ConfirmSkip } from "./ConfirmSkip";
+import { Tribute } from "./Tribute";
 import { Cutscene, Interlude, MusicToggle, photoSrc, playCutscene, startMusic, useMedia, useSpotPhotos } from "./Story";
 import {
   dismissIntro,
@@ -40,7 +43,7 @@ import "./sites.css";
 // The 3D scene only runs in the browser; the start screen's text and button render right away.
 const TourCanvas = dynamic(() => import("./TourCanvas"), { ssr: false });
 
-const TITLE = "Ruins Among the Stars";
+const TITLE = "Echoes of Exploration";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 // A short briefing between Start and lift-off: what this trip is for, and how to play it.
@@ -166,9 +169,7 @@ function StartScreen() {
                 </button>
               )}
               {step < steps.length - 1 && (
-                <button type="button" className="brief-skip" onClick={startTour}>
-                  Skip briefing
-                </button>
+                <ConfirmSkip className="brief-skip" label="Skip briefing" question="Skip the mission briefing?" yes="Yes, skip" no="Keep reading" onConfirm={startTour} />
               )}
             </div>
           </motion.div>
@@ -443,9 +444,14 @@ function SpotProgress() {
               {count} of {total} explored
             </p>
             {/* The quiet way out: move on without finding everything. */}
-            <button type="button" className="skip-stop" onClick={nextStop} aria-label={last ? "Skip, and fly home" : "Skip to the next space object"}>
-              Skip
-            </button>
+            <ConfirmSkip
+              className="skip-stop"
+              ariaLabel={last ? "Skip, and fly home" : "Skip to the next space object"}
+              question={`Move on with ${total - count} ${total - count === 1 ? "clue" : "clues"} left to find?`}
+              yes={last ? "Yes, fly home" : "Yes, move on"}
+              no="Keep exploring"
+              onConfirm={nextStop}
+            />
           </motion.div>
         )}
       </AnimatePresence>
@@ -556,9 +562,7 @@ function ReplayBar() {
           }}
         />
       </span>
-      <button type="button" className="replay-skip" onClick={() => endReplay()}>
-        Skip
-      </button>
+      <ConfirmSkip className="replay-skip" question="Skip what happened here?" yes="Yes, skip" no="Keep watching" onConfirm={() => endReplay()} askEvent="gra-ask-skip-replay" />
     </motion.div>
   );
 }
@@ -1023,6 +1027,7 @@ function MissionFile() {
             </p>
           </div>
         )}
+        <Science id={s.id} />
         {route && (
           <div>
             <p className="eyebrow">The path it took</p>
@@ -1095,20 +1100,24 @@ function MissionFile() {
   );
 }
 
+// The readout the Director writes into. A callback ref, because AnimatePresence keeps the old readout on screen while
+// it fades out: an object ref is nulled when that one unmounts, which froze the number (and a later shot with the
+// same destination, such as the descent after a trip, picked up the null).
+const counterRef = (el: HTMLParagraphElement | null) => {
+  if (!el) return;
+  hud.counter = el;
+  return () => {
+    if (hud.counter === el) hud.counter = null;
+  };
+};
+
 function Cruise() {
   const cruise = useStore(tour, (s) => s.cruise);
-  const ref = useRef<HTMLParagraphElement>(null);
-  useEffect(() => {
-    hud.counter = ref.current;
-    return () => {
-      hud.counter = null;
-    };
-  }, [cruise]);
   return (
     <AnimatePresence>
       {cruise && (
         <motion.div
-          key={cruise.dest}
+          key={`${cruise.dest}|${cruise.label}`} // a new label (say, the descent after a trip) gets a fresh, empty readout
           className="cruise"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1116,7 +1125,7 @@ function Cruise() {
           transition={{ duration: 0.3, ease }}
         >
           <p className="eyebrow">{cruise.label}</p>
-          <p className="cruise-num" ref={ref} />
+          <p className="cruise-num" ref={counterRef} data-label={cruise.label} />
           <p className="cruise-dest">{cruise.dest}</p>
         </motion.div>
       )}
@@ -1172,6 +1181,9 @@ function Verdicts() {
 function EndScreen() {
   const visited = useStore(tour, (s) => s.visited.filter((id) => STOP_INDEX[id] !== undefined).length);
   const n = useMachineCount();
+  // The trip ends with the tribute to the first rocket caught after orbit, then the scout's case files.
+  const [tribute, setTribute] = useState(true);
+  if (tribute) return <Tribute onDone={() => setTribute(false)} />;
   return (
     <motion.section
       className="end"
@@ -1204,12 +1216,16 @@ function EndScreen() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.85, duration: 0.8, ease }}
       >
-        <button type="button" className="start-btn" onClick={startTour}>
-          Replay the trip
-        </button>
-        <a className="ghost-btn" href="/explore">
+        {/* Next step after the tour: the atlas, where the reader picks their level and digs into every space object. */}
+        <a className="start-btn" href="/explore">
           Explore {allMachines(n)} <ArrowUpRight aria-hidden="true" />
         </a>
+        <a className="ghost-btn" href="/signals">
+          Open what we heard back
+        </a>
+        <button type="button" className="ghost-btn" onClick={startTour}>
+          Replay the trip
+        </button>
         <a className="ghost-btn" href="/solar">
           Fly around the solar system →
         </a>
@@ -1279,7 +1295,8 @@ export default function Tour() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
       const s = tour.get();
-      if (s.replay) return endReplay();
+      // Esc during a replay asks first (press it again to keep watching).
+      if (s.replay) return void dispatchEvent(new Event("gra-ask-skip-replay"));
       if (s.openSpot) openHotspot(STOPS[s.stop].id, null);
       else dismissIntro();
     };

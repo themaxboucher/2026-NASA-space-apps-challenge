@@ -3,7 +3,7 @@
   "setting": "impact",
   "model": null,
   "name": "Ranger 8",
-  "intro": "Ranger 8 dove into the Sea of Tranquility on 20 February 1965, photographing the area where Apollo astronauts might one day land. It sent home 7,137 pictures in its last 23 minutes, more than any other Ranger, then crashed as planned.",
+  "intro": "Ranger 8 dove into the Sea of Tranquility on 20 February 1965, photographing the area where Apollo astronauts might one day land. It sent home 7,137 pictures in its last 23 minutes, more than any other Ranger, then crashed as planned. Look up, too: some spots hang in the sky, where things happened on the way down.",
   "status": "Crashed on purpose, 20 February 1965",
   "whyLeft": "Rangers had no way to slow down: diving in with cameras running and crashing was the whole mission.",
   "repurpose": "Nothing is left to reuse, but its pictures still help: they are some of the earliest close-ups of the region where Apollo 11 landed.",
@@ -51,9 +51,10 @@
       "anchor": {
         "pos": [
           0,
-          22,
+          7,
           6
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "NASA NSSDCA: Ranger 8",

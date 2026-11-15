@@ -48,6 +48,16 @@ function matches(m: THREE.Mesh, part: string) {
   );
 }
 
+function lowestY(list: THREE.Mesh[]) {
+  const v = new THREE.Vector3();
+  let low = Infinity;
+  for (const m of list) {
+    const p = m.geometry.attributes.position;
+    for (let i = 0; i < p.count; i++) low = Math.min(low, v.fromBufferAttribute(p, i).applyMatrix4(m.matrixWorld).y);
+  }
+  return low;
+}
+
 // Clone, size and place a NASA model at real scale, then work out where its hotspots sit.
 // Small parts of the lunar module's top half that sit low enough to slip under hideAbove (a 7 cm sphere floated
 // over Eagle's deck).
@@ -79,12 +89,14 @@ export function prepareModel(source: THREE.Object3D, spec: GltfSpec, hotspots: H
     scale = longest > spec.span / 2.5 && longest < spec.span * 2.5 ? 1 : spec.span / longest;
   }
   model.scale.setScalar(scale);
-  if (spec.rotationY) model.rotation.y = spec.rotationY;
+  model.rotation.set(...(spec.tilt ?? [0, spec.rotationY ?? 0, 0]));
   model.updateMatrixWorld(true);
   // Foil, metal, cells and paint get surface texture. Cassini keeps its own foil (see SpaceStop's CaptureReflections).
   if (!spec.url.includes("cassini")) addSurfaceDetail(model);
 
   const placed = boxOf(shown);
+  // A tilted model's boxes overstate how low it reaches: stand it on its real lowest point.
+  if (spec.tilt) placed.min.y = lowestY(shown);
   const ref = spec.centerOn ? boxOf(shown.filter((m) => spec.centerOn!.some((p) => matches(m, p)))) : placed;
   const c = ref.getCenter(new THREE.Vector3());
   if (spec.origin === "ground") model.position.set(-c.x, -placed.min.y, -c.z);
@@ -93,6 +105,10 @@ export function prepareModel(source: THREE.Object3D, spec: GltfSpec, hotspots: H
   const wrapper = new THREE.Group();
   wrapper.add(model);
   wrapper.updateMatrixWorld(true);
+  if (spec.cut) {
+    const boxes = spec.cut.map((c) => new THREE.Box3(new THREE.Vector3(...c.min), new THREE.Vector3(...c.max)));
+    for (const m of shown) cutAway(m, boxes);
+  }
 
   const anchors: Anchors = {};
   for (const h of hotspots) {
@@ -113,6 +129,38 @@ export function prepareModel(source: THREE.Object3D, spec: GltfSpec, hotspots: H
     anchors[h.id] = p;
   }
   return { object: wrapper, model, anchors };
+}
+
+// Removes the triangles whose middle lies inside any of the boxes (world metres), on a copy of the mesh's geometry
+// (the loaded model is shared). Keeps its material groups.
+function cutAway(m: THREE.Mesh, boxes: THREE.Box3[]) {
+  const g = m.geometry;
+  const pos = g.attributes.position;
+  const index = g.index ? Array.from(g.index.array) : Array.from({ length: pos.count }, (_, i) => i);
+  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
+  const keep = (t: number) => {
+    a.fromBufferAttribute(pos, index[t]);
+    b.fromBufferAttribute(pos, index[t + 1]);
+    c.fromBufferAttribute(pos, index[t + 2]);
+    a.add(b).add(c).divideScalar(3).applyMatrix4(m.matrixWorld);
+    return !boxes.some((x) => x.containsPoint(a));
+  };
+  const groups = g.groups.length ? g.groups : [{ start: 0, count: index.length, materialIndex: 0 }];
+  const out: number[] = [];
+  const kept: { start: number; count: number; materialIndex?: number }[] = [];
+  for (const gr of groups) {
+    const start = out.length;
+    for (let t = gr.start; t + 2 < Math.min(gr.start + gr.count, index.length); t += 3) if (keep(t)) out.push(index[t], index[t + 1], index[t + 2]);
+    kept.push({ start, count: out.length - start, materialIndex: gr.materialIndex });
+  }
+  if (out.length === index.length) return;
+  const copy = g.clone();
+  copy.setIndex(out);
+  copy.clearGroups();
+  if (g.groups.length) for (const k of kept) copy.addGroup(k.start, k.count, k.materialIndex);
+  copy.computeBoundingBox();
+  copy.computeBoundingSphere();
+  m.geometry = copy;
 }
 
 // Ingenuity's last flight: all four blades snapped about a third of the way from the tip, and one tore off at the root.
@@ -169,20 +217,57 @@ function breakBlades(model: THREE.Object3D) {
 }
 
 // Every "broken" hotspot lights the part it points at: the part's material is copied and given a red glow,
-// which pulses with the same rhythm as Ingenuity's snapped blades.
-function glowBrokenParts(model: THREE.Object3D, hotspots: Hotspot[]) {
-  const parts = hotspots.flatMap((h) => (h.broken ? [...(h.glow ?? []), ...("part" in h.anchor ? [h.anchor.part] : [])] : []));
+// which pulses with the same rhythm as Ingenuity's snapped blades. When that part is a big piece of the model (many
+// NASA models are a few merged meshes), only a ball around the spot glows, fading out at its edge.
+const GLOW_ZONES = 4;
+function glowBrokenParts(model: THREE.Object3D, hotspots: Hotspot[], anchors: Anchors) {
+  const all = meshes(model).filter(isShown);
+  const machine = boxOf(all).getSize(new THREE.Vector3()).length();
+  // Per mesh, the balls that glow (x, y, z, radius); radius 0 lights the whole mesh.
+  const zones = new Map<THREE.Mesh, THREE.Vector4[]>();
+  const add = (m: THREE.Mesh, z: THREE.Vector4) => zones.set(m, [...(zones.get(m) ?? []), z].slice(0, GLOW_ZONES));
+  for (const h of hotspots) {
+    if (!h.broken) continue;
+    const at = anchors[h.id];
+    // Extra named parts: all of each, or a ball around the spot if the spot gives a radius.
+    for (const p of h.glow ?? [])
+      for (const m of all) if (matches(m, p)) add(m, h.glowRadius && at ? new THREE.Vector4(...at.toArray(), h.glowRadius) : new THREE.Vector4(0, 0, 0, 0));
+    if (!("part" in h.anchor) || !at) continue;
+    const part = h.anchor.part;
+    const hit = all.filter((m) => matches(m, part));
+    const size = boxOf(hit).getSize(new THREE.Vector3()).length();
+    const r = h.glowRadius ?? (size > machine / 3 ? Math.max(0.15, size * 0.2) : 0);
+    for (const m of hit) add(m, new THREE.Vector4(...at.toArray(), r));
+  }
   const lit: THREE.MeshStandardMaterial[] = [];
-  if (!parts.length) return lit;
-  for (const m of meshes(model)) {
-    if (!parts.some((p) => matches(m, p))) continue;
+  for (const [m, z] of zones) {
+    const at = [...z, ...Array.from({ length: GLOW_ZONES - z.length }, () => new THREE.Vector4(0, 0, 0, -1))];
     const copy = (mat: THREE.Material) => {
       const c = mat.clone() as THREE.MeshStandardMaterial;
-      if (c.emissive) {
-        c.emissive = new THREE.Color("#ff2a10");
-        c.emissiveIntensity = 0;
-        lit.push(c);
-      }
+      if (!c.emissive) return c;
+      c.emissive = new THREE.Color("#ff2a10");
+      c.emissiveIntensity = 0;
+      c.onBeforeCompile = (shader) => {
+        shader.uniforms.uGlowAt = { value: at };
+        shader.vertexShader = shader.vertexShader
+          .replace("#include <common>", "#include <common>\nvarying vec3 vGlowPos;")
+          .replace("#include <begin_vertex>", "#include <begin_vertex>\nvGlowPos = (modelMatrix * vec4(transformed, 1.0)).xyz;");
+        shader.fragmentShader = shader.fragmentShader
+          .replace("#include <common>", `#include <common>\nvarying vec3 vGlowPos;\nuniform vec4 uGlowAt[${GLOW_ZONES}];`)
+          .replace(
+            "#include <emissivemap_fragment>",
+            `#include <emissivemap_fragment>
+            float glowK = 0.0;
+            for (int i = 0; i < ${GLOW_ZONES}; i++) {
+              vec4 z = uGlowAt[i];
+              if (z.w == 0.0) glowK = 1.0;
+              else if (z.w > 0.0) glowK = max(glowK, 1.0 - smoothstep(z.w * 0.45, z.w, distance(vGlowPos, z.xyz)));
+            }
+            totalEmissiveRadiance *= glowK;`,
+          );
+      };
+      c.customProgramCacheKey = () => "broken-glow";
+      lit.push(c);
       return c;
     };
     m.material = Array.isArray(m.material) ? m.material.map(copy) : copy(m.material);
@@ -206,7 +291,7 @@ export function GltfMachine({ stop, onAnchors }: { stop: Stop; onAnchors: (a: An
   const prepared = useMemo(() => {
     const p = prepareModel(gltf.scene, spec, stop.hotspots);
     if (stop.id === "ingenuity") breakBlades(p.model);
-    return { ...p, lit: stop.id === "ingenuity" ? [] : glowBrokenParts(p.model, stop.hotspots) };
+    return { ...p, lit: stop.id === "ingenuity" ? [] : glowBrokenParts(p.model, stop.hotspots, p.anchors) };
   }, [gltf, spec, stop]);
 
   useLayoutEffect(() => onAnchors(prepared.anchors), [prepared, onAnchors]);

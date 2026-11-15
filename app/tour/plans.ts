@@ -236,9 +236,12 @@ function counterFor(from: Stop | null, to: Stop | null, distanceTo: number, labe
     dest: to ? `${to.name} · ${WORLD_NAME[to.body]}` : "Home · Earth",
     from: start,
     to: distanceTo,
-    at: (u) => start + (distanceTo - start) * launchEase(u),
+    at: (u) => start + (distanceTo - start) * legEase(u), // the same ease as the camera (leg() flies with legEase)
   };
 }
+
+// Height above a world's surface (km) for a point in a site's frame (metres, site at the origin, centre at -R below).
+const heightKm = (p: THREE.Vector3, R: number) => (Math.hypot(p.x, p.y + R, p.z) - R) / 1000;
 
 // From Earth (the start screen) to the first stop on the Moon: rise over Earth's north pole toward the Moon.
 function startLeg(): Shot {
@@ -280,15 +283,19 @@ function descent(index: number): Shot {
   const endPos = rv ? v(rv.pos[0], t.height(rv.pos[0], rv.pos[2]) + EYE, rv.pos[2]) : spawnPose(index).pos;
   const endLook = rv ? v(...rv.look) : spawnPose(index).look;
   const a0 = startPos.y, a1 = endPos.y, la = Math.log(a0), lb = Math.log(Math.max(1, a1));
-  const site = v(0, 0, 0), p = new THREE.Vector3();
+  const site = v(0, 0, 0), p = new THREE.Vector3(), q = new THREE.Vector3();
+  const posAt = (u: number, out: THREE.Vector3) => {
+    const s = 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 2.2);
+    const alt = Math.exp(la + (lb - la) * s);
+    const k = (alt - a1) / (a0 - a1); // 1 at the start, 0 at the end: sideways offset shrinks with height
+    return out.set(startPos.x * k + endPos.x * (1 - k), alt, startPos.z * k + endPos.z * (1 - k));
+  };
   return {
     scene: sceneFor(index),
     dur: 8,
     cam: (u, cam) => {
-      const s = 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 2.2);
-      const alt = Math.exp(la + (lb - la) * s);
-      const k = (alt - a1) / (a0 - a1); // 1 at the start, 0 at the end: sideways offset shrinks with height
-      p.set(startPos.x * k + endPos.x * (1 - k), alt, startPos.z * k + endPos.z * (1 - k));
+      posAt(u, p);
+      const alt = p.y;
       cam.position.copy(p);
       // Turn from the trip's view to the site, then (near the ground) to the replay view.
       descM.lookAt(p, site, UP);
@@ -308,7 +315,8 @@ function descent(index: number): Shot {
         pc.updateProjectionMatrix();
       }
     },
-    counter: { label: `Height above ${stop.body === "mars" ? "Mars" : "the Moon"}`, dest: `${stop.name} · ${WORLD_NAME[stop.body]}`, from: a0 / 1000, to: 0, at: (u) => Math.exp(la + (lb - la) * (1 - Math.pow(1 - u, 2.2))) / 1000 },
+    // The true height above the curved surface where the camera is (not just its height over the site's flat frame).
+    counter: { label: `Height above ${stop.body === "mars" ? "Mars" : "the Moon"}`, dest: `${stop.name} · ${WORLD_NAME[stop.body]}`, from: heightKm(startPos, f.R), to: 0, at: (u) => Math.max(0, heightKm(posAt(u, q), f.R)) },
   };
 }
 // The mirror of the descent: from wherever you're standing, climb straight up out of the site scene into orbit,
@@ -325,15 +333,19 @@ function ascent(index: number, from: Pose): Shot {
   const endQ = f.quatToSite(new THREE.Quaternion().setFromRotationMatrix(descM));
   const startPos = from.pos.clone(), startQ = from.quat.clone();
   const a0 = Math.max(1, startPos.y), a1 = endPos.y, la = Math.log(a0), lb = Math.log(a1);
-  const site = v(0, 0, 0), p = new THREE.Vector3();
+  const site = v(0, 0, 0), p = new THREE.Vector3(), q = new THREE.Vector3();
+  const posAt = (u: number, out: THREE.Vector3) => {
+    const s = Math.pow(Math.min(1, Math.max(0, u)), 1.7); // a slow, gentle lift-off that speeds up as you climb
+    const alt = Math.exp(la + (lb - la) * s);
+    const k = (alt - a0) / (a1 - a0);
+    return out.set(startPos.x * (1 - k) + endPos.x * k, alt, startPos.z * (1 - k) + endPos.z * k);
+  };
   return {
     scene: sceneFor(index),
     dur: 11,
     cam: (u, cam) => {
-      const s = Math.pow(Math.min(1, Math.max(0, u)), 1.7); // a slow, gentle lift-off that speeds up as you climb
-      const alt = Math.exp(la + (lb - la) * s);
-      const k = (alt - a0) / (a1 - a0);
-      p.set(startPos.x * (1 - k) + endPos.x * k, alt, startPos.z * (1 - k) + endPos.z * k);
+      posAt(u, p);
+      const alt = p.y;
       cam.position.copy(p);
       // Look down at the site as you rise, and settle on the trip's first view.
       descM.lookAt(p, site, UP);
@@ -349,7 +361,7 @@ function ascent(index: number, from: Pose): Shot {
         pc.updateProjectionMatrix();
       }
     },
-    counter: { label: `Height above ${stop.body === "mars" ? "Mars" : "the Moon"}`, dest: `Leaving ${stop.name}`, from: 0, to: a1 / 1000, at: (u) => Math.exp(la + (lb - la) * Math.pow(u, 1.7)) / 1000 },
+    counter: { label: `Height above ${stop.body === "mars" ? "Mars" : "the Moon"}`, dest: `Leaving ${stop.name}`, from: 0, to: heightKm(endPos, f.R), at: (u) => Math.max(0, heightKm(posAt(u, q), f.R)) },
   };
 }
 const smoothstep01 = (x: number) => {
@@ -401,26 +413,229 @@ function leg(a: number, b: number | "end"): Shot {
   };
 }
 
-// From Voyager all the way home, ending on the same view of Earth as the start screen.
-function homeLeg(from: number): Shot {
-  const sa = STOPS[from];
-  return {
-    scene: START_SCENE,
-    dur: 3.4,
-    cam: path(
-      [
-        { pos: v(0, 0.5, 70), look: v(0, 0, 0) },
-        { pos: v(0.3, 0.6, 24), look: v(0, 0.2, 0) },
-        { pos: v(0, 0.6, 7.5), look: v(0, 0.6, 0) },
-        START_POSE,
-      ],
-      launchEase,
-    ),
-    counter: { label: "Distance from Earth", dest: "Home · Earth", from: sa.distanceKm, to: 0, at: (u) => sa.distanceKm * (1 - launchEase(u)) },
-    chip: (u) => (u > 0.35 ? debrisLine() : ""), // ESA figures, public/data/earth-orbit.json
+// --- Flying past a row of worlds ------------------------------------------------------------------
+// A spline through key poses, flown at a speed that dips (to about a fifth) around each world's closest approach,
+// so you get a look at it as it slides by. Time is the integral of 1/speed, tabulated and inverted.
+function flyby(keys: Key[]) {
+  const curve = new THREE.CatmullRomCurve3(keys.map((k) => k.pos), false, "centripetal");
+  const look = new THREE.CatmullRomCurve3(keys.map((k) => k.look), false, "centripetal");
+  const M = 400;
+  const pts = curve.getSpacedPoints(M);
+  // Where along the path (fraction of its length) a point is passed closest, or a test first holds.
+  const nearest = (q: THREE.Vector3) => pts.reduce((best, p, i) => (p.distanceToSquared(q) < pts[best].distanceToSquared(q) ? i : best), 0) / M;
+  const first = (test: (p: THREE.Vector3) => boolean) => pts.findIndex(test) / M;
+  // dips: [where, how deep, how wide]. `land`: brake to a stop at the end (speed ~ sqrt of the distance left, so it
+  // settles like a steady braking); otherwise it is still moving, so the next shot's dissolve carries the motion on.
+  const timed = (dips: [number, number, number][], land = false) => {
+    const speed = (s: number) => {
+      let k = 1;
+      for (const [f, depth, width] of dips) k -= depth * Math.exp(-(((s - f) / width) ** 2));
+      const tail = land ? Math.sqrt(Math.min(1, (1 - s) / 0.22)) : 1 - 0.6 * Math.max(0, (s - 0.9) / 0.1);
+      return Math.max(0.05, k) * (0.12 + 0.88 * Math.min(1, s / 0.07)) * tail;
+    };
+    const t = [0];
+    for (let i = 1; i <= M; i++) t.push(t[i - 1] + 1 / M / speed((i - 0.5) / M));
+    const total = t[M];
+    return (u: number) => {
+      const want = Math.min(1, Math.max(0, u)) * total;
+      let i = 0;
+      while (i < M && t[i + 1] < want) i++;
+      return (i + (i < M ? (want - t[i]) / (t[i + 1] - t[i]) : 0)) / M;
+    };
+  };
+  const p = new THREE.Vector3(), l = new THREE.Vector3();
+  const cam = (ease: (u: number) => number) => (u: number, c: THREE.Camera) => {
+    const s = ease(u);
+    curve.getPointAt(s, p);
+    look.getPoint(curve.getUtoTmapping(s, null as unknown as number), l);
+    aim(c, p, l);
+  };
+  return { nearest, first, timed, cam, point: (s: number, out: THREE.Vector3) => curve.getPointAt(s, out) };
+}
+
+// A distance readout passing each world at its own figure: [where on the path, km]. `log` blends on a log scale,
+// for counts that fall through many powers of ten.
+function kmTrack(marks: [number, number][], log = false) {
+  return (s: number) => {
+    let i = 0;
+    while (i < marks.length - 2 && s > marks[i + 1][0]) i++;
+    const [s0, k0] = marks[i], [s1, k1] = marks[i + 1];
+    const f = Math.min(1, Math.max(0, (s - s0) / Math.max(1e-6, s1 - s0)));
+    return log ? Math.exp(Math.log(k0) + (Math.log(k1) - Math.log(k0)) * f) : k0 + (k1 - k0) * f;
   };
 }
 
+// Captions along a path: [where, how far either side it shows, text]; the nearest one in range wins.
+type Chip = [number, number, string];
+function chipAt(list: Chip[], s: number) {
+  let best: Chip | null = null;
+  for (const c of list) if (Math.abs(s - c[0]) < c[1] && (!best || Math.abs(s - c[0]) < Math.abs(s - best[0]))) best = c;
+  return best ? best[2] : "";
+}
+
+// Voyager 1 and Voyager 2 today (public/data/deepspace.json: ecliptic longitude and latitude in degrees, AU from the Sun).
+export const VOYAGER_ECL = { voyager1: { lon: 256.8, lat: 35.2, au: 172.35 }, voyager2: { lon: 290.7, lat: -38.5, au: 144.47 } };
+const AU_KM = 149_597_870.7;
+// Heliocentric ecliptic coordinates (AU) in scene axes (y = ecliptic north), the way the Voyager replay draws them.
+export const eclToScene = ({ lon, lat, au }: { lon: number; lat: number; au: number }) =>
+  v(Math.cos(lat * DEG) * Math.cos(lon * DEG), Math.sin(lat * DEG), -Math.cos(lat * DEG) * Math.sin(lon * DEG)).multiplyScalar(au);
+// Where Voyager 2 is in Voyager 1's sky, in the travel scene: the real direction from Voyager 1 (44° from the Sun),
+// turned so the Sun sits where the travel scene draws it, with ecliptic north kept up.
+const V1_AT = eclToScene(VOYAGER_ECL.voyager1), V2_AT = eclToScene(VOYAGER_ECL.voyager2);
+const V2_APART_AU = V2_AT.distanceTo(V1_AT);
+const V2_DIR = (() => {
+  const frame = (x: THREE.Vector3) => {
+    const z = new THREE.Vector3().crossVectors(x, UP).normalize();
+    return new THREE.Matrix4().makeBasis(x, new THREE.Vector3().crossVectors(z, x), z);
+  };
+  const from = frame(V1_AT.clone().negate().normalize()), to = frame(TRAVEL_SUN.clone());
+  return V2_AT.clone().sub(V1_AT).normalize().applyMatrix4(to.multiply(from.transpose()));
+})();
+const billion = (au: number) => `${((au * AU_KM) / 1e9).toFixed(1)} billion km`;
+
+// --- Voyager 1 back home: the whole solar system on the way --------------------------------------------
+// Not to scale: the worlds are strung along the way home in their real order, each passed on its sunlit side,
+// while the readout counts down through roughly their real distances from Earth. Then a dissolve into the start
+// scene (the Moon is already out there), a pass by the Moon, a swing through Earth's cloud of junk, and the start
+// screen's own view, where the tribute and the end screen take over.
+const HOME = {
+  neptune: v(-4.2, -0.7, 58),
+  uranus: v(-5, 0.9, 104),
+  saturn: v(-7, -1.8, 160),
+  jupiter: v(-7.5, 0.3, 222),
+  rock: v(1.4, -0.4, 256),
+  ceres: v(-1.8, 0.35, 266),
+  mars: v(-2.4, 0.15, 322),
+  helioZ: 30, // where the path crosses back into the Sun's bubble
+};
+const AHEAD = v(0, 0, 9); // after each closest approach, the gaze slides on past the world
+
+function homeTrip(from: number): Shot[] {
+  const sa = STOPS[from];
+  const { neptune: N, uranus: U, saturn: S, jupiter: J, rock: R, ceres: C, mars: M, helioZ } = HOME;
+  const fly = flyby([
+    { pos: v(0.6, 0.5, -4), look: v(14, -3, 20) }, // looking out toward the Sun and Voyager 2
+    { pos: v(0.4, 0.4, 16), look: v(10, -2, 44) },
+    { pos: v(0.8, 0.5, 40), look: N },
+    { pos: v(-1.2, 0.4, 56.5), look: N },
+    { pos: v(-0.4, 0.6, 66), look: N.clone().add(AHEAD) },
+    { pos: v(-2.2, 0.8, 92), look: U },
+    { pos: v(-2.4, 1.0, 102.5), look: U },
+    { pos: v(-1.6, 1.0, 112), look: U.clone().add(AHEAD) },
+    { pos: v(-1.0, 2.4, 140), look: S },
+    { pos: v(-2.0, 3.2, 156), look: S }, // high over the rings
+    { pos: v(-1.4, 2.6, 168), look: S.clone().add(AHEAD) },
+    { pos: v(-1.6, 1.6, 200), look: J },
+    { pos: v(-1.6, 1.5, 219), look: J },
+    { pos: v(-1.8, 1.0, 230), look: J.clone().add(AHEAD) },
+    { pos: v(0.4, 0.4, 250), look: v(0, 0.2, 290) }, // into the asteroid belt
+    { pos: v(0.1, 0.3, 262), look: C },
+    { pos: v(-0.2, 0.4, 272), look: v(0, 0.3, 305) },
+    { pos: v(-0.6, 0.4, 312), look: M },
+    { pos: v(-0.9, 0.5, 321), look: M },
+    { pos: v(-0.4, 0.5, 333), look: M.clone().add(AHEAD) },
+    { pos: v(0.3, 0.6, 362), look: v(0.3, 0.6, 420) },
+  ]);
+  const at = { helio: fly.first((p) => p.z > helioZ), neptune: fly.nearest(N), uranus: fly.nearest(U), saturn: fly.nearest(S), jupiter: fly.nearest(J), belt: (fly.nearest(R) + fly.nearest(C)) / 2, mars: fly.nearest(M) };
+  const ease = fly.timed([
+    [0.02, 0.85, 0.035], // linger on the first view: the Sun ahead and Voyager 2 off to the side
+    [at.helio, 0.75, 0.035],
+    [at.neptune, 0.8, 0.05],
+    [at.uranus, 0.8, 0.04],
+    [at.saturn, 0.85, 0.05],
+    [at.jupiter, 0.85, 0.045],
+    [at.belt, 0.7, 0.05],
+    [at.mars, 0.8, 0.035],
+  ]);
+  const MARS_KM = STOPS.find((s) => s.body === "mars")?.distanceKm ?? 225e6;
+  const SATURN_KM = STOPS.find((s) => s.body === "saturn")?.distanceKm ?? 1.3e9;
+  const HANDOFF_KM = 6e6; // where the dissolve into the Earth-Moon scene happens
+  const kmA = kmTrack(
+    [
+      [0, sa.distanceKm],
+      [at.helio, 18.1e9], // about 121 AU, where Voyager 1 crossed it
+      [at.neptune, 4.4e9],
+      [at.uranus, 2.8e9],
+      [at.saturn, SATURN_KM],
+      [at.jupiter, 7.5e8],
+      [at.belt, 3.5e8],
+      [at.mars, MARS_KM],
+      [1, HANDOFF_KM],
+    ],
+    true,
+  );
+  const chipsA: Chip[] = [
+    [0.015, 0.045, `Voyager 2 (marked) · Voyager 1’s twin · ${billion(VOYAGER_ECL.voyager2.au)} from the Sun, ${billion(V2_APART_AU)} from Voyager 1`],
+    [at.helio, 0.035, "The heliopause · back inside the Sun’s bubble · Voyager 2 crossed it in 2018"],
+    [at.neptune, 0.05, "Neptune · the windiest planet · 4.5 billion km from the Sun"],
+    [at.uranus, 0.05, "Uranus · the ice giant that spins on its side · 2.9 billion km from the Sun"],
+    [at.saturn, 0.06, "Saturn · its rings are billions of chunks of ice, from specks of dust to the size of a house"],
+    [at.jupiter, 0.055, "Jupiter · the biggest planet: more than 1,300 Earths would fit inside"],
+    [at.belt, 0.05, "The asteroid belt · millions of rocks, so far apart that spacecraft fly through safely · Ceres is the biggest"],
+    [at.mars, 0.045, "Mars · Opportunity and Ingenuity are still down there"],
+  ];
+
+  // The Earth-Moon part, in the start screen's own scene: Earth at the centre, the Moon 40 units out along -z.
+  const moonAt = v(0, 0, -LEG);
+  const home = flyby([
+    { pos: v(0.4, 0.9, -100), look: moonAt },
+    { pos: v(1.0, 0.6, -56), look: moonAt },
+    { pos: v(1.35, 0.45, -41), look: moonAt },
+    { pos: v(1.6, 0.8, -30), look: v(0, 0, 0) },
+    { pos: v(4.5, 2.2, -8), look: v(0, 0, 0) },
+    { pos: v(4.2, 1.8, 1.5), look: v(0, 0.3, 0) },
+    START_POSE,
+  ]);
+  const atMoon = home.nearest(moonAt);
+  const easeB = home.timed([[atMoon, 0.75, 0.06]], true);
+  // Down to the Moon's real distance, then on toward Earth; in close, it hands over to the camera's real height in
+  // this scene (Earth's radius is 1 here, 6,371 km), so it ends on the true height of the start screen's view.
+  const endKm = (START_POSE.pos.length() - 1) * 6371;
+  const toward = kmTrack([[0, HANDOFF_KM], [atMoon, 384_400], [1, endKm]], true);
+  const camAt = new THREE.Vector3();
+  const kmB = (s: number) => {
+    const d = home.point(s, camAt).length();
+    const w = smoothstep01((24 - d) / 16); // 0 beyond 24 Earth radii, 1 inside 8
+    return toward(s) * (1 - w) + (d - 1) * 6371 * w;
+  };
+  const xyz = (p: THREE.Vector3) => p.toArray() as [number, number, number];
+
+  return [
+    {
+      scene: {
+        kind: "travel",
+        key: "home-trip",
+        bodies: [
+          { key: "neptune", pos: xyz(N), rotY: 0 },
+          { key: "uranus", pos: xyz(U), rotY: 0 },
+          { key: "saturn", pos: xyz(S), rotY: 0 },
+          { key: "jupiter", pos: xyz(J), rotY: 0 },
+          { key: "rock", pos: xyz(R), rotY: 0.8 },
+          { key: "ceres", pos: xyz(C), rotY: 0 },
+          { key: "mars", pos: xyz(M), rotY: 2.2 },
+        ],
+        heliopause: { center: xyz(TRAVEL_SUN.clone().multiplyScalar(700).add(v(0, 0.3, helioZ))), radius: 700 },
+        belt: { z: [R.z - 14, C.z + 16] },
+        voyager2: { dir: xyz(V2_DIR), fadeZ: 34 },
+      },
+      dur: 34,
+      cam: fly.cam(ease),
+      counter: { label: "Distance from Earth", dest: "Home · Earth", from: sa.distanceKm, to: HANDOFF_KM, at: (u) => kmA(ease(u)) },
+      chip: (u) => chipAt(chipsA, ease(u)),
+    },
+    {
+      scene: START_SCENE,
+      dur: 13,
+      cam: home.cam(easeB),
+      counter: { label: "Distance from Earth", dest: "Home · Earth", from: HANDOFF_KM, to: kmB(1), at: (u) => kmB(easeB(u)) },
+      chip: (u) => {
+        const s = easeB(u);
+        if (Math.abs(s - atMoon) < 0.12) return "The Moon · Eagle’s lower half and the Apollo 15 rover are still parked there";
+        return s > atMoon + 0.2 ? debrisLine() : ""; // ESA figures, public/data/earth-orbit.json
+      },
+    },
+  ];
+}
 
 // --- Saturn to Voyager 1: the rest of the solar system ---------------------------------------
 // Past Uranus, Neptune and icy Pluto, then through the heliopause, the edge of the Sun's bubble. The camera
@@ -432,8 +647,8 @@ const OUTER = {
   helioZ: -186, // where the path crosses the heliopause
 };
 const OUTER_FACTS: [key: "uranus" | "neptune" | "pluto" | "heliopause", text: string, km: number][] = [
-  ["uranus", "Uranus · the ice giant that spins on its side · 2.9 billion km from the Sun", 2.9e9],
-  ["neptune", "Neptune · the windiest planet · 4.5 billion km from the Sun", 4.5e9],
+  ["uranus", "Uranus · the ice giant that spins on its side · only Voyager 2 has been here, in 1986", 2.9e9],
+  ["neptune", "Neptune · the windiest planet · Voyager 2 flew past in 1989, the only visit so far", 4.5e9],
   ["pluto", "Pluto · an icy dwarf planet with a heart of frozen nitrogen · 5.9 billion km out", 5.9e9],
   ["heliopause", "The heliopause · the edge of the Sun’s bubble · Voyager 1 crossed it in 2012", 18.1e9],
 ];
@@ -443,7 +658,7 @@ function outerLeg(a: number, b: number, bodies: BodyPlacement[]): Shot {
   const sb = STOPS[b];
   const { uranus: U, neptune: N, pluto: P, helioZ } = OUTER;
   const ahead = (z: number) => v(0, 0.3, z);
-  const keys: Key[] = [
+  const fly = flyby([
     { pos: v(1.6, 0.5, -7.2), look: v(0, -0.4, 0) },
     { pos: v(3, 1.4, -11), look: v(0, 0, 0) },
     { pos: v(2.4, 1.3, -24), look: U },
@@ -457,40 +672,16 @@ function outerLeg(a: number, b: number, bodies: BodyPlacement[]): Shot {
     { pos: v(-0.6, 0.4, -158), look: ahead(-240) },
     { pos: v(0, 0.3, -200), look: ahead(-300) },
     { pos: v(0, 0.3, -222), look: ahead(-320) },
-  ];
-  const curve = new THREE.CatmullRomCurve3(keys.map((k) => k.pos), false, "centripetal");
-  const look = new THREE.CatmullRomCurve3(keys.map((k) => k.look), false, "centripetal");
-  // Where along the path (fraction of its length) each world is closest, and where the heliopause is crossed.
-  const M = 400;
-  const pts = curve.getSpacedPoints(M);
-  const nearest = (q: THREE.Vector3) => pts.reduce((best, p, i) => (p.distanceToSquared(q) < pts[best].distanceToSquared(q) ? i : best), 0) / M;
-  const at = { uranus: nearest(U), neptune: nearest(N), pluto: nearest(P), heliopause: pts.findIndex((p) => p.z < helioZ) / M };
-  // Speed along the path: starts from rest, dips to a fifth around each world, and is still moving at the end
-  // (the dissolve into Voyager's scene carries on the motion). Time is the integral of 1/speed, tabulated and inverted.
-  const speed = (s: number) => {
-    let k = 1;
-    for (const f of [at.uranus, at.neptune, at.pluto]) k -= 0.8 * Math.exp(-(((s - f) / 0.045) ** 2));
-    k -= 0.5 * Math.exp(-(((s - at.heliopause) / 0.03) ** 2));
-    return Math.max(0.05, k) * (0.12 + 0.88 * Math.min(1, s / 0.07)) * (1 - 0.6 * Math.max(0, (s - 0.9) / 0.1));
-  };
-  const t = [0];
-  for (let i = 1; i <= M; i++) t.push(t[i - 1] + 1 / M / speed((i - 0.5) / M));
-  const total = t[M];
-  const ease = (u: number) => {
-    const want = Math.min(1, Math.max(0, u)) * total;
-    let i = 0;
-    while (i < M && t[i + 1] < want) i++;
-    return (i + (i < M ? (want - t[i]) / (t[i + 1] - t[i]) : 0)) / M;
-  };
+  ]);
+  const at = { uranus: fly.nearest(U), neptune: fly.nearest(N), pluto: fly.nearest(P), heliopause: fly.first((p) => p.z < helioZ) };
+  const ease = fly.timed([
+    [at.uranus, 0.8, 0.045],
+    [at.neptune, 0.8, 0.045],
+    [at.pluto, 0.8, 0.045],
+    [at.heliopause, 0.5, 0.03],
+  ]);
   // The distance counter passes each world at its real distance (roughly, from the Sun), ending at Voyager's.
-  const marks: [number, number][] = [[0, sa.distanceKm], ...OUTER_FACTS.map(([k, , km]): [number, number] => [at[k], km]), [1, sb.distanceKm]];
-  const kmAt = (s: number) => {
-    let i = 0;
-    while (i < marks.length - 2 && s > marks[i + 1][0]) i++;
-    const [s0, k0] = marks[i], [s1, k1] = marks[i + 1];
-    return k0 + (k1 - k0) * Math.min(1, Math.max(0, (s - s0) / Math.max(1e-6, s1 - s0)));
-  };
-  const p = new THREE.Vector3(), l = new THREE.Vector3();
+  const kmAt = kmTrack([[0, sa.distanceKm], ...OUTER_FACTS.map(([k, , km]): [number, number] => [at[k], km]), [1, sb.distanceKm]]);
   const hc = TRAVEL_SUN.clone().multiplyScalar(700).add(v(0, 0.3, helioZ)); // a shell around the far-off Sun
   return {
     scene: {
@@ -506,12 +697,7 @@ function outerLeg(a: number, b: number, bodies: BodyPlacement[]): Shot {
     },
     dur: 11,
     tint: { in: hazeOf(sa) },
-    cam: (u, cam) => {
-      const s = ease(u);
-      curve.getPointAt(s, p);
-      look.getPoint(curve.getUtoTmapping(s, null as unknown as number), l);
-      aim(cam, p, l);
-    },
+    cam: fly.cam(ease),
     counter: { label: sb.distanceLabel, dest: `${sb.name} · ${WORLD_NAME[sb.body]}`, from: sa.distanceKm, to: sb.distanceKm, at: (u) => kmAt(ease(u)) },
     chip: (u) => {
       const s = ease(u);
@@ -553,7 +739,7 @@ export function plan(from: { phase: string; stop: number; scene: SceneDesc }, to
   }
 
   const a = from.stop;
-  if (to === "end") return [depart(a, pose), homeLeg(a)];
+  if (to === "end") return [depart(a, pose), ...homeTrip(a)];
   const sa = STOPS[a];
   const sb = STOPS[to];
   if (sa.body === sb.body && sa.site && sb.site) return [depart(a, pose), hop(a, to), arrive(to)];

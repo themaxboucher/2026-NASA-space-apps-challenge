@@ -1,4 +1,4 @@
-"""Shared helpers for the Ghost Rover Atlas Blender model scripts.
+"""Shared helpers for the Echoes of Exploration Blender model scripts.
 
 Each <key>.py builds its geometry with these primitives (Blender Z-up, metres),
 then calls finish(key, ...) which: joins everything into one mesh, moves the
@@ -240,7 +240,7 @@ def finish(key, title, note, elev=22, azim=35):
     data[key] = {
         "file": f"models-src/blender/{key}.glb",
         "title": title,
-        "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+        "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
         "license": "CC BY 4.0",
         "size_m": round(max(dims), 3),
         "bytes": nbytes,

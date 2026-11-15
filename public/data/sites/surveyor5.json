@@ -141,9 +141,9 @@
       "text": "From orbit, the Lunar Reconnaissance Orbiter shows Surveyor 5 sitting inside a crater about 10 m wide, like a golf ball in a hole.",
       "anchor": {
         "pos": [
-          0,
-          4.2,
-          0
+          1.0,
+          3.0,
+          -1.0
         ]
       },
       "source": {

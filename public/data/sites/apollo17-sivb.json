@@ -9,7 +9,7 @@
     {
       "id": "crater",
       "title": "The crater",
-      "text": "The stage made a crater 35 to 40 meters long. LRO has photographed it many times under different lighting.",
+      "text": "The stage made a crater about 31 meters across. LRO has photographed it many times under different lighting.",
       "anchor": {
         "pos": [
           0,
@@ -103,7 +103,7 @@
     },
     {
       "label": "Crater",
-      "value": "About 35–40 m long"
+      "value": "About 31 m across"
     }
   ],
   "whyLeft": "Its job ended once it had pushed Challenger and the command module America toward the Moon, so it became one last test signal for the seismometers.",

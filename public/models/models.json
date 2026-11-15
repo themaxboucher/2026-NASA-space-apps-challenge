@@ -12,7 +12,8 @@
       "Apollo 15 LM",
       "Apollo 16 LM",
       "Apollo 17 LM"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "ladee": {
     "file": "models/ladee.gltf.json",
@@ -22,7 +23,8 @@
     "bytes": 235468,
     "covers": [
       "LADEE"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "viking": {
     "file": "models/viking.gltf.json",
@@ -33,7 +35,8 @@
     "covers": [
       "Viking 1 Lander",
       "Viking 2 Lander"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "mer": {
     "file": "models/mer.gltf.json",
@@ -68,7 +71,8 @@
     "bytes": 1809044,
     "covers": [
       "Ingenuity"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "curiosity": {
     "file": "models/curiosity.gltf.json",
@@ -78,7 +82,8 @@
     "bytes": 11860016,
     "covers": [
       "Curiosity"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "perseverance": {
     "file": "models/perseverance.gltf.json",
@@ -101,7 +106,8 @@
     "covers": [
       "Pioneer 10",
       "Pioneer 11"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "voyager": {
     "file": "models/voyager.gltf.json",
@@ -112,7 +118,8 @@
     "covers": [
       "Voyager 1",
       "Voyager 2"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "new-horizons": {
     "file": "models/new-horizons.gltf.json",
@@ -122,7 +129,8 @@
     "bytes": 3293532,
     "covers": [
       "New Horizons"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "dawn": {
     "file": "models/dawn.gltf.json",
@@ -132,7 +140,8 @@
     "bytes": 927020,
     "covers": [
       "Dawn"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "near": {
     "file": "models/near.gltf.json",
@@ -142,7 +151,8 @@
     "bytes": 701808,
     "covers": [
       "NEAR Shoemaker"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "kepler": {
     "file": "models/kepler.gltf.json",
@@ -152,7 +162,8 @@
     "bytes": 2003276,
     "covers": [
       "Kepler"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "galileo": {
     "file": "models/galileo.gltf.json",
@@ -162,7 +173,8 @@
     "bytes": 248532,
     "covers": [
       "Galileo"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "cassini": {
     "file": "models/cassini.gltf.json",
@@ -172,7 +184,8 @@
     "bytes": 1660492,
     "covers": [
       "Cassini"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "messenger": {
     "file": "models/messenger.gltf.json",
@@ -182,7 +195,8 @@
     "bytes": 2673396,
     "covers": [
       "MESSENGER"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "magellan": {
     "file": "models/magellan.gltf.json",
@@ -192,7 +206,8 @@
     "bytes": 3156768,
     "covers": [
       "Magellan"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "deep-impact": {
     "file": "models/deep-impact.gltf.json",
@@ -203,7 +218,8 @@
     "covers": [
       "Deep Impact",
       "Deep Impact impactor"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "stardust": {
     "file": "models/stardust.gltf.json",
@@ -213,7 +229,8 @@
     "bytes": 3800544,
     "covers": [
       "Stardust"
-    ]
+    ],
+    "license": "Public domain (NASA)"
   },
   "juno": {
     "file": "models/juno.gltf.json",
@@ -242,7 +259,7 @@
   "alsep": {
     "file": "models/alsep.gltf.json",
     "title": "Apollo ALSEP Central Station + RTG",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "page": null,
     "size_m": 3.201,
@@ -255,7 +272,7 @@
   "backshell": {
     "file": "models/backshell.gltf.json",
     "title": "Mars 2020 backshell and parachute",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "page": null,
     "size_m": 18.328,
@@ -268,7 +285,7 @@
   "easep": {
     "file": "models/easep.gltf.json",
     "title": "Apollo 11 EASEP Passive Seismometer",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "page": null,
     "size_m": 4.44,
@@ -281,7 +298,7 @@
   "galileo-probe": {
     "file": "models/galileo-probe.gltf.json",
     "title": "Galileo atmospheric probe",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "page": null,
     "size_m": 2.321,
@@ -294,7 +311,7 @@
   "lrrr-100": {
     "file": "models/lrrr-100.gltf.json",
     "title": "Laser Ranging Retro-Reflector (Apollo 11/14)",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "page": null,
     "size_m": 1.45,
@@ -307,7 +324,7 @@
   "lrrr-300": {
     "file": "models/lrrr-300.gltf.json",
     "title": "Laser Ranging Retro-Reflector (Apollo 15)",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "page": null,
     "size_m": 1.273,
@@ -320,7 +337,7 @@
   "lrv": {
     "file": "models/lrv.gltf.json",
     "title": "Apollo Lunar Roving Vehicle (LRV-3, Apollo 17 configuration)",
-    "credit": "\"Apollo LRV model by Alex Maietta\" (https://github.com/alexmaietta/apollo-lrv-asset), CC BY 4.0. Not affiliated with or endorsed by NASA or the Smithsonian.",
+    "credit": "\"Apollo LRV model by Alex Maietta\" (https://github.com/alexmaietta/apollo-lrv-asset), CC BY 4.0, modified (simplified and converted for the web). Not affiliated with or endorsed by NASA or the Smithsonian.",
     "license": "CC BY 4.0 (model assets; repo code is Apache-2.0)",
     "page": "https://github.com/alexmaietta/apollo-lrv-asset",
     "size_m": 3.69,
@@ -334,7 +351,7 @@
   "pathfinder": {
     "file": "models/pathfinder.gltf.json",
     "title": "Mars Pathfinder lander",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "page": null,
     "size_m": 3.006,
@@ -347,7 +364,7 @@
   "phoenix": {
     "file": "models/phoenix.gltf.json",
     "title": "Phoenix Mars Lander",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "page": null,
     "size_m": 5.583,
@@ -360,7 +377,7 @@
   "pioneer-venus-large": {
     "file": "models/pioneer-venus-large.gltf.json",
     "title": "Pioneer Venus Large Probe",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "page": null,
     "size_m": 1.52,
@@ -373,7 +390,7 @@
   "pioneer-venus-orbiter": {
     "file": "models/pioneer-venus-orbiter.gltf.json",
     "title": "Pioneer Venus Orbiter",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "page": null,
     "size_m": 7.281,
@@ -386,7 +403,7 @@
   "pioneer-venus-small": {
     "file": "models/pioneer-venus-small.gltf.json",
     "title": "Pioneer Venus Small Probe",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "page": null,
     "size_m": 0.888,
@@ -399,7 +416,7 @@
   "sojourner": {
     "file": "models/sojourner.gltf.json",
     "title": "Sojourner rover",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "page": null,
     "size_m": 0.659,
@@ -426,7 +443,7 @@
   "surveyor": {
     "file": "models/surveyor.gltf.json",
     "title": "Surveyor lander (Surveyor 3/7)",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "page": null,
     "size_m": 4.051,
@@ -439,7 +456,7 @@
   "lrv-team": {
     "file": "models/lrv-team.gltf.json",
     "title": "Apollo Lunar Roving Vehicle",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference images)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference images)",
     "license": "CC BY 4.0",
     "size_m": 3.1,
     "bytes": 802300,
@@ -448,7 +465,7 @@
   "astronaut": {
     "file": "models/astronaut.gltf.json",
     "title": "Apollo astronaut (A7L spacesuit)",
-    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference photos)",
+    "credit": "Echoes of Exploration team (modelled in Blender from NASA reference photos)",
     "license": "CC BY 4.0",
     "page": null,
     "size_m": 2.019,

@@ -104,9 +104,9 @@
       "anchor": {
         "part": "seats",
         "at": [
-          0.5,
           1,
-          0.5
+          1,
+          0
         ]
       },
       "source": {
@@ -146,5 +146,17 @@
     }
   ],
   "whyLeft": "It was always a one-trip car: its batteries could not be recharged, and the astronauts parked it where its camera could film their liftoff.",
-  "repurpose": "With new batteries and solar panels it might drive again, but that would break the rules protecting Apollo sites. Close-up photos of its wire wheels would help design tyres for new Moon rovers."
+  "repurpose": "With new batteries and solar panels it might drive again, but that would break the rules protecting Apollo sites. Close-up photos of its wire wheels would help design tyres for new Moon rovers.",
+  "spawn": {
+    "pos": [
+      4.3,
+      0,
+      6.5
+    ],
+    "look": [
+      0,
+      0.9,
+      0
+    ]
+  }
 }

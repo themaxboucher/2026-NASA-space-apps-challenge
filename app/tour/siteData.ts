@@ -38,6 +38,8 @@ export type SiteHotspot = {
   text: string; // 1–3 short sentences, narrator's voice, curly quotes, accurate
   broken?: boolean; // true = the part that failed / ended the mission (glows red)
   tag?: string; // label instead of "Broken part", e.g. "Why it stopped"
+  glow?: string[]; // broken spots placed by position: model parts (mesh or material names) that glow
+  glowRadius?: number; // broken spots: glow only this many metres around the spot (0 = the whole part); see stops.ts
   anchor: { part: string; at: [number, number, number]; offset?: [number, number, number] } | { pos: [number, number, number]; ground?: boolean };
   source: { label: string; url: string };
   photo?: SitePhoto;
@@ -71,4 +73,11 @@ export type SiteFile = {
   whyLeft: string; // e.g. "It was never meant to come home: the top half needed this bottom half as a launch pad."
   repurpose: string; // a realistic idea, e.g. "Its mirror still works, so future Moon bases could use it to check their position."
   crater?: SiteCrater; // impact sites only
+  // Optional staging, where the defaults don't fit:
+  modelTilt?: [number, number, number]; // how the machine lies: degrees about x, y, z (e.g. NEAR resting on its panel tips)
+  modelCut?: { min: [number, number, number]; max: [number, number, number] }[]; // parts taken away (placed metres)
+  sun?: { az: number; el: number }; // e.g. a crater floor the Sun never reaches
+  fill?: number; // soft light from all around, so things in permanent shadow can still be seen
+  bounds?: number; // how far you can walk from the machine, in metres
+  spawn?: { pos: [number, number, number]; look: [number, number, number] }; // where you appear and what you face
 };

@@ -247,6 +247,8 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
       el.removeEventListener("pointercancel", up);
       document.removeEventListener("pointerlockchange", lockChange);
       if (document.pointerLockElement === el) document.exitPointerLock();
+      // The listener is gone, so drop the crosshair here (it stayed over the start screen otherwise).
+      el.closest(".tour")?.classList.remove("looking", "aiming");
       window.removeEventListener("keydown", keyDown);
       window.removeEventListener("keyup", keyUp);
       window.removeEventListener("blur", clear);

@@ -3,7 +3,7 @@
   "setting": "impact",
   "model": null,
   "name": "Ranger 9",
-  "intro": "Ranger 9 was the last Ranger. On 24 March 1965 it dove into the giant crater Alphonsus while TV networks showed its pictures live across America. Its crash ended the Ranger program with a success.",
+  "intro": "Ranger 9 was the last Ranger. On 24 March 1965 it dove into the giant crater Alphonsus while TV networks showed its pictures live across America. Its crash ended the Ranger program with a success. Look up, too: some spots hang in the sky, where things happened on the way down.",
   "status": "Crashed on purpose, 24 March 1965",
   "whyLeft": "Like all Rangers it was built to crash, taking pictures until the last fraction of a second.",
   "repurpose": "Alphonsus has dark patches that may be old volcanic ash, so Ranger 9’s sharp pictures are still useful to anyone planning to explore there.",
@@ -51,9 +51,10 @@
       "anchor": {
         "pos": [
           0,
-          22,
+          7,
           6
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "NASA JPL Photojournal: Live from the Moon – Impact! (PIA03495)",

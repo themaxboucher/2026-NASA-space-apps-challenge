@@ -147,6 +147,13 @@ function aimedSpot() {
 export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk" | "float"; ground?: (x: number, z: number) => number; center: [number, number, number] }) {
   const { camera, gl } = useThree();
   const touch = useMemo(() => coarsePointer(), []);
+  // The ladder, lifted to the ground at its foot (Eagle stands at y = 0; Falcon, beside the rover, stands on its own pad).
+  const ladder = useMemo((): Ladder | undefined => {
+    const l = stop.ladder;
+    if (!l) return undefined;
+    const y = ground ? ground(l.from[0], l.from[2]) : 0;
+    return { from: [l.from[0], l.from[1] + y, l.from[2]], to: [l.to[0], l.to[1] + y, l.to[2]], out: l.out };
+  }, [stop, ground]);
   const st = useRef({ yaw: 0, pitch: 0, vel: new THREE.Vector3(), keys: new Set<Key>(), drag: null as null | { x: number; y: number; moved: number }, active: false, crouch: false, locked: false, aimed: null as HTMLElement | null, hop: 0, vy: 0, upWas: false, base: null as number | null, floor: null as number | null, climbing: false, held: 0, boost: 1, shown: "", walled: false });
   const orbit = useRef<OrbitControls | null>(null);
 
@@ -364,7 +371,7 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
       const eye = low ? CROUCH_EYE : EYE;
       const absY = s.base == null ? camera.position.y : s.base + s.hop;
       const feet = absY - eye;
-      const lad = stop.ladder ? onLadder(stop.ladder, camera.position, s.yaw, feet) : null;
+      const lad = ladder ? onLadder(ladder, camera.position, s.yaw, feet) : null;
       if (lad && (ahead !== 0 || s.climbing)) {
         // Climbing: W goes up, S goes down; you hug the ladder and step off onto the deck at the top.
         s.climbing = true;

@@ -66,18 +66,12 @@ export function Tribute({ onDone }: { onDone: () => void }) {
           something new happened. A Starship flew around the Earth about 14 times, came back, and was caught by the arms of the tower that launched it.
           It was the first time a Starship was caught after a trip to orbit. <Cite s={SRC.f15} />
         </p>
-        <figure className="chapter-film">
-          <video ref={videoVolume} src="/media/tribute/launch-catch-ccby.mp4" poster="/media/tribute/launch-catch-ccby.jpg" controls playsInline preload="metadata" />
-          <figcaption>
-            Where catching began: Starship Flight 5 launches, and about seven minutes later its Super Heavy booster flies back and is caught by the tower,
-            13 October 2024.{" "}
-            <span className="chapter-credit">
-              Anne Toal ·{" "}
-              <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer">CC BY 3.0</a> · converted for the web, sound removed ·{" "}
-              <a href="https://commons.wikimedia.org/wiki/File:SpaceX_Starship_integrated_flight_test_-5_-_launch_and_catch_-_13_October_2024.webm" target="_blank" rel="noopener noreferrer">source</a>
-            </span>
-          </figcaption>
-        </figure>
+        <p className="trib-p trib-watch">
+          No openly licensed film of Ship 42’s catch exists yet, so it isn’t shown here.{" "}
+          <a className="trib-src" href={SRC.f15.url} target="_blank" rel="noopener noreferrer">
+            Watch SpaceX’s own video of the catch <ArrowUpRight aria-hidden="true" />
+          </a>
+        </p>
 
         <h3 className="trib-h">Why it matters</h3>
         <p className="trib-p">
@@ -102,6 +96,19 @@ export function Tribute({ onDone }: { onDone: () => void }) {
             </li>
           ))}
         </ol>
+
+        <figure className="chapter-film">
+          <video ref={videoVolume} src="/media/tribute/launch-catch-ccby.mp4" poster="/media/tribute/launch-catch-ccby.jpg" controls playsInline preload="metadata" />
+          <figcaption>
+            Where catching began: this is the booster, the bottom stage, not the ship. On Starship Flight 5, about seven minutes after launch, the Super
+            Heavy booster flies back and is caught by the tower, 13 October 2024.{" "}
+            <span className="chapter-credit">
+              Anne Toal ·{" "}
+              <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer">CC BY 3.0</a> · converted for the web, sound removed ·{" "}
+              <a href="https://commons.wikimedia.org/wiki/File:SpaceX_Starship_integrated_flight_test_-5_-_launch_and_catch_-_13_October_2024.webm" target="_blank" rel="noopener noreferrer">source</a>
+            </span>
+          </figcaption>
+        </figure>
 
         <h3 className="trib-h">How they made it possible</h3>
         <ol className="sci-tech trib-how">

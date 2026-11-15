@@ -290,6 +290,9 @@ export const STOPS: Stop[] = [
     },
     // Falcon is 129 m west and 20 m north of where the rover was parked (LROC-measured site coordinates).
     extras: [{ kind: "lm-descent", pos: [-129, 0, -20], rotationY: Math.PI / 2 }],
+    // Falcon's ladder: Eagle's ladder turned with the lander (a quarter turn, so it faces +X). Heights are above the
+    // ground at its foot.
+    ladder: { from: [-124.95, 0.35, -20], to: [-126.45, 2.85, -20], out: [1, 0, 0] },
     marks: [
       { kind: "tracks", gauge: 1.83, width: 0.23, path: [[1.7, 0], [6, 0.8], [10, 4.8], [9, 11], [2, 15], [-15, 18], [-40, 16], [-80, 6], [-122, -14]] },
       { kind: "boots", path: [[-0.6, 1.6], [-3, 3.4], [-6, 4.4], [-9, 3.6], [-6.5, 1.8], [-2.5, -1.6], [0.6, -1.8], [2.2, -0.6]] },

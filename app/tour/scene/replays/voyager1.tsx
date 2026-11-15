@@ -120,12 +120,10 @@ export function Voyager1Replay({ stop }: { stop: Stop; ground?: (x: number, z: n
       m.castShadow = m.receiveShadow = false;
     });
     const main = object.getObjectByName("tex_01") as THREE.Mesh | undefined;
-    const made: THREE.BufferGeometry[] = [];
     let boom: THREE.Object3D | null = null,
       scan: THREE.Object3D | null = null;
     if (main?.isMesh) {
       const { parts, boxes } = split(main);
-      made.push(...parts.map((p) => p.geometry));
       parts[Part.Scan].material = mats[1];
       parts[Part.Mid].material = mats[2];
       parts[Part.Near].material = mats[3];
@@ -148,17 +146,15 @@ export function Voyager1Replay({ stop }: { stop: Stop; ground?: (x: number, z: n
     dot.position.copy(DOT_AT);
     dot.scale.setScalar(14);
     root.add(dot);
-    return { root, mats, boom, scan, dot, made };
+    return { root, mats, boom, scan, dot };
   }, [gltf, spec]);
   useEffect(
     () => () => {
       for (const m of scene.mats) m.dispose();
       disposeSprite(scene.dot);
-      // Release only the split meshes' own index: the vertex data is shared with the real model.
-      for (const g of scene.made) {
-        for (const k of Object.keys(g.attributes)) g.deleteAttribute(k);
-        g.dispose();
-      }
+      // ponytail: the split meshes are left for GC, not disposed: they share the real model's vertex data, and
+      // stripping it here broke the ghost when React re-ran this effect on the same memo (only the dish drew).
+      // Leaks their small index buffers per visit; dispose them in a mount-scoped effect if that ever matters.
       live.hideMachine = false;
       live.replayLook = null;
       live.replayView = null;

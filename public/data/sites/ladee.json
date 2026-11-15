@@ -117,5 +117,15 @@
         "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2013-047A"
       }
     }
-  ]
+  ],
+  "crater": {
+    "diameterM": 2.5,
+    "depthM": 0.5,
+    "ejecta": "bright",
+    "source": {
+      "label": "LROC: LADEE impact crater, under 3 m with bright ejecta (depth estimated)",
+      "url": "https://lroc.im-ldi.com/images/822"
+    },
+    "seen": true
+  }
 }

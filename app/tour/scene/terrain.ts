@@ -215,6 +215,9 @@ function withCrater(stop: Stop, base: Terrain, seed: number): Terrain {
   const d = c.depthM;
   const rim = d * 0.3; // rim crest above the old ground; the floor is the rest of the depth below it
   const mound = c.ejecta === "rays" ? d * 0.25 : 0;
+  // Wall shape: a flatter floor and steeper upper walls (up to about 30 to 35 degrees) on wide, shallow craters
+  // like the S-IVBs', a plain bowl on small deep ones.
+  const p = Math.min(3, Math.max(2, (0.6 * R) / d));
   const rand = rng(seed + 31);
   const rays = Array.from({ length: c.ejecta === "rays" ? 16 : 0 }, () => ({
     a: rand() * Math.PI * 2,
@@ -233,7 +236,7 @@ function withCrater(stop: Stop, base: Terrain, seed: number): Terrain {
     height(x, z) {
       const { t, lobe } = polar(x, z);
       let h: number;
-      if (t < 1) h = rim - d * (1 - t * t) + mound * Math.exp(-((t / 0.3) ** 2));
+      if (t < 1) h = rim - d * (1 - Math.pow(t, p)) + mound * Math.exp(-((t / 0.3) ** 2));
       else h = rim * Math.pow(t, -3) * (1 + (lobe - 0.5) * 0.8 * smooth((t - 1) / 0.4)) * (1 - smooth((t - 2.5) / 2));
       return base.height(x, z) + h;
     },
@@ -241,10 +244,10 @@ function withCrater(stop: Stop, base: Terrain, seed: number): Terrain {
       base.color(x, z, out);
       const { a, t, lobe } = polar(x, z);
       // Freshly dug soil and its blanket: strongest on the walls and rim, fading out by about 3 to 4 radii.
-      const blanket = t < 1 ? 0.75 + 0.25 * t : Math.pow(t, -2.2) * (0.5 + lobe) * (1 - smooth((t - 3) / 1.5));
+      const blanket = t < 1 ? 0.35 + 0.4 * t * t : Math.pow(t, -2.2) * (0.5 + lobe) * (1 - smooth((t - 3) / 1.5));
       let k = 0;
       if (c.ejecta === "bright" || c.ejecta === "rays") k = 0.42 * blanket;
-      else if (c.ejecta === "dark") k = -0.38 * blanket * (t < 1 ? 0.6 : 1);
+      else if (c.ejecta === "dark") k = -0.5 * blanket * (t < 1 ? 0.6 : 1);
       else k = 0.1 * blanket; // even with nothing seen from orbit, the walls are fresh
       for (const r of rays) {
         let da = Math.abs(a - r.a) % (Math.PI * 2);

@@ -107,5 +107,15 @@
     }
   ],
   "whyLeft": "Its job ended once it had pushed Challenger and the command module America toward the Moon, so it became one last test signal for the seismometers.",
-  "repurpose": "It shattered into pieces. Its aluminium could be a source of metal for a future Moon base."
+  "repurpose": "It shattered into pieces. Its aluminium could be a source of metal for a future Moon base.",
+  "crater": {
+    "diameterM": 31,
+    "depthM": 2.5,
+    "ejecta": "rays",
+    "source": {
+      "label": "LROC Featured Sites: Apollo 17 S-IVB, 31 m (depth 2-3 m: Plescia et al. 2016)",
+      "url": "https://lroc.im-ldi.com/featured_sites/27"
+    },
+    "seen": true
+  }
 }

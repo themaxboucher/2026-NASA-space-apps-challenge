@@ -10,9 +10,9 @@ export function startAtlas() {
     moon:   { file: 'data/moon.json', tex: 'tex/moon.jpg', name: 'the Moon',
               intro: 'Twelve astronauts walked here between 1969 and 1972 and left their landers, cars and science stations behind. Robots came before and after them. Nothing on the Moon rusts or blows away, so it all still looks almost the way it did on its last day.' },
     mars:   { file: 'data/mars.json', tex: 'tex/mars.jpg', name: 'Mars',
-              intro: 'Mars is a rover graveyard and a rover playground at the same time. Some machines here went quiet decades ago under red dust. Two are still driving today, and one is a helicopter that will never fly again.' },
+              intro: 'Mars is a rover graveyard and a rover playground at the same time. Some space objects here went quiet decades ago under red dust. Two are still driving today, and one is a helicopter that will never fly again.' },
     beyond: { file: 'data/deepspace.json', name: 'deep space',
-              intro: 'Some machines never landed anywhere. They orbit dead worlds, rest on asteroids, plunged into giant planets on purpose, or are sailing out of the solar system forever.' },
+              intro: 'Some space objects never landed anywhere. They orbit dead worlds, rest on asteroids, plunged into giant planets on purpose, or are sailing out of the solar system forever.' },
   };
   const DATA = { moon: [], mars: [], beyond: [] };
   // Machines this visitor has opened, kept in this browser only (a per-visitor convenience; nothing is sent anywhere).
@@ -145,7 +145,7 @@ export function startAtlas() {
     }
     pins = sites.map(({ lat, lon, items }) => {
       const it = items[0], many = items.length > 1, b = document.createElement('button');
-      const name = many ? `${it.mission} site · ${items.length} machines` : it.name;
+      const name = many ? `${it.mission} site · ${items.length} space objects` : it.name;
       b.type = 'button'; b.className = 'pin ' + (many ? 'site' : shape(it)) + (items.some(x => TERRAIN[x.id]) ? ' walk' : '');
       b.setAttribute('aria-label', name);
       b.innerHTML = `<span class="tip">${esc(name)}</span>${many ? `<span class="cnt" aria-hidden="true">${items.length}</span>` : ''}`;
@@ -517,7 +517,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     const list = DATA[world], alive = list.filter(it => stateAt(it, 2026) === 'alive').length;
     const echo = list.filter(it => stateAt(it, 2026) === 'echo').length;
     return `<div class="intro"><p class="eyebrow">Welcome to ${esc(WORLDS[world].name)}</p>
-      <p class="big">${list.length}</p><p>machines on this map. ${alive} still send data home${echo ? `, and ${echo} silent mirrors still get used by scientists every week` : ''}.</p>
+      <p class="big">${list.length}</p><p>space objects on this map. ${alive} still send data home${echo ? `, and ${echo} silent mirrors still get used by scientists every week` : ''}.</p>
       <p>${esc(WORLDS[world].intro)}</p><p>Click a dot, or pick a name from the list below.</p></div>`;
   }
   function paint() {
@@ -556,7 +556,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     const list = DATA[world], here = list.filter(it => stateAt(it, year) !== 'future');
     const talking = here.filter(it => stateAt(it, year) === 'alive').length;
     $('yearNote').textContent = here.length
-      ? `In ${year}: ${here.length} machine${here.length === 1 ? '' : 's'} had reached ${WORLDS[world].name}, ${talking} still talking.`
+      ? `In ${year}: ${here.length} space object${here.length === 1 ? '' : 's'} had reached ${WORLDS[world].name}, ${talking} still talking.`
       : `In ${year}: nothing from NASA had reached ${WORLDS[world].name} yet.`;
     $('cursor').style.left = `calc(var(--lw) + (100% - var(--lw)) * ${(yPct(year + 0.5) / 100).toFixed(4)} - 1px)`;
   }
@@ -569,7 +569,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     const done = per.reduce((s, x) => s + x[1], 0), all = per.reduce((s, x) => s + x[2], 0);
     if (!all) return;
     const full = [...complete()].filter((id) => Object.values(DATA).some((l) => l.some((it) => it.id === id))).length;
-    $('exploredText').textContent = (done ? `You've opened ${done} of ${all} machines` : `You've opened 0 of ${all} machines. Click a dot to start.`) + (full ? ` · fully explored ${full}` : '');
+    $('exploredText').textContent = (done ? `You've opened ${done} of ${all} space objects` : `You've opened 0 of ${all} space objects. Click a dot to start.`) + (full ? ` · fully explored ${full}` : '');
     const bar = $('exploredBar'); bar.setAttribute('aria-valuenow', done); bar.setAttribute('aria-valuemax', all);
     bar.querySelector('b').style.width = `${(done / all * 100).toFixed(1)}%`;
     $('exploredWorlds').innerHTML = per.map(([w, d, n]) => `<span${w === world ? ' class="here"' : ''}>${names[w]} <b>${d}/${n}</b>${d === n ? ' ' + ICON.check : ''}</span>`).join('');
@@ -601,7 +601,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     const ul = $('list'), list = DATA[world], grouped = list.some(it => it.fate);
     ul.innerHTML = ''; ul.className = grouped ? 'groups' : '';
     const go = id => { select(id); $('dossier').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' }); };
-    $('rosterTitle').textContent = grouped ? `What happened to every machine on ${WORLDS[world].name}` : `Every machine on ${WORLDS[world].name}`;
+    $('rosterTitle').textContent = grouped ? `What happened to every space object on ${WORLDS[world].name}` : `Every space object on ${WORLDS[world].name}`;
     if (!grouped) {
       list.forEach(it => { const li = document.createElement('li'); li.innerHTML = `<button type="button" data-id="${esc(it.id)}">${esc(it.name)}</button>`; ul.appendChild(li); });
     } else {
@@ -651,7 +651,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
   $('year').oninput = e => { year = +e.target.value; stopPlay(); paint(); };
   let timer = null;
   function stopPlay() { clearInterval(timer); timer = null; $('play').innerHTML = `${ICON.play} Play history`; }
-  $('exploredReset').onclick = () => { if (confirm('Clear the list of machines you have explored?')) { seen.clear(); saveSeen(); paint(); } };
+  $('exploredReset').onclick = () => { if (confirm('Clear the list of space objects you have explored?')) { seen.clear(); saveSeen(); paint(); } };
   $('play').onclick = () => {
     if (timer) return stopPlay();
     if (year >= 2026) year = 1959;
@@ -1204,7 +1204,7 @@ function renderSearch() {
   qHits = searchAll(qIn.value); qActive = qHits.length ? 0 : -1;
   qRes.hidden = !qIn.value.trim();
   qRes.innerHTML = qHits.length ? qHits.map((h, i) => `<li role="option" id="qo${i}" aria-selected="${i === qActive}" data-i="${i}"><span class="qn">${esc(h.it.name)}</span><span class="qm">${esc(WORLDS[h.w].name)} · ${esc(h.it.fate?.label || h.it.status || h.it.mission)}</span></li>`).join('')
-    : '<li class="qnone">No machines or places match</li>';
+    : '<li class="qnone">No space objects or places match</li>';
   qIn.setAttribute('aria-activedescendant', qActive >= 0 ? 'qo' + qActive : '');
 }
 function goSearch(i) {

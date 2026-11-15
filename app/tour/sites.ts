@@ -141,9 +141,10 @@ export function buildStop(rec: AtlasRecord, site: SiteFile | null, models: Recor
     bounds = Math.max(60, size * 8);
   } else if (crater) {
     // Stand just outside the rim crest, looking down into the bowl. Room to walk out along the ejecta and rays.
-    const d = crater + Math.max(0.7, crater * 0.08);
+    const d = crater + Math.max(2, crater * 0.08); // far enough back to take in a small crater whole
     const depth = site?.crater?.depthM ?? crater * 0.36;
-    spawn = { pos: [d * 0.6, 0, d * 0.8], look: [0, -depth * 0.7, 0] };
+    // From the south-west, so the inner wall facing away from the Sun (az 100) is in view, dark against the rest.
+    spawn = { pos: [-d * 0.6, 0, d * 0.8], look: [0, -depth * 0.7, 0] };
     bounds = Math.max(60, crater * 8);
   } else {
     const d = Math.max(3.2, size * 1.5);
@@ -158,8 +159,8 @@ export function buildStop(rec: AtlasRecord, site: SiteFile | null, models: Recor
     spots.push({
       id: "never-photographed",
       title: "Never photographed",
-      text: `No spacecraft has ever photographed this crater, so nobody knows exactly what it looks like. This one is a best guess, about ${Math.round(site.crater.diameterM)} m across, worked out from how big and how fast the machine was.`,
-      anchor: { pos: [-crater * 0.62, 0.4, -crater * 0.82], ground: true },
+      text: `No spacecraft has ever clearly photographed this crater, so nobody knows exactly what it looks like. What you see is a best guess, about ${Math.round(site.crater.diameterM)} m across, worked out from how big and how fast the machine was.`,
+      anchor: { pos: [crater * 0.62, 0.4, -crater * 0.82], ground: true },
       source: site.crater.source,
     });
   const hotspots: Hotspot[] = spots.map((h, i) => ({
@@ -192,7 +193,7 @@ export function buildStop(rec: AtlasRecord, site: SiteFile | null, models: Recor
     intro: site?.intro ?? rec.summary ?? rec.why ?? "",
     site: hasSite ? { lat: rec.lat!, lon: rec.lon! } : undefined,
     distanceKm,
-    distanceLabel: world === "deep" ? "Distance from the Sun" : "Average distance from Earth",
+    distanceLabel: world === "deep" ? "Distance from the Sun" : "Distance from Earth",
     model,
     setting: space
       ? {

@@ -172,7 +172,7 @@ export function Apollo15Replay({ stop, ground }: { stop: Stop; ground?: (x: numb
       who.g.userData.yaw = n;
       who.g.rotation.set(lean, n, 0);
     };
-    // Aboard: sitting facing forward, thighs level and shins down; the driver's hand on the T-handle between seats.
+    // Aboard: sitting facing forward, legs out in front with boots on the floor pan; the driver's hand on the T-handle between seats.
     const seated = (who: Who, side: number, hop = 0) => {
       v.set(SEAT_X, SEAT_Y, SEAT_Z * side).applyMatrix4(scene.car.matrix);
       // Hopping off: out to the side and down, legs straightening on the way.
@@ -184,7 +184,8 @@ export function Apollo15Replay({ stop, ground }: { stop: Stop; ground?: (x: numb
         who.g.rotation.set(0, chassis.yaw - Math.PI / 2, 0);
       } else face(who, side > 0 ? 0 : Math.PI);
       const k = 1 - hop;
-      pose(who, -1.4 * k, -1.4 * k, 1.3 * k, 1.3 * k, -0.5 * k, (side > 0 ? -0.9 : -0.5) * k, -0.6 * k, -0.6 * k, 0.12);
+      // Legs stretched forward onto the footrest (the floor pan sits ~0.25 m below the seat), not hanging through it.
+      pose(who, -1.7 * k, -1.7 * k, 0.55 * k, 0.55 * k, -0.5 * k, (side > 0 ? -0.9 : -0.5) * k, -0.6 * k, -0.6 * k, 0.12);
     };
     // The Moon lope, as in Apollo11Replay: a low floating bound, knees bent, arms out a little for balance.
     const walk = (who: Who, from: [number, number], to: [number, number], a: number, b: number, phase = 0) => {

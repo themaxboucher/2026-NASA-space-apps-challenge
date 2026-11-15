@@ -106,5 +106,15 @@
     }
   ],
   "whyLeft": "It was used up after sending Apollo 16 on its way, so NASA aimed it at the Moon as a giant test thump for the seismometers.",
-  "repurpose": "It shattered on impact. Like the other stages, its aluminium fragments could one day be gathered by a Moon base."
+  "repurpose": "It shattered on impact. Like the other stages, its aluminium fragments could one day be gathered by a Moon base.",
+  "crater": {
+    "diameterM": 35,
+    "depthM": 2.5,
+    "ejecta": "rays",
+    "source": {
+      "label": "LROC: Apollo 16 S-IVB crater found, 40 x 30 m (depth 2-3 m: Plescia et al. 2016)",
+      "url": "https://lroc.im-ldi.com/images/894"
+    },
+    "seen": true
+  }
 }

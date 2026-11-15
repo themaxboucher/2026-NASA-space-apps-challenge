@@ -128,5 +128,15 @@
         "licenseEvidence": "NASA NSSDCA Photo Gallery: image returned by NASA’s Ranger 7 (US government work, public domain)"
       }
     }
-  ]
+  ],
+  "crater": {
+    "diameterM": 13.5,
+    "depthM": 2.4,
+    "ejecta": "rays",
+    "source": {
+      "label": "LROC: Ranger 7 impact crater, 13 to 14 m with bright rays (depth estimated)",
+      "url": "https://lroc.im-ldi.com/posts/52"
+    },
+    "seen": true
+  }
 }

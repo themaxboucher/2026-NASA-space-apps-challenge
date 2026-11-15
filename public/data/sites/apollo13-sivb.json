@@ -60,7 +60,8 @@
           0,
           1.5,
           -40
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "LROC: Rocket impacts recorded by the Apollo seismic network",
@@ -133,5 +134,15 @@
     }
   ],
   "whyLeft": "It was used up after pushing Apollo 13 toward the Moon, and NASA chose to crash it so the new seismometers could feel a big, precisely timed thump.",
-  "repurpose": "It shattered into pieces, but its aluminium is still lying around the crater. One day a Moon base could collect metal like this instead of carrying it all from Earth."
+  "repurpose": "It shattered into pieces, but its aluminium is still lying around the crater. One day a Moon base could collect metal like this instead of carrying it all from Earth.",
+  "crater": {
+    "diameterM": 32.5,
+    "depthM": 2.5,
+    "ejecta": "rays",
+    "source": {
+      "label": "LROC Featured Sites: Apollo 13 S-IVB, 37 x 28 m (depth 2-3 m: Plescia et al. 2016)",
+      "url": "https://www.lroc.im-ldi.com/featured_sites/24"
+    },
+    "seen": true
+  }
 }

@@ -52,30 +52,29 @@
     "audio": "Real radio: CAPCOM Bruce McCandless says 'we can see you coming down the ladder now', then Armstrong: 'I'm at the foot of the ladder', 'I'm going to step off the LM now' and 'That's one small step for man; one giant leap for mankind.'"
   },
   "apollo11-lm/engine": {
-    "file": "media/apollo11-lm--engine.mp4",
-    "poster": "media/apollo11-lm--engine.jpg",
-    "caption": "From Eagle's window, the flag shakes in the rocket blast as the top half of Eagle blasts off from the Moon.",
-    "credit": "NASA (16mm sequence-camera film from the 1969 NASA film HQ-194)",
+    "file": "media/apollo11-lm.mp4",
+    "poster": "media/apollo11-lm.jpg",
+    "caption": "The landing engine at work: from Eagle’s window as it slows down over the craters and touches down, with the real radio calls.",
+    "credit": "NASA (16mm film from the 1969 NASA film HQ-194 'Eagle Has Landed: The Flight of Apollo 11', National Archives 255-HQ-194)",
     "license": "Public domain",
     "source": "https://images.nasa.gov/details/KSC-19690716-MH-NAS01-0001-The_Flight_of_Apollo_11_The_Eagle_Has_Landed_HS_from_Film_JSC-DVC_1928",
     "real": true,
-    "seconds": 25.3,
+    "seconds": 30.0,
     "licenseEvidence": {
-      "note": "Same NASA film as the apollo11-lm clip (NASA Image and Video Library, National Archives 255-HQ-194). Audio removed because the film's soundtrack includes composed music.",
+      "note": "NASA Image and Video Library item; NASA-produced 1969 film ('HQ-194 - 1969 ... National Archives Identifier: 45017'). No copyright notice on the page. The film's end credits name a composer (Bernardo Segall), so its soundtrack was removed and only the NASA 16mm window footage is used.",
       "url": "https://images.nasa.gov/details/KSC-19690716-MH-NAS01-0001-The_Flight_of_Apollo_11_The_Eagle_Has_Landed_HS_from_Film_JSC-DVC_1928",
       "policy": {
         "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
         "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
       },
       "audioSource": {
-        "file": "a11a1234747-1243113.mp3 (PAO loop from about 123:47:47 GET)",
-        "url": "https://history.nasa.gov/alsj/a11/a11a1234747-1243113.mp3",
-        "page": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11.launch.html",
+        "file": "a11a1023114-4746.mp3 (PAO loop from 102:31:14 GET)",
+        "url": "https://history.nasa.gov/alsj/a11/a11a1023114-4746.mp3",
+        "page": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11.landing.html",
         "note": "Apollo Lunar Surface Journal (NASA History Office) Public Affairs loop recording, 'Clip courtesy John Stoll, ACR Senior Technician at NASA Johnson.' NASA mission audio, public domain. The mp3 is no longer on nasa.gov, so it was taken from the web.archive.org copy of the history.nasa.gov ALSJ file."
       }
     },
-    "notes": " The first frame is held for 3.8 s so the countdown can play before the liftoff picture; ignition lines up with the flag starting to whip. Video extended to 25.3 s (the extra seconds are the film's window views right after the liftoff shot). Matched to the ALSJ transcript by timing, not by ear; a PAO commentator may be faintly present.",
-    "audio": "Real radio: Aldrin counts down '9, 8, 7, 6, 5, Abort Stage, Engine Arm, Ascent, Proceed', the ascent engine fires, then '26, 36 feet per second up... Standby for the pitchover... Very smooth... Very quiet ride.'"
+    "audio": "Real radio: Aldrin calls out the last seconds ('4 forward... drifting to the right a little... contact light... engine stop'), then Armstrong says 'Houston, Tranquility Base here. The Eagle has landed' and Charlie Duke answers 'You got a bunch of guys about to turn blue.'"
   },
   "apollo15-lrv": {
     "file": "media/apollo15-lrv.mp4",

@@ -15,7 +15,8 @@
           -12,
           1.5,
           8
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "Apollo Lunar Surface Journal: Apollo 17 return to orbit",
@@ -87,7 +88,8 @@
           0,
           1.5,
           -40
-        ]
+        ],
+        "ground": true
       },
       "source": {
         "label": "NSSDCA: Apollo 17 Lunar Module / ALSEP",
@@ -115,5 +117,15 @@
     }
   ],
   "whyLeft": "After the last moonwalkers moved into the command module America, the cabin had no way home, so it was crashed near the valley to shake the instruments the crew had left.",
-  "repurpose": "Only fragments remain, somewhere near Taurus-Littrow. Finding them would show how spacecraft break up in a sideways crash."
+  "repurpose": "Only fragments remain, somewhere near Taurus-Littrow. Finding them would show how spacecraft break up in a sideways crash.",
+  "crater": {
+    "diameterM": 10,
+    "depthM": 1.0,
+    "ejecta": "none",
+    "source": {
+      "label": "Estimate; never located (NSSDCA: impact point from tracking only)",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html"
+    },
+    "seen": false
+  }
 }

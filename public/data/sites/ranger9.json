@@ -128,5 +128,15 @@
         "licenseEvidence": "NASA NSSDCA Photo Gallery: image returned by NASA’s Ranger 9 (US government work, public domain)"
       }
     }
-  ]
+  ],
+  "crater": {
+    "diameterM": 14,
+    "depthM": 2.5,
+    "ejecta": "bright",
+    "source": {
+      "label": "LROC Featured Sites: Ranger 9, 14 m (depth estimated)",
+      "url": "https://www.lroc.im-ldi.com/featured_sites/23"
+    },
+    "seen": true
+  }
 }

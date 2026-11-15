@@ -108,5 +108,15 @@
       "label": "Engines cut off",
       "value": "About 40 m up"
     }
-  ]
+  ],
+  "crater": {
+    "diameterM": 3,
+    "depthM": 0.4,
+    "ejecta": "none",
+    "source": {
+      "label": "Estimate; the crash site has never been confirmed (NSSDCA)",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1999-001A"
+    },
+    "seen": false
+  }
 }

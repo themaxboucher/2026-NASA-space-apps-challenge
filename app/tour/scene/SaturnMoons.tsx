@@ -59,14 +59,25 @@ export function SaturnMoons({ radius, squeeze = 1 }: { radius: number; squeeze?:
 
   // Nearest moon within 26 px of the pointer (or of the screen centre while the mouse is locked for looking).
   const v = useMemo(() => new THREE.Vector3(), []);
+  const group = useRef<THREE.Group>(null);
+  const tmp = useMemo(() => ({ ray: new THREE.Ray(), ball: new THREE.Sphere(), hit: new THREE.Vector3() }), []);
   useFrame(() => {
+    // Saturn (this group's origin) as a sphere in world space, so a moon behind it isn't labelled.
+    if (group.current) {
+      tmp.ball.center.setFromMatrixPosition(group.current.matrixWorld);
+      tmp.ball.radius = radius * group.current.getWorldScale(tmp.hit).x;
+    }
     const w = gl.domElement.clientWidth, h = gl.domElement.clientHeight;
     const at = document.pointerLockElement ? { x: w / 2, y: h / 2 } : mouse.current;
     let best = -1, bestD = 26;
     if (at)
       meshes.current.forEach((m, i) => {
         if (!m) return;
-        m.getWorldPosition(v).project(camera);
+        m.getWorldPosition(v);
+        const far = camera.position.distanceTo(v);
+        tmp.ray.set(camera.position, tmp.hit.copy(v).sub(camera.position).normalize());
+        if (group.current && tmp.ray.intersectSphere(tmp.ball, tmp.hit) && camera.position.distanceTo(tmp.hit) < far) return;
+        v.project(camera);
         if (v.z > 1) return;
         const d = Math.hypot((v.x + 1) * 0.5 * w - at.x, (1 - v.y) * 0.5 * h - at.y);
         if (d < bestD) {
@@ -78,7 +89,7 @@ export function SaturnMoons({ radius, squeeze = 1 }: { radius: number; squeeze?:
   });
 
   return (
-    <group>
+    <group ref={group}>
       {items.map((m, i) => (
         <mesh key={m.name} ref={(el) => void (meshes.current[i] = el)} position={m.p} geometry={m.geo} material={m.mat}>
           {hover === i && (

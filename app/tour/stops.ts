@@ -162,7 +162,7 @@ export const STOPS: Stop[] = [
       "This is the bottom half of Eagle, the lander that carried Neil Armstrong and Buzz Aldrin to the first Moon landing. With no wind or rain here, it has stood untouched for 57 years.",
     site: { lat: 0.67416, lon: 23.47314 },
     distanceKm: 384_400,
-    distanceLabel: "Average distance from Earth",
+    distanceLabel: "Distance from Earth",
     model: { kind: "gltf", url: "/models/apollo-lm.gltf.json", scale: 1.43, hideAbove: 2.95, origin: "ground" },
     setting: { kind: "moon", terrain: "mare", sun: { az: 95, el: 16 }, earth: { az: 268, el: 66.5 }, flatRadius: 7 },
     spawn: { pos: [3.2, 0, 11.5], look: [0, 1.6, 0] },
@@ -243,7 +243,7 @@ export const STOPS: Stop[] = [
   {
     id: "apollo15-lrv",
     story: {
-      kicker: "Chapter 1 · Apollo 15 · The Moon · July 1971",
+      kicker: "Chapter 2 · Apollo 15 · The Moon · July 1971",
       title: "Man must explore",
       text: "Stepping onto the Moon, Dave Scott said: “Man must explore. And this is exploration at its greatest.” This time the astronauts brought a car. The Lunar Roving Vehicle carried Scott and Jim Irwin almost 28 km, to mountains and a deep canyon no walker could reach. When they flew home, the car stayed behind, parked where its camera filmed them leaving.",
     },
@@ -257,7 +257,7 @@ export const STOPS: Stop[] = [
       "This is the first car people ever drove on another world. Dave Scott and Jim Irwin drove it about 28 km on three moonwalks, then parked it here to film their own liftoff.",
     site: { lat: 26.13174, lon: 3.63803 },
     distanceKm: 384_400,
-    distanceLabel: "Average distance from Earth",
+    distanceLabel: "Distance from Earth",
     // Team Blender model at real size (front faces -Z in the file), turned so it faces west like the parked rover.
     model: { kind: "gltf", url: "/models/lrv-team.gltf.json", scale: 1, rotationY: Math.PI / 2, origin: "ground", centerOn: ["chassis"] },
     setting: { kind: "moon", terrain: "highlands", sun: { az: 100, el: 22 }, earth: { az: 187, el: 63.6 }, flatRadius: 4 },
@@ -337,7 +337,7 @@ export const STOPS: Stop[] = [
   {
     id: "opportunity",
     story: {
-      kicker: "Chapter 2 · Opportunity · Mars · 2004–2018",
+      kicker: "Chapter 3 · Opportunity · Mars · 2004–2018",
       title: "I’ll be seeing you",
       text: "Where people couldn’t go yet, robots went. Opportunity was built to last 90 Mars days. It kept driving for more than 14 years and found proof that water once soaked the ground of Mars, until a giant dust storm blotted out the Sun. With its last wake-up call in 2019, the team played Billie Holiday’s song “I’ll Be Seeing You”.",
     },
@@ -351,7 +351,7 @@ export const STOPS: Stop[] = [
       "Opportunity was built to explore for 90 Martian days. It kept going for more than 14 years, until a dust storm blotted out the Sun in 2018.",
     site: { lat: -2.3288, lon: -5.3503 },
     distanceKm: 225_000_000,
-    distanceLabel: "Average distance from Earth",
+    distanceLabel: "Distance from Earth",
     // Centered on the solar deck: the model's robotic arm reaches far out in front.
     model: { kind: "gltf", url: "/models/mer.gltf.json", height: 1.5, origin: "ground", centerOn: ["tex_panels_n", "tex_panels2_n"] },
     marks: [{ kind: "tracks", gauge: 1.1, width: 0.16, path: [[0, -1], [0.3, -4], [1.5, -10], [4, -18], [8, -28], [10.5, -40]] }],
@@ -379,7 +379,7 @@ export const STOPS: Stop[] = [
         title: "Solar panels",
         text: "Opportunity ran on sunlight caught by these panels. In June 2018 a dust storm covered the whole planet, the sky went dark, and the rover ran out of power.",
         source: SRC.mer,
-        anchor: { part: "tex_panels_n", at: [0.82, 1, 0.5] },
+        anchor: { part: "tex_panels_n", at: [0.97, 1, 0.5] },
         glow: ["tex_panels2_n"],
         face: null,
         broken: true,
@@ -415,7 +415,7 @@ export const STOPS: Stop[] = [
   {
     id: "ingenuity",
     story: {
-      kicker: "Chapter 2 · Ingenuity · Mars · 2021–2024",
+      kicker: "Chapter 4 · Ingenuity · Mars · 2021–2024",
       title: "A Wright brothers moment on Mars",
       text: "Mars air is about 100 times thinner than Earth’s, so many people thought nothing could fly there. Ingenuity proved them wrong, carrying a tiny piece of cloth from the Wright brothers’ first airplane under its solar panel. It weighs about as much as a big bag of sugar, and it flew 72 times before a hard landing broke its blades.",
     },
@@ -429,7 +429,7 @@ export const STOPS: Stop[] = [
       "Ingenuity was the first aircraft to make a powered, controlled flight on another planet. It is only 49 cm tall, so look down!",
     site: { lat: 18.4973, lon: 77.3225 },
     distanceKm: 225_000_000,
-    distanceLabel: "Average distance from Earth",
+    distanceLabel: "Distance from Earth",
     // All four blades snapped about a third of the way from the tip, so they are drawn two-thirds long.
     model: { kind: "gltf", url: "/models/ingenuity.gltf.json", scale: 1, origin: "ground", partScale: [["blades", [1, 1, 0.66]]] },
     setting: { kind: "mars", terrain: "sand", sun: { az: 200, el: 42 }, flatRadius: 1.6 },
@@ -498,7 +498,7 @@ export const STOPS: Stop[] = [
   {
     id: "cassini",
     story: {
-      kicker: "Chapter 3 · Cassini · Saturn · 2004–2017",
+      kicker: "Chapter 5 · Cassini · Saturn · 2004–2017",
       title: "The Grand Finale",
       text: "Cassini went around Saturn 294 times. It found an ocean hidden under the ice of the moon Enceladus and dropped the Huygens probe onto the moon Titan. When its fuel ran low, NASA sent it diving between Saturn and its rings 22 times, then steered it into Saturn on purpose, so it could never crash into a moon that might hold life.",
     },
@@ -569,7 +569,7 @@ export const STOPS: Stop[] = [
   {
     id: "voyager1",
     story: {
-      kicker: "Chapter 3 · Voyager 1 · Deep space · since 1977",
+      kicker: "Chapter 6 · Voyager 1 · Deep space · since 1977",
       title: "The Pale Blue Dot",
       text: "In 1990, from 6 billion km away, Voyager 1 turned its camera back and photographed Earth: a speck smaller than a pixel. Carl Sagan called it a pale blue dot: “That’s here. That’s home. That’s us.” Today Voyager 1 is the farthest thing people have ever built, about 25 billion km away. Its power is fading, but it still phones home.",
     },

@@ -25,7 +25,7 @@ export default function Solar({ className = "" }: { className?: string }) {
         // From the explore page's map (?intro=map): the scene opens on black and fades up on the overhead view.
         setReady({ world, orbit, start: (from && (world.siteOf.get(from) ?? (world.targets.has(`b:${from}`) ? `b:${from}` : null))) || "b:earth", still: reducedMotion(), veil: new URLSearchParams(location.search).get("intro") === "map" });
       },
-      (e) => !off && setError(e instanceof Error ? e.message : "Could not load the machines."),
+      (e) => !off && setError(e instanceof Error ? e.message : "Could not load the space objects."),
     );
     return () => {
       off = true;
@@ -93,7 +93,7 @@ function Hud({ world, orbit }: { world: World; orbit: EarthOrbit | null }) {
           >
             {t.kind === "site" && dot(t.status)}
             {t.name}
-            {t.kind === "body" && t.host!.count > 0 && <small title={`${t.host!.count} machines`}>{t.host!.count}</small>}
+            {t.kind === "body" && t.host!.count > 0 && <small title={`${t.host!.count} space objects`}>{t.host!.count}</small>}
           </button>
         ))}
       </div>
@@ -121,7 +121,7 @@ function Hud({ world, orbit }: { world: World; orbit: EarthOrbit | null }) {
           <b ref={(el) => void (fly.hud.nearBody = el)} />
         </p>
         <p>
-          <span>Nearest machine</span>
+          <span>Nearest space object</span>
           <b ref={(el) => void (fly.hud.nearMachine = el)} />
         </p>
       </nav>
@@ -148,7 +148,7 @@ function Hud({ world, orbit }: { world: World; orbit: EarthOrbit | null }) {
         )}
         <p className="sol-help">
           {orbiting
-            ? `Circling ${orbiting.name.replace(/^The /, "the ")}${orbiting.count ? `: point at a machine to see it, click to fly down to it` : ""} · drag to turn it · wheel or + − to move closer · Esc or W A S D to fly freely`
+            ? `Circling ${orbiting.name.replace(/^The /, "the ")}${orbiting.count ? `: point at a space object to see it, click to fly down to it` : ""} · drag to turn it · wheel or + − to move closer · Esc or W A S D to fly freely`
             : `${locked ? "Esc frees the mouse" : "Click the sky to look around"} · W A S D or arrows to fly · Space up, C down · hold Shift to speed up · wheel or + − to zoom, Z to reset`}
         </p>
       </footer>
@@ -164,7 +164,7 @@ function Finder({ world, pick }: { world: World; pick: (key: string) => void }) 
     const site = (id: string) => world.targets.get(world.siteOf.get(id)!)!;
     const machines = (w: "moon" | "mars" | "deep") => world.machines.filter((m) => m.world === w).map((m) => ({ key: site(m.id).key, id: m.id, name: m.name, sub: w === "deep" ? site(m.id).where : m.mission ?? "", status: statusOf(m) as Status | null, hay: `${m.name} ${m.mission ?? ""} ${m.body ?? ""}`.toLowerCase() }));
     return [
-      { title: "Worlds", rows: world.bodies.map((b) => ({ key: `b:${b.key}`, id: b.key, name: b.name, sub: b.count ? `${b.count} machine${b.count > 1 ? "s" : ""}` : "", status: null, hay: b.name.toLowerCase() })) },
+      { title: "Worlds", rows: world.bodies.map((b) => ({ key: `b:${b.key}`, id: b.key, name: b.name, sub: b.count ? `${b.count} space object${b.count > 1 ? "s" : ""}` : "", status: null, hay: b.name.toLowerCase() })) },
       { title: "On the Moon", rows: machines("moon") },
       { title: "On Mars", rows: machines("mars") },
       { title: "In deep space", rows: machines("deep") },
@@ -173,7 +173,7 @@ function Finder({ world, pick }: { world: World; pick: (key: string) => void }) 
   return (
     <div className="sol-find">
       <label className="sol-search">
-        <span>Find a world or machine</span>
+        <span>Find a world or space object</span>
         <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Try Voyager or Apollo 11" />
       </label>
       <div className="sol-list">
@@ -240,7 +240,7 @@ function SiteCard({ site }: { site: Target }) {
     <section className="sol-card" aria-live="polite">
       <p className="sol-eyebrow">{site.where}</p>
       <h2>{site.name}</h2>
-      {many && <p className="sol-sub">{site.items.length} machines here</p>}
+      {many && <p className="sol-sub">{site.items.length} space objects here</p>}
       <ul>
         {site.items.map((m) => {
           const s = statusOf(m);

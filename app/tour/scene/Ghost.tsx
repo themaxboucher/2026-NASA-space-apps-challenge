@@ -27,6 +27,63 @@ export function ghostMaterial(color = "#9fd8ff") {
   });
 }
 
+// A rocket plume: white-hot at the nozzle fading to orange and then nothing at the tip, with flickering
+// turbulence running down it. Drawn on an open cone (tip down), additive, so it glows over the ghosts.
+export function flameMaterial(height: number) {
+  return new THREE.ShaderMaterial({
+    uniforms: { uAlpha: { value: 0 }, uTime: { value: 0 }, uH: { value: height } },
+    vertexShader: `uniform float uH; varying float vAlong; varying float vAng; varying vec3 vN; varying vec3 vV;
+      void main() {
+        vAlong = clamp(0.5 - position.y / uH, 0.0, 1.0); // 0 at the nozzle, 1 at the tip
+        vAng = atan(position.z, position.x);
+        vec4 mv = modelViewMatrix * vec4(position, 1.0);
+        vN = normalize(normalMatrix * normal); vV = normalize(-mv.xyz);
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader: `uniform float uAlpha; uniform float uTime; varying float vAlong; varying float vAng; varying vec3 vN; varying vec3 vV;
+      float h(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+      float n(vec2 p) { vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+        return mix(mix(h(i), h(i + vec2(1, 0)), f.x), mix(h(i + vec2(0, 1)), h(i + vec2(1, 1)), f.x), f.y); }
+      void main() {
+        float facing = abs(dot(normalize(vN), normalize(vV)));
+        // Turbulence streaming away from the nozzle.
+        vec2 q = vec2(vAng * 2.0, vAlong * 5.0 - uTime * 9.0);
+        float turb = 0.55 * n(q) + 0.3 * n(q * 2.3 + 7.0) + 0.15 * n(q * 5.1 - 3.0);
+        float body = pow(1.0 - vAlong, 1.6) * (0.55 + 0.75 * turb);
+        float core = pow(facing, 3.0) * pow(1.0 - vAlong, 3.0); // the hot middle you look straight into
+        vec3 col = mix(vec3(1.0, 0.42, 0.12), vec3(1.0, 0.78, 0.45), turb);
+        col = mix(col, vec3(0.92, 0.96, 1.0), clamp(core * 1.6, 0.0, 1.0));
+        gl_FragColor = vec4(col, clamp((body * 0.85 + core) * uAlpha, 0.0, 1.0));
+      }`,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    side: THREE.DoubleSide,
+  });
+}
+
+// The dust the descent engine blasts sideways across the ground in the last few metres: thin radial streaks
+// racing outward from under the lander. Lies flat on the ground.
+function dustMaterial() {
+  return new THREE.ShaderMaterial({
+    uniforms: { uAlpha: { value: 0 }, uTime: { value: 0 } },
+    vertexShader: `varying vec2 vP; void main() { vP = position.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+    fragmentShader: `uniform float uAlpha; uniform float uTime; varying vec2 vP;
+      float h(float x) { return fract(sin(x * 91.7) * 43758.5453); }
+      void main() {
+        float r = length(vP), a = atan(vP.y, vP.x);
+        float k = floor((a + 3.14159) * 40.0); // 251 thin rays
+        float ray = mix(0.25, 1.0, h(k)) * smoothstep(0.5, 0.0, abs(fract((a + 3.14159) * 40.0) - 0.5) - 0.15);
+        float flow = 0.5 + 0.5 * sin(r * 1.8 - uTime * 14.0 + h(k + 3.0) * 6.28);
+        float fade = smoothstep(0.3, 1.5, r) * (1.0 - smoothstep(3.0, 13.0, r));
+        gl_FragColor = vec4(vec3(0.82, 0.79, 0.74), ray * (0.35 + 0.65 * flow) * fade * uAlpha * 1.1);
+      }`,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  });
+}
+
 // The team's Blender model of an astronaut in the A7L suit (public/models/astronaut.gltf.json): joints are named
 // nodes (legL/R at the hips, armL/R at the shoulders), so the replay can swing them without a skeleton.
 export function suited(source: THREE.Object3D, mat: THREE.Material) {
@@ -126,14 +183,20 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
     });
     const landing = new THREE.Group();
     landing.add(whole);
-    const landFlame = new THREE.Mesh(new THREE.ConeGeometry(0.7, 3, 16, 1, true).rotateX(Math.PI), ghostMaterial("#ffc27a"));
-    landFlame.position.set(0, -0.2, 0);
-    landing.add(landFlame);
+    // Descent engine plume (an outer glow and a tighter, longer inner jet) and the dust sheet it kicks up.
+    const landFlame = new THREE.Group();
+    const plumeOuter = new THREE.Mesh(new THREE.ConeGeometry(0.75, 3.2, 32, 8, true).rotateX(Math.PI), flameMaterial(3.2));
+    const plumeInner = new THREE.Mesh(new THREE.ConeGeometry(0.38, 4.2, 32, 8, true).rotateX(Math.PI), flameMaterial(4.2));
+    plumeOuter.position.y = -1.6 + 0.1;
+    plumeInner.position.y = -2.1 + 0.1;
+    landFlame.add(plumeOuter, plumeInner);
+    landFlame.position.set(0, 0.35, 0); // the engine bell's exit, so the flame starts right at the nozzle
+    const dust = new THREE.Mesh(new THREE.CircleGeometry(14, 64).rotateX(-Math.PI / 2), dustMaterial());
+    dust.position.y = 0.06;
     // Engine flame at liftoff.
-    const flameMat = ghostMaterial("#ffc27a");
-    const flame = new THREE.Mesh(new THREE.ConeGeometry(0.55, 2.2, 16, 1, true).rotateX(Math.PI), flameMat);
-    flame.position.set(0, 2.2, 0);
-    ascent.add(flame);
+    const flameMat = flameMaterial(2.6);
+    const flame = new THREE.Mesh(new THREE.ConeGeometry(0.55, 2.6, 32, 8, true).rotateX(Math.PI), flameMat);
+    flame.position.set(0, 2.2 - 1.3, 0);
     const neil = suited(suit.scene, mat), buzz = suited(suit.scene, mat);
     // A standing flag, built in the same frame as the real fallen one: pole up from its foot, crossbar near the
     // top, cloth hanging off the crossbar along +z.
@@ -157,7 +220,12 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
     const root = new THREE.Group();
     root.add(ascent, neil.g, buzz.g, flag, landing);
     shell(root);
-    return { root, mat, flameMat, ascent, flame, neil, buzz, flag, landing, landMat, landFlame, neilBox, buzzBox };
+    // Added after shell(): glowing exhaust and dust get no depth copies, so they never hide what's behind them.
+    landing.add(landFlame);
+    ascent.add(flame);
+    root.add(dust);
+    const plumes = [plumeOuter.material, plumeInner.material] as THREE.ShaderMaterial[];
+    return { root, mat, flameMat, ascent, flame, neil, buzz, flag, landing, landMat, landFlame, plumes, dust, neilBox, buzzBox };
   }, [gltf, suit, spec]);
   useEffect(
     () => () => {
@@ -165,7 +233,8 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
       scene.flameMat.dispose();
       live.replayLook = null;
       scene.landMat.dispose();
-      (scene.landFlame.material as THREE.Material).dispose();
+      scene.plumes.forEach((m) => m.dispose());
+      (scene.dust.material as THREE.Material).dispose();
       live.hideMachine = false;
     },
     [scene],
@@ -213,12 +282,29 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
     // The landing: the whole lander drifts down on its engine and settles, then the real one takes its place.
     const d = Math.min(1, Math.max(0, (t + LAND) / LAND));
     scene.landing.visible = t < 0.6;
-    scene.landing.position.y = 22 * Math.pow(1 - d, 2.2);
+    scene.landing.position.y = 10 * Math.pow(1 - d, 2.2);
     scene.landing.rotation.y = (1 - d) * 0.35;
-    // Watch Eagle come down, then ease back to the site view.
-    live.replayLook = t < 1.5 ? [0, scene.landing.position.y + 2.5, 0] : null;
+    // Watch Eagle come down, then ease back to the site view. The aim sits halfway between eye level and the lander,
+    // so the ground stays in the bottom of the frame instead of a screen of black sky.
+    live.replayLook = t < 1.5 ? [0, 1.7 + (scene.landing.position.y + 2.5 - 1.7) * 0.5, 0] : null;
     scene.landMat.uniforms.uAlpha.value = smooth(-LAND, -LAND + 1.2, t) * (1 - smooth(-0.2, 0.6, t));
-    (scene.landFlame.material as THREE.ShaderMaterial).uniforms.uAlpha.value = t < -0.3 ? 0.75 + 0.06 * Math.sin(t * 9) : 0;
+    // The plume flickers and breathes; Armstrong throttled down as he hovered, and it cut at "contact light".
+    const burn = t < -0.3 ? 1 : 0;
+    const now = state.clock.elapsedTime;
+    scene.plumes.forEach((m, i) => {
+      m.uniforms.uTime.value = now + i * 1.7;
+      m.uniforms.uAlpha.value = burn * smooth(-LAND, -LAND + 1.2, t) * (0.85 + 0.15 * Math.sin(now * 23 + i * 2));
+    });
+    // Near the ground the jet has no room: it shortens and splays out instead of poking through the surface.
+    const room = Math.min(1, Math.max(0.06, (scene.landing.position.y + 0.45) / 4.3));
+    const spread = 1 + (1 - room) * 0.9;
+    scene.landFlame.scale.set(spread, room * (0.9 + 0.12 * Math.sin(now * 17) + 0.06 * Math.sin(now * 41)), spread);
+    scene.landFlame.visible = burn > 0;
+    // Dust starts streaming out once the engine is within about 6 m of the ground, strongest just before touchdown.
+    const dustMat = scene.dust.material as THREE.ShaderMaterial;
+    dustMat.uniforms.uTime.value = now;
+    dustMat.uniforms.uAlpha.value = t < 0.4 ? (1 - smooth(1.5, 6, scene.landing.position.y)) * (1 - smooth(-0.3, 0.4, t)) : 0;
+    scene.dust.visible = dustMat.uniforms.uAlpha.value > 0.001;
     if (audio.current && t >= AUDIO_AT && audio.current.paused && !audio.current.ended && audio.current.currentTime === 0) audio.current.play().catch(() => {});
 
     // Overall fade in and out.
@@ -253,7 +339,10 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
       face(who, Math.PI, 0.12);
       const on = k > 0 && k < 1 ? 1 : 0;
       const c = Math.sin(t * 3.2) * on;
-      pose(who, -0.45 - 0.45 * Math.max(0, c), -0.45 - 0.45 * Math.max(0, -c), 0.9 + 0.5 * Math.max(0, c), 0.9 + 0.5 * Math.max(0, -c), -2.3 - 0.35 * Math.max(0, -c), -2.3 - 0.35 * Math.max(0, c), -0.5, -0.5, 0.1);
+      // Hands on the two side rails out in front (the ladder leans away up the leg), sliding one then the other
+      // along the rail with the opposite foot, never waving free.
+      const reachL = -1.45 - 0.22 * Math.max(0, -c), reachR = -1.45 - 0.22 * Math.max(0, c);
+      pose(who, -0.45 - 0.45 * Math.max(0, c), -0.45 - 0.45 * Math.max(0, -c), 0.9 + 0.5 * Math.max(0, c), 0.9 + 0.5 * Math.max(0, -c), reachL, reachR, -0.3 + 0.15 * Math.max(0, c), -0.3 + 0.15 * Math.max(0, -c), 0.16);
     };
     // The Moon lope (as in the Apollo films): a short crouch, a push off both feet with one slightly leading,
     // a low floating bound, and a soft landing on bent knees. Arms out a little and elbows bent for balance.
@@ -328,7 +417,9 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
     const lift = Math.max(0, t - 38.5);
     scene.ascent.position.y = 0.5 * 2.2 * lift * lift;
     scene.flame.visible = lift > 0 && lift < 4;
-    scene.flameMat.uniforms.uAlpha.value = lift > 0 ? (0.85 + 0.06 * Math.sin(t * 9)) * alpha : 0;
+    scene.flameMat.uniforms.uAlpha.value = lift > 0 ? (0.85 + 0.15 * Math.sin(t * 23)) * alpha : 0;
+    scene.flameMat.uniforms.uTime.value = state.clock.elapsedTime;
+    scene.flame.scale.set(1, 0.9 + 0.12 * Math.sin(t * 17), 1);
 
     // Captions.
     let line = "", from = 0, until = A11_END;

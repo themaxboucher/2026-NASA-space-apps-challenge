@@ -104,7 +104,7 @@ export function photosBlock(list) {
   const id = uidOf();
   return `<section class="lv-photos" aria-labelledby="${id}">
     <h3 id="${id}">Photos it took</h3>
-    <ul class="lv-strip" tabindex="0" aria-label="Photos taken by this machine. Scroll sideways for more.">${ok.map(p => {
+    <ul class="lv-strip" tabindex="0" aria-label="Photos taken by this space object. Scroll sideways for more.">${ok.map(p => {
       const w = Number(p.w) || 1600, h = Number(p.h) || 1200;
       return `<li style="--ar:${(w / h).toFixed(3)}"${w / h > 2.6 ? ' class="is-pano"' : ''}><figure>
         <img src="/${esc(String(p.file).replace(/^\//, ''))}" width="${w}" height="${h}" loading="lazy" decoding="async" alt="">

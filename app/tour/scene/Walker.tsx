@@ -147,7 +147,7 @@ function aimedSpot() {
 export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk" | "float"; ground?: (x: number, z: number) => number; center: [number, number, number] }) {
   const { camera, gl } = useThree();
   const touch = useMemo(() => coarsePointer(), []);
-  const st = useRef({ yaw: 0, pitch: 0, vel: new THREE.Vector3(), keys: new Set<Key>(), drag: null as null | { x: number; y: number; moved: number }, active: false, crouch: false, locked: false, aimed: null as HTMLElement | null, hop: 0, vy: 0, upWas: false, base: null as number | null, floor: null as number | null, climbing: false, held: 0, boost: 1, shown: "" });
+  const st = useRef({ yaw: 0, pitch: 0, vel: new THREE.Vector3(), keys: new Set<Key>(), drag: null as null | { x: number; y: number; moved: number }, active: false, crouch: false, locked: false, aimed: null as HTMLElement | null, hop: 0, vy: 0, upWas: false, base: null as number | null, floor: null as number | null, climbing: false, held: 0, boost: 1, shown: "", walled: false });
   const orbit = useRef<OrbitControls | null>(null);
 
   useEffect(() => {
@@ -330,13 +330,16 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
     // On the ground, holding C crouches too (in space C means down).
     const low = mode === "walk" && (s.crouch || k.has("down"));
     if (mode !== "walk") s.upWas = false;
-    // Shift runs (x4), and the longer Shift and a direction are held, the faster you go: doubling every second,
-    // up to x30 on foot and x200 floating. It eases up and back down, so it never jerks; letting go resets it.
-    const sprint = pushing && k.has("run");
+    // Shift runs, and the longer Shift and a direction are held, the faster you go (see below). It eases up and
+    // back down, so it never jerks; letting go, or pushing into the invisible fence, resets it.
+    const outward = s.walled && want.x * camera.position.x + want.z * camera.position.z + (mode === "float" ? want.y * camera.position.y : 0) > 0;
+    const sprint = pushing && k.has("run") && !outward;
     s.held = sprint ? s.held + dt : 0;
     // On the ground the speed builds steadily (linear: ×2, then +3 each second held); floating in space it builds
     // exponentially (×2, doubling about every 1.6 s). Eased both ways so it never lurches.
-    const goal = !sprint ? 1 : mode === "float" ? Math.min(200, 2 * Math.pow(2, s.held / 1.6)) : Math.min(30, 2 + s.held * 3);
+    // Floating tops out where crossing the whole site still takes about two seconds, so the fence never cuts it short.
+    const cap = mode === "float" ? Math.max(4, stop.bounds / 6) : 30;
+    const goal = !sprint ? 1 : Math.min(cap, mode === "float" ? 2 * Math.pow(2, s.held / 1.6) : 2 + s.held * 3);
     s.boost += (goal - s.boost) * (1 - Math.exp(-dt * (goal > s.boost ? 2.2 : 3.5)));
     showSpeed(s, s.boost);
     if (pushing) want.normalize().multiplyScalar((mode === "float" ? 3 : 2.2) * s.boost * (low ? 0.45 : 1));
@@ -353,7 +356,8 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
         if (d < c.r && d > 1e-4) next.set(c.pos[0] + (dx / d) * c.r, c.pos[1] + (dy / d) * c.r, c.pos[2] + (dz / d) * c.r);
       }
       if (next.length() > stop.bounds) next.setLength(stop.bounds);
-      edge(next.length() > stop.bounds - 1);
+      s.walled = next.length() > stop.bounds - 1;
+      edge(s.walled);
     } else {
       const eye = low ? CROUCH_EYE : EYE;
       const absY = s.base == null ? camera.position.y : s.base + s.hop;
@@ -391,7 +395,8 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
           next.x *= stop.bounds / d;
           next.z *= stop.bounds / d;
         }
-        edge(d > stop.bounds - 1);
+        s.walled = d > stop.bounds - 1;
+        edge(s.walled);
         // The floor is the ground, or the top of whatever part of the machine you're standing on (a footpad, the deck).
         let fl = ground ? ground(next.x, next.z) : 0;
         const top = solids.size ? surfaceBelow(next.x, feet + 0.6, next.z) : null;

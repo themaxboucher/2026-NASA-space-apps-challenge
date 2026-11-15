@@ -117,5 +117,15 @@
         "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); from the NASA NSSDCA LCROSS page"
       }
     }
-  ]
+  ],
+  "crater": {
+    "diameterM": 15,
+    "depthM": 2.7,
+    "ejecta": "none",
+    "source": {
+      "label": "Estimate scaled from the Centaur's crater; never found (Marshall et al. 2011)",
+      "url": "https://arxiv.org/abs/1103.1687"
+    },
+    "seen": false
+  }
 }

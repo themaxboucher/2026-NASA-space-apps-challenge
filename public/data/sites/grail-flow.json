@@ -118,5 +118,15 @@
         "url": "https://www.jpl.nasa.gov/news/nasas-grail-lunar-impact-site-named-for-astronaut-sally-ride/"
       }
     }
-  ]
+  ],
+  "crater": {
+    "diameterM": 5,
+    "depthM": 1.0,
+    "ejecta": "dark",
+    "source": {
+      "label": "NASA: GRAIL impact sites, craters about 5 m with dark ejecta (depth estimated)",
+      "url": "https://science.nasa.gov/resource/grail-impact-sites/"
+    },
+    "seen": true
+  }
 }

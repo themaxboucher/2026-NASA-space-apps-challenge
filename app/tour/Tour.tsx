@@ -15,7 +15,10 @@ import { Spots } from "./Spots";
 import { Cutscene, Interlude, MusicToggle, photoSrc, playCutscene, startMusic, useMedia, useSpotPhotos } from "./Story";
 import {
   dismissIntro,
+  CALLS,
   endReplay,
+  makeCall,
+  type Call,
   goToStop,
   hud,
   nextStop,
@@ -44,7 +47,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 function briefing(n: number) {
   return [
     {
-      title: "We left machines out there",
+      title: "We left space objects out there",
       text: `For more than 60 years, NASA has sent ${n ? n : "dozens of"} robots, landers and probes to the Moon, to Mars and into deep space. None of them came home. Some broke, some ran out of power, and a few are still working right now.`,
     },
     {
@@ -109,7 +112,7 @@ function StartScreen() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.0, duration: 0.8, ease }}
       >
-        Since the 1960s, NASA has left machines on the Moon, on Mars and in deep
+        Since the 1960s, NASA has left space objects on the Moon, on Mars and in deep
         space. Visit them and discover their stories.
       </motion.p>
       <motion.button
@@ -174,24 +177,36 @@ function StartScreen() {
           </motion.div>
         )}
       </AnimatePresence>
-      {/* This project is a NASA Space Apps Challenge 2026 entry; official logo from spaceappschallenge.org/brand. */}
-      <motion.a
-        className="start-badge"
-        href="https://www.spaceappschallenge.org/"
-        target="_blank"
-        rel="noopener noreferrer"
+      {/* The NASA Space Apps logo with the team who made the site stacked under it, bottom left. */}
+      <motion.div
+        className="start-credit"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8, duration: 0.8, ease }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG needs no image optimization */}
-        <img
-          src="/img/space-apps-logo.svg"
-          alt="NASA Space Apps Challenge"
-          width={561}
-          height={221}
-        />
-      </motion.a>
+        {/* This project is a NASA Space Apps Challenge 2026 entry; official logo from spaceappschallenge.org/brand. */}
+        <motion.a
+          className="start-badge"
+          href="https://www.spaceappschallenge.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG needs no image optimization */}
+          <img
+            src="/img/space-apps-logo.svg"
+            alt="NASA Space Apps Challenge"
+            width={561}
+            height={221}
+          />
+        </motion.a>
+        <p className="start-team">
+          <span>Designed by</span>
+          <span>Jonathan Eng</span>
+          <span>Max Boucher</span>
+          <span>Shourya Baranwal</span>
+          <span>Abdelrahman ElSayed</span>
+        </p>
+      </motion.div>
     </motion.section>
   );
 }
@@ -274,7 +289,7 @@ function useMachineCount() {
   }, []);
   return n;
 }
-const allMachines = (n: number) => (n ? `all ${n} machines` : "every machine");
+const allMachines = (n: number) => (n ? `all ${n} space objects` : "every space object");
 
 const noSub = () => () => {};
 // Remembered in this browser once you've reached the end of the tour.
@@ -419,7 +434,7 @@ function SpotProgress() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease }}
           >
-            {last ? "Fly home" : "Next machine"}
+            {last ? "Fly home" : "Next space object"}
             <ChevronRight aria-hidden="true" />
           </motion.button>
         ) : (
@@ -428,7 +443,7 @@ function SpotProgress() {
               {count} of {total} explored
             </p>
             {/* The quiet way out: move on without finding everything. */}
-            <button type="button" className="skip-stop" onClick={nextStop} aria-label={last ? "Skip, and fly home" : "Skip to the next machine"}>
+            <button type="button" className="skip-stop" onClick={nextStop} aria-label={last ? "Skip, and fly home" : "Skip to the next space object"}>
               Skip
             </button>
           </motion.div>
@@ -764,7 +779,7 @@ function useSalvage() {
 const gradeLine = (sv: SalvageFile | null, id: string) => {
   const m = sv?.machines[id];
   if (!m) return null;
-  if (m.working || !m.grade) return { grade: "✓", meaning: "Still working: it's a mission, not salvage" };
+  if (m.working || !m.grade) return { grade: "✓", meaning: "A working mission, not salvage" };
   return { grade: m.grade, meaning: sv!.rubric.grades.find((g) => g.grade === m.grade)?.meaning ?? "" };
 };
 
@@ -796,6 +811,7 @@ function CaseFile({ s }: { s: Stop }) {
             <b>{grade.grade}</b> Salvage grade{grade.meaning ? `: ${grade.meaning}` : ""}
           </p>
         )}
+        {reuseOpen && <CallPicker id={s.id} />}
         {reuseOpen && idea && idea.text !== reuse && (
           <p className="case-idea">
             <span>{idea.kind === "real" ? "Tried for real" : "Engineer’s idea"}:</span> {idea.text}
@@ -807,6 +823,23 @@ function CaseFile({ s }: { s: Stop }) {
             )}
           </p>
         )}
+      </div>
+    </div>
+  );
+}
+
+// The briefing promised a decision: once every clue is found, the scout makes their own call.
+function CallPicker({ id }: { id: string }) {
+  const call = useStore(tour, (t) => t.calls[id]);
+  return (
+    <div className="case-call" role="group" aria-label="Your call">
+      <p className="case-ask">Your call</p>
+      <div className="case-call-btns">
+        {(Object.keys(CALLS) as Call[]).map((k) => (
+          <button key={k} type="button" aria-pressed={call === k} onClick={() => makeCall(id, k)}>
+            {CALLS[k]}
+          </button>
+        ))}
       </div>
     </div>
   );
@@ -940,7 +973,7 @@ function MissionFile() {
               ))}
             </ul>
             <p className="mfile-small">
-              Glowing red on the machine. Pick one to read what happened.
+              Glowing red on the space object. Pick one to read what happened.
             </p>
           </div>
         )}
@@ -1094,6 +1127,7 @@ function Cruise() {
 // What the scout concluded: each story machine visited, what happened to it and its salvage grade.
 function Verdicts() {
   const visitedIds = useStore(tour, (s) => s.visited.join(","));
+  const calls = useStore(tour, (s) => s.calls);
   const sv = useSalvage();
   const [atlas, setAtlas] = useState<Record<string, { fate?: Fate }>>({});
   useEffect(() => {
@@ -1117,7 +1151,7 @@ function Verdicts() {
               <b className="verdict-grade">{g?.grade ?? "?"}</b>
               <span>
                 <strong>{s.name}</strong> · {fate ? FATE_WORDS[fate.category] ?? fate.category : s.status}
-                {g?.meaning && <em> · {g.meaning}</em>}
+                {calls[s.id] ? <em> · Your call: {CALLS[calls[s.id]]}</em> : g?.meaning && <em> · {g.meaning}</em>}
               </span>
             </li>
           );
@@ -1125,7 +1159,8 @@ function Verdicts() {
       </ul>
       {sv && (
         <p className="verdict-sum">
-          Your verdict: {reusable} could be visited, studied or reused one day
+          {Object.keys(calls).length > 0 && `You made ${Object.keys(calls).length} ${Object.keys(calls).length === 1 ? "call" : "calls"}. `}
+          The engineers&apos; view: {reusable} could be visited, studied or reused one day
           {gone ? `, ${gone} ${gone === 1 ? "is" : "are"} out of reach or gone for good` : ""}
           {working ? `, and ${working} ${working === 1 ? "is" : "are"} still working` : ""}.
         </p>
@@ -1150,7 +1185,7 @@ function EndScreen() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.9, ease }}
       >
-        Every machine has a story.
+        Every space object has a story.
       </motion.h2>
       <motion.p
         className="end-lede"
@@ -1158,7 +1193,7 @@ function EndScreen() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.8, ease }}
       >
-        You surveyed {visited} {visited === 1 ? "machine" : "machines"}
+        You surveyed {visited} {visited === 1 ? "space object" : "space objects"}
         {n ? ` of the ${n} in this atlas` : ""}, worked out why each was left, and judged whether it could be used
         again. The rest are still out there: on the Moon, on Mars, and sailing between the planets.
       </motion.p>

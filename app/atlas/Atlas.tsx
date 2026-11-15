@@ -55,7 +55,7 @@ export default function Atlas() {
             </nav>
           </div>
           <div className="search">
-            <input id="q" type="search" placeholder="Search machines and places…" aria-label="Search machines and places" aria-controls="qres" autoComplete="off" />
+            <input id="q" type="search" placeholder="Search space objects and places…" aria-label="Search space objects and places" aria-controls="qres" autoComplete="off" />
             <ul id="qres" role="listbox" hidden></ul>
           </div>
           <p className="eyebrow">Positions as of 14 Nov 2026</p>
@@ -63,11 +63,11 @@ export default function Atlas() {
 
         <div className="explored" id="explored">
           <div className="explored-top">
-            <span id="exploredText" aria-live="polite">You&apos;ve explored 0 machines</span>
+            <span id="exploredText" aria-live="polite">You&apos;ve explored 0 space objects</span>
             <span className="explored-worlds" id="exploredWorlds"></span>
             <button type="button" id="exploredReset" className="explored-reset" hidden>Start over</button>
           </div>
-          <div className="explored-bar" id="exploredBar" role="progressbar" aria-label="Machines explored" aria-valuemin={0} aria-valuemax={79} aria-valuenow={0}>
+          <div className="explored-bar" id="exploredBar" role="progressbar" aria-label="Space objects explored" aria-valuemin={0} aria-valuemax={79} aria-valuenow={0}>
             <b></b>
           </div>
         </div>
@@ -75,7 +75,7 @@ export default function Atlas() {
         <main className="console">
           <div className="mapcol">
             <section className="stage" aria-label="Map">
-              <canvas id="globe" aria-label="Spinning globe. Use the machine list below to pick a machine with the keyboard."></canvas>
+              <canvas id="globe" aria-label="Spinning globe. Use the space object list below to pick a space object with the keyboard."></canvas>
               <div className="pins" id="pins"></div>
               {/* SVG has no typed `hidden` prop; the engine toggles the attribute itself. */}
               <svg id="beyond" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet" {...{ hidden: true }}></svg>
@@ -118,7 +118,7 @@ export default function Atlas() {
               <span><i className="ring"></i>impact / crash</span>
               <span><i className="seenmark"></i>you&apos;ve opened it</span>
               <span><i className="fullmark">✓</i>you&apos;ve fully explored it (every spot found)</span>
-              <span><i className="site">3</i>machines at one landing site</span>
+              <span><i className="site">3</i>space objects at one landing site</span>
             </div>
           </div>
           <aside className="dossier" id="dossier"></aside>
@@ -143,7 +143,7 @@ export default function Atlas() {
 
         <details className="roster" id="rosterBox">
           <summary>
-            <span><span className="eyebrow">The roster · tap to open</span><span className="rtitle" id="rosterTitle">Machines</span></span>
+            <span><span className="eyebrow">The roster · tap to open</span><span className="rtitle" id="rosterTitle">Space objects</span></span>
             <ChevronDown className="chev" aria-hidden="true" />
           </summary>
           <ul id="list"></ul>

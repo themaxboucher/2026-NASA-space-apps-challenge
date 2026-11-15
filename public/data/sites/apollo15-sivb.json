@@ -107,5 +107,15 @@
     }
   ],
   "whyLeft": "Its fuel was spent after sending Apollo 15 to the Moon, so NASA used it one last time as a known seismic signal.",
-  "repurpose": "It broke into pieces. Its scattered aluminium is a possible metal source for a future Moon base, if anyone can gather it."
+  "repurpose": "It broke into pieces. Its scattered aluminium is a possible metal source for a future Moon base, if anyone can gather it.",
+  "crater": {
+    "diameterM": 37,
+    "depthM": 2.5,
+    "ejecta": "rays",
+    "source": {
+      "label": "LROC Featured Sites: Apollo 15 S-IVB, 36 x 38 m (depth 2-3 m: Plescia et al. 2016)",
+      "url": "https://www.lroc.im-ldi.com/featured_sites/26"
+    },
+    "seen": true
+  }
 }

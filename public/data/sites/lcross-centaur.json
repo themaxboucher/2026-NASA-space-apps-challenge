@@ -130,5 +130,15 @@
         "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B"
       }
     }
-  ]
+  ],
+  "crater": {
+    "diameterM": 22,
+    "depthM": 4.0,
+    "ejecta": "dark",
+    "source": {
+      "label": "Fassett et al. 2024 (GRL): about 22 m, seen by LRO Mini-RF radar and ShadowCam (depth estimated)",
+      "url": "https://eos.org/research-spotlights/fifteen-years-later-scientists-locate-a-lunar-impact-site"
+    },
+    "seen": true
+  }
 }

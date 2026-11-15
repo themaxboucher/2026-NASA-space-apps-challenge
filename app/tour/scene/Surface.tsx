@@ -241,7 +241,8 @@ function Debris({ stop, ground }: { stop: Stop; ground: (x: number, z: number) =
       set.tints.push((rand() < 0.3 ? foil : rand() < 0.25 ? black : metal).clone().multiplyScalar(0.8 + rand() * 0.4));
     }
     const g = new THREE.Group();
-    const mat = new THREE.MeshStandardMaterial({ roughness: 0.4, metalness: 0.8, side: THREE.DoubleSide });
+    // Only half metallic: against the black lunar sky a true mirror finish would look black.
+    const mat = new THREE.MeshStandardMaterial({ roughness: 0.45, metalness: 0.45, side: THREE.DoubleSide });
     for (const set of kinds) {
       const inst = new THREE.InstancedMesh(set.geo, mat, set.items.length);
       set.items.forEach((m, i) => inst.setMatrixAt(i, m));
@@ -280,8 +281,6 @@ export function SurfaceScene({ index }: { index: number }) {
   const [anchors, setAnchors] = useState<Anchors>({});
   const onAnchors = useCallback((a: Anchors) => setAnchors(a), []);
 
-  // TEMP-DEBUG
-  useEffect(() => { (window as unknown as Record<string, unknown>).__three = { gl, camera, scene }; }, [gl, camera, scene]);
   useLayoutEffect(() => {
     const cam = camera as THREE.PerspectiveCamera;
     cam.near = 0.03;

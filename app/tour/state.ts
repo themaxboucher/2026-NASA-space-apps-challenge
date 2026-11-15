@@ -42,6 +42,8 @@ export type TourState = {
   replay: boolean;
   // Sites whose replay has played (or been skipped) this trip: their present-day leftovers are now shown.
   revealed: string[];
+  // The scout's own call on each site, made in the case file once every clue is found.
+  calls: Record<string, Call>;
 };
 
 // The start screen: Earth in the foreground, with the Moon off-screen ahead.
@@ -73,6 +75,7 @@ export const tour = createStore<TourState>({
   cutscene: null,
   replay: false,
   revealed: [],
+  calls: {},
 });
 
 let requestId = 0;
@@ -87,7 +90,7 @@ export function setFileOpen(open: boolean) {
 export function startTour() {
   const { phase } = tour.get();
   if (phase === "start" || phase === "end") {
-    tour.set({ visited: [], revealed: [] });
+    tour.set({ visited: [], revealed: [], calls: {} });
     journeyTo(0);
   }
 }
@@ -180,6 +183,8 @@ export const hud: { fade: HTMLDivElement | null; counter: HTMLElement | null; mi
 
 // Shows a replay caption, with a thin bar under it that fills over the `seconds` it stays up.
 export function setCaption(text: string, seconds: number) {
+  // Clearing (when a replay ends) keeps the last line up while the caption box fades out, instead of an empty box.
+  if (!text) return;
   if (hud.replayLine) hud.replayLine.textContent = text;
   const bar = hud.replayBar;
   if (!bar) return;
@@ -204,7 +209,7 @@ tour.subscribe(() => {
   try {
     // Other machines' stops only exist once opened, so only a story stop is saved as the place to return to
     // (the address, /#<id>, brings you back to any other machine).
-    if (s.phase === "explore" && s.stop >= 0) sessionStorage.setItem(SAVE_KEY, JSON.stringify({ stop: s.stop < STORY_COUNT ? s.stop : -1, found: s.found, visited: s.visited, revealed: s.revealed }));
+    if (s.phase === "explore" && s.stop >= 0) sessionStorage.setItem(SAVE_KEY, JSON.stringify({ stop: s.stop < STORY_COUNT ? s.stop : -1, found: s.found, visited: s.visited, revealed: s.revealed, calls: s.calls }));
     else if (s.phase === "end") sessionStorage.removeItem(SAVE_KEY);
   } catch {
     /* storage blocked: the tour just starts fresh next time */
@@ -213,9 +218,9 @@ tour.subscribe(() => {
 // Restores saved progress and returns the stop to go back to (or null). `at` overrides the saved stop.
 export function restoreProgress(at?: number): number | null {
   try {
-    const saved = JSON.parse(sessionStorage.getItem(SAVE_KEY) || "null") as { stop: number; found: Record<string, string[]>; visited: string[]; revealed: string[] } | null;
+    const saved = JSON.parse(sessionStorage.getItem(SAVE_KEY) || "null") as { stop: number; found: Record<string, string[]>; visited: string[]; revealed: string[]; calls?: Record<string, Call> } | null;
     if (!saved) return at ?? null;
-    tour.set({ found: saved.found ?? {}, visited: saved.visited ?? [], revealed: saved.revealed ?? [] });
+    tour.set({ found: saved.found ?? {}, visited: saved.visited ?? [], revealed: saved.revealed ?? [], calls: saved.calls ?? {} });
     return at ?? (saved.stop >= 0 && saved.stop < STORY_COUNT ? saved.stop : null);
   } catch {
     return at ?? null;
@@ -230,7 +235,16 @@ tour.subscribe(() => {
   const id = s.phase === "explore" ? STOPS[s.stop]?.id : undefined;
   // The first time you reach a site with a replay this trip, the past plays out before it's your turn.
   if (id && !s.visited.includes(id)) tour.set({ visited: [...s.visited, id], ...(REPLAYS.has(id) ? { replay: true, introOpen: false } : {}) });
+  // Back at a site whose replay was cut short (you left mid-replay): show the site as it is now, not an empty spot.
+  else if (id && REPLAYS.has(id) && !s.replay && !s.revealed.includes(id)) tour.set({ revealed: [...s.revealed, id] });
 });
+
+// What the scout can decide about a site (the briefing's four choices).
+export const CALLS = { repair: "Repair it", reuse: "Give it a new job", home: "Bring it home", history: "Leave it as history" } as const;
+export type Call = keyof typeof CALLS;
+export function makeCall(id: string, call: Call) {
+  tour.set({ calls: { ...tour.get().calls, [id]: call } });
+}
 
 export function endReplay(forStop?: string) {
   const s = tour.get();

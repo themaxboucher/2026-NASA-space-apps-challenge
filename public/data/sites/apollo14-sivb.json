@@ -107,5 +107,15 @@
     }
   ],
   "whyLeft": "It was used up after sending Apollo 14 to the Moon, so NASA turned it into a giant test thump for the seismometers.",
-  "repurpose": "It broke into pieces, but its scattered aluminium could one day be gathered as building material for a Moon base."
+  "repurpose": "It broke into pieces, but its scattered aluminium could one day be gathered as building material for a Moon base.",
+  "crater": {
+    "diameterM": 35,
+    "depthM": 2.5,
+    "ejecta": "rays",
+    "source": {
+      "label": "LROC: Apollo 14 S-IVB impact site, about 35 m (depth 2-3 m: Plescia et al. 2016)",
+      "url": "https://lroc.im-ldi.com/posts/60"
+    },
+    "seen": true
+  }
 }

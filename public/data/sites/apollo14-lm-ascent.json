@@ -114,5 +114,15 @@
     }
   ],
   "whyLeft": "It could not land again or fly home, so after the crew moved out, mission control crashed it to give the seismometers a known shake.",
-  "repurpose": "Only scattered fragments remain. Finding them would tell engineers how spacecraft break apart in a fast, low-angle crash."
+  "repurpose": "Only scattered fragments remain. Finding them would tell engineers how spacecraft break apart in a fast, low-angle crash.",
+  "crater": {
+    "diameterM": 10,
+    "depthM": 1.0,
+    "ejecta": "dark",
+    "source": {
+      "label": "Estimate; a possible dark gouge in LROC images (Stooke 2017), not confirmed",
+      "url": "https://www.planetary.org/blogs/guest-blogs/2017/0207-finding-spacecraft-impacts-on-the-moon.html"
+    },
+    "seen": false
+  }
 }

@@ -82,7 +82,7 @@ export function prepareModel(source: THREE.Object3D, spec: GltfSpec, hotspots: H
   if (spec.rotationY) model.rotation.y = spec.rotationY;
   model.updateMatrixWorld(true);
   // Foil, metal, cells and paint get surface texture. Cassini keeps its own foil (see SpaceStop's CaptureReflections).
-  if (!spec.url.includes("cassini") && Math.random() > 2) addSurfaceDetail(model);
+  if (!spec.url.includes("cassini")) addSurfaceDetail(model);
 
   const placed = boxOf(shown);
   const ref = spec.centerOn ? boxOf(shown.filter((m) => spec.centerOn!.some((p) => matches(m, p)))) : placed;

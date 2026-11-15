@@ -73,6 +73,7 @@ function PosAnchors({ stop, onAnchors }: { stop: Stop; onAnchors: (a: Anchors) =
 export function SpaceScene({ index }: { index: number }) {
   const stop = STOPS[index];
   const { gl, scene, camera } = useThree();
+  useEffect(() => { (window as unknown as Record<string, unknown>).__three = { gl, camera, scene }; }, [gl, camera, scene]);
   const sun = useMemo(() => skyDir(stop.setting.sun.az, stop.setting.sun.el), [stop]);
   const backdrop = stop.setting.backdrop;
   const planet = backdrop && backdrop !== "sun-far" ? backdrop : null;

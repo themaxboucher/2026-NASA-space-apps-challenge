@@ -26,7 +26,7 @@ const CAUSES: { key: string; title: string; why: string; lesson: string; sources
   {
     key: "comms",
     title: "Lost contact",
-    why: "The machine may still be sitting there, but nobody on Earth can hear it any more.",
+    why: "It may still be sitting there, but nobody on Earth can hear it any more.",
     lesson: "Sojourner could only talk to Earth through its lander. Today's Mars rovers have more than one way home: they also send their data up to orbiters circling Mars, which pass it on to Earth.",
     sources: ["https://science.nasa.gov/mars/mars-relay-network/"],
   },
@@ -40,7 +40,7 @@ const CAUSES: { key: string; title: string; why: string; lesson: string; sources
   {
     key: "damaged",
     title: "Damaged",
-    why: "A part broke, so the machine could not do its job any more.",
+    why: "A part broke, so it could not do its job any more.",
     lesson: "Ingenuity's camera could not find landmarks over smooth sand. Engineers studied the crash and tested drones over desert dunes so future Mars helicopters can fly over ground like that.",
     sources: [
       "https://www.jpl.nasa.gov/news/nasa-performs-first-aircraft-accident-investigation-on-another-world/",
@@ -158,14 +158,14 @@ export function FailureBank() {
               <p className="eyebrow">Across the atlas</p>
               <h2 id={`${panelId}-h`}>What went wrong</h2>
               <p className="overlay-lede">
-                Space is hard. {total ? `${total} machines` : "Some machines"} in this atlas stopped working before anyone planned. Each failure taught engineers something.
+                Space is hard. {total ? `${total} space objects` : "Some space objects"} in this atlas stopped working before anyone planned. Each failure taught engineers something.
               </p>
               {total > 0 && (
                 <p className="fbank-progress">
                   <b>
                     {found} of {total} found.
                   </b>{" "}
-                  {found < total ? "Each one unlocks when you visit its machine, here in the tour or in the atlas." : "You found them all!"}
+                  {found < total ? "Each one unlocks when you visit that space object, here in the tour or in the atlas." : "You found them all!"}
                 </p>
               )}
             </header>
@@ -191,9 +191,9 @@ export function FailureBank() {
                           <li key={e.id} className="locked">
                             <span className="fbank-name">
                               <span aria-hidden="true">???</span>
-                              <span className="sr-only">Locked machine</span>
+                              <span className="sr-only">Locked space object</span>
                             </span>
-                            <span className="fbank-meta">{e.world} · visit more machines to unlock</span>
+                            <span className="fbank-meta">{e.world} · visit more space objects to unlock</span>
                           </li>
                         ) : (
                         <li key={e.id}>

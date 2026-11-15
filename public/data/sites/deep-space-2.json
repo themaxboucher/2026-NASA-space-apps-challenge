@@ -96,5 +96,15 @@
       "label": "Signals received",
       "value": "None"
     }
-  ]
+  ],
+  "crater": {
+    "diameterM": 0.8,
+    "depthM": 0.3,
+    "ejecta": "none",
+    "source": {
+      "label": "Estimate; the probes were built to bury themselves up to 0.6 m deep, and were never found (NSSDCA)",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=DEEPSP2"
+    },
+    "seen": false
+  }
 }

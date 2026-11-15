@@ -196,7 +196,7 @@ function apply(m: THREE.MeshStandardMaterial, kind: Kind) {
     }
     case "paint":
       m.normalMap = peel();
-      m.normalScale.setScalar(0.4);
+      m.normalScale.setScalar(0.22);
       m.metalness = 0;
       m.roughness = Math.max(m.roughness, 0.7);
       break;

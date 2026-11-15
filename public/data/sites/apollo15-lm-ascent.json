@@ -93,5 +93,15 @@
     }
   ],
   "whyLeft": "With the crew safely in Endeavour, the cabin had no way home, so it was used to make one more moonquake.",
-  "repurpose": "Only fragments remain, if they can be found. They would show how a spacecraft breaks up in a fast, skimming crash."
+  "repurpose": "Only fragments remain, if they can be found. They would show how a spacecraft breaks up in a fast, skimming crash.",
+  "crater": {
+    "diameterM": 10,
+    "depthM": 1.0,
+    "ejecta": "none",
+    "source": {
+      "label": "Estimate; never located (NSSDCA: impact point from tracking only)",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html"
+    },
+    "seen": false
+  }
 }

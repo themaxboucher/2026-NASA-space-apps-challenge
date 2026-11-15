@@ -122,13 +122,13 @@ export default function Fly() {
         const it = machines.find((m) => m.id === id);
         const pick = MODEL[id];
         const model = pick && models[pick[0]];
-        if (!it || !model) throw new Error("There is no 3D model of this machine to fly around yet.");
+        if (!it || !model) throw new Error("There is no 3D model of this space object to fly around yet.");
         index = STOPS.push(makeStop(it, model, pick[1])) - 1;
       }
       if (off) return;
       tour.set({ phase: "explore", stop: index, scene: { kind: "space", key: `fly-${id}`, stop: index }, introOpen: true, openSpot: null, sceneReady: true });
       setState({ index });
-    })().catch((e) => !off && setState({ error: e instanceof Error ? e.message : "Could not load this machine." }));
+    })().catch((e) => !off && setState({ error: e instanceof Error ? e.message : "Could not load this space object." }));
     return () => {
       off = true;
     };

@@ -116,5 +116,15 @@
     }
   ],
   "whyLeft": "It had finished its only job, getting the crew back to orbit, so mission control used it one last time as a hammer to test the new seismometer.",
-  "repurpose": "Nothing is left to reuse except scattered metal. Finding the pieces would show how a spacecraft shatters when it hits the Moon at high speed."
+  "repurpose": "Nothing is left to reuse except scattered metal. Finding the pieces would show how a spacecraft shatters when it hits the Moon at high speed.",
+  "crater": {
+    "diameterM": 10,
+    "depthM": 1.0,
+    "ejecta": "dark",
+    "source": {
+      "label": "Estimate; a possible gouge with dark streaks spotted in LROC images (Stooke 2017), not confirmed",
+      "url": "https://www.planetary.org/blogs/guest-blogs/2017/0207-finding-spacecraft-impacts-on-the-moon.html"
+    },
+    "seen": false
+  }
 }

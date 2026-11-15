@@ -391,3 +391,86 @@ button.debris-chip:hover {
   display: flex;
   gap: 8px;
 }
+
+/* The scout's own call in the case file: four choices, the picked one filled. */
+.case-call {
+  margin-top: 10px;
+}
+.case-call-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.case-call-btns button {
+  padding: 6px 10px;
+  border: 1px solid var(--line2);
+  border-radius: var(--pill);
+  background: none;
+  color: var(--ink2);
+  font: 500 0.8125rem/1.2 var(--body);
+  cursor: pointer;
+}
+.case-call-btns button:hover {
+  color: var(--ink);
+  border-color: var(--ink2);
+}
+.case-call-btns button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Laptop-height screens (e.g. 1366×768): keep the chapter card, film and its button on one screen. */
+@media (max-height: 860px) {
+  .chapter-film video {
+    max-height: 34vh;
+  }
+  .chapter h2 {
+    margin-bottom: 12px;
+  }
+  .chapter-film {
+    margin-bottom: 12px;
+  }
+  .chapter-film figcaption {
+    margin-top: 8px;
+  }
+  .chapter-text {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  .chapter-actions {
+    margin-top: 16px;
+  }
+}
+
+/* Space Apps logo with the team's names stacked under it (bottom left of the start screen). */
+.start-credit {
+  position: absolute;
+  left: var(--gut-l);
+  bottom: var(--gut-b);
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+  pointer-events: auto;
+}
+.start-credit .start-badge {
+  position: static;
+}
+.start-team {
+  display: grid;
+  justify-items: start;
+  gap: 2px;
+  text-align: left;
+  margin: 0;
+  padding: 0 6px;
+  color: var(--ink2);
+  font: 500 0.75rem/1.35 var(--body);
+}
+.start-team span:first-child {
+  margin-bottom: 2px;
+  color: var(--dim);
+  font: 500 0.625rem/1.4 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}

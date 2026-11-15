@@ -9,7 +9,7 @@ const splineMono = Spline_Sans_Mono({ subsets: ["latin"], variable: "--font-spli
 
 export const metadata: Metadata = {
   title: "Ruins Among the Stars",
-  description: "Explore the machines NASA left on the Moon, on Mars and in deep space: what happened to each one, and what it would take to fix it or bring it home.",
+  description: "Explore the space objects NASA left on the Moon, on Mars and in deep space: what happened to each one, and what it would take to fix it or bring it home.",
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#0a0c10" };

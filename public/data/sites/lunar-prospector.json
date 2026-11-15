@@ -146,5 +146,15 @@
         "url": "https://science.nasa.gov/mission/lunar-prospector/"
       }
     }
-  ]
+  ],
+  "crater": {
+    "diameterM": 3,
+    "depthM": 0.5,
+    "ejecta": "none",
+    "source": {
+      "label": "Estimate (similar to LADEE's crater); never found (NSSDCA)",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html"
+    },
+    "seen": false
+  }
 }

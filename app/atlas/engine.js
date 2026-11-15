@@ -555,6 +555,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     $('beyond').querySelectorAll('.craft').forEach(g => g.classList.toggle('seen', seen.has(g.dataset.id)));
     showExplored();
     $('yearOut').value = year;
+    wearSuit(year);
     const list = DATA[world], here = list.filter(it => stateAt(it, year) !== 'future');
     const talking = here.filter(it => stateAt(it, year) === 'alive').length;
     $('yearNote').textContent = here.length
@@ -563,6 +564,15 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     $('cursor').style.left = `calc(var(--lw) + (100% - var(--lw)) * ${(yPct(year + 0.5) / 100).toFixed(4)} - 1px)`;
   }
   const byId = id => DATA[world].find(it => it.id === id);
+  // The explorer peg wears the NASA suit of the timeline year (suits are drawn in Suits.tsx, each tagged with its years).
+  function wearSuit(y) {
+    const rig = document.querySelector('#peg .pm-rig'); if (!rig) return;
+    const suits = [...rig.querySelectorAll('svg[data-from]')];
+    const pick = suits.find(s => y >= +s.dataset.from && y <= +s.dataset.to) || suits[suits.length - 1];
+    if (!pick || pick.classList.contains('on')) return;
+    suits.forEach(s => s.classList.toggle('on', s === pick));
+    const hop = rig.parentElement; hop.classList.remove('hop'); void hop.offsetWidth; hop.classList.add('hop');
+  }
   // "2 / 79": how many space objects this visitor has opened, across all worlds.
   function showExplored() {
     const el = $('count'); if (!el) return;
@@ -1127,10 +1137,10 @@ function closeGroundScene() {
 // so the body swings against the drag and the limbs lag behind it. Limbs spread while held and fold back when dropped.
 const sway = { push: 0, vy: 0, raf: 0, lastX: 0, lastY: 0, lastT: 0 };
 const rag = { body: { a: 0, v: 0 }, armL: { a: 0, v: 0 }, armR: { a: 0, v: 0 }, legL: { a: 0, v: 0 }, legR: { a: 0, v: 0 } };
-const JOINTS = { armL: [7.8, 23], armR: [32.2, 23], legL: [16.5, 39], legR: [23.5, 39] };
+const JOINTS = { armL: [10.9, 22.5], armR: [29.1, 22.5], legL: [17, 37.5], legR: [23, 37.5] };
 const spring = (o, target, k, d) => { o.v = (o.v + (target - o.a) * k) * d; o.a += o.v; };
 function swayTick() {
-  const held = !!pegDrag, svg = document.getElementById('peg')?.querySelector('svg'); // look up fresh: hot reload can swap the markup
+  const held = !!pegDrag, svg = document.getElementById('peg')?.querySelector('.pm-rig'); // look up fresh: hot reload can swap the markup
   if (!svg) { sway.raf = 0; return; }
   spring(rag.body, Math.max(-50, Math.min(50, sway.push)), 0.13, 0.8);
   const lagB = -rag.body.a * 0.7 - rag.body.v * 2.2; // limbs try to keep hanging straight down
@@ -1141,7 +1151,7 @@ function swayTick() {
   spring(rag.legR, lagB * 0.8 - (held ? 12 : 0), 0.08, 0.86);
   sway.push *= 0.86; sway.vy *= 0.85;
   svg.style.transform = `rotate(${rag.body.a.toFixed(2)}deg) scale(${held ? 1.3 : 1})`;
-  for (const [k, [x, y]] of Object.entries(JOINTS)) svg.querySelector('.pm-' + k)?.setAttribute('transform', `rotate(${rag[k].a.toFixed(2)} ${x} ${y})`);
+  for (const [k, [x, y]] of Object.entries(JOINTS)) svg.querySelectorAll('.pm-' + k).forEach(el => el.setAttribute('transform', `rotate(${rag[k].a.toFixed(2)} ${x} ${y})`));
   const moving = Object.values(rag).some(o => Math.abs(o.a) > 0.05 || Math.abs(o.v) > 0.05);
   if (held || moving) sway.raf = requestAnimationFrame(swayTick); else sway.raf = 0;
 }

@@ -516,13 +516,16 @@ export function Flight({ world, start, still }: { world: World; start: string; s
       const debris = u.debris && toEarth < 45;
       if (u.card !== card || u.nearEarth !== nearEarth || u.debris !== debris) ui.set({ card, nearEarth, debris });
       // Out between the planets, the "nearest" world can be hundreds of units away: say so instead.
-      // Measured in the ecliptic plane, so the high overhead start (?intro=map) doesn't count as interstellar.
-      const where = dSurf < 60 ? nearB.name : Math.hypot(pos.x, pos.z) > auR(HELIOPAUSE_AU) ? "None: you're past the heliopause, in interstellar space" : "None close by";
+      // Measured in 3D (Voyager 1 is 35 deg above the ecliptic); the high overhead start (?intro=map) is left out.
+      // Only the Voyagers are known to have crossed the heliopause; Pioneer 10 and 11 are too far off to say.
+      const past = !s.introAt && pos.length() > auR(HELIOPAUSE_AU);
+      const crossed = past && nd < 60 && ns.items.some((m) => /^voyager/.test(m.id));
+      const where = dSurf < 60 ? nearB.name : crossed ? "None: you're past the heliopause, in interstellar space" : past ? "None: you're out near the heliopause, the edge of the Sun's bubble" : "None close by";
       if (s.near[0] !== where && fly.hud.nearBody) fly.hud.nearBody.textContent = s.near[0] = where;
       const machine = nd < 60 ? ns.name : "None close by";
       if (s.near[1] !== machine && fly.hud.nearMachine) fly.hud.nearMachine.textContent = s.near[1] = machine;
       // How far from Earth the place you're at really is (model.ts kmFromEarth undoes the map's squeezed scale).
-      const dist = distanceText(kmFromEarth(pos, earth.pos));
+      const dist = distanceText(kmFromEarth(pos, earth.pos, world.bodies.find((b) => b.key === "moon")));
       if (dist !== s.distTxt && fly.hud.dist) fly.hud.dist.textContent = s.distTxt = dist;
     }
     if (s.frame % 3 === 0) drawMinimap(world, pos, cam.quaternion);

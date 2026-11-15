@@ -35,8 +35,9 @@ export function disposeSprite(s: THREE.Sprite) {
 }
 
 // Writes the caption for time t. The progress bar restarts only when a new cue starts; a counter ({n}) ticking
-// inside a cue changes the text alone, so the bar keeps running.
-export function caption(cues: Cue[], t: number, end: number, shown: { text: string; at: number }, fill = (s: string) => s) {
+// inside a cue changes the visible text alone, so the bar keeps running. Screen readers hear each cue once, as
+// `said` words it (the counter's final figure), not every tick: the caption is a live region.
+export function caption(cues: Cue[], t: number, end: number, shown: { text: string; at: number }, fill = (s: string) => s, said = fill) {
   let i = -1;
   for (let k = 0; k < cues.length; k++) if (t >= cues[k].at) i = k;
   if (i < 0) return;
@@ -45,9 +46,12 @@ export function caption(cues: Cue[], t: number, end: number, shown: { text: stri
     shown.at = cues[i].at;
     shown.text = line;
     setCaption(line, (cues[i + 1]?.at ?? end) - Math.max(cues[i].at, t));
+    const heard = hud.replayLine?.querySelector(".sr-only");
+    if (heard) heard.textContent = said(cues[i].text);
   } else if (line !== shown.text) {
     shown.text = line;
-    if (hud.replayLine) hud.replayLine.textContent = line;
+    const seen = hud.replayLine?.querySelector('[aria-hidden="true"]');
+    if (seen) seen.textContent = line;
   }
 }
 
@@ -213,7 +217,7 @@ export function CassiniReplay({ stop }: { stop: Stop; ground?: (x: number, z: nu
     // Captions; {n} counts the orbits.
     const u = Math.max(0, Math.min(1, (t - ORB_A - 0.3) / 5));
     const n = 1 + Math.round(293 * (1 - (1 - u) * (1 - u)));
-    caption(CUES, t, END, shown.current, (s) => s.replace("{n}", n === 294 ? "294!" : `${n}…`));
+    caption(CUES, t, END, shown.current, (s) => s.replace("{n}", n === 294 ? "294!" : `${n}…`), (s) => s.replace("{n}", "294"));
     // Only end our own replay: if you jump away mid-replay, endReplay would mark the stop you are going to.
     if (t >= END && s.stop === STOP_INDEX[stop.id]) endReplay();
   });

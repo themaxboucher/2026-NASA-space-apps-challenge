@@ -24,7 +24,7 @@ const CUES: Cue[] = [
   { at: 0, text: "19 April 2021, Jezero crater on Mars. Ingenuity is about to try something nobody had ever done: fly on another planet." },
   { at: 3.5, text: "Its two rotors spin up to about 2,400 turns a minute. Mars air is so thin that they have to whirl super fast." },
   { at: 7.5, text: "Lift-off! It climbs about 3 meters, hovers, and lands again. The whole flight takes 39 seconds." },
-  { at: 13, text: "The first powered flight on another world! NASA named this spot Wright Brothers Field." },
+  { at: 13, text: "The first powered flight on another world! NASA named that first airfield Wright Brothers Field." },
   { at: HOP_A, text: "It was only meant to fly 5 times. But it kept going, hop after hop, farther and farther: flight {n}." },
   { at: HOP_B, text: "18 January 2024, flight 72. Over smooth, plain sand, its navigation camera can’t find enough landmarks to judge its speed." },
   { at: HIT, text: "Bump! It lands too hard. All four blades snap, and a piece flies off across the sand." },
@@ -167,7 +167,7 @@ export function IngenuityReplay({ stop, ground = () => 0 }: { stop: Stop; ground
 
     // Captions; {n} counts the flights during the time-lapse.
     const n = Math.min(71, Math.max(2, 2 + Math.floor((69 * (t - HOP_A)) / (HOP_B - HOP_A - 0.5))));
-    caption(CUES, t, END, shown.current, (s) => s.replace("{n}", String(n)));
+    caption(CUES, t, END, shown.current, (s) => s.replace("{n}", String(n)), (s) => s.replace("{n}", "71"));
     // Only end our own replay: if you jump away mid-replay, endReplay would mark the stop you are going to.
     if (t >= END && s.stop === STOP_INDEX[stop.id]) endReplay();
   });

@@ -6,7 +6,7 @@
   "intro": "DART was the world’s first planetary defense test. On 26 September 2022 it crashed on purpose into Dimorphos, a small moon of the asteroid Didymos, and changed its orbit. The spacecraft was destroyed; this is the asteroid it hit.",
   "status": "Crashed into asteroid Dimorphos in 2022",
   "whyLeft": "Crashing was the experiment. DART hit Dimorphos at about 22,000 km/h to see if a spacecraft could nudge an asteroid off its path.",
-  "repurpose": "Nothing is left to repair. Europe’s Hera spacecraft, launched in 2024, is on its way to measure the mark DART left and how much it moved the asteroid.",
+  "repurpose": "Nothing is left to repair. Europe’s Hera spacecraft, launched in 2024, reached the asteroids in November 2026 to measure the mark DART left and how much it moved the asteroid.",
   "hotspots": [
     {
       "id": "impact",
@@ -119,7 +119,7 @@
     {
       "id": "crater-unknown",
       "title": "A crater nobody has seen",
-      "text": "Did DART leave a crater, or reshape the whole little moon? Nobody has seen it up close yet, so the dent drawn here is only a guess. Europe’s Hera spacecraft reached Didymos and Dimorphos in November 2026 to find out.",
+      "text": "Did DART leave a crater, or reshape the whole little moon? No close-up pictures of the spot have been shared yet, so the dent drawn here is only an artist’s guess. Europe’s Hera spacecraft reached Didymos and Dimorphos in November 2026 to find out.",
       "anchor": {
         "pos": [
           -3,

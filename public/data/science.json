@@ -406,7 +406,7 @@
     "tech": [
       {
         "title": "Listening at the Sun’s edge",
-        "text": "Space near Voyager 1 is filled with a thin gas of charged particles called plasma. In 2013, a blast from the Sun made that plasma ring “like a violin string,” and Voyager’s plasma wave instrument, which listens for waves in the plasma, picked up the tone. The higher the pitch, the thicker the plasma. This plasma was more than 40 times thicker than inside the Sun’s bubble, which showed that Voyager had already left the bubble, back on August 25, 2012.",
+        "text": "Space near Voyager 1 is filled with a thin gas of charged particles called plasma. In 2013, a blast from the Sun made that plasma ring “like a violin string,” and Voyager’s plasma wave instrument, which listens for waves in the plasma, picked up the tone. The higher the pitch, the thicker the plasma. This plasma was about 40 times thicker than inside the Sun’s bubble, which showed that Voyager had already left the bubble. Sudden changes in the particles hitting Voyager date the crossing to August 25, 2012.",
         "source": {
           "label": "NASA JPL: Voyager 1 embarks on journey into interstellar space",
           "url": "https://www.jpl.nasa.gov/news/nasa-spacecraft-embarks-on-historic-journey-into-interstellar-space/"
@@ -482,7 +482,7 @@
         "tech": [
           {
             "title": "Measuring plasma density by sound",
-            "text": "Voyager 1 has no working plasma sensor, so scientists used its plasma wave instrument instead. A coronal mass ejection from March 2012 reached the spacecraft in 2013 and set the surrounding plasma oscillating. The oscillation frequency depends on electron density, and it showed plasma more than 40 times denser than in the outer heliosphere: Voyager was outside."
+            "text": "Voyager 1 has no working plasma sensor, so scientists used its plasma wave instrument instead. A coronal mass ejection from March 2012 reached the spacecraft in 2013 and set the surrounding plasma oscillating. The oscillation frequency depends on electron density, and it showed plasma about 40 times denser than in the outer heliosphere: Voyager was outside."
           },
           {
             "title": "A remote memory repair",
@@ -501,11 +501,11 @@
         "tryIt": "Play “Fix Voyager” with a time delay: a builder hidden from view, engineers who can only send written instructions, and a one-minute delay each way. Afterward, discuss how you batched instructions and checked results, like a real flight team."
       },
       "enthusiast": {
-        "breakthrough": "First spacecraft in interstellar space: plasma wave data place Voyager 1’s heliopause crossing on August 25, 2012.",
+        "breakthrough": "First spacecraft in interstellar space: plasma wave data confirmed Voyager 1’s heliopause crossing, and energetic particle changes date it to August 25, 2012.",
         "tech": [
           {
             "title": "Plasma oscillations as a density probe",
-            "text": "With no working plasma sensor, the team relied on the plasma wave subsystem. A March 2012 coronal mass ejection reached Voyager 1 around April 2013 and excited oscillations in the local plasma; the oscillation frequency rises with electron density. The measured density was more than 40 times that of the outer heliosphere, and energetic particle changes fixed the crossing date."
+            "text": "With no working plasma sensor, the team relied on the plasma wave subsystem. A March 2012 coronal mass ejection reached Voyager 1 around April 2013 and excited oscillations in the local plasma; the oscillation frequency rises with electron density. The measured density was about 40 times that of the outer heliosphere, and energetic particle changes fixed the crossing date."
           },
           {
             "title": "Relocating FDS code",
@@ -1128,7 +1128,7 @@
         "tryIt": "Make parachutes of different sizes from plastic bags and tie each to the same small toy. Ask a grown-up to help drop them from the same height. Which one falls slowest?"
       },
       "curious": {
-        "breakthrough": "The first direct measurement of a giant planet’s atmosphere, made by a probe that entered Jupiter on December 7, 1995, and radioed data for 57 minutes.",
+        "breakthrough": "The first direct measurement of a giant planet’s atmosphere, made by a probe that entered Jupiter on December 7, 1995, and radioed data for about 58 minutes.",
         "tech": [
           {
             "title": "Surviving 228 g",
@@ -1151,7 +1151,7 @@
         "tryIt": "Test parachute drag: drop a small toy with parachutes of three canopy areas from the same height and time each fall several times. Plot fall time against canopy area and describe the trend."
       },
       "enthusiast": {
-        "breakthrough": "First in-situ sampling of a giant planet’s atmosphere: the probe entered Jupiter at more than 170,000 km/h on December 7, 1995, survived 228 g, and returned 57 minutes of data under its parachute.",
+        "breakthrough": "First in-situ sampling of a giant planet’s atmosphere: the probe entered Jupiter at more than 170,000 km/h on December 7, 1995, survived 228 g, and returned about 58 minutes of data under its parachute.",
         "tech": [
           {
             "title": "Atmospheric entry at 228 g",
@@ -1169,7 +1169,7 @@
         "facts": [
           "Doppler wind estimates rose from about 530 km/h to more than 640 km/h as the data were refined.",
           "Lightning occurs at about one-tenth Earth’s rate per unit area, with individual events about ten times more energetic.",
-          "The helium measurement was revised from an early 14% to 24%, close to the solar value of about 25% and far above Saturn’s roughly 6%."
+          "The helium measurement was revised from an early 14% to 24%, close to the solar value of about 25% and far above Voyager’s early estimate of about 6% for Saturn, a value since revised upward."
         ],
         "tryIt": "Estimate entry deceleration: assume the probe slowed from about 47 km/s to subsonic speed in roughly two minutes. Compute the average deceleration in g, compare it with the 228 g peak, and explain why the peak is much higher than the average."
       }
@@ -1550,7 +1550,7 @@
           },
           {
             "title": "Mapping from an elliptical orbit",
-            "text": "In the 189-minute elliptical orbit, each 44-minute mapping pass ran from about 2,150 km altitude near the north pole, through a 275 km periapsis, to about 2,400 km near 74° S. Because the radar cannot transmit and receive at once, echoes had to be interleaved between pulses, so the system made about 3,000 mode changes per pass. Each pass produced a swath about 25 km wide and 16,000 km long."
+            "text": "In the roughly 3.3-hour elliptical orbit (periapsis about 295 km), each mapping pass ran from near the north pole to about 74° S. Because the radar cannot transmit and receive at once, echoes had to be interleaved between pulses, so the system made about 3,000 mode changes per pass. Each pass produced a swath about 25 km wide and 16,000 km long."
           },
           {
             "title": "Spacecraft-fixed high-gain antenna",
@@ -1817,7 +1817,7 @@
         ],
         "facts": [
           "Diameter 1.5 m; mass about 315 kg (the NSSDC summary table lists 300 kg). The aeroshell was a blunt cone with an ablative carbon phenolic heat shield.",
-          "Entry at 200 km altitude came at 18:45:32 UT on December 9, 1978. The heat shield was released at 67 km, the parachute jettisoned near 45 km, and impact came at 19:39:55 UT, about 54 minutes later.",
+          "Entry at 200 km altitude came at 18:45:32 UT on December 9, 1978. The heat shield was released at 67 km, the parachute jettisoned near 45 km, and impact came at 19:39:53 UT, about 54 minutes later.",
           "The pressure vessel was three machined titanium parts filled with nitrogen at 102 kPa, with 14 sealed penetrations for the antenna, cables and instrument windows."
         ],
         "legacy": "DAVINCI, a planned NASA Venus mission, will send a descent probe through Venus’s atmosphere to test whether Venus was once wet and habitable, the question the Large Probe’s D/H result first raised.",
@@ -5422,7 +5422,7 @@
       },
       {
         "title": "A correction from Houston",
-        "text": "Mission Control used a new computer method to compare Intrepid’s own readings with tracking data. About two minutes into the descent, they radioed up a correction. The crew typed it in, shortening the trip to the target by about 1.3 km (4,190 feet).",
+        "text": "Mission Control used a new computer method to compare Intrepid’s own readings with tracking data. About two minutes into the descent, they radioed up a correction. The crew typed it in, moving the target about 1.3 km (4,200 feet) farther along their path.",
         "source": {
           "label": "NASA: Apollo 12, The Pinpoint Mission",
           "url": "https://www.nasa.gov/missions/apollo/apollo-12-the-pinpoint-mission"
@@ -5506,7 +5506,7 @@
           },
           {
             "title": "A navigation update from Houston",
-            "text": "Using a new technique, Mission Control compared the lander’s onboard navigation with ground tracking and, about two minutes into powered descent, sent a correction. The crew entered it, moving the aim point about 1.3 km closer."
+            "text": "Using a new technique, Mission Control compared the lander’s onboard navigation with ground tracking and, about two minutes into powered descent, sent a correction. The crew entered it, moving the aim point about 1.3 km farther downrange."
           },
           {
             "title": "The landing point designator",
@@ -5533,7 +5533,7 @@
           },
           {
             "title": "Ground-computed landing site update",
-            "text": "A new technique compared the lander’s onboard state vector with ground tracking data during descent. About two minutes after powered descent began, Houston uplinked a correction, which the crew keyed in, shifting the target downrange by about 1.3 km (4,190 feet)."
+            "text": "A new technique compared the lander’s onboard state vector with ground tracking data during descent. About two minutes after powered descent began, Houston uplinked a correction, which the crew keyed in, shifting the target downrange by about 1.3 km (4,200 feet)."
           },
           {
             "title": "LPD redesignation in P64",
@@ -6380,7 +6380,7 @@
         "url": "https://www.jpl.nasa.gov/news/moonbeams-shine-on-einstein-galileo-and-newton/"
       }
     },
-    "tryIt": "Watch the Moon nod: on several clear nights over a month, sketch the Moon and mark a dark patch near its edge, like the round Sea of Crises. You will see it creep closer to and farther from the edge as the Moon slowly rocks, the same wobble the laser mirrors measure.",
+    "tryIt": "Watch the Moon nod: on several clear nights over a month, sketch the Moon and mark a dark patch near its edge, like the round Sea of Crises. You will see it creep closer to and farther from the edge as the Moon slowly rocks. The laser mirrors measure an even tinier, real wobble hidden inside that rocking.",
     "levels": {
       "explorer": {
         "breakthrough": "Apollo 14 left another mirror on the Moon. With mirrors in different places, scientists can see how the Moon slowly wobbles.",
@@ -6418,7 +6418,7 @@
           "The crew deployed it about 200 m west of the lunar module, leveled it and aligned it toward Earth."
         ],
         "legacy": "Ranging to the Apollo 11, 14 and 15 arrays has tested Einstein’s gravity: Earth and the Moon fall toward the Sun at the same rate despite Earth’s large iron core, an equivalence-principle test.",
-        "tryIt": "Photograph or sketch the Moon at the same phase a month apart and compare the position of the Sea of Crises relative to the limb. The shift you see is libration, which the reflector network measures to high precision."
+        "tryIt": "Photograph or sketch the Moon at the same phase a month apart and compare the position of the Sea of Crises relative to the limb. The shift you see is mostly optical libration, a geometric effect; the reflectors measure the much smaller physical librations, the Moon’s real wobble."
       },
       "enthusiast": {
         "breakthrough": "Apollo 14’s Laser Ranging Retroreflector added a second geographically separated station to the lunar ranging network, enabling solutions for physical librations and lunar orientation alongside the Earth–Moon distance.",
@@ -6437,7 +6437,7 @@
           "It was deployed about 200 m west of the LM, leveled and aligned toward Earth."
         ],
         "legacy": "Lunar laser ranging to the Apollo arrays tests the strong equivalence principle: Earth, with its massive iron core, and the mostly rocky Moon fall toward the Sun at the same rate, as general relativity predicts.",
-        "tryIt": "Estimate range sensitivity to orientation: two reflectors about 1,000 km apart on a Moon tilting by 1 arcsecond (about 4.8 microradians). How much does their range difference change (roughly baseline × angle)? Compare that with the 15 cm goal of 1969."
+        "tryIt": "Estimate range sensitivity to orientation: two reflectors about 1,000 km apart on a Moon tilting by 1 arcsecond (about 4.8 microradians). How much does their range difference change (roughly baseline × angle)? Compare that with today’s millimetre-level ranging."
       }
     }
   },

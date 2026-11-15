@@ -211,7 +211,7 @@ export function FailureBank() {
                     </ul>
                     <p className="fbank-lesson">
                       <b>Lesson learned</b> {c.lesson}{" "}
-                      <a href={c.sources[0]} target="_blank" rel="noopener noreferrer">
+                      <a className="glue" href={c.sources[0]} target="_blank" rel="noopener noreferrer">
                         NASA source <ArrowUpRight aria-hidden="true" />
                       </a>
                     </p>

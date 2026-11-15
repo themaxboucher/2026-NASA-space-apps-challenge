@@ -13,6 +13,7 @@
   --gold: #e8b64c;
   --r-lg: 12px;
   --pill: 999px;
+  --page: 1120px; /* one content width: the cover and every world grid line up */
   --display: var(--font-instrument-sans), "Instrument Sans", system-ui, sans-serif;
   --body: var(--font-instrument-sans), "Instrument Sans", system-ui, sans-serif;
   --mono: var(--font-spline-mono), "Spline Sans Mono", ui-monospace, monospace;
@@ -26,7 +27,7 @@
   color: var(--signal);
 }
 .book-cover {
-  max-width: 860px;
+  max-width: var(--page);
   margin: 0 auto;
   padding: 28px 0 40px;
   border-bottom: 1px solid var(--line);
@@ -100,7 +101,7 @@
   font-size: 0.8125rem;
 }
 .book-world {
-  max-width: 1200px;
+  max-width: var(--page);
   margin: 56px auto 0;
 }
 .book-world h2 {
@@ -116,7 +117,7 @@
 }
 .book-pages {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: 16px;
   margin: 0;
   padding: 0;

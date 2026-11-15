@@ -168,11 +168,13 @@ export function Director() {
     // yet, and the old one (say "Height above Mars") would show the new shot's figure as it fades out.
     const cruise = tour.get().cruise;
     if (hud.counter && cruise && hud.counter.dataset.label === cruise.label) hud.counter.textContent = formatKm(live.counter);
-    // The caption chip naming what you're flying past; it fades between captions (CSS on [data-on]).
+    // The caption chip naming what you're flying past; it fades between captions (CSS on [data-on]). The old line
+    // stays in it while it fades out, so it's hidden from screen readers until the next one.
     if (hud.chip && hud.chip.dataset.text !== chip) {
       hud.chip.dataset.text = chip;
       if (chip) hud.chip.textContent = chip;
       hud.chip.toggleAttribute("data-on", !!chip);
+      hud.chip.toggleAttribute("aria-hidden", !chip);
     }
   });
 
@@ -180,12 +182,17 @@ export function Director() {
 }
 
 // On tall portrait screens, widen the view so machines aren't cropped: keep at least ~50 degrees across.
+// The view angle for a screen this shape (a replay can zoom in from it, then hands it back).
+export function fitFov(size: { width: number; height: number }) {
+  const aspect = size.width / Math.max(1, size.height);
+  return aspect >= 1 ? 50 : Math.min(78, (2 * Math.atan(Math.tan((25 * Math.PI) / 180) / aspect) * 180) / Math.PI);
+}
+
 export function AdaptiveFov() {
   const { camera, size } = useThree();
   useEffect(() => {
     const cam = camera as THREE.PerspectiveCamera;
-    const aspect = size.width / Math.max(1, size.height);
-    const fov = aspect >= 1 ? 50 : Math.min(78, (2 * Math.atan(Math.tan((25 * Math.PI) / 180) / aspect) * 180) / Math.PI);
+    const fov = fitFov(size);
     if (Math.abs(cam.fov - fov) > 0.01) {
       cam.fov = fov;
       cam.updateProjectionMatrix();

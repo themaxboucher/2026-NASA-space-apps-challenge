@@ -6,7 +6,7 @@ import { Suspense, useDeferredValue, useEffect, useMemo, useState } from "react"
 import { reducedMotion } from "../tour/lib/device";
 import { useStore } from "../tour/lib/store";
 import { Science } from "../tour/Science";
-import { buildWorld, fly, flyTo, loadEarthOrbit, loadMachines, loadTracks, readSeen, saveSeen, STATUS_COLOR, STATUS_LABEL, statusOf, ui, type EarthOrbit, type Machine, type Status, type Target, type Tracks, type World } from "./model";
+import { buildWorld, fly, flyTo, loadEarthOrbit, loadMachines, loadTracks, readSeen, saveSeen, STATUS_COLOR, STATUS_LABEL, statusOf, THIS_YEAR, ui, type EarthOrbit, type Machine, type Status, type Target, type Tracks, type World } from "./model";
 import { DEBRIS_DOTS, SolarScene } from "./Scene";
 import "./solar.css";
 
@@ -24,6 +24,8 @@ export default function Solar({ className = "" }: { className?: string }) {
         const world = buildWorld(machines, ui.get().date, tracks);
         // /solar?from=<atlas id> starts you right next to that machine; ?from=<world> (moon, mars, ...) in its orbit view.
         const from = new URLSearchParams(location.search).get("from")?.replace(/^b:/, "");
+        // A machine on a crowded site (Surveyor 3 beside Apollo 12's lander) leads that site's card.
+        if (from && world.siteOf.has(from)) ui.set({ pick: from });
         // From the explore page's map (?intro=map): the scene opens on black and fades up on the overhead view.
         setReady({ machines, tracks, orbit, start: (from && (world.siteOf.get(from) ?? (world.targets.has(`b:${from}`) ? `b:${from}` : null))) || "b:earth", still: reducedMotion(), veil: new URLSearchParams(location.search).get("intro") === "map" });
       },
@@ -139,9 +141,19 @@ function Hud({ world, orbit }: { world: World; orbit: EarthOrbit | null }) {
 
       <Timeline world={world} />
 
-      {site ? <SiteCard key={site.key} site={site} year={year} /> : (nearEarth || debris) && orbit && <EarthCard orbit={orbit} />}
+      {site ? <SiteCard key={site.key} site={site} year={year} /> : (nearEarth || debris) && orbit && <EarthCard orbit={orbit} year={year} />}
 
-      <footer className="sol-foot">
+      <footer
+        className="sol-foot"
+        ref={(el) => {
+          // The footer wraps to one, two or three rows; the card sits just above it (solar.css --foot-h).
+          if (!el) return;
+          const root = el.closest<HTMLElement>(".solar");
+          const ro = new ResizeObserver(() => root?.style.setProperty("--foot-h", `${Math.ceil(el.offsetHeight)}px`));
+          ro.observe(el);
+          return () => ro.disconnect();
+        }}
+      >
         <p className="sol-dist">
           From Earth <b ref={(el) => void (fly.hud.dist = el)} />
         </p>
@@ -291,6 +303,13 @@ const whyLeft = (id: string) => {
   return p;
 };
 
+// The atlas's status line is about today. Back on the timeline, a machine still working then says so instead of
+// "Silent since 2003"; one already gone quiet (or a mirror) keeps its line, which is still true.
+const statusLine = (m: Machine, s: Status, year: number) => {
+  if (s === "alive" && year < THIS_YEAR) return ` in ${year}`;
+  return m.status ? ` · ${m.status}` : "";
+};
+
 function SiteCard({ site, year }: { site: Target; year: number }) {
   const [why, setWhy] = useState<Record<string, string | null>>({});
   useEffect(() => {
@@ -301,13 +320,17 @@ function SiteCard({ site, year }: { site: Target; year: number }) {
     };
   }, [site]);
   const many = site.items.length > 1;
+  const pick = useStore(ui, (s) => s.pick);
+  const first = many ? site.items.find((m) => m.id === pick) : undefined;
+  const items = first ? [first, ...site.items.filter((m) => m !== first)] : site.items;
+  const missions = new Set(site.items.map((m) => m.mission));
   return (
     <section className="sol-card" aria-live="polite">
       <p className="sol-eyebrow">{site.where}</p>
-      <h2>{site.name}</h2>
+      <h2>{first && missions.size > 1 ? `${first.name} and ${site.items.length - 1} more` : site.name}</h2>
       {many && <p className="sol-sub">{site.items.length} space objects here</p>}
       <ul>
-        {site.items.map((m) => {
+        {items.map((m) => {
           const s = statusOf(m, year);
           return (
             <li key={m.id}>
@@ -316,7 +339,7 @@ function SiteCard({ site, year }: { site: Target; year: number }) {
                 {dot(s)}
                 <span>
                   <b>{STATUS_LABEL[s]}</b>
-                  {m.status && ` · ${m.status}`}
+                  {statusLine(m, s, year)}
                 </span>
               </p>
               {why[m.id] && (
@@ -346,13 +369,19 @@ function SiteCard({ site, year }: { site: Target; year: number }) {
 const n = (x: number) => (x >= 1e6 ? `${(x / 1e6).toLocaleString("en-US", { maximumFractionDigits: 1 })} million` : x.toLocaleString("en-US"));
 
 // What's around Earth, from ESA's counts (public/data/earth-orbit.json).
-function EarthCard({ orbit: o }: { orbit: EarthOrbit }) {
+function EarthCard({ orbit: o, year }: { orbit: EarthOrbit; year: number }) {
   const pct = (o.satellitesWorking / (o.satellitesWorking + o.trackedNotWorking)) * 100;
   const perDot = Math.round(o.tracked / (DEBRIS_DOTS.leo + DEBRIS_DOTS.meo + DEBRIS_DOTS.geo));
   return (
     <section className="sol-card" aria-live="polite">
       <p className="sol-eyebrow">Around Earth</p>
       <h2>Earth&apos;s orbit</h2>
+      {/* ponytail: ESA's counts are only for today; the timeline doesn't change them, so say so rather than show 2026's crowd in 1970. */}
+      {year < +o.asOf.slice(-4) && (
+        <p className="sol-past">
+          These are today&apos;s counts ({o.asOf}). Back in {year} there was far less up there.
+        </p>
+      )}
       <p>{o.kidLines[0]}</p>
       <div className="sol-bar" role="img" aria-label={`${n(o.satellitesWorking)} working satellites and ${n(o.trackedNotWorking)} objects that don't work`}>
         <span style={{ width: `${pct.toFixed(1)}%` }} />
@@ -378,10 +407,10 @@ function EarthCard({ orbit: o }: { orbit: EarthOrbit }) {
         </div>
         <div>
           <dt>Break-ups and collisions</dt>
-          <dd>{n(o.fragmentationEvents)}</dd>
+          <dd>{n(o.fragmentationEvents)}+</dd>
         </div>
         <div>
-          <dt>Bits 1 to 10 cm, too small to track</dt>
+          <dt>Untracked bits, 1–10 cm</dt>
           <dd>about {n(o.modelled.from1to10cm)}</dd>
         </div>
       </dl>

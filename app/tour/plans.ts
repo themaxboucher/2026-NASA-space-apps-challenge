@@ -409,7 +409,7 @@ function leg(a: number, b: number | "end"): Shot {
     dur: sb?.body === "deep" ? 3.6 : 3.4,
     tint: { in: hazeOf(sa), out: hazeOf(sb) },
     cam: path(keys, legEase),
-    counter: counterFor(sa, sb, dist, sb ? sb.distanceLabel : "Distance from Earth"),
+    counter: counterFor(sa, sb, dist, "Distance from Earth"),
   };
 }
 
@@ -630,7 +630,7 @@ function homeTrip(from: number): Shot[] {
       counter: { label: "Distance from Earth", dest: "Home · Earth", from: HANDOFF_KM, to: kmB(1), at: (u) => kmB(easeB(u)) },
       chip: (u) => {
         const s = easeB(u);
-        if (Math.abs(s - atMoon) < 0.12) return "The Moon · Eagle’s lower half and the Apollo 15 rover are still parked there";
+        if (s > atMoon - 0.2 && s < atMoon + 0.01) return "The Moon · Eagle’s lower half and the Apollo 15 rover are still parked there";
         return s > atMoon + 0.2 ? debrisLine() : ""; // ESA figures, public/data/earth-orbit.json
       },
     },
@@ -698,7 +698,7 @@ function outerLeg(a: number, b: number, bodies: BodyPlacement[]): Shot {
     dur: 11,
     tint: { in: hazeOf(sa) },
     cam: fly.cam(ease),
-    counter: { label: sb.distanceLabel, dest: `${sb.name} · ${WORLD_NAME[sb.body]}`, from: sa.distanceKm, to: sb.distanceKm, at: (u) => kmAt(ease(u)) },
+    counter: { label: "Distance from Earth", dest: `${sb.name} · ${WORLD_NAME[sb.body]}`, from: sa.distanceKm, to: sb.distanceKm, at: (u) => kmAt(ease(u)) },
     chip: (u) => {
       const s = ease(u);
       if (s < 0.05) return "Leaving Saturn";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { Chassis } from "../suspension";
@@ -9,6 +9,7 @@ import { useStore } from "../../lib/store";
 import { endReplay, live, REPLAYS, setCaption, tour } from "../../state";
 import type { Stop } from "../../stops";
 import { loadMedia, mediaSound } from "../../Story";
+import { fitFov } from "../Director";
 import { ghostMaterial, lerp2, shell, smooth, suited, type Cue } from "../Ghost";
 import { prepareModel, type GltfSpec } from "../Machine";
 import { useModel } from "../useModel";
@@ -17,10 +18,11 @@ REPLAYS.add("apollo15-lrv");
 
 // Apollo 15 at Hadley: a ghost rover drives in along its real tracks with Scott and Irwin aboard and parks where the
 // real one stands; they hop off and lope around it, then head back to Falcon, whose top half blasts off on camera.
+// It opens zoomed in on Falcon, 130 m away (where the rover was unfolded), and pulls back to the rover driving in.
 const LINES: Cue[] = [
   { at: 0, text: "31 July 1971, at Hadley, below the Moon’s Apennine Mountains. Dave Scott climbs down from the lander, Falcon." },
   { at: 3.5, who: "Scott", text: "Man must explore. And this is exploration at its greatest." },
-  { at: 7.5, text: "Then he and Jim Irwin unfold a car from Falcon’s side: the Lunar Roving Vehicle." },
+  { at: 7.5, text: "Beside Falcon, he and Jim Irwin unfolded a car. Here it comes: the Lunar Roving Vehicle." },
   { at: 11.5, text: "It’s the first car ever driven on another world. You’re hearing their real radio from one of the drives." },
   { at: 18.5, text: "Over three moonwalks they drive 27.8 km, to the mountains and the edge of a deep canyon called Hadley Rille." },
   { at: 23.5, text: "Hop off, grab the tools, scoop up rocks! In the Moon’s low gravity, every step is a bounce." },
@@ -40,6 +42,10 @@ const FALCON_SPEC: GltfSpec = { kind: "gltf", url: "", scale: 1.43, hideAbove: 2
 const VIEW_DRIVE = { pos: [9, 0, -4.5] as [number, number, number], look: [0, 0.8, 0] as [number, number, number] };
 const VIEW_TV: [number, number, number] = [3.6, 0, -0.8];
 const CAM_TURN: [number, number] = [28.5, 32.5];
+// Zoom (view angle divided by this): close on Falcon at the start, easing out to the rover as it sets off; and in
+// again for the liftoff, as the rover's TV camera zoomed in on it.
+const ZOOM_START = 4, ZOOM_OUT: [number, number] = [6, 9.5];
+const ZOOM_LIFT = 4, ZOOM_IN: [number, number] = [LIFT - 2, LIFT];
 // Seats, in the rover's own frame (front is -x): hips just above the seat pan, Scott on the left (+z), Irwin right.
 const SEAT_X = 0.45, SEAT_Y = -0.24, SEAT_Z = 0.32;
 
@@ -100,6 +106,8 @@ export function Apollo15Replay({ stop, ground }: { stop: Stop; ground?: (x: numb
     [scene],
   );
 
+  const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
+  const getThree = useThree((s) => s.get);
   const t0 = useRef(-1);
   const audio = useRef<HTMLAudioElement | null>(null);
   const shown = useRef("");
@@ -123,8 +131,11 @@ export function Apollo15Replay({ stop, ground }: { stop: Stop; ground?: (x: numb
       live.replayView = null;
       shown.current = "";
       setCaption("", 0);
+      // Hand back the normal view angle (the replay zooms).
+      camera.fov = fitFov(getThree().size);
+      camera.updateProjectionMatrix();
     };
-  }, [on]);
+  }, [on, camera, getThree]);
 
   const v = useMemo(() => new THREE.Vector3(), []);
   const dir = useMemo(() => new THREE.Vector3(), []);
@@ -242,10 +253,23 @@ export function Apollo15Replay({ stop, ground }: { stop: Stop; ground?: (x: numb
     // Watch Falcon's top half climb away, then settle back to eye level before handing over, so the site isn't left
     // looking at the sky.
     const ay = (scene.ascent.position.y + 3) * (1 - smooth(END - 4, END - 0.5, t)) + VIEW_DRIVE.look[1] * smooth(END - 4, END - 0.5, t);
+    // At first look at Falcon (the zoom makes it big), then pan to the rover as it drives in.
+    const toCar = smooth(ZOOM_OUT[0], ZOOM_OUT[1], t);
+    const fy = gh(fx, fz) + 2;
     live.replayLook =
       t < PARK + 1
-        ? [cp.x, cp.y + 1, cp.z]
+        ? [fx + (cp.x - fx) * toCar, fy + (cp.y + 1 - fy) * toCar, fz + (cp.z - fz) * toCar]
         : [VIEW_DRIVE.look[0] + (fx - VIEW_DRIVE.look[0]) * k, VIEW_DRIVE.look[1] + (ay - VIEW_DRIVE.look[1]) * k, VIEW_DRIVE.look[2] + (fz - VIEW_DRIVE.look[2]) * k];
+
+    const zoom = Math.max(
+      1 + (ZOOM_START - 1) * (1 - toCar),
+      1 + (ZOOM_LIFT - 1) * smooth(ZOOM_IN[0], ZOOM_IN[1], t) * (1 - smooth(END - 4, END - 0.5, t)),
+    );
+    const fov = fitFov(state.size) / zoom;
+    if (Math.abs(camera.fov - fov) > 0.01) {
+      camera.fov = fov;
+      camera.updateProjectionMatrix();
+    }
 
     let line = "", from = 0, until = END;
     LINES.forEach((c, i) => {

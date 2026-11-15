@@ -94,7 +94,7 @@ type Placed = { spot: Hotspot; pos: THREE.Vector3; face: THREE.Vector3 | null; r
 // Projects each hotspot onto the screen every frame and moves its DOM marker (rendered by the overlay) there.
 // Markers fade with distance and hide when you walk around to the far side of the machine.
 export function HotspotTracker({ stop, anchors, ground }: { stop: Stop; anchors: Anchors; ground?: (x: number, z: number) => number }) {
-  const { camera, size } = useThree();
+  const { camera, size, gl } = useThree();
   const placed = useMemo(
     () =>
       stop.hotspots
@@ -119,6 +119,10 @@ export function HotspotTracker({ stop, anchors, ground }: { stop: Stop; anchors:
     let target = 0.6;
     // Arrows already placed this frame: spots in the same direction share one arrow instead of stacking.
     const shownArrows: [number, number][] = [];
+    // The name plate (top left), in canvas pixels, so edge arrows can step around it. Read before any style writes.
+    const plate = s.phase === "explore" ? document.querySelector(".plate")?.getBoundingClientRect() : undefined;
+    const cv = plate ? gl.domElement.getBoundingClientRect() : undefined;
+    const keepOut = plate && cv && plate.width ? [plate.left - cv.left - 16, plate.top - cv.top - 16, plate.right - cv.left + 16, plate.bottom - cv.top + 16] : null;
     for (const { spot, pos, face, reach } of placed) {
       const el = spotEls.get(spotKey(stop.id, spot.id));
       if (!el) continue;
@@ -147,7 +151,12 @@ export function HotspotTracker({ stop, anchors, ground }: { stop: Stop; anchors:
           const ux = inCam.x / len, uy = -inCam.y / len;
           const hw = size.width / 2 - EDGE, hh = size.height / 2 - EDGE;
           const t = Math.min(hw / Math.max(Math.abs(ux), 1e-6), hh / Math.max(Math.abs(uy), 1e-6));
-          const ax = size.width / 2 + ux * t, ay = size.height / 2 + uy * t;
+          let ax = size.width / 2 + ux * t, ay = size.height / 2 + uy * t;
+          // Not over the name plate: slide along the edge it sits on (down the left edge, along the top) past it.
+          if (keepOut && ax > keepOut[0] && ax < keepOut[2] && ay > keepOut[1] && ay < keepOut[3]) {
+            if (ax - EDGE < 1) ay = keepOut[3];
+            else ax = keepOut[2];
+          }
           const dup = shownArrows.some(([bx, by]) => Math.hypot(ax - bx, ay - by) < 40);
           if (!dup) shownArrows.push([ax, ay]);
           arrow.style.transform = `translate3d(${ax.toFixed(1)}px, ${ay.toFixed(1)}px, 0) rotate(${Math.atan2(uy, ux).toFixed(3)}rad)`;

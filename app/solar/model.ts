@@ -143,8 +143,16 @@ const toAu = (p: THREE.Vector3, out: THREE.Vector3) => {
   const r = p.length();
   return out.copy(p).multiplyScalar(r > 1e-9 ? rAu(r) / r : 0);
 };
-export function kmFromEarth(p: THREE.Vector3, earth: THREE.Vector3) {
+export function kmFromEarth(p: THREE.Vector3, earth: THREE.Vector3, moon?: Body): number {
   const d = p.distanceTo(earth);
+  // Close to the Moon, measure from the Moon itself (384,400 km out, 1,737 km across per drawn radius): the curve
+  // below would put its near-side sites, half a unit short of 12, at about 280,000 km.
+  const dm = moon ? p.distanceTo(moon.pos) : Infinity;
+  if (moon && dm < moon.r * 6) {
+    const real = 384400 + ((d - moon.pos.distanceTo(earth)) * 1737.4) / moon.r;
+    const w = THREE.MathUtils.smoothstep(dm, moon.r * 3, moon.r * 6);
+    return w === 0 ? real : (1 - w) * real + w * kmFromEarth(p, earth);
+  }
   // Height above the ground out to the geostationary ring (35,786 km up), then on to the Moon (384,400 km).
   const near = d <= GEO ? Math.max(0, d - 1) * 6371 : d <= MOON_DIST ? 35786 * Math.pow(384400 / 35786, (d - GEO) / (MOON_DIST - GEO)) : (384400 * d) / MOON_DIST;
   if (d <= MOON_DIST) return near;
@@ -349,6 +357,7 @@ export const ui = createStore({
   locked: false,
   orbit: null as string | null, // the target ("b:mars", "c:voyager1") you're circling in orbit view
   go: null as null | { key: string; n: number }, // an auto-flight request
+  pick: null as string | null, // the machine asked for by ?from=<id>: listed first on a crowded site's card
   date: Date.now(), // the timeline (ms): where the planets and spacecraft are drawn
 });
 let goN = 0;

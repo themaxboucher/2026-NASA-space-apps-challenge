@@ -510,9 +510,12 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     const stop = st === 'alive' || st === 'echo' ? NOW : end ? new Date(String(end).slice(0, 10)) : null;
     const days = stop ? (stop - new Date(String(start).slice(0, 10))) / 864e5 : null;
     const tile = (k, v, n, cls = '') => `<div class="stat${cls}"><span class="k">${k}</span><span class="v">${v}</span>${n ? `<span class="n">${n}</span>` : ''}</div>`;
-    const when = `${fmt(start)} – ${st === 'alive' || st === 'echo' ? 'today' : fmt(end)}`;
+    // One rule for every world: count from arrival at the destination; craft whose journey was the mission (no arrival) count from launch.
+    const when = `From ${it.arrived ? 'arrival' : 'launch'}: ${fmt(start)} – ${st === 'alive' || st === 'echo' ? 'today' : fmt(end)}`;
     const t = [];
-    if (days != null) t.push(tile(st === 'echo' ? 'Working unpowered for' : st === 'alive' ? 'Working for' : 'Worked for', esc(span(days)), esc(when)));
+    // Arrived and ended the same day (impactors, entry probes, lost landers): say what happened instead of "Under a day".
+    if (days != null && days < 1) t.push(tile(/\blost\b|never heard/i.test(it.status || '') ? 'Lost on arrival' : 'Ended the day it arrived', esc(fmt(start)), ''));
+    else if (days != null) t.push(tile(st === 'echo' ? 'Working unpowered for' : st === 'alive' ? 'Working for' : 'Worked for', esc(span(days)), esc(when)));
     else t.push(tile(it.arrived ? 'Arrived' : 'Launched', esc(fmt(start)), ''));
     if (end && st === 'silent') t.push(tile('Silent for', esc(span((NOW - new Date(String(end).slice(0, 10))) / 864e5)), `Last heard ${esc(fmt(end))}`));
     if (Number.isFinite(it.distance_au)) t.push(tile('From the Sun', `${it.distance_au.toFixed(1)}<small> AU</small>`, Number.isFinite(it.lightTime_hours) ? `A radio hello takes ${it.lightTime_hours.toFixed(1)} h one way` : ''));

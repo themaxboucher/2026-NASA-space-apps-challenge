@@ -75,7 +75,8 @@ function monotone(keys: [number, number][]) {
 }
 const missionDay = monotone(KEYS);
 
-const REVEAL = 57.5; // the real Voyager appears where the ghost has arrived: today
+const REVEAL = 57.5; // the ghost has faded out: the real Voyager stands where it arrived, today
+const SWAP = REVEAL - 1.5; // the real model appears (and the camera moves in) as the ghost starts to fade, with no empty gap
 const END = 63;
 const CUES: Cue[] = [
   { at: 0, text: "5 September 1977: Voyager 1 blasts off from Florida and races away from Earth, headed for the giant planets." },
@@ -92,7 +93,7 @@ const CUES: Cue[] = [
   { at: 45.5, text: "Its nuclear power slowly fades, so over the years engineers switch off one instrument after another." },
   { at: 48, text: "25 August 2012: Voyager 1 leaves the Sun’s giant bubble and becomes the first spacecraft in interstellar space. Its twin, Voyager 2, follows in 2018." },
   { at: 51, text: "The cosmic ray detector went quiet in 2025, and a particle detector in April 2026. Just two instruments are still on." },
-  { at: 54.5, text: "Today Voyager 1 is more than 25 billion km away and still talking to us. Its messages take almost a whole day to reach Earth." },
+  { at: 54.5, text: "Today Voyager 1 is nearly 26 billion km away and still talking to us. Its messages take about 24 hours, a whole day, to reach Earth." },
 ];
 
 // The ghost Voyager always sits at the scene's middle (where the real model is) and the Solar System is drawn
@@ -172,13 +173,39 @@ export function label(text: string, center: [number, number] = [0.5, -0.6]) {
   g.shadowBlur = 8;
   g.fillStyle = "#e8f2ff";
   g.fillText(text, 128, 32);
+  const textW = Math.min(1, (g.measureText(text).width + 8) / 256); // the drawn text's share of the tag's width
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
   const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false, depthWrite: false, sizeAttenuation: false }));
   s.scale.set(0.11, 0.0275, 1);
   s.center.set(...center);
   s.renderOrder = 1002;
+  s.userData.textW = textW;
+  s.userData.shown = 1;
   return s;
+}
+
+// Fades out any tag that would overlap a tag placed before it (in this order of importance), on screen.
+const TAG_ORDER = ["sun", "jupiter", "saturn", "earth", "voyager", "voyager2"] as const;
+const tagAt = new THREE.Vector3();
+function declutter(labels: Record<(typeof TAG_ORDER)[number], THREE.Sprite>, camera: THREE.Camera, size: { width: number; height: number }, dt: number, v2On: boolean) {
+  const cam = camera as THREE.PerspectiveCamera;
+  // A size-fixed sprite's height on screen, in pixels, per unit of scale.
+  const pxPerUnit = (size.height / 2) * cam.projectionMatrix.elements[5];
+  const placed: [number, number, number, number][] = [];
+  for (const k of TAG_ORDER) {
+    const l = labels[k];
+    tagAt.copy(l.position).project(camera);
+    const w = l.scale.x * pxPerUnit * (l.userData.textW as number), h = l.scale.y * pxPerUnit * 0.7;
+    // The tag's box: the sprite is anchored at `center`, and its text is centred in it.
+    const cx = ((tagAt.x + 1) / 2) * size.width + (0.5 - l.center.x) * l.scale.x * pxPerUnit;
+    const cy = ((1 - tagAt.y) / 2) * size.height - (0.5 - l.center.y) * l.scale.y * pxPerUnit;
+    const box: [number, number, number, number] = [cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2];
+    const onScreen = tagAt.z < 1 && (k !== "voyager2" || v2On);
+    const clear = onScreen && !placed.some((b) => box[0] < b[2] && box[2] > b[0] && box[1] < b[3] && box[3] > b[1]);
+    if (clear) placed.push(box);
+    l.userData.shown = THREE.MathUtils.clamp((l.userData.shown as number) + (clear ? dt : -dt) * 4, 0, 1);
+  }
 }
 
 // A globe lit from the Sun's actual direction (the stop's own light shines straight down, which would be wrong here).
@@ -324,10 +351,11 @@ function Trip({ stop, track }: { stop: Stop; track: Track }) {
     const n = () => new THREE.Vector3();
     return { craft: n(), w: n(), a: n(), b: n(), out: n(), ahead: n(), sunW: n(), jupW: n(), satW: n(), earthW: n(), v2W: n() };
   }, []);
-  useFrame((state) => {
+  useFrame((state, rawDt) => {
+    const dt = Math.min(rawDt, 0.05);
     const s = tour.get();
     const t = on && t0.current >= 0 ? state.clock.elapsedTime - t0.current : -1;
-    live.hideMachine = (on || !s.revealed.includes(stop.id)) && t < REVEAL;
+    live.hideMachine = (on || !s.revealed.includes(stop.id)) && t < SWAP;
     scene.root.visible = on && t >= 0;
     if (!on) return;
     if (t0.current < 0) {
@@ -402,18 +430,20 @@ function Trip({ stop, track }: { stop: Stop; track: Track }) {
     }
     glows.voyager.material.opacity = alpha * twinkle;
     glows.voyager.scale.setScalar(0.04);
-    for (const l of Object.values(labels)) l.material.opacity = alpha * 0.9;
     const v2a = alpha * smooth(V2_FROM, V2_FROM + 400, D);
     glows.voyager2.material.opacity = v2a * twinkle;
     glows.voyager2.scale.setScalar(0.032);
-    labels.voyager2.material.opacity = v2a * 0.9;
+    // Name tags that would overlap one already placed fade out (zoomed far out, the Sun, Earth, Jupiter and Saturn
+    // bunch up in one spot; at a flyby, the planet's tag sits on Voyager's).
+    declutter(labels, state.camera, state.size, dt, labels.voyager2 && v2a > 0.05);
+    for (const [k, l] of Object.entries(labels)) l.material.opacity = (k === "voyager2" ? v2a : alpha) * 0.9 * (l.userData.shown as number);
 
     // The camera, in a frame that turns with Voyager.
     // Its direction of travel: a chord across 60 days, so the camera doesn't whip round at a flyby.
     pos(voyager1, D + 30, v.ahead).sub(pos(voyager1, D - 30, v.out)).setY(0).normalize();
     v.out.set(0, 1, 0).cross(v.ahead); // side
     const vw = view.current;
-    if (t < REVEAL - 1) {
+    if (t < SWAP) {
       v.w.copy(v.ahead).multiplyScalar(cam[0]).addScaledVector(v.out, cam[2]);
       v.w.y += cam[1];
       v.w.addScaledVector(v.b.copy(sunW).normalize(), -cam[3]);

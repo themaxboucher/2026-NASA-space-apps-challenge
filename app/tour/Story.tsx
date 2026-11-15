@@ -99,7 +99,10 @@ function playTrack(key: string) {
     const src = safe(tr?.file);
     if (!tr || !src || music.key === key) return;
     const old = music.el;
-    const el = new Audio(src);
+    // With music off, don't download the file: it loads on the first play() when the visitor turns music on.
+    const el = new Audio();
+    el.preload = music.on ? "auto" : "none";
+    el.src = src;
     el.loop = true;
     el.volume = 0;
     music.el = el;
@@ -255,7 +258,7 @@ export function Cutscene() {
           <video ref={videoVolume} src={src} poster={safe(clip.poster) ?? undefined} controls autoPlay playsInline onPlay={() => duck(true)} onPause={() => duck(false)} onEnded={() => { duck(false); playCutscene(null); }} />
           <figcaption>
             {clip.real === false ? "Animation: " : "Real footage: "}
-            {clip.caption}{clip.audio && <span className="chapter-audio"><AudioLines aria-hidden="true" /> {clip.audio}</span>} <span className="chapter-credit">{clip.credit} · {clip.license}{clip.source && <> · <a href={clip.source} target="_blank" rel="noopener noreferrer">source <ArrowUpRight aria-hidden="true" /></a></>}</span>
+            {clip.caption}{clip.audio && <span className="chapter-audio"><AudioLines aria-hidden="true" /> {clip.audio}</span>} <span className="chapter-credit">{clip.credit} · {clip.license}{clip.source && <> · <a className="glue" href={clip.source} target="_blank" rel="noopener noreferrer">source <ArrowUpRight aria-hidden="true" /></a></>}</span>
           </figcaption>
         </figure>
       </div>
@@ -318,7 +321,7 @@ export function Interlude() {
             />
             <figcaption>
               {clip.real === false ? "Animation: " : "Real footage: "}
-              {clip.caption}{clip.audio && <span className="chapter-audio"><AudioLines aria-hidden="true" /> {clip.audio}</span>} <span className="chapter-credit">{clip.credit} · {clip.license}{clip.source && <> · <a href={clip.source} target="_blank" rel="noopener noreferrer">source <ArrowUpRight aria-hidden="true" /></a></>}</span>
+              {clip.caption}{clip.audio && <span className="chapter-audio"><AudioLines aria-hidden="true" /> {clip.audio}</span>} <span className="chapter-credit">{clip.credit} · {clip.license}{clip.source && <> · <a className="glue" href={clip.source} target="_blank" rel="noopener noreferrer">source <ArrowUpRight aria-hidden="true" /></a></>}</span>
             </figcaption>
           </figure>
         )}

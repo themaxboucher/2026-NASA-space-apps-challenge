@@ -279,7 +279,7 @@ function EarthOrbitCard({ d, open, onClose }: { d: EarthOrbit; open: boolean; on
       ))}
       <p className="orbit-credit">
         {d.source.credit}. Estimates of untracked pieces: {d.modelled.reference}.{" "}
-        <a href={d.source.url} target="_blank" rel="noopener noreferrer">{d.source.label} ↗</a>
+        <a href={d.source.url} target="_blank" rel="noopener noreferrer"><ArrowLabel text={d.source.label} /></a>
       </p>
     </Overlay>
   );
@@ -584,6 +584,20 @@ function Story() {
   );
 }
 
+// A link label whose ↗ arrow stays on the same line as its last word (it used to wrap onto a line of its own).
+export function ArrowLabel({ text }: { text: string }) {
+  const i = text.lastIndexOf(" ");
+  return (
+    <>
+      {text.slice(0, i + 1)}
+      <span className="glue">
+        {text.slice(i + 1)}{" "}
+        <ArrowUpRight aria-hidden="true" />
+      </span>
+    </>
+  );
+}
+
 // A spot's story: its real photo (public/media/spot-photos.json) when there is one, the text, the source, and
 // the part's own footage when it has some (media.json).
 function SpotStory({ stopId, spot }: { stopId: string; spot: Hotspot }) {
@@ -612,7 +626,7 @@ function SpotStory({ stopId, spot }: { stopId: string; spot: Hotspot }) {
               {photo.source && (
                 <>
                   {" "}
-                  · <a href={photo.source} target="_blank" rel="noopener noreferrer">source <ArrowUpRight aria-hidden="true" /></a>
+                  · <a href={photo.source} target="_blank" rel="noopener noreferrer"><ArrowLabel text="source" /></a>
                 </>
               )}
             </span>
@@ -624,7 +638,7 @@ function SpotStory({ stopId, spot }: { stopId: string; spot: Hotspot }) {
       <p className="story-text">{spot.text}</p>
       <div className="story-actions">
         <a className="story-source" href={spot.source.url} target="_blank" rel="noopener noreferrer">
-          {spot.source.label} <ArrowUpRight aria-hidden="true" />
+          <ArrowLabel text={spot.source.label} />
         </a>
         {film && (
           <button type="button" className="story-film" onClick={() => playCutscene(key)}>
@@ -1086,8 +1100,7 @@ function MissionFile() {
         )}
         {/* A full page load on purpose: the atlas runs its own 3D engine. */}
         <a className="mfile-more mfile-wide" href={`/explore#${s.id}`}>
-          Full story, photos and links in the atlas{" "}
-          <ArrowUpRight aria-hidden="true" />
+          <ArrowLabel text="Full story, photos and links in the atlas" />
         </a>
       </div>
       {/* Every failed mission in the atlas, grouped by cause, under this machine's own file. */}
@@ -1266,7 +1279,12 @@ function useHashSync() {
     addEventListener("hashchange", onHash);
     return () => removeEventListener("hashchange", onHash);
   }, []);
+  // Leave the URL alone until the tour has left the start screen: a deep link (/#surveyor3) is still being opened then,
+  // and clearing it here would reset the address before the trip starts.
+  const started = useRef(false);
   useEffect(() => {
+    if (phase !== "start") started.current = true;
+    if (!started.current) return;
     const id =
       phase === "explore" || phase === "travel" ? STOPS[stop]?.id : null;
     const want = id ? `#${id}` : "";

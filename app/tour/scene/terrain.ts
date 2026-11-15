@@ -201,15 +201,16 @@ export const CRATERS = new Map<string, SiteCrater>();
 export function craterSpec(stop: Stop): SiteCrater | null {
   const r = stop.setting.crater;
   if (!r) return null;
-  // A site file without crater data yet: a plain fresh crater of the radius sites.ts picked.
-  return CRATERS.get(stop.id) ?? { diameterM: r * 2, depthM: r * 0.36, ejecta: "bright", seen: true, source: { label: "", url: "" } };
+  // A site file without crater data yet (DART's on Dimorphos, say): nobody has measured it, so it is drawn as a guess.
+  return CRATERS.get(stop.id) ?? { diameterM: r * 2, depthM: r * 0.36, ejecta: "none", seen: false, source: { label: "", url: "" } };
 }
 
 // A fresh crater where the machine hit, cut into the real ground (so it follows a slope), at its true size:
 // a bowl with a raised rim, a central mound if the crater has one (the S-IVB craters do), and the thrown-out
 // blanket thinning outward as about 1/r^3. The soil it threw out is coloured in: fresh bright, dark (GRAIL's is
 // probably the probes' own carbon), or the S-IVBs' long bright and dark rays. The outline wobbles a little, as
-// real ones do.
+// real ones do. A crater nobody has photographed is a guess, and looks like one: a soft, rounded dent with no crisp
+// rim or bright blanket.
 function withCrater(stop: Stop, base: Terrain, seed: number): Terrain {
   const c = craterSpec(stop);
   if (!c) return base;
@@ -238,7 +239,8 @@ function withCrater(stop: Stop, base: Terrain, seed: number): Terrain {
     height(x, z) {
       const { t, lobe } = polar(x, z);
       let h: number;
-      if (t < 1) h = rim - d * (1 - Math.pow(t, p)) + mound * Math.exp(-((t / 0.3) ** 2));
+      if (!c.seen) h = -d * 0.8 * Math.exp(-1.6 * (t / 0.75) ** 2) + rim * 0.6 * Math.exp(-(((t - 1.05) / 0.35) ** 2));
+      else if (t < 1) h = rim - d * (1 - Math.pow(t, p)) + mound * Math.exp(-((t / 0.3) ** 2));
       else h = rim * Math.pow(t, -3) * (1 + (lobe - 0.5) * 0.8 * smooth((t - 1) / 0.4)) * (1 - smooth((t - 2.5) / 2));
       return base.height(x, z) + h;
     },
@@ -250,7 +252,7 @@ function withCrater(stop: Stop, base: Terrain, seed: number): Terrain {
       let k = 0;
       if (c.ejecta === "bright" || c.ejecta === "rays") k = 0.42 * blanket;
       else if (c.ejecta === "dark") k = -0.5 * blanket * (t < 1 ? 0.6 : 1);
-      else k = 0.1 * blanket; // even with nothing seen from orbit, the walls are fresh
+      else k = (c.seen ? 0.1 : 0.03) * blanket; // even with nothing seen from orbit, the walls are fresh
       for (const r of rays) {
         let da = Math.abs(a - r.a) % (Math.PI * 2);
         if (da > Math.PI) da = Math.PI * 2 - da;

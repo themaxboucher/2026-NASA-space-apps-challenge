@@ -1606,3 +1606,8 @@ p.keysbar {
     transition: none;
   }
 }
+
+/* Keeps a link's last word and its arrow together (see ArrowLabel in Tour.tsx). */
+.glue {
+  white-space: nowrap;
+}

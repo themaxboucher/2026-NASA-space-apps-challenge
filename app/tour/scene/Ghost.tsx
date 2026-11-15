@@ -13,16 +13,18 @@ import { useModel } from "./useModel";
 // "What happened here": see-through figures re-enact the past over the real machine, then fade away.
 // They are drawn as glowing silhouettes (bright at the edges, clear in the middle) so they read as memories.
 
-export function ghostMaterial(color = "#9fd8ff") {
+// `core`: how much the middle of a shape shows (its edges always glow). A ghost over something bright (an astronaut
+// against the lander's gold foil) needs a fuller body and normal blending, or it vanishes into what's behind it.
+export function ghostMaterial(color = "#9fd8ff", core = 0.05, blending: THREE.Blending = THREE.AdditiveBlending) {
   return new THREE.ShaderMaterial({
-    uniforms: { uColor: { value: new THREE.Color(color) }, uAlpha: { value: 0 } },
+    uniforms: { uColor: { value: new THREE.Color(color) }, uAlpha: { value: 0 }, uCore: { value: core } },
     vertexShader: `varying vec3 vN; varying vec3 vV;
       void main() { vec4 mv = modelViewMatrix * vec4(position, 1.0); vN = normalize(normalMatrix * normal); vV = normalize(-mv.xyz); gl_Position = projectionMatrix * mv; }`,
-    fragmentShader: `uniform vec3 uColor; uniform float uAlpha; varying vec3 vN; varying vec3 vV;
-      void main() { float f = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 2.0); gl_FragColor = vec4(uColor, (0.05 + 0.95 * f) * uAlpha); }`,
+    fragmentShader: `uniform vec3 uColor; uniform float uAlpha; uniform float uCore; varying vec3 vN; varying vec3 vV;
+      void main() { float f = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 2.0); gl_FragColor = vec4(uColor, (uCore + (1.0 - uCore) * f) * uAlpha); }`,
     transparent: true,
     depthWrite: false,
-    blending: THREE.AdditiveBlending,
+    blending,
     side: THREE.DoubleSide,
   });
 }
@@ -197,7 +199,9 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
     const flameMat = flameMaterial(2.6);
     const flame = new THREE.Mesh(new THREE.ConeGeometry(0.55, 2.6, 32, 8, true).rotateX(Math.PI), flameMat);
     flame.position.set(0, 2.2 - 1.3, 0);
-    const neil = suited(suit.scene, mat), buzz = suited(suit.scene, mat);
+    // Neil and Buzz get a fuller ghost: on the ladder they are seen against the bright gold foil.
+    const suitMat = ghostMaterial("#9fd8ff", 0.4, THREE.NormalBlending);
+    const neil = suited(suit.scene, suitMat), buzz = suited(suit.scene, suitMat);
     // A standing flag, built in the same frame as the real fallen one: pole up from its foot, crossbar near the
     // top, cloth hanging off the crossbar along +z.
     const flag = new THREE.Group();
@@ -215,6 +219,7 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
       return b;
     };
     const neilBox = box(), buzzBox = box();
+    neilBox.material = buzzBox.material = suitMat;
     neil.armR.add(neilBox);
     buzz.armR.add(buzzBox);
     const root = new THREE.Group();
@@ -225,11 +230,12 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
     ascent.add(flame);
     root.add(dust);
     const plumes = [plumeOuter.material, plumeInner.material] as THREE.ShaderMaterial[];
-    return { root, mat, flameMat, ascent, flame, neil, buzz, flag, landing, landMat, landFlame, plumes, dust, neilBox, buzzBox };
+    return { root, mat, suitMat, flameMat, ascent, flame, neil, buzz, flag, landing, landMat, landFlame, plumes, dust, neilBox, buzzBox };
   }, [gltf, suit, spec]);
   useEffect(
     () => () => {
       scene.mat.dispose();
+      scene.suitMat.dispose();
       scene.flameMat.dispose();
       live.replayLook = null;
       scene.landMat.dispose();
@@ -309,7 +315,7 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
 
     // Overall fade in and out.
     const alpha = smooth(0, 1.5, t) * (1 - smooth(A11_END - 2.5, A11_END, t));
-    scene.mat.uniforms.uAlpha.value = alpha;
+    scene.mat.uniforms.uAlpha.value = scene.suitMat.uniforms.uAlpha.value = alpha;
 
     // The ladder runs from the porch down to the footpad (the same line the player can climb).
     const lad = stop.ladder!;

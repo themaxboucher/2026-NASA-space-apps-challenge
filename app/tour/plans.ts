@@ -53,9 +53,9 @@ function path(keys: Key[], ease: (u: number) => number = smoother) {
   };
 }
 
-// Brakes hard as the target nears: by half time you've covered ~94% of the way, and the rest (the planet
-// swelling up, the drop to the landing site) happens slowly, so you see the approach instead of a fly-by.
-const glide = (u: number) => 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 4);
+// Brakes as the target nears: by half time you've covered ~84% of the way, so you still see the planet swell up,
+// without crawling through the last stretch.
+const glide = (u: number) => 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 2.6);
 // Every trip starts from rest (no jolt), speeds up, then takes the same long braking approach.
 const launchEase = (u: number) => glide(u * u * (2 - u));
 // The first trip, Earth to the Moon: an unhurried ease in, a steady cruise and a long soft approach.
@@ -63,10 +63,10 @@ const firstTrip = (u: number) => {
   const x = Math.min(1, Math.max(0, u));
   // Still moving (about a fifth of cruise speed) at the end, so the drop into the landing site carries on
   // through the dissolve instead of stalling first.
-  return 0.82 * (1 - Math.pow(1 - x * x * (3 - 2 * x), 2.2)) + 0.18 * x;
+  return 0.7 * (1 - Math.pow(1 - x * x * (3 - 2 * x), 1.8)) + 0.3 * x;
 };
 // Other trips between worlds: the same braking approach, but never quite stopping before the hand-off.
-const legEase = (u: number) => 0.88 * launchEase(u) + 0.12 * Math.min(1, Math.max(0, u));
+const legEase = (u: number) => 0.75 * launchEase(u) + 0.25 * Math.min(1, Math.max(0, u));
 
 function hold(scene: SceneDesc, pose: Pose, dur: number, fadeOut?: number): Shot {
   return {
@@ -249,7 +249,7 @@ function startLeg(): Shot {
   const moonAt = v(0, 0, -LEG);
   return {
     scene: START_SCENE, // the same scene as the start screen (it already holds the Moon), so nothing cuts
-    dur: 8,
+    dur: 6.5,
     tint: { out: hazeOf(first) },
     cam: path(
       [
@@ -285,14 +285,14 @@ function descent(index: number): Shot {
   const a0 = startPos.y, a1 = endPos.y, la = Math.log(a0), lb = Math.log(Math.max(1, a1));
   const site = v(0, 0, 0), p = new THREE.Vector3(), q = new THREE.Vector3();
   const posAt = (u: number, out: THREE.Vector3) => {
-    const s = 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 2.2);
+    const s = 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 1.8);
     const alt = Math.exp(la + (lb - la) * s);
     const k = (alt - a1) / (a0 - a1); // 1 at the start, 0 at the end: sideways offset shrinks with height
     return out.set(startPos.x * k + endPos.x * (1 - k), alt, startPos.z * k + endPos.z * (1 - k));
   };
   return {
     scene: sceneFor(index),
-    dur: 8,
+    dur: 6.5,
     cam: (u, cam) => {
       posAt(u, p);
       const alt = p.y;
@@ -342,7 +342,7 @@ function ascent(index: number, from: Pose): Shot {
   };
   return {
     scene: sceneFor(index),
-    dur: 11,
+    dur: 9,
     cam: (u, cam) => {
       posAt(u, p);
       const alt = p.y;
@@ -406,7 +406,7 @@ function leg(a: number, b: number | "end"): Shot {
   const dist = sb ? sb.distanceKm : 0;
   return {
     scene: { kind: "travel", key: `leg-${a}`, bodies },
-    dur: sb?.body === "deep" ? 3.6 : 3.4,
+    dur: sb?.body === "deep" ? 3 : 2.8,
     tint: { in: hazeOf(sa), out: hazeOf(sb) },
     cam: path(keys, legEase),
     counter: counterFor(sa, sb, dist, sb ? sb.distanceLabel : "Distance from Earth"),
@@ -675,10 +675,10 @@ function outerLeg(a: number, b: number, bodies: BodyPlacement[]): Shot {
   ]);
   const at = { uranus: fly.nearest(U), neptune: fly.nearest(N), pluto: fly.nearest(P), heliopause: fly.first((p) => p.z < helioZ) };
   const ease = fly.timed([
-    [at.uranus, 0.8, 0.045],
-    [at.neptune, 0.8, 0.045],
-    [at.pluto, 0.8, 0.045],
-    [at.heliopause, 0.5, 0.03],
+    [at.uranus, 0.55, 0.045],
+    [at.neptune, 0.55, 0.045],
+    [at.pluto, 0.55, 0.045],
+    [at.heliopause, 0.35, 0.03],
   ]);
   // The distance counter passes each world at its real distance (roughly, from the Sun), ending at Voyager's.
   const kmAt = kmTrack([[0, sa.distanceKm], ...OUTER_FACTS.map(([k, , km]): [number, number] => [at[k], km]), [1, sb.distanceKm]]);
@@ -695,7 +695,7 @@ function outerLeg(a: number, b: number, bodies: BodyPlacement[]): Shot {
       ],
       heliopause: { center: hc.toArray() as [number, number, number], radius: 700 },
     },
-    dur: 11,
+    dur: 9.5,
     tint: { in: hazeOf(sa) },
     cam: fly.cam(ease),
     counter: { label: sb.distanceLabel, dest: `${sb.name} · ${WORLD_NAME[sb.body]}`, from: sa.distanceKm, to: sb.distanceKm, at: (u) => kmAt(ease(u)) },

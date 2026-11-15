@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
-import { ArrowUp, ArrowUpRight, Check, ChevronRight, Pause, Play, X } from "lucide-react";
+import { ArrowRight, ArrowUp, ArrowUpRight, Check, ChevronRight, Pause, Play, X } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { coarsePointer } from "./lib/device";
 import { formatKm } from "./lib/geo";
@@ -427,14 +427,15 @@ function ExploreLink() {
   const done = useStore(tour, (s) => s.phase === "end") || remembered;
   return (
     <>
-      {/* Top right: fly the 3D solar system (to any machine), then the full list of all of them. */}
-      {done && <a className="explore-link solar-top" href={id ? `/solar?from=${encodeURIComponent(id)}` : "/solar"}>
-        Fly around the solar system
-        <ArrowUpRight className="explore-arrow" aria-hidden="true" />
+      {/* Top right, in one row with the sound buttons: fly the 3D solar system (to any machine), then the full
+          list of all of them. */}
+      {done && <a className="explore-link" href={id ? `/solar?from=${encodeURIComponent(id)}` : "/solar"}>
+        Solar system
+        <ArrowRight className="explore-arrow" aria-hidden="true" />
       </a>}
-      <a className={`explore-link${done ? " explore-second" : ""}`} href={id ? `/explore#${id}` : "/explore"}>
-        Explore {allMachines(n)}
-        <ArrowUpRight className="explore-arrow" aria-hidden="true" />
+      <a className="explore-link" href={id ? `/explore#${id}` : "/explore"} aria-label={`Explore ${allMachines(n)}`}>
+        Explore
+        <ArrowRight className="explore-arrow" aria-hidden="true" />
       </a>
     </>
   );
@@ -1500,7 +1501,10 @@ export default function Tour() {
         />
         <Spots />
         <div className="fade" ref={fade} aria-hidden="true" />
-        <ExploreLink />
+        <div className="top-right">
+          <ExploreLink />
+          <MusicToggle />
+        </div>
         <AnimatePresence>
           {phase === "start" && interlude == null && countdown == null && <StartScreen key="start" />}
         </AnimatePresence>
@@ -1541,7 +1545,6 @@ export default function Tour() {
         <AnimatePresence>
           {cutscene && <Cutscene key="cut" />}
         </AnimatePresence>
-        <MusicToggle />
         <AnimatePresence>
           {phase === "end" && <EndScreen key="end" />}
         </AnimatePresence>

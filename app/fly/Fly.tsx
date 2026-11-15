@@ -166,9 +166,11 @@ export default function Fly() {
       {stop && <Spots />}
       {/* A full page load on purpose: the atlas runs its own 3D engine. */}
       {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-      <a className="explore-link" href={stop ? `/explore#${stop.id}` : "/explore"}>
-        <ArrowLeft aria-hidden="true" /> Back to the atlas
-      </a>
+      <div className="top-right">
+        <a className="explore-link" href={stop ? `/explore#${stop.id}` : "/explore"}>
+          <ArrowLeft aria-hidden="true" /> Back to the atlas
+        </a>
+      </div>
       {!state && <p className="fly-note">Flying out…</p>}
       {state && "error" in state && <p className="fly-note">{state.error}</p>}
       {stop && (

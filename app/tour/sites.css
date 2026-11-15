@@ -369,18 +369,10 @@
   color: var(--dim);
 }
 
-/* Top right: "Fly around the solar system" first, "Explore all 79 machines" just under it. */
-/* The two top-right links (fly the solar system, explore every space object) look the same: same font and colour. */
-.explore-link.explore-second {
-  top: calc(max(16px, env(safe-area-inset-top, 0px)) + 30px);
-}
-
-/* Sound panel under the speaker button: music on/off and volume, and a separate volume for clips and radio. */
+/* Sound panel under the speaker button: music on/off and volume, and a separate volume for clips and radio.
+   It sits at the end of the top-right row (.top-right in tour.css). */
 .sound {
-  position: absolute;
-  z-index: 60;
-  top: calc(max(16px, env(safe-area-inset-top, 0px)) + 64px);
-  right: var(--gut-r);
+  position: relative;
   display: flex;
   gap: 8px;
 }

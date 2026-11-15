@@ -97,12 +97,18 @@ body {
   pointer-events: none;
 }
 
-/* Always-available way into the full atlas. */
-.explore-link {
+/* Top right, one row: the solar system and atlas links, then the sound and settings buttons. */
+.top-right {
   position: absolute;
   z-index: 60;
   top: max(16px, env(safe-area-inset-top, 0px));
   right: var(--gut-r);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+/* Always-available way into the full atlas. */
+.explore-link {
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
@@ -870,9 +876,8 @@ body {
   .cruise {
     bottom: calc(var(--gut-b) + 76px);
   }
-  .explore-link {
-    max-width: 140px;
-    line-height: 1.3;
+  .top-right {
+    gap: 14px;
   }
 }
 
@@ -1728,9 +1733,6 @@ p.keysbar {
   /* The story takes the full width here: while one is open, the minimap steps aside for it. */
   .scrim-bottom[data-on="story"] ~ .spot-progress .minimap {
     display: none;
-  }
-  .sound {
-    top: calc(max(16px, env(safe-area-inset-top, 0px)) + 76px);
   }
   .story-photo {
     grid-template-columns: minmax(0, 110px) 1fr;

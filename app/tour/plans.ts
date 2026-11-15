@@ -643,8 +643,8 @@ function homeTrip(from: number): Shot[] {
 }
 
 // --- Saturn to Voyager 1: the rest of the solar system ---------------------------------------
-// Past Uranus, Neptune and icy Pluto, then through the heliopause, the edge of the Sun's bubble. The camera
-// eases off as each world slides by (its speed dips around each closest approach), so you get a look at them.
+// Past Uranus, Neptune and icy Pluto, then through the heliopause, the edge of the Sun's bubble. The camera keeps
+// looking ahead and flies straight past: each world slides by off to the side, with only a slight easing of speed.
 const OUTER = {
   uranus: v(-5, 0.6, -62),
   neptune: v(6, -0.8, -112),
@@ -671,6 +671,8 @@ function outerLeg(a: number, b: number, bodies: BodyPlacement[]): Shot {
   const { uranus: U, neptune: N, pluto: P, helioZ } = OUTER;
   const { jupiter: J, saturn: S } = GIANTS;
   const ahead = (z: number) => v(0, 0.3, z);
+  // Eyes on the way ahead, not on the world going by.
+  const fwd = (p: THREE.Vector3): Key => ({ pos: p, look: v(p.x * 0.5, p.y * 0.5, p.z - 30) });
   const fromMars = sa.body === "mars";
   // Leaving the world you were on: from Mars, pull back from the planet and turn outward, then past Jupiter
   // and Saturn; from Saturn, pull back from its rings.
@@ -682,27 +684,27 @@ function outerLeg(a: number, b: number, bodies: BodyPlacement[]): Shot {
       { pos: d.clone().multiplyScalar(r * 1.25), look: d.clone().multiplyScalar(r) }, // where the climb out ended
       { pos: d.clone().multiplyScalar(r * 3.5), look: v(0, 0, 0) },
       { pos: d.clone().multiplyScalar(r * 6).add(v(0.6, 0.5, 0)), look: v(0, 0, -20) },
-      { pos: v(-1.5, 0.8, -14), look: J },
-      { pos: v(-3, 1.2, -22), look: J },
-      { pos: v(0.5, 1.2, -32), look: S },
-      { pos: v(4.5, 1.6, -42), look: S },
-      { pos: v(2.6, 1.3, -50), look: U },
+      fwd(v(-1.5, 0.8, -14)),
+      fwd(v(-3, 1.2, -22)),
+      fwd(v(0.5, 1.2, -32)),
+      fwd(v(4.5, 1.6, -42)),
+      fwd(v(2.6, 1.3, -50)),
     ];
   } else
     start = [
       { pos: v(1.6, 0.5, -7.2), look: v(0, -0.4, 0) },
       { pos: v(3, 1.4, -11), look: v(0, 0, 0) },
-      { pos: v(2.4, 1.3, -24), look: U },
+      fwd(v(2.4, 1.3, -24)),
     ];
   const fly = flyby([
     ...start,
-    { pos: v(-0.9, 0.9, -57), look: U },
-    { pos: v(-0.4, 0.8, -64), look: U.clone().add(v(0, 0, -6)) },
-    { pos: v(2.5, 0, -92), look: N },
-    { pos: v(2.9, -0.5, -108), look: N },
-    { pos: v(2.6, -0.4, -115), look: N.clone().add(v(0, 0, -6)) },
-    { pos: v(-0.3, 0.3, -142), look: P },
-    { pos: v(-1.0, 0.45, -150.5), look: P },
+    fwd(v(-0.9, 0.9, -57)),
+    fwd(v(-0.4, 0.8, -64)),
+    fwd(v(2.5, 0, -92)),
+    fwd(v(2.9, -0.5, -108)),
+    fwd(v(2.6, -0.4, -115)),
+    fwd(v(-0.3, 0.3, -142)),
+    fwd(v(-1.0, 0.45, -150.5)),
     { pos: v(-0.6, 0.4, -158), look: ahead(-240) },
     { pos: v(0, 0.3, -200), look: ahead(-300) },
     { pos: v(0, 0.3, -222), look: ahead(-320) },
@@ -716,8 +718,8 @@ function outerLeg(a: number, b: number, bodies: BodyPlacement[]): Shot {
     pluto: fly.nearest(P),
     heliopause: fly.first((p) => p.z < helioZ),
   };
-  // Slow enough past each world for its caption to be read (about 3 seconds each), quick in between.
-  const ease = fly.timed(facts.map(([k]): [number, number, number] => (k === "heliopause" ? [at[k], 0.7, 0.05] : [at[k], 0.82, fromMars ? 0.05 : 0.06])));
+  // A slight easing past each world, just enough for its caption to be read in passing.
+  const ease = fly.timed(facts.map(([k]): [number, number, number] => [at[k], 0.35, 0.05]));
   // The distance counter passes each world at its real distance (roughly, from the Sun), ending at Voyager's.
   const kmAt = kmTrack([[0, sa.distanceKm], ...facts.map(([k, , km]): [number, number] => [at[k], km]), [1, sb.distanceKm]]);
   const hc = TRAVEL_SUN.clone().multiplyScalar(700).add(v(0, 0.3, helioZ)); // a shell around the far-off Sun
@@ -740,7 +742,7 @@ function outerLeg(a: number, b: number, bodies: BodyPlacement[]): Shot {
       ],
       heliopause: { center: hc.toArray() as [number, number, number], radius: 700 },
     },
-    dur: fromMars ? 22 : 16,
+    dur: fromMars ? 15 : 11,
     tint: { in: hazeOf(sa) },
     cam: fly.cam(ease),
     counter: { label: sb.distanceLabel, dest: `${sb.name} · ${WORLD_NAME[sb.body]}`, from: sa.distanceKm, to: sb.distanceKm, at: (u) => kmAt(ease(u)) },

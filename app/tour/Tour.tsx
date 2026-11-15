@@ -68,8 +68,8 @@ function briefing(n: number): BriefStep[] {
     },
     {
       kind: "info",
-      title: "You're the salvage scout",
-      text: "You'll visit different sites. At each one, find out what we left behind and why. Glowing spots are your clues: blue tells the story, red shows what broke. Then decide like an engineer: repair it, repurpose it, bring it home, or leave it as history?",
+      title: "Mission briefing continued",
+      text: "You'll visit different sites. At each one, find out what we left behind and why. Glowing spots are your clues: blue tells the story, red shows what broke.",
     },
     { kind: "level" },
     { kind: "length" },
@@ -190,7 +190,8 @@ function StartScreen() {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.5, ease }}
           >
-            <p className="chapter-kicker">{step < SETUP ? "Mission briefing" : "Plan your mission"}</p>
+            {/* The second briefing card's own title already says it's the briefing. */}
+            {step !== 1 && <p className="chapter-kicker">{step < SETUP ? "Mission briefing" : "Plan your mission"}</p>}
             {card.kind === "info" && (
               <>
                 <h2 id="brief-title">{card.title}</h2>

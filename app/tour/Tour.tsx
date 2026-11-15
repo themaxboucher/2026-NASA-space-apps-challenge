@@ -55,12 +55,21 @@ function StartScreen() {
   const [step, setStep] = useState(-1); // -1 = title screen, then one card per briefing step
   const steps = briefing(n);
   const card = steps[step];
+  const briefed = step >= 0;
   return (
     <motion.section
       className="start"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, y: -40, transition: { duration: 0.7, ease } }}
     >
+      {/* The title, lede and Start button fade away once the briefing opens over them. */}
+      <motion.div
+        className="start-hero"
+        inert={briefed}
+        initial={false}
+        animate={briefed ? { opacity: 0, y: -24 } : { opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease }}
+      >
       {/* Letters animate in one by one; each word stays whole, so a narrow screen wraps between words. */}
       <h1 aria-label={TITLE}>
         {TITLE.split(" ").map((word, w, words) => {
@@ -85,8 +94,6 @@ function StartScreen() {
           );
         })}
       </h1>
-      {step < 0 && (
-      <>
       <motion.p
         className="start-lede"
         initial={{ opacity: 0, y: 14 }}
@@ -107,25 +114,35 @@ function StartScreen() {
       >
         {ready ? "Start" : "Loading…"}
       </motion.button>
-      </>
-      )}
-      <AnimatePresence mode="wait">
+      </motion.div>
+      {/* Mission briefing: a full-screen overlay like the story chapters, one card per step. */}
+      <AnimatePresence>
+        {briefed && (
+          <motion.div
+            key="brief"
+            className="chapter brief"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="brief-title"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+        <AnimatePresence mode="wait">
         {card && (
           <motion.div
             key={step}
-            className="brief"
-            role="group"
-            aria-roledescription="briefing"
-            aria-label={`Briefing ${step + 1} of ${steps.length}`}
-            initial={{ opacity: 0, y: 18 }}
+            className="chapter-card"
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.45, ease }}
+            transition={{ duration: 0.5, ease }}
           >
-            <p className="brief-step">Mission briefing · {step + 1} of {steps.length}</p>
-            <h2>{card.title}</h2>
-            <p>{card.text}</p>
-            <div className="brief-actions">
+            <p className="chapter-kicker">Mission briefing · {step + 1} of {steps.length}</p>
+            <h2 id="brief-title">{card.title}</h2>
+            <p className="chapter-text">{card.text}</p>
+            <div className="chapter-actions brief-actions">
               {step < steps.length - 1 ? (
                 <button type="button" className="start-btn" autoFocus onClick={() => setStep(step + 1)}>
                   Next
@@ -141,6 +158,9 @@ function StartScreen() {
                 </button>
               )}
             </div>
+          </motion.div>
+        )}
+        </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>

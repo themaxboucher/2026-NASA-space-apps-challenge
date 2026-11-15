@@ -391,8 +391,8 @@ function journeyTo(to: Target) {
   else requestTravel(to, "journey");
 }
 // The very first trip leaves Earth with a countdown: the chapter card closes, only Earth is on screen, and Mission
-// Control counts 5, 4, 3, 2, 1, liftoff (0), then the trip to the Moon begins.
-export const COUNTDOWN_FROM = 5;
+// Control counts 3, 2, 1, liftoff (0), then the trip to the Moon begins.
+export const COUNTDOWN_FROM = 3;
 export function launchCountdown() {
   const to = tour.get().interlude;
   if (to == null || tour.get().countdown != null) return;

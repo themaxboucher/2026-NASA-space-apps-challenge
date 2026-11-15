@@ -68,7 +68,7 @@ function briefing(n: number): BriefStep[] {
     },
     {
       kind: "info",
-      title: "Mission briefing continued",
+      title: "Your mission",
       text: "You'll visit different sites. At each one, find out what we left behind and why. Glowing spots are your clues: blue tells the story, red shows what broke.",
     },
     { kind: "level" },
@@ -190,8 +190,7 @@ function StartScreen() {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.5, ease }}
           >
-            {/* The second briefing card's own title already says it's the briefing. */}
-            {step !== 1 && <p className="chapter-kicker">{step < SETUP ? "Mission briefing" : "Plan your mission"}</p>}
+            <p className="chapter-kicker">{step < SETUP ? "Mission briefing" : "Plan your mission"}</p>
             {card.kind === "info" && (
               <>
                 <h2 id="brief-title">{card.title}</h2>
@@ -1391,11 +1390,9 @@ function EndScreen() {
 // The launch countdown over Earth. The call-outs follow NASA's own commentary for the Apollo 11 launch
 // ("ignition sequence start", "all engines running", "we have a liftoff").
 const CALLOUTS: Record<number, string> = {
-  5: "Ignition sequence start.",
-  4: "Guidance is internal.",
-  3: "All engines running.",
-  2: "Stand by for liftoff.",
-  1: "",
+  3: "Ignition sequence start.",
+  2: "All engines running.",
+  1: "Stand by for liftoff.",
   0: "Liftoff! We have a liftoff.",
 };
 function Countdown({ n }: { n: number }) {

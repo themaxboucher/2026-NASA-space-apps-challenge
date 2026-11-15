@@ -45,7 +45,7 @@ export function LitGlobe({
         }`,
       fragmentShader: `uniform sampler2D uMap; uniform sampler2D uNormal; uniform vec3 uSun; uniform float uAlpha;
         varying vec2 vUv; varying vec3 vN; varying vec3 vT; varying float vDist;
-        float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+        float hash(vec2 p) { vec3 p3 = fract(vec3(p.xyx) * 0.1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
         float vnoise(vec2 p) {
           vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
           return mix(mix(hash(i), hash(i + vec2(1, 0)), f.x), mix(hash(i + vec2(0, 1)), hash(i + vec2(1, 1)), f.x), f.y);
@@ -61,9 +61,10 @@ export function LitGlobe({
           float edge = smoothstep(-0.05, 0.12, dot(n, uSun));
           vec3 albedo = texture2D(uMap, vUv).rgb;
           // Fine detail that only shows close up (where the map itself is blurry): two scales of soft noise.
-          float near = 1.0 - smoothstep(0.0, 0.004, vDist);
-          float d = vnoise(vUv * vec2(24000.0, 12000.0)) * 0.6 + vnoise(vUv * vec2(160000.0, 80000.0)) * 0.4;
-          albedo *= mix(1.0, 0.75 + 0.5 * d, near);
+          float nearC = 1.0 - smoothstep(0.0015, 0.004, vDist);
+          float nearF = 1.0 - smoothstep(0.0004, 0.0012, vDist);
+          float d = mix(0.5, vnoise(vUv * vec2(24000.0, 12000.0)), nearC) * 0.6 + mix(0.5, vnoise(vUv * vec2(160000.0, 80000.0)), nearF) * 0.4;
+          albedo *= mix(1.0, 0.8 + 0.4 * d, nearC);
           vec3 col = albedo * (0.025 + 1.25 * light * edge);
           gl_FragColor = vec4(pow(col, vec3(1.0 / 2.2)), uAlpha);
         }`,

@@ -3,6 +3,7 @@
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
+import { Chassis } from "../suspension";
 import { reducedMotion } from "../../lib/device";
 import { useStore } from "../../lib/store";
 import { endReplay, live, REPLAYS, setCaption, tour } from "../../state";
@@ -127,6 +128,7 @@ export function Apollo15Replay({ stop, ground }: { stop: Stop; ground?: (x: numb
 
   const v = useMemo(() => new THREE.Vector3(), []);
   const dir = useMemo(() => new THREE.Vector3(), []);
+  const chassis = useMemo(() => new Chassis([[-1.15, -0.915], [-1.15, 0.915], [1.15, -0.915], [1.15, 0.915]], 28, 5, 6), []);
   useFrame((state, rawDt) => {
     const dt = Math.min(rawDt, 0.05);
     const gh = (x: number, z: number) => (ground ? ground(x, z) : 0);
@@ -143,11 +145,10 @@ export function Apollo15Replay({ stop, ground }: { stop: Stop; ground?: (x: numb
     const u = scene.start + (1 - scene.start) * driveFrac(t, DRIVE[0], DRIVE[1]);
     scene.curve.getPointAt(u, v);
     scene.curve.getTangentAt(u, dir);
-    const yaw = Math.atan2(dir.z, -dir.x); // the rover's front is -x
-    const pitch = Math.atan2(gh(v.x + dir.x * 1.2, v.z + dir.z * 1.2) - gh(v.x - dir.x * 1.2, v.z - dir.z * 1.2), 2.4);
-    const moving = t > DRIVE[0] && t < DRIVE[1] ? 1 : 0;
-    scene.car.position.set(v.x, gh(v.x, v.z) + 0.03 * Math.abs(Math.sin(t * 9)) * moving, v.z);
-    scene.car.rotation.set(0, yaw, -pitch, "YXZ");
+    // Four sprung wheels on the ground: the car pitches, rolls and bounces softly over the craters (low gravity:
+    // a soft spring and light damping), steering at a driver's pace.
+    chassis.update(gh, v.x, v.z, Math.atan2(dir.z, -dir.x), dt, 1.6); // the rover's front is -x
+    chassis.apply(scene.car, v.x, v.z);
     scene.car.updateMatrix();
     scene.carMat.uniforms.uAlpha.value = smooth(0, 1.5, t) * (1 - smooth(PARK, PARK + 1.2, t));
     scene.car.visible = t < PARK + 1.2;
@@ -179,8 +180,8 @@ export function Apollo15Replay({ stop, ground }: { stop: Stop; ground?: (x: numb
       const [x, z] = lerp2([v.x, v.z], out, hop);
       who.g.position.set(x, v.y + (gh(x, z) - v.y) * hop + 0.3 * Math.sin(Math.PI * hop), z);
       if (hop === 0) {
-        who.g.userData.yaw = yaw - Math.PI / 2;
-        who.g.rotation.set(0, yaw - Math.PI / 2, 0);
+        who.g.userData.yaw = chassis.yaw - Math.PI / 2;
+        who.g.rotation.set(0, chassis.yaw - Math.PI / 2, 0);
       } else face(who, side > 0 ? 0 : Math.PI);
       const k = 1 - hop;
       pose(who, -1.4 * k, -1.4 * k, 1.3 * k, 1.3 * k, -0.5 * k, (side > 0 ? -0.9 : -0.5) * k, -0.6 * k, -0.6 * k, 0.12);
@@ -229,7 +230,7 @@ export function Apollo15Replay({ stop, ground }: { stop: Stop; ground?: (x: numb
     scene.ascent.visible = t > 30;
     scene.falconMat.uniforms.uAlpha.value = smooth(30, 31.5, t) * (1 - smooth(37, 39, t));
     scene.flame.visible = lift > 0 && lift < 4;
-    scene.flameMat.uniforms.uAlpha.value = lift > 0 ? (calm.current ? 0.8 : 0.7 + 0.3 * Math.sin(t * 40)) : 0;
+    scene.flameMat.uniforms.uAlpha.value = lift > 0 ? (calm.current ? 0.8 : 0.85 + 0.06 * Math.sin(t * 9)) : 0;
 
     // The camera: follow the rover in, watch the moonwalk, then glide (no cuts) to just behind the parked rover and
     // turn to look past its TV camera at Falcon, as the camera saw it. The replay ends there, facing Falcon.

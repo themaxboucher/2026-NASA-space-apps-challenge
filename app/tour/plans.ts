@@ -299,12 +299,55 @@ function descent(index: number): Shot {
       const pc = cam as THREE.PerspectiveCamera;
       // Out to the horizon (sqrt(2 R h)) and a bit more.
       const far = Math.max(9000, Math.sqrt(2 * f.R * alt) * 1.6 + alt * 2);
-      if (Math.abs(pc.far - far) > 1) {
+      const near = Math.min(400, Math.max(0.03, alt * 0.004));
+      if (Math.abs(pc.far - far) > 1 || Math.abs(pc.near - near) > 0.005) {
         pc.far = far;
+        pc.near = near;
         pc.updateProjectionMatrix();
       }
     },
-    counter: { label: "Height above the Moon", dest: `${stop.name} · ${WORLD_NAME[stop.body]}`, from: a0 / 1000, to: 0, at: (u) => Math.exp(la + (lb - la) * (1 - Math.pow(1 - u, 2.2))) / 1000 },
+    counter: { label: `Height above ${stop.body === "mars" ? "Mars" : "the Moon"}`, dest: `${stop.name} · ${WORLD_NAME[stop.body]}`, from: a0 / 1000, to: 0, at: (u) => Math.exp(la + (lb - la) * (1 - Math.pow(1 - u, 2.2))) / 1000 },
+  };
+}
+// The mirror of the descent: from wherever you're standing, climb straight up out of the site scene into orbit,
+// ending on exactly the first picture of the trip to the next world.
+const globeSite = (s: Stop | null | undefined) => !!s?.site && (s.body === "moon" || s.body === "mars");
+function ascent(index: number, from: Pose): Shot {
+  const stop = STOPS[index];
+  const f = siteFrame(stop, { center: [0, 0, 0], toward: -1 });
+  const r = BODY_RADIUS[stop.body === "mars" ? "mars" : "moon"];
+  const d = facingSite(stop, -1);
+  const handPos = d.clone().multiplyScalar(r * 1.25), handLook = d.clone().multiplyScalar(r);
+  const endPos = f.toSite(handPos);
+  descM.lookAt(handPos, handLook, UP);
+  const endQ = f.quatToSite(new THREE.Quaternion().setFromRotationMatrix(descM));
+  const startPos = from.pos.clone(), startQ = from.quat.clone();
+  const a0 = Math.max(1, startPos.y), a1 = endPos.y, la = Math.log(a0), lb = Math.log(a1);
+  const site = v(0, 0, 0), p = new THREE.Vector3();
+  return {
+    scene: sceneFor(index),
+    dur: 11,
+    cam: (u, cam) => {
+      const s = Math.pow(Math.min(1, Math.max(0, u)), 1.7); // a slow, gentle lift-off that speeds up as you climb
+      const alt = Math.exp(la + (lb - la) * s);
+      const k = (alt - a0) / (a1 - a0);
+      p.set(startPos.x * (1 - k) + endPos.x * k, alt, startPos.z * (1 - k) + endPos.z * k);
+      cam.position.copy(p);
+      // Look down at the site as you rise, and settle on the trip's first view.
+      descM.lookAt(p, site, UP);
+      descQ.setFromRotationMatrix(descM);
+      cam.quaternion.copy(startQ).slerp(descQ, smoothstep01(u / 0.35));
+      cam.quaternion.slerp(endQ, smoothstep01((u - 0.6) / 0.4));
+      const pc = cam as THREE.PerspectiveCamera;
+      const far = Math.max(9000, Math.sqrt(2 * f.R * alt) * 1.6 + alt * 2);
+      const near = Math.min(400, Math.max(0.03, alt * 0.004));
+      if (Math.abs(pc.far - far) > 1 || Math.abs(pc.near - near) > 0.005) {
+        pc.far = far;
+        pc.near = near;
+        pc.updateProjectionMatrix();
+      }
+    },
+    counter: { label: `Height above ${stop.body === "mars" ? "Mars" : "the Moon"}`, dest: `Leaving ${stop.name}`, from: 0, to: a1 / 1000, at: (u) => Math.exp(la + (lb - la) * Math.pow(u, 1.7)) / 1000 },
   };
 }
 const smoothstep01 = (x: number) => {
@@ -318,9 +361,11 @@ function leg(a: number, b: number | "end"): Shot {
   const sb = b === "end" ? null : STOPS[b];
   const bodies: BodyPlacement[] = [];
   const from = placement(sa, [0, 0, 0], -1);
+  if (from && globeSite(sa)) from.lit = siteFrame(sa, { center: [0, 0, 0], toward: -1 }).sunTravel().toArray() as [number, number, number];
   if (from) bodies.push(from);
   const at = v(0, 0, -LEG);
   const to = sb ? placement(sb, [0, 0, -LEG], 1) : null;
+  if (to && sb && globeSite(sb)) to.lit = siteFrame(sb).sunTravel().toArray() as [number, number, number];
   if (to) bodies.push(to);
 
   const keys: Key[] = [];
@@ -340,7 +385,8 @@ function leg(a: number, b: number | "end"): Shot {
     // Voyager is out in the dark: keep cruising and slow to a stop among the stars.
     keys.push({ pos: v(0.2, 0.4, -LEG * 0.85), look: v(0, 0, -LEG * 2) });
     keys.push({ pos: v(0, 0.3, -LEG * 1.1), look: v(0, 0, -LEG * 2) });
-  } else keys.push(...approachKeys(sb, at));
+  } else if (sb && globeSite(sb)) keys.push(approachKeys(sb, at)[0]); // the descent takes it from here
+  else keys.push(...approachKeys(sb, at));
 
   const dist = sb ? sb.distanceKm : 0;
   return {
@@ -404,5 +450,5 @@ export function plan(from: { phase: string; stop: number; scene: SceneDesc }, to
   const sa = STOPS[a];
   const sb = STOPS[to];
   if (sa.body === sb.body && sa.site && sb.site) return [depart(a, pose), hop(a, to), arrive(to)];
-  return [depart(a, pose), leg(a, to), arrive(to)];
+  return [globeSite(sa) ? ascent(a, pose) : depart(a, pose), leg(a, to), globeSite(sb) ? descent(to) : arrive(to)];
 }

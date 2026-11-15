@@ -3,6 +3,7 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
+import { Chassis } from "../suspension";
 import { reducedMotion } from "../../lib/device";
 import { useStore } from "../../lib/store";
 import { endReplay, live, REPLAYS, setCaption, tour } from "../../state";
@@ -114,7 +115,9 @@ export function OpportunityReplay({ stop, ground }: { stop: Stop; ground?: (x: n
 
   const v = useMemo(() => new THREE.Vector3(), []);
   const dir = useMemo(() => new THREE.Vector3(), []);
-  useFrame((state) => {
+  const chassis = useMemo(() => new Chassis([[-0.6, 0.68], [-0.6, 0.02], [-0.6, -0.62], [0.6, 0.68], [0.6, 0.02], [0.6, -0.62]], 70, 16, 8), []);
+  useFrame((state, rawDt) => {
+    const dt = Math.min(rawDt, 0.05);
     const gh = (x: number, z: number) => (ground ? ground(x, z) : 0);
     const s = tour.get();
     const t = t0.current < 0 ? 0 : state.clock.elapsedTime - t0.current;
@@ -130,8 +133,9 @@ export function OpportunityReplay({ stop, ground }: { stop: Stop; ground?: (x: n
     const u = (i + smooth(0, 0.7, p * HOPS - i)) / HOPS;
     scene.curve.getPointAt(u, v);
     scene.curve.getTangentAt(u, dir);
-    scene.rover.position.set(v.x, gh(v.x, v.z), v.z);
-    scene.rover.rotation.y = Math.atan2(dir.x, dir.z); // its front (mast and arm) is +z
+    // Six wheels on the ground: the body rides the rocker-bogie over the bumps and steers at a rover's pace.
+    chassis.update(gh, v.x, v.z, Math.atan2(dir.x, dir.z), dt, 0.9); // its front (mast and arm) is +z
+    chassis.apply(scene.rover, v.x, v.z);
 
     // The storm: the haze thickens and darkens, the panels dim to dusty red, and the rover's glow stops pulsing.
     const storm = smooth(STORM[0], STORM[1], t) * (1 - smooth(CLEAR[0], CLEAR[1], t));

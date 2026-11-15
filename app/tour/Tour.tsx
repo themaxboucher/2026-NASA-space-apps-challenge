@@ -10,7 +10,7 @@ import { FailureBank } from "./FailureBank";
 import { liveNumbers, loadLive, photosFor } from "../atlas/live.js";
 import { Spots } from "./Spots";
 import { Cutscene, Interlude, MusicToggle, startMusic } from "./Story";
-import { dismissIntro, endReplay, hud, nextStop, openHotspot, previousStop, requestTravel, skipStop, spotsLeft, startTour, tour } from "./state";
+import { dismissIntro, endReplay, hud, restoreProgress, nextStop, openHotspot, previousStop, requestTravel, skipStop, spotsLeft, startTour, tour } from "./state";
 import { CHAPTERS, CREDITS, STOP_INDEX, STOPS } from "./stops";
 import "./tour.css";
 
@@ -676,7 +676,12 @@ function useHashSync() {
       if (i === undefined || (s.stop === i && s.phase !== "start")) return;
       requestTravel(i, "jump");
     };
-    go();
+    // Coming back (from the atlas, a reload, the browser's Back): pick up where you left off, with your progress.
+    const back = restoreProgress(STOP_INDEX[decodeURIComponent(location.hash.slice(1))]);
+    if (back != null) {
+      startMusic();
+      requestTravel(back, "jump");
+    } else go();
     addEventListener("hashchange", go);
     return () => removeEventListener("hashchange", go);
   }, []);

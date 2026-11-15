@@ -16,7 +16,11 @@ const safe = (f?: string) => (f && /^media\/[\w.-]+$/.test(f) ? "/" + f : null);
 /* ---------- music: starts on the Start click (a user gesture), one piece per chapter, quiet under videos ---------- */
 const MUTE_KEY = "gra-music-off";
 type Track = { file: string; title: string; credit: string; license: string };
-const music = { el: null as HTMLAudioElement | null, key: "", ducked: false, credit: "", on: true };
+type MusicState = { el: HTMLAudioElement | null; key: string; ducked: boolean; credit: string; on: boolean };
+// Kept on window, so a hot reload during development reuses the same player instead of leaving an
+// unreachable one playing in the background.
+const g = (typeof window !== "undefined" ? window : {}) as { __graMusic?: MusicState };
+const music: MusicState = (g.__graMusic ??= { el: null, key: "", ducked: false, credit: "", on: true });
 const BASE = 0.3;
 const isOff = () => {
   try {

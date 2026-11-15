@@ -213,7 +213,7 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
     // Watch Eagle come down, then ease back to the site view.
     live.replayLook = t < 1.5 ? [0, scene.landing.position.y + 2.5, 0] : null;
     scene.landMat.uniforms.uAlpha.value = smooth(-LAND, -LAND + 1.2, t) * (1 - smooth(-0.2, 0.6, t));
-    (scene.landFlame.material as THREE.ShaderMaterial).uniforms.uAlpha.value = t < -0.3 ? 0.6 + 0.3 * Math.sin(t * 40) : 0;
+    (scene.landFlame.material as THREE.ShaderMaterial).uniforms.uAlpha.value = t < -0.3 ? 0.75 + 0.06 * Math.sin(t * 9) : 0;
     if (audio.current && t >= AUDIO_AT && audio.current.paused && !audio.current.ended && audio.current.currentTime === 0) audio.current.play().catch(() => {});
 
     // Overall fade in and out.
@@ -320,7 +320,7 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
     const lift = Math.max(0, t - 38.5);
     scene.ascent.position.y = 0.5 * 2.2 * lift * lift;
     scene.flame.visible = lift > 0 && lift < 4;
-    scene.flameMat.uniforms.uAlpha.value = lift > 0 ? (0.7 + 0.3 * Math.sin(t * 40)) * alpha : 0;
+    scene.flameMat.uniforms.uAlpha.value = lift > 0 ? (0.85 + 0.06 * Math.sin(t * 9)) * alpha : 0;
 
     // Captions.
     let line = "", from = 0, until = A11_END;

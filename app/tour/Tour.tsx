@@ -19,6 +19,7 @@ import {
   nextStop,
   openHotspot,
   requestTravel,
+  restoreProgress,
   setFileOpen,
   spotKey,
   spotsLeft,
@@ -407,7 +408,7 @@ function ReplayBar() {
           }}
         />
       </span>
-      <button type="button" className="replay-skip" onClick={endReplay}>
+      <button type="button" className="replay-skip" onClick={() => endReplay()}>
         Skip
       </button>
     </motion.div>
@@ -980,7 +981,12 @@ function useHashSync() {
       if (i === undefined || (s.stop === i && s.phase !== "start")) return;
       requestTravel(i, "jump");
     };
-    go();
+    // Coming back (from the atlas, a reload, the browser's Back): pick up where you left off, with your progress.
+    const back = restoreProgress(STOP_INDEX[decodeURIComponent(location.hash.slice(1))]);
+    if (back != null) {
+      startMusic();
+      requestTravel(back, "jump");
+    } else go();
     addEventListener("hashchange", go);
     return () => removeEventListener("hashchange", go);
   }, []);

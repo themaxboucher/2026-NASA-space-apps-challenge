@@ -11,13 +11,14 @@ export const LEG = 40; // must match plans.ts
 export const GLOBE_R = { moon: 0.6, mars: 0.75 } as const; // must match BODY_RADIUS in scene/Space.tsx
 export const REAL_R = { moon: 1_737_400, mars: 3_389_500 } as const; // metres
 
-export function siteFrame(stop: Stop) {
+export function siteFrame(stop: Stop, opts: { center?: [number, number, number]; toward?: 1 | -1 } = {}) {
+  const toward = opts.toward ?? 1;
   const body = stop.body === "mars" ? "mars" : "moon";
   const r = GLOBE_R[body], R = REAL_R[body], K = R / r;
   const lat = (stop.site?.lat ?? 0) * DEG;
-  const center = new THREE.Vector3(0, 0, -LEG);
-  const up = new THREE.Vector3(0, Math.sin(lat), Math.cos(lat)); // site normal, travel frame
-  const north = new THREE.Vector3(0, Math.cos(lat), -Math.sin(lat));
+  const center = opts.center ? new THREE.Vector3(...opts.center) : new THREE.Vector3(0, 0, -LEG);
+  const up = new THREE.Vector3(0, Math.sin(lat), toward * Math.cos(lat)); // site normal, travel frame
+  const north = new THREE.Vector3(0, Math.cos(lat), -toward * Math.sin(lat));
   const south = north.clone().negate();
   const east = new THREE.Vector3().crossVectors(up, south);
   const site = center.clone().addScaledVector(up, r);
@@ -25,7 +26,7 @@ export function siteFrame(stop: Stop) {
   const basis = new THREE.Matrix4().makeBasis(east, up, south);
   const rot = basis.clone().transpose(); // travel -> site (rotation only)
   const q = new THREE.Quaternion().setFromRotationMatrix(rot);
-  const globeRotY = stop.site ? faceLonRotation(stop.site.lon, 1) : 0;
+  const globeRotY = stop.site ? faceLonRotation(stop.site.lon, toward) : 0;
   return {
     r,
     R,

@@ -180,6 +180,30 @@ export const solids = new Set<import("three").Object3D>();
 export const arrowEls = new Map<string, HTMLDivElement>();
 export const spotKey = (stopId: string, spotId: string) => `${stopId}/${spotId}`;
 
+// Your place in the tour, kept for this browser tab (sessionStorage), so leaving for the atlas and coming
+// back picks up where you were: same stop, spots found, replays already watched.
+const SAVE_KEY = "gra-tour";
+tour.subscribe(() => {
+  const s = tour.get();
+  try {
+    if (s.phase === "explore" && s.stop >= 0) sessionStorage.setItem(SAVE_KEY, JSON.stringify({ stop: s.stop, found: s.found, visited: s.visited, revealed: s.revealed }));
+    else if (s.phase === "end") sessionStorage.removeItem(SAVE_KEY);
+  } catch {
+    /* storage blocked: the tour just starts fresh next time */
+  }
+});
+// Restores saved progress and returns the stop to go back to (or null). `at` overrides the saved stop.
+export function restoreProgress(at?: number): number | null {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(SAVE_KEY) || "null") as { stop: number; found: Record<string, string[]>; visited: string[]; revealed: string[] } | null;
+    if (!saved || !STOPS[saved.stop]) return at ?? null;
+    tour.set({ found: saved.found ?? {}, visited: saved.visited ?? [], revealed: saved.revealed ?? [] });
+    return at ?? saved.stop;
+  } catch {
+    return at ?? null;
+  }
+}
+
 export const REPLAYS = new Set(["apollo11-lm"]);
 
 // Every stop reached counts as visited, for the end screen.
@@ -190,10 +214,11 @@ tour.subscribe(() => {
   if (id && !s.visited.includes(id)) tour.set({ visited: [...s.visited, id], ...(REPLAYS.has(id) ? { replay: true, introOpen: false } : {}) });
 });
 
-export function endReplay() {
+export function endReplay(forStop?: string) {
   const s = tour.get();
   if (!s.replay) return;
   const id = STOPS[s.stop]?.id;
+  if (forStop && forStop !== id) return; // a replay from a stop you've already left
   tour.set({ replay: false, introOpen: true, revealed: id && !s.revealed.includes(id) ? [...s.revealed, id] : s.revealed });
 }
 

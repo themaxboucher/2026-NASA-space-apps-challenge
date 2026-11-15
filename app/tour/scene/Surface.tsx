@@ -124,10 +124,11 @@ function MarsSky({ sun }: { sun: THREE.Vector3 }) {
           uHorizon: { value: raw(MARS_HORIZON) },
           uZenith: { value: raw("#86604a") },
           uHalo: { value: raw("#c4c8cc") },
+          uFade: { value: 1 },
         },
         vertexShader: "varying vec3 vD; void main(){ vD = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
         fragmentShader: /* glsl */ `
-          uniform vec3 uSun; uniform vec3 uHorizon; uniform vec3 uZenith; uniform vec3 uHalo; varying vec3 vD;
+          uniform vec3 uSun; uniform vec3 uHorizon; uniform vec3 uZenith; uniform vec3 uHalo; uniform float uFade; varying vec3 vD;
           void main() {
             vec3 d = normalize(vD);
             float h = max(d.y, 0.0);
@@ -140,12 +141,17 @@ function MarsSky({ sun }: { sun: THREE.Vector3 }) {
             // The Sun's disc: about 0.35 degrees across from Mars, two thirds of its size seen from Earth.
             col += vec3(1.0, 0.98, 0.95) * (smoothstep(0.999988, 0.999993, s) * 1.5 + pow(toward, 2500.0) * 0.5);
             if (d.y < 0.0) col = uHorizon;
-            gl_FragColor = vec4(col, 1.0);
+            gl_FragColor = vec4(col * uFade, 1.0);
           }`,
       }),
     [sun],
   );
-  useFrame(() => group.current?.position.copy(camera.position));
+  useFrame(() => {
+    group.current?.position.copy(camera.position);
+    // High above Mars the thin air is below you: the sky fades to black space (8 km to 60 km up).
+    const u = Math.min(1, Math.max(0, (camera.position.y - 8000) / 52000));
+    mat.uniforms.uFade.value = 1 - u * u * (3 - 2 * u);
+  });
   return (
     <group ref={group}>
       <mesh material={mat} renderOrder={-20}>
@@ -197,8 +203,8 @@ export function SurfaceScene({ index }: { index: number }) {
   useEffect(() => onTerrainChange(() => setGroundVersion((v) => v + 1)), []);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const terrain = useMemo(() => terrainFor(index), [index, groundVersion]);
-  // The first stop's ground reaches farther (8 km), so the detailed ground can take over from the globe while still high up.
-  const ground = useMemo(() => groundGeometry(terrain, index === 0 ? 8000 : 3000, moon ? MOON_R : MARS_R), [terrain, moon, index]);
+  // Globe sites' ground reaches farther (8 km), so the detailed ground can take over from the globe while still high up.
+  const ground = useMemo(() => groundGeometry(terrain, stop.site ? 8000 : 3000, moon ? MOON_R : MARS_R), [terrain, moon, stop.site]);
   const groundMat = useMemo(() => groundMaterial(stop), [stop]);
   const sun = useMemo(() => skyDir(stop.setting.sun.az, stop.setting.sun.el), [stop]);
   const earth = useMemo(() => (stop.setting.earth ? skyDir(stop.setting.earth.az, stop.setting.earth.el) : null), [stop]);
@@ -281,14 +287,14 @@ export function SurfaceScene({ index }: { index: number }) {
             !revealed ? null : (
               <FallenFlag key={i} position={[x.pos[0], terrain.height(x.pos[0], x.pos[2]), x.pos[2]]} rotationY={x.rotationY} />
             )
-          ) : (
+          ) : !revealed ? null : (
             <BladePiece key={i} position={[x.pos[0], terrain.height(x.pos[0], x.pos[2]) + 0.012, x.pos[2]]} rotationY={x.rotationY} />
           ),
         )}
       </Suspense>
       {stop.marks && revealed && <GroundMarks marks={stop.marks} ground={terrain.height} />}
       <SiteReplay stop={stop} ground={terrain.height} />
-      {index === 0 && (
+      {stop.site && (
         <Suspense fallback={null}>
           <OrbitalGlobe stop={stop} />
         </Suspense>

@@ -59,7 +59,7 @@ export function Director() {
       seenRequest.current = fresh.id;
       const pose = { pos: camera.position.clone(), quat: camera.quaternion.clone() };
       run.current = { shots: plan(s, fresh.to, fresh.mode, pose, reducedMotion()), t: 0, shot: -1, to: fresh.to, skip: false };
-      tour.set({ phase: "travel", stop: typeof fresh.to === "number" ? fresh.to : s.stop, openSpot: null, introOpen: false, cruise: null });
+      tour.set({ phase: "travel", stop: typeof fresh.to === "number" ? fresh.to : s.stop, openSpot: null, introOpen: false, cruise: null, replay: false });
       if (typeof fresh.to === "number") preloadFor(fresh.to);
     }
     // Skip finishes the current trip; pressing it again changes nothing.

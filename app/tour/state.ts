@@ -228,18 +228,18 @@ export const hud: { fade: HTMLDivElement | null; counter: HTMLElement | null; mi
 };
 
 // Shows a replay caption, with a thin bar under it that fills over the `seconds` it stays up.
-// A caption arrives like a received transmission: the whole line shows at once as shuffling letters, which lock
+// A caption arrives like a received transmission: the whole line shows at once as shuffling hex digits, which lock
 // into the real words left to right (like Magic UI's Hyper Text). It reads in quickly (about 40 letters a second)
 // and always finishes within the first half of the time the line is up. A quoted line ("Armstrong: “…”") shows the
 // speaker at once, as a call sign, then decodes the words.
-const UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const LOWER = "abcdefghijklmnopqrstuvwxyz";
+const HEX_UPPER = "0123456789ABCDEF";
+const HEX_LOWER = "0123456789abcdef";
 const DECODE_RATE = 40; // letters a second
 const SHUFFLE_MS = 45; // how often the unlocked letters change
 let decoding = 0;
-// A stand-in of the same kind, so the shuffling keeps roughly the shape of the line.
+// A random hex digit, upper or lower case to match the letter it stands in for, so the line keeps roughly its shape.
 const noiseFor = (ch: string) => {
-  const set = /[A-Z]/.test(ch) ? UPPER : /[0-9]/.test(ch) ? "0123456789" : LOWER;
+  const set = /[\p{Ll}]/u.test(ch) ? HEX_LOWER : HEX_UPPER;
   return set[Math.floor(Math.random() * set.length)];
 };
 export function setCaption(text: string, seconds: number) {

@@ -11,11 +11,10 @@
       "title": "The patched fender",
       "text": "Cernan accidentally knocked off part of this fender, and the wheel sprayed the crew with dust. Overnight, engineers worked out a fix: a fender made of taped-together maps held on with clamps.",
       "anchor": {
-        "part": "fenders",
-        "at": [
-          1,
-          0.8,
-          0.95
+        "pos": [
+          1.12,
+          0.9,
+          -0.95
         ]
       },
       "source": {
@@ -114,11 +113,10 @@
       "title": "Wire wheels",
       "text": "These tyres are woven from steel wire with titanium treads, so they could never go flat.",
       "anchor": {
-        "part": "wheels",
-        "at": [
-          0,
-          0.5,
-          0.2
+        "pos": [
+          -1.12,
+          0.42,
+          1.1
         ]
       },
       "source": {

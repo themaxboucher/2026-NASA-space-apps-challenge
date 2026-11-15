@@ -1,0 +1,228 @@
+/* The briefing's choices (reading level, tour length), the launch countdown and the closing message. */
+
+.brief-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin: 16px 0 4px;
+}
+.brief-choice {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--line2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.brief-choice b {
+  font-weight: 600;
+}
+.brief-choice span {
+  color: var(--ink2);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+.brief-choice:hover {
+  border-color: var(--ink2);
+}
+.brief-choice.on {
+  border-color: var(--accent-hi);
+  background: rgba(58, 134, 255, 0.12);
+}
+.brief-choice:focus-visible {
+  outline: 2px solid var(--accent-hi);
+  outline-offset: 2px;
+}
+/* The launch countdown: only Earth on screen (every other overlay fades away), the count in the site's mono font,
+   a ring filling up, Mission Control's call-outs, and a flash at liftoff. */
+.tour[data-countdown] > :not(.tour-canvas):not(.fade):not(.countdown) {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s;
+}
+.countdown {
+  position: absolute;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35), transparent 60%);
+}
+.countdown.lift {
+  animation: liftoff-flash 1.4s ease-out both;
+}
+@keyframes liftoff-flash {
+  0% {
+    background-color: rgba(255, 236, 200, 0.55);
+  }
+  100% {
+    background-color: rgba(255, 236, 200, 0);
+  }
+}
+.countdown-box {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  font-family: var(--mono);
+  text-align: center;
+}
+.countdown-label {
+  margin: 0;
+  color: var(--ink2);
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.countdown-dial {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(150px, 20vw, 220px);
+  aspect-ratio: 1;
+}
+.countdown-dial svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+.countdown-track {
+  fill: rgba(0, 0, 0, 0.35);
+  stroke: rgba(255, 255, 255, 0.14);
+  stroke-width: 3;
+}
+.countdown-fill {
+  fill: none;
+  stroke: var(--accent-hi);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 339.3;
+  transition: stroke-dashoffset 0.95s linear;
+}
+.countdown-n {
+  color: #fff;
+  font: 500 clamp(3.2rem, 7vw, 5rem) / 1 var(--mono);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+}
+.countdown.lift .countdown-n {
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.countdown-call {
+  min-height: 1.4em;
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
+}
+
+/* Replay narration placed in the picture (see REPLAY_PLACE in Tour.tsx): the whole caption box (the line, with
+   Skip right underneath it) moves up into the empty sky or space, larger, straight on the scene. */
+.replay[data-place] {
+  bottom: auto;
+  grid-template-columns: 1fr;
+  justify-items: start;
+  gap: 10px;
+  width: min(34ch, 40vw);
+  margin: 0;
+  padding: 0;
+}
+.replay[data-place] .replay-line {
+  font-size: clamp(1.15rem, 1.9vw, 1.5rem);
+  line-height: 1.45;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.9), 0 0 2px rgba(0, 0, 0, 0.6);
+}
+.replay[data-place="sky-left"] {
+  top: 30vh;
+  left: 12vw;
+  right: auto;
+}
+.replay[data-place="sky"] {
+  top: 19vh;
+  left: 0;
+  right: 0;
+  width: min(44ch, 60vw);
+  margin: 0 auto;
+  justify-items: center;
+  text-align: center;
+}
+.replay[data-place="right"] {
+  top: 22vh;
+  left: auto;
+  right: 6vw;
+  justify-items: end;
+  text-align: right;
+}
+
+/* On a trip: any key (or this) skips to the arrival. */
+.skip-hint {
+  position: absolute;
+  z-index: 61;
+  right: var(--gut-r);
+  bottom: calc(var(--gut-b) + 20px);
+  padding: 8px 14px;
+  border: 1px solid var(--line2);
+  border-radius: var(--pill, 999px);
+  background: rgba(18, 21, 27, 0.6);
+  color: var(--ink2);
+  font: 500 0.75rem/1 var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  animation: skip-hint-in 0.6s 1.2s both;
+}
+.skip-hint:hover,
+.skip-hint:focus-visible {
+  color: var(--ink);
+  border-color: var(--ink2);
+}
+@keyframes skip-hint-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Explorer or Expert: two choices side by side, with a small faded hint under each name. */
+.brief-two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.brief-choice .brief-sub {
+  color: var(--dim);
+  font-size: 0.8125rem;
+}
+
+/* Bright skies (Mars): a soft dark panel behind the narration, and no glow around the letters. */
+.replay[data-place][data-bright] {
+  padding: 12px 18px 10px;
+  border-radius: 14px;
+  background: rgba(14, 10, 8, 0.42);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.replay[data-place][data-bright] .replay-line {
+  text-shadow: none;
+}
+.replay[data-place][data-bright] .replay-skip {
+  color: var(--ink2);
+}
+
+/* The closing message to the reader (Tribute.tsx Message): one screen, lines arriving one by one, a big last line. */
+.message-card {
+  max-width: 680px;
+}
+.message-card .chapter-text + .chapter-text {
+  margin-top: 12px;
+}
+.message-close {
+  margin: 28px 0 0;
+  color: var(--ink);
+  font: 600 clamp(1.5rem, 3.2vw, 2.125rem)/1.25 var(--display);
+}

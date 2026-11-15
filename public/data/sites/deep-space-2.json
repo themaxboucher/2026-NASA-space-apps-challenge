@@ -16,9 +16,9 @@
       "tag": "Never heard from",
       "anchor": {
         "pos": [
-          0,
+          -0.55,
           0.15,
-          0
+          -0.4
         ],
         "ground": true
       },
@@ -34,7 +34,7 @@
       "anchor": {
         "pos": [
           0,
-          -0.4,
+          0.03,
           0
         ],
         "ground": true
@@ -50,9 +50,9 @@
       "text": "The back half stayed at the surface with the antenna. It was meant to radio its findings up to Mars Global Surveyor in orbit, which never heard a thing.",
       "anchor": {
         "pos": [
-          0.4,
+          0.55,
           0.2,
-          0.3
+          0.4
         ],
         "ground": true
       },

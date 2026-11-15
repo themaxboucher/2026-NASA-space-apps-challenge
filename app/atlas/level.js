@@ -1,10 +1,10 @@
 // Who's exploring: the reading level the "How it worked" sections are written at, remembered in this browser.
 // Shared by the tour (React) and the atlas (plain JS). Changing it fires a "gra-level" event on window.
 export const LEVELS = [
-  { id: 'explorer', label: 'Young explorer', who: 'Ages 6 to 10' },
-  { id: 'student', label: 'Student', who: 'Ages 11 to 14' },
-  { id: 'curious', label: 'High school and curious adults', who: 'Real terms, explained' },
-  { id: 'enthusiast', label: 'Space enthusiast', who: 'Full technical detail' },
+  { id: 'explorer', label: 'Young explorer' },
+  { id: 'student', label: 'Student' },
+  { id: 'curious', label: 'High school and curious adults' },
+  { id: 'enthusiast', label: 'Space enthusiast' },
 ];
 const KEY = 'gra-level';
 const ids = new Set(LEVELS.map(l => l.id));

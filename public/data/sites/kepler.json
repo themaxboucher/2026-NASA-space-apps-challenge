@@ -40,11 +40,10 @@
       "title": "The telescope opening",
       "text": "Kepler looked at one patch of sky near the constellations Cygnus and Lyra for four years, waiting for planets to cross in front of their stars.",
       "anchor": {
-        "part": "tex_01001",
-        "at": [
-          0.5,
-          1,
-          0.5
+        "pos": [
+          -0.16,
+          2.1,
+          0.62
         ]
       },
       "source": {

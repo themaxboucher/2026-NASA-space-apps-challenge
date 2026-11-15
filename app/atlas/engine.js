@@ -245,10 +245,19 @@ function tintFault(obj, it, bag) {
 }
 const dropFaultMats = bag => { bag.forEach(m => { faultMats.delete(m); m.dispose(); }); bag.length = 0; };
 // Model viewer zoom: wheel or the +/- buttons; 1 = whole model fits.
-function mvCam() { mv.cam.position.set(0, 0.9 * mv.zoom, 3.6 * mv.zoom); mv.cam.lookAt(0, 0, 0); }
+// Models are scaled to a 1.1-radius sphere; 4.25 = 1.1 / sin(15°) keeps that sphere inside the 30° view while it spins.
+function mvCam() { mv.cam.position.set(0, 1.03 * mv.zoom, 4.12 * mv.zoom); mv.cam.lookAt(0, 0, 0); }
 function sizeMv() { const h = $('mv'); if (!mv.r || !h || !h.clientWidth) return; mv.r.setSize(h.clientWidth, h.clientHeight, false); mv.cam.aspect = h.clientWidth / h.clientHeight; mv.cam.updateProjectionMatrix(); }
 function mvZoom(f) { if (!mv.cam) return; mv.zoom = Math.max(0.55, Math.min(2.5, mv.zoom * f)); mvCam(); }
 const mv = { r: null, scene: null, cam: null, obj: null, key: null, spin: 0, drag: null };
+// Metal parts (rover decks and wheels, InSight's panels) render black under lights alone: give them a sky-to-ground gradient to reflect.
+function skyEnv(r) {
+  const env = new THREE.Scene(), sky = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 8), new THREE.MeshBasicMaterial({ side: THREE.BackSide, vertexColors: true }));
+  const p = sky.geometry.attributes.position, c = [];
+  for (let i = 0; i < p.count; i++) { const k = (p.getY(i) + 1) / 2; c.push(0.12 + 0.6 * k, 0.13 + 0.6 * k, 0.16 + 0.6 * k); }
+  sky.geometry.setAttribute('color', new THREE.Float32BufferAttribute(c, 3)); env.add(sky);
+  return new THREE.PMREMGenerator(r).fromScene(env).texture;
+}
   const gltfLoader = THREE.GLTFLoader ? new THREE.GLTFLoader() : null, modelCache = {};
   // Most NASA models are Draco-compressed. Decoder ships with the page (the artifact sandbox blocks runtime CDN fetches); JS build avoids needing WASM.
   if (gltfLoader && THREE.DRACOLoader) gltfLoader.setDRACOLoader(new THREE.DRACOLoader().setDecoderPath('vendor/draco/').setDecoderConfig({ type: 'js' }));
@@ -260,6 +269,7 @@ const mv = { r: null, scene: null, cam: null, obj: null, key: null, spin: 0, dra
       mv.scene = new THREE.Scene(); mv.cam = new THREE.PerspectiveCamera(30, 1.6, 0.01, 100);
       mv.zoom = 1; mvCam();
     mv.r.domElement.addEventListener('wheel', e => { if (!e.ctrlKey && !e.metaKey) return; e.preventDefault(); mvZoom(1 + e.deltaY * 0.0015); }, { passive: false });
+      mv.scene.environment = skyEnv(mv.r);
       mv.scene.add(new THREE.HemisphereLight(0xffffff, 0x2a3048, 1.2));
       const d = new THREE.DirectionalLight(0xfff2dc, 1.1); d.position.set(3, 4, 2); mv.scene.add(d);
       const c = mv.r.domElement;
@@ -854,6 +864,8 @@ function groundGeometry() {
         const o = m.scene, box = new THREE.Box3().setFromObject(o), size = box.getSize(new THREE.Vector3()).length() || 1;
         o.scale.setScalar((REAL_SIZE[key] || +MODELS[key]?.size_m || 3) / size);
         const b2 = new THREE.Box3().setFromObject(o); o.position.y -= b2.min.y; o.position.x -= (b2.min.x + b2.max.x) / 2; o.position.z -= (b2.min.z + b2.max.z) / 2;
+        const env = G.env || (G.env = skyEnv(G.r)); // models only: the terrain keeps its hard sunlight
+        o.traverse(n => [].concat(n.material || []).forEach(m => { m.envMap = env; m.needsUpdate = true; }));
         tintFault(o, it, G.faults || (G.faults = []));
         g.add(o);
       });

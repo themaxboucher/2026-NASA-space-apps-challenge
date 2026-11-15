@@ -46,6 +46,51 @@ const PHOTOS = [
   { file: "/media/tribute/windtunnel.jpg", alt: "A small scale model of the Super Heavy booster mounted in a NASA wind tunnel", caption: "Testing first: NASA Ames tested a 1.2% model of the newest booster in a wind tunnel to study the forces on its way back down.", credit: "NASA/Brandon Torres", license: "Public domain", licUrl: "", src: "https://images.nasa.gov/details/ACD25-0156-012" },
 ];
 
+// The last word, on a screen of its own after the tribute: a message to whoever just took the trip.
+export function Message({ onDone }: { onDone: () => void }) {
+  const line = (delay: number) => ({ initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.9, ease: [0.22, 1, 0.36, 1] as const } });
+  return (
+    <motion.section
+      className="chapter message"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="message-title"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <div className="chapter-card message-card">
+        <motion.p className="chapter-kicker" {...line(0.2)}>
+          A message to you
+        </motion.p>
+        <motion.h2 id="message-title" {...line(0.4)}>
+          They&apos;re still out there.
+        </motion.h2>
+        <motion.p className="chapter-text" {...line(0.9)}>
+          Eagle&apos;s lower half still stands where Neil Armstrong stepped off it. Opportunity still sits in its valley on Mars, covered in dust.
+          Voyager 1 is still flying, farther from home than anything people have ever built, and it is still sending us messages.
+        </motion.p>
+        <motion.p className="chapter-text" {...line(1.6)}>
+          None of them came home. But none of them were wasted. Every one that broke showed engineers what to build stronger. Every one that kept
+          going showed how far we could reach.
+        </motion.p>
+        <motion.p className="chapter-text" {...line(2.3)}>
+          The next explorers won&apos;t all be left behind. Some will be caught, checked and flown again, like the rocket that just came home.
+        </motion.p>
+        <motion.p className="message-close" {...line(3)}>
+          Someone has to build them. Why not you?
+        </motion.p>
+        <motion.div className="chapter-actions" {...line(3.4)}>
+          <button type="button" className="start-btn" autoFocus onClick={onDone}>
+            See what you found <ArrowRight aria-hidden="true" />
+          </button>
+        </motion.div>
+      </div>
+    </motion.section>
+  );
+}
+
 export function Tribute({ onDone }: { onDone: () => void }) {
   return (
     <motion.section
@@ -137,14 +182,9 @@ export function Tribute({ onDone }: { onDone: () => void }) {
           ))}
         </div>
 
-        <blockquote className="trib-close">
-          <p>The explorers on this tour stayed where they stopped. Their echoes taught us how to go further.</p>
-          <p>The next ones might come home, and fly again. Maybe you’ll be the engineer who builds them.</p>
-        </blockquote>
-
         <div className="chapter-actions">
           <button type="button" className="start-btn" onClick={onDone}>
-            See your case files <ArrowRight aria-hidden="true" />
+            Continue <ArrowRight aria-hidden="true" />
           </button>
         </div>
       </div>

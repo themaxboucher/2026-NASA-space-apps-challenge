@@ -301,16 +301,79 @@ body {
   color: var(--signal);
 }
 
-/* Bottom left: the arrival introduction, or the open spot's story, over the shadow from the bottom edge. */
+/* Bottom left: the arrival introduction, or the open spot's story, over the shadow from the bottom edge.
+   Above the glowing dots (.spots, z-index 40), so a dot behind the card never draws over its text. */
 .story {
   position: absolute;
   z-index: 50;
   left: var(--gut-l);
   bottom: calc(var(--gut-b) + 8px);
   /* Leaves the bottom right to the spot count and the Next machine button. */
-  width: min(480px, calc(100vw - var(--gut-l) - var(--gut-r) - 220px));
+  width: min(440px, calc(100vw - var(--gut-l) - var(--gut-r) - 220px));
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
   user-select: text;
+  /* Only the card itself takes clicks; the intro text never blocks the scene. */
+  pointer-events: none;
+}
+/* The open spot's card: a solid panel with a clear edge, so you can see exactly where it ends. A click anywhere
+   outside it closes it (scene/Walker.tsx). */
+.story-spot {
+  position: relative;
+  max-height: calc(100dvh - 220px);
+  overflow-y: auto;
+  padding: 16px 20px 14px;
+  border: 1px solid var(--line2);
+  border-radius: var(--r-lg);
+  background: rgba(18, 21, 27, 0.94);
+  box-shadow: var(--shadow-lg);
+  text-shadow: none;
+  pointer-events: auto;
+}
+.story-spot.broken {
+  border-color: rgba(240, 68, 56, 0.6);
+}
+.story-spot h3,
+.story-spot .story-tag,
+.story-spot .story-photo {
+  margin-right: 30px;
+}
+.story-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--dim);
+  transition: color 0.2s, background 0.2s;
+}
+.story-close:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.08);
+}
+.story-close svg {
+  width: 18px;
+  height: 18px;
+}
+.story-hint {
+  margin: 12px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  color: var(--dim);
+  font: 500 0.6875rem/1.5 var(--mono);
+  letter-spacing: 0.04em;
+}
+.story-hint kbd {
+  padding: 0 5px;
+  border: 1px solid var(--line2);
+  border-radius: 4px;
+  color: var(--ink2);
+  font: inherit;
 }
 .story .eyebrow {
   color: var(--ink2);
@@ -439,6 +502,11 @@ body {
   flex-direction: column;
   align-items: flex-end;
   gap: 10px;
+  /* Its box spans the minimap and the count: only its buttons take clicks, so dots under it stay clickable. */
+  pointer-events: none;
+}
+.spot-progress :is(button, a, .confirm-pop) {
+  pointer-events: auto;
 }
 .spot-pips {
   display: flex;
@@ -520,6 +588,15 @@ body {
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  text-align: right;
+}
+/* Holds the readout's widest text (Cruise in Tour.tsx) from the start, so the number never shifts. */
+.cruise-num::before {
+  content: attr(data-widest);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
 }
 
 /* Hotspots: glowing dots on the machine. */
@@ -1183,30 +1260,38 @@ body {
 }
 
 /* A spot's real photo, its footage button and the source, in the story at the bottom left. */
+/* Photo and caption side by side, to keep the card short. */
 .story-photo {
-  margin: 0 0 16px;
-  max-width: 320px;
+  display: grid;
+  grid-template-columns: minmax(0, 150px) 1fr;
+  gap: 12px;
+  align-items: start;
+  margin: 0 0 14px;
 }
 .story-photo img {
   display: block;
   width: 100%;
   height: auto;
-  max-height: min(220px, 26vh);
+  max-height: 130px;
   object-fit: cover;
   border-radius: var(--r);
   background: var(--raise);
   box-shadow: var(--shadow-md);
 }
 .story-photo figcaption {
-  margin-top: 8px;
   color: var(--ink2);
-  font-size: 0.8125rem;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  line-height: 1.45;
 }
 .story-photo figcaption span {
   display: block;
+  margin-top: 4px;
   color: var(--dim);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
+}
+.story-spot .story-text {
+  font-size: 1rem;
+  line-height: 1.5;
 }
 .story-photo a {
   color: var(--signal);
@@ -1504,6 +1589,8 @@ p.keysbar {
 .replay-line {
   margin: 0;
   min-height: 1.5em;
+  /* Captions that count ("Orbit 12") keep their width as the digits change. */
+  font-variant-numeric: tabular-nums;
   color: var(--ink);
   font-size: clamp(1rem, 1.8vw, 1.125rem);
   line-height: 1.5;
@@ -1538,8 +1625,17 @@ p.keysbar {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
 }
-.replay-skip {
+/* Pause/Play and Skip, side by side. */
+.replay-ctl {
   grid-column: 2;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.replay[data-place] .replay-ctl {
+  grid-column: 1;
+}
+.replay-skip {
   display: inline-flex;
   align-items: center;
   gap: 2px;
@@ -1586,10 +1682,10 @@ p.keysbar {
     display: none;
   }
   .sound {
-    top: calc(max(16px, env(safe-area-inset-top, 0px)) + 56px);
+    top: calc(max(16px, env(safe-area-inset-top, 0px)) + 76px);
   }
   .story-photo {
-    max-width: 240px;
+    grid-template-columns: minmax(0, 110px) 1fr;
   }
   .story-photo img {
     max-height: 18vh;

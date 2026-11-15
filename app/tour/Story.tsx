@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import { useEffect, useId, useRef, useState } from "react";
 import { getLevel, LEVELS, setLevel } from "../atlas/level.js";
 import { useStore } from "./lib/store";
-import { continueStory, tour } from "./state";
+import { continueStory, launchCountdown, tour } from "./state";
 import { STOPS } from "./stops";
 
 // Real footage and the soundtrack, described in public/media/media.json (credits and licences live there too).
@@ -91,7 +91,7 @@ export function mediaSound(el: HTMLAudioElement) {
   el.volume = vol.media;
   el.muted = muted;
   sounds.add(el);
-  el.addEventListener("play", () => duck(true));
+  el.addEventListener("play", () => (sounds.add(el), duck(true))); // back in after a pause, so mute still reaches it
   el.addEventListener("pause", () => (sounds.delete(el), duck(false)));
   el.addEventListener("ended", () => (sounds.delete(el), duck(false)));
   return el;
@@ -128,7 +128,8 @@ function fadeVol(el: HTMLAudioElement, to: number, ms: number, done?: () => void
   const from = el.volume, t0 = performance.now();
   const step = () => {
     const u = Math.min(1, (performance.now() - t0) / ms);
-    el.volume = Math.max(0, Math.min(1, from + (to - from) * u));
+    // A music fade (a new chapter's piece coming in) never raises it over a video that started meanwhile.
+    el.volume = el === music.el && music.ducked ? 0 : Math.max(0, Math.min(1, from + (to - from) * u));
     if (u < 1) requestAnimationFrame(step);
     else done?.();
   };
@@ -177,8 +178,11 @@ export function startMusic() {
     if (music.el) playTrack(trackFor());
   });
 }
-const duck = (on: boolean) => {
-  music.ducked = on;
+// The music is silent while any video or mission radio is playing: worked out from what is actually playing, so
+// one clip pausing doesn't bring the music back over another that's still going.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- callers say which way it changed; the truth is re-read
+const duck = (_on?: boolean) => {
+  music.ducked = [...document.querySelectorAll("video")].some((v) => !v.paused && !v.ended) || [...sounds].some((a) => !a.paused && !a.ended);
   if (music.el) music.el.volume = musicLevel();
 };
 
@@ -188,13 +192,18 @@ export function MusicToggle() {
   const [, bump] = useState(0);
   const [open, setOpen] = useState(false);
   const [level, setLvl] = useState("student");
+  // The saved mute is read after the page has loaded, so the server's HTML (always unmuted) matches the first render.
+  const [mounted, setMounted] = useState(false);
   const gear = useRef<HTMLButtonElement>(null);
   const box = useRef<HTMLDivElement>(null);
   const panelId = useId();
   useEffect(() => {
     const f = () => bump((n) => n + 1);
     const lv = () => setLvl(getLevel());
-    const t = setTimeout(lv, 0); // read the saved level after mount (localStorage)
+    const t = setTimeout(() => {
+      lv(); // read the saved level after mount (localStorage)
+      setMounted(true);
+    }, 0);
     const key = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() !== "m" || e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
       if ((e.target as HTMLElement | null)?.closest?.("input, textarea, select, [contenteditable]")) return;
@@ -228,6 +237,7 @@ export function MusicToggle() {
     };
   }, [open]);
   const musicOn = music.el ? !music.el.paused : !isOff();
+  const isMuted = mounted && muted;
   const toggleMusic = () => {
     const on = !musicOn;
     music.on = on;
@@ -249,12 +259,12 @@ export function MusicToggle() {
       <button
         type="button"
         className="music-btn"
-        aria-pressed={muted}
+        aria-pressed={isMuted}
         aria-label="Mute all sound"
-        title={muted ? "Sound is off: unmute (M)" : "Mute all sound (M)"}
+        title={isMuted ? "Sound is off: unmute (M)" : "Mute all sound (M)"}
         onClick={() => setMuted(!muted)}
       >
-        {muted ? <VolumeX aria-hidden="true" /> : <Volume2 aria-hidden="true" />}
+        {isMuted ? <VolumeX aria-hidden="true" /> : <Volume2 aria-hidden="true" />}
       </button>
       <button
         type="button"
@@ -391,6 +401,8 @@ export function Interlude() {
   const stop = at == null ? null : STOPS[at];
   const [media, setMedia] = useState<Media>({});
   const go = useRef<HTMLButtonElement>(null);
+  // The very first launch (from Earth to the Moon) counts down over Earth first (state.ts launchCountdown).
+  const launch = () => (tour.get().phase === "start" ? launchCountdown() : continueStory());
   useEffect(() => {
     loadMedia().then(setMedia);
   }, []);
@@ -445,7 +457,7 @@ export function Interlude() {
           </figure>
         )}
         <div className="chapter-actions story-actions">
-          <button ref={go} type="button" className="start-btn" onClick={continueStory}>
+          <button ref={go} type="button" className="start-btn" onClick={launch}>
             Fly to {stop.name} <ArrowRight aria-hidden="true" />
           </button>
         </div>

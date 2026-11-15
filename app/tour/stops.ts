@@ -322,8 +322,10 @@ export const STOPS: Stop[] = [
         title: "Wire wheels",
         text: "These tires have no air inside. They are woven from steel wire, with titanium treads that gripped the dusty ground.",
         source: SRC.lrv,
-        anchor: { pos: [1.15, 0.82, 1.06] },
-        face: [0, 0, 1],
+        anchor: { pos: [1.12, 0.42, 1.1] }, // the rear wheel's hub (it sat on the fender top)
+        // Always shown, like the rover's other dots: facing +z it hid from the whole -z side, where the replay
+        // leaves you standing, until you walked right round the rover.
+        face: null,
       },
       {
         id: "batteries",
@@ -468,7 +470,8 @@ export const STOPS: Stop[] = [
         title: "Broken rotor blades",
         text: "On its 72nd flight, on 18 January 2024, Ingenuity landed hard on a sand ripple. All four blades snapped about a third of the way from the tip, and the shaking tore one blade off completely.",
         source: SRC.ingenuityCrash,
-        anchor: { pos: [0, 0.44, -0.4] },
+        // The snapped, glowing tip of a lower blade (the old spot hung in the air past the shortened blades).
+        anchor: { pos: [-0.25, 0.36, 0.21] },
         face: null,
         broken: true,
       },
@@ -494,7 +497,7 @@ export const STOPS: Stop[] = [
         title: "Solar panel",
         text: "This panel charged Ingenuity’s batteries. Tucked underneath it is a stamp-sized piece of fabric from the Wright brothers’ 1903 Flyer, the first airplane on Earth.",
         source: SRC.wright,
-        anchor: { part: "solar_panel", at: [0.5, 1, 0.5] },
+        anchor: { part: "chopper_sp", at: [0.5, 1, 0.5] },
         face: null,
       },
       {
@@ -502,8 +505,9 @@ export const STOPS: Stop[] = [
         title: "Planned 5, flew 72",
         text: "Ingenuity was designed for up to five test flights over 30 days. It flew 72 times and spent more than two hours in the air.",
         source: SRC.ingenuityCrash,
-        anchor: { part: "bus", at: [0, 0.5, 0.5] },
-        face: [-1, 0, 0],
+        // The foot of a landing leg (it touched down 72 times), so it doesn't sit on the body beside the camera's spot.
+        anchor: { part: "leg_03", at: [0.9, 0.08, 0.9] },
+        face: null,
       },
     ],
   },

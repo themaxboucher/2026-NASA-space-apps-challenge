@@ -41,11 +41,10 @@
       "title": "Where the capsule rode",
       "text": "The return capsule sat here. In January 2006 it hit Earth’s air at 12.9 km a second, the fastest re-entry of any spacecraft at the time, and parachuted into the Utah desert.",
       "anchor": {
-        "part": "Stardust_tex_01_c",
-        "at": [
-          0.5,
-          0.5,
-          0.5
+        "pos": [
+          0,
+          -0.05,
+          -1.15
         ]
       },
       "source": {
@@ -88,17 +87,20 @@
       "broken": true,
       "tag": "Why it stopped",
       "anchor": {
-        "part": "gold_foil",
-        "at": [
-          0.5,
-          0.5,
-          0.5
+        "pos": [
+          0.45,
+          0.1,
+          0.25
         ]
       },
       "source": {
         "label": "NASA NSSDCA: Stardust",
         "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1999-003A"
-      }
+      },
+      "glow": [
+        "gold_foil"
+      ],
+      "glowRadius": 0.5
     },
     {
       "id": "solar-panels",

@@ -289,10 +289,15 @@
       {
         "at": 10.8,
         "who": "Armstrong",
-        "text": "That's one small step for man; one giant leap for mankind."
+        "text": "That's one small step for man…"
+      },
+      {
+        "at": 15.9,
+        "who": "Armstrong",
+        "text": "…one giant leap for mankind."
       }
     ],
-    "notes": "Built from four cuts of the PAO loop at 421.8-426.6 s, 473.3-476.1 s, 492.3-495.1 s and 517.7-526.6 s (GET 109:22:46, 109:23:38, 109:24:12, 109:24:23). Long silences were removed. Line 2 is only the first sentence of Armstrong's description, cut at his first pause. Cue times come from where speech starts in the file; texts follow the ALSJ transcript, where the Houston speaker is CAPCOM Bruce McCandless."
+    "notes": "Built from four cuts of the PAO loop at 421.8-426.6 s, 473.3-476.1 s, 492.3-495.1 s and 517.7-526.6 s (GET 109:22:46, 109:23:38, 109:24:12, 109:24:23). Long silences were removed. Line 2 is only the first sentence of Armstrong's description, cut at his first pause. Line 4 is split at Armstrong's pause: 'one giant leap' starts at 15.9 s (measured from the file's loudness), so the caption changes when the words do. Cue times come from where speech starts in the file; texts follow the ALSJ transcript, where the Houston speaker is CAPCOM Bruce McCandless."
   },
   "soundtrack": {
     "file": "media/soundtrack.mp3",

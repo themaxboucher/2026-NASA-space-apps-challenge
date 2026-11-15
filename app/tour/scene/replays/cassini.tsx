@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { reducedMotion } from "../../lib/device";
 import { useStore } from "../../lib/store";
-import { endReplay, hud, live, REPLAYS, setCaption, tour } from "../../state";
+import { endReplay, replayClock, hud, live, REPLAYS, setCaption, tour } from "../../state";
 import { STOP_INDEX, type Stop } from "../../stops";
 import { ghostMaterial, shell, smooth, type Cue } from "../Ghost";
 import { prepareModel, type GltfSpec } from "../Machine";
@@ -80,25 +80,23 @@ const RING_N = new THREE.Vector3(0, 1, 0).applyEuler(new THREE.Euler(0.47, 0, 0.
 const OUT = SATURN.clone().normalize().negate(); // from Saturn toward Cassini's far point (the origin)
 const SIDE = new THREE.Vector3().crossVectors(RING_N, OUT).normalize(); // in the ring plane, across the orbit
 const UPISH = new THREE.Vector3().crossVectors(OUT, SIDE).normalize();
-const LOOPS: [periapsis: number, tilt: number][] = [
-  [2.1, 0.1],
-  [1.7, 0.3],
-  [1.45, 0.55],
-  [1.9, 0.85],
-  [1.3, 1.1],
-  [1.12, 1.3],
-];
-const loopAxis = LOOPS.map(([, tilt]) => SIDE.clone().multiplyScalar(Math.cos(tilt)).addScaledVector(UPISH, Math.sin(tilt)));
+// Four loops, and every loop's size and tilt change smoothly along the way (not in steps at each loop), so the
+// path never turns sharply: it starts wide and nearly in the ring plane, and ends closer in and steeply tilted.
+const LOOP_COUNT = 4;
 function orbitAt(t: number, out: THREE.Vector3) {
-  const f = Math.max(0, Math.min(1, (t - ORB_A) / (ORB_B - ORB_A))) * LOOPS.length;
-  const k = Math.min(LOOPS.length - 1, Math.floor(f));
-  const ra = SATURN.length(), rp = LOOPS[k][0] * SATURN_R;
+  const x = Math.max(0, Math.min(1, (t - ORB_A) / (ORB_B - ORB_A)));
+  const f = x * LOOP_COUNT;
+  const k = Math.min(LOOP_COUNT - 1, Math.floor(f));
+  const sx = x * x * (3 - 2 * x);
+  const ra = SATURN.length(), rp = (2.3 - 1.05 * sx) * SATURN_R;
+  const tilt = 0.08 + 1.15 * sx;
+  const axis = SIDE.clone().multiplyScalar(Math.cos(tilt)).addScaledVector(UPISH, Math.sin(tilt));
   const a = (ra + rp) / 2, e = (ra - rp) / (ra + rp), b = a * Math.sqrt(1 - e * e);
   // Mean anomaly from the far point (pi) all the way round; Newton's method for the eccentric anomaly.
   const M = Math.PI + 2 * Math.PI * (f - k);
   let E = M;
   for (let i = 0; i < 6; i++) E -= (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E));
-  return out.copy(SATURN).addScaledVector(OUT, -a * (Math.cos(E) - e)).addScaledVector(loopAxis[k], b * Math.sin(E));
+  return out.copy(SATURN).addScaledVector(OUT, -a * (Math.cos(E) - e)).addScaledVector(axis, b * Math.sin(E));
 }
 const TRAIL = 220;
 const PLUNGE = 28; // steered into Saturn
@@ -207,12 +205,13 @@ export function CassiniReplay({ stop }: { stop: Stop; ground?: (x: number, z: nu
 
   useFrame((state) => {
     const s = tour.get();
-    const t = on && t0.current >= 0 ? state.clock.elapsedTime - t0.current : -1;
+    const t = on && t0.current >= 0 ? replayClock() - t0.current : -1;
     live.hideMachine = !s.revealed.includes(stop.id) && t < REVEAL;
     scene.root.visible = on;
     if (!on) return;
+    if (s.replayPaused) return; // paused: everything holds still
     if (t0.current < 0) {
-      t0.current = state.clock.elapsedTime;
+      t0.current = replayClock();
       return;
     }
 

@@ -154,6 +154,9 @@
   color: #fff;
   font: 600 0.8125rem/1.5 var(--mono);
   font-variant-numeric: tabular-nums;
+  /* Room for "×30" from the start, so going from ×9 to ×10 doesn't resize it. */
+  min-width: calc(3ch + 20px);
+  text-align: center;
 }
 .speedo[data-on] {
   display: block;
@@ -382,20 +385,16 @@
 }
 
 /* Top right: "Fly around the solar system" first, "Explore all 79 machines" just under it. */
+/* The two top-right links (fly the solar system, explore every space object) look the same: same font and colour. */
 .explore-link.explore-second {
   top: calc(max(16px, env(safe-area-inset-top, 0px)) + 30px);
-  color: var(--ink2);
-}
-.explore-link.solar-top {
-  color: var(--ink);
-  font-weight: 700;
 }
 
 /* Sound panel under the speaker button: music on/off and volume, and a separate volume for clips and radio. */
 .sound {
   position: absolute;
   z-index: 60;
-  top: calc(max(16px, env(safe-area-inset-top, 0px)) + 44px);
+  top: calc(max(16px, env(safe-area-inset-top, 0px)) + 64px);
   right: var(--gut-r);
   display: flex;
   gap: 8px;
@@ -732,18 +731,4 @@
   color: var(--ink2);
   font-size: 0.8125rem;
   line-height: 1.45;
-}
-.trib-close {
-  margin: 40px 0 0;
-  padding: 24px 28px;
-  border-radius: var(--r-lg);
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-}
-.trib-close p {
-  margin: 0;
-  font: 500 clamp(1.25rem, 2.4vw, 1.625rem)/1.35 var(--display);
-}
-.trib-close p + p {
-  margin-top: 10px;
-  color: var(--ink2);
 }

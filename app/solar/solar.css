@@ -119,14 +119,39 @@
   color: var(--ink) !important;
 }
 
-/* Find a place */
-.sol-panel {
+/* Two columns down the sides: left = list + credits, right = map + card. Each is a flex column, so its panels
+   stack with a gap and shrink (scrolling inside) instead of piling on top of each other. The footer runs between them. */
+.sol-left,
+.sol-right {
+  --col-l: 320px;
+  --col-r: 360px;
   position: absolute;
   z-index: 25;
   top: 92px;
+  bottom: var(--gut-b);
   left: var(--gut);
-  width: min(320px, calc(100vw - 2 * var(--gut)));
-  max-height: calc(100dvh - 92px - 110px);
+  width: min(var(--col-l), calc(100vw - 2 * var(--gut)));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+}
+.sol-left > *,
+.sol-right > * {
+  pointer-events: auto;
+}
+.sol-right {
+  top: 16px;
+  left: auto;
+  right: var(--gut);
+  width: min(var(--col-r), calc(100vw - 2 * var(--gut)));
+  align-items: flex-end;
+}
+
+/* Find a place */
+.sol-panel {
+  flex: 0 1 auto;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -146,6 +171,7 @@
   display: flex;
   flex-direction: column;
   min-height: 0;
+  padding-top: 10px;
 }
 .sol-search {
   display: grid;
@@ -221,10 +247,7 @@
 
 /* Map and nearest names */
 .sol-map {
-  position: absolute;
-  z-index: 25;
-  top: 16px;
-  right: var(--gut);
+  flex: none;
   width: 200px;
   padding: 10px;
 }
@@ -248,13 +271,13 @@
 
 /* Card for the site (or Earth's junk) you're next to */
 .sol-card {
-  position: absolute;
-  z-index: 26;
-  right: var(--gut);
-  bottom: calc(var(--gut-b) + 64px);
-  width: min(360px, calc(100vw - 2 * var(--gut)));
-  max-height: calc(100dvh - 330px);
+  flex: 0 1 auto;
+  width: 100%;
+  min-height: 0;
+  margin-top: auto;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
   padding: 14px 16px;
   font-size: 0.9375rem;
 }
@@ -311,13 +334,12 @@
 .sol-foot {
   position: absolute;
   z-index: 24;
-  left: 50%;
+  left: calc(var(--gut) + 320px + 16px);
+  right: calc(var(--gut) + 360px + 16px);
   bottom: var(--gut-b);
-  transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 8px;
-  max-width: calc(100vw - 2 * var(--gut));
   pointer-events: none;
 }
 .sol-foot p {
@@ -405,11 +427,10 @@
 
 /* Credits */
 .sol-credits {
-  position: absolute;
-  z-index: 23;
-  left: var(--gut);
-  bottom: var(--gut-b);
-  max-width: min(440px, calc(100vw - 2 * var(--gut)));
+  flex: none;
+  align-self: flex-start;
+  max-width: 100%;
+  margin-top: auto;
   font-size: 0.8125rem;
   color: var(--dim);
 }
@@ -417,10 +438,13 @@
   padding: 7px 12px;
   cursor: pointer;
 }
+.sol-credits[open] {
+  align-self: stretch;
+}
 .sol-credits ul {
   display: grid;
   gap: 6px;
-  max-height: 40dvh;
+  max-height: 30dvh;
   overflow-y: auto;
   padding: 0 12px 10px;
 }
@@ -436,24 +460,25 @@
   .sol-head h1 {
     font-size: 1.125rem;
   }
-  .sol-panel {
+  .sol-left,
+  .sol-right {
     top: 70px;
-    max-height: calc(100dvh - 70px - 200px);
+    bottom: calc(var(--gut-b) + 130px);
   }
-  .sol-panel.open {
+  .sol-left:has(.sol-panel.open) {
     z-index: 40;
   }
+  .sol-foot {
+    left: var(--gut);
+    right: var(--gut);
+  }
   .sol-map {
-    top: 70px;
     width: 118px;
     padding: 6px;
   }
   .sol-map canvas {
     width: 104px;
     height: 104px;
-  }
-  .sol-card {
-    bottom: calc(var(--gut-b) + 96px);
   }
   .sol-credits {
     display: none;
@@ -633,7 +658,6 @@
 .sol-foot {
   flex-wrap: wrap;
   justify-content: center;
-  width: min(900px, calc(100vw - 2 * var(--gut) - 120px));
 }
 .sol-foot .sol-help {
   flex: 1 1 380px;
@@ -666,13 +690,6 @@
 .sol-zoom button:hover {
   background: rgba(255, 255, 255, 0.08);
 }
-/* In orbit view the hover card can sit over the marker it describes: let clicks pass through to it. */
-.solar:has(.sol-back) .sol-card {
-  pointer-events: none;
-}
-.solar:has(.sol-back) .sol-card :is(a, button) {
-  pointer-events: auto;
-}
 
 /* Shared progress with the atlas (localStorage gra-explored): a check on opened space objects */
 .sol-seen {
@@ -684,7 +701,8 @@
   margin-left: 0;
 }
 .sol-progress {
-  margin: 0 0 8px;
+  margin: 0;
+  padding: 0 14px;
   color: var(--dim);
   font-size: 0.8125rem;
 }
@@ -823,11 +841,4 @@
 }
 .sol-sci .sci-try {
   padding: 10px 12px;
-}
-/* In orbit view the card lets clicks through to the markers; once "How it worked" is open it's for reading. */
-.solar:has(.sol-back) .sol-card :is(summary, select) {
-  pointer-events: auto;
-}
-.solar:has(.sol-back) .sol-card:has(.sol-sci[open]) {
-  pointer-events: auto;
 }

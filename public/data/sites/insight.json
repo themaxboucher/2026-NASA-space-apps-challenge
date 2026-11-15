@@ -80,11 +80,10 @@
       "tag": "Didn’t work",
       "anchor": {
         "pos": [
-          -2,
-          0.1,
-          1.33
-        ],
-        "ground": true
+          0,
+          0.56,
+          1.85
+        ]
       },
       "source": {
         "label": "NASA: InSight",
@@ -100,7 +99,11 @@
         "license": "Public domain",
         "source": "https://commons.wikimedia.org/wiki/File:Insight%27s_HP3_mole_current_position_5_June_2019.png",
         "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://photojournal.jpl.nasa.gov/catalog/PIA23274 (converted from TIFF)."
-      }
+      },
+      "glow": [
+        "InSIGHT_AO_05"
+      ],
+      "glowRadius": 0.35
     },
     {
       "id": "camera",

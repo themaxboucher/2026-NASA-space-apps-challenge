@@ -32,6 +32,7 @@ function Spot({ stopId, spot }: { stopId: string; spot: Hotspot }) {
         <button
           type="button"
           className={`spot${spot.broken ? " broken" : ""}${found ? " found" : ""}${open ? " open" : ""}`}
+          data-spot={spot.id}
           aria-expanded={open}
           aria-label={`${spot.title}${spot.broken ? " (broken part)" : ""}${found ? ", found" : ""}`}
           onClick={() => openHotspot(stopId, open ? null : spot.id)}

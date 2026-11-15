@@ -6,7 +6,7 @@ import * as THREE from "three";
 import { reducedMotion } from "../../lib/device";
 import { useStore } from "../../lib/store";
 import { eclToScene, VOYAGER_ECL } from "../../plans";
-import { endReplay, hud, live, REPLAYS, setCaption, tour } from "../../state";
+import { endReplay, replayClock, hud, live, REPLAYS, setCaption, tour } from "../../state";
 import { STOP_INDEX, type Stop } from "../../stops";
 import { smooth, type Cue } from "../Ghost";
 import { jupiterTexture, RING_INNER, RING_OUTER, ringTexture, saturnTexture } from "../textures";
@@ -115,6 +115,12 @@ const BEATS: Beat[] = [
   { at: 47.5, S: 0.03, cam: [-1, 3, -10, 0], sun: 0.3, jup: 0, sat: 0, v2: 0.4, glow: 0.05 }, // and Voyager 2, far to the south
 ];
 const EASE = 2.2; // seconds to glide from one beat to the next
+// The two slingshots (from the coast to Jupiter until Voyager climbs away past Saturn, story seconds 5 to 29)
+// play this much faster than the rest; everything else in this file is timed in story seconds.
+const SLING = [5, 29] as const;
+const SLING_SPEED = 1.6;
+const storyTime = (real: number) =>
+  real < SLING[0] ? real : Math.min(SLING[1], SLING[0] + (real - SLING[0]) * SLING_SPEED) + Math.max(0, real - SLING[0] - (SLING[1] - SLING[0]) / SLING_SPEED);
 const V_NOW = { pos: [7, 1, 8] as [number, number, number], look: [0, 0, 0] as [number, number, number] };
 // Saturn's north pole (RA 40.59°, Dec 83.54°) in ecliptic coordinates is lon 79.5°, lat 61.9°; its rings lie in its equator.
 const SATURN_POLE = new THREE.Vector3(0.0857, 0.8825, -0.4622).normalize();
@@ -324,14 +330,15 @@ function Trip({ stop, track }: { stop: Stop; track: Track }) {
     const n = () => new THREE.Vector3();
     return { craft: n(), w: n(), a: n(), b: n(), out: n(), ahead: n(), sunW: n(), jupW: n(), satW: n(), earthW: n(), v2W: n() };
   }, []);
-  useFrame((state) => {
+  useFrame(() => {
     const s = tour.get();
-    const t = on && t0.current >= 0 ? state.clock.elapsedTime - t0.current : -1;
+    const t = on && t0.current >= 0 ? storyTime(replayClock() - t0.current) : -1;
     live.hideMachine = (on || !s.revealed.includes(stop.id)) && t < REVEAL;
     scene.root.visible = on && t >= 0;
     if (!on) return;
+    if (s.replayPaused) return; // paused: everything holds still
     if (t0.current < 0) {
-      t0.current = state.clock.elapsedTime;
+      t0.current = replayClock();
       return;
     }
     const { t: T, voyager1, earth, jupiter, saturn, speed } = scene.track;

@@ -6,6 +6,7 @@ import { Suspense, useEffect } from "react";
 import * as THREE from "three";
 import { useStore } from "./lib/store";
 import { AdaptiveFov, Director } from "./scene/Director";
+import { warmEnvironment } from "./scene/environment";
 import { SpaceScene } from "./scene/SpaceStop";
 import { SurfaceScene } from "./scene/Surface";
 import { TravelScene } from "./scene/Travel";
@@ -33,6 +34,8 @@ export default function TourCanvas() {
       camera={{ fov: 50, near: 0.01, far: 3000, position: [0, 0, 3.4] }}
       onCreated={(state) => {
         state.gl.toneMapping = THREE.ACESFilmicToneMapping;
+        // Compile the lighting-environment shaders while the start screen is up, not on arrival at the first stop.
+        setTimeout(() => warmEnvironment(state.gl), 2500);
         if (process.env.NODE_ENV !== "production") Object.assign(window, { __tour: { tour, state } });
       }}
     >

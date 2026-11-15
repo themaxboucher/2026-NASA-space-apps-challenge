@@ -60,7 +60,7 @@
       "anchor": {
         "part": "Body",
         "at": [
-          0.5,
+          0.18,
           0.15,
           1
         ]
@@ -89,8 +89,8 @@
         "part": "rtg",
         "at": [
           0.5,
-          0.8,
-          0.3
+          1,
+          0.35
         ]
       },
       "source": {
@@ -103,11 +103,16 @@
       "title": "Where Ingenuity rode",
       "text": "The Ingenuity helicopter rode to Mars folded up under the rover’s belly. Perseverance set it down on 3 April 2021, and it went on to fly 72 times.",
       "anchor": {
-        "part": "blades",
+        "part": "Body",
         "at": [
-          0.5,
-          0.5,
-          0.5
+          0.8,
+          0,
+          0.45
+        ],
+        "offset": [
+          0,
+          -0.04,
+          0
         ]
       },
       "source": {
@@ -120,10 +125,10 @@
       "title": "Landing cameras",
       "text": "Cameras on the parachute cover, the sky crane and the rover filmed the whole landing. It was the first time we could watch a spacecraft land on Mars.",
       "anchor": {
-        "part": "Body",
+        "part": "Down_Look_Camera",
         "at": [
+          1,
           0.5,
-          0,
           0.5
         ]
       },

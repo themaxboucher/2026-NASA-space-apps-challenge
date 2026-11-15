@@ -13,11 +13,10 @@
       "title": "The heat shield",
       "text": "The probe hit Jupiter’s air at about 170,000 km/h, the fastest entry ever. Its thick heat shield glowed hotter than the surface of the Sun, and much of it burned away, as planned.",
       "anchor": {
-        "part": "cphenolic",
-        "at": [
-          0.4,
-          0.5,
-          0.5
+        "pos": [
+          -0.53,
+          -0.45,
+          0
         ]
       },
       "source": {
@@ -41,11 +40,10 @@
       "title": "The parachute",
       "text": "Once it had slowed down, the probe threw off its back cover and opened a parachute, then dropped its heat shield and drifted down through the clouds.",
       "anchor": {
-        "part": "aft",
-        "at": [
-          0.5,
-          1,
-          0.5
+        "pos": [
+          -0.53,
+          0.43,
+          0
         ]
       },
       "source": {
@@ -58,11 +56,10 @@
       "title": "Tasting Jupiter’s air",
       "text": "Instruments inside sniffed the gases and measured the winds. They found far less water than expected, and winds deep down even stronger than at the cloud tops.",
       "anchor": {
-        "part": "polished",
-        "at": [
-          0.5,
-          0.5,
-          0.5
+        "pos": [
+          0.79,
+          -0.23,
+          0.35
         ]
       },
       "source": {

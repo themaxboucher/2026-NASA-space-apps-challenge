@@ -6,7 +6,7 @@ import * as THREE from "three";
 import { Chassis } from "../suspension";
 import { reducedMotion } from "../../lib/device";
 import { useStore } from "../../lib/store";
-import { endReplay, live, REPLAYS, setCaption, tour } from "../../state";
+import { endReplay, replayClock, live, REPLAYS, setCaption, tour } from "../../state";
 import type { Stop } from "../../stops";
 import { loadMedia, mediaSound } from "../../Story";
 import { ghostMaterial, lerp2, shell, smooth, suited, type Cue } from "../Ghost";
@@ -133,13 +133,21 @@ export function Apollo15Replay({ stop, ground }: { stop: Stop; ground?: (x: numb
     const dt = Math.min(rawDt, 0.05);
     const gh = (x: number, z: number) => (ground ? ground(x, z) : 0);
     const s = tour.get();
-    const t = t0.current < 0 ? 0 : state.clock.elapsedTime - t0.current;
+    const t = t0.current < 0 ? 0 : replayClock() - t0.current;
     // Until the ghost rover parks, the real one isn't here yet.
     live.hideMachine = !s.revealed.includes(stop.id) && !(on && t0.current >= 0 && t >= PARK);
     scene.root.visible = on;
     if (!on) return;
-    if (t0.current < 0) t0.current = state.clock.elapsedTime;
-    if (audio.current && t >= DRIVE[0] && audio.current.paused && !audio.current.ended && audio.current.currentTime === 0) audio.current.play().catch(() => {});
+    if (s.replayPaused) {
+      audio.current?.pause(); // paused: everything holds still, the radio too
+      return;
+    }
+    if (t0.current < 0) t0.current = replayClock();
+    // Starts once the drive does, and picks up again after a pause (dropped if the browser won't play it).
+    if (audio.current && t >= DRIVE[0] && audio.current.paused && !audio.current.ended)
+      audio.current.play().catch(() => {
+        audio.current = null;
+      });
 
     // The drive: along the tracks, nose following the curve and tipping with the ground.
     const u = scene.start + (1 - scene.start) * driveFrac(t, DRIVE[0], DRIVE[1]);

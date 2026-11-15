@@ -16,8 +16,8 @@
         "part": "gold",
         "at": [
           0.5,
-          1,
-          0.5
+          0.3,
+          1
         ]
       },
       "source": {
@@ -92,11 +92,10 @@
       "title": "The antenna",
       "text": "This antenna pointed at Earth and sent the station’s data home for six years. Earth stays in nearly the same spot in the sky here, so it never had to move.",
       "anchor": {
-        "part": "white",
-        "at": [
-          0.5,
-          1,
-          0.5
+        "pos": [
+          1.15,
+          1.6,
+          -0.03
         ]
       },
       "source": {

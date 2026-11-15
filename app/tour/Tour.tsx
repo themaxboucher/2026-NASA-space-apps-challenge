@@ -27,6 +27,7 @@ import {
   nextStop,
   openHotspot,
   requestTravel,
+  clearProgress,
   restoreProgress,
   setFileOpen,
   spotKey,
@@ -1254,19 +1255,25 @@ function useHashSync() {
       if (i == null || (s.stop === i && s.phase !== "start")) return;
       requestTravel(i, "jump");
     };
-    // Coming back (from the atlas, a reload, the browser's Back): pick up where you left off, with your progress.
+    // The address decides where you land: a bare / is a fresh start screen, /#<id> goes to that machine
+    // with your progress from this tab (coming back from the atlas, a reload, the browser's Back).
     const hashId = decodeURIComponent(location.hash.slice(1));
-    const back = restoreProgress(STOP_INDEX[hashId]);
-    // A link to another machine (/#surveyor3) goes there, not back to the saved story stop.
-    if (back != null && (!hashId || STOP_INDEX[hashId] !== undefined)) {
-      startMusic();
-      requestTravel(back, "jump");
-    } else void go();
+    if (!hashId) clearProgress();
+    else {
+      restoreProgress();
+      const i = STOP_INDEX[hashId];
+      if (i !== undefined) {
+        startMusic();
+        requestTravel(i, "jump");
+      } else void go();
+    }
     const onHash = () => void go();
     addEventListener("hashchange", onHash);
     return () => removeEventListener("hashchange", onHash);
   }, []);
   useEffect(() => {
+    // Leave the address alone on the start screen: it's what the effect above reads to decide where to land.
+    if (phase === "start") return;
     const id =
       phase === "explore" || phase === "travel" ? STOPS[stop]?.id : null;
     const want = id ? `#${id}` : "";

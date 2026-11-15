@@ -1,4 +1,4 @@
-// Ghost Rover Atlas engine: plain JS that drives the DOM rendered by Atlas.tsx.
+// Ruins Among the Stars engine: plain JS that drives the DOM rendered by Atlas.tsx.
 // Needs the global THREE (r128) plus GLTFLoader/DRACOLoader, loaded by Atlas.tsx from /vendor/three.
 /* eslint-disable */
 import { loadSalvage, salvageBlock } from './salvage.js';
@@ -456,7 +456,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     <div class="mvz"><button type="button" data-mvz="0.8" aria-label="Zoom in">+</button><button type="button" data-mvz="1.25" aria-label="Zoom out">−</button></div>
       ${MODEL_NOTE[mk] ? `<figcaption>${esc(MODEL_NOTE[mk])}</figcaption>` : ''}
       ${FAULTS[it.id] ? `<figcaption class="faultnote"><i aria-hidden="true"></i><span><b>Glowing red is what gave out:</b> the ${esc(FAULTS[it.id].note)}</span></figcaption>` : ''}
-      <figcaption>${/^NASA/.test(m.credit || 'NASA') ? 'NASA 3D model' : '3D model'}: ${esc(m.title)}${/^NASA/.test(m.credit || 'NASA') ? '' : ` (${esc(m.credit)}, ${esc(m.license || '')})`} · drag to turn, +/− or Ctrl + scroll to zoom${/^https?:\/\//.test(m.page || '') ? ` · <a href="${esc(m.page)}" target="_blank" rel="noopener" style="color:var(--echo)">model page ↗</a>` : ''}</figcaption></figure>` : '';
+      <figcaption>${/^NASA/.test(m.credit || 'NASA') ? 'NASA 3D model' : '3D model'}: ${esc(m.title)}${/^NASA/.test(m.credit || 'NASA') ? '' : ` (${esc(m.credit)}, ${esc(m.license || '')})`} · drag to turn, +/− or Ctrl + scroll to zoom${/^https?:\/\//.test(m.page || '') ? ` · <a href="${esc(m.page)}" target="_blank" rel="noopener" style="color:var(--signal)">model page ↗</a>` : ''}</figcaption></figure>` : '';
     return `<p class="eyebrow">${esc(it.mission)} · ${esc(it.type)}</p>
       <h2>${esc(it.name)}</h2>
       <span class="pill" style="--c:${COLOR[st]}">${esc(it.status)}</span>
@@ -823,10 +823,10 @@ function groundGeometry() {
     return geo;
   }
   function labelSprite(text, color) {
-    const c = document.createElement('canvas'), x = c.getContext('2d'), f = '600 28px "IBM Plex Mono", monospace';
+    const c = document.createElement('canvas'), x = c.getContext('2d'), f = `600 28px ${getComputedStyle(document.documentElement).getPropertyValue('--mono').trim() || 'monospace'}`;
     x.font = f; const w = Math.ceil(x.measureText(text).width) + 28; c.width = w; c.height = 46;
-    x.font = f; x.fillStyle = 'rgba(9,4,3,.82)'; x.fillRect(0, 0, w, 46); x.fillStyle = color; x.fillRect(0, 0, 6, 46);
-    x.fillStyle = '#efe5da'; x.textBaseline = 'middle'; x.fillText(text, 16, 24);
+    x.font = f; x.fillStyle = 'rgba(18,21,27,.92)'; x.fillRect(0, 0, w, 46); x.fillStyle = color; x.fillRect(0, 0, 6, 46);
+    x.fillStyle = '#f3f5f8'; x.textBaseline = 'middle'; x.fillText(text, 16, 24);
     const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), sizeAttenuation: false, depthTest: false }));
     s.scale.set(0.045 * w / 46, 0.045, 1); s.renderOrder = 9; return s;
   }
@@ -834,7 +834,7 @@ function groundGeometry() {
     const span = Math.max(...G.ext);
     for (const p of G.meta.places || []) {
       const it = byId(p.id); if (!it || !Number.isFinite(+p.x_m) || !Number.isFinite(+p.y_m)) continue;
-      const x = +p.x_m, z = -p.y_m, y = hAt(x, z), col = getComputedStyle(document.documentElement).getPropertyValue(stateAt(it, 2026) === 'alive' ? '--signal' : stateAt(it, 2026) === 'echo' ? '--echo' : '--quiet').trim() || '#c1a995';
+      const x = +p.x_m, z = -p.y_m, y = hAt(x, z), col = getComputedStyle(document.documentElement).getPropertyValue(stateAt(it, 2026) === 'alive' ? '--signal' : stateAt(it, 2026) === 'echo' ? '--echo' : '--quiet').trim() || '#6b7280';
       const g = new THREE.Group(); g.position.set(x, y, z); G.scene.add(g); G.extras.push(g);
       const beamH = Math.max(25, span * 0.02);
       // 1-px marker line: findable from far away, never blocks the view up close
@@ -863,7 +863,7 @@ function drapeRoutes() {
   const Rm = (RADIUS_KM[G.meta.world] || 0) * 1000, c = G.meta.center;
   if (!Rm || !Array.isArray(c) || !G.scene) return;
   const [lat0, lon0] = c.map(Number), kx = Rm * Math.cos(lat0 * D) * D, ky = Rm * D, hw = G.ext[0] / 2, hh = G.ext[1] / 2, step = Math.max(G.ext[0], G.ext[1]) / 400;
-  const col = getComputedStyle(document.documentElement).getPropertyValue('--signal').trim() || '#d9814a';
+  const col = getComputedStyle(document.documentElement).getPropertyValue('--signal').trim() || '#4d94ff';
   for (const it of DATA[G.meta.world] || []) for (const seg of routeSegs(it)) {
     let run = [];
     const flush = () => { if (run.length > 1) { const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(run), new THREE.LineBasicMaterial({ color: col })); G.scene.add(l); G.routeObjs.push(l); } run = []; };

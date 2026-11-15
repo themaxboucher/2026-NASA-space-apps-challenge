@@ -1,7 +1,6 @@
 "use client";
 
-import { animate, AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useStore } from "./lib/store";
 import { tour } from "./state";
 import { STOPS } from "./stops";
@@ -135,15 +134,10 @@ if (typeof window !== "undefined")
     if (s.phase === "explore" && STOPS[s.stop]) markSeen(STOPS[s.stop].id);
   });
 
-const ease = [0.22, 1, 0.36, 1] as const;
-
+// Shown at the end of the mission file overlay.
 export function FailureBank() {
-  const [open, setOpen] = useState(false);
   const [data, setData] = useState<Record<string, Entry[]> | null | undefined>(undefined);
   useStore(tour, (s) => `${s.phase}/${s.stop}`); // re-render on each new stop so newly met machines unlock
-  const btn = useRef<HTMLButtonElement>(null);
-  const still = useReducedMotion();
-  const close = useRef<HTMLButtonElement>(null);
   const panelId = useId();
 
   useEffect(() => {
@@ -154,78 +148,31 @@ export function FailureBank() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!open) return;
-    close.current?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key !== "Escape") return;
-      setOpen(false);
-      btn.current?.focus();
-    };
-    addEventListener("keydown", onKey);
-    return () => removeEventListener("keydown", onKey);
-  }, [open]);
-
   const total = data ? Object.values(data).reduce((n, l) => n + l.length, 0) : 0;
   const seen = new Set(data ? readSeen() : []);
   const found = data ? Object.values(data).reduce((n, l) => n + l.filter((e) => seen.has(e.id)).length, 0) : 0;
-  // A small bounce on the button whenever a new entry unlocks (not on the first count).
-  const lastFound = useRef(-1);
-  useEffect(() => {
-    if (!data) return;
-    if (lastFound.current >= 0 && found > lastFound.current && btn.current && !still) animate(btn.current, { scale: [1, 1.12, 1] }, { duration: 0.6 });
-    lastFound.current = found;
-  }, [data, found, still]);
   return (
-    <>
-      <button ref={btn} type="button" className="fbank-btn" aria-expanded={open} aria-controls={panelId} onClick={() => setOpen((v) => !v)}>
-        <i aria-hidden="true" />
-        What went wrong{total ? ` ${found}/${total}` : ""}
-      </button>
-      <AnimatePresence>
-        {open && (
-          <motion.aside
-            id={panelId}
-            className="fbank"
-            aria-labelledby={`${panelId}-h`}
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 24 }}
-            transition={{ duration: 0.4, ease }}
-          >
+    <section className="fbank" aria-labelledby={`${panelId}-h`}>
             <header className="fbank-head">
-              <div>
-                <p className="eyebrow">Mission files</p>
-                <h2 id={`${panelId}-h`}>What went wrong</h2>
-              </div>
-              <button
-                ref={close}
-                type="button"
-                className="fbank-close"
-                aria-label="Close what went wrong"
-                onClick={() => {
-                  setOpen(false);
-                  btn.current?.focus();
-                }}
-              >
-                ×
-              </button>
-            </header>
-            <p className="fbank-lede">
-              Space is hard. {total ? `${total} machines` : "Some machines"} in this atlas stopped working before anyone planned. Each failure taught engineers something.
-            </p>
-            {total > 0 && (
-              <p className="fbank-progress">
-                <b>
-                  {found} of {total} found.
-                </b>{" "}
-                {found < total ? "Each one unlocks when you visit its machine, here in the tour or in the atlas." : "You found them all!"}
+              <p className="eyebrow">Across the atlas</p>
+              <h2 id={`${panelId}-h`}>What went wrong</h2>
+              <p className="overlay-lede">
+                Space is hard. {total ? `${total} machines` : "Some machines"} in this atlas stopped working before anyone planned. Each failure taught engineers something.
               </p>
-            )}
-            {data === undefined && <p className="fbank-lede">Loading…</p>}
-            {data === null && <p className="fbank-lede">Couldn&apos;t load the mission files. Try reloading the page.</p>}
-            {data &&
-              CAUSES.map((c) => {
+              {total > 0 && (
+                <p className="fbank-progress">
+                  <b>
+                    {found} of {total} found.
+                  </b>{" "}
+                  {found < total ? "Each one unlocks when you visit its machine, here in the tour or in the atlas." : "You found them all!"}
+                </p>
+              )}
+            </header>
+            {data === undefined && <p className="overlay-lede">Loading…</p>}
+            {data === null && <p className="overlay-lede">Couldn&apos;t load the mission files. Try reloading the page.</p>}
+            {data && (
+              <div className="fbank-groups">
+              {CAUSES.map((c) => {
                 const list = data[c.key];
                 if (!list?.length) return null;
                 return (
@@ -270,10 +217,9 @@ export function FailureBank() {
                   </section>
                 );
               })}
-          </motion.aside>
-        )}
-      </AnimatePresence>
-    </>
+              </div>
+            )}
+    </section>
   );
 }
 

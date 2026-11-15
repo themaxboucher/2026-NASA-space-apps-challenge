@@ -1,4 +1,4 @@
-/* Ghost Rover Atlas: the guided tour. One dark, cinematic theme: it is space. Palette shared with the atlas. */
+/* Ruins Among the Stars: the guided tour. One dark theme: it is space. Palette shared with the atlas: neutral grays, solid surfaces, one blue accent, rounded controls. */
 html,
 body {
   margin: 0;
@@ -8,19 +8,32 @@ body {
 }
 
 .tour {
-  --void: #050302;
-  --ink: #efe5da;
-  --dim: #ab9581;
-  --sand: #c1a995;
-  --signal: #d9814a;
-  --echo: #5ea6d6;
-  --alarm: #ff5a3c;
-  --panel: rgba(12, 8, 6, 0.72);
-  --line: rgba(193, 169, 149, 0.22);
-  --line2: rgba(193, 169, 149, 0.42);
-  --display: var(--font-saira), "Saira", "Bahnschrift", "Segoe UI", sans-serif;
-  --body: var(--font-atkinson), "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
-  --mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  /* Grays carry a little of the accent's blue so the palette reads as one family. */
+  --void: #0a0c10;
+  --panel: #12151b;
+  --raise: #1a1e26;
+  --line: #232833;
+  --line2: #343b48;
+  /* Text: headings, body copy, secondary, tertiary (captions, credits). All pass 4.5:1 on --raise. */
+  --ink: #f3f5f8;
+  --ink2: #c8ced8;
+  --dim: #969eac;
+  --faint: #7f8798;
+  /* Depth: small for controls, medium for popovers, large for panels floating over the 3D view. */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --accent: #146ef5;
+  --accent-hi: #3a86ff;
+  --signal: #4d94ff;
+  --echo: #4d94ff;
+  --alarm: #f04438;
+  --r: 8px;
+  --r-lg: 12px;
+  --pill: 999px;
+  --display: var(--font-instrument-sans), "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --body: var(--font-instrument-sans), "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: var(--font-spline-mono), "Spline Sans Mono", ui-monospace, Consolas, monospace;
   --gut-l: max(16px, env(safe-area-inset-left, 0px));
   --gut-r: max(16px, env(safe-area-inset-right, 0px));
   --gut-b: max(16px, env(safe-area-inset-bottom, 0px));
@@ -47,7 +60,7 @@ body {
   cursor: pointer;
 }
 .tour :focus-visible {
-  outline: 2px solid var(--sand);
+  outline: 2px solid var(--accent-hi);
   outline-offset: 3px;
 }
 .tour .eyebrow {
@@ -86,20 +99,27 @@ body {
   z-index: 60;
   top: max(16px, env(safe-area-inset-top, 0px));
   right: var(--gut-r);
-  padding: 9px 14px;
-  border: 1px solid var(--line);
-  background: rgba(5, 3, 2, 0.45);
-  backdrop-filter: blur(8px);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 9px 0;
   color: var(--ink);
   font: 500 0.6875rem/1 var(--mono);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: border-color 0.2s, background 0.2s;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+  transition: color 0.2s;
 }
 .explore-link:hover {
-  border-color: var(--sand);
-  background: rgba(193, 169, 149, 0.12);
+  color: var(--accent);
+}
+/* Sized to the capitals rather than the small glyph the mono font draws. */
+.explore-arrow {
+  flex: none;
+  width: 1.15em;
+  height: 1.15em;
+  filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.8));
 }
 
 /* Start screen: the name and one button, over a turning Earth. */
@@ -111,34 +131,54 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: clamp(96px, 18vh, 200px) var(--gut-r) 0 var(--gut-l);
+  padding: clamp(72px, 11vh, 160px) var(--gut-r) 0 var(--gut-l);
   text-align: center;
   pointer-events: none;
 }
 .start h1 {
   margin: 0;
-  /* A book serif, like the cover of a field guide: the same face as the atlas headings. */
-  font: 600 clamp(2.6rem, 8.4vw, 6.6rem)/1 var(--font-serif), "Source Serif 4", Georgia, serif;
-  font-optical-sizing: auto;
-  letter-spacing: -0.025em;
-  text-shadow: 0 0 40px rgba(94, 166, 214, 0.35), 0 2px 24px rgba(0, 0, 0, 0.6);
+  font: 500 clamp(2.4rem, 6.4vw, 5.5rem)/0.95 var(--display);
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.6);
   white-space: nowrap;
 }
-.start h1 span {
+.start-word,
+.start-word span {
   display: inline-block;
 }
-.start-sub {
-  max-width: 34ch;
-  margin: 18px 0 0;
-  color: var(--sand);
-  font: italic 400 clamp(1.05rem, 2.2vw, 1.35rem)/1.45 var(--font-serif), "Source Serif 4", Georgia, serif;
+/* Hackathon credit: the official NASA Space Apps logo, bottom left, linking to the challenge. */
+.start-badge {
+  position: absolute;
+  left: var(--gut-l);
+  bottom: var(--gut-b);
+  display: block;
+  padding: 6px;
+  border-radius: var(--r);
+  pointer-events: auto;
+  transition: background 0.2s;
+}
+.start-badge:hover {
+  background: var(--raise);
+}
+.start-badge img {
+  display: block;
+  width: auto;
+  height: clamp(40px, 6vh, 56px);
+}
+/* One short paragraph under the title: what the site is about. */
+.start-lede {
+  max-width: 64ch;
+  margin: clamp(16px, 2.6vh, 24px) 0 0;
+  color: var(--ink2);
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  line-height: 1.55;
   text-wrap: balance;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.7);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.8);
 }
 @media (max-width: 560px) {
   .start h1 {
     white-space: normal;
-    font-size: clamp(2.6rem, 14vw, 4rem);
+    font-size: clamp(2.4rem, 12vw, 3.4rem);
   }
 }
 
@@ -148,19 +188,20 @@ body {
   min-width: 180px;
   min-height: 52px;
   padding: 14px 36px;
-  border: 1px solid var(--sand);
-  background: var(--sand);
-  color: #0b0705;
+  border: 1px solid var(--accent);
+  border-radius: var(--pill);
+  background: var(--accent);
+  color: #fff;
   font: 600 0.875rem/1 var(--mono);
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  box-shadow: 0 0 0 0 rgba(193, 169, 149, 0.5);
+  box-shadow: 0 0 0 0 rgba(20, 110, 245, 0.5);
   animation: beckon 2.6s ease-out 2.4s infinite;
   transition: background 0.2s, border-color 0.2s, transform 0.2s;
 }
 .start-btn:hover:not(:disabled) {
-  background: var(--ink);
-  border-color: var(--ink);
+  background: var(--accent-hi);
+  border-color: var(--accent-hi);
   transform: translateY(-1px);
 }
 .start-btn:disabled {
@@ -170,249 +211,309 @@ body {
 }
 @keyframes beckon {
   0% {
-    box-shadow: 0 0 0 0 rgba(193, 169, 149, 0.45);
+    box-shadow: 0 0 0 0 rgba(20, 110, 245, 0.45);
   }
   70% {
-    box-shadow: 0 0 0 18px rgba(193, 169, 149, 0);
+    box-shadow: 0 0 0 18px rgba(20, 110, 245, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(193, 169, 149, 0);
+    box-shadow: 0 0 0 0 rgba(20, 110, 245, 0);
   }
 }
 
-/* Name plate: where you are. */
+/* Soft shadows from the screen edges: text sits straight on the scene, with no cards behind it. */
+.scrim {
+  position: absolute;
+  z-index: 35;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+.scrim[data-on] {
+  opacity: 1;
+}
+.scrim-top {
+  top: 0;
+  height: clamp(150px, 24vh, 230px);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.34) 55%, transparent);
+}
+.scrim-bottom {
+  bottom: 0;
+  height: clamp(280px, 55vh, 540px);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.56) 40%, transparent);
+}
+/* Without story text, just a hint of shadow for the spot count and the trip counter. */
+.scrim-bottom[data-on="nav"] {
+  opacity: 0.45;
+}
+
+/* Name plate: where you are, top left. */
 .plate {
   position: absolute;
   z-index: 50;
   top: max(16px, env(safe-area-inset-top, 0px));
   left: var(--gut-l);
-  max-width: min(420px, calc(100vw - 240px));
-  padding: 12px 18px 12px 14px;
-  border-left: 2px solid var(--signal);
-  background: rgba(5, 3, 2, 0.58);
-  backdrop-filter: blur(10px);
+  /* Leaves the top centre to the trail; long names wrap. */
+  max-width: calc(50vw - 130px);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.75);
   pointer-events: none;
 }
+.plate .eyebrow {
+  color: var(--ink2);
+}
 .plate h2 {
-  margin: 2px 0 0;
-  font: 300 clamp(1.5rem, 3.2vw, 2.25rem)/1.05 var(--display);
-  font-stretch: 112.5%;
+  margin: 8px 0 0;
+  font: 500 clamp(1.5rem, 3.2vw, 2.25rem)/1.05 var(--display);
+  letter-spacing: -0.02em;
 }
 .plate-status {
-  margin: 4px 0 0;
-  color: var(--sand);
+  margin: 8px 0 0;
+  color: var(--ink2);
   font-size: 0.875rem;
 }
-.plate-found {
-  margin: 6px 0 0;
-  font: 500 0.6875rem/1.4 var(--mono);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--echo);
+/* Opens the mission file. */
+.learn-more {
+  margin-top: 14px;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-size: 0.875rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  pointer-events: auto;
+  transition: color 0.2s;
+}
+.learn-more:hover {
+  color: var(--signal);
 }
 
-/* Arrival card: a short narrator introduction, gone as soon as you start moving. */
-.intro {
+/* Bottom left: the arrival introduction, or the open spot's story, over the shadow from the bottom edge. */
+.story {
   position: absolute;
   z-index: 50;
   left: var(--gut-l);
-  bottom: calc(var(--gut-b) + 96px);
-  width: min(430px, calc(100vw - var(--gut-l) - var(--gut-r)));
-  padding: 20px 22px 18px;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  bottom: calc(var(--gut-b) + 8px);
+  /* Leaves the bottom right to the spot count and the Next machine button. */
+  width: min(480px, calc(100vw - var(--gut-l) - var(--gut-r) - 220px));
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
+  user-select: text;
 }
-.intro h2 {
-  margin: 6px 0 8px;
-  font: 300 2rem/1.05 var(--display);
-  font-stretch: 112.5%;
+.story .eyebrow {
+  color: var(--ink2);
 }
-.intro-text {
-  margin: 12px 0 0;
-  font-size: 1.02rem;
-}
-.intro-close,
-.spot-close {
-  position: absolute;
-  top: 6px;
-  right: 8px;
-  width: 32px;
-  height: 32px;
-  border: 0;
-  background: none;
-  color: var(--dim);
-  font-size: 1.4rem;
-  line-height: 1;
-}
-.intro-close:hover,
-.spot-close:hover {
+.story-text {
+  margin: 10px 0 0;
   color: var(--ink);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  text-wrap: pretty;
 }
-.pill {
-  display: inline-block;
+.story-spot h3 {
   margin: 0;
-  padding: 3px 10px;
-  border: 1px solid var(--line2);
-  border-radius: 99px;
-  color: var(--sand);
-  font: 500 0.75rem/1.4 var(--mono);
-  letter-spacing: 0.04em;
+  font: 500 clamp(1.5rem, 2.4vw, 1.875rem)/1.1 var(--display);
+  letter-spacing: -0.02em;
 }
-.hint {
-  margin: 14px 0 0;
-  padding-top: 12px;
-  border-top: 1px solid var(--line);
-  color: var(--dim);
-  font: 500 0.75rem/1.8 var(--mono);
-  letter-spacing: 0.06em;
+.story-tag {
+  margin: 0 0 8px;
+  color: #ff7a70;
+  font: 600 0.6875rem/1 var(--mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
-.hint kbd {
+.story-source {
   display: inline-block;
-  min-width: 20px;
-  margin: 0 2px;
-  padding: 0 5px;
-  border: 1px solid var(--line2);
-  border-radius: 4px;
-  color: var(--ink);
-  font: inherit;
-  text-align: center;
+  margin-top: 12px;
+  color: var(--signal);
+  font: 500 0.75rem/1.4 var(--mono);
+  text-decoration: none;
 }
-
-/* Bottom bar: Back, the six-dot trail, and Next. */
-.controls {
+.story-source:hover {
+  text-decoration: underline;
+}
+/* Top centre: one tick per stop, done, here, and still to come. Each tick is a button to its machine; the
+   machine's name shows under it on hover. */
+.progress {
   position: absolute;
   z-index: 55;
-  /* Centred without transform: the nav's motion animation writes its own inline transform. */
+  /* Centred without transform: the motion animation writes its own inline transform. */
   left: 0;
   right: 0;
   margin-inline: auto;
   width: fit-content;
-  bottom: var(--gut-b);
-  display: flex;
-  align-items: center;
-  gap: clamp(8px, 2vw, 22px);
-  max-width: calc(100vw - var(--gut-l) - var(--gut-r));
-  padding: 8px;
-  border: 1px solid var(--line);
-  background: rgba(5, 3, 2, 0.55);
-  backdrop-filter: blur(12px);
-}
-.nav-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 92px;
-  min-height: 48px;
-  padding: 8px 16px;
-  border: 1px solid var(--line2);
-  background: transparent;
-  font: 600 0.75rem/1 var(--mono);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  transition: background 0.2s, border-color 0.2s, opacity 0.2s;
-}
-.nav-btn:hover:not(:disabled) {
-  border-color: var(--sand);
-  background: rgba(193, 169, 149, 0.1);
-}
-.nav-btn:disabled {
-  opacity: 0.35;
-  cursor: default;
-}
-.nav-btn.primary {
-  border-color: var(--sand);
-  background: var(--sand);
-  color: #0b0705;
-}
-.nav-btn.primary:hover {
-  background: var(--ink);
-  border-color: var(--ink);
-}
-.nav-sub {
-  margin-top: 5px;
-  font: 500 0.625rem/1 var(--mono);
-  letter-spacing: 0.08em;
-  text-transform: none;
-  opacity: 0.75;
+  top: max(16px, env(safe-area-inset-top, 0px));
 }
 .trail {
   display: flex;
-  gap: clamp(10px, 2.4vw, 26px);
   margin: 0;
-  padding: 0 4px;
+  padding: 0;
   list-style: none;
 }
-.trail-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 7px;
+.trail-tick {
+  position: relative;
+  display: block;
+  width: 30px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: none;
 }
-.trail-label {
-  font: 500 0.625rem/1 var(--mono);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--dim);
-  white-space: nowrap;
+.trail-tick:disabled {
+  cursor: default;
 }
-.trail-dots {
-  display: flex;
-  gap: 9px;
+.trail-tick::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: 50%;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  transition: background 0.4s, transform 0.2s;
 }
-.trail-dot {
-  width: 11px;
-  height: 11px;
-  border: 1.5px solid var(--line2);
-  border-radius: 50%;
-  transition: background 0.4s, border-color 0.4s, transform 0.4s;
+.trail-tick.done::before {
+  background: var(--ink2);
 }
-.trail-dot.done {
-  background: var(--sand);
-  border-color: var(--sand);
-}
-.trail-dot.here {
+.trail-tick.here::before {
   background: var(--signal);
-  border-color: var(--signal);
-  transform: scale(1.3);
-  box-shadow: 0 0 12px rgba(217, 129, 74, 0.8);
 }
-.trail-dot.going {
-  border-color: var(--signal);
+.trail-tick.going::before {
   animation: going 1s ease-in-out infinite alternate;
+}
+.trail-tick:hover:not(:disabled)::before {
+  background: var(--ink);
+  transform: scaleY(1.7);
+}
+.trail-tick::after {
+  content: attr(data-name);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--ink);
+  font: 500 0.6875rem/1 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.trail-tick:hover::after,
+.trail-tick:focus-visible::after {
+  opacity: 1;
 }
 @keyframes going {
   from {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.3);
   }
   to {
-    background: rgba(217, 129, 74, 0.8);
+    background: var(--signal);
   }
+}
+
+/* Bottom right: one pip per glowing spot on this machine, filled once opened; then the way on. */
+.spot-progress {
+  position: absolute;
+  z-index: 50;
+  right: var(--gut-r);
+  bottom: var(--gut-b);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+.spot-pips {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.spot-pip {
+  width: 7px;
+  height: 7px;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+  transition: background 0.3s, border-color 0.3s;
+}
+.spot-pip.broken {
+  border-color: rgba(240, 68, 56, 0.8);
+}
+.spot-pip.seen {
+  background: var(--signal);
+  border-color: var(--signal);
+}
+.spot-pip.broken.seen {
+  background: var(--alarm);
+  border-color: var(--alarm);
+}
+.spot-count {
+  margin: 0;
+  color: var(--ink2);
+  font: 500 0.6875rem/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.85);
+}
+/* The same blue as Start, with the same soft pulse a few times to say "you can go on now". */
+.next-machine {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 16px 0 22px;
+  border: 0;
+  border-radius: var(--pill);
+  background: var(--accent);
+  color: #fff;
+  font: 600 0.75rem/1 var(--mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  animation: beckon 2.6s ease-out 0.6s 3;
+  transition: background 0.2s, transform 0.2s;
+}
+.next-machine:hover {
+  background: var(--accent-hi);
+  transform: translateY(-1px);
+}
+.next-machine svg {
+  width: 16px;
+  height: 16px;
 }
 
 /* Travel counter: how far from Earth we are. */
 .cruise {
   position: absolute;
   z-index: 50;
-  left: 50%;
-  bottom: calc(var(--gut-b) + 110px);
-  transform: translateX(-50%);
+  /* Centred without transform: the motion animation writes its own inline transform. */
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  width: fit-content;
+  bottom: calc(var(--gut-b) + 40px);
   text-align: center;
   pointer-events: none;
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.8);
 }
 .cruise-num {
   margin: 6px 0 2px;
-  font: 200 clamp(1.8rem, 5vw, 3.4rem)/1 var(--display);
-  font-stretch: 112.5%;
+  font: 500 clamp(1.8rem, 5vw, 3.4rem)/1 var(--display);
+  letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 .cruise-dest {
   margin: 0;
-  color: var(--sand);
+  color: var(--dim);
   font: 500 0.75rem/1.4 var(--mono);
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -454,15 +555,15 @@ body {
   inset: 10px;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 0 0 2px rgba(94, 166, 214, 0.9), 0 0 18px 4px rgba(94, 166, 214, 0.7);
+  box-shadow: 0 0 0 2px rgba(77, 148, 255, 0.9), 0 0 18px 4px rgba(77, 148, 255, 0.7);
   transition: transform 0.2s;
 }
+/* A soft glow that swells out from the dot and fades, like the Start button's. */
 .spot-ring {
   position: absolute;
-  inset: 3px;
-  border: 2px solid rgba(94, 166, 214, 0.9);
+  inset: 10px;
   border-radius: 50%;
-  animation: ping 2s ease-out infinite;
+  animation: spot-beckon 2.6s ease-out infinite;
 }
 .spot:hover .spot-dot,
 .spot.open .spot-dot {
@@ -471,29 +572,40 @@ body {
 .spot.found .spot-dot {
   background: var(--echo);
 }
+/* Visited: no pulse, no ring. */
 .spot.found .spot-ring {
-  animation: none;
-  opacity: 0.45;
+  display: none;
 }
 .spot.broken .spot-dot {
   background: #fff1ec;
-  box-shadow: 0 0 0 2px rgba(255, 90, 60, 0.95), 0 0 22px 6px rgba(255, 70, 40, 0.75);
+  box-shadow: 0 0 0 2px rgba(240, 68, 56, 0.95), 0 0 22px 6px rgba(240, 68, 56, 0.75);
 }
 .spot.broken .spot-ring {
-  border-color: rgba(255, 90, 60, 0.95);
-  animation-duration: 1.3s;
+  animation-name: spot-beckon-broken;
 }
 .spot.broken.found .spot-dot {
   background: var(--alarm);
 }
-@keyframes ping {
+@keyframes spot-beckon {
   0% {
-    transform: scale(0.7);
-    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(77, 148, 255, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(77, 148, 255, 0);
   }
   100% {
-    transform: scale(1.9);
-    opacity: 0;
+    box-shadow: 0 0 0 0 rgba(77, 148, 255, 0);
+  }
+}
+@keyframes spot-beckon-broken {
+  0% {
+    box-shadow: 0 0 0 0 rgba(240, 68, 56, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(240, 68, 56, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(240, 68, 56, 0);
   }
 }
 .spot-label {
@@ -501,9 +613,8 @@ body {
   left: 40px;
   top: 50%;
   transform: translateY(-50%);
-  padding: 5px 9px;
-  background: rgba(5, 3, 2, 0.78);
   color: var(--ink);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95), 0 0 16px rgba(0, 0, 0, 0.8);
   font: 500 0.6875rem/1 var(--mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -523,65 +634,6 @@ body {
   left: auto;
   right: 40px;
 }
-.spot-card {
-  position: absolute;
-  top: -31px;
-  left: 29px;
-  width: min(320px, 72vw);
-  padding: 16px 18px 14px;
-  border: 1px solid var(--line2);
-  border-left: 2px solid var(--echo);
-  background: rgba(8, 6, 5, 0.86);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
-  user-select: text;
-  animation: card-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  transform-origin: left top;
-}
-.spot-wrap[data-side="left"] .spot-card {
-  left: auto;
-  right: 29px;
-  transform-origin: right top;
-}
-.spot-wrap[data-low="1"] .spot-card {
-  top: auto;
-  bottom: -31px;
-}
-.spot-card.broken {
-  border-left-color: var(--alarm);
-}
-.spot-card h3 {
-  margin: 0 28px 8px 0;
-  font: 400 1.25rem/1.15 var(--display);
-  font-stretch: 112.5%;
-}
-.spot-card p {
-  margin: 0 0 10px;
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-.spot-card .spot-tag {
-  margin: 0 0 6px;
-  color: var(--alarm);
-  font: 600 0.625rem/1 var(--mono);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-.spot-card a {
-  color: var(--echo);
-  font: 500 0.75rem/1.4 var(--mono);
-  text-decoration: none;
-}
-.spot-card a:hover {
-  text-decoration: underline;
-}
-@keyframes card-in {
-  from {
-    opacity: 0;
-    transform: scale(0.94) translateY(6px);
-  }
-}
-
 /* End screen: back home. */
 .end {
   position: absolute;
@@ -596,16 +648,16 @@ body {
 }
 .end h2 {
   margin: 0;
-  font: 200 clamp(2.2rem, 6.4vw, 5rem)/1 var(--display);
-  font-stretch: 112.5%;
-  text-shadow: 0 0 40px rgba(94, 166, 214, 0.3);
+  font: 500 clamp(2.2rem, 6.4vw, 5rem)/1 var(--display);
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.6);
   text-wrap: balance;
 }
 .end-lede {
   max-width: 52ch;
-  margin: 18px 0 0;
-  color: var(--sand);
-  font-size: 1.05rem;
+  margin: 20px 0 0;
+  color: var(--ink2);
+  font-size: 1rem;
   text-wrap: pretty;
 }
 .end-actions {
@@ -621,8 +673,9 @@ body {
   margin-top: clamp(28px, 5vh, 48px);
   min-height: 52px;
   padding: 14px 24px;
-  border: 1px solid var(--line2);
-  background: rgba(5, 3, 2, 0.4);
+  border: 0;
+  border-radius: var(--pill);
+  background: none;
   color: var(--ink);
   font: 600 0.75rem/1 var(--mono);
   letter-spacing: 0.18em;
@@ -631,15 +684,14 @@ body {
   transition: border-color 0.2s, background 0.2s;
 }
 .ghost-btn:hover {
-  border-color: var(--sand);
-  background: rgba(193, 169, 149, 0.1);
+  color: var(--signal);
 }
 .credits {
   max-width: 640px;
   margin-top: auto;
   padding-top: 32px;
-  color: var(--dim);
-  font-size: 0.8rem;
+  color: var(--faint);
+  font-size: 0.8125rem;
   text-align: left;
   user-select: text;
 }
@@ -651,168 +703,172 @@ body {
   text-transform: uppercase;
 }
 .credits p {
-  margin: 8px 0 0;
-  padding: 8px 12px;
-  background: rgba(5, 3, 2, 0.55);
+  margin: 12px 0 0;
+  line-height: 1.6;
 }
 
-/* Phones: a compact bar, and the intro card becomes a sheet above it. */
-@media (max-width: 640px) {
-  .controls {
+/* Phones: the name plate and the atlas link fill the top row, so the ticks move to the bottom left, beside the
+   spot count, with the story above them. */
+@media (max-width: 680px) {
+  .progress {
+    top: auto;
+    bottom: calc(var(--gut-b) + 8px);
     left: var(--gut-l);
-    right: var(--gut-r);
-    transform: none;
-    justify-content: space-between;
-    padding: 6px;
-    gap: 6px;
+    right: auto;
+    margin: 0;
   }
-  .nav-btn {
-    min-width: 64px;
-    padding: 8px 10px;
+  .trail-tick {
+    width: 24px;
   }
-  .nav-sub {
-    display: none;
-  }
-  .trail {
-    gap: 10px;
-  }
-  .trail-label {
-    font-size: 0.5625rem;
-    letter-spacing: 0.08em;
-  }
-  .intro {
-    left: var(--gut-l);
-    right: var(--gut-r);
-    width: auto;
-    bottom: calc(var(--gut-b) + 76px);
-    padding: 16px 16px 14px;
-  }
-  .intro h2 {
-    font-size: 1.6rem;
+  .trail-tick::after {
+    top: auto;
+    bottom: 100%;
   }
   .plate {
     max-width: calc(100vw - var(--gut-l) - var(--gut-r) - 150px);
-    padding: 8px 10px;
+  }
+  .story {
+    width: auto;
+    right: var(--gut-r);
+    bottom: calc(var(--gut-b) + 76px);
+  }
+  .story-text {
+    font-size: 1rem;
+  }
+  .scrim-bottom[data-on="nav"] {
+    opacity: 0.6;
+  }
+  .cruise {
+    bottom: calc(var(--gut-b) + 76px);
   }
   .explore-link {
     max-width: 140px;
     line-height: 1.3;
-    padding: 8px 10px;
-  }
-  .cruise {
-    bottom: calc(var(--gut-b) + 90px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .start-btn,
   .spot-ring,
-  .trail-dot.going {
-    animation: none;
-  }
-  .spot-card {
+  .trail-tick.going::before,
+  .next-machine {
     animation: none;
   }
 }
 
-/* ---- Mission file: the infographic beside each stop ---- */
-.mfile {
+/* ---- Full-screen overlay: the mission file and what went wrong, straight on a dimmed, blurred scene ---- */
+.overlay {
   position: absolute;
-  z-index: 45;
-  top: calc(max(16px, env(safe-area-inset-top, 0px)) + 48px);
-  right: var(--gut-r);
-  width: min(300px, calc(100vw - var(--gut-l) - var(--gut-r)));
-  max-height: calc(100vh - 220px);
-  overflow: auto;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  backdrop-filter: blur(8px);
+  z-index: 80;
+  inset: 0;
+  background: rgba(4, 6, 10, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  user-select: text;
 }
-.mfile-toggle {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 14px;
+.overlay:focus {
+  outline: none;
+}
+.overlay-scroll {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: var(--line2) transparent;
+}
+.overlay-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: clamp(56px, 10vh, 104px) clamp(20px, 5vw, 56px) 72px;
+}
+.overlay-close {
+  position: absolute;
+  z-index: 1;
+  top: max(12px, env(safe-area-inset-top, 0px));
+  right: max(12px, env(safe-area-inset-right, 0px));
+  width: 44px;
+  height: 44px;
   border: 0;
+  border-radius: 50%;
   background: none;
-  color: var(--sand);
-  font: 500 0.6875rem/1 var(--mono);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  cursor: pointer;
+  color: var(--ink2);
+  font-size: 1.875rem;
+  line-height: 1;
+  transition: color 0.2s, background 0.2s;
 }
+.overlay-close:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.1);
+}
+.overlay-head {
+  max-width: 720px;
+  margin-bottom: clamp(36px, 6vh, 64px);
+}
+.overlay-head h2 {
+  margin: 8px 0 0;
+  font: 500 clamp(2.2rem, 5vw, 3.6rem)/1 var(--display);
+  letter-spacing: -0.02em;
+}
+.overlay-lede {
+  margin: 14px 0 0;
+  color: var(--ink2);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+/* Mission file: what happened, the part that gave out, key numbers, the path it took, photos. */
 .mfile-body {
   display: grid;
-  gap: 14px;
-  padding: 0 14px 14px;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: clamp(36px, 5vh, 52px) clamp(32px, 4vw, 64px);
+  align-items: start;
+}
+.mfile-wide {
+  grid-column: 1 / -1;
 }
 .mfile .eyebrow {
-  margin: 0 0 4px;
-}
-.mfile-fate {
-  padding: 10px 12px;
-  border-left: 2px solid var(--echo);
-  background: rgba(94, 166, 214, 0.08);
-}
-.mfile-fate.bad {
-  border-left-color: var(--alarm);
-  background: rgba(255, 90, 60, 0.09);
+  margin: 0 0 10px;
 }
 .mfile-fate-cat {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
   margin: 0;
-  font: 300 1.15rem/1.2 var(--display);
-  font-stretch: 112.5%;
-}
-.mfile-fate-cat i,
-.mfile-broken i {
-  flex: none;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--echo);
-}
-.mfile-fate.bad .mfile-fate-cat i,
-.mfile-broken i {
-  background: var(--alarm);
-  box-shadow: 0 0 8px 2px rgba(255, 90, 60, 0.6);
+  font: 500 1.5rem/1.2 var(--display);
+  letter-spacing: -0.01em;
 }
 .mfile-fate-label {
-  margin: 4px 0 0;
-  color: var(--sand);
-  font-size: 0.9rem;
+  margin: 6px 0 0;
+  color: var(--ink2);
+  font-size: 1rem;
 }
 .mfile-broken ul {
   margin: 0;
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 4px;
+  gap: 2px;
 }
 .mfile-broken button {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
-  width: 100%;
-  padding: 6px 8px;
-  border: 1px solid rgba(255, 90, 60, 0.45);
-  background: rgba(255, 90, 60, 0.08);
+  padding: 4px 0;
+  border: 0;
+  background: none;
   color: var(--ink);
   font: inherit;
-  font-size: 0.9rem;
+  font-size: 1rem;
   text-align: left;
   cursor: pointer;
 }
 .mfile-broken button:hover {
-  border-color: var(--alarm);
+  color: #ff7a70;
 }
 .mfile-small {
-  margin: 6px 0 0;
+  margin: 8px 0 0;
   color: var(--dim);
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   line-height: 1.45;
 }
 .mfile-small .unit {
@@ -826,13 +882,13 @@ body {
 }
 .mfile-stats dt {
   color: var(--dim);
-  font: 500 0.625rem/1.3 var(--mono);
+  font: 500 0.6875rem/1.3 var(--mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .mfile-stats dd {
-  margin: 2px 0 0;
-  font-size: 0.92rem;
+  margin: 3px 0 0;
+  font-size: 1rem;
   line-height: 1.3;
 }
 .mfile-bar {
@@ -850,16 +906,18 @@ body {
 }
 .mfile-bar .track {
   height: 8px;
-  background: rgba(193, 169, 149, 0.12);
+  border-radius: var(--pill);
+  background: rgba(255, 255, 255, 0.08);
 }
 .mfile-bar b {
   display: block;
   height: 100%;
   min-width: 3px;
+  border-radius: var(--pill);
 }
 .mfile-bar b.planned {
   background: transparent;
-  border: 1px dashed var(--sand);
+  border: 1px dashed var(--dim);
 }
 .mfile-bar b.actual {
   background: var(--signal);
@@ -868,27 +926,13 @@ body {
   font-variant-numeric: tabular-nums;
 }
 .mfile-more {
-  color: var(--echo);
-  font: 500 0.75rem var(--mono);
+  justify-self: start;
+  color: var(--signal);
+  font: 500 0.8125rem var(--mono);
   text-decoration: none;
 }
 .mfile-more:hover {
   text-decoration: underline;
-}
-/* Where the intro card and the panel would overlap, the panel waits until the intro is closed. */
-@media (max-width: 1180px) {
-  .mfile.under-intro,
-  .mfile.under-spot {
-    display: none;
-  }
-}
-/* Phones: sit above the bottom bar. */
-@media (max-width: 760px) {
-  .mfile {
-    top: auto;
-    bottom: calc(var(--gut-b) + 92px);
-    max-height: 50vh;
-  }
 }
 
 /* Mouse look: a small crosshair while the view has the mouse. Aim it at a glowing dot and click to open it. */
@@ -901,7 +945,7 @@ body {
   width: 14px;
   height: 14px;
   margin: -7px 0 0 -7px;
-  border: 2px solid rgba(239, 229, 218, 0.9);
+  border: 2px solid rgba(244, 245, 247, 0.9);
   border-radius: 50%;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
   pointer-events: none;
@@ -915,8 +959,6 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  background: rgba(193, 169, 149, 0.06);
-  border: 1px solid var(--line);
 }
 .mfile-trail .trail-line {
   fill: none;
@@ -936,7 +978,7 @@ body {
   stroke-width: 2;
 }
 .mfile-trail .trail-scale {
-  fill: var(--sand);
+  fill: var(--dim);
 }
 .mfile-trail text {
   fill: var(--dim);
@@ -947,7 +989,7 @@ body {
   gap: 14px;
   margin-top: 6px;
   color: var(--dim);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
 }
 .mfile-trail .legend-dot {
   display: inline-block;
@@ -963,49 +1005,17 @@ body {
 .mfile-trail .legend-end {
   background: var(--ink);
 }
-.mfile-fun {
-  padding: 10px 12px;
-  background: rgba(217, 129, 74, 0.08);
-  border: 1px solid rgba(217, 129, 74, 0.35);
-}
 .mfile-fun p:last-child {
   margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.45;
-}
-
-/* Next stays locked until every glowing spot is found; the way out is a small, quiet "skip". */
-.nav-btn.primary.locked {
-  background: transparent;
-  color: var(--sand);
-  border-color: var(--line2);
-}
-.nav-btn.primary.locked:hover {
-  background: rgba(193, 169, 149, 0.08);
-  color: var(--ink);
-}
-.skip-stop {
-  position: absolute;
-  left: 4px;
-  top: -24px;
-  padding: 2px 4px;
-  border: 0;
-  background: none;
-  color: rgba(171, 149, 129, 0.55);
-  font: 500 0.6875rem var(--mono);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  cursor: pointer;
-}
-.skip-stop:hover,
-.skip-stop:focus-visible {
-  color: var(--dim);
+  font-size: 1rem;
+  line-height: 1.55;
 }
 
 /* Mission file: photos the machine took, and live numbers. */
 .mfile-photos {
   display: grid;
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: 24px;
 }
 .mfile-photos figure {
   margin: 0;
@@ -1014,15 +1024,15 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 170px;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
-  border: 1px solid var(--line);
+  border-radius: 6px;
 }
 .mfile-photos figcaption {
-  margin-top: 4px;
-  color: var(--dim);
-  font-size: 0.78rem;
-  line-height: 1.4;
+  margin-top: 8px;
+  color: var(--ink2);
+  font-size: 0.8125rem;
+  line-height: 1.45;
 }
 .mfile-photos .credit {
   display: block;
@@ -1041,7 +1051,7 @@ body {
   inset: 0;
   display: grid;
   place-items: center;
-  color: #06121b;
+  color: var(--void);
   font: 700 10px/1 var(--body);
 }
 .spot.broken.found .spot-dot::after {
@@ -1060,220 +1070,30 @@ body {
 .spot-arrow::before {
   content: "";
   position: absolute;
-  left: -9px;
-  top: -9px;
-  width: 18px;
-  height: 18px;
-  border-top: 3px solid var(--echo);
-  border-right: 3px solid var(--echo);
+  left: -8px;
+  top: -8px;
+  width: 16px;
+  height: 16px;
+  border-top: 3px solid var(--signal);
+  border-right: 3px solid var(--signal);
+  border-radius: 0 3px 0 0;
   transform: rotate(45deg);
-  filter: drop-shadow(0 0 6px rgba(94, 166, 214, 0.9));
+  filter: drop-shadow(0 0 6px rgba(77, 148, 255, 0.8));
   animation: nudge-out 1.4s ease-in-out infinite;
 }
 .spot-arrow.broken::before {
   border-color: var(--alarm);
-  filter: drop-shadow(0 0 6px rgba(255, 90, 60, 0.9));
+  filter: drop-shadow(0 0 6px rgba(240, 68, 56, 0.8));
 }
 @keyframes nudge-out {
   50% {
     translate: 4px -4px;
   }
 }
-/* The last spot found: a short note above the bar, and Next lights up once. */
-.cheer {
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 12px);
-  margin: 0;
-  padding: 8px 14px;
-  border: 1px solid var(--echo);
-  background: rgba(5, 3, 2, 0.8);
-  color: var(--ink);
-  font: 600 0.9375rem/1.3 var(--body);
-  width: max-content;
-  max-width: calc(100vw - 32px);
-  pointer-events: none;
-  translate: -50% 0;
-  animation: cheer 3.2s ease-out forwards;
-}
-@keyframes cheer {
-  0% {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  12%,
-  75% {
-    opacity: 1;
-    transform: none;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-.nav-btn.primary.cheered {
-  animation: beckon 1.3s ease-out 2;
-}
-/* Quiet, but readable: its own dark backing keeps it ≥ 4.5:1 over bright sand or moon dust. */
-.skip-stop {
-  top: -30px;
-  padding: 2px 8px;
-  background: rgba(5, 3, 2, 0.6);
-  color: var(--dim);
-  font: 500 0.8125rem var(--body);
-}
-.skip-stop:hover,
-.skip-stop:focus-visible {
-  color: var(--ink);
-}
-@media (prefers-reduced-motion: reduce) {
-  .spot-arrow::before,
-  .nav-btn.primary.cheered {
-    animation: none;
-  }
-  /* Keep the fade so the note still goes away, without the movement. */
-  @keyframes cheer {
-    0% {
-      opacity: 0;
-    }
-    10%,
-    75% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-}
-
-/* The close button sits over the eyebrow's line. */
-.intro .eyebrow {
-  padding-right: 28px;
-}
-
-/* ---- Phones: keep the machine in view ---- */
-@media (max-width: 600px) {
-  .intro {
-    bottom: calc(var(--gut-b) + 108px);
-    max-height: 40dvh;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-  /* Folded, the mission file is a small chip in the corner above the bar. */
-  .mfile.closed {
-    left: auto;
-    width: auto;
-    background: rgba(5, 3, 2, 0.7);
-  }
-  .mfile.closed .mfile-toggle {
-    gap: 10px;
-    padding: 10px 12px;
-  }
-  .mfile:not(.closed) {
-    max-height: 45dvh;
-  }
-}
-
-/* ---- Typography: one voice with the atlas ---- */
-/* Headings in the book serif, labels in sentence case at 13 px or more, mono only for numbers. */
-.tour {
-  --display: var(--font-serif), "Source Serif 4", Georgia, serif;
-}
-.plate h2,
-.intro h2,
-.spot-card h3,
-.end h2,
-.mfile-fate-cat {
-  font-weight: 600;
-  font-stretch: normal;
-  letter-spacing: -0.015em;
-}
-.end h2 {
-  font-weight: 500;
-}
-.cruise-num {
-  font-weight: 400;
-  font-stretch: normal;
-  font-variant-numeric: lining-nums tabular-nums;
-}
-.tour .eyebrow,
-.explore-link,
-.plate-found,
-.pill,
-.hint,
-.nav-btn,
-.nav-sub,
-.trail-label,
-.cruise-dest,
-.spot-label,
-.spot-card .spot-tag,
-.spot-card a,
-.credits summary,
-.mfile-toggle,
-.mfile-stats dt,
-.mfile-bar,
-.mfile-bar .lbl,
-.mfile-more,
-.mfile-photos .credit,
-.start-btn,
-.ghost-btn {
-  font-family: var(--body);
-  letter-spacing: 0;
-  text-transform: none;
-}
-.tour .eyebrow,
-.plate-found,
-.pill,
-.hint,
-.trail-label,
-.spot-label,
-.spot-card .spot-tag,
-.spot-card a,
-.mfile-stats dt,
-.mfile-bar,
-.mfile-photos .credit,
-.mfile-small,
-.mfile-photos figcaption,
-.mfile-trail figcaption,
-.credits,
-.credits summary,
-.explore-link,
-.mfile-more,
-.nav-sub {
-  font-size: 0.8125rem;
-}
-.tour .eyebrow,
-.trail-label,
-.mfile-stats dt,
-.mfile-bar .lbl {
-  font-weight: 600;
-}
-.mfile-toggle,
-.cruise-dest,
-.nav-btn {
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-.start-btn,
-.ghost-btn {
-  font-size: 1rem;
-  font-weight: 700;
-}
-.hint {
-  line-height: 1.7;
-}
-.mfile-bar .num,
-.mfile-small .unit {
-  font-family: var(--mono);
-}
-@media (max-width: 640px) {
-  .trail-label {
-    font-size: 0.8125rem;
-  }
-}
-
-/* Inspectable dots: a pointing hand on hover, and with mouse look the crosshair grows into a ring with a hint. */
-.spot {
-  cursor: pointer;
+/* Inspectable dots: with mouse look the crosshair grows into a ring with a hint. */
+.spot:focus-visible {
+  border-radius: 50%;
+  outline-offset: -2px;
 }
 .spot.aimed .spot-dot {
   transform: scale(1.4);
@@ -1286,11 +1106,11 @@ body {
   border-width: 3px;
 }
 .tour.looking.aiming::after {
-  width: 38px;
-  height: 38px;
-  margin: -19px 0 0 -19px;
-  border-color: #5ea6d6;
-  background: rgba(94, 166, 214, 0.16);
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border-color: var(--signal);
+  background: rgba(77, 148, 255, 0.16);
   transition: width 0.12s, height 0.12s, margin 0.12s;
 }
 .tour.looking.aiming::before {
@@ -1300,193 +1120,124 @@ body {
   left: 50%;
   top: calc(50% + 28px);
   transform: translateX(-50%);
-  padding: 4px 9px;
-  background: rgba(5, 3, 2, 0.8);
+  padding: 6px 12px;
+  border-radius: var(--pill);
+  background: var(--panel);
+  box-shadow: var(--shadow-md);
   color: var(--ink);
-  font: 600 0.8125rem/1.2 var(--font-public), "Public Sans", system-ui, sans-serif;
+  font: 500 0.6875rem/1.2 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   white-space: nowrap;
   pointer-events: none;
 }
-@media (prefers-reduced-motion: reduce) {
-  .tour.looking.aiming::after {
-    transition: none;
-  }
+
+/* Bottom right, under the minimap: the way on without finding every spot. */
+.spot-count-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.skip-stop {
+  padding: 6px 12px;
+  border: 1px solid var(--line2);
+  border-radius: var(--pill);
+  background: rgba(10, 12, 16, 0.6);
+  color: var(--ink2);
+  font: 500 0.6875rem/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: color 0.2s, border-color 0.2s;
+}
+.skip-stop:hover {
+  color: var(--ink);
+  border-color: var(--accent-hi);
 }
 
-/* Mission briefing: a few cards between Start and lift-off. */
-.brief {
-  pointer-events: auto;
-  max-width: min(560px, 100%);
-  margin-top: clamp(24px, 4vh, 40px);
-  padding: 22px 24px 20px;
-  background: rgba(8, 5, 4, 0.82);
-  border: 1px solid rgba(193, 169, 149, 0.35);
-  text-align: left;
-  backdrop-filter: blur(6px);
+/* Minimap, above the spot dots: turns with you; glowing dots are spots still to find, arrows on the rim point
+   to far ones (scene/Hotspots.tsx draws it). */
+.minimap {
+  display: block;
+  width: 144px;
+  height: 144px;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  box-shadow: var(--shadow-lg);
+  pointer-events: none;
 }
-.brief h2 {
-  margin: 4px 0 10px;
-  font: 600 clamp(1.5rem, 3.2vw, 2rem)/1.15 var(--font-serif), "Source Serif 4", Georgia, serif;
-  letter-spacing: -0.01em;
-  text-wrap: balance;
+
+/* A spot's real photo, its footage button and the source, in the story at the bottom left. */
+.story-photo {
+  margin: 0 0 16px;
+  max-width: 320px;
 }
-.brief p {
-  margin: 0;
-  color: var(--ink);
-  font: 400 1.0625rem/1.55 var(--font-public), "Public Sans", system-ui, sans-serif;
-  text-wrap: pretty;
+.story-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(220px, 26vh);
+  object-fit: cover;
+  border-radius: var(--r);
+  background: var(--raise);
+  box-shadow: var(--shadow-md);
 }
-.brief .brief-step {
-  color: var(--sand);
-  font-size: 0.875rem;
-  font-weight: 600;
+.story-photo figcaption {
+  margin-top: 8px;
+  color: var(--ink2);
+  font-size: 0.8125rem;
+  line-height: 1.5;
 }
-.brief-actions {
+.story-photo figcaption span {
+  display: block;
+  color: var(--dim);
+  font-size: 0.75rem;
+}
+.story-photo a {
+  color: var(--signal);
+}
+.story-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 14px 20px;
-  margin-top: 20px;
+  gap: 12px 20px;
+  margin-top: 12px;
 }
-.brief-actions .start-btn {
+.story-actions .story-source {
   margin-top: 0;
-  animation: none;
-}
-.brief-skip {
-  padding: 8px 4px;
-  border: 0;
-  background: none;
-  color: var(--sand);
-  font: 600 0.875rem/1 var(--font-public), "Public Sans", system-ui, sans-serif;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  cursor: pointer;
-}
-.brief-skip:hover {
-  color: var(--ink);
-}
-
-/* Story chapter before each trip: kicker, title, real footage, why it mattered. */
-.story {
-  position: absolute;
-  inset: 0;
-  z-index: 90;
-  display: grid;
-  place-items: center;
-  padding: 24px var(--gut-r) 24px var(--gut-l);
-  overflow-y: auto;
-  background: radial-gradient(ellipse at 50% 40%, rgba(8, 5, 4, 0.72), rgba(3, 2, 1, 0.93));
-}
-.story-card {
-  width: min(720px, 100%);
-  text-align: left;
-}
-.story-kicker {
-  margin: 0;
-  color: var(--sand);
-  font: 600 0.9375rem/1.3 var(--font-public), "Public Sans", system-ui, sans-serif;
-}
-.story h2 {
-  margin: 6px 0 16px;
-  font: 600 clamp(1.8rem, 4.4vw, 3rem)/1.08 var(--font-serif), "Source Serif 4", Georgia, serif;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
 }
 .story-film {
-  margin: 0 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--pill);
+  background: var(--accent);
+  color: #fff;
+  font: 600 0.75rem/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-shadow: none;
+  transition: background 0.2s;
 }
-.story-film video {
-  display: block;
-  width: 100%;
-  max-height: 46vh;
-  aspect-ratio: 16 / 9;
-  background: #000;
-  border: 1px solid rgba(193, 169, 149, 0.3);
+.story-film:hover {
+  background: var(--accent-hi);
 }
-.story-film figcaption {
-  margin-top: 8px;
-  color: var(--sand);
-  font: 400 0.875rem/1.45 var(--font-public), "Public Sans", system-ui, sans-serif;
-}
-.story-credit {
-  display: block;
-  opacity: 0.8;
-  font-size: 0.8125rem;
-}
-.story-credit a {
-  color: var(--echo);
-}
-.story-text {
-  margin: 0;
-  color: var(--ink);
-  font: 400 clamp(1.05rem, 1.8vw, 1.2rem)/1.6 var(--font-public), "Public Sans", system-ui, sans-serif;
-  text-wrap: pretty;
-}
-.story-actions {
-  margin-top: 22px;
-}
-.story-actions .start-btn {
-  margin-top: 0;
-  animation: none;
-  letter-spacing: 0.04em;
-  text-transform: none;
-  font: 600 1rem/1 var(--font-public), "Public Sans", system-ui, sans-serif;
+.story-film span {
+  font-size: 0.625rem;
 }
 
-/* Music toggle, next to the atlas link. */
-.music-btn {
-  position: absolute;
-  z-index: 60;
-  top: 16px;
-  right: calc(var(--gut-r) + 230px);
-  min-height: 40px;
-  padding: 8px 14px;
-  border: 1px solid rgba(193, 169, 149, 0.4);
-  background: rgba(5, 3, 2, 0.6);
-  color: var(--ink);
-  font: 600 0.875rem/1 var(--font-public), "Public Sans", system-ui, sans-serif;
-  cursor: pointer;
-}
-.music-btn[aria-pressed="false"] {
-  color: var(--sand);
-}
-.music-btn:hover {
-  border-color: var(--sand);
-}
-@media (max-width: 600px) {
-  .music-btn {
-    top: auto;
-    bottom: calc(var(--gut-b, 16px) + 150px);
-    right: var(--gut-r);
-  }
-}
-
-/* "Click anywhere to start exploring" at the foot of the intro card. */
-.intro-go {
-  margin: 16px 0 0;
-  color: var(--ink);
-  font: 700 1rem/1.3 var(--font-public), "Public Sans", system-ui, sans-serif;
-  animation: go-pulse 1.8s ease-in-out infinite;
-}
-.intro-go::before {
-  content: "▸ ";
-  color: #5ea6d6;
-}
-@keyframes go-pulse {
-  50% {
-    opacity: 0.55;
-  }
-}
-
-/* Controls strip at the top centre while at a site. */
+/* Bottom centre: the controls, while nothing is being read. What it says follows whether the view has the
+   mouse (.looking on .tour). */
 .keysbar {
   position: absolute;
-  z-index: 55;
-  top: 16px;
+  z-index: 50;
+  bottom: calc(var(--gut-b) + 8px);
   left: 0;
   right: 0;
   width: fit-content;
-  max-width: min(760px, calc(100vw - 2 * var(--gut-r) - 520px));
+  max-width: calc(100vw - 2 * (var(--gut-r) + 232px));
   margin: 0 auto;
   pointer-events: none;
 }
@@ -1495,135 +1246,206 @@ p.keysbar {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 4px 14px;
+  gap: 8px 20px;
   margin: 0;
-  padding: 8px 14px;
-  background: rgba(5, 3, 2, 0.72);
-  border: 1px solid rgba(193, 169, 149, 0.25);
-  color: var(--sand);
-  font: 500 0.8125rem/1.5 var(--font-public), "Public Sans", system-ui, sans-serif;
+  color: var(--ink2);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85);
 }
-.keysbar b {
+.keysbar b,
+.keysbar .esc {
   color: var(--ink);
+  font-weight: 600;
 }
 .keysbar kbd {
   display: inline-block;
-  min-width: 1.6em;
-  margin-right: 2px;
-  padding: 0 5px;
-  border: 1px solid rgba(239, 229, 218, 0.4);
+  min-width: 22px;
+  margin-right: 4px;
+  padding: 0 6px;
+  border: 1px solid var(--line2);
   border-bottom-width: 2px;
-  border-radius: 4px;
+  border-radius: 6px;
+  background: rgba(18, 21, 27, 0.8);
   color: var(--ink);
-  font: 600 0.75rem/1.5 var(--font-public), "Public Sans", system-ui, sans-serif;
+  font: 500 0.6875rem/1.6 var(--mono);
   text-align: center;
-}
-.keysbar .esc {
-  color: var(--ink);
-  font-weight: 700;
+  text-shadow: none;
 }
 .tour.looking .keys-free,
 .tour:not(.looking) .keys-locked {
   display: none;
 }
-@media (max-width: 1100px) {
-  /* Narrower screens: under the name plate, still at the top. */
-  .keysbar {
-    top: 156px;
-    max-width: calc(100vw - 32px);
-  }
-}
-@media (max-width: 600px) {
-  .keysbar {
-    display: none;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .intro-go {
-    animation: none;
-  }
-}
 
-/* Minimap, bottom left: turns with you; glowing dots are spots still to find, arrows on the rim point to far ones. */
-.minimap {
+/* Music on/off: a round icon button under the atlas link. */
+.music-btn {
   position: absolute;
-  z-index: 45;
-  left: var(--gut-l);
-  bottom: calc(var(--gut-b, 16px) + 52px);
-  margin: 0;
-  pointer-events: none;
-}
-.minimap canvas {
-  display: block;
-  width: 168px;
-  height: 168px;
-}
-.minimap figcaption {
-  margin-top: 6px;
+  z-index: 60;
+  top: calc(max(16px, env(safe-area-inset-top, 0px)) + 44px);
+  right: var(--gut-r);
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--line2);
+  border-radius: 50%;
+  background: rgba(18, 21, 27, 0.7);
   color: var(--ink);
-  font: 600 0.8125rem/1.2 var(--font-public), "Public Sans", system-ui, sans-serif;
-  text-align: center;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+  box-shadow: var(--shadow-sm);
+  transition: color 0.2s, border-color 0.2s;
 }
-@media (max-width: 760px) {
-  .minimap {
-    bottom: calc(var(--gut-b, 16px) + 96px);
-  }
-  .minimap canvas {
-    width: 112px;
-    height: 112px;
-  }
+.music-btn svg {
+  width: 18px;
+  height: 18px;
+}
+.music-btn[aria-pressed="false"] {
+  color: var(--dim);
+}
+.music-btn:hover {
+  color: var(--ink);
+  border-color: var(--accent-hi);
 }
 
-/* "Watch what it saw" on a part's card, and the cutscene above everything. */
-.spot-film {
-  display: block;
-  margin: 10px 0 8px;
-  padding: 8px 12px;
-  border: 1px solid #5ea6d6;
-  background: rgba(94, 166, 214, 0.14);
-  color: var(--ink);
-  font: 600 0.875rem/1 var(--font-public), "Public Sans", system-ui, sans-serif;
-  cursor: pointer;
+/* Mission briefing: two cards between Start and lift-off, on a solid panel over Earth. */
+.brief {
+  pointer-events: auto;
+  max-width: min(560px, 100%);
+  margin-top: clamp(24px, 4vh, 40px);
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--panel);
+  box-shadow: var(--shadow-lg);
+  text-align: left;
 }
-.spot-film:hover {
-  background: rgba(94, 166, 214, 0.28);
+.brief .brief-step {
+  margin: 0;
+  color: var(--dim);
+  font: 500 0.6875rem/1.4 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.brief h2 {
+  margin: 8px 0 12px;
+  font: 500 1.875rem/1.15 var(--display);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.brief p {
+  margin: 0;
+  color: var(--ink2);
+  font-size: 1rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.brief-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  margin-top: 24px;
+}
+.brief-actions .start-btn {
+  margin-top: 0;
+  animation: none;
+}
+.brief-skip {
+  padding: 8px 0;
+  border: 0;
+  background: none;
+  color: var(--dim);
+  font: 500 0.75rem/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.brief-skip:hover {
+  color: var(--signal);
+}
+
+/* Story chapter before each trip, and a part's own footage: full screen over the dimmed scene. */
+.chapter {
+  position: absolute;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 32px var(--gut-r) 32px var(--gut-l);
+  overflow-y: auto;
+  background: rgba(4, 6, 10, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  user-select: text;
+}
+.chapter-card {
+  width: min(720px, 100%);
+  text-align: left;
+}
+.chapter-kicker {
+  margin: 0;
+  color: var(--signal);
+  font: 500 0.6875rem/1.4 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.chapter h2 {
+  margin: 8px 0 20px;
+  font: 500 clamp(1.875rem, 4.4vw, 3rem)/1.05 var(--display);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.chapter-film {
+  margin: 0 0 20px;
+}
+.chapter-film video {
+  display: block;
+  width: 100%;
+  max-height: 46vh;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r-lg);
+  background: #000;
+  box-shadow: var(--shadow-lg);
+}
+.chapter-film figcaption {
+  margin-top: 12px;
+  color: var(--ink2);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.chapter-audio {
+  display: block;
+  margin-top: 4px;
+  color: var(--ink);
+  font-weight: 600;
+}
+.chapter-credit {
+  display: block;
+  color: var(--faint);
+  font-size: 0.8125rem;
+}
+.chapter-credit a {
+  color: var(--signal);
+}
+.chapter-text {
+  margin: 0;
+  color: var(--ink2);
+  font-size: clamp(1rem, 1.8vw, 1.125rem);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.chapter-actions {
+  margin-top: 24px;
+}
+.chapter .start-btn {
+  margin-top: 0;
+  animation: none;
 }
 .cutscene {
   z-index: 95;
 }
 .cutscene .start-btn {
-  margin-top: 6px;
-  animation: none;
-  letter-spacing: 0.04em;
-  text-transform: none;
-  font: 600 1rem/1 var(--font-public), "Public Sans", system-ui, sans-serif;
-}
-
-/* A real photo of the part, on its card. */
-.spot-photo {
-  margin: 8px 0 10px;
-}
-.spot-photo img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 220px;
-  object-fit: contain;
-  background: #000;
-}
-.spot-photo figcaption {
-  margin-top: 5px;
-  color: var(--sand);
-  font: 400 0.8125rem/1.4 var(--font-public), "Public Sans", system-ui, sans-serif;
-}
-.spot-photo figcaption span {
-  display: block;
-  opacity: 0.75;
-  font-size: 0.75rem;
-}
-.spot-photo a {
-  color: var(--echo);
+  margin-top: 4px;
 }
 
 /* The invisible fence: a gentle note when you reach it. */
@@ -1635,11 +1457,13 @@ p.keysbar {
   top: 42%;
   width: fit-content;
   margin: 0 auto;
-  padding: 10px 16px;
-  background: rgba(5, 3, 2, 0.8);
-  border: 1px solid rgba(193, 169, 149, 0.4);
+  padding: 12px 20px;
+  border-radius: var(--pill);
+  background: var(--panel);
+  box-shadow: var(--shadow-lg);
   color: var(--ink);
-  font: 600 1rem/1.3 var(--font-public), "Public Sans", system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
   opacity: 0;
   transition: opacity 0.3s;
   pointer-events: none;
@@ -1654,81 +1478,55 @@ p.keysbar {
   background-repeat: no-repeat;
 }
 
-.story-audio {
-  display: block;
-  margin-top: 2px;
-  color: var(--ink);
-  font-weight: 600;
-}
-
-.story-audio {
-  display: block;
-  margin-top: 2px;
-  color: var(--ink);
-  font-weight: 600;
-}
-
-/* Cards with a photo get tall: keep them on screen and scroll inside. */
-.spot-card {
-  max-height: min(58vh, 520px);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
-/* Ghost replay: the caption strip and Skip. */
+/* Ghost replay: the caption strip and Skip, bottom centre. */
 .replay {
   position: absolute;
   z-index: 60;
   left: 0;
   right: 0;
-  bottom: calc(var(--gut-b, 16px) + 104px);
-  width: min(760px, calc(100vw - 32px));
-  margin: 0 auto;
-  padding: 12px 16px;
+  bottom: calc(var(--gut-b) + 24px);
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-  gap: 4px 16px;
-  background: rgba(5, 3, 2, 0.78);
-  border: 1px solid rgba(159, 216, 255, 0.35);
+  gap: 8px 20px;
+  width: min(720px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--panel);
+  box-shadow: var(--shadow-lg);
 }
 .replay-tag {
   grid-column: 1 / -1;
   margin: 0;
-  color: #9fd8ff;
-  font: 600 0.8125rem/1.2 var(--font-public), "Public Sans", system-ui, sans-serif;
+  color: var(--signal);
+  font: 500 0.6875rem/1.4 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 .replay-line {
   margin: 0;
   min-height: 1.5em;
   color: var(--ink);
-  font: 400 clamp(1rem, 1.8vw, 1.2rem)/1.45 var(--font-serif), "Source Serif 4", Georgia, serif;
+  font-size: clamp(1rem, 1.8vw, 1.125rem);
+  line-height: 1.5;
 }
-.replay-skip {
-  padding: 8px 14px;
-  border: 1px solid rgba(193, 169, 149, 0.5);
-  background: none;
-  color: var(--ink);
-  font: 600 0.9375rem/1 var(--font-public), "Public Sans", system-ui, sans-serif;
-  cursor: pointer;
-}
-.replay-skip:hover {
-  border-color: var(--ink);
-}
-
 /* How long a caption stays up: a thin bar that fills until the next line. */
 .replay-progress {
   grid-column: 1;
   display: block;
-  height: 3px;
-  background: rgba(159, 216, 255, 0.15);
+  height: 4px;
+  border-radius: var(--pill);
+  background: var(--raise);
   overflow: hidden;
 }
 .replay-progress b {
   display: block;
   height: 100%;
   width: 0;
-  background: #9fd8ff;
+  border-radius: var(--pill);
+  background: var(--signal);
 }
 @keyframes caption-fill {
   from {
@@ -1738,26 +1536,58 @@ p.keysbar {
     width: 100%;
   }
 }
-/* The "All spots found" note fades after 3.2 s: show that too. */
-.cheer-progress {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 2px;
-  width: 100%;
-  background: var(--echo);
-  transform-origin: left;
-  animation: cheer-drain 3.2s linear forwards;
-}
-@keyframes cheer-drain {
-  from {
-    transform: scaleX(1);
-  }
-  to {
-    transform: scaleX(0);
-  }
-}
 .replay-skip {
   grid-column: 2;
   grid-row: 2 / span 2;
+  min-height: 40px;
+  padding: 0 20px;
+  border: 1px solid var(--line2);
+  border-radius: var(--pill);
+  background: none;
+  color: var(--ink);
+  font: 500 0.75rem/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: border-color 0.2s, background 0.2s;
+}
+.replay-skip:hover {
+  border-color: var(--accent-hi);
+  background: var(--raise);
+}
+
+/* Narrower screens: no room in the middle of the bottom row for the controls. */
+@media (max-width: 1000px) {
+  .keysbar {
+    display: none;
+  }
+}
+@media (max-width: 680px) {
+  .minimap {
+    width: 104px;
+    height: 104px;
+  }
+  /* The story takes the full width here: while one is open, the minimap steps aside for it. */
+  .scrim-bottom[data-on="story"] ~ .spot-progress .minimap {
+    display: none;
+  }
+  .music-btn {
+    top: calc(max(16px, env(safe-area-inset-top, 0px)) + 56px);
+  }
+  .story-photo {
+    max-width: 240px;
+  }
+  .story-photo img {
+    max-height: 18vh;
+  }
+  .replay {
+    bottom: calc(var(--gut-b) + 64px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spot-arrow::before {
+    animation: none;
+  }
+  .tour.looking.aiming::after {
+    transition: none;
+  }
 }

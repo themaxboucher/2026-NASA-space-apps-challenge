@@ -27,12 +27,10 @@ export type TourState = {
   cruise: { label: string; dest: string; from: number; to: number } | null;
   introOpen: boolean;
   openSpot: string | null;
+  // The full-screen mission file for the current stop.
+  fileOpen: boolean;
   found: Record<string, string[]>;
   sceneReady: boolean;
-  // Bumped when someone presses Next before finding every spot, so the HUD can point at what's left.
-  nudge: number;
-  // Set (to a fresh id) when the last spot on a stop is found, so the HUD can celebrate once.
-  cheer: number;
   // Stops reached on this trip, for the end screen.
   visited: string[];
   // A story card (and real footage) shown before flying to this stop; null when none is up.
@@ -66,10 +64,9 @@ export const tour = createStore<TourState>({
   cruise: null,
   introOpen: false,
   openSpot: null,
+  fileOpen: false,
   found: {},
   sceneReady: false,
-  nudge: 0,
-  cheer: 0,
   visited: [],
   interlude: null,
   cutscene: null,
@@ -79,7 +76,11 @@ export const tour = createStore<TourState>({
 
 let requestId = 0;
 export function requestTravel(to: Target, mode: "journey" | "jump") {
-  tour.set({ request: { id: ++requestId, to, mode }, openSpot: null, cheer: 0 });
+  tour.set({ request: { id: ++requestId, to, mode }, openSpot: null, fileOpen: false });
+}
+
+export function setFileOpen(open: boolean) {
+  tour.set({ fileOpen: open });
 }
 
 export function startTour() {
@@ -90,21 +91,24 @@ export function startTour() {
   }
 }
 
-// Next turns into Skip while traveling; extra presses right after a skip must not start the next trip.
-let skippedAt = -Infinity;
+// The "Next machine" button: on to the next stop, or home to the end screen after the last one.
 export function nextStop() {
   const s = tour.get();
+  if (s.phase !== "explore") return;
+  journeyTo(s.stop < STOPS.length - 1 ? s.stop + 1 : "end");
+}
+
+// A tick in the top trail. Forward flies there; backward is a quick fade. During a trip, the destination's tick
+// skips the rest of the trip.
+export function goToStop(i: number) {
+  const s = tour.get();
   if (s.phase === "travel") {
-    skippedAt = performance.now();
-    return skipTravel();
-  }
-  if (s.phase !== "explore" || performance.now() - skippedAt < 700) return;
-  // The story moves on once every glowing spot on this machine has been found.
-  if (spotsLeft(s) > 0) {
-    tour.set((t) => ({ nudge: t.nudge + 1 }));
+    if (i === s.stop) skipTravel();
     return;
   }
-  journeyTo(s.stop < STOPS.length - 1 ? s.stop + 1 : "end");
+  if (s.phase !== "explore" || i === s.stop) return;
+  if (i > s.stop) journeyTo(i);
+  else requestTravel(i, "jump");
 }
 
 // How many spots on the current stop are still unfound.
@@ -115,19 +119,6 @@ export function spotsLeft(s: TourState = tour.get()) {
   return stop.hotspots.filter((h) => !seen.includes(h.id)).length;
 }
 
-// The quiet way out: move on without finding everything.
-export function skipStop() {
-  const s = tour.get();
-  if (s.phase !== "explore") return;
-  journeyTo(s.stop < STOPS.length - 1 ? s.stop + 1 : "end");
-}
-
-export function previousStop() {
-  const s = tour.get();
-  if (s.phase !== "explore") return;
-  requestTravel(s.stop > 0 ? s.stop - 1 : "start", "jump");
-}
-
 export function skipTravel() {
   tour.set((s) => ({ skipId: s.skipId + 1 }));
 }
@@ -136,14 +127,12 @@ export function openHotspot(stopId: string, spotId: string | null) {
   tour.set((s) => {
     if (!spotId) return { openSpot: null };
     const seen = s.found[stopId] ?? [];
-    if (seen.includes(spotId)) return { openSpot: spotId, introOpen: false };
-    const now = [...seen, spotId];
-    const all = STOPS.find((x) => x.id === stopId)?.hotspots.every((h) => now.includes(h.id));
+    if (seen.includes(spotId)) return { openSpot: spotId, introOpen: false, fileOpen: false };
     return {
       openSpot: spotId,
       introOpen: false,
-      found: { ...s.found, [stopId]: now },
-      ...(all ? { cheer: s.cheer + 1 } : {}),
+      fileOpen: false,
+      found: { ...s.found, [stopId]: [...seen, spotId] },
     };
   });
 }
@@ -210,7 +199,7 @@ export function endReplay() {
 
 // The story is told a chapter at a time: before flying to a stop, show its story card first.
 function journeyTo(to: Target) {
-  if (typeof to === "number" && STOPS[to]?.story) tour.set({ interlude: to, openSpot: null, introOpen: false });
+  if (typeof to === "number" && STOPS[to]?.story) tour.set({ interlude: to, openSpot: null, introOpen: false, fileOpen: false });
   else requestTravel(to, "journey");
 }
 export function continueStory() {

@@ -17,6 +17,7 @@ let mapRange = 20;
 
 // Bottom-left minimap: you in the middle facing up, the machine, and every spot (unfound ones glow; ones out of
 // range sit on the rim as arrows). It turns with you, so "up" on the map is always straight ahead.
+let mapFont = ""; // the tour's mono face, read once from its CSS token
 function drawMinimap(cv: HTMLCanvasElement, cam: THREE.Camera, stop: Stop, placed: Placed[], found: string[]) {
   const css = cv.clientWidth;
   if (!css) return;
@@ -26,10 +27,10 @@ function drawMinimap(cv: HTMLCanvasElement, cam: THREE.Camera, stop: Stop, place
   g.setTransform(dpr, 0, 0, dpr, 0, 0);
   const R = css / 2, rim = R - 10;
   g.clearRect(0, 0, css, css);
-  g.fillStyle = "rgba(5,3,2,0.72)";
+  g.fillStyle = "rgba(18,21,27,0.88)"; // --panel
   g.beginPath(); g.arc(R, R, R - 1, 0, Math.PI * 2); g.fill();
-  g.strokeStyle = "rgba(193,169,149,0.35)"; g.lineWidth = 1; g.stroke();
-  g.beginPath(); g.arc(R, R, rim / 2, 0, Math.PI * 2); g.strokeStyle = "rgba(193,169,149,0.12)"; g.stroke();
+  g.strokeStyle = "rgba(52,59,72,1)"; g.lineWidth = 1; g.stroke(); // --line2
+  g.beginPath(); g.arc(R, R, rim / 2, 0, Math.PI * 2); g.strokeStyle = "rgba(35,40,51,1)"; g.stroke(); // --line
 
   camFwd.set(0, 0, -1).applyQuaternion(cam.quaternion);
   let fx = camFwd.x, fz = camFwd.z;
@@ -47,10 +48,10 @@ function drawMinimap(cv: HTMLCanvasElement, cam: THREE.Camera, stop: Stop, place
   // North (−z) tick on the rim.
   const [nx, ny] = toMap(cx, cz - 1e6);
   const na = Math.atan2(ny - R, nx - R);
-  g.fillStyle = "rgba(239,229,218,0.85)"; g.font = "600 10px system-ui, sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
+  g.fillStyle = "rgba(150,158,172,1)"; g.font = (mapFont ||= `500 10px ${getComputedStyle(cv).getPropertyValue("--mono").trim() || "monospace"}`); g.textAlign = "center"; g.textBaseline = "middle";
   g.fillText("N", R + Math.cos(na) * (R - 6), R + Math.sin(na) * (R - 6));
   // The machine.
-  g.fillStyle = "rgba(193,169,149,0.45)";
+  g.fillStyle = "rgba(150,158,172,0.45)";
   for (const c of stop.colliders) {
     const [x, y] = toMap(c.pos[0], c.pos[2]);
     if (Math.hypot(x - R, y - R) > rim) continue;
@@ -62,7 +63,7 @@ function drawMinimap(cv: HTMLCanvasElement, cam: THREE.Camera, stop: Stop, place
     const done = found.includes(spot.id);
     let [x, y] = toMap(pos.x, pos.z);
     const d = Math.hypot(x - R, y - R), out = d > rim;
-    const col = spot.broken ? "255,90,60" : "94,166,214";
+    const col = spot.broken ? "240,68,56" : "77,148,255"; // --alarm, --signal
     if (out) {
       if (done) continue;
       const a = Math.atan2(y - R, x - R);
@@ -82,9 +83,9 @@ function drawMinimap(cv: HTMLCanvasElement, cam: THREE.Camera, stop: Stop, place
     g.beginPath(); g.arc(x, y, 4, 0, Math.PI * 2); g.fill(); g.stroke();
   }
   // You: a triangle pointing straight ahead, with a faint view cone.
-  g.fillStyle = "rgba(239,229,218,0.1)";
+  g.fillStyle = "rgba(243,245,248,0.1)";
   g.beginPath(); g.moveTo(R, R); g.arc(R, R, rim * 0.6, -Math.PI / 2 - 0.5, -Math.PI / 2 + 0.5); g.closePath(); g.fill();
-  g.fillStyle = "#efe5da"; g.strokeStyle = "rgba(0,0,0,0.6)"; g.lineWidth = 1.5;
+  g.fillStyle = "#f3f5f8"; g.strokeStyle = "rgba(0,0,0,0.6)"; g.lineWidth = 1.5;
   g.beginPath(); g.moveTo(R, R - 8); g.lineTo(R - 6, R + 6); g.lineTo(R, R + 3); g.lineTo(R + 6, R + 6); g.closePath(); g.stroke(); g.fill();
 }
 
@@ -132,7 +133,7 @@ export function HotspotTracker({ stop, anchors, ground }: { stop: Stop; anchors:
       el.style.opacity = a.toFixed(3);
       el.style.visibility = a > 0.01 ? "visible" : "hidden";
       el.style.pointerEvents = a > 0.3 ? "auto" : "none";
-      // Keep the card on the side of the marker with more room.
+      // Keep the hover label on the side of the marker with more room.
       el.dataset.side = x > size.width * 0.6 ? "left" : "right";
       el.dataset.low = y > size.height * 0.62 ? "1" : "0";
       // Unfound and off-screen: an arrow on the screen edge points the way.
@@ -154,20 +155,7 @@ export function HotspotTracker({ stop, anchors, ground }: { stop: Stop; anchors:
         } else arrow.style.visibility = "hidden";
       }
       const open = s.openSpot === spot.id;
-      // Keep an open card fully on screen: clear of the top bar and above the tour controls at the bottom.
-      if (open) {
-        const card = el.querySelector<HTMLElement>(".spot-card");
-        if (card) {
-          const prev = parseFloat(card.style.marginTop) || 0;
-          const r = card.getBoundingClientRect();
-          const bottomLimit = (document.querySelector(".controls")?.getBoundingClientRect().top ?? innerHeight) - 12;
-          let shift = prev;
-          if (r.bottom > bottomLimit) shift -= r.bottom - bottomLimit;
-          if (r.top + (shift - prev) < 72) shift += 72 - (r.top + (shift - prev));
-          if (Math.abs(shift - prev) > 0.5) card.style.marginTop = `${shift.toFixed(0)}px`;
-        }
-      }
-      // An open card stays open until its spot is behind you (the reader may be far from it, e.g. Falcon, 130 m).
+      // An open story stays open until its spot is behind you (the reader may be far from it, e.g. Falcon, 130 m).
       if (open && projected.z >= 1) openHotspot(stop.id, null);
       if (open && spot.broken) target = 1.6;
     }

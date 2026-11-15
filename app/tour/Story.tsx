@@ -111,7 +111,10 @@ export function MusicToggle() {
         bump((n) => n + 1);
       }}
     >
-      {off ? "🔇 Music: off" : "🔊 Music: on"}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M11 5 6 9H3v6h3l5 4V5z" />
+        {off ? <path d="m16 9 5 6m0-6-5 6" /> : <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" />}
+      </svg>
     </button>
   );
 }
@@ -159,13 +162,13 @@ export function Cutscene() {
   const src = safe(clip?.file);
   if (!key || !clip || !src) return null;
   return (
-    <motion.section className="story cutscene" role="dialog" aria-modal="true" aria-label={clip.caption} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
-      <div className="story-card">
-        <figure className="story-film">
+    <motion.section className="chapter cutscene" role="dialog" aria-modal="true" aria-label={clip.caption} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+      <div className="chapter-card">
+        <figure className="chapter-film">
           <video src={src} poster={safe(clip.poster) ?? undefined} controls autoPlay playsInline onPlay={() => duck(true)} onPause={() => duck(false)} onEnded={() => { duck(false); playCutscene(null); }} />
           <figcaption>
             {clip.real === false ? "Animation: " : "Real footage: "}
-            {clip.caption}{clip.audio && <span className="story-audio">🔊 {clip.audio}</span>} <span className="story-credit">{clip.credit} · {clip.license}{clip.source && <> · <a href={clip.source} target="_blank" rel="noopener noreferrer">source ↗</a></>}</span>
+            {clip.caption}{clip.audio && <span className="chapter-audio">🔊 {clip.audio}</span>} <span className="chapter-credit">{clip.credit} · {clip.license}{clip.source && <> · <a href={clip.source} target="_blank" rel="noopener noreferrer">source ↗</a></>}</span>
           </figcaption>
         </figure>
         <button ref={close} type="button" className="start-btn" onClick={() => playCutscene(null)}>
@@ -202,20 +205,20 @@ export function Interlude() {
   return (
     <motion.section
       key={stop.id}
-      className="story"
+      className="chapter"
       role="dialog"
       aria-modal="true"
-      aria-labelledby="story-title"
+      aria-labelledby="chapter-title"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.5 } }}
       transition={{ duration: 0.6 }}
     >
-      <motion.div className="story-card" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.15, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}>
-        <p className="story-kicker">{stop.story.kicker}</p>
-        <h2 id="story-title">{stop.story.title}</h2>
+      <motion.div className="chapter-card" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.15, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}>
+        <p className="chapter-kicker">{stop.story.kicker}</p>
+        <h2 id="chapter-title">{stop.story.title}</h2>
         {src && (
-          <figure className="story-film">
+          <figure className="chapter-film">
             <video
               src={src}
               poster={safe(clip.poster) ?? undefined}
@@ -229,12 +232,12 @@ export function Interlude() {
             />
             <figcaption>
               {clip.real === false ? "Animation: " : "Real footage: "}
-              {clip.caption}{clip.audio && <span className="story-audio">🔊 {clip.audio}</span>} <span className="story-credit">{clip.credit} · {clip.license}{clip.source && <> · <a href={clip.source} target="_blank" rel="noopener noreferrer">source ↗</a></>}</span>
+              {clip.caption}{clip.audio && <span className="chapter-audio">🔊 {clip.audio}</span>} <span className="chapter-credit">{clip.credit} · {clip.license}{clip.source && <> · <a href={clip.source} target="_blank" rel="noopener noreferrer">source ↗</a></>}</span>
             </figcaption>
           </figure>
         )}
-        <p className="story-text">{stop.story.text}</p>
-        <div className="story-actions">
+        <p className="chapter-text">{stop.story.text}</p>
+        <div className="chapter-actions">
           <button ref={go} type="button" className="start-btn" onClick={continueStory}>
             Fly to {stop.name} →
           </button>

@@ -174,7 +174,7 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
       s.drag = null;
       if (!click || touch) return;
       if (s.locked) {
-        // Clicking with the crosshair on (or near) a glowing dot opens it, and gives the mouse back to read the card.
+        // Clicking with the crosshair on (or near) a glowing dot opens it, and gives the mouse back to read its story.
         const best = aimedSpot();
         if (best) { document.exitPointerLock(); best.click(); }
         return;
@@ -208,7 +208,7 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
       if (tour.get().phase !== "explore") return;
       s.keys.add(k);
       if (k !== "run") dismissIntro();
-      const onUi = (e.target as HTMLElement | null)?.closest?.("button, a, [role=button], .mfile, .fbank, .spot-card, .story, video");
+      const onUi = (e.target as HTMLElement | null)?.closest?.("button, a, [role=button], .overlay, .story, .chapter, video");
       if (onUi) {
         s.keys.delete(k);
         return;

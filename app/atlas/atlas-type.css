@@ -1,89 +1,49 @@
-/* Ghost Rover Atlas, field-guide typography and data display.
-   Loaded after atlas.css. Headings in a book serif, text in Public Sans, mono only for numbers and coordinates,
-   labels in sentence case. */
-:root{
-  --display:var(--font-serif),"Source Serif 4","Georgia",serif;
-  --body:var(--font-public),"Public Sans","Segoe UI",system-ui,sans-serif;
-  --alarm:#ff6a4d;
-}
-body{font:16.5px/1.6 var(--body);font-feature-settings:"ss01"}
-h1,h2,h3,.dossier h2,.roster h2,.rtitle,.foot-title,.ghud h3{font-family:var(--display);font-stretch:normal;font-optical-sizing:auto}
-h1{font-weight:600;letter-spacing:-.025em;font-size:clamp(2.6rem,7vw,5.2rem)}
-.lede{font-size:1.125rem;max-width:56ch}
-
-/* Labels: sentence case, no wide tracking. */
-.eyebrow,.label,.dossier h3,.facts dt,.fun strong,.fatecat,.ghead b,.cols h2,.legend,.hint,.axis,.lk,.src,.pin .tip,.worlds button,.btn,.walkbtn,#play,.gbtn,.pill,.mv::after,.model figcaption,.credit{
-  font-family:var(--body);letter-spacing:0;text-transform:none}
-.eyebrow,.label{font-size:.875rem;font-weight:600;color:var(--dim)}
-.btn,.walkbtn,#play{font-size:.9375rem;font-weight:600}
-.worlds button{font-size:.9375rem;font-weight:600;padding:14px 16px 12px}
-.worlds button span,.gn{font-family:var(--mono);font-weight:500}
-.legend,.hint,.axis{font-size:.8125rem;font-weight:500}
-.axis{font-family:var(--mono);font-variant-numeric:tabular-nums}
-.pill{font-size:.875rem;font-weight:600}
-.credit,.model figcaption{font-size:.8125rem;font-weight:400}
-.src{font-size:.875rem;font-weight:600}
-.lk{font-size:.75rem;font-weight:700}
-.pin .tip{font-size:.8125rem;font-weight:600}
-#beyond text{font-family:var(--body)}
+/* Ruins Among the Stars atlas: data display for the field-guide features (stat tiles, meters, named timeline lanes,
+   explored progress). Loaded after atlas.css and uses its tokens: Instrument Sans for headings and text,
+   Spline Sans Mono for small uppercase labels and numbers, neutral grays, one blue accent, rounded surfaces. */
+:root{--alarm:#f04438}
 
 /* Dossier */
-.dossier h2{font-weight:600;font-size:clamp(1.9rem,3.2vw,2.5rem);letter-spacing:-.015em;line-height:1.08}
-.dossier h3{font-size:1.25rem;font-weight:600;color:var(--ink);letter-spacing:-.005em;margin:1.7em 0 .55em;padding-top:1em}
-.summary{font-size:1.1rem;line-height:1.6}
-.voice{font:italic 400 1.3rem/1.5 var(--display);border-left:0;padding:0 0 0 1.1em;text-indent:-.45em;color:var(--ink)}
+.dossier h2{font-size:clamp(1.9rem,3.2vw,2.5rem);line-height:1.08}
+.summary{font-size:1.125rem;line-height:1.6}
+.voice{font:italic 400 1.25rem/1.5 var(--body);border-left:0;padding:0 0 0 1.1em;text-indent:-.45em;color:var(--ink)}
 .voice::before{content:"\201C";color:var(--signal)}
 .voice::after{content:"\201D";color:var(--signal)}
-.fun{padding:14px 16px;background:var(--raise)}
-.fun strong{font-size:.9375rem;font-weight:700;color:var(--signal)}
 
-/* What happened: a placard, not a callout strip. */
-.fate{border-left:0;border:1px solid var(--line2);padding:16px 18px;gap:6px}
-.fatecat{display:flex;align-items:center;gap:8px;margin:0;font-size:.875rem;font-weight:700;color:var(--signal)}
-.fatecat i{width:10px;height:10px;border-radius:50%;background:currentColor;flex:none}
-.fate.bad{border-color:rgba(255,106,77,.5)}
+/* What happened: a placard. */
+.fate{border:0;padding:16px;gap:6px}
+.fatecat{display:flex;align-items:center;gap:8px;margin:0}
+.fatecat i{width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
+.fate.bad{background:rgba(240,68,56,.1)}
 .fate.bad .fatecat{color:var(--alarm)}
-.fatelabel{font:600 1.35rem/1.2 var(--display);margin:2px 0 0}
+.fatelabel{font:500 1.25rem/1.2 var(--display);letter-spacing:-.01em;margin:2px 0 0;color:var(--ink)}
 
 /* At a glance: stat tiles */
-.glance{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;border:1px solid var(--line);background:var(--panel)}
-.glance .stat{box-shadow:inset -1px -1px 0 var(--line)}
-.stat{display:grid;align-content:start;gap:4px;padding:14px 16px 16px;background:var(--panel);min-width:0}
+.glance{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;border-radius:var(--r-lg);overflow:hidden;background:var(--raise)}
+.glance .stat{box-shadow:inset -1px -1px 0 var(--panel)}
+.stat{display:grid;align-content:start;gap:8px;padding:16px;background:var(--raise);min-width:0}
 .stat.wide{grid-column:1/-1}
-.stat .k{font-size:.875rem;font-weight:600;color:var(--dim)}
-.stat .v{font:600 1.9rem/1.05 var(--display);font-variant-numeric:lining-nums tabular-nums;letter-spacing:-.01em;overflow-wrap:anywhere}
+.stat .k{font:500 .6875rem/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.stat .v{font:500 1.875rem/1.05 var(--display);font-variant-numeric:lining-nums tabular-nums;letter-spacing:-.02em;overflow-wrap:anywhere}
 .stat .v small{font:500 1rem var(--body);color:var(--dim);letter-spacing:0}
-.stat .n{font-size:.875rem;color:var(--dim);font-variant-numeric:tabular-nums}
-.meter{position:relative;height:10px;margin:8px 0 4px;background:rgba(193,169,149,.12)}
-.meter b{position:absolute;inset:0 auto 0 0;background:var(--signal);border-radius:0 4px 4px 0}
-.meter i{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;background:var(--ink)}
-.where{margin:10px 0 0;color:var(--dim);font-size:.9375rem}
+.stat .n{font-size:.8125rem;color:var(--faint);font-variant-numeric:tabular-nums}
+.meter{position:relative;height:8px;margin:8px 0 4px;border-radius:var(--pill);background:var(--raise)}
+.meter b{position:absolute;inset:0 auto 0 0;background:var(--signal);border-radius:var(--pill)}
+.meter i{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;border-radius:1px;background:var(--ink)}
+.where{margin:10px 0 0;color:var(--dim);font-size:0.875rem}
 .coord{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--ink)}
 
 /* Timeline: bigger hit targets and a real hover label */
-#yearOut,.big{font-family:var(--display);font-weight:600;font-stretch:normal;font-variant-numeric:lining-nums tabular-nums}
+#yearOut,.big{font-variant-numeric:lining-nums tabular-nums}
 #yearNote{font-size:1rem}
-.lives{gap:3px}
-.life{height:7px}
-.life b{height:7px;border-radius:0 3px 3px 0}
-.life b:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-.lifetip{position:absolute;z-index:3;transform:translateY(-130%);padding:5px 9px;background:var(--ink);color:var(--void);font:600 .8125rem/1.2 var(--body);white-space:nowrap;pointer-events:none}
+.life b:focus-visible{outline:2px solid var(--accent-hi);outline-offset:2px}
+.lifetip{position:absolute;z-index:3;transform:translateY(-130%);padding:6px 10px;border-radius:6px;background:var(--ink);color:var(--void);box-shadow:var(--shadow-md);font:500 .8125rem/1.2 var(--body);white-space:nowrap;pointer-events:none}
 
 /* Roster: name, what happened, years */
-.roster summary .eyebrow{font-size:.875rem}
-.rtitle,.roster h2{font-weight:600;letter-spacing:-.01em}
-.ghead{align-items:baseline}
-.ghead b{font:600 1.15rem/1.2 var(--display);color:var(--ink)}
-.gn{font-size:.9375rem;color:var(--dim)}
-.gbar{height:3px;border-radius:0 2px 2px 0}
 .roster button.grow{grid-template-columns:8px minmax(0,1fr) auto}
-.gname{font-weight:700;font-size:1rem}
-.glabel{grid-column:2;font-size:.9rem}
-.gyrs{grid-column:3;grid-row:1;align-self:baseline;font:500 .8125rem var(--mono);color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap}
-
-/* Footer */
-.foot-title{font-weight:600;letter-spacing:-.02em}
-.cols h2{font-size:1rem;font-weight:700;color:var(--ink)}
+.gname{font-size:1rem}
+.glabel{grid-column:2;font-size:0.875rem}
+.gyrs{grid-column:3;grid-row:1;align-self:baseline;font:500 .75rem var(--mono);color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap}
 
 @media (prefers-reduced-motion:reduce){.lifetip{transition:none}}
 
@@ -91,30 +51,30 @@ h1{font-weight:600;letter-spacing:-.025em;font-size:clamp(2.6rem,7vw,5.2rem)}
 .pin.seen:not(.sel){box-shadow:0 0 0 2px var(--ink)}
 #beyond .craft.seen circle{stroke:var(--ink);stroke-width:3px}
 .roster button.seen::before{box-shadow:0 0 0 2px var(--ink)}
-.legend .seenmark{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--quiet);box-shadow:0 0 0 2px var(--ink);margin-right:6px;vertical-align:-1px}
+.legend .seenmark{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--quiet);box-shadow:0 0 0 2px var(--ink);margin-right:7px;vertical-align:-1px}
 
 /* Progress: one bar for all machines, counts per world. */
 .explored{display:grid;gap:8px;padding:12px 0 2px}
 .explored-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px}
-#exploredText{font-weight:700;font-size:1rem}
+#exploredText{font-weight:600;font-size:1rem}
 .explored-worlds{display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--dim);font-size:.875rem}
 .explored-worlds b{font:500 .875rem var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
 .explored-worlds .here{color:var(--ink)}
-.explored-reset{margin-left:auto;padding:4px 10px;border:1px solid var(--line2);background:none;color:var(--dim);font-size:.8125rem;font-weight:600}
-.explored-reset:hover{color:var(--ink);border-color:var(--sand)}
-.explored-bar{height:8px;background:rgba(193,169,149,.12);overflow:hidden}
-.explored-bar b{display:block;height:100%;width:0;background:var(--signal);border-radius:0 4px 4px 0;transition:width .5s cubic-bezier(.22,1,.36,1)}
+.explored-reset{margin-left:auto;padding:6px 14px;border:1px solid var(--line2);border-radius:var(--pill);background:var(--panel);color:var(--dim);font:500 .6875rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.explored-reset:hover{color:var(--ink);border-color:var(--accent-hi)}
+.explored-bar{height:8px;border-radius:var(--pill);background:var(--raise);overflow:hidden}
+.explored-bar b{display:block;height:100%;width:0;background:var(--signal);border-radius:var(--pill);transition:width .5s cubic-bezier(.22,1,.36,1)}
 @media (prefers-reduced-motion:reduce){.explored-bar b{transition:none}}
 
 /* Timeline as named lanes: machine name on the left, a dot where it arrived, the bar for how long it worked. */
 .time{--lw:168px}
-.lives{padding-left:var(--lw);gap:4px;max-height:480px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.lives{padding-left:var(--lw);gap:4px;max-height:480px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
 .life{height:16px}
-.life b{top:5px;height:6px}
+.life b{top:5px;height:6px;border-radius:3px}
 .life b::before{content:"";position:absolute;left:-4px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:var(--c);box-shadow:0 0 0 2px var(--panel)}
 .lname{position:absolute;right:calc(100% + 12px);top:0;width:calc(var(--lw) - 16px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right;font-size:.8125rem;line-height:16px;color:var(--dim);cursor:pointer}
 .lname:hover,.life:has(b.sel) .lname{color:var(--ink)}
-.life:has(b.sel) .lname{font-weight:700}
+.life:has(b.sel) .lname{font-weight:600}
 .life:has(b.future) .lname{opacity:.4}
 #year,.axis{margin-left:var(--lw);width:calc(100% - var(--lw))}
 @media (max-width:600px){.time{--lw:112px}.lname{font-size:.75rem}}
@@ -132,10 +92,11 @@ h1{font-weight:600;letter-spacing:-.025em;font-size:clamp(2.6rem,7vw,5.2rem)}
 /* One pin per landing site, with a count; clicking lists the machines there. */
 .pin.site{width:18px;height:18px;margin:-9px 0 0 -9px}
 .pin .cnt{position:absolute;left:calc(100% - 4px);top:-9px;min-width:16px;padding:0 4px;border-radius:8px;background:var(--ink);color:var(--void);font:700 .6875rem/16px var(--body);text-align:center;pointer-events:none}
-.pinmenu{position:absolute;left:0;top:0;z-index:5;margin:14px 0 0 -14px;min-width:220px;max-width:280px;padding:6px;background:var(--void);border:1px solid var(--line2);box-shadow:0 8px 24px rgba(0,0,0,.6)}
-.pinmenu p{margin:2px 6px 6px;font-size:.8125rem;font-weight:600;color:var(--dim)}
-.pinmenu button{display:flex;align-items:center;gap:8px;width:100%;min-height:36px;padding:6px 8px;border:0;background:none;color:var(--ink);font:500 .9375rem/1.25 var(--body);text-align:left;cursor:pointer}
-.pinmenu button:hover,.pinmenu button:focus-visible{background:var(--raise);outline:none;box-shadow:inset 2px 0 0 var(--signal)}
+.pinmenu{position:absolute;left:0;top:0;z-index:5;margin:16px 0 0 -16px;min-width:220px;max-width:280px;padding:8px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-md)}
+.pinmenu p{margin:4px 8px 8px;font:500 .6875rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.pinmenu button{display:flex;align-items:center;gap:8px;width:100%;min-height:36px;padding:8px;border:0;border-radius:var(--r);background:none;color:var(--ink);font:500 .875rem/1.25 var(--body);text-align:left;cursor:pointer}
+.pinmenu button:hover,.pinmenu button:focus-visible{background:var(--raise);outline:none}
+.pinmenu button:focus-visible{box-shadow:inset 0 0 0 2px var(--accent-hi)}
 .pinmenu i{flex:none;width:10px;height:10px;border-radius:50%;background:var(--c)}
 .pinmenu .seen i{box-shadow:0 0 0 2px var(--ink)}
 
@@ -143,8 +104,8 @@ h1{font-weight:600;letter-spacing:-.025em;font-size:clamp(2.6rem,7vw,5.2rem)}
 #globe{touch-action:pan-y}
 .mv{touch-action:pan-y}
 .gzoom{position:absolute;right:8px;top:44px;z-index:4;display:grid;gap:4px}
-.gzoom button{width:36px;height:36px;padding:0;border:1px solid var(--line2);background:rgba(9,4,3,.75);color:var(--ink);font:500 1.15rem var(--body);cursor:pointer}
-.gzoom button:hover,.gzoom button:focus-visible{border-color:var(--sand)}
+.gzoom button{width:36px;height:36px;padding:0;border:1px solid var(--line2);border-radius:50%;background:var(--panel);box-shadow:var(--shadow-sm);color:var(--ink);font:500 1.125rem var(--body);cursor:pointer;transition:border-color .2s}
+.gzoom button:hover,.gzoom button:focus-visible{border-color:var(--accent-hi)}
 @media (pointer:coarse){.gzoom button,.mvz button{width:44px;height:44px}}
 
 /* Timeline axis on the same year scale as the bars. */
@@ -154,12 +115,12 @@ h1{font-weight:600;letter-spacing:-.025em;font-size:clamp(2.6rem,7vw,5.2rem)}
 .pin.sel.alive,.pin.sel.echo,.pin.sel{box-shadow:0 0 0 3px var(--void),0 0 0 5px var(--c)}
 
 /* Folded extras on the machine page */
-.fold{margin-top:14px;border-top:1px solid var(--line)}
-.fold>summary{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0 12px;cursor:pointer;list-style:none;font:600 1.15rem/1.25 var(--display);color:var(--ink)}
+.fold{margin-top:16px;border-top:1px solid var(--line)}
+.fold>summary{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0 12px;cursor:pointer;list-style:none;font:500 1.125rem/1.25 var(--display);letter-spacing:-.01em;color:var(--ink);transition:color .2s}
 .fold>summary::-webkit-details-marker{display:none}
-.fold>summary::after{content:"+";font:400 1.4rem/1 var(--body);color:var(--signal)}
+.fold>summary::after{content:"+";font:400 1.5rem/1 var(--body);color:var(--signal)}
 .fold[open]>summary::after{content:"−"}
-.fold>summary:hover{color:var(--sand)}
-.fold>summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-.fold h4{margin:1em 0 .4em;font-size:1rem;font-weight:700}
-.glance{margin-top:18px}
+.fold>summary:hover{color:var(--signal)}
+.fold>summary:focus-visible{outline:2px solid var(--accent-hi);outline-offset:2px;border-radius:4px}
+.fold h4{margin:16px 0 8px;font-size:1rem;font-weight:600}
+.glance{margin-top:16px}

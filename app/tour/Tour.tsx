@@ -52,7 +52,7 @@ function briefing(n: number) {
     },
     {
       title: "You're the salvage scout",
-      text: `You'll first visit ${STORY_COUNT} of them, one chapter at a time. At each one, your job is to survey the site: discover what we sent there, what we left behind, and why it was left. The glowing spots are your clues: blue ones tell the story, red ones show what broke. Each clue you find opens your case file. Then think like an engineer and decide: could we repair it, put it to a new use, bring it home, or should we leave it as history?`,
+      text: `You'll visit ${STORY_COUNT} of them. At each site, find out what we left behind and why. Glowing spots are your clues: blue tells the story, red shows what broke. Then decide like an engineer: repair it, repurpose it, bring it home, or leave it as history?`,
     },
     {
       title: "Are you ready?",
@@ -152,7 +152,7 @@ function StartScreen() {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.5, ease }}
           >
-            <p className="chapter-kicker">Mission briefing · {step + 1} of {steps.length}</p>
+            <p className="chapter-kicker">Mission briefing</p>
             <h2 id="brief-title">{card.title}</h2>
             <p className="chapter-text">{card.text}</p>
             <div className="chapter-actions brief-actions">
@@ -162,7 +162,7 @@ function StartScreen() {
                 </button>
               ) : (
                 <button type="button" className="start-btn" autoFocus onClick={startTour}>
-                  Launch
+                  Let's go
                 </button>
               )}
               {step < steps.length - 1 && (
@@ -540,11 +540,11 @@ function Minimap() {
   );
 }
 
-// Captions and a Skip button while the ghosts re-enact what happened here (scene/Ghost.tsx writes the lines).
+// Captions and a Skip button while the ghosts re-enact what happened here (scene/Ghost.tsx writes the lines, and
+// setCaption in state.ts decodes each one in like a received transmission).
 function ReplayBar() {
   return (
     <motion.div className="replay" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5, ease }}>
-      <p className="replay-tag">Back in time</p>
       <p
         className="replay-line"
         aria-live="polite"
@@ -552,15 +552,8 @@ function ReplayBar() {
           hud.replayLine = el;
         }}
       />
-      <span className="replay-progress" aria-hidden="true">
-        <b
-          ref={(el) => {
-            hud.replayBar = el;
-          }}
-        />
-      </span>
       <button type="button" className="replay-skip" onClick={() => endReplay()}>
-        Skip
+        Skip <ChevronRight aria-hidden="true" />
       </button>
     </motion.div>
   );
@@ -1120,7 +1113,6 @@ function Cruise() {
         >
           <p className="eyebrow">{cruise.label}</p>
           <p className="cruise-num" ref={ref} />
-          <p className="cruise-dest">{cruise.dest}</p>
         </motion.div>
       )}
     </AnimatePresence>

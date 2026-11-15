@@ -267,7 +267,7 @@ export function Interlude() {
   return (
     <motion.section
       key={stop.id}
-      className="chapter"
+      className="chapter story-chapter"
       role="dialog"
       aria-modal="true"
       aria-labelledby="chapter-title"
@@ -279,6 +279,7 @@ export function Interlude() {
       <motion.div className="chapter-card" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.15, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}>
         <p className="chapter-kicker">{stop.story.kicker}</p>
         <h2 id="chapter-title">{stop.story.title}</h2>
+        <p className="chapter-text">{stop.story.text}</p>
         {src && (
           <figure className="chapter-film">
             <video
@@ -299,8 +300,7 @@ export function Interlude() {
             </figcaption>
           </figure>
         )}
-        <p className="chapter-text">{stop.story.text}</p>
-        <div className="chapter-actions">
+        <div className="chapter-actions story-actions">
           <button ref={go} type="button" className="start-btn" onClick={continueStory}>
             Fly to {stop.name} <ArrowRight aria-hidden="true" />
           </button>

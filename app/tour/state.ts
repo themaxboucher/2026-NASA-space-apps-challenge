@@ -171,26 +171,89 @@ export const live = {
 
 // DOM nodes the Director updates every frame, registered by the overlay.
 // `chip`: the caption naming what you pass on a trip; `speed`: the "x8" readout while Shift-running.
-export const hud: { fade: HTMLDivElement | null; counter: HTMLElement | null; minimap: HTMLCanvasElement | null; replayLine: HTMLElement | null; replayBar: HTMLElement | null; chip: HTMLElement | null; speed: HTMLElement | null } = {
+export const hud: { fade: HTMLDivElement | null; counter: HTMLElement | null; minimap: HTMLCanvasElement | null; replayLine: HTMLElement | null; chip: HTMLElement | null; speed: HTMLElement | null } = {
   chip: null,
   speed: null,
   fade: null,
   counter: null,
   minimap: null,
   replayLine: null,
-  replayBar: null,
 };
 
 // Shows a replay caption, with a thin bar under it that fills over the `seconds` it stays up.
+// A caption arrives like a received transmission: the whole line shows at once as shuffling letters, which lock
+// into the real words left to right (like Magic UI's Hyper Text). It reads in quickly (about 40 letters a second)
+// and always finishes within the first half of the time the line is up. A quoted line ("Armstrong: “…”") shows the
+// speaker at once, as a call sign, then decodes the words.
+const UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const LOWER = "abcdefghijklmnopqrstuvwxyz";
+const DECODE_RATE = 40; // letters a second
+const SHUFFLE_MS = 45; // how often the unlocked letters change
+let decoding = 0;
+// A stand-in of the same kind, so the shuffling keeps roughly the shape of the line.
+const noiseFor = (ch: string) => {
+  const set = /[A-Z]/.test(ch) ? UPPER : /[0-9]/.test(ch) ? "0123456789" : LOWER;
+  return set[Math.floor(Math.random() * set.length)];
+};
 export function setCaption(text: string, seconds: number) {
   // Clearing (when a replay ends) keeps the last line up while the caption box fades out, instead of an empty box.
   if (!text) return;
-  if (hud.replayLine) hud.replayLine.textContent = text;
-  const bar = hud.replayBar;
-  if (!bar) return;
-  bar.style.animation = "none";
-  void bar.offsetWidth; // restart the fill
-  bar.style.animation = text ? `caption-fill ${Math.max(0.5, seconds).toFixed(2)}s linear forwards` : "none";
+  const el = hud.replayLine;
+  if (!el) return;
+  cancelAnimationFrame(decoding);
+  const quote = /^([^:“"]{1,24}): [“"](.*)[”"]$/.exec(text);
+  const who = quote?.[1] ?? "";
+  const words = quote ? quote[2] : text;
+
+  // Screen readers hear the whole line once; the letters being decoded are hidden from them.
+  el.replaceChildren();
+  const said = document.createElement("span");
+  said.className = "sr-only";
+  said.textContent = who ? `${who}: ${words}` : words;
+  const shown = document.createElement("span");
+  shown.setAttribute("aria-hidden", "true");
+  if (who) {
+    const sign = document.createElement("span");
+    sign.className = "replay-who";
+    sign.textContent = who;
+    shown.append(sign);
+  }
+  el.append(said, shown);
+
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    shown.append(words);
+    return;
+  }
+  // One span per letter: the real letter keeps its place (hidden) and the shuffling one is drawn over it, so the
+  // line wraps exactly as it will end up.
+  const letters = [...words].map((ch) => {
+    const span = document.createElement("span");
+    span.textContent = ch;
+    if (/[\p{L}\p{N}]/u.test(ch)) {
+      span.className = "replay-noise";
+      span.dataset.n = noiseFor(ch);
+    }
+    shown.append(span);
+    return span;
+  });
+  const rate = Math.max(DECODE_RATE, letters.length / Math.max(0.4, seconds * 0.5));
+  const start = performance.now();
+  let shuffled = start;
+  let done = 0;
+  const tick = (now: number) => {
+    const reach = Math.min(letters.length, Math.floor(((now - start) / 1000) * rate));
+    for (; done < reach; done++) {
+      letters[done].removeAttribute("class");
+      delete letters[done].dataset.n;
+    }
+    if (now - shuffled >= SHUFFLE_MS) {
+      shuffled = now;
+      for (let i = done; i < letters.length; i++)
+        if (letters[i].dataset.n) letters[i].dataset.n = noiseFor(letters[i].textContent ?? "");
+    }
+    if (done < letters.length) decoding = requestAnimationFrame(tick);
+  };
+  decoding = requestAnimationFrame(tick);
 }
 
 // Hotspot markers live in the DOM overlay; the 3D scene moves them to their projected screen positions.

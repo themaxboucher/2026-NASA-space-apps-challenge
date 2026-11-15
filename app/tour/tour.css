@@ -517,13 +517,6 @@ body {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
-.cruise-dest {
-  margin: 0;
-  color: var(--dim);
-  font: 500 0.75rem/1.4 var(--mono);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
 
 /* Hotspots: glowing dots on the machine. */
 /* The layer of markers over the 3D scene. Each wrap sits at its hotspot's projected point (zero size). */
@@ -1331,11 +1324,37 @@ p.keysbar {
 .chapter.brief {
   pointer-events: auto;
 }
+.brief .chapter-card {
+  text-align: center;
+}
+.brief h2,
+.story-chapter h2 {
+  margin: 16px 0 28px;
+}
+.brief .chapter-text {
+  max-width: 600px;
+  margin-inline: auto;
+}
+.story-chapter .chapter-film {
+  margin: 36px 0 0;
+}
+.story-chapter .chapter-film figcaption {
+  margin-top: 16px;
+}
+.story-chapter .chapter-audio {
+  margin-top: 8px;
+}
+.chapter-actions.story-actions {
+  margin-top: 40px;
+}
 .brief-actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  gap: 12px 24px;
+  gap: 20px;
+}
+.chapter-actions.brief-actions {
+  margin-top: 40px;
 }
 .brief-skip {
   padding: 8px 0;
@@ -1371,11 +1390,12 @@ p.keysbar {
 }
 .chapter-kicker {
   margin: 0;
-  color: var(--signal);
+  color: var(--dim);
   font: 500 0.6875rem/1.4 var(--mono);
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
+
 .chapter h2 {
   margin: 8px 0 20px;
   font: 500 clamp(1.875rem, 4.4vw, 3rem)/1.05 var(--display);
@@ -1481,14 +1501,6 @@ p.keysbar {
   padding: 16px 20px;
   text-shadow: 0 1px 14px rgba(0, 0, 0, 0.75);
 }
-.replay-tag {
-  grid-column: 1 / -1;
-  margin: 0;
-  color: var(--signal);
-  font: 500 0.6875rem/1.4 var(--mono);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
 .replay-line {
   margin: 0;
   min-height: 1.5em;
@@ -1496,47 +1508,66 @@ p.keysbar {
   font-size: clamp(1rem, 1.8vw, 1.125rem);
   line-height: 1.5;
 }
-/* How long a caption stays up: a thin bar that fills until the next line. */
-.replay-progress {
-  grid-column: 1;
-  display: block;
-  height: 4px;
-  border-radius: var(--pill);
-  background: rgba(255, 255, 255, 0.16);
+/* The line decoding in (setCaption in state.ts): the speaker's call sign, then each letter that hasn't locked yet,
+   its real letter holding the space and a shuffling stand-in drawn over it. */
+.replay-who {
+  margin-right: 12px;
+  color: var(--dim);
+  font: 500 0.75rem/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.replay-noise {
+  position: relative;
+  color: transparent;
+}
+.replay-noise::after {
+  content: attr(data-n);
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  color: var(--dim);
+}
+.replay .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
   overflow: hidden;
-}
-.replay-progress b {
-  display: block;
-  height: 100%;
-  width: 0;
-  border-radius: var(--pill);
-  background: var(--signal);
-}
-@keyframes caption-fill {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
 }
 .replay-skip {
   grid-column: 2;
-  grid-row: 2 / span 2;
-  min-height: 40px;
-  padding: 0 20px;
-  border: 1px solid var(--line2);
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 32px;
+  padding: 0 6px 0 10px;
+  border: 0;
   border-radius: var(--pill);
   background: none;
-  color: var(--ink);
-  font: 500 0.75rem/1 var(--mono);
-  letter-spacing: 0.08em;
+  color: var(--dim);
+  font: 500 0.6875rem/1 var(--mono);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  transition: border-color 0.2s, background 0.2s;
+  opacity: 0.7;
+  transition: color 0.2s, background 0.2s, opacity 0.2s;
 }
-.replay-skip:hover {
-  border-color: var(--accent-hi);
-  background: var(--raise);
+.replay-skip svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s;
+}
+.replay-skip:hover,
+.replay-skip:focus-visible {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.06);
+  opacity: 1;
+}
+.replay-skip:hover svg {
+  transform: translateX(2px);
 }
 
 /* Narrower screens: no room in the middle of the bottom row for the controls. */

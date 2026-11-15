@@ -18,7 +18,7 @@ export function scienceHTML(e, level) {
   const facts = e.facts.map((f, i) => ({ ...f, text: v.facts?.[i] ?? f.text }));
   const legacy = e.legacy && { ...e.legacy, text: v.legacy ?? e.legacy.text };
   const tryIt = v.tryIt ?? e.tryIt;
-  const picker = `<label class="sci-pick"><span>Reading level</span><select class="sci-level" aria-label="Reading level">${LEVELS.map(l => `<option value="${l.id}"${l.id === level ? ' selected' : ''}>${esc(l.label)}</option>`).join('')}</select></label>`;
+  const picker = `<label class="sci-pick"><span>Space level</span><select class="sci-level" aria-label="Space level">${LEVELS.map(l => `<option value="${l.id}"${l.id === level ? ' selected' : ''}>${esc(l.label)}</option>`).join('')}</select></label>`;
   return `<section class="sci">
     <div class="sci-head"><p class="eyebrow">How it worked</p>${picker}</div>
     <p class="sci-lead">${esc(v.breakthrough ?? e.breakthrough)}</p>

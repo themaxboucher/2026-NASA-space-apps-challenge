@@ -109,7 +109,7 @@ export default function Signals() {
   const total = useMemo(() => worlds?.reduce((n, w) => n + w.items.length, 0) ?? 79, [worlds]);
   const count = useMemo(() => worlds?.reduce((n, w) => n + w.items.filter((i) => seen.has(i.id)).length, 0) ?? 0, [worlds, seen]);
   const done = worlds !== null && count === total;
-  const levelName = LEVELS.find((l) => l.id === level)?.label ?? "Student";
+  const levelName = LEVELS.find((l) => l.id === level)?.label ?? LEVELS[1].label;
 
   return (
     <main className="book">

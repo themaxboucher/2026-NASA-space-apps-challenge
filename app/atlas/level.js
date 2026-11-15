@@ -1,10 +1,12 @@
-// Who's exploring: the reading level the "How it worked" sections are written at, remembered in this browser.
+// Who's exploring: the level the "How it worked" sections are written at, remembered in this browser. Levels go by
+// how much you know about space, not age or school year: a young space fan can be a pro.
 // Shared by the tour (React) and the atlas (plain JS). Changing it fires a "gra-level" event on window.
+// The ids are keys in public/data/science.json and in saved choices, so they stay as they are; only labels changed.
 export const LEVELS = [
-  { id: 'explorer', label: 'Young explorer', who: 'Ages 6 to 10' },
-  { id: 'student', label: 'Student', who: 'Ages 11 to 14' },
-  { id: 'curious', label: 'High school and curious adults', who: 'Real terms, explained' },
-  { id: 'enthusiast', label: 'Space enthusiast', who: 'Full technical detail' },
+  { id: 'explorer', label: 'Space beginner', who: 'New to space, simple words' },
+  { id: 'student', label: 'Space novice', who: 'Know the basics, ready for more' },
+  { id: 'curious', label: 'Space enthusiast', who: 'Real terms, explained' },
+  { id: 'enthusiast', label: 'Space pro', who: 'Full technical detail' },
 ];
 const KEY = 'gra-level';
 const ids = new Set(LEVELS.map(l => l.id));
@@ -26,28 +28,19 @@ export function setLevel(id) {
   window.dispatchEvent(new CustomEvent('gra-level', { detail: id }));
 }
 
-// "Who's exploring?" free text -> the closest level. Ages and grades first, then words.
+// "Who's exploring?" free text -> the closest level, by how much space you know. Ages and school years are not
+// used: anyone can be a beginner or a pro. Checked in order, so "pro" words win over "enthusiast" words, and so on.
 /** @type {[string, RegExp][]} */
 const WORDS = [
-  ['enthusiast', /\b(enthusiast|nerd|geek|engineer|scientist|physicist|astronom|astrophysic|expert|professional|aerospace|phd|graduate|researcher|pilot|rocket|ham radio)/],
-  ['explorer', /\b(kid|child|children|little|young|elementary|primary|kindergarten|k-?5|grade school|junior school|first grade|second grade|third grade|fourth grade|fifth grade)/],
-  ['curious', /\b(high school|secondary|teen|teenager|college|university|undergrad|adult|parent|teacher|educator|grown.?up|curious|general|beginner|casual|fan|family)/],
-  ['student', /\b(middle school|junior high|intermediate|tween|pupil|student|sixth grade|seventh grade|eighth grade)/],
+  ['enthusiast', /\b(pro\b|professional|expert|engineer|scientist|physicist|astronom|astrophysic|aerospace|phd|researcher|pilot|rocket|orbital mechanic|ham radio|work (at|for) nasa)/],
+  ['curious', /\b(enthusiast|nerd|geek|fan\b|obsess|love space|amateur|stargaz|telescope|know (a )?lot|lots)/],
+  ['explorer', /\b(beginner|new\b|never|nothing|no idea|don'?t know|just curious|first time|starting|curious)/],
+  ['student', /\b(novice|basics?|some|a bit|a little|learning|intermediate|okay|ok\b|average|planets)/],
 ];
 /** @param {string} text @returns {string | null} */
 export function matchLevel(text) {
   const t = String(text || '').toLowerCase();
   if (!t.trim()) return null;
-  const grade = t.match(/\b(?:grade\s*(\d{1,2})|(\d{1,2})(?:st|nd|rd|th)\s*grade|year\s*(\d{1,2}))\b/);
-  if (grade) {
-    const g = +(grade[1] || grade[2] || grade[3]);
-    return g <= 5 ? 'explorer' : g <= 8 ? 'student' : 'curious';
-  }
-  const age = t.match(/\b(?:i'?m|i am|age|aged)?\s*(\d{1,2})\s*(?:years?|yrs?|yo|y\/o)?\b/);
-  if (age && /\d/.test(t) && !/grade|year\s*\d/.test(t)) {
-    const a = +age[1];
-    if (a >= 3 && a <= 99) return a <= 10 ? 'explorer' : a <= 14 ? 'student' : 'curious';
-  }
   for (const [id, re] of WORDS) if (re.test(t)) return id;
   return null;
 }
@@ -63,7 +56,7 @@ if (typeof document !== 'undefined' && !window.__graLevelWired) {
 
 // Self-check (run: node app/atlas/level.js): free text lands on the expected level.
 if (typeof process !== 'undefined' && process.argv?.[1]?.endsWith('level.js')) {
-  const cases = { "I'm 8": 'explorer', '4th grade': 'explorer', 'grade 7': 'student', '12 years old': 'student', 'high school student': 'curious', 'teacher': 'curious', 'space nerd': 'enthusiast', 'aerospace engineer': 'enthusiast', 'elementary': 'explorer', 'middle school': 'student', '': null, 'banana': null };
+  const cases = { 'brand new to space': 'explorer', 'just curious': 'explorer', 'I know the basics': 'student', 'I know my planets': 'student', 'space nerd': 'curious', 'I have a telescope': 'curious', 'aerospace engineer': 'enthusiast', 'rocket scientist': 'enthusiast', "I'm 8": null, '': null, 'banana': null };
   for (const [k, v] of Object.entries(cases)) if (matchLevel(k) !== v) throw new Error(`matchLevel(${JSON.stringify(k)}) = ${matchLevel(k)}, expected ${v}`);
   console.log('level.js ok');
 }

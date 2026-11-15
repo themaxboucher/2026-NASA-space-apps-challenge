@@ -82,6 +82,10 @@ body {
 .tour-canvas canvas:active {
   cursor: grabbing;
 }
+/* The start screen is a title card, not a drag surface: keep the plain arrow. */
+.tour[data-phase="start"] .tour-canvas canvas {
+  cursor: default;
+}
 
 /* The black curtain the Director fades in and out between scenes. */
 .fade {

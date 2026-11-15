@@ -1309,7 +1309,7 @@ export default function Tour() {
   const replaying = phase === "explore" && !!replay;
   return (
     <MotionConfig reducedMotion="user">
-      <div className="tour">
+      <div className="tour" data-phase={phase}>
         <TourCanvas />
         {/* Soft shadows from the screen edges, so text can sit straight on the scene without a card. */}
         <div

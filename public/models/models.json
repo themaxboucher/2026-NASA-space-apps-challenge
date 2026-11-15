@@ -444,5 +444,16 @@
     "size_m": 3.1,
     "bytes": 802300,
     "covers": []
+  },
+  "astronaut": {
+    "file": "models/astronaut.gltf.json",
+    "title": "Apollo astronaut (A7L spacesuit)",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference photos)",
+    "license": "CC BY 4.0",
+    "page": null,
+    "size_m": 2.019,
+    "bytes": 374718,
+    "covers": [],
+    "note": "Apollo 11-14 moonwalker in the A7L suit, after AS11-40-5903 and AS11-40-5875: LEVA helmet with the gold visor down and side blinders, PLSS backpack with the OPS and antenna on top, chest RCU with blue/red connectors and hoses, accordion bellows at the shoulders, elbows and knees, gauntlet gloves and ridged lunar overshoes. Faces +Z. Node tree with pivots at the joints for code animation: astronaut > torso > helmet, armL > forearmL, armR > forearmR; astronaut > legL > shinL, legR > shinR."
   }
 }

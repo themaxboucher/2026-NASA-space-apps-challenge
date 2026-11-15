@@ -9,6 +9,16 @@
     "tris": 1404,
     "note": "ALSEP central station (electronics box, raised sunshield with gold/aluminised curtains, switch-covered thermal plate, 0.58 m helical antenna on its aiming mast) and the SNAP-27 RTG (0.46 m, 8 fins) on its pallet ~2.6 m away, joined by the flat power cable. Experiments not included."
   },
+  "astronaut": {
+    "file": "models-src/blender/astronaut.glb",
+    "title": "Apollo astronaut (A7L suit)",
+    "credit": "Ghost Rover Atlas team (modelled in Blender from NASA reference photos)",
+    "license": "CC BY 4.0",
+    "size_m": 2.019,
+    "bytes": 285488,
+    "tris": 14332,
+    "note": "Apollo 11-14 moonwalker in the A7L suit: LEVA helmet with the gold visor down and side blinders, PLSS backpack with the OPS and antenna on top, chest RCU with hoses, bellows joints, gauntlet gloves and ridged lunar overshoes. Faces +Z (glTF). Node tree for code animation (pivots at the joints): astronaut > torso > helmet, armL > forearmL, armR > forearmR; astronaut > legL > shinL, legR > shinR."
+  },
   "backshell": {
     "file": "models-src/blender/backshell.glb",
     "title": "Mars 2020 backshell and parachute",

@@ -1,0 +1,375 @@
+{
+  "apollo11-lm": {
+    "file": "media/apollo11-lm.mp4",
+    "poster": "media/apollo11-lm.jpg",
+    "caption": "Looking out of Eagle's window as it swoops down over the Moon's craters and touches down on 20 July 1969.",
+    "credit": "NASA (16mm film from the 1969 NASA film HQ-194 'Eagle Has Landed: The Flight of Apollo 11', National Archives 255-HQ-194)",
+    "license": "Public domain",
+    "source": "https://images.nasa.gov/details/KSC-19690716-MH-NAS01-0001-The_Flight_of_Apollo_11_The_Eagle_Has_Landed_HS_from_Film_JSC-DVC_1928",
+    "real": true,
+    "seconds": 30.0,
+    "licenseEvidence": {
+      "note": "NASA Image and Video Library item; NASA-produced 1969 film ('HQ-194 - 1969 ... National Archives Identifier: 45017'). No copyright notice on the page. The film's end credits name a composer (Bernardo Segall), so its soundtrack was removed and only the NASA 16mm window footage is used.",
+      "url": "https://images.nasa.gov/details/KSC-19690716-MH-NAS01-0001-The_Flight_of_Apollo_11_The_Eagle_Has_Landed_HS_from_Film_JSC-DVC_1928",
+      "policy": {
+        "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
+        "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+      },
+      "audioSource": {
+        "file": "a11a1023114-4746.mp3 (PAO loop from 102:31:14 GET)",
+        "url": "https://history.nasa.gov/alsj/a11/a11a1023114-4746.mp3",
+        "page": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11.landing.html",
+        "note": "Apollo Lunar Surface Journal (NASA History Office) Public Affairs loop recording, 'Clip courtesy John Stoll, ACR Senior Technician at NASA Johnson.' NASA mission audio, public domain. The mp3 is no longer on nasa.gov, so it was taken from the web.archive.org copy of the history.nasa.gov ALSJ file."
+      }
+    },
+    "notes": " Video is now 30 s: descent 787-799 s of HQ-194, then the window view after landing (808-826 s). Contact light is placed at the visual touchdown (about 10 s in). Two stretches were cut from the audio: the ~5 s silence before 'Contact light' and the checklist chatter between 'Engine stop' and 'Houston, Tranquility Base here'. The PAO loop can carry a NASA commentator; I could not listen-check that none is audible here.",
+    "audio": "Real radio: Aldrin calls out the last seconds ('4 forward... drifting to the right a little... contact light... engine stop'), then Armstrong says 'Houston, Tranquility Base here. The Eagle has landed' and Charlie Duke answers 'You got a bunch of guys about to turn blue.'"
+  },
+  "apollo11-lm/first-step": {
+    "file": "media/apollo11-lm--first-step.mp4",
+    "poster": "media/apollo11-lm--first-step.jpg",
+    "caption": "Neil Armstrong climbs down Eagle's ladder and steps onto the Moon, and you hear the real radio, ending with \"That's one small step for man; one giant leap for mankind.\"",
+    "credit": "NASA (Apollo 11 television and air-to-ground audio, restored)",
+    "license": "Public domain",
+    "source": "https://images.nasa.gov/details/Apollo_11_moonwalk_montage_720p",
+    "real": true,
+    "seconds": 19.3,
+    "licenseEvidence": {
+      "note": "NASA Image and Video Library item; metadata 'Photographer: NASA', 'Center: HQ'. No third-party credit or copyright notice.",
+      "url": "https://images.nasa.gov/details/Apollo_11_moonwalk_montage_720p",
+      "policy": {
+        "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
+        "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+      },
+      "audioSource": {
+        "file": "a11a1091545-1101226.mp3 (PAO loop from 109:15:45 GET)",
+        "url": "https://history.nasa.gov/alsj/a11/a11a1091545-1101226.mp3",
+        "page": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11.step.html",
+        "note": "Apollo Lunar Surface Journal (NASA History Office) Public Affairs loop recording; NASA mission audio, public domain. Taken from the web.archive.org copy of the history.nasa.gov ALSJ file. The 'small step' segment was cross-checked against NASA's own published clip https://www.nasa.gov/wp-content/uploads/2015/01/590331main_ringtone_smallStep.mp3 (nasa.gov/historical-sounds)."
+      }
+    },
+    "notes": "The montage's own audio was replaced: its first 28 s matched the NASA loop, but the part after 'step off the LM' did not match NASA's 'one small step' recording, so it could not be confirmed. Now uses the same four NASA lines as apollo11-replay.m4a. Lines 2 and 3 are in sync with the TV picture; the CAPCOM line and the 'small step' line are laid over the nearest ladder footage (not frame-synced).",
+    "audio": "Real radio: CAPCOM Bruce McCandless says 'we can see you coming down the ladder now', then Armstrong: 'I'm at the foot of the ladder', 'I'm going to step off the LM now' and 'That's one small step for man; one giant leap for mankind.'"
+  },
+  "apollo11-lm/engine": {
+    "file": "media/apollo11-lm--engine.mp4",
+    "poster": "media/apollo11-lm--engine.jpg",
+    "caption": "From Eagle's window, the flag shakes in the rocket blast as the top half of Eagle blasts off from the Moon.",
+    "credit": "NASA (16mm sequence-camera film from the 1969 NASA film HQ-194)",
+    "license": "Public domain",
+    "source": "https://images.nasa.gov/details/KSC-19690716-MH-NAS01-0001-The_Flight_of_Apollo_11_The_Eagle_Has_Landed_HS_from_Film_JSC-DVC_1928",
+    "real": true,
+    "seconds": 25.3,
+    "licenseEvidence": {
+      "note": "Same NASA film as the apollo11-lm clip (NASA Image and Video Library, National Archives 255-HQ-194). Audio removed because the film's soundtrack includes composed music.",
+      "url": "https://images.nasa.gov/details/KSC-19690716-MH-NAS01-0001-The_Flight_of_Apollo_11_The_Eagle_Has_Landed_HS_from_Film_JSC-DVC_1928",
+      "policy": {
+        "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
+        "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+      },
+      "audioSource": {
+        "file": "a11a1234747-1243113.mp3 (PAO loop from about 123:47:47 GET)",
+        "url": "https://history.nasa.gov/alsj/a11/a11a1234747-1243113.mp3",
+        "page": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11.launch.html",
+        "note": "Apollo Lunar Surface Journal (NASA History Office) Public Affairs loop recording, 'Clip courtesy John Stoll, ACR Senior Technician at NASA Johnson.' NASA mission audio, public domain. The mp3 is no longer on nasa.gov, so it was taken from the web.archive.org copy of the history.nasa.gov ALSJ file."
+      }
+    },
+    "notes": " The first frame is held for 3.8 s so the countdown can play before the liftoff picture; ignition lines up with the flag starting to whip. Video extended to 25.3 s (the extra seconds are the film's window views right after the liftoff shot). Matched to the ALSJ transcript by timing, not by ear; a PAO commentator may be faintly present.",
+    "audio": "Real radio: Aldrin counts down '9, 8, 7, 6, 5, Abort Stage, Engine Arm, Ascent, Proceed', the ascent engine fires, then '26, 36 feet per second up... Standby for the pitchover... Very smooth... Very quiet ride.'"
+  },
+  "apollo15-lrv": {
+    "file": "media/apollo15-lrv.mp4",
+    "poster": "media/apollo15-lrv.jpg",
+    "caption": "The Lunar Roving Vehicle drives across the Moon at Hadley, with its gold-covered TV camera bouncing along in front.",
+    "credit": "NASA (Apollo 15 16mm film, from the NASA film '1971 Aeronautics and Space Highlights')",
+    "license": "Public domain",
+    "source": "https://images.nasa.gov/details/1971%20Aeronautics%20and%20Space%20Highlights",
+    "real": true,
+    "seconds": 12.8,
+    "licenseEvidence": {
+      "note": "NASA Image and Video Library item, a NASA-produced 1971 film. No third-party credit or copyright notice on the page. Narration and music track removed.",
+      "url": "https://images.nasa.gov/details/1971%20Aeronautics%20and%20Space%20Highlights",
+      "policy": {
+        "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
+        "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+      },
+      "audioSource": {
+        "file": "a15a1222835.mp3 (from 122:28:35 GET, 'Audio Clip by David Shaffer')",
+        "url": "https://history.nasa.gov/alsj/a15/a15a1222835.mp3",
+        "page": "https://history.nasa.gov/alsj/a15/a15.trvsta2.html",
+        "note": "Apollo Lunar Surface Journal (NASA History Office) air-to-ground recording from the EVA-2 drive, digitized by volunteer David Shaffer from NASA mission audio. Mechanical transfer of a public-domain NASA recording; no copyright claim on the page. Read from web.archive.org copies."
+      }
+    },
+    "notes": "Film-gate bars at the sides cropped off. This is Apollo 15 driving footage; the 'Grand Prix' test drive was Apollo 16. The radio is from an EVA-2 drive; the 16mm picture is a different Apollo 15 drive, so the words are not lip-synced to this footage. The section was chosen for continuous chatter (about 122:33:1x-122:33:4x GET); I could not listen-check the exact words.",
+    "audio": "Real radio: Dave Scott and Jim Irwin talking with Houston (CAPCOM Joe Allen) as they drive the rover uphill toward Station 2."
+  },
+  "ingenuity": {
+    "file": "media/ingenuity.mp4",
+    "poster": "media/ingenuity.jpg",
+    "caption": "Ingenuity lifts off, hovers about 3 meters above Mars and lands again: the first powered flight on another planet, filmed by Perseverance on 19 April 2021.",
+    "credit": "NASA/JPL-Caltech/ASU/MSSS",
+    "license": "Public domain",
+    "source": "https://images.nasa.gov/details/JPL-20210419-TECHf-0001-First%20Video%20of%20NASA%E2%80%99s%20Ingenuity%20Mars%20Helicopter%20in%20Flight",
+    "real": true,
+    "seconds": 25.0,
+    "licenseEvidence": {
+      "note": "NASA Image and Video Library item from JPL; description ends 'Credit: NASA/JPL-Caltech/ASU/MSSS'. No copyright notice. JPL Image Use Policy: JPL images and video 'may be used for any purpose without prior permission' (https://www.jpl.nasa.gov/jpl-image-use-policy/).",
+      "url": "https://images.nasa.gov/details/JPL-20210419-TECHf-0001-First%20Video%20of%20NASA%E2%80%99s%20Ingenuity%20Mars%20Helicopter%20in%20Flight",
+      "policy": {
+        "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
+        "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+      }
+    },
+    "notes": "Silent (the source has no sound). Cropped closer around the helicopter; NASA logo at the end trimmed off."
+  },
+  "ingenuity/nav-camera": {
+    "file": "media/ingenuity--nav-camera.mp4",
+    "poster": "media/ingenuity--nav-camera.jpg",
+    "caption": "Ingenuity's own downward camera watches sand ripples and rocks rush past during its record-breaking 25th flight (sped up about 5 times).",
+    "credit": "NASA/JPL-Caltech",
+    "license": "Public domain",
+    "source": "https://images.nasa.gov/details/JPL-20220527-M2020f-0001-NASAs_Ingenuity_Mars_Helicopter_Captures_Video_of_Record_Flight2",
+    "real": true,
+    "seconds": 25.0,
+    "licenseEvidence": {
+      "note": "NASA Image and Video Library item from JPL; description ends 'Credit: NASA/JPL-Caltech'. JPL Image Use Policy: JPL images and video 'may be used for any purpose without prior permission' (https://www.jpl.nasa.gov/jpl-image-use-policy/).",
+      "url": "https://images.nasa.gov/details/JPL-20220527-M2020f-0001-NASAs_Ingenuity_Mars_Helicopter_Captures_Video_of_Record_Flight2",
+      "policy": {
+        "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
+        "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+      }
+    },
+    "notes": "Silent. Title text and end logo trimmed off."
+  },
+  "opportunity": {
+    "file": "media/opportunity.mp4",
+    "poster": "media/opportunity.jpg",
+    "caption": "Opportunity's view at the end of each drive on its three-year trek from Victoria crater to Endeavour crater, with sound made from its own wobble sensors.",
+    "credit": "NASA/JPL-Caltech",
+    "license": "Public domain",
+    "source": "https://science.nasa.gov/resource/rovers-eye-view-of-three-year-trek-on-mars/",
+    "real": true,
+    "seconds": 24.0,
+    "licenseEvidence": {
+      "note": "NASA/JPL video 'Rover's-Eye View of Three-Year Trek on Mars' (10 Oct 2011), file hosted on assets.science.nasa.gov; no third-party credit. JPL Image Use Policy: JPL images and video 'may be used for any purpose without prior permission' (https://www.jpl.nasa.gov/jpl-image-use-policy/).",
+      "url": "https://science.nasa.gov/resource/rovers-eye-view-of-three-year-trek-on-mars/",
+      "policy": {
+        "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
+        "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+      }
+    },
+    "notes": "Audio kept: JPL turned the rover's accelerometer data into sound (louder on rocks, quieter on sand); it is not music. Text cards and logo trimmed off.",
+    "audio": "Real data sound: Opportunity's accelerometer readings turned into sound by JPL, louder on rocks and quieter on sand."
+  },
+  "opportunity/mast": {
+    "file": "media/opportunity--mast.mp4",
+    "poster": "media/opportunity--mast.jpg",
+    "caption": "The Sun sets over Mars with a blue glow, seen by Opportunity's Pancam camera on 5 November 2010.",
+    "credit": "NASA/JPL-Caltech/Cornell/Texas A&M",
+    "license": "Public domain",
+    "source": "https://photojournal.jpl.nasa.gov/catalog/PIA13736",
+    "real": true,
+    "seconds": 21.9,
+    "licenseEvidence": {
+      "note": "JPL Photojournal PIA13736, 'Credits: NASA/JPL-Caltech/Cornell/Texas A&M'. No copyright notice in the caption. JPL Image Use Policy: JPL images and video 'may be used for any purpose without prior permission' (https://www.jpl.nasa.gov/jpl-image-use-policy/).",
+      "url": "https://photojournal.jpl.nasa.gov/catalog/PIA13736",
+      "policy": {
+        "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
+        "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+      }
+    },
+    "notes": "Built from 17 real Pancam photos; JPL added blended in-between frames to smooth the motion. Sped up 1.25x. Silent."
+  },
+  "cassini": {
+    "file": "media/cassini.mp4",
+    "poster": "media/cassini.jpg",
+    "caption": "Cassini's camera looks down as it swoops low over Saturn's swirling clouds on its first dive between the planet and its rings, 26 April 2017.",
+    "credit": "NASA/JPL-Caltech/Space Science Institute/Hampton University",
+    "license": "Public domain",
+    "source": "https://photojournal.jpl.nasa.gov/catalog/PIA21441",
+    "real": true,
+    "seconds": 21.0,
+    "licenseEvidence": {
+      "note": "JPL Photojournal PIA21441 'Cassini's Porthole Movie of Saturn', 'Credits: NASA/JPL-Caltech/Space Science Institute/Hampton University'. No copyright notice in the caption. JPL Image Use Policy: JPL images and video 'may be used for any purpose without prior permission' (https://www.jpl.nasa.gov/jpl-image-use-policy/).",
+      "url": "https://photojournal.jpl.nasa.gov/catalog/PIA21441",
+      "policy": {
+        "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
+        "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+      }
+    },
+    "notes": "Real Cassini wide-angle images covering one hour. Silent."
+  },
+  "cassini/dish": {
+    "file": "media/cassini--dish.mp4",
+    "poster": "media/cassini--dish.jpg",
+    "caption": "From inside the gap between Saturn and its rings, Cassini looks out and sees the rings sweep past on one of its final dives, 20 August 2017.",
+    "credit": "NASA/JPL-Caltech/Space Science Institute",
+    "license": "Public domain",
+    "source": "https://photojournal.jpl.nasa.gov/catalog/PIA21886",
+    "real": true,
+    "seconds": 8.4,
+    "licenseEvidence": {
+      "note": "JPL Photojournal PIA21886 'Cassini's Inside-Out Rings Movie', 'Credits: NASA/JPL-Caltech/Space Science Institute'. No copyright notice in the caption. JPL Image Use Policy: JPL images and video 'may be used for any purpose without prior permission' (https://www.jpl.nasa.gov/jpl-image-use-policy/).",
+      "url": "https://photojournal.jpl.nasa.gov/catalog/PIA21886",
+      "policy": {
+        "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
+        "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+      }
+    },
+    "notes": "21 real images taken over about four minutes, played at half the published speed. Silent."
+  },
+  "voyager1": {
+    "file": "media/voyager1.mp4",
+    "poster": "media/voyager1.jpg",
+    "caption": "A Titan-Centaur rocket roars off the launch pad in Florida carrying Voyager 1 on 5 September 1977.",
+    "credit": "NASA/JPL",
+    "license": "Public domain",
+    "source": "https://images.nasa.gov/details/JPL-19770905-VOYAGEf-0001-AVC2002151%20Voyager%201%20Launches",
+    "real": true,
+    "seconds": 12.0,
+    "licenseEvidence": {
+      "note": "NASA Image and Video Library item from JPL ('The launch of Voyager 1 ... on September 5, 1977'); no third-party credit. JPL Image Use Policy: JPL images and video 'may be used for any purpose without prior permission' (https://www.jpl.nasa.gov/jpl-image-use-policy/).",
+      "url": "https://images.nasa.gov/details/JPL-19770905-VOYAGEf-0001-AVC2002151%20Voyager%201%20Launches",
+      "policy": {
+        "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
+        "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+      }
+    },
+    "notes": "The source holds only about 8 seconds of real launch film, so it is slowed to 1.5x length. JPL title card, animation and logo trimmed off. Original audio (not mission audio) removed."
+  },
+  "apollo15-lrv/tv-camera": {
+    "file": "media/apollo15-lrv--tv-camera.mp4",
+    "poster": "media/apollo15-lrv--tv-camera.jpg",
+    "caption": "The rover's TV camera, steered from Houston by Ed Fendell, watches the top half of the lunar module Falcon blast off from the Moon on 2 August 1971.",
+    "credit": "NASA (Apollo 15 rover television; ALSJ clip digitized by Peter Dayton)",
+    "license": "Public domain",
+    "source": "https://www.hq.nasa.gov/alsj/a15/video15.html",
+    "real": true,
+    "seconds": 22.0,
+    "licenseEvidence": {
+      "note": "Apollo Lunar Surface Journal 'Apollo 15 Video Library' (NASA-hosted): 'The video clips are in the public domain. Credits to those who did the digitization would be appreciated.' Clip a15v_1713625.mov, 'Ascent of the Falcon: view from the rover's television camera ... by Peter Dayton'. The ALSJ page now 404s on nasa.gov, so the page and file were read from web.archive.org copies (2021/2022) of history.nasa.gov / hq.nasa.gov.",
+      "url": "https://www.hq.nasa.gov/alsj/a15/video15.html",
+      "policy": {
+        "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
+        "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+      }
+    },
+    "notes": "Very low resolution (256x192 source, upscaled). Audio is the real air-to-ground up to ignition and is cut there, because the crew's onboard tape played the 'Air Force Song' (music) at liftoff.",
+    "audio": "Real radio from Houston and the crew in the last seconds before liftoff; the sound stops at ignition."
+  },
+  "apollo11-replay": {
+    "file": "media/apollo11-replay.m4a",
+    "credit": "NASA (Apollo 11 air-to-ground, Public Affairs loop, 20 July 1969)",
+    "license": "Public domain",
+    "source": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11.step.html",
+    "seconds": 19.3,
+    "licenseEvidence": {
+      "note": "Apollo Lunar Surface Journal (NASA History Office) Public Affairs loop recording a11a1091545-1101226.mp3, NASA mission audio, public domain; file taken from the web.archive.org copy of https://history.nasa.gov/alsj/a11/a11a1091545-1101226.mp3. Line 4 cross-checked against NASA's own clip https://www.nasa.gov/wp-content/uploads/2015/01/590331main_ringtone_smallStep.mp3 (https://www.nasa.gov/historical-sounds/).",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11.step.html",
+      "policy": {
+        "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
+        "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+      }
+    },
+    "cues": [
+      {
+        "at": 0.2,
+        "who": "Houston",
+        "text": "Okay. Neil, we can see you coming down the ladder now."
+      },
+      {
+        "at": 5.1,
+        "who": "Armstrong",
+        "text": "I'm at the foot of the ladder."
+      },
+      {
+        "at": 7.9,
+        "who": "Armstrong",
+        "text": "Okay. I'm going to step off the LM now."
+      },
+      {
+        "at": 10.8,
+        "who": "Armstrong",
+        "text": "That's one small step for man; one giant leap for mankind."
+      }
+    ],
+    "notes": "Built from four cuts of the PAO loop at 421.8-426.6 s, 473.3-476.1 s, 492.3-495.1 s and 517.7-526.6 s (GET 109:22:46, 109:23:38, 109:24:12, 109:24:23). Long silences were removed. Line 2 is only the first sentence of Armstrong's description, cut at his first pause. Cue times come from where speech starts in the file; texts follow the ALSJ transcript, where the Houston speaker is CAPCOM Bruce McCandless."
+  },
+  "soundtrack": {
+    "file": "media/soundtrack.mp3",
+    "title": "Gymnopédie No. 1 (Erik Satie)",
+    "credit": "Erik Satie, performed by Robin Alciatore, courtesy of Musopen (musopen.org)",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Erik_Satie_-_gymnopedies_-_la_1_ere._lent_et_douloureux.ogg",
+    "seconds": 180.4,
+    "licenseEvidence": {
+      "note": "Wikimedia Commons file page: licence template {{PD-author|Robin Alciatore}}, permission 'Public domain music from musopen.com'. Musopen asks that derived works credit Musopen.",
+      "url": "https://commons.wikimedia.org/wiki/File:Erik_Satie_-_gymnopedies_-_la_1_ere._lent_et_douloureux.ogg"
+    }
+  },
+  "apollo11-lm/flag": {
+    "file": "media/apollo11-lm--engine.mp4",
+    "poster": "media/apollo11-lm--engine.jpg",
+    "caption": "From Eagle’s window as it lifts off: the flag shakes in the rocket blast. Buzz Aldrin later saw it fall over.",
+    "credit": "NASA (16mm sequence-camera film from the 1969 NASA film HQ-194)",
+    "license": "Public domain",
+    "source": "https://images.nasa.gov/details/KSC-19690716-MH-NAS01-0001-The_Flight_of_Apollo_11_The_Eagle_Has_Landed_HS_from_Film_JSC-DVC_1928",
+    "real": true,
+    "seconds": 25.3,
+    "licenseEvidence": {
+      "note": "Same NASA film as the apollo11-lm clip (NASA Image and Video Library, National Archives 255-HQ-194). Audio removed because the film's soundtrack includes composed music.",
+      "url": "https://images.nasa.gov/details/KSC-19690716-MH-NAS01-0001-The_Flight_of_Apollo_11_The_Eagle_Has_Landed_HS_from_Film_JSC-DVC_1928",
+      "policy": {
+        "quote": "NASA content - images, audio, video, and media files ... generally are not subject to copyright in the United States.",
+        "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+      },
+      "audioSource": {
+        "file": "a11a1234747-1243113.mp3 (PAO loop from about 123:47:47 GET)",
+        "url": "https://history.nasa.gov/alsj/a11/a11a1234747-1243113.mp3",
+        "page": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11.launch.html",
+        "note": "Apollo Lunar Surface Journal (NASA History Office) Public Affairs loop recording, 'Clip courtesy John Stoll, ACR Senior Technician at NASA Johnson.' NASA mission audio, public domain. The mp3 is no longer on nasa.gov, so it was taken from the web.archive.org copy of the history.nasa.gov ALSJ file."
+      }
+    },
+    "notes": " The first frame is held for 3.8 s so the countdown can play before the liftoff picture; ignition lines up with the flag starting to whip. Video extended to 25.3 s (the extra seconds are the film's window views right after the liftoff shot). Matched to the ALSJ transcript by timing, not by ear; a PAO commentator may be faintly present.",
+    "audio": "Real radio: Aldrin counts down '9, 8, 7, 6, 5, Abort Stage, Engine Arm, Ascent, Proceed', the ascent engine fires, then '26, 36 feet per second up... Standby for the pitchover... Very smooth... Very quiet ride.'"
+  },
+  "music-moon": {
+    "file": "media/music-moon.mp3",
+    "title": "Clair de lune, from Suite bergamasque (Claude Debussy)",
+    "credit": "Claude Debussy, performed by Laurens Goedhart (piano), CC BY 3.0",
+    "license": "CC BY 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Clair_de_lune_(Claude_Debussy)_Suite_bergamasque.ogg",
+    "seconds": 206.0,
+    "licenseEvidence": {
+      "note": "Composition: Debussy died 1918, so it is public domain ({{PD-old-auto-expired|deathyear=1918}}). Recording: the Commons page says {{Copyright information|recording={{cc-by-3.0}}}}, with permission from an archived copy of the performer's SoundCloud page: 'Claude Debussy's Clair de Lune by Laurens Goedhart is licensed under a Creative Commons License' (CC BY 3.0). Credit required: Laurens Goedhart.",
+      "url": "https://commons.wikimedia.org/wiki/File:Clair_de_lune_(Claude_Debussy)_Suite_bergamasque.ogg"
+    },
+    "notes": "First 3:26 of the 5:04 performance. It fades out at the quiet bridge around 3:20, with a 2 s fade-in and 8 s fade-out so it loops. Solo piano, the original scoring."
+  },
+  "music-mars": {
+    "file": "media/music-mars.mp3",
+    "title": "Morning Mood, from Peer Gynt Suite No. 1, Op. 46 (Edvard Grieg)",
+    "credit": "Edvard Grieg, performed by the Musopen Symphony, courtesy of Musopen (musopen.org)",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Grieg_-_Peer_Gynt_Suite_No._1,_Op._46_-_I._Morning_Mood_(Musopen_Symphony).flac",
+    "seconds": 228.5,
+    "licenseEvidence": {
+      "note": "Commons page: {{Copyright information |recording={{PD-author|Musopen}} |musical composition={{PD-old-auto-expired|deathyear=1907}}}}. The Musopen Symphony recorded it for Musopen and released it into the public domain (source https://musopen.org/music/777-peer-gynt-suite-no-1-op-46/).",
+      "url": "https://commons.wikimedia.org/wiki/File:Grieg_-_Peer_Gynt_Suite_No._1,_Op._46_-_I._Morning_Mood_(Musopen_Symphony).flac"
+    },
+    "notes": "The whole movement, with a 2 s fade-in and 5 s fade-out. Picked instead of Holst's 'Mars', which is loud and warlike; this is a calm sunrise piece."
+  },
+  "music-deep": {
+    "file": "media/music-deep.mp3",
+    "title": "Largo, from Symphony No. 9 'From the New World', Op. 95 (Antonin Dvorak), excerpt",
+    "credit": "Antonin Dvorak, Musopen recording (musopen.org)",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Antonin_Dvorak_-_symphony_no._9_in_e_minor_'from_the_new_world',_op._95_-_ii._largo.ogg",
+    "seconds": 200.0,
+    "licenseEvidence": {
+      "note": "Composition: Dvorak died 1904, so it is public domain. Recording: a Musopen public-domain recording; the Commons page tags it Public domain with source {{Musopen}} and Wikimedia permission ticket 2008012110017088. Musopen requires uploads to be public domain.",
+      "url": "https://commons.wikimedia.org/wiki/File:Antonin_Dvorak_-_symphony_no._9_in_e_minor_'from_the_new_world',_op._95_-_ii._largo.ogg"
+    },
+    "notes": "Opening 3:20 of the 11:34 movement (the brass chorale and the English-horn 'Going Home' tune), fading out in a quiet passage. Not Holst: see the report for why."
+  }
+}

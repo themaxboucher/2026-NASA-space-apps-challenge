@@ -27,9 +27,23 @@ const ready = (scene: SceneDesc) => scene.kind === "travel" || modelsFor(scene.s
 let tint = "#000";
 let shownTint = "";
 
+// Scene changes during a journey dissolve instead of dipping: the last frame stays on top as a picture and
+// fades out over the new scene, so the trip reads as one continuous shot.
+const XFADE = 1.1;
+let xfade = -1; // seconds into the current dissolve, or -1
+function snapshot(canvas: HTMLCanvasElement) {
+  if (!hud.fade) return;
+  try {
+    hud.fade.style.backgroundImage = `url(${canvas.toDataURL("image/jpeg", 0.85)})`;
+    xfade = 0;
+  } catch {
+    xfade = -1; // canvas not readable: fall back to a plain cut
+  }
+}
+
 // Runs travel plans: switches scenes, flies the camera, fades, and drives the star streaks and distance counter.
 export function Director() {
-  const { camera } = useThree();
+  const { camera, gl } = useThree();
   const run = useRef<Run | null>(null);
   const seenRequest = useRef(0);
   const seenSkip = useRef(0);
@@ -110,7 +124,11 @@ export function Director() {
           const patch: Partial<TourState> = {
             cruise: shot.counter ? { label: shot.counter.label, dest: shot.counter.dest, from: shot.counter.from, to: shot.counter.to } : null,
           };
-          if (tour.get().scene.key !== shot.scene.key) patch.scene = shot.scene;
+          if (tour.get().scene.key !== shot.scene.key) {
+            patch.scene = shot.scene;
+            // Only for journeys: jumps and skips still dip through black or haze.
+            if (!shot.fadeIn && (i === 0 || !r.shots[i - 1].fadeOut)) snapshot(gl.domElement);
+          }
           tour.set(patch);
         }
         shot.cam(local, camera);
@@ -132,8 +150,17 @@ export function Director() {
     }
 
     if (hud.fade) {
-      hud.fade.style.opacity = live.fade.toFixed(3);
-      if (shownTint !== tint) hud.fade.style.background = shownTint = tint;
+      if (xfade >= 0) {
+        // Dissolving from the picture of the last frame.
+        xfade += dt;
+        const u = Math.min(1, xfade / XFADE);
+        hud.fade.style.opacity = Math.max(live.fade, 1 - u * u * (3 - 2 * u)).toFixed(3);
+        if (u >= 1) {
+          xfade = -1;
+          hud.fade.style.backgroundImage = "";
+        }
+      } else hud.fade.style.opacity = live.fade.toFixed(3);
+      if (shownTint !== tint) hud.fade.style.backgroundColor = shownTint = tint;
     }
     if (hud.counter && tour.get().cruise) hud.counter.textContent = formatKm(live.counter);
   });

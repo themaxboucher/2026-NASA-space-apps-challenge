@@ -1032,3 +1032,732 @@ body {
 .mfile-live dd {
   font-variant-numeric: tabular-nums;
 }
+
+/* ---- Finding every spot ---- */
+/* A found dot carries a tick. */
+.spot.found .spot-dot::after {
+  content: "✓";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #06121b;
+  font: 700 10px/1 var(--body);
+}
+.spot.broken.found .spot-dot::after {
+  color: #fff;
+}
+/* Arrows on the screen edge point at spots still to find; the scene sets position and angle each frame. */
+.spot-arrow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+.spot-arrow::before {
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: -9px;
+  width: 18px;
+  height: 18px;
+  border-top: 3px solid var(--echo);
+  border-right: 3px solid var(--echo);
+  transform: rotate(45deg);
+  filter: drop-shadow(0 0 6px rgba(94, 166, 214, 0.9));
+  animation: nudge-out 1.4s ease-in-out infinite;
+}
+.spot-arrow.broken::before {
+  border-color: var(--alarm);
+  filter: drop-shadow(0 0 6px rgba(255, 90, 60, 0.9));
+}
+@keyframes nudge-out {
+  50% {
+    translate: 4px -4px;
+  }
+}
+/* The last spot found: a short note above the bar, and Next lights up once. */
+.cheer {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 12px);
+  margin: 0;
+  padding: 8px 14px;
+  border: 1px solid var(--echo);
+  background: rgba(5, 3, 2, 0.8);
+  color: var(--ink);
+  font: 600 0.9375rem/1.3 var(--body);
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  pointer-events: none;
+  translate: -50% 0;
+  animation: cheer 3.2s ease-out forwards;
+}
+@keyframes cheer {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  12%,
+  75% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.nav-btn.primary.cheered {
+  animation: beckon 1.3s ease-out 2;
+}
+/* Quiet, but readable: its own dark backing keeps it ≥ 4.5:1 over bright sand or moon dust. */
+.skip-stop {
+  top: -30px;
+  padding: 2px 8px;
+  background: rgba(5, 3, 2, 0.6);
+  color: var(--dim);
+  font: 500 0.8125rem var(--body);
+}
+.skip-stop:hover,
+.skip-stop:focus-visible {
+  color: var(--ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .spot-arrow::before,
+  .nav-btn.primary.cheered {
+    animation: none;
+  }
+  /* Keep the fade so the note still goes away, without the movement. */
+  @keyframes cheer {
+    0% {
+      opacity: 0;
+    }
+    10%,
+    75% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
+
+/* The close button sits over the eyebrow's line. */
+.intro .eyebrow {
+  padding-right: 28px;
+}
+
+/* ---- Phones: keep the machine in view ---- */
+@media (max-width: 600px) {
+  .intro {
+    bottom: calc(var(--gut-b) + 108px);
+    max-height: 40dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  /* Folded, the mission file is a small chip in the corner above the bar. */
+  .mfile.closed {
+    left: auto;
+    width: auto;
+    background: rgba(5, 3, 2, 0.7);
+  }
+  .mfile.closed .mfile-toggle {
+    gap: 10px;
+    padding: 10px 12px;
+  }
+  .mfile:not(.closed) {
+    max-height: 45dvh;
+  }
+}
+
+/* ---- Typography: one voice with the atlas ---- */
+/* Headings in the book serif, labels in sentence case at 13 px or more, mono only for numbers. */
+.tour {
+  --display: var(--font-serif), "Source Serif 4", Georgia, serif;
+}
+.plate h2,
+.intro h2,
+.spot-card h3,
+.end h2,
+.mfile-fate-cat {
+  font-weight: 600;
+  font-stretch: normal;
+  letter-spacing: -0.015em;
+}
+.end h2 {
+  font-weight: 500;
+}
+.cruise-num {
+  font-weight: 400;
+  font-stretch: normal;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.tour .eyebrow,
+.explore-link,
+.plate-found,
+.pill,
+.hint,
+.nav-btn,
+.nav-sub,
+.trail-label,
+.cruise-dest,
+.spot-label,
+.spot-card .spot-tag,
+.spot-card a,
+.credits summary,
+.mfile-toggle,
+.mfile-stats dt,
+.mfile-bar,
+.mfile-bar .lbl,
+.mfile-more,
+.mfile-photos .credit,
+.start-btn,
+.ghost-btn {
+  font-family: var(--body);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.tour .eyebrow,
+.plate-found,
+.pill,
+.hint,
+.trail-label,
+.spot-label,
+.spot-card .spot-tag,
+.spot-card a,
+.mfile-stats dt,
+.mfile-bar,
+.mfile-photos .credit,
+.mfile-small,
+.mfile-photos figcaption,
+.mfile-trail figcaption,
+.credits,
+.credits summary,
+.explore-link,
+.mfile-more,
+.nav-sub {
+  font-size: 0.8125rem;
+}
+.tour .eyebrow,
+.trail-label,
+.mfile-stats dt,
+.mfile-bar .lbl {
+  font-weight: 600;
+}
+.mfile-toggle,
+.cruise-dest,
+.nav-btn {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.start-btn,
+.ghost-btn {
+  font-size: 1rem;
+  font-weight: 700;
+}
+.hint {
+  line-height: 1.7;
+}
+.mfile-bar .num,
+.mfile-small .unit {
+  font-family: var(--mono);
+}
+@media (max-width: 640px) {
+  .trail-label {
+    font-size: 0.8125rem;
+  }
+}
+
+/* Inspectable dots: a pointing hand on hover, and with mouse look the crosshair grows into a ring with a hint. */
+.spot {
+  cursor: pointer;
+}
+.spot.aimed .spot-dot {
+  transform: scale(1.4);
+}
+.spot.aimed .spot-label {
+  opacity: 1;
+}
+.spot:hover .spot-ring,
+.spot.aimed .spot-ring {
+  border-width: 3px;
+}
+.tour.looking.aiming::after {
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+  border-color: #5ea6d6;
+  background: rgba(94, 166, 214, 0.16);
+  transition: width 0.12s, height 0.12s, margin 0.12s;
+}
+.tour.looking.aiming::before {
+  content: "Click to inspect";
+  position: absolute;
+  z-index: 70;
+  left: 50%;
+  top: calc(50% + 28px);
+  transform: translateX(-50%);
+  padding: 4px 9px;
+  background: rgba(5, 3, 2, 0.8);
+  color: var(--ink);
+  font: 600 0.8125rem/1.2 var(--font-public), "Public Sans", system-ui, sans-serif;
+  white-space: nowrap;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tour.looking.aiming::after {
+    transition: none;
+  }
+}
+
+/* Mission briefing: a few cards between Start and lift-off. */
+.brief {
+  pointer-events: auto;
+  max-width: min(560px, 100%);
+  margin-top: clamp(24px, 4vh, 40px);
+  padding: 22px 24px 20px;
+  background: rgba(8, 5, 4, 0.82);
+  border: 1px solid rgba(193, 169, 149, 0.35);
+  text-align: left;
+  backdrop-filter: blur(6px);
+}
+.brief h2 {
+  margin: 4px 0 10px;
+  font: 600 clamp(1.5rem, 3.2vw, 2rem)/1.15 var(--font-serif), "Source Serif 4", Georgia, serif;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.brief p {
+  margin: 0;
+  color: var(--ink);
+  font: 400 1.0625rem/1.55 var(--font-public), "Public Sans", system-ui, sans-serif;
+  text-wrap: pretty;
+}
+.brief .brief-step {
+  color: var(--sand);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.brief-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+  margin-top: 20px;
+}
+.brief-actions .start-btn {
+  margin-top: 0;
+  animation: none;
+}
+.brief-skip {
+  padding: 8px 4px;
+  border: 0;
+  background: none;
+  color: var(--sand);
+  font: 600 0.875rem/1 var(--font-public), "Public Sans", system-ui, sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.brief-skip:hover {
+  color: var(--ink);
+}
+
+/* Story chapter before each trip: kicker, title, real footage, why it mattered. */
+.story {
+  position: absolute;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 24px var(--gut-r) 24px var(--gut-l);
+  overflow-y: auto;
+  background: radial-gradient(ellipse at 50% 40%, rgba(8, 5, 4, 0.72), rgba(3, 2, 1, 0.93));
+}
+.story-card {
+  width: min(720px, 100%);
+  text-align: left;
+}
+.story-kicker {
+  margin: 0;
+  color: var(--sand);
+  font: 600 0.9375rem/1.3 var(--font-public), "Public Sans", system-ui, sans-serif;
+}
+.story h2 {
+  margin: 6px 0 16px;
+  font: 600 clamp(1.8rem, 4.4vw, 3rem)/1.08 var(--font-serif), "Source Serif 4", Georgia, serif;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.story-film {
+  margin: 0 0 16px;
+}
+.story-film video {
+  display: block;
+  width: 100%;
+  max-height: 46vh;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border: 1px solid rgba(193, 169, 149, 0.3);
+}
+.story-film figcaption {
+  margin-top: 8px;
+  color: var(--sand);
+  font: 400 0.875rem/1.45 var(--font-public), "Public Sans", system-ui, sans-serif;
+}
+.story-credit {
+  display: block;
+  opacity: 0.8;
+  font-size: 0.8125rem;
+}
+.story-credit a {
+  color: var(--echo);
+}
+.story-text {
+  margin: 0;
+  color: var(--ink);
+  font: 400 clamp(1.05rem, 1.8vw, 1.2rem)/1.6 var(--font-public), "Public Sans", system-ui, sans-serif;
+  text-wrap: pretty;
+}
+.story-actions {
+  margin-top: 22px;
+}
+.story-actions .start-btn {
+  margin-top: 0;
+  animation: none;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font: 600 1rem/1 var(--font-public), "Public Sans", system-ui, sans-serif;
+}
+
+/* Music toggle, next to the atlas link. */
+.music-btn {
+  position: absolute;
+  z-index: 60;
+  top: 16px;
+  right: calc(var(--gut-r) + 230px);
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid rgba(193, 169, 149, 0.4);
+  background: rgba(5, 3, 2, 0.6);
+  color: var(--ink);
+  font: 600 0.875rem/1 var(--font-public), "Public Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+.music-btn[aria-pressed="false"] {
+  color: var(--sand);
+}
+.music-btn:hover {
+  border-color: var(--sand);
+}
+@media (max-width: 600px) {
+  .music-btn {
+    top: auto;
+    bottom: calc(var(--gut-b, 16px) + 150px);
+    right: var(--gut-r);
+  }
+}
+
+/* "Click anywhere to start exploring" at the foot of the intro card. */
+.intro-go {
+  margin: 16px 0 0;
+  color: var(--ink);
+  font: 700 1rem/1.3 var(--font-public), "Public Sans", system-ui, sans-serif;
+  animation: go-pulse 1.8s ease-in-out infinite;
+}
+.intro-go::before {
+  content: "▸ ";
+  color: #5ea6d6;
+}
+@keyframes go-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* Controls strip at the top centre while at a site. */
+.keysbar {
+  position: absolute;
+  z-index: 55;
+  top: 16px;
+  left: 0;
+  right: 0;
+  width: fit-content;
+  max-width: min(760px, calc(100vw - 2 * var(--gut-r) - 520px));
+  margin: 0 auto;
+  pointer-events: none;
+}
+.keysbar p,
+p.keysbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 14px;
+  margin: 0;
+  padding: 8px 14px;
+  background: rgba(5, 3, 2, 0.72);
+  border: 1px solid rgba(193, 169, 149, 0.25);
+  color: var(--sand);
+  font: 500 0.8125rem/1.5 var(--font-public), "Public Sans", system-ui, sans-serif;
+}
+.keysbar b {
+  color: var(--ink);
+}
+.keysbar kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  margin-right: 2px;
+  padding: 0 5px;
+  border: 1px solid rgba(239, 229, 218, 0.4);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  color: var(--ink);
+  font: 600 0.75rem/1.5 var(--font-public), "Public Sans", system-ui, sans-serif;
+  text-align: center;
+}
+.keysbar .esc {
+  color: var(--ink);
+  font-weight: 700;
+}
+.tour.looking .keys-free,
+.tour:not(.looking) .keys-locked {
+  display: none;
+}
+@media (max-width: 1100px) {
+  /* Narrower screens: under the name plate, still at the top. */
+  .keysbar {
+    top: 156px;
+    max-width: calc(100vw - 32px);
+  }
+}
+@media (max-width: 600px) {
+  .keysbar {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-go {
+    animation: none;
+  }
+}
+
+/* Minimap, bottom left: turns with you; glowing dots are spots still to find, arrows on the rim point to far ones. */
+.minimap {
+  position: absolute;
+  z-index: 45;
+  left: var(--gut-l);
+  bottom: calc(var(--gut-b, 16px) + 52px);
+  margin: 0;
+  pointer-events: none;
+}
+.minimap canvas {
+  display: block;
+  width: 168px;
+  height: 168px;
+}
+.minimap figcaption {
+  margin-top: 6px;
+  color: var(--ink);
+  font: 600 0.8125rem/1.2 var(--font-public), "Public Sans", system-ui, sans-serif;
+  text-align: center;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+}
+@media (max-width: 760px) {
+  .minimap {
+    bottom: calc(var(--gut-b, 16px) + 96px);
+  }
+  .minimap canvas {
+    width: 112px;
+    height: 112px;
+  }
+}
+
+/* "Watch what it saw" on a part's card, and the cutscene above everything. */
+.spot-film {
+  display: block;
+  margin: 10px 0 8px;
+  padding: 8px 12px;
+  border: 1px solid #5ea6d6;
+  background: rgba(94, 166, 214, 0.14);
+  color: var(--ink);
+  font: 600 0.875rem/1 var(--font-public), "Public Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+.spot-film:hover {
+  background: rgba(94, 166, 214, 0.28);
+}
+.cutscene {
+  z-index: 95;
+}
+.cutscene .start-btn {
+  margin-top: 6px;
+  animation: none;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font: 600 1rem/1 var(--font-public), "Public Sans", system-ui, sans-serif;
+}
+
+/* A real photo of the part, on its card. */
+.spot-photo {
+  margin: 8px 0 10px;
+}
+.spot-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  object-fit: contain;
+  background: #000;
+}
+.spot-photo figcaption {
+  margin-top: 5px;
+  color: var(--sand);
+  font: 400 0.8125rem/1.4 var(--font-public), "Public Sans", system-ui, sans-serif;
+}
+.spot-photo figcaption span {
+  display: block;
+  opacity: 0.75;
+  font-size: 0.75rem;
+}
+.spot-photo a {
+  color: var(--echo);
+}
+
+/* The invisible fence: a gentle note when you reach it. */
+.edge-hint {
+  position: absolute;
+  z-index: 60;
+  left: 0;
+  right: 0;
+  top: 42%;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 10px 16px;
+  background: rgba(5, 3, 2, 0.8);
+  border: 1px solid rgba(193, 169, 149, 0.4);
+  color: var(--ink);
+  font: 600 1rem/1.3 var(--font-public), "Public Sans", system-ui, sans-serif;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.tour.at-edge .edge-hint {
+  opacity: 1;
+}
+
+/* The dissolve picture sits in the fade layer, scaled exactly like the canvas under it. */
+.fade {
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.story-audio {
+  display: block;
+  margin-top: 2px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.story-audio {
+  display: block;
+  margin-top: 2px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Cards with a photo get tall: keep them on screen and scroll inside. */
+.spot-card {
+  max-height: min(58vh, 520px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Ghost replay: the caption strip and Skip. */
+.replay {
+  position: absolute;
+  z-index: 60;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--gut-b, 16px) + 104px);
+  width: min(760px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 4px 16px;
+  background: rgba(5, 3, 2, 0.78);
+  border: 1px solid rgba(159, 216, 255, 0.35);
+}
+.replay-tag {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #9fd8ff;
+  font: 600 0.8125rem/1.2 var(--font-public), "Public Sans", system-ui, sans-serif;
+}
+.replay-line {
+  margin: 0;
+  min-height: 1.5em;
+  color: var(--ink);
+  font: 400 clamp(1rem, 1.8vw, 1.2rem)/1.45 var(--font-serif), "Source Serif 4", Georgia, serif;
+}
+.replay-skip {
+  padding: 8px 14px;
+  border: 1px solid rgba(193, 169, 149, 0.5);
+  background: none;
+  color: var(--ink);
+  font: 600 0.9375rem/1 var(--font-public), "Public Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+.replay-skip:hover {
+  border-color: var(--ink);
+}
+
+/* How long a caption stays up: a thin bar that fills until the next line. */
+.replay-progress {
+  grid-column: 1;
+  display: block;
+  height: 3px;
+  background: rgba(159, 216, 255, 0.15);
+  overflow: hidden;
+}
+.replay-progress b {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #9fd8ff;
+}
+@keyframes caption-fill {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+/* The "All spots found" note fades after 3.2 s: show that too. */
+.cheer-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--echo);
+  transform-origin: left;
+  animation: cheer-drain 3.2s linear forwards;
+}
+@keyframes cheer-drain {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+.replay-skip {
+  grid-column: 2;
+  grid-row: 2 / span 2;
+}

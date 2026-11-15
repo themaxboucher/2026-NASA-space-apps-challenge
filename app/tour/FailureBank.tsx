@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
+import { animate, AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useId, useRef, useState } from "react";
 import { useStore } from "./lib/store";
 import { tour } from "./state";
@@ -111,12 +111,28 @@ function loadBank() {
   return bank;
 }
 
-// Stops the visitor has explored this page load. ponytail: forgotten on reload; persist to sessionStorage if that matters.
-const visited = new Set<string>();
+// Machines the visitor has met, shared with the atlas: it stores the ids it opens under the same key.
+// Every bank entry is an atlas machine, so its id unlocks it directly (tour stop ids are atlas ids).
+const SEEN_KEY = "gra-explored";
+function readSeen(): string[] {
+  try {
+    const v = JSON.parse(localStorage.getItem(SEEN_KEY) ?? "[]");
+    return Array.isArray(v) ? v : [];
+  } catch {
+    return [];
+  }
+}
+function markSeen(id: string) {
+  try {
+    const seen = readSeen();
+    if (!seen.includes(id)) localStorage.setItem(SEEN_KEY, JSON.stringify([...seen, id]));
+  } catch {}
+}
+// Reaching a tour stop counts as visiting that machine.
 if (typeof window !== "undefined")
   tour.subscribe(() => {
     const s = tour.get();
-    if (s.phase === "explore" && STOPS[s.stop]) visited.add(STOPS[s.stop].id);
+    if (s.phase === "explore" && STOPS[s.stop]) markSeen(STOPS[s.stop].id);
   });
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -124,8 +140,9 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export function FailureBank() {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState<Record<string, Entry[]> | null | undefined>(undefined);
-  useStore(tour, (s) => s.stop); // re-render on each new stop so "You visited" stays current
+  useStore(tour, (s) => `${s.phase}/${s.stop}`); // re-render on each new stop so newly met machines unlock
   const btn = useRef<HTMLButtonElement>(null);
+  const still = useReducedMotion();
   const close = useRef<HTMLButtonElement>(null);
   const panelId = useId();
 
@@ -150,11 +167,20 @@ export function FailureBank() {
   }, [open]);
 
   const total = data ? Object.values(data).reduce((n, l) => n + l.length, 0) : 0;
+  const seen = new Set(data ? readSeen() : []);
+  const found = data ? Object.values(data).reduce((n, l) => n + l.filter((e) => seen.has(e.id)).length, 0) : 0;
+  // A small bounce on the button whenever a new entry unlocks (not on the first count).
+  const lastFound = useRef(-1);
+  useEffect(() => {
+    if (!data) return;
+    if (lastFound.current >= 0 && found > lastFound.current && btn.current && !still) animate(btn.current, { scale: [1, 1.12, 1] }, { duration: 0.6 });
+    lastFound.current = found;
+  }, [data, found, still]);
   return (
     <>
       <button ref={btn} type="button" className="fbank-btn" aria-expanded={open} aria-controls={panelId} onClick={() => setOpen((v) => !v)}>
         <i aria-hidden="true" />
-        What went wrong{total ? ` (${total})` : ""}
+        What went wrong{total ? ` ${found}/${total}` : ""}
       </button>
       <AnimatePresence>
         {open && (
@@ -188,6 +214,14 @@ export function FailureBank() {
             <p className="fbank-lede">
               Space is hard. {total ? `${total} machines` : "Some machines"} in this atlas stopped working before anyone planned. Each failure taught engineers something.
             </p>
+            {total > 0 && (
+              <p className="fbank-progress">
+                <b>
+                  {found} of {total} found.
+                </b>{" "}
+                {found < total ? "Each one unlocks when you visit its machine, here in the tour or in the atlas." : "You found them all!"}
+              </p>
+            )}
             {data === undefined && <p className="fbank-lede">Loading…</p>}
             {data === null && <p className="fbank-lede">Couldn&apos;t load the mission files. Try reloading the page.</p>}
             {data &&
@@ -199,26 +233,33 @@ export function FailureBank() {
                     <h3 id={`${panelId}-${c.key}`}>
                       {c.title}
                       <span className="fbank-count">
-                        {list.length} {list.length === 1 ? "machine" : "machines"}
+                        {list.filter((e) => seen.has(e.id)).length} of {list.length} found
                       </span>
                     </h3>
                     <p className="fbank-why">{c.why}</p>
                     <ul>
-                      {list.map((e) => (
-                        <li key={e.id} className={visited.has(e.id) ? "seen" : undefined}>
+                      {list.map((e) =>
+                        !seen.has(e.id) ? (
+                          <li key={e.id} className="locked">
+                            <span className="fbank-name">
+                              <span aria-hidden="true">???</span>
+                              <span className="sr-only">Locked machine</span>
+                            </span>
+                            <span className="fbank-meta">{e.world} · visit more machines to unlock</span>
+                          </li>
+                        ) : (
+                        <li key={e.id}>
                           {/* A full page load on purpose: the atlas runs its own 3D engine. */}
                           <a href={`/explore#${e.id}`}>
-                            <span className="fbank-name">
-                              {e.name}
-                              {visited.has(e.id) && <span className="fbank-seen">You visited</span>}
-                            </span>
+                            <span className="fbank-name">{e.name}</span>
                             <span className="fbank-meta">
                               {e.world} · last heard {e.year} · {e.label}
                             </span>
                             {e.part && <span className="fbank-part">What gave out: {e.part}</span>}
                           </a>
                         </li>
-                      ))}
+                        ),
+                      )}
                     </ul>
                     <p className="fbank-lesson">
                       <b>Lesson learned</b> {c.lesson}{" "}

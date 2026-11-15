@@ -77,7 +77,7 @@ export default function Atlas() {
               <div className="pins" id="pins"></div>
               {/* SVG has no typed `hidden` prop; the engine toggles the attribute itself. */}
               <svg id="beyond" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet" {...{ hidden: true }}></svg>
-              <p className="hint" id="hint">Drag to spin · scroll to zoom</p>
+              <p className="hint" id="hint">Drag to spin · +/− or Ctrl + scroll to zoom</p>
               <button className="gbtn fsbtn" id="fsBtn" type="button" aria-pressed="false">⛶ Full screen</button>
               <button className="peg" id="peg" type="button" aria-label="Explorer: drag onto a glowing site to walk around it" title="Drag me onto a glowing site">
                 <svg viewBox="-6 -2 52 72" aria-hidden="true"><g className="pm-legL"><rect x="13" y="37" width="7" height="17" rx="3.2" fill="#ebe5dc" stroke="#2a1a12" strokeWidth="1.3"/><rect x="11.8" y="51" width="9.2" height="6.5" rx="2.4" fill="#8f877d" stroke="#2a1a12" strokeWidth="1.3"/></g><g className="pm-legR"><rect x="20" y="37" width="7" height="17" rx="3.2" fill="#ebe5dc" stroke="#2a1a12" strokeWidth="1.3"/><rect x="19" y="51" width="9.2" height="6.5" rx="2.4" fill="#8f877d" stroke="#2a1a12" strokeWidth="1.3"/></g><rect x="9" y="18.5" width="22" height="17" rx="2.5" fill="#b9b0a4" stroke="#2a1a12" strokeWidth="1.3"/><g className="pm-armL"><rect x="4.6" y="21" width="6.4" height="15" rx="3.2" fill="#ebe5dc" stroke="#2a1a12" strokeWidth="1.3"/><circle cx="7.8" cy="37" r="3.1" fill="#8f877d" stroke="#2a1a12" strokeWidth="1.3"/></g><g className="pm-armR"><rect x="29" y="21" width="6.4" height="15" rx="3.2" fill="#ebe5dc" stroke="#2a1a12" strokeWidth="1.3"/><circle cx="32.2" cy="37" r="3.1" fill="#8f877d" stroke="#2a1a12" strokeWidth="1.3"/></g><rect x="11.5" y="19.5" width="17" height="20" rx="4.5" fill="#f4efe8" stroke="#2a1a12" strokeWidth="1.3"/><rect x="16" y="25" width="8" height="5" rx="1.2" fill="#d9814a"/><circle cx="20" cy="11.5" r="10" fill="#f4efe8" stroke="#2a1a12" strokeWidth="1.3"/><rect x="12.6" y="7.2" width="14.8" height="9.4" rx="4.7" fill="#2f2219"/><path d="M15 9.6c1.6-1.2 3.4-1.5 5.2-1.2" stroke="#c9a27e" strokeWidth="1.3" fill="none" strokeLinecap="round"/></svg>
@@ -96,28 +96,30 @@ export default function Atlas() {
                   <div className="gctl">
                     <button className="gbtn" data-k="KeyW" type="button" aria-label="Walk forward">▲</button>
                     <button className="gbtn" data-k="KeyS" type="button" aria-label="Walk back">▼</button>
-                    <button className="gbtn" id="gJump" data-k="Space" type="button" aria-label="Fly up (hold)">Fly up</button>
+                    <button className="gbtn" id="gJump" data-k="Space" type="button" aria-label="Jump (hold to fly up)">Jump</button>
                     <button className="gbtn" id="gDown" data-k="KeyC" type="button" aria-label="Fly down (hold)">Down</button>
                     <button className="gbtn" id="gMode" type="button" aria-pressed="false">Fly over</button>
                     <button className="gbtn primary" id="gPhoto" type="button" aria-pressed="false" hidden>Real photo 360°</button>
                   </div>
                   <p className="gnote" id="gHelp">
-                    Click the view to look around with your mouse · W A S D or arrow keys to walk (Shift runs) · hold Space to fly up, C to go down · double-click the ground to go there
+                    Click the view to look around with your mouse · W A S D or arrow keys to walk (Shift runs) · tap Space to jump, hold it to fly up, C to go down · double-click the ground to go there
                   </p>
                   <p className="gnote credit" id="gCredit"></p>
                 </div>
               </div>
             </section>
             <div className="legend">
-              <span><i style={dot("var(--signal)")}></i>still sending data</span>
-              <span><i style={dot("var(--echo)")}></i>silent, still used</span>
+              <span><i className="alive" style={dot("var(--signal)")}></i>still sending data</span>
+              <span><i className="echo" style={dot("var(--echo)")}></i>silent mirror, still used</span>
               <span><i style={dot("var(--quiet)")}></i>gone quiet</span>
               <span><i className="sq"></i>rover</span>
               <span><i className="ring"></i>impact / crash</span>
               <span><i className="seenmark"></i>you&apos;ve explored it</span>
+              <span><i className="site">3</i>machines at one landing site</span>
             </div>
           </div>
-          <aside className="dossier" id="dossier" aria-live="polite"></aside>
+          <aside className="dossier" id="dossier"></aside>
+          <p className="sr-only" id="announce" aria-live="polite"></p>
         </main>
 
         <section className="time" aria-label="Timeline">
@@ -129,7 +131,10 @@ export default function Atlas() {
           <div className="lives" id="lives"><div className="cursor" id="cursor"></div></div>
           <input type="range" id="year" min="1959" max="2026" step="1" defaultValue="2026" aria-label="Year" />
           <div className="axis" aria-hidden="true">
-            <span>1959</span><span>1970</span><span>1980</span><span>1990</span><span>2000</span><span>2010</span><span>2026</span>
+            {/* Same scale as the bars: 1959 at the left edge, end of 2026 at the right. */}
+            {[1960, 1970, 1980, 1990, 2000, 2010, 2020].map(y => (
+              <span key={y} className={y % 20 ? "odd" : undefined} style={{ left: `${((y - 1959) / 68) * 100}%` }}>{y}</span>
+            ))}
           </div>
         </section>
 

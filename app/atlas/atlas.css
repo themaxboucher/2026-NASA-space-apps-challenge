@@ -5,7 +5,7 @@
   --ink:#efe5da; --dim:#ab9581; --sand:#C1A995; --tan:#BC8D68; --rust:#B16331; --brown:#5C3729; --blue:#387DAA;
   --signal:#d9814a; /* still sending data (rust, lifted for contrast) */
   --echo:#5ea6d6;   /* passive but still used (laser mirrors) */
-  --quiet:#8a6655;  /* silent (deep brown, lifted so dots show on black) */
+  --quiet:#a8937f;  /* silent (sand, light enough to show on the Moon and Mars maps) */
   --display:var(--font-saira),"Saira","Bahnschrift","Segoe UI",sans-serif;
   --body:var(--font-atkinson),"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
   --mono:var(--font-plex-mono),"IBM Plex Mono",ui-monospace,Consolas,monospace;

@@ -115,22 +115,47 @@ export function startAtlas() {
   addEventListener('pointerup', () => { dragging = false; lastInteract = performance.now(); });
   let zoom = 1; // 1 = whole globe fits the narrow side of the stage
   const fitCam = () => { cam.position.z = zoom * 4.2 / Math.min(1, cam.aspect); };
-  cv.addEventListener('wheel', e => { e.preventDefault(); zoom = Math.max(0.4, Math.min(1.5, zoom * (1 + e.deltaY * 0.001))); fitCam(); }, { passive: false });
+  const zoomBy = f => { zoom = Math.max(0.4, Math.min(1.5, zoom * f)); fitCam(); };
+  // Plain wheel scrolls the page; Ctrl/⌘ + wheel (and trackpad pinch, which arrives as ctrl+wheel) zooms.
+  cv.addEventListener('wheel', e => { if (!e.ctrlKey && !e.metaKey) return; e.preventDefault(); zoomBy(1 + e.deltaY * 0.004); }, { passive: false });
+  stage.insertAdjacentHTML('beforeend', '<div class="gzoom" id="gZoom"><button type="button" data-z="0.8" aria-label="Zoom in">+</button><button type="button" data-z="1.25" aria-label="Zoom out">−</button></div>');
+  $('gZoom').onclick = e => { const b = e.target.closest('[data-z]'); if (b) zoomBy(+b.dataset.z); };
 
-  let pins = [];
+  let pins = [], pinMenu = null;
+  const RANK = { alive: 3, echo: 2, silent: 1, future: 0 };
+  // Machines within ~0.05° (one landing site) share one pin; clicking it lists them.
   function buildPins() {
-    const box = $('pins'); box.innerHTML = '';
-    pins = DATA[world].filter(it => Number.isFinite(it.lat) && Number.isFinite(it.lon)).map(it => {
-      const b = document.createElement('button');
-      b.type = 'button'; b.className = 'pin ' + shape(it) + (TERRAIN[it.id] ? ' walk' : '');
-      b.setAttribute('aria-label', it.name);
-      b.innerHTML = `<span class="tip">${esc(it.name)}</span>`;
-      b.onclick = () => select(it.id);
+    const box = $('pins'); box.innerHTML = ''; pinMenu = null;
+    const sites = [];
+    for (const it of DATA[world].filter(it => Number.isFinite(it.lat) && Number.isFinite(it.lon))) {
+      const s = sites.find(s => Math.hypot(s.lat - it.lat, (s.lon - it.lon) * Math.cos(it.lat * D)) < 0.05);
+      if (s) s.items.push(it); else sites.push({ lat: it.lat, lon: it.lon, items: [it] });
+    }
+    pins = sites.map(({ lat, lon, items }) => {
+      const it = items[0], many = items.length > 1, b = document.createElement('button');
+      const name = many ? `${it.mission} site · ${items.length} machines` : it.name;
+      b.type = 'button'; b.className = 'pin ' + (many ? 'site' : shape(it)) + (items.some(x => TERRAIN[x.id]) ? ' walk' : '');
+      b.setAttribute('aria-label', name);
+      b.innerHTML = `<span class="tip">${esc(name)}</span>${many ? `<span class="cnt" aria-hidden="true">${items.length}</span>` : ''}`;
+      b.onclick = e => { e.stopPropagation(); many ? openPinMenu(p) : select(it.id); };
+      if (many) b.setAttribute('aria-haspopup', 'true');
       box.appendChild(b);
-      return { it, el: b, v: ll(it.lat, it.lon, 1.004) };
+      const p = { it, items, el: b, v: ll(lat, lon, 1.004) };
+      return p;
     });
     paint();
   }
+  function closePinMenu() { pinMenu?.el.remove(); pinMenu?.pin.el.setAttribute('aria-expanded', 'false'); pinMenu = null; }
+  function openPinMenu(p) {
+    const again = pinMenu?.pin === p; closePinMenu(); if (again) return;
+    const m = document.createElement('div'); m.className = 'pinmenu'; m.setAttribute('role', 'menu');
+    m.innerHTML = `<p>${esc(p.it.mission)} site</p>` + p.items.map(it => `<button type="button" role="menuitem" data-id="${esc(it.id)}" style="--c:${COLOR[stateAt(it, year)]}"${seen.has(it.id) ? ' class="seen"' : ''}><i></i>${esc(it.name)}</button>`).join('');
+    m.onclick = e => { const b = e.target.closest('[data-id]'); if (b) { closePinMenu(); select(b.dataset.id); } };
+    m.onkeydown = e => { if (e.key === 'Escape') { closePinMenu(); p.el.focus(); } };
+    $('pins').appendChild(m); pinMenu = { el: m, pin: p }; p.el.setAttribute('aria-expanded', 'true');
+    m.querySelector('button').focus({ preventScroll: true });
+  }
+  addEventListener('pointerdown', e => { if (pinMenu && !e.target.closest('.pinmenu,.pin')) closePinMenu(); });
   const tmp = new THREE.Vector3(), toCam = new THREE.Vector3();
   function placePins() {
     const w = stage.clientWidth, h = stage.clientHeight;
@@ -142,6 +167,7 @@ export function startAtlas() {
       p.el.classList.toggle('far', hidden); p.el.tabIndex = hidden ? -1 : 0;
       tmp.project(cam);
       p.el.style.transform = `translate(${(tmp.x + 1) / 2 * w}px,${(1 - tmp.y) / 2 * h}px)`;
+      if (pinMenu?.pin === p) { if (hidden) closePinMenu(); else pinMenu.el.style.transform = p.el.style.transform; }
     }
   }
   function resize() {
@@ -213,7 +239,7 @@ const mv = { r: null, scene: null, cam: null, obj: null, key: null, spin: 0, dra
       mv.r.outputEncoding = THREE.sRGBEncoding; mv.r.setPixelRatio(Math.min(devicePixelRatio, 2));
       mv.scene = new THREE.Scene(); mv.cam = new THREE.PerspectiveCamera(30, 1.6, 0.01, 100);
       mv.zoom = 1; mvCam();
-    mv.r.domElement.addEventListener('wheel', e => { e.preventDefault(); mvZoom(1 + e.deltaY * 0.0015); }, { passive: false });
+    mv.r.domElement.addEventListener('wheel', e => { if (!e.ctrlKey && !e.metaKey) return; e.preventDefault(); mvZoom(1 + e.deltaY * 0.0015); }, { passive: false });
       mv.scene.add(new THREE.HemisphereLight(0xffffff, 0x2a3048, 1.2));
       const d = new THREE.DirectionalLight(0xfff2dc, 1.1); d.position.set(3, 4, 2); mv.scene.add(d);
       const c = mv.r.domElement;
@@ -365,7 +391,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     if (!l) return '';
     const hl = (l.highlights || []).filter(Boolean), ln = (l.links || []).filter(x => httpUrl(x?.url));
     if (!hl.length && !ln.length) return '';
-    return `<h3>More about the mission</h3>${hl.length ? `<ul class="hl">${hl.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}
+    return `${hl.length ? `<ul class="hl">${hl.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}
       ${ln.length ? `<ul class="links">${ln.map(x => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener"><span class="lk">${esc(KIND[x.kind] || 'Link')}</span>${esc(x.title || x.url)} ↗</a></li>`).join('')}</ul>` : ''}`;
   }
   function photoFig(p) {
@@ -410,7 +436,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
   function locatorBlock(it) {
     if (!Number.isFinite(it.lat) || world === 'beyond') return '';
     const views = locView(it, 'close') + locView(it, 'wide');
-    return views ? `<h3>Where it is on ${esc(WORLDS[world].name)}</h3><div class="locs">${views}</div>` : '';
+    return views ? `<div class="locs">${views}</div>` : '';
   }
 
   /* ---------- dossier, timeline, roster ---------- */
@@ -420,48 +446,38 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
   const span = days => days < 1 ? 'Under a day' : days < 60 ? `${Math.round(days)} day${Math.round(days) === 1 ? '' : 's'}` : days < 730 ? `${Math.round(days / 30.44)} months` : `${(days / 365.25).toFixed(days < 7305 ? 1 : 0)} years`;
   const yrs = it => { const a = String(born(it) || '').slice(0, 4), e = activeNow(it) ? 'today' : String(died(it) || '').slice(0, 4); return a ? (e && e !== a ? `${a}–${e}` : a) : ''; };
   const BAD = new Set(['power', 'comms', 'stuck', 'damaged', 'crash-accident', 'lost']);
+  const Y0 = 1959, Y1 = 2027, yPct = y => Math.max(0, Math.min(100, (y - Y0) / (Y1 - Y0) * 100));
   const yearsSince = s => ((NOW - new Date(String(s).slice(0, 10))) / 3.15576e10);
   function dossier(it) {
     const st = stateAt(it, 2026), end = died(it);
-    const rows = [
-      [it.arrived ? 'Arrived' : 'Launched', fmt(born(it))],
-      ['Last heard from', st === 'alive' ? 'Today' : fmt(end)],
-    ];
-    if (end && st !== 'alive') rows.push([st === 'echo' ? 'Working unpowered for' : 'Silent for', `${Math.floor(yearsSince(end))} years`]);
-    if (Number.isFinite(it.lat)) rows.push(['Where', `${Math.abs(it.lat).toFixed(2)}°${it.lat >= 0 ? 'N' : 'S'} ${Math.abs(it.lon).toFixed(2)}°${it.lon >= 0 ? 'E' : 'W'}`]);
-    if (Number.isFinite(it.distance_au)) rows.push(['From the Sun', `${it.distance_au.toFixed(1)} AU`]);
-    if (Number.isFinite(it.lightTime_hours)) rows.push(['Radio hello takes', `${it.lightTime_hours.toFixed(1)} h one way`]);
-    if (Number.isFinite(it.distance_km) && it.distance_km > 0) rows.push(['Drove', `${it.distance_km} km (${(it.distance_km / 42.195).toFixed(2)} marathons)`]);
-    if (Number.isFinite(it.mass_kg)) rows.push(['Mass', `${it.mass_kg.toLocaleString()} kg`]);
     const src = /^https?:\/\//.test(it.source || '') ? `<a class="src" href="${esc(it.source)}" target="_blank" rel="noopener">Source ↗</a>` : '';
     const mk = modelKeyFor(it), m = mk && MODELS[mk];
     const model = m ? `<figure class="model"><div class="mv" id="mv" role="img" aria-label="3D model of ${esc(m.title)}"></div>
     <div class="mvz"><button type="button" data-mvz="0.8" aria-label="Zoom in">+</button><button type="button" data-mvz="1.25" aria-label="Zoom out">−</button></div>
       ${MODEL_NOTE[mk] ? `<figcaption>${esc(MODEL_NOTE[mk])}</figcaption>` : ''}
       ${FAULTS[it.id] ? `<figcaption class="faultnote"><i aria-hidden="true"></i><span><b>Glowing red is what gave out:</b> the ${esc(FAULTS[it.id].note)}</span></figcaption>` : ''}
-      <figcaption>${/^NASA/.test(m.credit || 'NASA') ? 'NASA 3D model' : '3D model'}: ${esc(m.title)}${/^NASA/.test(m.credit || 'NASA') ? '' : ` (${esc(m.credit)}, ${esc(m.license || '')})`} · drag to turn, scroll or +/− to zoom${/^https?:\/\//.test(m.page || '') ? ` · <a href="${esc(m.page)}" target="_blank" rel="noopener" style="color:var(--echo)">model page ↗</a>` : ''}</figcaption></figure>` : '';
+      <figcaption>${/^NASA/.test(m.credit || 'NASA') ? 'NASA 3D model' : '3D model'}: ${esc(m.title)}${/^NASA/.test(m.credit || 'NASA') ? '' : ` (${esc(m.credit)}, ${esc(m.license || '')})`} · drag to turn, +/− or Ctrl + scroll to zoom${/^https?:\/\//.test(m.page || '') ? ` · <a href="${esc(m.page)}" target="_blank" rel="noopener" style="color:var(--echo)">model page ↗</a>` : ''}</figcaption></figure>` : '';
     return `<p class="eyebrow">${esc(it.mission)} · ${esc(it.type)}</p>
       <h2>${esc(it.name)}</h2>
       <span class="pill" style="--c:${COLOR[st]}">${esc(it.status)}</span>
       ${TERRAIN[it.id] ? `<br><button type="button" class="walkbtn" data-walk="${esc(it.id)}">Walk around this site →</button>` : ''}
     ${world === 'beyond' && mk ? `<br><a class="walkbtn" href="/fly#${esc(it.id)}">Fly around it →</a>` : ''}
+      ${glance(it, st, end)}
       ${photoFig(it.photo)}
       ${it.summary ? `<p class="summary">${esc(it.summary)}</p>` : ''}
       ${fateBlock(it.fate)}
       ${salvageBlock(SALV[it.id])}
       ${liveBlock(LIVE[it.id])}${photosBlock(PHOTOS_BY[it.id])}
-      ${locatorBlock(it)}
-      ${it.orbit ? `<h3>Seen from orbit today</h3>${photoFig(it.orbit)}` : ''}
-      ${glance(it, st, end)}
       ${model ? `<h3>Turn it around</h3>${model}` : ''}
-      ${it.story ? `<blockquote class="voice">${esc(it.story)}</blockquote>` : ''}
-      ${it.lastWords && !it.fate ? `<h3>Its last day</h3><p>${esc(it.lastWords)}</p>` : ''}
-      <h3>${esc(missionOf(it.name))}</h3><p>${esc(it.why)}</p>
-      <h3>What it found</h3><p>${esc(it.science)}</p>
       ${it.funFact ? `<p class="fun"><strong>Fun fact</strong>${esc(it.funFact)}</p>` : ''}
-      ${learnMore(LINKS[it.id])}
+      ${fold('In its own words', it.story ? `<blockquote class="voice">${esc(it.story)}</blockquote>` : '')}
+      ${fold(`Where it is${world === 'beyond' ? '' : ' on ' + esc(WORLDS[world].name)}`, locatorBlock(it) + (it.orbit ? `<h4>Seen from orbit today</h4>${photoFig(it.orbit)}` : ''))}
+      ${fold(esc(missionOf(it.name)) + ' and what it found', `<p>${esc(it.why)}</p><p>${esc(it.science)}</p>${it.lastWords && !it.fate ? `<h4>Its last day</h4><p>${esc(it.lastWords)}</p>` : ''}`)}
+      ${fold('More about the mission', learnMore(LINKS[it.id]))}
       ${src}`;
   }
+  // Long sections fold away so the page reads: status, numbers, what happened, then extras on demand.
+  const fold = (title, body) => body && body.replace(/<[^>]*>/g, '').trim() ? `<details class="fold"><summary>${title}</summary>${body}</details>` : '';
   // "At a glance": a few big numbers a kid can compare, instead of a list of fields.
   function glance(it, st, end) {
     const start = born(it); if (!start) return '';
@@ -478,12 +494,12 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     let drove = '';
     if (Number.isFinite(it.distance_km) && it.distance_km > 0) {
       const M = 42.195, km = it.distance_km, full = Math.max(km, M), m = km / M;
-      drove = `<div class="stat wide"><span class="k">Drove</span><span class="v">${km.toLocaleString('en-US')}<small> km</small></span>
+      drove = `<div class="stat wide"><span class="k">${/helicopter/i.test(it.type) ? 'Flew' : 'Drove'}</span><span class="v">${km.toLocaleString('en-US')}<small> km</small></span>
         <div class="meter" role="img" aria-label="${km} km, ${m.toFixed(2)} of a marathon"><b style="width:${(km / full * 100).toFixed(1)}%"></b><i style="left:${(M / full * 100).toFixed(1)}%"></i></div>
         <span class="n">${m >= 1 ? `${m.toFixed(1)} marathons` : `${Math.round(m * 100)}% of a marathon`} · the line marks one marathon (42.2 km)</span></div>`;
     }
     const where = Number.isFinite(it.lat) ? `<p class="where">Where it is: <span class="coord">${Math.abs(it.lat).toFixed(2)}°${it.lat >= 0 ? 'N' : 'S'} ${Math.abs(it.lon).toFixed(2)}°${it.lon >= 0 ? 'E' : 'W'}</span></p>` : '';
-    return `<h3>At a glance</h3><div class="glance">${t.join('')}${drove}</div>${where}`;
+    return `<div class="glance" aria-label="At a glance" role="group">${t.join('')}${drove}</div>${where}`;
   }
   function intro() {
     const list = DATA[world], alive = list.filter(it => stateAt(it, 2026) === 'alive').length;
@@ -494,9 +510,11 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
   }
   function paint() {
     for (const p of pins) {
-      p.state = stateAt(p.it, year);
+      // A site shows its liveliest machine; the pin's shape repeats the state so it isn't colour alone.
+      p.state = p.items.map(it => stateAt(it, year)).sort((a, b) => RANK[b] - RANK[a])[0];
       p.el.style.setProperty('--c', COLOR[p.state]);
-      p.el.classList.toggle('sel', p.it.id === selected);
+      p.el.classList.remove('alive', 'echo', 'silent'); p.el.classList.add(p.state);
+      p.el.classList.toggle('sel', p.items.some(it => it.id === selected));
     }
     if (world === 'beyond') DATA.beyond.forEach(it => {
       const el = $('beyond').querySelector(`[data-id="${CSS.escape(it.id)}"]`); if (!el) return;
@@ -514,7 +532,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
       b.style.setProperty('--c', COLOR[stateAt(byId(b.dataset.id), year)]);
       b.setAttribute('aria-pressed', b.dataset.id === selected);
     });
-    pins.forEach(p => p.el.classList.toggle('seen', seen.has(p.it.id)));
+    pins.forEach(p => p.el.classList.toggle('seen', p.items.every(it => seen.has(it.id))));
     $('beyond').querySelectorAll('.craft').forEach(g => g.classList.toggle('seen', seen.has(g.dataset.id)));
     document.querySelectorAll('#list button').forEach(b => b.classList.toggle('seen', seen.has(b.dataset.id)));
     showExplored();
@@ -524,7 +542,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     $('yearNote').textContent = here.length
       ? `In ${year}: ${here.length} machine${here.length === 1 ? '' : 's'} had reached ${WORLDS[world].name}, ${talking} still talking.`
       : `In ${year}: nothing from NASA had reached ${WORLDS[world].name} yet.`;
-    $('cursor').style.left = `calc(var(--lw) + (100% - var(--lw)) * ${((year - 1959) / (2026 - 1959)).toFixed(4)} - 1px)`;
+    $('cursor').style.left = `calc(var(--lw) + (100% - var(--lw)) * ${(yPct(year + 0.5) / 100).toFixed(4)} - 1px)`;
   }
   const byId = id => DATA[world].find(it => it.id === id);
   // "You've explored 12 of 79": one bar for everything, and a count per world.
@@ -544,7 +562,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     const box = $('lives'); box.querySelectorAll('.life').forEach(n => n.remove());
     let tip = box.querySelector('.lifetip');
     if (!tip) { tip = document.createElement('span'); tip.className = 'lifetip'; tip.hidden = true; tip.setAttribute('aria-hidden', 'true'); box.appendChild(tip); }
-    const pct = d => ((yr(d) - 1959 + (+String(d).slice(5, 7) || 6) / 12) / (2026 - 1959 + 1) * 100);
+    const pct = d => yPct(yr(d) + ((+String(d).slice(5, 7) || 7) - 1) / 12);
     [...DATA[world]].filter(born).sort((a, b) => String(born(a)).localeCompare(String(born(b)))).forEach(it => {
       const row = document.createElement('div'); row.className = 'life';
       const a = pct(born(it)), e = activeNow(it) || /reflector/i.test(it.type) ? 100 : died(it) ? pct(died(it)) : a;
@@ -589,6 +607,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     if (it && !seen.has(id)) { seen.add(id); saveSeen(); }
     stopLive();
     $('dossier').innerHTML = it ? dossier(it) : intro();
+    $('announce').textContent = it ? `Opened ${it.name}` : `Showing ${WORLDS[world].name}`;
     stopLive = it && LIVE[it.id] ? startLive($('dossier'), LIVE[it.id]) || (() => {}) : () => {};
     $('dossier').scrollTop = 0;
     $('dossier').querySelector('[data-walk]')?.addEventListener('click', e => openGround(e.currentTarget.dataset.walk));
@@ -604,8 +623,8 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     world = w;
     document.querySelectorAll('.worlds button').forEach(b => b.setAttribute('aria-selected', b.dataset.world === w));
     const deep = w === 'beyond';
-    cv.hidden = deep; $('pins').hidden = deep; $('beyond').toggleAttribute('hidden', !deep); // SVG has no .hidden property
-    $('hint').textContent = deep ? 'Directions and distances are approximate' : 'Drag to spin · scroll to zoom';
+    cv.hidden = deep; $('pins').hidden = deep; $('gZoom').hidden = deep; $('beyond').toggleAttribute('hidden', !deep); // SVG has no .hidden property
+    $('hint').textContent = deep ? 'Directions and distances are approximate' : 'Drag to spin · +/− or Ctrl + scroll to zoom';
     buildTimeline();
     if (deep) { pins = []; drawBeyond(); } else { setTexture(w); buildPins(); }
     syncGeo();
@@ -890,7 +909,7 @@ function resizeGround() {
         H[r * n + c] = tgt + (H[r * n + c] - tgt) * t; } }
       G.edgeY = edgeY;
     }
-    Object.assign(G, { region, R: 0, surroundY: 0, surroundHalf: 0, meta, h: H, n, ext: (meta.extent_m || [1000, 1000]).map(Number), exag: 1, fly: false, goal: null, jump: 0, vy: 0, extras: [] });
+    Object.assign(G, { region, R: 0, surroundY: 0, surroundHalf: 0, meta, h: H, n, ext: (meta.extent_m || [1000, 1000]).map(Number), exag: 1, fly: false, goal: null, jump: 0, vy: 0, hop: false, extras: [] });
       if (!G.r) {
         G.r = new THREE.WebGLRenderer({ canvas: $('groundCv'), antialias: true, logarithmicDepthBuffer: true });
         G.r.outputEncoding = THREE.sRGBEncoding; G.r.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -963,7 +982,7 @@ function togglePhoto(on = !G.photo) {
   const geo = new THREE.SphereGeometry(40, 96, 48, (az0 - 90) * D, hf * D, (90 - top) * D, (top - bot) * D);
   G.pano = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide, depthTest: false, depthWrite: false, fog: false }));
   G.pano.scale.x = -1; G.pano.renderOrder = 20; G.scene.add(G.pano);
-  G.x = G.target[0]; G.z = G.target[1]; G.goal = null; G.jump = 0; G.vy = 0; G.pitch = 0; G.yaw = -((az0 + hf / 2) * D);
+  G.x = G.target[0]; G.z = G.target[1]; G.goal = null; G.jump = 0; G.vy = 0; G.hop = false; G.pitch = 0; G.yaw = -((az0 + hf / 2) * D);
   $('gHelp').innerHTML = `${esc(pano.caption || 'Real photo taken here')}${pano.taken ? ' · ' + esc(pano.taken) : ''} · <span class="credit">${esc(pano.credit || '')}${pano.license ? ' · ' + link(pano.licenseUrl, esc(pano.license)) : ''}${httpUrl(pano.source) ? ' · ' + link(pano.source, 'source ↗') : ''}${Number.isFinite(+pano.left_azimuth_deg) && pano.left_azimuth_deg !== null ? '' : ' · compass direction approximate'}</span>`;
 }
 function closeGroundScene() {
@@ -998,14 +1017,14 @@ function closeGroundScene() {
   // Free-look fallback where the browser refuses pointer lock (embedded previews): the view follows the mouse, no button held.
   function setLook(on) {
     G.look = !!on && !G.fly; c.style.cursor = G.look ? 'crosshair' : '';
-    if (!G.photo) $('gHelp').textContent = G.look ? 'Mouse to look (move to an edge to keep turning) · W A S D or arrows to walk · hold Space to fly up, C to go down · click or Esc to stop looking' : G.helpText;
+    if (!G.photo) $('gHelp').textContent = G.look ? 'Mouse to look (move to an edge to keep turning) · W A S D or arrows to walk · tap Space to jump, hold it to fly up, C to go down · click or Esc to stop looking' : G.helpText;
   }
   c.addEventListener('mouseleave', () => { G.mx = 0.5; });
   document.addEventListener('pointerlockchange', () => {
     const locked = document.pointerLockElement === c;
     if (!locked) G.unlockedAt = performance.now();
     c.style.cursor = locked ? 'none' : '';
-    if (!G.photo) $('gHelp').textContent = locked ? 'Mouse to look · W A S D or arrows to walk (Shift runs) · hold Space to fly up, C to go down · Esc to free the mouse' : G.helpText;
+    if (!G.photo) $('gHelp').textContent = locked ? 'Mouse to look · W A S D or arrows to walk (Shift runs) · tap Space to jump, hold it to fly up, C to go down · Esc to free the mouse' : G.helpText;
   });
     c.addEventListener('pointermove', e => {
       if (!G.drag) return;
@@ -1041,7 +1060,6 @@ function closeGroundScene() {
       $('gPhoto').onclick = () => togglePhoto();
     $('gMode').onclick = () => { G.fly = !G.fly; if (G.fly && document.pointerLockElement) document.exitPointerLock(); if (G.fly) { G.look = false; $('groundCv').style.cursor = ''; } $('gMode').setAttribute('aria-pressed', G.fly); $('gMode').textContent = G.fly ? 'Walk' : 'Fly over'; $('gJump').hidden = G.fly; $('gDown').hidden = G.fly; if (!G.fly) { G.x = G.target[0]; G.z = G.target[1] + 25; G.yaw = 0; } };
   }
-  function doJump() { if (!G.fly && G.jump <= 0) G.vy = 2.6; } // a hard astronaut hop is ~2.6 m/s
 
   function stepGround(t) {
     const dt = Math.min(0.05, (t - (G.last || t)) / 1000); G.last = t;
@@ -1054,10 +1072,14 @@ function closeGroundScene() {
     } else {
       const k = G.keys, run = k.ShiftLeft || k.ShiftRight ? 25 : 5, fwd = (k.KeyW || k.ArrowUp ? 1 : 0) - (k.KeyS || k.ArrowDown ? 1 : 0);
       const strafe = (k.KeyD ? 1 : 0) - (k.KeyA ? 1 : 0), turn = (k.ArrowLeft ? 1 : 0) - (k.ArrowRight ? 1 : 0);
-    const lift = (k.Space ? 1 : 0) - (k.KeyC || k.KeyQ ? 1 : 0);
+    // Tap Space to hop (real gravity for this world); keep holding past 0.3 s to fly up instead.
+    if (k.Space && !G.spaceWas && G.jump <= 0 && !G.photo) { G.vy = 2.6; G.hop = true; } // a hard astronaut hop is ~2.6 m/s
+    G.spaceWas = !!k.Space; G.spaceT = k.Space ? (G.spaceT || 0) + dt : 0;
+    const lift = (G.spaceT > 0.3 ? 1 : 0) - (k.KeyC || k.KeyQ ? 1 : 0);
+    if (lift) { G.hop = false; G.vy = 0; }
     // Flying speeds up the longer a movement key is held (about 2x after 1 s, 6x after 2 s, capped at 25x); walking stays at walking pace.
     G.hold = fwd || strafe || lift ? (G.hold || 0) + dt : 0;
-    const boost = G.jump > 0.5 || lift ? Math.min(25, 1 + 1.2 * G.hold * G.hold) : 1, spd = run * boost;
+    const boost = (G.jump > 0.5 && !G.hop) || lift ? Math.min(25, 1 + 1.2 * G.hold * G.hold) : 1, spd = run * boost;
       G.yaw += turn * 1.6 * dt;
     if (G.look && G.mx != null) { if (G.mx < 0.07) G.yaw += 1.4 * dt; else if (G.mx > 0.93) G.yaw -= 1.4 * dt; }
       const sy = Math.sin(G.yaw), cy = Math.cos(G.yaw);
@@ -1072,6 +1094,7 @@ function closeGroundScene() {
       G.x = Math.max(-half[0], Math.min(half[0], G.x + mx)); G.z = Math.max(-half[1], Math.min(half[1], G.z + mz));
       // Creative-mode flight: hold Space to rise, C or Q to sink, hover in between; touching the ground lands you.
     if (lift) G.jump = Math.max(0, Math.min(flyMax(), G.jump + lift * (k.ShiftLeft || k.ShiftRight ? 60 : 12) * boost * dt));
+    if (G.hop) { G.jump += G.vy * dt; G.vy -= Math.max(GRAVITY[world] || 1.62, 0.4) * dt; if (G.jump <= 0) { G.jump = 0; G.vy = 0; G.hop = false; } } // ponytail: floor of 0.4 m/s² so asteroid hops come back down
       if (G.photo) { G.x = G.target[0]; G.z = G.target[1]; G.goal = null; }
     G.cam.position.set(G.x, hAt(G.x, G.z) + EYE + G.jump, G.z);
     if (G.rocks && (!G.rockAt || Math.hypot(G.x - G.rockAt[0], G.z - G.rockAt[1]) > 20)) scatterRocks(G.x, G.z);
@@ -1086,7 +1109,7 @@ function closeGroundScene() {
   // The draggable explorer: drop it near a glowing pin (globe) or craft (deep space).
   const peg = $('peg');
   function nearestWalkable(cx, cy) {
-    const els = world === 'beyond' ? [...$('beyond').querySelectorAll('.craft.walk')] : pins.filter(p => TERRAIN[p.it.id] && !p.el.classList.contains('far')).map(p => p.el);
+    const els = world === 'beyond' ? [...$('beyond').querySelectorAll('.craft.walk')] : pins.filter(p => p.items.some(x => TERRAIN[x.id]) && !p.el.classList.contains('far')).map(p => p.el);
     let best = null, bd = 70;
     for (const el of els) {
       const r = (el.querySelector?.('circle') || el).getBoundingClientRect(), d = Math.hypot(r.left + r.width / 2 - cx, r.top + r.height / 2 - cy);
@@ -1132,7 +1155,7 @@ const kickSway = () => { if (!sway.raf && !reduceMotion) sway.raf = requestAnima
     if (!pegDrag) return;
     const moved = pegDrag.moved, hit = pegHit; pegDrag = null; pegHit = null;
     peg.style.transform = ''; peg.classList.remove('dragging'); stage.classList.remove('pegging'); hit?.classList.remove('droptarget');
-    const id = hit && (hit.dataset.id || pins.find(p => p.el === hit)?.it.id);
+    const id = hit && (hit.dataset.id || pins.find(p => p.el === hit)?.items.find(x => TERRAIN[x.id])?.id);
     if (id) { select(id); openGround(id); return; }
     const n = (world === 'beyond' ? DATA.beyond : DATA[world]).filter(it => TERRAIN[it.id]).length;
     $('hint').textContent = n ? (moved ? 'Drop the explorer right on a glowing site' : 'Drag the explorer onto a glowing site') : 'Ground views for this world are still loading';

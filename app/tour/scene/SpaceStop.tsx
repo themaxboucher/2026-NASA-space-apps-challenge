@@ -8,6 +8,7 @@ import { STOPS } from "../stops";
 import { makeEnvironment } from "./environment";
 import { HotspotTracker } from "./Hotspots";
 import { GltfMachine, type Anchors } from "./Machine";
+import { SiteReplay } from "./replays";
 import { BODY_RADIUS, Planet, Stars, SunGlow } from "./Space";
 import { Walker } from "./Walker";
 
@@ -60,6 +61,7 @@ export function SpaceScene({ index }: { index: number }) {
       <Suspense fallback={null}>
         <GltfMachine stop={stop} onAnchors={onAnchors} />
       </Suspense>
+      <SiteReplay stop={stop} />
       <HotspotTracker stop={stop} anchors={anchors} />
       <Walker stop={stop} mode="float" center={[0, 0, 0]} />
     </>

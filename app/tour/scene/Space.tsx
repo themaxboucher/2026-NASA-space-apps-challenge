@@ -231,7 +231,7 @@ function Haze({ radius, color, sun }: { radius: number; color: string; sun: THRE
 // Moon: NASA SVS CGI Moon Kit (LRO LROC WAC colour + LOLA elevation), public domain, https://svs.gsfc.nasa.gov/4720
 // Mars: USGS Astrogeology Viking MDIM 2.1 colour mosaic + MGS MOLA MEGDR 16 px/deg elevation, public domain.
 // The normal maps are derived from the elevation (relief exaggerated about 4x on the Moon, 2.5x on Mars).
-const NORMAL: Partial<Record<BodyKey, string>> = { moon: "/tex/moon-normal.jpg", mars: "/tex/mars-normal.jpg" };
+export const NORMAL: Partial<Record<BodyKey, string>> = { moon: "/tex/moon-normal.jpg", mars: "/tex/mars-normal.jpg" };
 
 function TexturedGlobe({ url, normalUrl, radius }: { url: string; normalUrl: string; radius: number }) {
   const [tex, normal] = useTexture([url, normalUrl]);

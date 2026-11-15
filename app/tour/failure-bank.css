@@ -129,10 +129,6 @@
   border-color: var(--sand);
   background: rgba(193, 169, 149, 0.1);
 }
-.fbank-group li.seen a {
-  border-color: rgba(94, 166, 214, 0.6);
-  background: rgba(94, 166, 214, 0.1);
-}
 .fbank-name {
   display: flex;
   flex-wrap: wrap;
@@ -140,14 +136,6 @@
   gap: 4px 8px;
   font-weight: 700;
   font-size: 0.95rem;
-}
-.fbank-seen {
-  padding: 2px 6px;
-  border: 1px solid var(--echo);
-  color: var(--echo);
-  font: 500 0.625rem/1.2 var(--mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 .fbank-meta {
   color: var(--sand);
@@ -202,4 +190,64 @@
     top: calc(max(16px, env(safe-area-inset-top, 0px)) + 112px);
     bottom: calc(var(--gut-b) + 84px);
   }
+}
+
+/* Entries unlock as you visit their machines; the rest wait as quiet placeholders. */
+.fbank-progress {
+  margin: 0 0 4px;
+  color: var(--sand);
+  font-size: 0.875rem;
+}
+.fbank-progress b {
+  color: var(--ink);
+}
+.fbank-group li.locked {
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 1px dashed var(--line);
+  color: var(--dim);
+}
+.fbank-group li.locked .fbank-name {
+  color: var(--dim);
+  letter-spacing: 0.2em;
+}
+.fbank-group li.locked .fbank-meta {
+  color: var(--dim);
+}
+.fbank .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+/* Same type voice as the rest of the tour: sentence case, 13 px or more, no wide tracking. */
+.fbank-btn,
+.fbank-count,
+.fbank-part,
+.fbank-lesson b,
+.fbank-lesson a {
+  font-family: var(--body);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.fbank-btn {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.fbank-count,
+.fbank-part,
+.fbank-lesson a {
+  font-size: 0.8125rem;
+}
+.fbank-lesson b {
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+.fbank h2,
+.fbank-group h3 {
+  font-stretch: normal;
+  font-weight: 600;
 }

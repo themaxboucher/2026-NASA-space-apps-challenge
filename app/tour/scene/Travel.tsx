@@ -5,7 +5,8 @@ import { Suspense, useEffect, useLayoutEffect } from "react";
 import * as THREE from "three";
 import { TRAVEL_SUN } from "../plans";
 import { tour, type SceneDesc } from "../state";
-import { Planet, Stars, Streaks, SunGlow } from "./Space";
+import { BODY_RADIUS, NORMAL, Planet, Stars, Streaks, SunGlow, TEXTURE } from "./Space";
+import { LitGlobe } from "./LitGlobe";
 
 // Mounts once Earth's texture has loaded, which is when the start screen is ready to go.
 function Ready() {
@@ -41,7 +42,11 @@ export function TravelScene({ desc }: { desc: Extract<SceneDesc, { kind: "travel
         // Keyed by body, so Earth stays mounted when the start screen turns into the trip to the Moon.
         <group key={b.key} position={b.pos} rotation={[0, b.rotY, 0]}>
           <Suspense fallback={null}>
-            <Planet kind={b.key} sun={TRAVEL_SUN} spin={b.spin} />
+            {b.lit ? (
+              <LitGlobe url={TEXTURE[b.key]!} normalUrl={NORMAL[b.key]!} radius={BODY_RADIUS[b.key]} sun={new THREE.Vector3(...b.lit)} />
+            ) : (
+              <Planet kind={b.key} sun={TRAVEL_SUN} spin={b.spin} />
+            )}
             {b.key === "earth" && <Ready />}
           </Suspense>
         </group>

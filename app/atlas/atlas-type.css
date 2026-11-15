@@ -119,3 +119,47 @@ h1{font-weight:600;letter-spacing:-.025em;font-size:clamp(2.6rem,7vw,5.2rem)}
 #year,.axis{margin-left:var(--lw);width:calc(100% - var(--lw))}
 @media (max-width:600px){.time{--lw:112px}.lname{font-size:.75rem}}
 .lives .cursor{top:0;bottom:0}
+
+/* Status is shape + colour, not colour alone: still sending = halo, silent mirror = hollow centre, gone quiet = plain dot. */
+.pin.alive{box-shadow:0 0 0 2px var(--void),0 0 0 4px var(--c)}
+.pin.echo:not(.impact){background:radial-gradient(circle,var(--void) 0 2.5px,var(--c) 3px)}
+.pin.seen:not(.sel){box-shadow:none;outline:2px solid var(--ink);outline-offset:1px}
+.pin.seen.alive:not(.sel){box-shadow:0 0 0 4px var(--void),0 0 0 6px var(--c)}
+.legend i.alive{box-shadow:0 0 0 2px var(--void),0 0 0 3.5px var(--c)}
+.legend i.echo{background:radial-gradient(circle,var(--void) 0 2px,var(--c) 2.5px)}
+.legend i.site{width:auto;height:auto;padding:0 5px;border-radius:9px;background:var(--dim);color:var(--void);font:700 .6875rem/1.35 var(--body);font-style:normal}
+
+/* One pin per landing site, with a count; clicking lists the machines there. */
+.pin.site{width:18px;height:18px;margin:-9px 0 0 -9px}
+.pin .cnt{position:absolute;left:calc(100% - 4px);top:-9px;min-width:16px;padding:0 4px;border-radius:8px;background:var(--ink);color:var(--void);font:700 .6875rem/16px var(--body);text-align:center;pointer-events:none}
+.pinmenu{position:absolute;left:0;top:0;z-index:5;margin:14px 0 0 -14px;min-width:220px;max-width:280px;padding:6px;background:var(--void);border:1px solid var(--line2);box-shadow:0 8px 24px rgba(0,0,0,.6)}
+.pinmenu p{margin:2px 6px 6px;font-size:.8125rem;font-weight:600;color:var(--dim)}
+.pinmenu button{display:flex;align-items:center;gap:8px;width:100%;min-height:36px;padding:6px 8px;border:0;background:none;color:var(--ink);font:500 .9375rem/1.25 var(--body);text-align:left;cursor:pointer}
+.pinmenu button:hover,.pinmenu button:focus-visible{background:var(--raise);outline:none;box-shadow:inset 2px 0 0 var(--signal)}
+.pinmenu i{flex:none;width:10px;height:10px;border-radius:50%;background:var(--c)}
+.pinmenu .seen i{box-shadow:0 0 0 2px var(--ink)}
+
+/* Globe: the page scrolls past it; zoom is the +/− buttons or Ctrl + wheel. */
+#globe{touch-action:pan-y}
+.mv{touch-action:pan-y}
+.gzoom{position:absolute;right:8px;top:44px;z-index:4;display:grid;gap:4px}
+.gzoom button{width:36px;height:36px;padding:0;border:1px solid var(--line2);background:rgba(9,4,3,.75);color:var(--ink);font:500 1.15rem var(--body);cursor:pointer}
+.gzoom button:hover,.gzoom button:focus-visible{border-color:var(--sand)}
+@media (pointer:coarse){.gzoom button,.mvz button{width:44px;height:44px}}
+
+/* Timeline axis on the same year scale as the bars. */
+.axis{position:relative;display:block;height:1.5em}
+.axis span{position:absolute;top:0;transform:translateX(-50%)}
+@media (max-width:600px){.axis .odd{display:none}}
+.pin.sel.alive,.pin.sel.echo,.pin.sel{box-shadow:0 0 0 3px var(--void),0 0 0 5px var(--c)}
+
+/* Folded extras on the machine page */
+.fold{margin-top:14px;border-top:1px solid var(--line)}
+.fold>summary{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0 12px;cursor:pointer;list-style:none;font:600 1.15rem/1.25 var(--display);color:var(--ink)}
+.fold>summary::-webkit-details-marker{display:none}
+.fold>summary::after{content:"+";font:400 1.4rem/1 var(--body);color:var(--signal)}
+.fold[open]>summary::after{content:"−"}
+.fold>summary:hover{color:var(--sand)}
+.fold>summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.fold h4{margin:1em 0 .4em;font-size:1rem;font-weight:700}
+.glance{margin-top:18px}

@@ -39,6 +39,8 @@ export type ModelSpec =
       rotationY?: number;
       // Hide parts whose top is above this height in model units (used to remove Eagle's departed top half).
       hideAbove?: number;
+      // Resize named parts (mesh or material name) in their own space, e.g. Ingenuity's snapped blades.
+      partScale?: [string, Vec3][];
       // Where the model's origin goes: "ground" stands it on y = 0, "center" centers it (for spacecraft).
       origin: "ground" | "center";
       // Optional names of parts that define the center (spacecraft have very long booms).
@@ -59,6 +61,10 @@ export type Setting = {
   flatRadius?: number;
 };
 
+export type Mark = { kind: "boots" | "tracks"; path: [number, number][]; gauge?: number; width?: number };
+
+export type Ladder = { from: Vec3; to: Vec3; out: Vec3 };
+
 export type Stop = {
   id: string; // matches the atlas data id, so /explore#<id> opens the same machine
   chapter: "Moon" | "Mars" | "Deep space";
@@ -68,6 +74,8 @@ export type Stop = {
   when: string;
   status: string;
   intro: string;
+  // The chapter of the story told before flying here: why this machine mattered.
+  story?: { kicker: string; title: string; text: string };
   site?: { lat: number; lon: number };
   // How far this place is from Earth, for the travel counter.
   distanceKm: number;
@@ -77,6 +85,10 @@ export type Stop = {
   // Where you appear, and what you face, when you arrive.
   spawn: { pos: Vec3; look: Vec3 };
   colliders: { pos: Vec3; r: number }[];
+  // A ladder you can climb with W/S: bottom and top rungs, and which way is out (where you stand).
+  ladder?: Ladder;
+  // Where you stand to watch the replay of what happened here (scene/Ghost.tsx).
+  replayView?: { pos: Vec3; look: Vec3 };
   bounds: number;
   hotspots: Hotspot[];
   credit: string;
@@ -85,9 +97,14 @@ export type Stop = {
     stats: { label: string; value: string }[];
     // Planned versus actual, drawn as a bar (log scale when it lasted far longer than planned).
     plan?: { label: string; planned: number; actual: number; unit: string; note: string };
+    // Overrides the atlas record when it has no fate (deep space) or its fun fact repeats a hotspot.
+    fate?: { category: string; label: string };
+    fun?: string;
   };
   // Extra objects placed in the scene, like Falcon next to the Apollo 15 rover.
-  extras?: { kind: "lm-descent" | "blade-piece"; pos: Vec3; rotationY: number }[];
+  extras?: { kind: "lm-descent" | "blade-piece" | "flag"; pos: Vec3; rotationY: number }[];
+  // Boot prints and wheel tracks on the ground (x, z paths in metres around the machine).
+  marks?: Mark[];
 };
 
 const LIGHT_KM_PER_HOUR = 299_792.458 * 3600;
@@ -116,6 +133,11 @@ const SRC = {
 export const STOPS: Stop[] = [
   {
     id: "apollo11-lm",
+    story: {
+      kicker: "Chapter 1 · Apollo 11 · The Moon · 20 July 1969",
+      title: "One giant leap for mankind",
+      text: "Neil Armstrong and Buzz Aldrin landed in the Sea of Tranquility while about 600 million people watched on TV. Stepping onto the dust, Armstrong said: “That’s one small step for man, one giant leap for mankind.” For the first time, people had travelled to another world and come home safely. They flew back in the top half of their lander. The bottom half is still standing there.",
+    },
     chapter: "Moon",
     body: "moon",
     name: "Eagle",
@@ -131,7 +153,16 @@ export const STOPS: Stop[] = [
     setting: { kind: "moon", terrain: "mare", sun: { az: 95, el: 16 }, earth: { az: 268, el: 66.5 }, flatRadius: 7 },
     spawn: { pos: [3.2, 0, 11.5], look: [0, 1.6, 0] },
     colliders: [{ pos: [0, 0, 0], r: 3 }],
-    bounds: 55,
+    ladder: { from: [0, 0.35, 4.05], to: [0, 2.85, 2.55], out: [0, 0, 1] },
+    replayView: { pos: [8.5, 0, 15.5], look: [-1.4, 2.2, 4.5] },
+    extras: [{ kind: "flag", pos: [-3.4, 0, 8.4], rotationY: 0.6 }],
+    marks: [
+      { kind: "boots", path: [[0, 4.7], [-1.1, 6], [-1.6, 7.1], [-0.6, 7.3], [0.3, 5]] },
+      { kind: "boots", path: [[0.5, 4.8], [3, 7.2], [6, 10], [9, 12.8], [11.5, 15], [9.5, 15.8], [6.5, 12.6], [3.2, 9.3], [0.9, 5.4]] },
+      { kind: "boots", path: [[-0.6, 4.8], [-4, 3.6], [-4.8, 0.6], [-4, -3], [-0.4, -4.6], [3.6, -3.4], [4.6, 0.4], [3.4, 3.6], [1, 4.9]] },
+      { kind: "boots", path: [[1.2, 5], [-0.4, 10.4], [-0.4, 14.5], [2.4, 13.8], [1.6, 8.6]] },
+    ],
+    bounds: 32,
     credit: "Apollo Lunar Module model: NASA/Michael D. Carbajal (NASA 3D Resources)",
     info: {
       stats: [
@@ -140,6 +171,7 @@ export const STOPS: Stop[] = [
         { label: "Moonwalk", value: "2 h 31 min" },
         { label: "Rocks brought home", value: "21.5 kg" },
       ],
+      fun: "The computer that helped land Eagle had about 4 kilobytes of working memory. A single photo on a phone today takes up about a thousand times more.",
     },
     hotspots: [
       {
@@ -149,6 +181,22 @@ export const STOPS: Stop[] = [
         source: SRC.apollo11,
         anchor: { pos: [0, 0.4, 4.3] },
         face: [0, 0, 1],
+      },
+      {
+        id: "bootprint",
+        title: "Bootprints",
+        text: "There is no wind or rain on the Moon, so these bootprints could last for millions of years. The dust is so fine and sharp that it holds the shape of every ridge on the sole. Buzz Aldrin photographed one of his own prints to study how the soil behaved.",
+        source: SRC.apollo11,
+        anchor: { pos: [2.95, 0.12, 7.2], ground: true },
+        face: null,
+      },
+      {
+        id: "flag",
+        title: "The flag",
+        text: "Armstrong and Aldrin planted a US flag a few steps from Eagle. When they blasted off, Aldrin saw the engine’s blast knock it over, so it most likely lies in the dust. More than 50 years of strong sunlight have probably faded its colours a lot.",
+        source: SRC.apollo11,
+        anchor: { pos: [-2.7, 0.15, 9.1], ground: true },
+        face: null,
       },
       {
         id: "plaque",
@@ -178,6 +226,11 @@ export const STOPS: Stop[] = [
   },
   {
     id: "apollo15-lrv",
+    story: {
+      kicker: "Chapter 1 · Apollo 15 · The Moon · July 1971",
+      title: "Man must explore",
+      text: "Stepping onto the Moon, Dave Scott said: “Man must explore. And this is exploration at its greatest.” This time the astronauts brought a car. The Lunar Roving Vehicle carried Scott and Jim Irwin almost 28 km, to mountains and a deep canyon no walker could reach. When they flew home, the car stayed behind, parked where its camera filmed them leaving.",
+    },
     chapter: "Moon",
     body: "moon",
     name: "Lunar Roving Vehicle",
@@ -197,6 +250,7 @@ export const STOPS: Stop[] = [
       { pos: [0, 0, 0], r: 1.6 },
       { pos: [-129, 0, -20], r: 3 },
     ],
+    replayView: { pos: [9, 0, -4.5], look: [0, 1, 0] },
     bounds: 160,
     credit: "Rover modelled in Blender by the team from Apollo 15/17 photos and NASA NSSDCA measurements (CC BY 4.0); Falcon: NASA/Michael D. Carbajal (NASA 3D Resources)",
     info: {
@@ -207,9 +261,15 @@ export const STOPS: Stop[] = [
         { label: "Parked", value: "2 August 1971" },
       ],
       plan: { label: "Battery range used", planned: 92, actual: 27.8, unit: "km", note: "It was built to drive up to 92 km before its batteries ran out." },
+      fun: "The rover weighs 210 kg, but in the Moon’s weak gravity it would feel about as heavy as 35 kg does on Earth.",
     },
     // Falcon is 129 m west and 20 m north of where the rover was parked (LROC-measured site coordinates).
     extras: [{ kind: "lm-descent", pos: [-129, 0, -20], rotationY: Math.PI / 2 }],
+    marks: [
+      { kind: "tracks", gauge: 1.83, width: 0.23, path: [[1.7, 0], [6, 0.8], [10, 4.8], [9, 11], [2, 15], [-15, 18], [-40, 16], [-80, 6], [-122, -14]] },
+      { kind: "boots", path: [[-0.6, 1.6], [-3, 3.4], [-6, 4.4], [-9, 3.6], [-6.5, 1.8], [-2.5, -1.6], [0.6, -1.8], [2.2, -0.6]] },
+      { kind: "boots", path: [[-128, -15], [-126, -9], [-121, -12], [-124, -18]] },
+    ],
     hotspots: [
       {
         id: "tv-camera",
@@ -258,6 +318,11 @@ export const STOPS: Stop[] = [
   },
   {
     id: "opportunity",
+    story: {
+      kicker: "Chapter 2 · Opportunity · Mars · 2004–2018",
+      title: "I’ll be seeing you",
+      text: "Where people couldn’t go yet, robots went. Opportunity was built to last 90 Mars days. It kept driving for more than 14 years and found proof that water once soaked the ground of Mars, until a giant dust storm blotted out the Sun. With its last wake-up call in 2019, the team played Billie Holiday’s song “I’ll Be Seeing You”.",
+    },
     chapter: "Mars",
     body: "mars",
     name: "Opportunity",
@@ -271,9 +336,11 @@ export const STOPS: Stop[] = [
     distanceLabel: "Average distance from Earth",
     // Centered on the solar deck: the model's robotic arm reaches far out in front.
     model: { kind: "gltf", url: "/models/mer.gltf.json", height: 1.5, origin: "ground", centerOn: ["tex_panels_n", "tex_panels2_n"] },
+    marks: [{ kind: "tracks", gauge: 1.1, width: 0.16, path: [[0, -1], [0.3, -4], [1.5, -10], [4, -18], [8, -28], [10.5, -40]] }],
     setting: { kind: "mars", terrain: "slope", sun: { az: 120, el: 38 }, flatRadius: 3.5 },
     spawn: { pos: [3.4, 0, 4.6], look: [0, 0.7, 0] },
     colliders: [{ pos: [0, 0, 0], r: 1.3 }],
+    replayView: { pos: [4.5, 0, 5], look: [0, 0.8, 0] },
     bounds: 55,
     credit: "Spirit and Opportunity rover model: NASA/JPL-Caltech (NASA 3D Resources)",
     info: {
@@ -284,6 +351,7 @@ export const STOPS: Stop[] = [
         { label: "Power", value: "Sunlight on its solar panels" },
       ],
       plan: { label: "Mission length", planned: 90, actual: 5111, unit: "Mars days", note: "Planned for 90 Mars days. It kept going for 5,111." },
+      fun: "You may have heard Opportunity’s last words were “My battery is low and it’s getting dark.” It never said that. A journalist turned its last data, very low power and a very dark sky, into words. The rover only ever sent numbers.",
     },
     hotspots: [
       {
@@ -318,13 +386,19 @@ export const STOPS: Stop[] = [
         title: "The last message",
         text: "Opportunity’s last message reached Earth on 10 June 2018. For eight months NASA sent more than a thousand commands to wake it up, but it never answered.",
         source: SRC.oppEnd,
-        anchor: { part: "tex_instruments", at: [0.5, 1, 0.5] },
+        // The high-gain dish (the dark disc on the deck) that talked straight to Earth, just past its silver mount.
+        anchor: { part: "Silver", at: [0.5, 1, 0.5], offset: [0.24, -0.03, -0.18] },
         face: null,
       },
     ],
   },
   {
     id: "ingenuity",
+    story: {
+      kicker: "Chapter 2 · Ingenuity · Mars · 2021–2024",
+      title: "A Wright brothers moment on Mars",
+      text: "Mars air is about 100 times thinner than Earth’s, so many people thought nothing could fly there. Ingenuity proved them wrong, carrying a tiny piece of cloth from the Wright brothers’ first airplane under its solar panel. It weighs about as much as a big bag of sugar, and it flew 72 times before a hard landing broke its blades.",
+    },
     chapter: "Mars",
     body: "mars",
     name: "Ingenuity",
@@ -336,7 +410,8 @@ export const STOPS: Stop[] = [
     site: { lat: 18.4973, lon: 77.3225 },
     distanceKm: 225_000_000,
     distanceLabel: "Average distance from Earth",
-    model: { kind: "gltf", url: "/models/ingenuity.gltf.json", scale: 1, origin: "ground" },
+    // All four blades snapped about a third of the way from the tip, so they are drawn two-thirds long.
+    model: { kind: "gltf", url: "/models/ingenuity.gltf.json", scale: 1, origin: "ground", partScale: [["blades", [1, 1, 0.66]]] },
     setting: { kind: "mars", terrain: "sand", sun: { az: 200, el: 42 }, flatRadius: 1.6 },
     spawn: { pos: [1.6, 0, 2.3], look: [0, 0.25, 0] },
     colliders: [{ pos: [0, 0, 0], r: 0.75 }],
@@ -350,6 +425,7 @@ export const STOPS: Stop[] = [
         { label: "Mass", value: "1.8 kg" },
       ],
       plan: { label: "Flights", planned: 5, actual: 72, unit: "flights", note: "It was meant to try just 5 test flights. It flew 72." },
+      fun: "The air on Mars is about 100 times thinner than on Earth, so Ingenuity’s blades had to spin about 2,400 times a minute just to lift it off the ground.",
     },
     extras: [{ kind: "blade-piece", pos: [-15, 0, 0.6], rotationY: 0.7 }],
     hotspots: [
@@ -399,6 +475,11 @@ export const STOPS: Stop[] = [
   },
   {
     id: "cassini",
+    story: {
+      kicker: "Chapter 3 · Cassini · Saturn · 2004–2017",
+      title: "The Grand Finale",
+      text: "Cassini went around Saturn 294 times. It found an ocean hidden under the ice of the moon Enceladus and dropped the Huygens probe onto the moon Titan. When its fuel ran low, NASA sent it diving between Saturn and its rings 22 times, then steered it into Saturn on purpose, so it could never crash into a moon that might hold life.",
+    },
     chapter: "Deep space",
     body: "saturn",
     name: "Cassini",
@@ -423,6 +504,8 @@ export const STOPS: Stop[] = [
         { label: "Final plunge", value: "15 September 2017" },
       ],
       plan: { label: "Years at Saturn", planned: 4, actual: 13, unit: "years", note: "The main mission was 4 years at Saturn. Cassini stayed for 13." },
+      fate: { category: "crash-planned", label: "Steered into Saturn on 15 September 2017, where it burned up in the clouds. Nothing of it is left: NASA chose this ending so it could never crash into a moon that might hold life." },
+      fun: "Cassini flew right through the icy spray shooting out of the moon Enceladus and “tasted” it: it is salty water from an ocean hidden under the ice.",
     },
     hotspots: [
       {
@@ -461,6 +544,11 @@ export const STOPS: Stop[] = [
   },
   {
     id: "voyager1",
+    story: {
+      kicker: "Chapter 3 · Voyager 1 · Deep space · since 1977",
+      title: "The Pale Blue Dot",
+      text: "In 1990, from 6 billion km away, Voyager 1 turned its camera back and photographed Earth: a speck smaller than a pixel. Carl Sagan called it a pale blue dot: “That’s here. That’s home. That’s us.” Today Voyager 1 is the farthest thing people have ever built, about 25 billion km away. Its power is fading, but it still phones home.",
+    },
     chapter: "Deep space",
     body: "deep",
     name: "Voyager 1",
@@ -485,6 +573,8 @@ export const STOPS: Stop[] = [
         { label: "Instruments still on", value: "2" },
       ],
       plan: { label: "Mission length", planned: 5, actual: 49, unit: "years", note: "Built for a 5-year trip past Jupiter and Saturn. It is still working 49 years later." },
+      fate: { category: "operational", label: "Still working, but its power fades a little every year. Engineers switch off one instrument at a time so it can keep calling home." },
+      fun: "Voyager 1 calls home with a radio of about 23 watts, roughly as strong as a fridge light bulb. It takes dishes 70 meters wide on Earth to hear it.",
     },
     hotspots: [
       {
@@ -509,7 +599,7 @@ export const STOPS: Stop[] = [
         text: "Voyager runs on three nuclear power generators that get a little weaker every year. To save power, engineers have switched off most of its instruments, the latest in April 2026.",
         source: SRC.lecp,
         // The three power generators sit end to end on the boom that runs along +z.
-        anchor: { pos: [0, -0.1, 3.4] },
+        anchor: { pos: [0, -1.6, 3.6] },
         face: null,
       },
       {
@@ -545,4 +635,6 @@ export const CREDITS = [
   "3D spacecraft: NASA 3D Resources (Apollo Lunar Module and Voyager: NASA/Michael D. Carbajal; Mars Exploration Rover: NASA/Ames Research Center; Ingenuity: NASA/JPL-Caltech; Cassini-Huygens: NASA/Brian E. Kumanchik).",
   "The Apollo 15 rover was built for this site from NASA NSSDCA measurements. Saturn and its rings are drawn in code from their real sizes.",
   "Facts: NASA, NASA JPL and the NSSDCA catalog. Every hotspot links the page it came from.",
+  "Film, photos and radio: NASA, NASA JPL and the Apollo Lunar Surface Journal (NASA). Public domain. Each clip and photo names its source.",
+  "Music: Satie, Gymnopédie No. 1 (Robin Alciatore, Musopen, public domain) · Debussy, Clair de lune (Laurens Goedhart, CC BY 3.0) · Grieg, Morning Mood (Musopen Symphony, public domain) · Dvořák, Symphony No. 9, Largo (Musopen, public domain).",
 ];

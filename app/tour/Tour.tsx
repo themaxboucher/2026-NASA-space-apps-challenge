@@ -9,7 +9,8 @@ import { FailureBank } from "./FailureBank";
 // Shared with the atlas: photos each machine took, and live numbers for the ones still working.
 import { liveNumbers, loadLive, photosFor } from "../atlas/live.js";
 import { Spots } from "./Spots";
-import { dismissIntro, hud, nextStop, openHotspot, previousStop, requestTravel, skipStop, spotsLeft, startTour, tour } from "./state";
+import { Cutscene, Interlude, MusicToggle, startMusic } from "./Story";
+import { dismissIntro, endReplay, hud, nextStop, openHotspot, previousStop, requestTravel, skipStop, spotsLeft, startTour, tour } from "./state";
 import { CHAPTERS, CREDITS, STOP_INDEX, STOPS } from "./stops";
 import "./tour.css";
 
@@ -20,8 +21,26 @@ const TITLE = "Ruins Among the Stars";
 const TAGLINE = "Rovers, landers and probes we left on other worlds. Find out what broke, what still works, and what we could fix or bring home one day.";
 const ease = [0.22, 1, 0.36, 1] as const;
 
+// A short briefing between Start and lift-off: what this trip is for, and how to play it.
+function briefing(n: number) {
+  return [
+    {
+      title: "We left machines out there",
+      text: `For more than 60 years, NASA has sent ${n ? n : "dozens of"} robots, landers and probes to the Moon, to Mars and into deep space. None of them came home. Some broke, some ran out of power, and a few are still working right now.`,
+    },
+    {
+      title: "You're the salvage scout",
+      text: `You'll first visit ${STOPS.length} of them, one chapter at a time. At each one, your job is to survey the site: discover what we sent there, what we left behind, and why it was left. The glowing spots are your clues: blue ones tell the story, red ones show what broke. Then think like an engineer: could we fix it, reuse it, or bring it home one day?`,
+    },
+  ];
+}
+
 function StartScreen() {
   const ready = useStore(tour, (s) => s.sceneReady);
+  const n = useMachineCount();
+  const [step, setStep] = useState(-1); // -1 = title screen, then one card per briefing step
+  const steps = briefing(n);
+  const card = steps[step];
   return (
     <motion.section className="start" initial={{ opacity: 1 }} exit={{ opacity: 0, y: -40, transition: { duration: 0.7, ease } }}>
       <h1 aria-label={TITLE}>
@@ -37,6 +56,8 @@ function StartScreen() {
           </motion.span>
         ))}
       </h1>
+      {step < 0 && (
+      <>
       <motion.p
         className="start-sub"
         initial={{ opacity: 0, y: 10 }}
@@ -48,7 +69,7 @@ function StartScreen() {
       <motion.button
         type="button"
         className="start-btn"
-        onClick={startTour}
+        onClick={() => { setStep(0); startMusic(); }}
         disabled={!ready}
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
@@ -56,17 +77,65 @@ function StartScreen() {
       >
         {ready ? "Start" : "Loading…"}
       </motion.button>
+      </>
+      )}
+      <AnimatePresence mode="wait">
+        {card && (
+          <motion.div
+            key={step}
+            className="brief"
+            role="group"
+            aria-roledescription="briefing"
+            aria-label={`Briefing ${step + 1} of ${steps.length}`}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.45, ease }}
+          >
+            <p className="brief-step">Mission briefing · {step + 1} of {steps.length}</p>
+            <h2>{card.title}</h2>
+            <p>{card.text}</p>
+            <div className="brief-actions">
+              {step < steps.length - 1 ? (
+                <button type="button" className="start-btn" autoFocus onClick={() => setStep(step + 1)}>
+                  Next
+                </button>
+              ) : (
+                <button type="button" className="start-btn" autoFocus onClick={startTour}>
+                  Launch
+                </button>
+              )}
+              {step < steps.length - 1 && (
+                <button type="button" className="brief-skip" onClick={startTour}>
+                  Skip briefing
+                </button>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.section>
   );
 }
 
+// How many machines the atlas holds, read from its data rather than written in by hand.
+function useMachineCount() {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    loadAtlas().then((d) => setN(Object.keys(d).length));
+  }, []);
+  return n;
+}
+const allMachines = (n: number) => (n ? `all ${n} machines` : "every machine");
+
 function ExploreLink() {
+  const n = useMachineCount();
   const stop = useStore(tour, (s) => (s.phase === "explore" || s.phase === "travel" ? s.stop : -1));
   const id = stop >= 0 ? STOPS[stop]?.id : null;
   // A full page load on purpose: the atlas runs its own 3D engine.
   return (
     <a className="explore-link" href={id ? `/explore#${id}` : "/explore"}>
-      Explore all 79 machines <span aria-hidden="true">↗</span>
+      Explore {allMachines(n)} <span aria-hidden="true">↗</span>
     </a>
   );
 }
@@ -105,6 +174,7 @@ function Controls() {
   const left = useStore(tour, (s) => (s.phase === "explore" ? spotsLeft(s) : 0));
   const nudge = useStore(tour, (s) => s.nudge);
   const locked = left > 0;
+  const cheer = useStore(tour, (s) => (s.phase === "explore" ? s.cheer : 0));
   // Shake the locked button when pressed early, without remounting it (that would drop keyboard focus).
   const nextRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -121,7 +191,7 @@ function Controls() {
       <motion.button
         ref={nextRef}
         type="button"
-        className={`nav-btn primary${locked ? " locked" : ""}`}
+        className={`nav-btn primary${locked ? " locked" : ""}${cheer ? " cheered" : ""}`}
         onClick={nextStop}
         aria-disabled={locked || undefined}
       >
@@ -135,6 +205,12 @@ function Controls() {
         <button type="button" className="skip-stop" onClick={skipStop}>
           skip
         </button>
+      )}
+      {cheer > 0 && (
+        <p key={cheer} className="cheer" role="status">
+          All spots found! {last ? "Time to fly home." : `On to ${STOPS[stop + 1]?.name}.`}
+          <span className="cheer-progress" aria-hidden="true" />
+        </p>
       )}
     </motion.nav>
   );
@@ -167,16 +243,89 @@ function NamePlate() {
   );
 }
 
-function IntroCard() {
+// The controls, kept at the top of the screen the whole time you're at a site. What it says follows
+// whether the view has the mouse (the Walker puts .looking on .tour), so the CSS swaps the two lines.
+function KeysBar() {
   const stop = useStore(tour, (s) => s.stop);
   const s = STOPS[stop];
   if (!s) return null;
   const space = s.setting.kind === "space";
+  const move = (
+    <>
+      <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> {space ? "fly" : "walk"}</span>
+      <span><kbd>Shift</kbd> faster</span>
+      {space ? (
+        <span><kbd>Space</kbd> up · <kbd>C</kbd> down</span>
+      ) : (
+        <>
+          <span><kbd>Space</kbd> jump</span>
+          <span><kbd>Ctrl</kbd> crouch</span>
+        </>
+      )}
+    </>
+  );
+  if (coarsePointer()) return <motion.p className="keysbar" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}><span>Drag to look around</span><span>Tap the glowing dots</span></motion.p>;
+  return (
+    <motion.div className="keysbar" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5, ease }}>
+      <p className="keys-free"><span><b>Click</b> the view to look around</span>{move}<span>Click a glowing dot</span></p>
+      <p className="keys-locked"><span className="esc"><kbd>Esc</kbd> frees your mouse</span>{move}<span>Aim at a dot and click</span></p>
+    </motion.div>
+  );
+}
+
+// The minimap's canvas; the 3D scene draws on it every frame (scene/Hotspots.tsx).
+function Minimap() {
+  const left = useStore(tour, (s) => spotsLeft(s));
+  return (
+    <motion.figure className="minimap" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+      <canvas
+        ref={(el) => {
+          hud.minimap = el;
+        }}
+        role="img"
+        aria-label={`Map of the site: you are in the middle, facing up. ${left ? `${left} glowing spot${left === 1 ? "" : "s"} left to find.` : "Every spot found."}`}
+      />
+      <figcaption>{left ? `${left} left to find` : "All found ✓"}</figcaption>
+    </motion.figure>
+  );
+}
+
+// Captions and a Skip button while the ghosts re-enact what happened here (scene/Ghost.tsx writes the lines).
+function ReplayBar() {
+  return (
+    <motion.div className="replay" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5, ease }}>
+      <p className="replay-tag">Back in time</p>
+      <p
+        className="replay-line"
+        aria-live="polite"
+        ref={(el) => {
+          hud.replayLine = el;
+        }}
+      />
+      <span className="replay-progress" aria-hidden="true">
+        <b
+          ref={(el) => {
+            hud.replayBar = el;
+          }}
+        />
+      </span>
+      <button type="button" className="replay-skip" onClick={endReplay}>
+        Skip ▸
+      </button>
+    </motion.div>
+  );
+}
+
+function IntroCard() {
+  const stop = useStore(tour, (s) => s.stop);
+  const s = STOPS[stop];
+  if (!s) return null;
   // Only ever rendered in the browser (the server always renders the start screen), so this is safe.
   const touch = coarsePointer();
   return (
     <motion.aside
       className="intro"
+      onClick={(e) => { if (!(e.target as HTMLElement).closest("a, button")) dismissIntro(); }}
       initial={{ opacity: 0, y: 30, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 16, transition: { duration: 0.45 } }}
@@ -191,25 +340,7 @@ function IntroCard() {
       <h2>{s.name}</h2>
       <p className="pill">{s.status}</p>
       <p className="intro-text">{s.intro}</p>
-      <p className="hint">
-        {touch ? (
-          "Drag to circle around it · tap the glowing dots"
-        ) : (
-          <>
-            Click the view to look around with your mouse (<kbd>Esc</kbd> lets go) · <kbd>W</kbd>
-            <kbd>A</kbd>
-            <kbd>S</kbd>
-            <kbd>D</kbd> to {space ? "fly" : "walk"} · hold <kbd>Shift</kbd> to go faster
-            {space && (
-              <>
-                {" "}
-                · <kbd>Space</kbd> up · <kbd>C</kbd> down · you keep drifting after you let go
-              </>
-            )}{" "}
-            {!space && <> · tap <kbd>Ctrl</kbd> to crouch</>} · aim at a glowing dot and click
-          </>
-        )}
-      </p>
+      <p className="intro-go">{touch ? "Tap anywhere to start exploring" : "Click anywhere to start exploring"}</p>
     </motion.aside>
   );
 }
@@ -297,8 +428,8 @@ function MissionFile() {
   const s = STOPS[stop];
   // Kept with the stop's id so a slow load never shows the previous stop's fate.
   const [got, setGot] = useState<{ id: string; fate: Fate | null; fun?: string; route?: Route } | null>(null);
-  const fate = s && got?.id === s.id ? got.fate : null;
-  const fun = s && got?.id === s.id ? got.fun : undefined;
+  const fate = s?.info?.fate ?? (s && got?.id === s.id ? got.fate : null);
+  const fun = s?.info?.fun ?? (s && got?.id === s.id ? got.fun : undefined);
   const route = s && got?.id === s.id ? got.route : undefined;
   type Photo = { file: string; w: number; h: number; caption: string; credit: string; license: string; source?: string };
   type LiveRow = { key: string; label: string; value: string; note: string; kind: string };
@@ -327,7 +458,8 @@ function MissionFile() {
       clearTimeout(first);
     };
   }, [liveEntry]);
-  const [open, setOpen] = useState(true);
+  // Phones start with it folded into a small chip so it doesn't cover the machine.
+  const [open, setOpen] = useState(() => !matchMedia("(max-width: 600px)").matches);
   const introOpen = useStore(tour, (t) => t.introOpen);
   const spotOpen = useStore(tour, (t) => !!t.openSpot);
   useEffect(() => {
@@ -502,20 +634,23 @@ function Cruise() {
 }
 
 function EndScreen() {
+  const visited = useStore(tour, (s) => s.visited.length);
+  const n = useMachineCount();
   return (
     <motion.section className="end" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
       <motion.h2 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.9, ease }}>
         Every machine has a story.
       </motion.h2>
       <motion.p className="end-lede" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.8, ease }}>
-        You visited 6 of the 79 machines in this atlas. The rest are still out there: on the Moon, on Mars, and sailing between the planets.
+        You visited {visited} {visited === 1 ? "machine" : "machines"}
+        {n ? ` of the ${n} in this atlas` : ""}. The rest are still out there: on the Moon, on Mars, and sailing between the planets.
       </motion.p>
       <motion.div className="end-actions" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85, duration: 0.8, ease }}>
         <button type="button" className="start-btn" onClick={startTour}>
           Replay the trip
         </button>
         <a className="ghost-btn" href="/explore">
-          Explore all 79 machines ↗
+          Explore {allMachines(n)} ↗
         </a>
       </motion.div>
       <motion.details className="credits" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1, duration: 0.8 }}>
@@ -555,6 +690,9 @@ function useHashSync() {
 export default function Tour() {
   const phase = useStore(tour, (s) => s.phase);
   const introOpen = useStore(tour, (s) => s.introOpen);
+  const interlude = useStore(tour, (s) => s.interlude);
+  const cutscene = useStore(tour, (s) => s.cutscene);
+  const replay = useStore(tour, (s) => s.replay);
   const fade = useRef<HTMLDivElement>(null);
   useHashSync();
 
@@ -563,6 +701,7 @@ export default function Tour() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
       const s = tour.get();
+      if (s.replay) return endReplay();
       if (s.openSpot) openHotspot(STOPS[s.stop].id, null);
       else dismissIntro();
     };
@@ -581,12 +720,23 @@ export default function Tour() {
         <Spots />
         <div className="fade" ref={fade} aria-hidden="true" />
         <ExploreLink />
-        <AnimatePresence>{phase === "start" && <StartScreen key="start" />}</AnimatePresence>
+        <AnimatePresence>{phase === "start" && interlude == null && <StartScreen key="start" />}</AnimatePresence>
         <AnimatePresence>{phase === "explore" && <NamePlate key="plate" />}</AnimatePresence>
         <AnimatePresence>{phase === "explore" && introOpen && <IntroCard key="intro" />}</AnimatePresence>
-        <AnimatePresence>{phase === "explore" && <MissionFile key="mfile" />}</AnimatePresence>
+        <AnimatePresence>{phase === "explore" && !replay && <MissionFile key="mfile" />}</AnimatePresence>
+        <AnimatePresence>{phase === "explore" && !introOpen && !replay && <KeysBar key="keys" />}</AnimatePresence>
+        <AnimatePresence>{phase === "explore" && !introOpen && !replay && <Minimap key="minimap" />}
+        <AnimatePresence>{phase === "explore" && replay && <ReplayBar key="replay" />}</AnimatePresence></AnimatePresence>
+        {phase === "explore" && (
+          <p className="edge-hint" role="status">
+            That&apos;s far enough. Head back to the site.
+          </p>
+        )}
         <Cruise />
-        <AnimatePresence>{touring && <Controls key="controls" />}</AnimatePresence>
+        <AnimatePresence>{touring && interlude == null && <Controls key="controls" />}</AnimatePresence>
+        <AnimatePresence>{interlude != null && <Interlude key="story" />}</AnimatePresence>
+        <AnimatePresence>{cutscene && <Cutscene key="cut" />}</AnimatePresence>
+        <MusicToggle />
         {touring && <FailureBank />}
         <AnimatePresence>{phase === "end" && <EndScreen key="end" />}</AnimatePresence>
       </div>

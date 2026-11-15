@@ -1,15 +1,15 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import { useLayoutEffect, useMemo } from "react";
+import { useEffect, useLayoutEffect, useMemo } from "react";
 import * as THREE from "three";
-import { live } from "../state";
+import { live, solids } from "../state";
 import type { Hotspot, ModelSpec, Stop } from "../stops";
 import { useModel } from "./useModel";
 
 export type Anchors = Record<string, THREE.Vector3>;
 
-type GltfSpec = Extract<ModelSpec, { kind: "gltf" }>;
+export type GltfSpec = Extract<ModelSpec, { kind: "gltf" }>;
 
 function isShown(o: THREE.Object3D) {
   for (let p: THREE.Object3D | null = o; p; p = p.parent) if (!p.visible) return false;
@@ -50,8 +50,9 @@ function matches(m: THREE.Mesh, part: string) {
 // Clone, size and place a NASA model at real scale, then work out where its hotspots sit.
 export function prepareModel(source: THREE.Object3D, spec: GltfSpec, hotspots: Hotspot[]) {
   const model = source.clone(true);
-  model.updateMatrixWorld(true);
   const all = meshes(model);
+  for (const [part, k] of spec.partScale ?? []) for (const m of all) if (matches(m, part)) m.scale.multiply(new THREE.Vector3(...k));
+  model.updateMatrixWorld(true);
 
   for (const m of all) {
     // Some Blender exports carry a placeholder cube on the root node; keep its children, hide the cube.
@@ -182,6 +183,16 @@ function glowBrokenParts(model: THREE.Object3D, hotspots: Hotspot[]) {
   return lit;
 }
 
+// Registers a machine for walking collisions while it is on screen.
+function useSolid(object: THREE.Object3D) {
+  useEffect(() => {
+    solids.add(object);
+    return () => {
+      solids.delete(object);
+    };
+  }, [object]);
+}
+
 export function GltfMachine({ stop, onAnchors }: { stop: Stop; onAnchors: (a: Anchors) => void }) {
   const spec = stop.model as GltfSpec;
   const gltf = useModel(spec.url);
@@ -192,8 +203,10 @@ export function GltfMachine({ stop, onAnchors }: { stop: Stop; onAnchors: (a: An
   }, [gltf, spec, stop]);
 
   useLayoutEffect(() => onAnchors(prepared.anchors), [prepared, onAnchors]);
+  useSolid(prepared.object);
 
   useFrame((_, dt) => {
+    prepared.object.visible = !live.hideMachine;
     breakUniforms.uTime.value += dt;
     breakUniforms.uGlow.value = live.brokenGlow;
     const k = 0.5 * live.brokenGlow * (0.6 + 0.4 * Math.sin(breakUniforms.uTime.value * 4));
@@ -210,6 +223,7 @@ export function LanderDescent({ position, rotationY }: { position: [number, numb
     () => prepareModel(gltf.scene, { kind: "gltf", url: "", scale: 1.43, hideAbove: 2.95, origin: "ground" }, []).object,
     [gltf],
   );
+  useSolid(object);
   return <primitive object={object} position={position} rotation={[0, rotationY, 0]} />;
 }
 

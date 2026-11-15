@@ -10,6 +10,37 @@ import { groundMaterial } from "./ground";
 import { HotspotTracker } from "./Hotspots";
 import { Lrv } from "./Lrv";
 import { BladePiece, GltfMachine, LanderDescent, type Anchors } from "./Machine";
+import { FallenFlag, GroundMarks } from "./Marks";
+import { useStore } from "../lib/store";
+import { REPLAYS, tour } from "../state";
+import { SiteReplay } from "./replays";
+import { LitGlobe } from "./LitGlobe";
+import { BODY_RADIUS, NORMAL, TEXTURE } from "./Space";
+import { siteFrame } from "../lib/siteframe";
+
+// The whole globe under the landing site, placed exactly as the trip's Moon was (lib/siteframe.ts). Seen from
+// orbit it is the Moon; as you come down it fades out (from about 6 km to 1.8 km) and the detailed ground takes over.
+function OrbitalGlobe({ stop }: { stop: Stop }) {
+  const { camera } = useThree();
+  const f = useMemo(() => siteFrame(stop), [stop]);
+  const sun = useMemo(() => f.sunSite(), [f]);
+  const key = stop.body === "mars" ? "mars" : "moon";
+  return (
+    <group position={f.globeInSite.position} quaternion={f.globeInSite.quaternion} scale={f.K}>
+      <LitGlobe
+        url={TEXTURE[key]!}
+        normalUrl={NORMAL[key]!}
+        radius={BODY_RADIUS[key]}
+        sun={sun}
+        overlay
+        alpha={() => {
+          const u = Math.min(1, Math.max(0, (camera.position.y - 1800) / 4200));
+          return u * u * (3 - 2 * u);
+        }}
+      />
+    </group>
+  );
+}
 import { Planet, SunGlow } from "./Space";
 import { groundGeometry, onTerrainChange, rockGeometry, terrainFor, type Terrain } from "./terrain";
 import { Walker } from "./Walker";
@@ -159,12 +190,15 @@ export function SurfaceScene({ index }: { index: number }) {
   const stop = STOPS[index];
   const moon = stop.setting.kind === "moon";
   const { gl, scene, camera } = useThree();
+  // Footprints and the fallen flag are what the replay leaves behind, so they appear once it has played.
+  const revealed = useStore(tour, (t) => !REPLAYS.has(stop.id) || t.revealed.includes(stop.id));
   // The measured ground normally loads before you arrive; if it lands late, rebuild the scene on it.
   const [groundVersion, setGroundVersion] = useState(0);
   useEffect(() => onTerrainChange(() => setGroundVersion((v) => v + 1)), []);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const terrain = useMemo(() => terrainFor(index), [index, groundVersion]);
-  const ground = useMemo(() => groundGeometry(terrain, 3000, moon ? MOON_R : MARS_R), [terrain, moon]);
+  // The first stop's ground reaches farther (8 km), so the detailed ground can take over from the globe while still high up.
+  const ground = useMemo(() => groundGeometry(terrain, index === 0 ? 8000 : 3000, moon ? MOON_R : MARS_R), [terrain, moon, index]);
   const groundMat = useMemo(() => groundMaterial(stop), [stop]);
   const sun = useMemo(() => skyDir(stop.setting.sun.az, stop.setting.sun.el), [stop]);
   const earth = useMemo(() => (stop.setting.earth ? skyDir(stop.setting.earth.az, stop.setting.earth.el) : null), [stop]);
@@ -243,11 +277,22 @@ export function SurfaceScene({ index }: { index: number }) {
         {(stop.extras ?? []).map((x, i) =>
           x.kind === "lm-descent" ? (
             <LanderDescent key={i} position={[x.pos[0], terrain.height(x.pos[0], x.pos[2]), x.pos[2]]} rotationY={x.rotationY} />
+          ) : x.kind === "flag" ? (
+            !revealed ? null : (
+              <FallenFlag key={i} position={[x.pos[0], terrain.height(x.pos[0], x.pos[2]), x.pos[2]]} rotationY={x.rotationY} />
+            )
           ) : (
             <BladePiece key={i} position={[x.pos[0], terrain.height(x.pos[0], x.pos[2]) + 0.012, x.pos[2]]} rotationY={x.rotationY} />
           ),
         )}
       </Suspense>
+      {stop.marks && revealed && <GroundMarks marks={stop.marks} ground={terrain.height} />}
+      <SiteReplay stop={stop} ground={terrain.height} />
+      {index === 0 && (
+        <Suspense fallback={null}>
+          <OrbitalGlobe stop={stop} />
+        </Suspense>
+      )}
       <HotspotTracker stop={stop} anchors={anchors} ground={terrain.height} />
       <Walker stop={stop} mode="walk" ground={terrain.height} center={[0, stop.id === "ingenuity" ? 0.25 : 1, 0]} />
     </>

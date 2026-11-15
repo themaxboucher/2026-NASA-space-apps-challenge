@@ -29,7 +29,7 @@ export default function TourCanvas() {
       className="tour-canvas"
       shadows="percentage"
       dpr={[1, 2]}
-      gl={{ antialias: true, powerPreference: "high-performance" }}
+      gl={{ antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: true }}
       camera={{ fov: 50, near: 0.01, far: 3000, position: [0, 0, 3.4] }}
       onCreated={(state) => {
         state.gl.toneMapping = THREE.ACESFilmicToneMapping;

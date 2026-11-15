@@ -309,7 +309,7 @@ function ReplayBar() {
           }}
         />
       </span>
-      <button type="button" className="replay-skip" onClick={endReplay}>
+      <button type="button" className="replay-skip" onClick={() => endReplay()}>
         Skip ▸
       </button>
     </motion.div>

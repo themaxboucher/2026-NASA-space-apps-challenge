@@ -281,7 +281,7 @@ export function SurfaceScene({ index }: { index: number }) {
             !revealed ? null : (
               <FallenFlag key={i} position={[x.pos[0], terrain.height(x.pos[0], x.pos[2]), x.pos[2]]} rotationY={x.rotationY} />
             )
-          ) : (
+          ) : !revealed ? null : (
             <BladePiece key={i} position={[x.pos[0], terrain.height(x.pos[0], x.pos[2]) + 0.012, x.pos[2]]} rotationY={x.rotationY} />
           ),
         )}

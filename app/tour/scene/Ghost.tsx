@@ -42,7 +42,8 @@ export function suited(source: THREE.Object3D, mat: THREE.Material) {
   return { g, legL: node("legL"), legR: node("legR"), armL: node("armL"), armR: node("armR"), shinL: node("shinL"), shinR: node("shinR"), foreL: node("forearmL"), foreR: node("forearmR"), torso: node("torso") };
 }
 
-const depthOnly = new THREE.MeshBasicMaterial({ colorWrite: false });
+// Transparent so it draws after everything else, including see-through things like stars and Saturn's rings.
+const depthOnly = new THREE.MeshBasicMaterial({ colorWrite: false, transparent: true });
 export function shell(root: THREE.Object3D) {
   const list: THREE.Mesh[] = [];
   root.traverse((o) => {
@@ -183,7 +184,7 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
       if (r.cues?.length) {
         const radio = r.cues.map((c) => ({ ...c, at: c.at + AUDIO_AT }));
         const lastRadio = radio[radio.length - 1].at;
-        cues.current = [A11_LINES[0], ...radio, ...A11_LINES.filter((c) => c.at > Math.max(14, lastRadio + 3))];
+        cues.current = [...A11_LINES.filter((c) => c.at < AUDIO_AT), ...radio, ...A11_LINES.filter((c) => c.at > Math.max(14, lastRadio + 3))];
       }
     });
     return () => {
@@ -271,8 +272,19 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
     const neilAt: [number, number] = [FLAG_FOOT[0] + 0.9, FLAG_FOOT[1] - 0.5];
     const buzzAt: [number, number] = [FLAG_FOOT[0] - 0.7, FLAG_FOOT[1] - 0.9];
     // Neil: down the ladder, the small step, out to the flag, back with a rock box, up the ladder.
-    if (t < 12) onLadder(scene.neil, 3, 11.5, false);
-    else if (t < 25) walk(scene.neil, foot, neilAt, 14, 18.5);
+    const cueAt = (re: RegExp, fallback: number) => cues.current.find((c) => re.test(c.text))?.at ?? fallback;
+    const tFoot = cueAt(/foot of the ladder/i, 6.5), tSmall = cueAt(/small step/i, 10);
+    const pad = [lad.from[0], lad.from[2] + 0.38] as const;
+    if (t < tFoot) onLadder(scene.neil, 3, tFoot, false);
+    else if (t < tSmall + 3.2) {
+      // On the footpad, then the step: left foot reaches down and forward onto the Moon as he says the line.
+      const st = smooth(tSmall - 0.5, tSmall + 0.4, t);
+      const x = pad[0], z = pad[1] + (foot[1] - pad[1]) * st;
+      scene.neil.g.position.set(x, ground(x, z) + 0.3 * (1 - st), z);
+      face(scene.neil, 0);
+      const reach = Math.sin(Math.PI * st);
+      pose(scene.neil, -0.55 * reach, 0.15 * reach, 0.25 * reach, 0.45 * reach, -0.2, -0.2, -0.5, -0.5, 0.2);
+    } else if (t < 25) walk(scene.neil, foot, neilAt, tSmall + 3.2, tSmall + 7.6);
     else if (t < 30) walk(scene.neil, neilAt, foot, 25.5, 29.5);
     else onLadder(scene.neil, 30, 34, true);
     // Buzz follows him down (about 19 minutes later in real life; here, a few seconds) and climbs in after him.
@@ -325,7 +337,7 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
       // The bar shows how long this line stays up: from now until the next line (or the end).
       setCaption(line, until - Math.max(from, t));
     }
-    if (t >= A11_END) endReplay();
+    if (t >= A11_END) endReplay(stop.id);
   });
 
   return <primitive object={scene.root} />;

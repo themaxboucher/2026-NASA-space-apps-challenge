@@ -201,10 +201,11 @@ tour.subscribe(() => {
   if (id && !s.visited.includes(id)) tour.set({ visited: [...s.visited, id], ...(REPLAYS.has(id) ? { replay: true, introOpen: false } : {}) });
 });
 
-export function endReplay() {
+export function endReplay(forStop?: string) {
   const s = tour.get();
   if (!s.replay) return;
   const id = STOPS[s.stop]?.id;
+  if (forStop && forStop !== id) return; // a replay from a stop you've already left
   tour.set({ replay: false, introOpen: true, revealed: id && !s.revealed.includes(id) ? [...s.revealed, id] : s.revealed });
 }
 

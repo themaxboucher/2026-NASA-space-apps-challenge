@@ -289,7 +289,7 @@ function descent(index: number): Shot {
       p.set(startPos.x * k + endPos.x * (1 - k), alt, startPos.z * k + endPos.z * (1 - k));
       cam.position.copy(p);
       // Turn from the trip's view to the site, then (near the ground) to the replay view.
-      descM.lookAt(p, site, Math.abs(p.y) > 50 ? new THREE.Vector3(0, 0, -1) : UP);
+      descM.lookAt(p, site, UP);
       descQ.setFromRotationMatrix(descM);
       cam.quaternion.copy(startQ).slerp(descQ, smoothstep01(u / 0.3));
       descM.lookAt(p, endLook, UP);

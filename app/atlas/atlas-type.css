@@ -60,7 +60,7 @@
 .explored-worlds{display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--dim);font-size:.875rem}
 .explored-worlds b{font:500 .875rem var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
 .explored-worlds .here{color:var(--ink)}
-.explored-reset{margin-left:auto;padding:6px 14px;border:1px solid var(--line2);border-radius:var(--pill);background:var(--panel);color:var(--dim);font:500 .6875rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.explored-reset{margin-left:auto;padding:6px 14px;border:1px solid var(--line2);border-radius:var(--pill);background:var(--panel);color:var(--dim);font:500 .6875rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
 .explored-reset:hover{color:var(--ink);border-color:var(--accent-hi)}
 .explored-bar{height:8px;border-radius:var(--pill);background:var(--raise);overflow:hidden}
 .explored-bar b{display:block;height:100%;width:0;background:var(--signal);border-radius:var(--pill);transition:width .5s cubic-bezier(.22,1,.36,1)}

@@ -273,29 +273,31 @@ export const solids = new Set<import("three").Object3D>();
 export const arrowEls = new Map<string, HTMLDivElement>();
 export const spotKey = (stopId: string, spotId: string) => `${stopId}/${spotId}`;
 
-// Your place in the tour, kept for this browser tab (sessionStorage), so leaving for the atlas and coming
-// back picks up where you were: same stop, spots found, replays already watched.
+// Your progress (spots found, replays watched), kept for this browser tab (sessionStorage). The address decides
+// where you land: /#<id> goes to that machine with this progress, a bare / starts the tour fresh.
 const SAVE_KEY = "gra-tour";
 tour.subscribe(() => {
   const s = tour.get();
   try {
-    // Other machines' stops only exist once opened, so only a story stop is saved as the place to return to
-    // (the address, /#<id>, brings you back to any other machine).
-    if (s.phase === "explore" && s.stop >= 0) sessionStorage.setItem(SAVE_KEY, JSON.stringify({ stop: s.stop < STORY_COUNT ? s.stop : -1, found: s.found, visited: s.visited, revealed: s.revealed, calls: s.calls }));
+    if (s.phase === "explore" && s.stop >= 0) sessionStorage.setItem(SAVE_KEY, JSON.stringify({ found: s.found, visited: s.visited, revealed: s.revealed, calls: s.calls }));
     else if (s.phase === "end") sessionStorage.removeItem(SAVE_KEY);
   } catch {
     /* storage blocked: the tour just starts fresh next time */
   }
 });
-// Restores saved progress and returns the stop to go back to (or null). `at` overrides the saved stop.
-export function restoreProgress(at?: number): number | null {
+export function restoreProgress() {
   try {
-    const saved = JSON.parse(sessionStorage.getItem(SAVE_KEY) || "null") as { stop: number; found: Record<string, string[]>; visited: string[]; revealed: string[]; calls?: Record<string, Call> } | null;
-    if (!saved) return at ?? null;
-    tour.set({ found: saved.found ?? {}, visited: saved.visited ?? [], revealed: saved.revealed ?? [], calls: saved.calls ?? {} });
-    return at ?? (saved.stop >= 0 && saved.stop < STORY_COUNT ? saved.stop : null);
+    const saved = JSON.parse(sessionStorage.getItem(SAVE_KEY) || "null") as { found: Record<string, string[]>; visited: string[]; revealed: string[]; calls?: Record<string, Call> } | null;
+    if (saved) tour.set({ found: saved.found ?? {}, visited: saved.visited ?? [], revealed: saved.revealed ?? [], calls: saved.calls ?? {} });
   } catch {
-    return at ?? null;
+    /* unreadable save: carry on fresh */
+  }
+}
+export function clearProgress() {
+  try {
+    sessionStorage.removeItem(SAVE_KEY);
+  } catch {
+    /* storage blocked: nothing saved anyway */
   }
 }
 

@@ -4,11 +4,10 @@ import { useCallback } from "react";
 import { useStore } from "./lib/store";
 import { arrowEls, openHotspot, spotEls, spotKey, tour } from "./state";
 import { STOPS, type Hotspot } from "./stops";
-import { playCutscene, useMedia } from "./Story";
 
 // One clickable marker per hotspot. The 3D scene positions each marker every frame (see scene/Hotspots.tsx).
 // Its story (with any photo and footage) shows at the bottom left of the screen (Story in Tour.tsx).
-function Spot({ stopId, spot, film }: { stopId: string; spot: Hotspot; film: boolean }) {
+function Spot({ stopId, spot }: { stopId: string; spot: Hotspot }) {
   const key = spotKey(stopId, spot.id);
   const open = useStore(tour, (s) => s.openSpot === spot.id);
   const found = useStore(tour, (s) => (s.found[stopId] ?? []).includes(spot.id));
@@ -35,11 +34,7 @@ function Spot({ stopId, spot, film }: { stopId: string; spot: Hotspot; film: boo
           className={`spot${spot.broken ? " broken" : ""}${found ? " found" : ""}${open ? " open" : ""}`}
           aria-expanded={open}
           aria-label={`${spot.title}${spot.broken ? " (broken part)" : ""}${found ? ", found" : ""}`}
-          onClick={() => {
-            // A part with its own footage plays it the first time you find it (e.g. Apollo 15's TV camera).
-            if (film && !found) playCutscene(key);
-            openHotspot(stopId, open ? null : spot.id);
-          }}
+          onClick={() => openHotspot(stopId, open ? null : spot.id)}
         >
           <span className="spot-ring" aria-hidden="true" />
           <span className="spot-dot" aria-hidden="true" />
@@ -55,13 +50,12 @@ function Spot({ stopId, spot, film }: { stopId: string; spot: Hotspot; film: boo
 export function Spots() {
   const stop = useStore(tour, (s) => s.stop);
   const exploring = useStore(tour, (s) => s.phase === "explore" && !s.replay);
-  const media = useMedia();
   const s = STOPS[stop];
   if (!s || !exploring) return null;
   return (
     <div className="spots" key={s.id}>
       {s.hotspots.map((h) => (
-        <Spot key={h.id} stopId={s.id} spot={h} film={!!(h.video || media[spotKey(s.id, h.id)])} />
+        <Spot key={h.id} stopId={s.id} spot={h} />
       ))}
     </div>
   );

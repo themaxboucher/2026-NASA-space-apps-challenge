@@ -6,6 +6,7 @@ import "./atlas.css";
 import "./salvage.css";
 import "./live.css";
 import "./science.css";
+import { ExplorerSuits } from "./Suits";
 import { WhoPicker } from "./WhoPicker";
 
 // three.js r128 (UMD) and its loaders are self-hosted in /public/vendor/three; the engine expects the global THREE.
@@ -87,7 +88,7 @@ export default function Atlas() {
         </div>
 
         <button className="peg" id="peg" type="button" aria-label="Explorer: drag onto a glowing site to walk around it" title="Drag me onto a glowing site">
-                <svg viewBox="-6 -2 52 72" aria-hidden="true"><g className="pm-legL"><rect x="13" y="37" width="7" height="17" rx="3.2" fill="#eceef1" stroke="#15181e" strokeWidth="1.3"/><rect x="11.8" y="51" width="9.2" height="6.5" rx="2.4" fill="#8a909a" stroke="#15181e" strokeWidth="1.3"/></g><g className="pm-legR"><rect x="20" y="37" width="7" height="17" rx="3.2" fill="#eceef1" stroke="#15181e" strokeWidth="1.3"/><rect x="19" y="51" width="9.2" height="6.5" rx="2.4" fill="#8a909a" stroke="#15181e" strokeWidth="1.3"/></g><rect x="9" y="18.5" width="22" height="17" rx="2.5" fill="#b4bac3" stroke="#15181e" strokeWidth="1.3"/><g className="pm-armL"><rect x="4.6" y="21" width="6.4" height="15" rx="3.2" fill="#eceef1" stroke="#15181e" strokeWidth="1.3"/><circle cx="7.8" cy="37" r="3.1" fill="#8a909a" stroke="#15181e" strokeWidth="1.3"/></g><g className="pm-armR"><rect x="29" y="21" width="6.4" height="15" rx="3.2" fill="#eceef1" stroke="#15181e" strokeWidth="1.3"/><circle cx="32.2" cy="37" r="3.1" fill="#8a909a" stroke="#15181e" strokeWidth="1.3"/></g><rect x="11.5" y="19.5" width="17" height="20" rx="4.5" fill="#f5f6f8" stroke="#15181e" strokeWidth="1.3"/><rect x="16" y="25" width="8" height="5" rx="1.2" fill="#146ef5"/><circle cx="20" cy="11.5" r="10" fill="#f5f6f8" stroke="#15181e" strokeWidth="1.3"/><rect x="12.6" y="7.2" width="14.8" height="9.4" rx="4.7" fill="#1c2129"/><path d="M15 9.6c1.6-1.2 3.4-1.5 5.2-1.2" stroke="#9cc3ff" strokeWidth="1.3" fill="none" strokeLinecap="round"/></svg>
+                <ExplorerSuits />
               </button>
         <div className="ground" id="ground" hidden>
           <canvas id="groundCv" tabIndex={0}></canvas>

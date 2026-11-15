@@ -1,0 +1,111 @@
+{
+  "id": "apollo17-sivb",
+  "setting": "impact",
+  "model": null,
+  "name": "Apollo 17’s third stage",
+  "intro": "This crater was made by the third stage of the last Saturn V to carry astronauts to the Moon. It launched Apollo 17 on 7 December 1972, the only Saturn V launch at night, and was crashed into the Moon on 10 December, the day before the landing.",
+  "status": "Crater, found by LRO",
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "The crater",
+      "text": "The stage made a crater 35 to 40 meters long. LRO has photographed it many times under different lighting.",
+      "anchor": {
+        "pos": [
+          0,
+          0.1,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "LROC (LRO camera team): the Apollo S-IVB craters",
+        "url": "https://lroc.im-ldi.com/images/1261"
+      }
+    },
+    {
+      "id": "stage",
+      "title": "The stage in space",
+      "text": "Before the crash, the lunar module rode inside the top of this stage. After the crew pulled it out, the empty stage was steered toward the Moon.",
+      "anchor": {
+        "pos": [
+          -12,
+          2.5,
+          10
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 17 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo17-sivb--stage.jpg",
+        "w": 1200,
+        "h": 1200,
+        "alt": "A spacecraft seen from above inside a round opening, surrounded by sparkling dots in black space.",
+        "caption": "The lunar module on top of the S-IVB, seen from the command module; the dots are bits of debris.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as17-148-22687",
+        "licenseEvidence": "NASA Image and Video Library item as17-148-22687 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "angle",
+      "title": "The final dive",
+      "text": "It hit at 2.55 km per second, about 55 degrees above the horizon.",
+      "anchor": {
+        "pos": [
+          15,
+          0.3,
+          5
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    },
+    {
+      "id": "pieces",
+      "title": "Scattered pieces",
+      "text": "Scout’s check: nothing survived in one piece. Its fragments lie scattered around the crater.",
+      "broken": true,
+      "tag": "What is left",
+      "anchor": {
+        "pos": [
+          -20,
+          0.1,
+          -14
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "LROC (LRO camera team): the Apollo S-IVB craters",
+        "url": "https://lroc.im-ldi.com/images/1261"
+      }
+    }
+  ],
+  "funFact": "It was the last Saturn V stage ever to hit the Moon.",
+  "stats": [
+    {
+      "label": "Hit the Moon",
+      "value": "10 December 1972"
+    },
+    {
+      "label": "Speed",
+      "value": "2.55 km/s"
+    },
+    {
+      "label": "Mass",
+      "value": "About 14,500 kg"
+    },
+    {
+      "label": "Crater",
+      "value": "About 35–40 m long"
+    }
+  ],
+  "whyLeft": "Its job ended once it had pushed Challenger and the command module America toward the Moon, so it became one last test signal for the seismometers.",
+  "repurpose": "It shattered into pieces. Its aluminium could be a source of metal for a future Moon base."
+}

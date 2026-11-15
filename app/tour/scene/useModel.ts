@@ -1,4 +1,5 @@
 import { use } from "react";
+import { Group } from "three";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 
@@ -11,7 +12,8 @@ function load(url: string) {
   if (!p) {
     // NASA's models are Draco-compressed; the decoder is served from /public so nothing loads from a CDN.
     loader ??= new GLTFLoader().setDRACOLoader(new DRACOLoader().setDecoderPath("/vendor/draco-gltf/"));
-    const q = loader.loadAsync(url);
+    // A missing or broken file shows nothing instead of crashing the scene (runtime sites name models by key).
+    const q = loader.loadAsync(url).catch(() => ({ scene: new Group() }) as unknown as GLTF);
     // React's `use` reads these fields, so a model that has already loaded renders without suspending.
     q.then(
       (value) => Object.assign(q, { status: "fulfilled", value }),

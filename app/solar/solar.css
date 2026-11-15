@@ -1,0 +1,675 @@
+/* /solar: free flight around the solar system. Self-contained: everything is scoped to .solar.
+   Follows the site's design (the team's polish): Instrument Sans, cool greys, dark panels. Status colours
+   (--signal still working, --echo silent but used) stay as in the atlas legend. */
+.solar {
+  --void: #0a0c10;
+  --ink: #f3f5f8;
+  --dim: #969eac;
+  --sand: #c8ced8;
+  --signal: #d9814a;
+  --echo: #5ea6d6;
+  --panel: rgba(18, 21, 27, 0.86);
+  --line: #232833;
+  --line2: #343b48;
+  --display: var(--font-instrument-sans), "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --body: var(--font-instrument-sans), "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --gut: max(16px, env(safe-area-inset-left, 0px));
+  --gut-b: max(16px, env(safe-area-inset-bottom, 0px));
+  position: fixed;
+  inset: 0;
+  overflow: clip;
+  background: #000;
+  color: var(--ink);
+  font: 15px/1.5 var(--body);
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+}
+.solar *,
+.solar *::before,
+.solar *::after {
+  box-sizing: border-box;
+}
+:where(.solar) button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.solar :focus-visible {
+  outline: 2px solid var(--sand);
+  outline-offset: 2px;
+}
+.solar a {
+  color: var(--echo);
+}
+.sol-canvas {
+  position: absolute !important;
+  inset: 0;
+}
+.sol-canvas canvas {
+  touch-action: none;
+}
+.sol-eyebrow {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--dim);
+}
+.sol-note {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  color: var(--dim);
+}
+.sol-dot {
+  flex: none;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 6px currentColor;
+}
+.sol-dot.world {
+  background: transparent;
+  border: 1.5px solid var(--sand);
+  box-shadow: none;
+}
+
+/* Glass panels */
+.sol-head,
+.sol-panel,
+.sol-map,
+.sol-card,
+.sol-foot p,
+.sol-credits {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.sol-head {
+  position: absolute;
+  z-index: 30;
+  top: 16px;
+  left: var(--gut);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 16px 8px 8px;
+}
+.sol-head h1 {
+  margin: 0;
+  font: 600 1.375rem/1.15 var(--display);
+  letter-spacing: -0.01em;
+}
+.sol-home {
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  padding: 0 12px;
+  border-right: 1px solid var(--line);
+  color: var(--dim) !important;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.sol-home:hover {
+  color: var(--ink) !important;
+}
+
+/* Find a place */
+.sol-panel {
+  position: absolute;
+  z-index: 25;
+  top: 92px;
+  left: var(--gut);
+  width: min(320px, calc(100vw - 2 * var(--gut)));
+  max-height: calc(100dvh - 92px - 110px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.sol-toggle {
+  padding: 10px 14px;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-weight: 600;
+}
+.sol-panel.open .sol-toggle {
+  border-bottom: 1px solid var(--line);
+  color: var(--dim);
+}
+.sol-find {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.sol-search {
+  display: grid;
+  gap: 4px;
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  color: var(--dim);
+}
+.sol-search input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--line2);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9375rem;
+}
+.sol-list {
+  overflow-y: auto;
+  padding: 0 6px 8px;
+  scrollbar-width: thin;
+}
+.sol-list h2 {
+  margin: 12px 8px 4px;
+  font: 600 1rem/1.3 var(--display);
+  color: var(--sand);
+}
+.sol-list ul,
+.sol-card ul,
+.sol-legend,
+.sol-credits ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sol-list button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  text-align: left;
+}
+.sol-list button:hover,
+.sol-list button:focus-visible {
+  background: rgba(193, 169, 149, 0.12);
+}
+.sol-list button span {
+  display: grid;
+  min-width: 0;
+}
+.sol-list small {
+  font-size: 0.8125rem;
+  color: var(--dim);
+}
+.sol-legend {
+  display: grid;
+  gap: 4px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  font-size: 0.8125rem;
+  color: var(--dim);
+}
+.sol-legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Map and nearest names */
+.sol-map {
+  position: absolute;
+  z-index: 25;
+  top: 16px;
+  right: var(--gut);
+  width: 200px;
+  padding: 10px;
+}
+.sol-map canvas {
+  display: block;
+  width: 180px;
+  height: 180px;
+}
+.sol-map p {
+  display: grid;
+  margin: 6px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+.sol-map span {
+  color: var(--dim);
+}
+.sol-map b {
+  font-weight: 600;
+}
+
+/* Card for the site (or Earth's junk) you're next to */
+.sol-card {
+  position: absolute;
+  z-index: 26;
+  right: var(--gut);
+  bottom: calc(var(--gut-b) + 64px);
+  width: min(360px, calc(100vw - 2 * var(--gut)));
+  max-height: calc(100dvh - 330px);
+  overflow-y: auto;
+  padding: 14px 16px;
+  font-size: 0.9375rem;
+}
+.sol-card h2 {
+  margin: 2px 0 4px;
+  font: 600 1.375rem/1.2 var(--display);
+}
+.sol-card h3 {
+  margin: 0 0 2px;
+  font: 600 1.0625rem/1.3 var(--display);
+}
+.sol-card p {
+  margin: 6px 0 0;
+}
+.sol-card li + li {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.sol-sub,
+.sol-small {
+  font-size: 0.8125rem;
+  color: var(--dim);
+}
+.sol-status {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.sol-why b {
+  color: var(--signal);
+}
+.sol-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-top: 10px !important;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.sol-land {
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--signal);
+  color: #170b05 !important;
+  text-decoration: none;
+}
+.sol-land:hover {
+  background: #e99a66;
+}
+
+/* Speed and help */
+.sol-foot {
+  position: absolute;
+  z-index: 24;
+  left: 50%;
+  bottom: var(--gut-b);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100vw - 2 * var(--gut));
+  pointer-events: none;
+}
+.sol-foot p {
+  margin: 0;
+  padding: 7px 12px;
+  font-size: 0.8125rem;
+  color: var(--dim);
+}
+.sol-speed {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+.sol-speed b {
+  display: inline-block;
+  min-width: 4ch;
+  color: var(--ink);
+  font-size: 0.9375rem;
+}
+.sol-speed b[data-fast="1"] {
+  color: var(--signal);
+}
+
+/* Labels over the 3D view, placed by Flight.tsx */
+.sol-labels {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  overflow: hidden;
+}
+.sol-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(5, 3, 2, 0.55);
+  color: var(--ink);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: auto;
+  translate: -50% -100%;
+}
+.sol-label.on {
+  display: inline-flex;
+}
+.sol-label.site {
+  translate: 10px -50%;
+}
+.sol-label.site.hot {
+  background: rgba(5, 3, 2, 0.85);
+  outline: 1px solid var(--line2);
+}
+.sol-label.body {
+  background: none;
+  color: var(--sand);
+  text-shadow: 0 1px 3px #000;
+}
+.sol-label small {
+  padding: 0 6px;
+  border-radius: 999px;
+  background: rgba(193, 169, 149, 0.2);
+  font-size: 0.8125rem;
+}
+.solar:has(.sol-cross) .sol-label {
+  pointer-events: none;
+}
+.sol-cross {
+  position: absolute;
+  z-index: 11;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border: 1.5px solid rgba(239, 229, 218, 0.7);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Credits */
+.sol-credits {
+  position: absolute;
+  z-index: 23;
+  left: var(--gut);
+  bottom: var(--gut-b);
+  max-width: min(440px, calc(100vw - 2 * var(--gut)));
+  font-size: 0.8125rem;
+  color: var(--dim);
+}
+.sol-credits summary {
+  padding: 7px 12px;
+  cursor: pointer;
+}
+.sol-credits ul {
+  display: grid;
+  gap: 6px;
+  max-height: 40dvh;
+  overflow-y: auto;
+  padding: 0 12px 10px;
+}
+
+/* Narrow desktop windows: smaller map, the list folds away. */
+@media (max-width: 899px) {
+  .sol-head {
+    padding: 6px 12px 6px 6px;
+  }
+  .sol-head .sol-eyebrow {
+    display: none;
+  }
+  .sol-head h1 {
+    font-size: 1.125rem;
+  }
+  .sol-panel {
+    top: 70px;
+    max-height: calc(100dvh - 70px - 200px);
+  }
+  .sol-panel.open {
+    z-index: 40;
+  }
+  .sol-map {
+    top: 70px;
+    width: 118px;
+    padding: 6px;
+  }
+  .sol-map canvas {
+    width: 104px;
+    height: 104px;
+  }
+  .sol-card {
+    bottom: calc(var(--gut-b) + 96px);
+  }
+  .sol-credits {
+    display: none;
+  }
+}
+
+
+/* Earth's orbit card */
+.sol-bar {
+  display: flex;
+  height: 12px;
+  margin-top: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #8f97a6;
+}
+.sol-bar span {
+  background: #f0a873;
+}
+.sol-barkey {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  font-size: 0.875rem;
+}
+.sol-barkey span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.sol-dot.work {
+  background: #f0a873;
+}
+.sol-dot.dead {
+  background: #8f97a6;
+}
+.sol-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+  margin: 12px 0 0;
+}
+.sol-facts dt {
+  font-size: 0.8125rem;
+  color: var(--dim);
+}
+.sol-facts dd {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.sol-card h3 {
+  margin-top: 14px;
+}
+.sol-shells li {
+  font-size: 0.875rem;
+}
+.sol-shells li + li {
+  margin-top: 6px !important;
+  padding-top: 0 !important;
+  border-top: 0 !important;
+}
+.sol-shells span {
+  color: var(--dim);
+}
+
+/* Saturn's moons: name on hover (component shared with the tour). */
+.moon-label {
+  display: inline-block;
+  transform: translateY(-22px);
+  padding: 3px 9px;
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  background: rgba(10, 12, 16, 0.82);
+  color: var(--ink);
+  font: 500 0.8125rem/1.3 var(--body);
+  white-space: nowrap;
+}
+.moon-label span {
+  color: var(--dim);
+}
+
+/* Coming from the explore page's map: the page opens on black and fades up on the overhead view. */
+.solar-intro-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  background: #000;
+  pointer-events: none;
+  animation: solar-veil 0.5s ease-out 0.1s forwards;
+}
+/* The atlas map on top: sized so its heliopause ring (radius 426 of 500 in its viewBox) lands on the 3D one,
+   which the overhead view frames at 86% of the half-height; then it fades away. */
+.solar-map-handover {
+  position: absolute;
+  z-index: 51;
+  left: 50%;
+  top: 50%;
+  width: calc(min(100vw, 100vh) * 0.86 * 1000 / 852);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  pointer-events: none;
+  animation: solar-map-out 1.4s ease-in-out 1.1s forwards;
+}
+.solar-map-handover svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+@keyframes solar-map-out {
+  to {
+    opacity: 0;
+    scale: 1.03;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .solar-map-handover {
+    animation-duration: 0.01s;
+  }
+}
+@keyframes solar-veil {
+  to {
+    opacity: 0;
+  }
+}
+/* The handed-over map keeps the atlas's look (its stylesheet isn't on this page). */
+.solar-map-handover text {
+  font-family: var(--font-spline-mono), "Spline Sans Mono", ui-monospace, monospace;
+  font-size: 15px;
+  fill: #969eac;
+}
+.solar-map-handover .orbit {
+  fill: none;
+  stroke: #343b48;
+  vector-effect: non-scaling-stroke;
+}
+.solar-map-handover .helio {
+  fill: none;
+  stroke: #969eac;
+  stroke-dasharray: 3 5;
+  opacity: 0.6;
+}
+.solar-map-handover .craft text {
+  fill: #f3f5f8;
+  font-size: 18px;
+  paint-order: stroke;
+  stroke: #0a0c10;
+  stroke-width: 4px;
+}
+.solar-map-handover .craft.nolabel text {
+  display: none;
+}
+.solar-map-handover .craft circle {
+  r: 9px;
+}
+.solar-map-handover .craft.seen circle,
+.solar-map-handover .craft.complete circle {
+  stroke: #34d399;
+  stroke-width: 3px;
+}
+
+/* Orbit view: back button; zoom buttons */
+.sol-back {
+  flex: none;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--void);
+  font-size: 0.875rem;
+  font-weight: 600;
+  pointer-events: auto;
+}
+.sol-back:hover {
+  background: #fff;
+}
+.sol-foot {
+  flex-wrap: wrap;
+  justify-content: center;
+  width: min(900px, calc(100vw - 2 * var(--gut) - 120px));
+}
+.sol-foot .sol-help {
+  flex: 1 1 380px;
+  max-width: 640px;
+  text-align: center;
+}
+.sol-foot .sol-zoom {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  padding-block: 4px;
+  pointer-events: auto;
+  font-variant-numeric: tabular-nums;
+}
+.sol-zoom b {
+  display: inline-block;
+  min-width: 3.5ch;
+  color: var(--ink);
+}
+.sol-zoom button {
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--line2);
+  border-radius: 6px;
+  background: transparent;
+  font-size: 1rem;
+  line-height: 1;
+}
+.sol-zoom button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+/* In orbit view the hover card can sit over the marker it describes: let clicks pass through to it. */
+.solar:has(.sol-back) .sol-card {
+  pointer-events: none;
+}
+.solar:has(.sol-back) .sol-card :is(a, button) {
+  pointer-events: auto;
+}

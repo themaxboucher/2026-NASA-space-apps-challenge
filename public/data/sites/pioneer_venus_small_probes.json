@@ -1,0 +1,112 @@
+{
+  "id": "pioneer_venus_small_probes",
+  "setting": "impact",
+  "model": null,
+  "name": "Pioneer Venus Small Probes",
+  "intro": "Three identical small probes, named North, Day and Night, plunged into different parts of Venus on 9 December 1978. None was built to land, but all three reached the ground, and the Day Probe kept talking from the surface for more than an hour.",
+  "status": "Silent on Venus since 1978",
+  "whyLeft": "They were one-way probes, dropped without parachutes. On Venus’s 460 °C surface, their batteries and electronics soon gave out.",
+  "repurpose": "They cannot be repaired. What they teach is how tough a Venus lander must be: the Day Probe’s 67 minutes on the ground showed it can be done.",
+  "hotspots": [
+    {
+      "id": "day-probe",
+      "title": "The Day Probe",
+      "text": "The Day Probe hit the ground and kept sending signals for 67 minutes, even though it was never designed to survive landing. Then the heat finished it.",
+      "broken": true,
+      "tag": "Last to go quiet",
+      "anchor": {
+        "pos": [
+          0,
+          0.3,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Pioneer Venus Day Probe",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-078G"
+      }
+    },
+    {
+      "id": "no-parachute",
+      "title": "No parachutes",
+      "text": "The small probes had no parachutes. Venus’s air is so thick that it slowed them down on its own, and they kept their heat shields on all the way to the ground.",
+      "anchor": {
+        "pos": [
+          3,
+          0.3,
+          -3
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Pioneer Venus Day Probe",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-078G"
+      }
+    },
+    {
+      "id": "triplets",
+      "title": "Triplets far apart",
+      "text": "North, Day and Night were aimed thousands of kilometers apart. Measuring three places at once showed how the temperature and winds change across Venus.",
+      "anchor": {
+        "pos": [
+          -4,
+          0.3,
+          3
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Pioneer Venus Multiprobe",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-078A"
+      }
+    },
+    {
+      "id": "bus",
+      "title": "The mother ship",
+      "text": "All four probes rode to Venus on this bus. After letting them go, the bus dove in too and measured the thin upper air until it burned up.",
+      "anchor": {
+        "pos": [
+          5,
+          0.3,
+          5
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Pioneer Venus Multiprobe",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-078A"
+      },
+      "photo": {
+        "file": "photos/sites/pioneer_venus_small_probes--bus.jpg",
+        "w": 1200,
+        "h": 903,
+        "alt": "Painting of a ring-shaped spacecraft in space, near the edge of Venus.",
+        "caption": "A NASA painting of the bus that carried all four probes, after it let them go.",
+        "credit": "NASA/Paul Hudson",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Pioneer_Venus_Multiprobe_Bus.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://www.nasa.gov/image-feature/ames/40-years-ago-pioneer-venus-multiprobe-launched-to-."
+      }
+    }
+  ],
+  "funFact": "The Day Probe sent signals from Venus’s surface for 67 minutes, even though it was never designed to land.",
+  "stats": [
+    {
+      "label": "Entered Venus’s air",
+      "value": "9 December 1978"
+    },
+    {
+      "label": "Probes",
+      "value": "3 (North, Day, Night)"
+    },
+    {
+      "label": "Mass each",
+      "value": "About 90 kg"
+    },
+    {
+      "label": "Day Probe on the ground",
+      "value": "67 minutes"
+    }
+  ]
+}

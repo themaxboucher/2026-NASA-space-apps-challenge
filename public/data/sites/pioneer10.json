@@ -1,0 +1,140 @@
+{
+  "id": "pioneer10",
+  "setting": "space",
+  "model": "pioneer",
+  "name": "Pioneer 10",
+  "intro": "Pioneer 10 was the first spacecraft to cross the asteroid belt and visit Jupiter. It kept talking to Earth for more than 30 years. Now it coasts out of the solar system, silent, about 142 times farther from the Sun than Earth.",
+  "status": "Silent since 2003",
+  "whyLeft": "It was launched on a one-way path out of the solar system. Its nuclear generators faded until they were too weak to power the radio; its last faint signal reached Earth on 23 January 2003.",
+  "repurpose": "Nobody can reach it: a faster probe would need decades just to catch up. Its best job now is the one it already has, carrying a plaque about us, like a message in a bottle.",
+  "hotspots": [
+    {
+      "id": "dish",
+      "title": "The big dish",
+      "text": "This 2.74-meter dish always faced Earth. Pioneer 10’s last faint signal reached it in January 2003, more than 30 years after launch.",
+      "anchor": {
+        "part": "dish_AO",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Pioneer 10 sends its last signal",
+        "url": "https://science.nasa.gov/missions/pioneer/pioneer-10-sends-last-signal/"
+      }
+    },
+    {
+      "id": "power",
+      "title": "Nuclear generators",
+      "text": "Four small nuclear generators on two long arms made the electricity. Their power faded a little every year until there was not enough to run the radio.",
+      "broken": true,
+      "tag": "Why it went quiet",
+      "anchor": {
+        "part": "RTG_AO_new",
+        "at": [
+          0.05,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Pioneer 10",
+        "url": "https://science.nasa.gov/mission/pioneer-10/"
+      }
+    },
+    {
+      "id": "plaque",
+      "title": "The plaque",
+      "text": "A gold-coloured plaque bolted here shows a man, a woman and a map of where the Sun is, in case anyone out there ever finds this spacecraft.",
+      "anchor": {
+        "part": "Pioneer_silver_02",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Pioneer 10",
+        "url": "https://science.nasa.gov/mission/pioneer-10/"
+      },
+      "photo": {
+        "file": "photos/sites/pioneer10--plaque.jpg",
+        "w": 768,
+        "h": 513,
+        "alt": "A small engraved plaque showing a man and a woman, fixed between metal struts.",
+        "caption": "The plaque in place on Pioneer 10 before launch in 1972, peeking out between the antenna struts. Pioneer 11 carries a twin.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Pioneer_plaque_mounted_on_the_spacecraft.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://solarsystem.nasa.gov/resources/706/pioneer-plaque/."
+      }
+    },
+    {
+      "id": "jupiter",
+      "title": "First to Jupiter",
+      "text": "Pioneer 10 was the first spacecraft to cross the asteroid belt and fly past Jupiter, in December 1973. Its light meter scanned Jupiter line by line to build the first close-up pictures.",
+      "anchor": {
+        "part": "foil_gold",
+        "at": [
+          0.5,
+          0.88,
+          0.3
+        ]
+      },
+      "source": {
+        "label": "NASA: Pioneer 10",
+        "url": "https://science.nasa.gov/mission/pioneer-10/"
+      },
+      "photo": {
+        "file": "photos/sites/pioneer10--jupiter.jpg",
+        "w": 962,
+        "h": 1200,
+        "alt": "Jupiter with its striped clouds and Great Red Spot.",
+        "caption": "Jupiter seen by Pioneer 10 in December 1973, one of the first close-up pictures of the giant planet.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Pioneer_10_Jupiter_1974_GPN-2000-001698.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: Great Images in NASA Description."
+      }
+    },
+    {
+      "id": "boom",
+      "title": "The magnetometer boom",
+      "text": "This 6.6-meter boom held a sensor away from the spacecraft to measure magnetic fields. Pioneer 10 is now drifting toward the star Aldebaran, a trip of more than 2 million years.",
+      "anchor": {
+        "part": "pioneer_tex_02",
+        "at": [
+          0.5,
+          0.02,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Pioneer 10",
+        "url": "https://science.nasa.gov/mission/pioneer-10/"
+      }
+    }
+  ],
+  "funFact": "Pioneer 10 is heading toward the red star Aldebaran, but even if it were aimed straight at it, the trip would take more than 2 million years.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "3 March 1972"
+    },
+    {
+      "label": "Passed Jupiter",
+      "value": "3 December 1973"
+    },
+    {
+      "label": "Last signal",
+      "value": "23 January 2003"
+    },
+    {
+      "label": "Distance from the Sun",
+      "value": "About 142 AU"
+    }
+  ]
+}

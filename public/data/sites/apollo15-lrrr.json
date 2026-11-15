@@ -1,0 +1,121 @@
+{
+  "id": "apollo15-lrrr",
+  "setting": "surface",
+  "model": "lrrr-300",
+  "name": "Apollo 15 laser mirror",
+  "intro": "This is the biggest Apollo laser mirror, with 300 glass prisms, three times as many as Apollo 11’s. Dave Scott and Jim Irwin set it up near Hadley Rille in 1971. It needs no power, and laser stations on Earth still aim at it more than at any other Apollo mirror.",
+  "status": "Still reflecting lasers",
+  "hotspots": [
+    {
+      "id": "prisms",
+      "title": "300 prisms",
+      "text": "Each of these 300 glass prisms bounces laser light straight back toward Earth. More prisms means a brighter echo, which is why observatories love this mirror.",
+      "anchor": {
+        "part": "glass",
+        "at": [
+          0.6,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: Apollo 11 experiment still returns valuable data",
+        "url": "https://www.jpl.nasa.gov/news/apollo-11-experiment-continues-to-return-valuable-data/"
+      },
+      "photo": {
+        "file": "photos/sites/apollo15-lrrr--prisms.jpg",
+        "w": 1193,
+        "h": 1200,
+        "alt": "Close-up of a large panel of round mirror cells set in a grid, on the grey lunar ground.",
+        "caption": "Dave Scott’s close-up of the mirror panel after setup.",
+        "credit": "NASA (Apollo photo AS15-85-11468)",
+        "license": "Public domain",
+        "source": "https://apollojournals.org/alsj/a15/images15.html",
+        "licenseEvidence": "Apollo Lunar Surface Journal image library: NASA Hasselblad frame AS15-85-11468, NASA film scan (not a third-party restoration). NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "side-panel",
+      "title": "Two panels",
+      "text": "The mirror is made of a big panel and a smaller one hinged together, so it could fold up for the trip.",
+      "anchor": {
+        "part": "glass",
+        "at": [
+          0.05,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Apollo 15 image library",
+        "url": "https://apollojournals.org/alsj/a15/images15.html"
+      }
+    },
+    {
+      "id": "sun-compass",
+      "title": "Aiming at Earth",
+      "text": "A sun compass and bubble level on the end helped Scott point the mirror at Earth. Scout’s check: nothing here needs power or repairs.",
+      "anchor": {
+        "part": "white",
+        "at": [
+          1,
+          0.6,
+          0.3
+        ]
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Apollo 15 image library",
+        "url": "https://apollojournals.org/alsj/a15/images15.html"
+      }
+    },
+    {
+      "id": "from-orbit",
+      "title": "Seen from orbit",
+      "text": "NASA’s Lunar Reconnaissance Orbiter has photographed this landing site from above. The mirror is too small to see, but its spot is marked among the tracks.",
+      "anchor": {
+        "part": "darkalu",
+        "at": [
+          0.5,
+          0,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: Apollo 11 experiment still returns valuable data",
+        "url": "https://www.jpl.nasa.gov/news/apollo-11-experiment-continues-to-return-valuable-data/"
+      },
+      "photo": {
+        "file": "photos/sites/apollo15-lrrr--from-orbit.jpg",
+        "w": 752,
+        "h": 752,
+        "alt": "A grey, cratered surface seen from above with labels for the laser mirror, the science station and the lander.",
+        "caption": "The Apollo 15 site from orbit, with the laser mirror’s spot labeled.",
+        "credit": "NASA/GSFC/Arizona State University",
+        "license": "Educational use with credit",
+        "source": "https://images.nasa.gov/details/PIA13037",
+        "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
+      }
+    }
+  ],
+  "funFact": "Laser ranging showed that the Moon drifts away from Earth by about 3.8 cm every year.",
+  "stats": [
+    {
+      "label": "Prisms",
+      "value": "300"
+    },
+    {
+      "label": "Length",
+      "value": "About 1 m"
+    },
+    {
+      "label": "Power needed",
+      "value": "None"
+    },
+    {
+      "label": "Set up",
+      "value": "31 July 1971"
+    }
+  ],
+  "whyLeft": "It was meant to stay forever as a target for lasers fired from Earth.",
+  "repurpose": "It is still in use. Future Moon bases could check their own positions against it, since its location is known to within centimeters."
+}

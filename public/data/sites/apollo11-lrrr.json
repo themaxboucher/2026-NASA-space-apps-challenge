@@ -1,0 +1,110 @@
+{
+  "id": "apollo11-lrrr",
+  "setting": "surface",
+  "model": "lrrr-100",
+  "name": "Apollo 11 laser mirror",
+  "intro": "This panel of 100 glass prisms was the first laser mirror ever placed on the Moon. The Apollo 11 crew set it down a few steps from their seismometer. It needs no power at all, so it still works today.",
+  "status": "Still reflecting lasers",
+  "hotspots": [
+    {
+      "id": "prisms",
+      "title": "Corner-cube prisms",
+      "text": "Each of these 100 glass prisms is a corner cube: it sends light straight back to wherever it came from, like a bike reflector. Observatories fire laser pulses at them and time the echo.",
+      "anchor": {
+        "part": "glass",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: Apollo 11 experiment still returns valuable data",
+        "url": "https://www.jpl.nasa.gov/news/apollo-11-experiment-continues-to-return-valuable-data/"
+      },
+      "photo": {
+        "file": "photos/sites/apollo11-lrrr--prisms.jpg",
+        "w": 891,
+        "h": 900,
+        "alt": "A flat panel of round mirrors on a white stand sits on the dusty lunar ground.",
+        "caption": "The laser mirror just after it was set up on 20 July 1969.",
+        "credit": "NASA (Apollo photo AS11-40-5952)",
+        "license": "Public domain",
+        "source": "https://apollojournals.org/alsj/a11/images11.html",
+        "licenseEvidence": "Apollo Lunar Surface Journal image library: NASA Hasselblad frame AS11-40-5952, NASA film scan (not a third-party restoration). NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "drift",
+      "title": "The Moon is leaving",
+      "text": "Timing these echoes showed that the Moon is drifting away from Earth by about 3.8 cm every year, roughly as fast as your fingernails grow. The same data has helped test Einstein’s ideas about gravity.",
+      "anchor": {
+        "part": "white",
+        "at": [
+          0.5,
+          0.6,
+          0.05
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: Apollo 11 experiment still returns valuable data",
+        "url": "https://www.jpl.nasa.gov/news/apollo-11-experiment-continues-to-return-valuable-data/"
+      }
+    },
+    {
+      "id": "echo",
+      "title": "A faint echo",
+      "text": "By the time the light gets back, almost all of it is lost. Even on a good night, a telescope on Earth catches about one photon, a single particle of light, every few seconds.",
+      "anchor": {
+        "part": "glass",
+        "at": [
+          0.15,
+          1,
+          0.15
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: Apollo 11 experiment still returns valuable data",
+        "url": "https://www.jpl.nasa.gov/news/apollo-11-experiment-continues-to-return-valuable-data/"
+      }
+    },
+    {
+      "id": "no-parts",
+      "title": "Nothing to break",
+      "text": "Scout’s check: there are no batteries, motors or wires here, just glass in a metal frame. That is why it has outlived every other Apollo 11 experiment.",
+      "anchor": {
+        "part": "alu",
+        "at": [
+          0.1,
+          0.2,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: Apollo 11 experiment still returns valuable data",
+        "url": "https://www.jpl.nasa.gov/news/apollo-11-experiment-continues-to-return-valuable-data/"
+      }
+    }
+  ],
+  "funFact": "Laser ranging to these mirrors is the only Apollo experiment that has never stopped. Observatories still use it more than 55 years later.",
+  "stats": [
+    {
+      "label": "Prisms",
+      "value": "100"
+    },
+    {
+      "label": "Power needed",
+      "value": "None"
+    },
+    {
+      "label": "Laser round trip",
+      "value": "About 2.5 seconds"
+    },
+    {
+      "label": "Moon drifts away",
+      "value": "About 3.8 cm a year"
+    }
+  ],
+  "whyLeft": "It was meant to stay forever: a mirror on the Moon is only useful where it is, as a target for lasers fired from Earth.",
+  "repurpose": "It never stopped working, so it already has its second career. Moon dust has made it dimmer, and newer reflectors are being added nearby rather than touching this one."
+}

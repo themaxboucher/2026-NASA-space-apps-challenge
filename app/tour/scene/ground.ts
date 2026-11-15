@@ -10,6 +10,47 @@ import { groundTextures } from "./textures";
 const FRAG_HEAD = /* glsl */ `
 uniform float uOpp; uniform float uPrints; uniform float uTracks; varying vec2 vGround;
 float gHash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+float gNoise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(gHash(i), gHash(i + vec2(1.0, 0.0)), f.x), mix(gHash(i + vec2(0.0, 1.0)), gHash(i + vec2(1.0, 1.0)), f.x), f.y);
+}
+// The grain texture is one 3 m tile. Read on its own it repeats in rows, so it is read three ways (as is, turned
+// 34 degrees and scaled up, turned the other way and scaled down) and patches of each, a few metres across, are
+// blended by noise. Far away the grain fades to its average, so what is left can't alias into a grid.
+const mat2 gRotB = mat2(0.8290, 0.5592, -0.5592, 0.8290);
+const mat2 gRotC = mat2(0.4161, -0.9093, 0.9093, 0.4161);
+vec2 gUvB(vec2 uv) { return gRotB * uv * 1.37 + vec2(0.31, 0.77); }
+vec2 gUvC(vec2 uv) { return gRotC * uv * 0.61 + vec2(0.53, 0.19); }
+vec3 gWeights() {
+  float b = smoothstep(0.35, 0.65, gNoise(vGround / 4.3) * 0.75 + gNoise(vGround / 1.6 + 5.0) * 0.25);
+  float c = smoothstep(0.4, 0.7, gNoise(vGround / 7.9 + 11.0));
+  return vec3((1.0 - b) * (1.0 - c), b * (1.0 - c), c);
+}
+float gFar() { return smoothstep(18.0, 140.0, length(vViewPosition)); }
+vec4 groundMap(sampler2D t, vec2 uv) {
+  vec3 w = gWeights();
+  vec4 s = texture2D(t, uv) * w.x + texture2D(t, gUvB(uv)) * w.y + texture2D(t, gUvC(uv)) * w.z;
+  return mix(s, textureLod(t, uv, 12.0), gFar() * 0.9);
+}
+// Normal-map texels from a turned lookup point along the turned axes, so turn them back.
+vec3 groundNormal(sampler2D t, vec2 uv) {
+  vec3 w = gWeights();
+  vec3 a = texture2D(t, uv).xyz * 2.0 - 1.0;
+  vec3 b = texture2D(t, gUvB(uv)).xyz * 2.0 - 1.0;
+  vec3 c = texture2D(t, gUvC(uv)).xyz * 2.0 - 1.0;
+  b.xy = b.xy * gRotB;
+  c.xy = c.xy * gRotC;
+  vec3 n = a * w.x + b * w.y + c * w.z;
+  n.xy *= 1.0 - gFar() * 0.75;
+  return n;
+}
+// Patches of darker and lighter soil at several sizes (10 m to 300 m), so no stretch of ground looks uniform,
+// least of all from above on the way down.
+float groundMacro() {
+  vec2 p = vGround;
+  return (gNoise(p / 11.0 + 7.0) - 0.5) * 0.07 + (gNoise(p / 37.0 + 3.1) - 0.5) * 0.12 + (gNoise(p / 130.0 - 4.7) - 0.5) * 0.14 + (gNoise(p / 420.0 + 9.3) - 0.5) * 0.1;
+}
 float trodden(vec2 p) {
   float dark = 0.0;
   if (uPrints > 0.0) {
@@ -59,7 +100,12 @@ export function groundMaterial(stop: Stop) {
       .replace("#include <begin_vertex>", "#include <begin_vertex>\nvGround = position.xz;");
     sh.fragmentShader = sh.fragmentShader
       .replace("#include <common>", "#include <common>\n" + FRAG_HEAD)
-      .replace("#include <color_fragment>", "#include <color_fragment>\ndiffuseColor.rgb *= 1.0 - trodden(vGround);")
+      .replace("#include <color_fragment>", "#include <color_fragment>\ndiffuseColor.rgb *= (1.0 - trodden(vGround)) * (1.0 + groundMacro());")
+      .replace("#include <map_fragment>", THREE.ShaderChunk.map_fragment.replace("texture2D( map, vMapUv )", "groundMap( map, vMapUv )"))
+      .replace(
+        "#include <normal_fragment_maps>",
+        THREE.ShaderChunk.normal_fragment_maps.replaceAll("texture2D( normalMap, vNormalMapUv ).xyz * 2.0 - 1.0", "groundNormal( normalMap, vNormalMapUv )"),
+      )
       .replace(
         "#include <lights_fragment_end>",
         /* glsl */ `#include <lights_fragment_end>

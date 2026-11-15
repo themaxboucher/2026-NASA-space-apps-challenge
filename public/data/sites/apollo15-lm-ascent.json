@@ -1,0 +1,97 @@
+{
+  "id": "apollo15-lm-ascent",
+  "setting": "impact",
+  "model": null,
+  "name": "Falcon’s top half",
+  "intro": "This is where the top half of Falcon crashed into the Moon on 3 August 1971. It had lifted Dave Scott and Jim Irwin off the Moon the day before, on live TV, and was crashed on purpose after they moved into their command module, Endeavour. Its crater has not been found.",
+  "status": "Crashed on purpose, 3 August 1971",
+  "hotspots": [
+    {
+      "id": "impact-point",
+      "title": "Somewhere here",
+      "text": "Falcon’s cabin hit about 90 km west of where it took off. Its crater has never been identified.",
+      "anchor": {
+        "pos": [
+          0,
+          0.1,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    },
+    {
+      "id": "skimming",
+      "title": "A skimming crash",
+      "text": "It came in only about 3.2 degrees above the horizon at 1.70 km per second, so it probably smeared along the ground.",
+      "anchor": {
+        "pos": [
+          18,
+          0.2,
+          4
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    },
+    {
+      "id": "liftoff",
+      "title": "Live on TV",
+      "text": "The day before, the rover parked at Hadley filmed this cabin blasting off, steered by a TV controller in Houston.",
+      "anchor": {
+        "pos": [
+          -12,
+          1.5,
+          8
+        ]
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Apollo 15 video library",
+        "url": "https://apollojournals.org/alsj/a15/video15.html"
+      }
+    },
+    {
+      "id": "network",
+      "title": "Three listeners",
+      "text": "The seismometers at the Apollo 12, 14 and 15 sites all recorded the crash, giving scientists a test signal of known size and place.",
+      "anchor": {
+        "pos": [
+          0,
+          1.5,
+          -40
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    }
+  ],
+  "funFact": "Its liftoff from Hadley was the first one ever broadcast live on TV, filmed by the parked rover’s camera.",
+  "stats": [
+    {
+      "label": "Hit the Moon",
+      "value": "3 August 1971"
+    },
+    {
+      "label": "Speed",
+      "value": "1.70 km/s"
+    },
+    {
+      "label": "Angle",
+      "value": "About 3.2°"
+    },
+    {
+      "label": "Mass",
+      "value": "About 2,400 kg"
+    }
+  ],
+  "whyLeft": "With the crew safely in Endeavour, the cabin had no way home, so it was used to make one more moonquake.",
+  "repurpose": "Only fragments remain, if they can be found. They would show how a spacecraft breaks up in a fast, skimming crash."
+}

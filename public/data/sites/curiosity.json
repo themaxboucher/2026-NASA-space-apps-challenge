@@ -1,0 +1,137 @@
+{
+  "id": "curiosity",
+  "setting": "surface",
+  "model": "curiosity",
+  "name": "Curiosity",
+  "intro": "Curiosity is a car-sized rover that landed in Gale crater on 6 August 2012. It found that an ancient lake there could have supported microbes. It is still working today, climbing Mount Sharp and reading its rock layers like a history book.",
+  "status": "Still working",
+  "whyLeft": "It has not been left: Curiosity is still exploring. Like every Mars rover, it was always meant to stay on Mars for good.",
+  "repurpose": "It is still doing its job. Its wheels are wearing out on sharp rocks, so the team plans gentler routes and sent new driving software that slows the damage.",
+  "hotspots": [
+    {
+      "id": "mast",
+      "title": "The laser mast",
+      "text": "The cameras on this mast see Mars in colour, and a laser called ChemCam zaps rocks up to 7 meters away to find out what they are made of.",
+      "anchor": {
+        "part": "MSL",
+        "at": [
+          0.33,
+          0.9,
+          0.6
+        ]
+      },
+      "source": {
+        "label": "NASA: Curiosity",
+        "url": "https://science.nasa.gov/mission/msl-curiosity/"
+      }
+    },
+    {
+      "id": "wheels",
+      "title": "Worn wheels",
+      "text": "Curiosity’s thin aluminium wheels have holes and cracks from sharp rocks. A scout would check them closely: they still roll, and new driving software from 2017 adjusts each wheel’s speed to slow the damage.",
+      "anchor": {
+        "part": "wheels",
+        "at": [
+          1,
+          0.6,
+          0.88
+        ]
+      },
+      "source": {
+        "label": "NASA: Curiosity",
+        "url": "https://science.nasa.gov/mission/msl-curiosity/"
+      },
+      "photo": {
+        "file": "photos/sites/curiosity--wheels.jpg",
+        "w": 1200,
+        "h": 894,
+        "alt": "Close-up of a metal rover wheel with dents and torn holes.",
+        "caption": "Holes and dents in Curiosity’s left-front wheel, photographed by the camera on its own arm in 2013.",
+        "credit": "NASA/JPL-Caltech/MSSS",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Curiosity_rover%27s_damaged_left_front_wheel,_sol_411.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: NASA Image: 0411MH0262000000E1_DXXX."
+      }
+    },
+    {
+      "id": "power",
+      "title": "Nuclear power",
+      "text": "Curiosity’s power comes from the heat of decaying plutonium in this box at its back. That is why dust storms and winter cannot switch it off the way they did solar-powered rovers.",
+      "anchor": {
+        "part": "MSL",
+        "at": [
+          0.45,
+          0.55,
+          0.05
+        ]
+      },
+      "source": {
+        "label": "NASA: Curiosity",
+        "url": "https://science.nasa.gov/mission/msl-curiosity/"
+      }
+    },
+    {
+      "id": "drill",
+      "title": "The drill",
+      "text": "The drill on the end of this arm powders rock for the labs inside. In 2013 the first drilled rock showed that Gale crater once held a lake with water that microbes could have lived in.",
+      "anchor": {
+        "part": "MSL",
+        "at": [
+          0.68,
+          0.85,
+          0.95
+        ]
+      },
+      "source": {
+        "label": "NASA: Curiosity",
+        "url": "https://science.nasa.gov/mission/msl-curiosity/"
+      }
+    },
+    {
+      "id": "landing-camera",
+      "title": "The landing camera",
+      "text": "A small camera under the rover’s body filmed the landing. You can watch the heat shield fall away and the ground rush up before a rocket-powered sky crane lowered Curiosity onto its wheels.",
+      "anchor": {
+        "part": "MSL",
+        "at": [
+          0.4,
+          0.3,
+          0.75
+        ]
+      },
+      "source": {
+        "label": "NASA: Curiosity",
+        "url": "https://science.nasa.gov/mission/msl-curiosity/"
+      },
+      "video": {
+        "file": "media/sites/curiosity--landing-camera.mp4",
+        "poster": "media/sites/curiosity--landing-camera.jpg",
+        "caption": "Curiosity’s own landing camera: the heat shield falls away and the ground of Gale crater rushes up. Real footage, no sound.",
+        "credit": "NASA/JPL-Caltech/MSSS",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Curiosity%27s_descent_in_high-definition.ogv",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://mars.jpl.nasa.gov/msl/multimedia/videos/index.cfm?v=81.",
+        "real": true
+      }
+    }
+  ],
+  "funFact": "Holes in Curiosity’s wheels spell “JPL” in Morse code, so it stamps the letters into the Martian ground as it drives.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "6 August 2012"
+    },
+    {
+      "label": "Driven",
+      "value": "About 38 km"
+    },
+    {
+      "label": "Mass",
+      "value": "899 kg"
+    },
+    {
+      "label": "Power",
+      "value": "Nuclear (plutonium heat)"
+    }
+  ]
+}

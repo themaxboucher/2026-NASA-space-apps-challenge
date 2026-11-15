@@ -1,0 +1,132 @@
+{
+  "id": "ranger7",
+  "setting": "impact",
+  "model": null,
+  "name": "Ranger 7",
+  "intro": "After six Ranger missions failed, Ranger 7 finally did it. It dove into the Moon taking pictures all the way down and sent home 4,308 sharp close-ups in its last 17 minutes. Its crater is in a sea later named Mare Cognitum, “the Sea that has become known”.",
+  "status": "Crashed on purpose, 31 July 1964",
+  "whyLeft": "Rangers were built to crash: they took pictures until they hit the ground at 2.6 km per second.",
+  "repurpose": "Its crater is a known-age scar, so scientists can use it like a clock to measure how quickly fresh craters darken and fade.",
+  "funFact": "Ranger 7’s last pictures could show things smaller than 1 m across, about a thousand times finer than the best telescopes on Earth at the time.",
+  "stats": [
+    {
+      "label": "Impact",
+      "value": "31 July 1964"
+    },
+    {
+      "label": "Pictures sent",
+      "value": "4,308"
+    },
+    {
+      "label": "Impact speed",
+      "value": "2.62 km/s"
+    },
+    {
+      "label": "Mass",
+      "value": "366 kg"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "Impact crater",
+      "text": "Ranger 7 hit right here at 2.62 km per second. It was destroyed instantly, leaving a small crater that orbiters have since photographed from above.",
+      "anchor": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-041A"
+      }
+    },
+    {
+      "id": "first-picture",
+      "title": "First picture",
+      "text": "Ranger 7’s first picture was taken about 17 minutes before impact, from 2,110 km up. The big crater on the right is Alphonsus, where Ranger 9 would crash eight months later.",
+      "anchor": {
+        "pos": [
+          0,
+          30,
+          10
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-041A"
+      },
+      "photo": {
+        "file": "photos/sites/ranger7--first-picture.jpg",
+        "w": 720,
+        "h": 707,
+        "alt": "A wide view of cratered lunar terrain, the first picture of the Moon from a US spacecraft",
+        "caption": "The first picture of the Moon ever taken by a US spacecraft, by Ranger 7 on 31 July 1964.",
+        "credit": "NASA/JPL",
+        "license": "Public domain",
+        "source": "https://photojournal.jpl.nasa.gov/catalog/PIA02975",
+        "licenseEvidence": "JPL Photojournal PIA02975, credit NASA/JPL (NASA, public domain under NASA media guidelines)"
+      }
+    },
+    {
+      "id": "last-pictures",
+      "title": "Last pictures",
+      "text": "The last two pictures were taken less than half a second before impact, from about 1 km and 0.5 km up. They are cut off because Ranger 7 smashed into the ground before it finished sending them.",
+      "broken": true,
+      "tag": "The end",
+      "anchor": {
+        "pos": [
+          0,
+          22,
+          6
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-041A"
+      },
+      "photo": {
+        "file": "photos/sites/ranger7--last-pictures.jpg",
+        "w": 370,
+        "h": 720,
+        "alt": "Two close-up pictures of the lunar surface, the lower part filled with static",
+        "caption": "Ranger 7’s last two pictures, cut off by the impact.",
+        "credit": "NASA/JPL (via NASA NSSDCA)",
+        "license": "Public domain",
+        "source": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/ra7_p200.html",
+        "licenseEvidence": "NASA NSSDCA Photo Gallery: image returned by NASA’s Ranger 7 (US government work, public domain)"
+      }
+    },
+    {
+      "id": "craters-everywhere",
+      "title": "Craters on craters",
+      "text": "Ranger 7’s close-ups showed that even flat lunar plains are peppered with small craters, some only a few metres across. Planners now knew landers needed to cope with bumpy ground.",
+      "anchor": {
+        "pos": [
+          -12,
+          0.1,
+          -9
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-041A"
+      },
+      "photo": {
+        "file": "photos/sites/ranger7--final-frame.jpg",
+        "w": 720,
+        "h": 712,
+        "alt": "A close-up of flat lunar ground covered in small craters",
+        "caption": "The last picture from Ranger 7’s camera A, taken 2.5 seconds before impact from 6.5 km up.",
+        "credit": "NASA/JPL (via NASA NSSDCA)",
+        "license": "Public domain",
+        "source": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/ra7_a199.html",
+        "licenseEvidence": "NASA NSSDCA Photo Gallery: image returned by NASA’s Ranger 7 (US government work, public domain)"
+      }
+    }
+  ]
+}

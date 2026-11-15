@@ -61,7 +61,7 @@ export function Spots() {
   return (
     <div className="spots" key={s.id}>
       {s.hotspots.map((h) => (
-        <Spot key={h.id} stopId={s.id} spot={h} film={!!media[spotKey(s.id, h.id)]} />
+        <Spot key={h.id} stopId={s.id} spot={h} film={!!(h.video || media[spotKey(s.id, h.id)])} />
       ))}
     </div>
   );

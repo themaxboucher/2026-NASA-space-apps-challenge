@@ -1,0 +1,151 @@
+{
+  "id": "apollo17-lrv",
+  "setting": "surface",
+  "model": "lrv-team",
+  "name": "Apollo 17 rover",
+  "intro": "This rover carried Gene Cernan and Harrison Schmitt almost 36 km around the Taurus-Littrow valley in December 1972, farther than any other Apollo rover. It still wears a fender repaired with maps and tape, and it is parked where its camera filmed the last Apollo liftoff.",
+  "status": "Parked forever where it filmed liftoff",
+  "hotspots": [
+    {
+      "id": "fender",
+      "title": "The patched fender",
+      "text": "Cernan accidentally knocked off part of this fender, and the wheel sprayed the crew with dust. Overnight, engineers worked out a fix: a fender made of taped-together maps held on with clamps.",
+      "anchor": {
+        "part": "fenders",
+        "at": [
+          1,
+          0.8,
+          0.95
+        ]
+      },
+      "source": {
+        "label": "NASA photo AS17-137-20979: the repaired fender",
+        "url": "https://images.nasa.gov/details/as17-137-20979"
+      },
+      "photo": {
+        "file": "photos/sites/apollo17-lrv--fender.jpg",
+        "w": 1100,
+        "h": 1100,
+        "alt": "Close-up of a rover wheel with a makeshift fender made of folded maps held on with clamps.",
+        "caption": "The repaired fender: stiff maps taped together and clamped on.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as17-137-20979",
+        "licenseEvidence": "NASA Image and Video Library item as17-137-20979 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      },
+      "video": {
+        "file": "media/sites/apollo17-lrv--fender.mp4",
+        "poster": "media/sites/apollo17-lrv--fender.jpg",
+        "caption": "TV view of Gene Cernan tearing off strips of tape to patch the broken fender.",
+        "credit": "NASA (Apollo 17 television; ALSJ clip digitized by Peter Dayton)",
+        "license": "Public domain",
+        "source": "https://apollojournals.org/alsj/a17/video17.html",
+        "licenseEvidence": "Apollo Lunar Surface Journal video library: \"The video clips are in the public domain. Credits to those who did the digitization would be appreciated.\" Clip a17v_1185814.mov by Peter Dayton: \"Gene works to repair the rover’s broken fender\".",
+        "real": true,
+        "audio": "Real radio between the astronauts and Mission Control during the repair."
+      }
+    },
+    {
+      "id": "hand-controller",
+      "title": "Steering stick",
+      "text": "Cernan drove with this T-shaped stick: push it forward to go, pull it back to brake, and tilt it to steer.",
+      "anchor": {
+        "part": "hand_controller",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: The Apollo Lunar Roving Vehicle",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_lrv.html"
+      },
+      "photo": {
+        "file": "photos/sites/apollo17-lrv--hand-controller.jpg",
+        "w": 1200,
+        "h": 1200,
+        "alt": "An astronaut drives a stripped-down rover across the grey ground, with mountains behind.",
+        "caption": "Gene Cernan’s first test drive on 11 December 1972, before loading the rover.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as17-147-22526",
+        "licenseEvidence": "NASA Image and Video Library item as17-147-22526 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "batteries",
+      "title": "The batteries",
+      "text": "Two 36-volt batteries powered the rover, and they could not be recharged. When they ran down, the rover went quiet for good.",
+      "broken": true,
+      "tag": "Why it can’t drive again",
+      "anchor": {
+        "part": "batteries",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: The Apollo Lunar Roving Vehicle",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_lrv.html"
+      }
+    },
+    {
+      "id": "tv-camera",
+      "title": "The TV camera",
+      "text": "Ed Fendell in Houston steered this camera by remote. On 14 December 1972 he tilted it up at just the right moment to follow Challenger’s cabin into the sky.",
+      "anchor": {
+        "part": "tv_camera",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Apollo 17 return to orbit",
+        "url": "https://apollojournals.org/alsj/a17/a17.launch.html"
+      }
+    },
+    {
+      "id": "wheels",
+      "title": "Wire wheels",
+      "text": "These tyres are woven from steel wire with titanium treads, so they could never go flat.",
+      "anchor": {
+        "part": "wheels",
+        "at": [
+          0,
+          0.5,
+          0.2
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: The Apollo Lunar Roving Vehicle",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_lrv.html"
+      }
+    }
+  ],
+  "funFact": "The replacement fender was made from four stiff paper maps, gray tape and two clamps borrowed from inside the lander.",
+  "stats": [
+    {
+      "label": "Driven",
+      "value": "35.9 km"
+    },
+    {
+      "label": "Driving time",
+      "value": "4 h 26 min"
+    },
+    {
+      "label": "Mass",
+      "value": "210 kg"
+    },
+    {
+      "label": "Parked",
+      "value": "About 145 m east of Challenger"
+    }
+  ],
+  "whyLeft": "Its batteries could not be recharged, and it had done its job: Cernan parked it east of Challenger so its camera could film the liftoff.",
+  "repurpose": "It might roll again with new batteries and solar panels, but heritage rules say look, don’t touch. Its patched fender is a lesson in fixing things with whatever you have."
+}

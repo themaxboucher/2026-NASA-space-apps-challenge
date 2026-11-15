@@ -46,6 +46,7 @@ export default function Atlas() {
             {/* A full page load on purpose: the tour runs its own WebGL scene, and Next keeps visited routes mounted. */}
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a className="back" href="/" aria-label="Back to the tour">←<span className="backtxt"> Tour</span></a>
+            <a className="back solar-cta" href="/solar">Fly around the solar system <span aria-hidden="true">→</span></a>
             <nav className="worlds" role="tablist" aria-label="Choose a world">
               <button role="tab" data-world="moon" aria-selected="true">Moon<span className="n"></span></button>
               <button role="tab" data-world="mars" aria-selected="false">Mars<span className="n"></span></button>
@@ -114,7 +115,8 @@ export default function Atlas() {
               <span><i style={dot("var(--quiet)")}></i>gone quiet</span>
               <span><i className="sq"></i>rover</span>
               <span><i className="ring"></i>impact / crash</span>
-              <span><i className="seenmark"></i>you&apos;ve explored it</span>
+              <span><i className="seenmark"></i>you&apos;ve opened it</span>
+              <span><i className="fullmark">✓</i>you&apos;ve fully explored it (every spot found)</span>
               <span><i className="site">3</i>machines at one landing site</span>
             </div>
           </div>

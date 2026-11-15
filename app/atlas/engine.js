@@ -16,6 +16,8 @@ export function startAtlas() {
   const DATA = { moon: [], mars: [], beyond: [] };
   // Machines this visitor has opened, kept in this browser only (a per-visitor convenience; nothing is sent anywhere).
   const SEEN_KEY = 'gra-explored';
+  // Machines whose every spot you've found in the tour (written by app/tour/state.ts).
+  const complete = () => { try { return new Set(JSON.parse(localStorage.getItem('gra-complete') || '[]')); } catch { return new Set(); } };
   const seen = new Set((() => { try { return JSON.parse(localStorage.getItem(SEEN_KEY) || '[]'); } catch { return []; } })());
   const saveSeen = () => { try { localStorage.setItem(SEEN_KEY, JSON.stringify([...seen])); } catch { /* private mode: progress lasts this visit */ } };
   let world = 'moon', year = 2026, selected = null;
@@ -74,6 +76,15 @@ export function startAtlas() {
   // Geology (Mars only): USGS global geologic map (SIM 3292) as a see-through layer on the globe, plus a legend.
   const geoMesh = new THREE.Mesh(new THREE.SphereGeometry(1.002, 128, 64), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.78, depthWrite: false }));
   geoMesh.visible = false; globe.add(geoMesh);
+  // Deep space: fly the same map in 3D. The 2D map zooms and fades, then /solar opens straight overhead, framed the
+  // same way, and swoops down to the selected craft (or Earth).
+  stage.insertAdjacentHTML('beforeend', '<button class="gbtn fly3d" id="fly3d" type="button" hidden>Fly around in 3D →</button>');
+  $('fly3d').onclick = () => {
+    const to = '/solar?intro=map' + (selected ? '&from=' + encodeURIComponent(selected) : '');
+    // Hand the map itself over: /solar shows it lined up over its overhead view, then dissolves it into 3D.
+    try { cancelAnimationFrame(bz.raf); setVB(FULL_VB.slice()); sessionStorage.setItem('gra-map', $('beyond').outerHTML); } catch { /* no storage: plain fade */ }
+    location.href = to;
+  };
   stage.insertAdjacentHTML('beforeend', '<button class="gbtn geobtn" id="geoBtn" type="button" aria-pressed="false" aria-controls="geoLegend" hidden>Rock map</button><div class="geolegend" id="geoLegend" hidden></div>');
   const ERAS = { Noachian: 'Noachian: oldest, about 4 billion years', Hesperian: 'Hesperian: about 3.5 billion years', Amazonian: 'Amazonian: youngest, up to today' };
   const hexOk = c => /^#[0-9a-f]{6}$/i.test(c || '') ? c : '#888888';
@@ -533,6 +544,10 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
       b.setAttribute('aria-pressed', b.dataset.id === selected);
     });
     pins.forEach(p => p.el.classList.toggle('seen', p.items.every(it => seen.has(it.id))));
+    const full = complete();
+    pins.forEach(p => p.el.classList.toggle('complete', p.items.every(it => full.has(it.id))));
+    $('beyond').querySelectorAll('.craft').forEach(g => g.classList.toggle('complete', full.has(g.dataset.id)));
+    document.querySelectorAll('#list button').forEach(b => b.classList.toggle('complete', full.has(b.dataset.id)));
     $('beyond').querySelectorAll('.craft').forEach(g => g.classList.toggle('seen', seen.has(g.dataset.id)));
     document.querySelectorAll('#list button').forEach(b => b.classList.toggle('seen', seen.has(b.dataset.id)));
     showExplored();
@@ -552,7 +567,8 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     const per = Object.keys(DATA).map(w => [w, DATA[w].filter(it => seen.has(it.id)).length, DATA[w].length]);
     const done = per.reduce((s, x) => s + x[1], 0), all = per.reduce((s, x) => s + x[2], 0);
     if (!all) return;
-    $('exploredText').textContent = done ? `You've explored ${done} of ${all} machines` : `You've explored 0 of ${all} machines. Click a dot to start.`;
+    const full = [...complete()].filter((id) => Object.values(DATA).some((l) => l.some((it) => it.id === id))).length;
+    $('exploredText').textContent = (done ? `You've opened ${done} of ${all} machines` : `You've opened 0 of ${all} machines. Click a dot to start.`) + (full ? ` · fully explored ${full}` : '');
     const bar = $('exploredBar'); bar.setAttribute('aria-valuenow', done); bar.setAttribute('aria-valuemax', all);
     bar.querySelector('b').style.width = `${(done / all * 100).toFixed(1)}%`;
     $('exploredWorlds').innerHTML = per.map(([w, d, n]) => `<span${w === world ? ' class="here"' : ''}>${names[w]} <b>${d}/${n}</b>${d === n ? ' ✓' : ''}</span>`).join('');
@@ -623,7 +639,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     world = w;
     document.querySelectorAll('.worlds button').forEach(b => b.setAttribute('aria-selected', b.dataset.world === w));
     const deep = w === 'beyond';
-    cv.hidden = deep; $('pins').hidden = deep; $('gZoom').hidden = deep; $('beyond').toggleAttribute('hidden', !deep); // SVG has no .hidden property
+    cv.hidden = deep; $('pins').hidden = deep; $('gZoom').hidden = deep; $('fly3d').hidden = !deep; $('beyond').toggleAttribute('hidden', !deep); // SVG has no .hidden property
     $('hint').textContent = deep ? 'Directions and distances are approximate' : 'Drag to spin · +/− or Ctrl + scroll to zoom';
     buildTimeline();
     if (deep) { pins = []; drawBeyond(); } else { setTexture(w); buildPins(); }
@@ -1070,8 +1086,14 @@ function closeGroundScene() {
       G.cam.position.set(tx + Math.sin(o.yaw) * Math.cos(o.pitch) * o.dist, ty + Math.sin(o.pitch) * o.dist, tz + Math.cos(o.yaw) * Math.cos(o.pitch) * o.dist);
       G.cam.lookAt(tx, ty, tz);
     } else {
-      const k = G.keys, run = k.ShiftLeft || k.ShiftRight ? 25 : 5, fwd = (k.KeyW || k.ArrowUp ? 1 : 0) - (k.KeyS || k.ArrowDown ? 1 : 0);
+      const k = G.keys, shift = k.ShiftLeft || k.ShiftRight, fwd = (k.KeyW || k.ArrowUp ? 1 : 0) - (k.KeyS || k.ArrowDown ? 1 : 0);
       const strafe = (k.KeyD ? 1 : 0) - (k.KeyA ? 1 : 0), turn = (k.ArrowLeft ? 1 : 0) - (k.ArrowRight ? 1 : 0);
+    // Shift runs (x5), and the longer Shift and a direction are held, the faster: doubling every second up to x30,
+    // eased up and down so it never jerks. Letting go of either resets it.
+    G.sprintT = shift && (fwd || strafe) ? (G.sprintT || 0) + dt : 0;
+    const sprintGoal = G.sprintT ? Math.min(30, 5 * 2 ** G.sprintT) : 1;
+    G.sprint = (G.sprint || 1) + (sprintGoal - (G.sprint || 1)) * (1 - Math.exp(-dt * (sprintGoal > (G.sprint || 1) ? 4 : 8)));
+    const run = 5 * G.sprint;
     // Tap Space to hop (real gravity for this world); keep holding past 0.3 s to fly up instead.
     if (k.Space && !G.spaceWas && G.jump <= 0 && !G.photo) { G.vy = 2.6; G.hop = true; } // a hard astronaut hop is ~2.6 m/s
     G.spaceWas = !!k.Space; G.spaceT = k.Space ? (G.spaceT || 0) + dt : 0;
@@ -1102,7 +1124,7 @@ function closeGroundScene() {
       G.cam.rotation.order = 'YXZ'; G.cam.rotation.set(G.pitch, G.yaw, 0);
     }
     const head = ((G.fly ? -G.orbit.yaw + Math.PI : -G.yaw) / D % 360 + 360) % 360;
-    $('gCompass').textContent = `${['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'][Math.round(head / 45) % 8]} ${Math.round(head)}°`;
+    $('gCompass').textContent = `${['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'][Math.round(head / 45) % 8]} ${Math.round(head)}°${!G.fly && G.sprint > 2 ? ` · ×${Math.round(G.sprint)}` : ''}`;
     G.r.render(G.scene, G.cam);
   }
 

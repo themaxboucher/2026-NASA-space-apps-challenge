@@ -1,0 +1,127 @@
+{
+  "id": "apollo12-lm",
+  "setting": "surface",
+  "model": "apollo-lm",
+  "name": "Intrepid",
+  "intro": "This is the bottom half of Intrepid, which landed Pete Conrad and Alan Bean in the Ocean of Storms on 19 November 1969. It touched down a short walk from Surveyor 3, a robot lander that had been waiting here since 1967. When the crew left, it stayed behind as their launch pad.",
+  "status": "Parked forever next to Surveyor 3",
+  "hotspots": [
+    {
+      "id": "pinpoint",
+      "title": "A pinpoint landing",
+      "text": "Pete Conrad steered Intrepid down within about 180 meters of Surveyor 3. Landing exactly on target proved that later crews could be sent to the places scientists most wanted to explore.",
+      "anchor": {
+        "part": "group31_19",
+        "at": [
+          0.5,
+          1,
+          0.97
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 12 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo12-lm--pinpoint.jpg",
+        "w": 1200,
+        "h": 1200,
+        "alt": "The small robot lander Surveyor 3 sits in a crater in the foreground, with the lunar module Intrepid on the horizon.",
+        "caption": "Surveyor 3 in the front and Intrepid on the rim behind it, photographed on 20 November 1969.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/AS12-48-7133",
+        "licenseEvidence": "NASA Image and Video Library item AS12-48-7133 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "ladder",
+      "title": "“Whoopie!”",
+      "text": "Pete Conrad, one of the shorter astronauts, jumped off the bottom rung and joked: “Whoopie! Man, that may have been a small one for Neil, but that’s a long one for me.”",
+      "anchor": {
+        "part": "polySurfa1",
+        "at": [
+          0.5,
+          0.9,
+          1
+        ]
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Apollo 12 first steps",
+        "url": "https://apollojournals.org/alsj/a12/a12.eva1prelim.html"
+      }
+    },
+    {
+      "id": "surveyor-parts",
+      "title": "Taking parts home",
+      "text": "On their second moonwalk the astronauts cut about 10 kg of parts off Surveyor 3 to bring home. Scientists studied them to see what two and a half years on the Moon had done to metal, glass and paint.",
+      "anchor": {
+        "pos": [
+          130,
+          0.5,
+          125
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 12 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C"
+      }
+    },
+    {
+      "id": "tv-camera",
+      "title": "The burned-out TV camera",
+      "text": "The color TV camera from this equipment bay was accidentally pointed at the Sun while it was being set up. The sunlight damaged its picture tube, so viewers on Earth saw almost nothing of the moonwalks.",
+      "anchor": {
+        "part": "group31_10",
+        "at": [
+          0,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 12 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C"
+      }
+    },
+    {
+      "id": "top-half",
+      "title": "The missing top half",
+      "text": "The crew cabin sat here. On 20 November 1969, after 31 and a half hours on the Moon, it blasted off and used this bottom half as its launch pad.",
+      "anchor": {
+        "part": "group31_11",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 12 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C"
+      }
+    }
+  ],
+  "funFact": "Intrepid landed so close to Surveyor 3 that the astronauts could walk over to it: the first time anyone visited a spacecraft on another world.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "19 November 1969"
+    },
+    {
+      "label": "Time on the Moon",
+      "value": "31 h 31 min"
+    },
+    {
+      "label": "Moonwalks",
+      "value": "2, for 7 h 45 min"
+    },
+    {
+      "label": "Rocks brought home",
+      "value": "34.35 kg"
+    }
+  ],
+  "whyLeft": "Nothing broke: the bottom half was built to be a launch pad, so the crew’s cabin could fly back to orbit and leave it behind.",
+  "repurpose": "Its engine and fuel are used up, but its metal and gold foil are a 50-year experiment. Photographed up close, they would show how spacecraft age on the Moon, just as the Surveyor 3 parts did."
+}

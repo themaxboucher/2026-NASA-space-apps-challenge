@@ -1,0 +1,147 @@
+{
+  "id": "insight",
+  "setting": "surface",
+  "model": "insight",
+  "name": "InSight",
+  "intro": "InSight landed on the flat plain of Elysium Planitia on 26 November 2018 to listen to the inside of Mars. Its seismometer recorded more than 1,300 marsquakes. It still sits there, its solar panels covered in dust.",
+  "status": "Silent since 2022",
+  "whyLeft": "Dust slowly piled up on its solar panels for four years, until it had too little power to stay awake. It last talked to Earth on 15 December 2022.",
+  "repurpose": "Its team already tried a clever fix: in 2021 they used the arm to trickle sand into the wind, which knocked some dust off a panel. A visiting robot with a brush could do the rest, and its seismometer could listen again.",
+  "hotspots": [
+    {
+      "id": "solar-panels",
+      "title": "Dusty solar panels",
+      "text": "Each of these round panels is about 2.2 meters across. Dust settled on them year after year, and no gust of wind ever came strong enough to blow them clean.",
+      "broken": true,
+      "tag": "What gave out",
+      "anchor": {
+        "part": "panel_l019",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: NASA retires InSight",
+        "url": "https://www.jpl.nasa.gov/news/nasa-retires-insight-mars-lander-mission-after-years-of-science/"
+      }
+    },
+    {
+      "id": "seismometer",
+      "title": "The quake listener",
+      "text": "Under this dome sits a super-sensitive seismometer, sheltered from wind and cold. It felt 1,319 marsquakes, including a magnitude 5 quake on 4 May 2022, the biggest ever felt on another planet.",
+      "anchor": {
+        "part": "InSIGHT_AO_07",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: NASA retires InSight",
+        "url": "https://www.jpl.nasa.gov/news/nasa-retires-insight-mars-lander-mission-after-years-of-science/"
+      }
+    },
+    {
+      "id": "arm",
+      "title": "The robotic arm",
+      "text": "This arm lifted the seismometer and the heat probe off the deck and set them on the ground. Later it trickled sand into the wind to knock dust off a solar panel, which gave InSight a bit more power.",
+      "anchor": {
+        "part": "arm_03",
+        "at": [
+          0.5,
+          1,
+          0.9
+        ]
+      },
+      "source": {
+        "label": "NASA: InSight",
+        "url": "https://science.nasa.gov/mission/insight/"
+      },
+      "photo": {
+        "file": "photos/sites/insight--arm.jpg",
+        "w": 1024,
+        "h": 1024,
+        "alt": "Robotic arm hanging over a lander deck with a copper-coloured hexagonal box and a white dome.",
+        "caption": "InSight’s arm above its deck in December 2018. The copper-coloured cover protects the seismometer, before the arm set it on the ground.",
+        "credit": "NASA/JPL-Caltech",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:PIA22871_Full_View_of_InSight%27s_Deck_and_Two_Science_Instruments.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: Catalog page."
+      }
+    },
+    {
+      "id": "mole",
+      "title": "The stuck “mole”",
+      "text": "A self-hammering heat probe nicknamed the mole was meant to dig 5 meters down. The soil clumped instead of crumbling, so it could barely bury itself, even after the arm pushed on it. The team gave up in January 2021.",
+      "broken": true,
+      "tag": "Didn’t work",
+      "anchor": {
+        "part": "InSIGHT_AO_07",
+        "at": [
+          0,
+          0.2,
+          0
+        ],
+        "offset": [
+          -0.4,
+          0,
+          0
+        ]
+      },
+      "source": {
+        "label": "NASA: InSight",
+        "url": "https://science.nasa.gov/mission/insight/"
+      },
+      "photo": {
+        "file": "photos/sites/insight--mole.jpg",
+        "w": 1200,
+        "h": 1155,
+        "alt": "Diagram of a long probe sticking out of the ground at a slant, next to its support frame.",
+        "caption": "A NASA diagram of the stuck mole in June 2019. Its tip had reached only about 30 cm into the ground, at a slant.",
+        "credit": "NASA/JPL-Caltech/DLR",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Insight%27s_HP3_mole_current_position_5_June_2019.png",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://photojournal.jpl.nasa.gov/catalog/PIA23274 (converted from TIFF)."
+      }
+    },
+    {
+      "id": "camera",
+      "title": "The arm camera",
+      "text": "A camera on the arm took InSight’s selfies. In its last selfie, from April 2022, the panels are so dusty they look almost the colour of the ground.",
+      "anchor": {
+        "part": "IDC",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: InSight",
+        "url": "https://science.nasa.gov/mission/insight/"
+      }
+    }
+  ],
+  "funFact": "InSight’s seismometer could even feel meteorites hitting Mars. Orbiters later found the fresh craters they made.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "26 November 2018"
+    },
+    {
+      "label": "Last heard",
+      "value": "15 December 2022"
+    },
+    {
+      "label": "Marsquakes recorded",
+      "value": "1,319"
+    },
+    {
+      "label": "Biggest quake",
+      "value": "Magnitude 5"
+    }
+  ]
+}

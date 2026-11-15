@@ -1,0 +1,140 @@
+{
+  "id": "magellan",
+  "setting": "impact",
+  "model": null,
+  "name": "Magellan",
+  "intro": "Magellan used radar to see through Venus’s thick clouds and mapped 98% of its surface. In October 1994 it was steered deep into the atmosphere to study it, and it burned up. If any pieces reached the ground, nobody knows where.",
+  "status": "Burned up in Venus’s sky in 1994",
+  "whyLeft": "Its mapping was done and its power was dropping, so NASA used its last days for one more experiment: a dive into Venus’s thick air, where it broke apart and burned.",
+  "repurpose": "Nothing is left to fix. Its ending was itself a reuse: the final dive turned the whole spacecraft into an instrument for measuring the atmosphere.",
+  "hotspots": [
+    {
+      "id": "radar",
+      "title": "Seeing through clouds",
+      "text": "Venus is always covered in clouds, so Magellan bounced radar off the ground, like seeing with echoes. Its map shows volcanoes, lava plains and craters across 98% of the planet.",
+      "anchor": {
+        "pos": [
+          0,
+          0.3,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: Magellan",
+        "url": "https://science.nasa.gov/mission/magellan/"
+      },
+      "photo": {
+        "file": "photos/sites/magellan--radar.jpg",
+        "w": 1200,
+        "h": 1200,
+        "alt": "Globe of Venus in orange tones made from radar data, showing bright highlands.",
+        "caption": "Venus without its clouds, made from Magellan’s radar maps. The colours are added; radar does not see colour.",
+        "credit": "NASA/JPL",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:PIA00257_Venus_(Computer_Simulated_Global_View_Centered_at_0_Degrees_East_Longitude).jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: from Planetary Photojournal."
+      }
+    },
+    {
+      "id": "windmill",
+      "title": "The windmill trick",
+      "text": "In its last weeks, Magellan turned its solar panels like windmill blades as it skimmed the air, so scientists could measure the drag. Then it sank deeper and burned up.",
+      "broken": true,
+      "tag": "How it ended",
+      "anchor": {
+        "pos": [
+          5,
+          0.3,
+          -4
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: Magellan",
+        "url": "https://science.nasa.gov/mission/magellan/"
+      }
+    },
+    {
+      "id": "shuttle",
+      "title": "Launched by a shuttle",
+      "text": "In 1989 Magellan became the first planetary explorer launched from a Space Shuttle. Astronauts on Atlantis released it from the cargo bay.",
+      "anchor": {
+        "pos": [
+          -5,
+          0.3,
+          4
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: Magellan",
+        "url": "https://science.nasa.gov/mission/magellan/"
+      },
+      "photo": {
+        "file": "photos/sites/magellan--shuttle.jpg",
+        "w": 1198,
+        "h": 1200,
+        "alt": "A spacecraft with a rocket stage rising out of the Space Shuttle’s cargo bay above Earth.",
+        "caption": "Magellan and its rocket stage leaving Space Shuttle Atlantis’s cargo bay on 4 May 1989.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:STS-30_deployment_of_inertial_upper_stage_(IUS)_with_Magellan_spacecraft_(S30-71-052).jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://images.nasa.gov/details-s30-71-052 (image link)."
+      }
+    },
+    {
+      "id": "spare-parts",
+      "title": "Built from spares",
+      "text": "Magellan was partly built from spare parts left over from other missions. Its big dish antenna was a spare from Voyager.",
+      "anchor": {
+        "pos": [
+          7,
+          0.3,
+          6
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: Magellan",
+        "url": "https://science.nasa.gov/mission/magellan/"
+      }
+    },
+    {
+      "id": "aerobraking",
+      "title": "Braking with air",
+      "text": "In 1993 Magellan dipped into the top of Venus’s atmosphere again and again to shrink its orbit, the first planetary spacecraft to brake this way. Mars orbiters use the trick today.",
+      "anchor": {
+        "pos": [
+          -7,
+          0.3,
+          -6
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: Magellan",
+        "url": "https://science.nasa.gov/mission/magellan/"
+      }
+    }
+  ],
+  "funFact": "Venus’s surface is hot enough to melt lead, so any piece of Magellan that reached the ground would have landed in an oven.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "4 May 1989"
+    },
+    {
+      "label": "Arrived at Venus",
+      "value": "10 August 1990"
+    },
+    {
+      "label": "Surface mapped",
+      "value": "98%"
+    },
+    {
+      "label": "Last contact",
+      "value": "13 October 1994"
+    }
+  ]
+}

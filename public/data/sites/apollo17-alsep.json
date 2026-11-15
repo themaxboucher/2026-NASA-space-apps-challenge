@@ -1,0 +1,153 @@
+{
+  "id": "apollo17-alsep",
+  "setting": "surface",
+  "model": "alsep",
+  "name": "Apollo 17 science station",
+  "intro": "Gene Cernan and Harrison Schmitt set up the last Apollo science station in December 1972, about 190 meters west of Challenger. It measured heat, dust, gas and gravity, and it felt explosive charges the crew left on their drives. It worked until NASA ended support in 1977.",
+  "status": "Switched off in 1977",
+  "hotspots": [
+    {
+      "id": "central-station",
+      "title": "The central station",
+      "text": "The station’s brain and radio. In September 1977 NASA stopped collecting its data and switched its experiments off, though its heat probes were still sending accurate readings.",
+      "broken": true,
+      "tag": "Why it went quiet",
+      "anchor": {
+        "part": "gold",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      },
+      "video": {
+        "file": "media/sites/apollo17-alsep--central-station.mp4",
+        "poster": "media/sites/apollo17-alsep--central-station.jpg",
+        "caption": "TV view from the rover of Harrison Schmitt setting up the science station.",
+        "credit": "NASA (Apollo 17 television; ALSJ clip digitized by Peter Dayton)",
+        "license": "Public domain",
+        "source": "https://apollojournals.org/alsj/a17/video17.html",
+        "licenseEvidence": "Apollo Lunar Surface Journal video library: \"The video clips are in the public domain. Credits to those who did the digitization would be appreciated.\" Clip a17v.1191822.mov by Peter Dayton: \"Television coverage of early ALSEP setup\".",
+        "real": true,
+        "audio": "Real radio between the astronauts and Mission Control during setup."
+      }
+    },
+    {
+      "id": "gravimeter",
+      "title": "The gravimeter",
+      "text": "This instrument was meant to feel tiny ripples in gravity, but its weights were too light because of a factory mistake converting from Earth gravity to Moon gravity. Its sensor could never be balanced properly.",
+      "broken": true,
+      "tag": "What never worked",
+      "anchor": {
+        "pos": [
+          4.5,
+          0.4,
+          -3.5
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      },
+      "photo": {
+        "file": "photos/sites/apollo17-alsep--gravimeter.jpg",
+        "w": 1190,
+        "h": 1200,
+        "alt": "Instruments on the grey ground with a small antenna in front and a foil-covered gravimeter beyond.",
+        "caption": "The gravimeter stands beyond the seismic antenna, with Geophone Rock farther back.",
+        "credit": "NASA (Apollo photo AS17-136-20705)",
+        "license": "Public domain",
+        "source": "https://apollojournals.org/alsj/a17/images17.html",
+        "licenseEvidence": "Apollo Lunar Surface Journal image library: NASA Hasselblad frame AS17-136-20705, NASA film scan (not a third-party restoration). NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "geophones",
+      "title": "Listening for blasts",
+      "text": "Four geophones, small ground microphones, listened for eight explosive charges that the crew left up to 3.5 km away. The blasts revealed the rock layers down to about 3 km.",
+      "anchor": {
+        "pos": [
+          -3,
+          0.2,
+          6
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      },
+      "photo": {
+        "file": "photos/sites/apollo17-alsep--geophones.jpg",
+        "w": 1000,
+        "h": 979,
+        "alt": "A small flag marks a spot on the grey ground, with the science station and rover in the distance.",
+        "caption": "A flag marks one geophone, with the station and rover behind.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as17-147-22548",
+        "licenseEvidence": "NASA Image and Video Library item as17-147-22548 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "heat-flow",
+      "title": "Heat probes",
+      "text": "Probes in two drilled holes measured heat seeping out of the Moon for 4 years and 10 months.",
+      "anchor": {
+        "pos": [
+          -5,
+          0.2,
+          2.5
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      }
+    },
+    {
+      "id": "rtg",
+      "title": "The nuclear generator",
+      "text": "This finned can turned heat from plutonium into electricity, powering the station through the long lunar nights.",
+      "anchor": {
+        "part": "grey",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      }
+    }
+  ],
+  "funFact": "The eight explosive charges the crew left behind were set off by timers after they had flown away, so the station could feel the blasts.",
+  "stats": [
+    {
+      "label": "Set up",
+      "value": "December 1972"
+    },
+    {
+      "label": "Support ended",
+      "value": "30 September 1977"
+    },
+    {
+      "label": "Explosive charges",
+      "value": "8"
+    },
+    {
+      "label": "Heat flow measured",
+      "value": "4 years 10 months"
+    }
+  ],
+  "whyLeft": "It was built to keep working long after the last crew left, and it did, until NASA ended support for the Apollo stations in 1977.",
+  "repurpose": "Its heat probes were still sending accurate readings when it was turned off, so it would be the best Apollo station to try waking up for a long-term temperature check."
+}

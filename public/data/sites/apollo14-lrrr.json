@@ -1,0 +1,110 @@
+{
+  "id": "apollo14-lrrr",
+  "setting": "surface",
+  "model": "lrrr-100",
+  "name": "Apollo 14 laser mirror",
+  "intro": "This is a twin of Apollo 11’s laser mirror: 100 glass prisms that bounce laser light straight back to Earth. Alan Shepard and Edgar Mitchell set it up about 30 meters west of their science station in February 1971. It needs no power, so it still works today.",
+  "status": "Still reflecting lasers",
+  "hotspots": [
+    {
+      "id": "prisms",
+      "title": "The prisms",
+      "text": "Each glass prism sends laser light straight back to where it came from. Observatories time the echo to measure the distance to the Moon very precisely.",
+      "anchor": {
+        "part": "glass",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: Apollo 11 experiment still returns valuable data",
+        "url": "https://www.jpl.nasa.gov/news/apollo-11-experiment-continues-to-return-valuable-data/"
+      },
+      "photo": {
+        "file": "photos/sites/apollo14-lrrr--prisms.jpg",
+        "w": 1000,
+        "h": 1000,
+        "alt": "A flat panel of round mirrors on a white stand, tilted on the dusty ground.",
+        "caption": "The Apollo 14 laser mirror on 5 February 1971.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as14-67-09386",
+        "licenseEvidence": "NASA Image and Video Library item as14-67-09386 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "first-echo",
+      "title": "Hit right away",
+      "text": "The McDonald Observatory in Texas bounced lasers off this mirror soon after it was set up and got a strong echo, even after the lander’s rocket blast at liftoff.",
+      "anchor": {
+        "part": "glass",
+        "at": [
+          0.2,
+          1,
+          0.2
+        ]
+      },
+      "source": {
+        "label": "Apollo 14 Mission Report: lunar surface experiments",
+        "url": "https://apollojournals.org/alsj/a14/a14mr03.htm"
+      }
+    },
+    {
+      "id": "wobble",
+      "title": "Feeling the wobble",
+      "text": "With mirrors in several places, scientists can measure how the Moon wobbles as it orbits. These tiny wobbles hint that the Moon has a fluid core.",
+      "anchor": {
+        "part": "white",
+        "at": [
+          0.5,
+          0.6,
+          0.05
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: Apollo 11 experiment still returns valuable data",
+        "url": "https://www.jpl.nasa.gov/news/apollo-11-experiment-continues-to-return-valuable-data/"
+      }
+    },
+    {
+      "id": "dust",
+      "title": "Keeping it clean",
+      "text": "Scout’s check: nothing to repair, but dust is its enemy. That is one reason NASA never fired the grenades at the science station nearby.",
+      "anchor": {
+        "part": "alu",
+        "at": [
+          0.1,
+          0.2,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      }
+    }
+  ],
+  "funFact": "NASA decided never to fire the grenades at the nearby science station, partly to keep their dust off this mirror.",
+  "stats": [
+    {
+      "label": "Prisms",
+      "value": "100"
+    },
+    {
+      "label": "Power needed",
+      "value": "None"
+    },
+    {
+      "label": "Laser round trip",
+      "value": "About 2.5 seconds"
+    },
+    {
+      "label": "Set up",
+      "value": "5 February 1971"
+    }
+  ],
+  "whyLeft": "It was meant to stay forever, as a fixed target that laser stations on Earth can aim at.",
+  "repurpose": "It is still doing its job. A gentle puff of gas could blow off some of the dust that dims it, but one wrong move could scratch the glass, so it is better left alone."
+}

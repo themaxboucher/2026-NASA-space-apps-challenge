@@ -1,0 +1,119 @@
+{
+  "id": "apollo17-lm-ascent",
+  "setting": "impact",
+  "model": null,
+  "name": "Challenger’s top half",
+  "intro": "This is where the top half of Challenger crashed on 15 December 1972, about 10 km from the landing site. It had carried Gene Cernan and Harrison Schmitt off the Moon the day before, the last launch from the Moon so far. Its crater has not been found.",
+  "status": "Crashed on purpose, 15 December 1972",
+  "hotspots": [
+    {
+      "id": "liftoff",
+      "title": "The last liftoff",
+      "text": "On 14 December 1972 this cabin blasted off from Taurus-Littrow while the rover’s camera, steered from Houston, followed it into the sky.",
+      "anchor": {
+        "pos": [
+          -12,
+          1.5,
+          8
+        ]
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Apollo 17 return to orbit",
+        "url": "https://apollojournals.org/alsj/a17/a17.launch.html"
+      },
+      "photo": {
+        "file": "photos/sites/apollo17-lm-ascent--liftoff.jpg",
+        "w": 1200,
+        "h": 951,
+        "alt": "A blurry TV picture of a spacecraft rising above grey mountains with sparks below it.",
+        "caption": "Challenger’s cabin lifts off, seen on TV from the parked rover.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/S72-55421",
+        "licenseEvidence": "NASA Image and Video Library item S72-55421 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      },
+      "video": {
+        "file": "media/sites/apollo17-lm-ascent--liftoff.mp4",
+        "poster": "media/sites/apollo17-lm-ascent--liftoff.jpg",
+        "caption": "The rover’s TV camera watches Challenger’s cabin blast off and tilts up to follow it.",
+        "credit": "NASA (Apollo 17 television; ALSJ clip digitized by Kipp Teague)",
+        "license": "Public domain",
+        "source": "https://apollojournals.org/alsj/a17/video17.html",
+        "licenseEvidence": "Apollo Lunar Surface Journal video library: \"The video clips are in the public domain. Credits to those who did the digitization would be appreciated.\" Clip a17v_1880127.mpg by Kipp Teague: \"Lunar lift-off film\".",
+        "real": true,
+        "audio": "Real radio: the crew and Mission Control at liftoff, including Gene Cernan’s “We’re on our way, Houston!”"
+      }
+    },
+    {
+      "id": "impact-point",
+      "title": "Somewhere here",
+      "text": "The cabin hit about 10 km southwest of the landing site. Its crater has never been identified.",
+      "anchor": {
+        "pos": [
+          0,
+          0.1,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    },
+    {
+      "id": "sideways",
+      "title": "Nearly sideways",
+      "text": "It came in only 4.9 degrees above the horizon, so it probably skidded and broke up rather than digging one round crater.",
+      "anchor": {
+        "pos": [
+          18,
+          0.2,
+          4
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    },
+    {
+      "id": "listening",
+      "title": "The valley listened",
+      "text": "The geophones the crew had left at the science station felt the crash, helping map the layers under the valley.",
+      "anchor": {
+        "pos": [
+          0,
+          1.5,
+          -40
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 17 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096C"
+      }
+    }
+  ],
+  "funFact": "It hit the Moon at about 1.67 km per second, almost sideways, just 4.9 degrees above the horizon.",
+  "stats": [
+    {
+      "label": "Hit the Moon",
+      "value": "15 December 1972"
+    },
+    {
+      "label": "Speed",
+      "value": "1.67 km/s"
+    },
+    {
+      "label": "Angle",
+      "value": "About 4.9°"
+    },
+    {
+      "label": "Mass",
+      "value": "About 2,300 kg"
+    }
+  ],
+  "whyLeft": "After the last moonwalkers moved into the command module America, the cabin had no way home, so it was crashed near the valley to shake the instruments the crew had left.",
+  "repurpose": "Only fragments remain, somewhere near Taurus-Littrow. Finding them would show how spacecraft break up in a sideways crash."
+}

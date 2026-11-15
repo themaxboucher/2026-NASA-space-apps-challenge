@@ -1,0 +1,140 @@
+{
+  "id": "apollo11-pse",
+  "setting": "surface",
+  "model": "easep",
+  "name": "Apollo 11 seismometer",
+  "intro": "This is the first seismometer ever set up on another world. Buzz Aldrin placed it about 17 meters south of Eagle in July 1969 to feel the Moon shake. Its solar panels still stand open, but it has been silent since August 1969.",
+  "status": "Silent since August 1969",
+  "hotspots": [
+    {
+      "id": "seismometer",
+      "title": "The seismometer",
+      "text": "Under this shiny cover sits the seismometer, built to feel the faintest trembles of the ground. It radioed them to Earth so scientists could start working out what the inside of the Moon is like.",
+      "anchor": {
+        "part": "copper",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 11 Lunar Module / EASEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo11-pse--seismometer.jpg",
+        "w": 1200,
+        "h": 969,
+        "alt": "An astronaut in a white spacesuit sets a boxy instrument with shiny foil on the grey lunar ground.",
+        "caption": "Buzz Aldrin sets up the seismometer on 20 July 1969.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as11-40-5951",
+        "licenseEvidence": "NASA Image and Video Library item as11-40-5951 (KSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "solar-panels",
+      "title": "Solar panels",
+      "text": "Two wings of solar panels powered the station, so it could only work in daylight. A lunar night lasts about two weeks, so before sunset it had to be switched off and woken up again at sunrise.",
+      "anchor": {
+        "part": "cell",
+        "at": [
+          0.12,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 11 Lunar Module / EASEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo11-pse--solar-panels.jpg",
+        "w": 1200,
+        "h": 1200,
+        "alt": "Buzz Aldrin stands near the seismometer, whose two dark solar panel wings lie open on the ground, with the lunar module behind.",
+        "caption": "Aldrin next to the finished station: the dark wings are its solar panels.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as11-40-5948",
+        "licenseEvidence": "NASA Image and Video Library item as11-40-5948 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "too-hot",
+      "title": "Too hot to work",
+      "text": "Scout’s check: the midday Sun baked this station, and it ran about 30 °C hotter than planned. On 27 August 1969, near lunar noon, it stopped accepting commands from Earth, and NASA ended the experiment.",
+      "broken": true,
+      "tag": "Why it went quiet",
+      "anchor": {
+        "part": "black",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 11 Lunar Module / EASEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C"
+      }
+    },
+    {
+      "id": "antenna",
+      "title": "The antenna",
+      "text": "This antenna sent the seismometer’s readings straight to radio dishes on Earth. With the electronics dead, it has had nothing to say since 1969.",
+      "anchor": {
+        "part": "white",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 11 Lunar Module / EASEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C"
+      }
+    },
+    {
+      "id": "heater",
+      "title": "A nuclear heater",
+      "text": "Tucked inside is a small heater warmed by radioactive plutonium. It kept the electronics from freezing during the long, bitterly cold lunar night.",
+      "anchor": {
+        "part": "silver",
+        "at": [
+          0.5,
+          0,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 11 Lunar Module / EASEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C"
+      }
+    }
+  ],
+  "funFact": "Mission control switched the station on by radio while Armstrong and Aldrin were still outside on the Moon.",
+  "stats": [
+    {
+      "label": "Switched on",
+      "value": "21 July 1969"
+    },
+    {
+      "label": "Last answered",
+      "value": "27 August 1969"
+    },
+    {
+      "label": "Power",
+      "value": "Two solar panels"
+    },
+    {
+      "label": "Distance from Eagle",
+      "value": "About 17 m"
+    }
+  ],
+  "whyLeft": "It was never meant to come home: it was a quick, solar-powered test station, and it stopped answering Earth after about five weeks.",
+  "repurpose": "Its electronics were cooked by the midday Sun, so it is best kept as a museum piece. A new seismometer set down nearby could pick up where it left off."
+}

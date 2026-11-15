@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { fbm, noise2, rng, smooth } from "../lib/geo";
+import type { SiteCrater } from "../siteData";
 import { STOPS, type Stop } from "../stops";
 
 // One terrain per stop, shared by the ground mesh, the walker and the camera planner.
@@ -25,6 +26,7 @@ export type RealTile = {
   ox: number; // where the machine sits inside the tile, in meters east / south of the tile center
   oz: number;
   zero: number; // tile height under the machine, so the machine still stands on y = 0
+  res: number; // the measurement's own sample spacing, in meters (LOLA-only tiles are about 20 to 200 m)
   lum: Float32Array | null; // orbital photo brightness, 0..1
   ln: number;
   lumMean: number;
@@ -73,6 +75,7 @@ async function pixels(url: string) {
 
 type TileMeta = {
   extent_m: [number, number];
+  res_m?: { height?: number };
   places?: { id: string; x_m: number; y_m: number }[];
   sources?: { height?: { credit?: string; product?: string } };
 };
@@ -116,7 +119,7 @@ export function loadRealTerrain(index: number): Promise<boolean> {
       }
       const place = meta.places?.find((p) => p.id === stop.id);
       const [w, d] = meta.extent_m.map(Number);
-      const tile: RealTile = { h, n, w, d, ox: place?.x_m ?? 0, oz: -(place?.y_m ?? 0), zero: 0, lum, ln, lumMean, credit: "" };
+      const tile: RealTile = { h, n, w, d, ox: place?.x_m ?? 0, oz: -(place?.y_m ?? 0), zero: 0, res: meta.res_m?.height ?? 6, lum, ln, lumMean, credit: "" };
       tile.zero = realHeight(tile, 0, 0);
       const src = meta.sources?.height;
       tile.credit = `Ground shape: ${src?.credit ?? "NASA"}${src?.product ? ` (${src.product})` : ""}`;
@@ -176,7 +179,7 @@ function craterHeight(craters: Crater[], x: number, z: number) {
 // Extra landers (Falcon, beside the rover) stand on a small level pad at the height the ground really has there,
 // instead of being pulled to the main machine's level.
 export function makeTerrain(stop: Stop, seed: number, tile?: RealTile): Terrain {
-  const base = makeBase(stop, seed, tile);
+  const base = withCrater(stop, makeBase(stop, seed, tile), seed);
   const pads = (stop.extras ?? [])
     .filter((e) => e.kind === "lm-descent")
     .map((e) => ({ x: e.pos[0], z: e.pos[2], r: 6, y: base.height(e.pos[0], e.pos[2]) }));
@@ -187,6 +190,70 @@ export function makeTerrain(stop: Stop, seed: number, tile?: RealTile): Terrain 
       let h = base.height(x, z);
       for (const p of pads) h = p.y + (h - p.y) * smooth((Math.hypot(x - p.x, z - p.z) - p.r) / (p.r * 1.4));
       return h;
+    },
+  };
+}
+
+// Impact sites' real craters (public/data/sites/<id>.json "crater"), by stop id; sites.ts fills it in.
+export const CRATERS = new Map<string, SiteCrater>();
+export function craterSpec(stop: Stop): SiteCrater | null {
+  const r = stop.setting.crater;
+  if (!r) return null;
+  // A site file without crater data yet: a plain fresh crater of the radius sites.ts picked.
+  return CRATERS.get(stop.id) ?? { diameterM: r * 2, depthM: r * 0.36, ejecta: "bright", seen: true, source: { label: "", url: "" } };
+}
+
+// A fresh crater where the machine hit, cut into the real ground (so it follows a slope), at its true size:
+// a bowl with a raised rim, a central mound if the crater has one (the S-IVB craters do), and the thrown-out
+// blanket thinning outward as about 1/r^3. The soil it threw out is coloured in: fresh bright, dark (GRAIL's is
+// probably the probes' own carbon), or the S-IVBs' long bright and dark rays. The outline wobbles a little, as
+// real ones do.
+function withCrater(stop: Stop, base: Terrain, seed: number): Terrain {
+  const c = craterSpec(stop);
+  if (!c) return base;
+  const R = c.diameterM / 2;
+  const d = c.depthM;
+  const rim = d * 0.3; // rim crest above the old ground; the floor is the rest of the depth below it
+  const mound = c.ejecta === "rays" ? d * 0.25 : 0;
+  const rand = rng(seed + 31);
+  const rays = Array.from({ length: c.ejecta === "rays" ? 16 : 0 }, () => ({
+    a: rand() * Math.PI * 2,
+    w: 0.06 + rand() * 0.08, // angular half-width: wide enough for the ground mesh's 160 segments to draw
+    len: 6 + rand() * 30, // in crater radii (LROC: the Apollo 14 stage's rays run more than 1.5 km)
+    k: rand() < 0.7 ? 0.32 : -0.22, // bright or dark
+  }));
+  const polar = (x: number, z: number) => {
+    const a = Math.atan2(z, x);
+    // Wobble the outline (about ±7%) and make the blanket patchy, both smooth around the circle.
+    const wob = noise2(Math.cos(a) * 1.4 + 3, Math.sin(a) * 1.4 + 3, seed) * 2 - 1;
+    const lobe = noise2(Math.cos(a) * 2.6 + 9, Math.sin(a) * 2.6 + 9, seed + 1);
+    return { a, t: Math.hypot(x, z) / (R * (1 + 0.07 * wob)), lobe };
+  };
+  return {
+    height(x, z) {
+      const { t, lobe } = polar(x, z);
+      let h: number;
+      if (t < 1) h = rim - d * (1 - t * t) + mound * Math.exp(-((t / 0.3) ** 2));
+      else h = rim * Math.pow(t, -3) * (1 + (lobe - 0.5) * 0.8 * smooth((t - 1) / 0.4)) * (1 - smooth((t - 2.5) / 2));
+      return base.height(x, z) + h;
+    },
+    color(x, z, out) {
+      base.color(x, z, out);
+      const { a, t, lobe } = polar(x, z);
+      // Freshly dug soil and its blanket: strongest on the walls and rim, fading out by about 3 to 4 radii.
+      const blanket = t < 1 ? 0.75 + 0.25 * t : Math.pow(t, -2.2) * (0.5 + lobe) * (1 - smooth((t - 3) / 1.5));
+      let k = 0;
+      if (c.ejecta === "bright" || c.ejecta === "rays") k = 0.42 * blanket;
+      else if (c.ejecta === "dark") k = -0.38 * blanket * (t < 1 ? 0.6 : 1);
+      else k = 0.1 * blanket; // even with nothing seen from orbit, the walls are fresh
+      for (const r of rays) {
+        let da = Math.abs(a - r.a) % (Math.PI * 2);
+        if (da > Math.PI) da = Math.PI * 2 - da;
+        if (da > r.w * 3 || t < 0.9) continue;
+        const along = smooth((t - 0.9) / 0.6) * (1 - smooth((t - 1) / (r.len - 1)));
+        k += r.k * Math.exp(-((da / r.w) ** 2)) * along * (0.55 + 0.45 * noise2(t * 0.6, r.a * 10, seed + 2));
+      }
+      return out.multiplyScalar(Math.max(0.45, 1 + k));
     },
   };
 }
@@ -204,16 +271,23 @@ function makeBase(stop: Stop, seed: number, tile?: RealTile): Terrain {
     return out.multiplyScalar(Math.min(1.6, Math.max(0.55, 1 + (v / tile.lumMean - 1) * k)));
   };
   const kind = stop.setting.terrain ?? "mare";
-  // The machine stands on level ground at y = 0; the terrain eases in around it.
-  const settle = (x: number, z: number) => smooth((Math.hypot(x, z) - flat) / (flat * 1.4));
+  // The machine stands on level ground at y = 0; the terrain eases in around it. An impact crater is cut into the
+  // ground as it really lies (GRAIL's and LADEE's are on slopes of 20 degrees or more), so nothing is levelled there.
+  const crater = stop.setting.crater ?? 0;
+  const settle = crater ? () => 1 : (x: number, z: number) => smooth((Math.hypot(x, z) - flat) / (flat * 1.4));
+  // Made-up craters stay off a fresh impact crater and its rim (nothing has hit it since).
+  const clear = crater ? crater * 1.3 : flat * 0.6;
+  // Where the measurement is coarse (LOLA alone, 20 to 200 m per sample), it is smooth below that size, so add
+  // the gentle rolls and craters it cannot see. Fine measured ground (LROC and HiRISE, 2 to 6 m) needs none of this.
+  const coarse = tile ? smooth((tile.res - 8) / 22) : 0;
 
   if (kind === "mare" || kind === "highlands") {
     const big = kind === "highlands";
     // With measured ground, only craters too small for the data (under about 9 m across) are made up.
     const craters = [
-      ...craterField(seed, real ? 260 : big ? 160 : 220, 1.2, real ? 4.5 : big ? 26 : 18, 520, flat * 0.6),
+      ...craterField(seed, real ? 260 : big ? 160 : 220, 1.2, real ? 4.5 + coarse * 9 : big ? 26 : 18, 520, clear),
       // Small craters, 0.5 to 3 m across, packed close around you: the Moon is cratered at every scale.
-      ...craterField(seed + 1, 520, 0.25, 1.5, 70, flat * 0.6),
+      ...craterField(seed + 1, 520, 0.25, 1.5, 70, clear),
     ];
     // Little West crater, about 33 m across, east of Eagle (Armstrong jogged over to look into it).
     // The measured ground already has it (about 3.5 m deep, 75 m east), so it is only added by hand without data.
@@ -221,7 +295,7 @@ function makeBase(stop: Stop, seed: number, tile?: RealTile): Terrain {
     return {
       height(x, z) {
         const fine = fbm(x / 14, z / 14, 3, seed + 5) * (big ? 0.35 : 0.22);
-        const roll = real ? real(x, z) + fine : fbm(x / 90, z / 90, 4, seed) * (big ? 2.6 : 1.1) + fine;
+        const roll = real ? real(x, z) + fine + coarse * fbm(x / 70, z / 70, 3, seed) * (big ? 1.6 : 0.9) : fbm(x / 90, z / 90, 4, seed) * (big ? 2.6 : 1.1) + fine;
         return (roll + craterHeight(craters, x, z)) * settle(x, z);
       },
       color(x, z, out) {
@@ -237,13 +311,13 @@ function makeBase(stop: Stop, seed: number, tile?: RealTile): Terrain {
   if (kind === "slope") {
     // Perseverance Valley runs down the inside of Endeavour crater's rim, so the ground falls away to the east.
     // The measured ground here falls east at about 15 degrees, steeper than the stand-in slope below.
-    const craters = craterField(seed, 60, 0.6, real ? 4 : 6, 300, flat);
+    const craters = craterField(seed, 60 + Math.round(coarse * 60), 0.6, real ? 4 + coarse * 6 : 6, 300, crater ? clear : flat);
     // Wind-blown sand collects in patches between the rocks and forms ripples about 3 m apart, crests running
     // across the valley (Opportunity drove over these in Perseverance Valley).
     const sand = (x: number, z: number) => smooth((noise2(x / 14, z / 14, seed + 12) - 0.5) * 5);
     return {
       height(x, z) {
-        const fall = real ? real(x, z) : -0.11 * x + fbm(x / 70, z / 70, 3, seed) * 2.2 - 1.2 * Math.exp(-((z + 6) ** 2) / 260);
+        const fall = real ? real(x, z) + coarse * fbm(x / 60, z / 60, 3, seed) * 1.2 : -0.11 * x + fbm(x / 70, z / 70, 3, seed) * 2.2 - 1.2 * Math.exp(-((z + 6) ** 2) / 260);
         const grit = fbm(x / 6, z / 6, 3, seed + 4) * 0.18;
         const ripple = Math.sin((x * 0.35 + z * 0.94) * 2.1 + fbm(x / 8, z / 8, 2, seed + 3) * 2) * 0.07 * sand(x, z);
         return (fall + grit * (1 - sand(x, z) * 0.7) + ripple + craterHeight(craters, x, z) * 0.6) * settle(x, z);

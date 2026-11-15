@@ -124,3 +124,27 @@
 .fold>summary:focus-visible{outline:2px solid var(--accent-hi);outline-offset:2px;border-radius:4px}
 .fold h4{margin:16px 0 8px;font-size:1rem;font-weight:600}
 .glance{margin-top:16px}
+
+/* "You've explored it" in its own colour (green), so it can't be confused with the grey "gone quiet" dots. */
+:root{--seen:#34d399}
+.pin.seen:not(.sel){box-shadow:none;outline:2px solid var(--seen);outline-offset:2px}
+.pin.seen.alive:not(.sel){box-shadow:0 0 0 4px var(--void),0 0 0 6px var(--c);outline:2px solid var(--seen);outline-offset:7px}
+#beyond .craft.seen circle{stroke:var(--seen);stroke-width:3px}
+.roster button.seen::before{box-shadow:0 0 0 2px var(--seen)}
+.pinmenu .seen i{box-shadow:0 0 0 2px var(--seen)}
+.legend .seenmark{background:transparent;box-shadow:0 0 0 2px var(--seen)}
+
+/* The deep-space map hands over to the 3D solar system (/solar): a button, a quick zoom-fade, a page cross-fade. */
+.fly3d{position:absolute;right:10px;bottom:10px;z-index:4}
+
+/* Fully explored (every spot found in the tour): a filled green check, a step up from "opened" (green ring). */
+.pin.complete:not(.sel){outline:2px solid var(--seen);outline-offset:2px;box-shadow:0 0 0 6px rgba(52,211,153,.25)}
+.pin.complete::after{content:"✓";position:absolute;left:100%;top:-9px;margin-left:1px;font:700 11px/1 var(--body);color:var(--seen);pointer-events:none}
+#beyond .craft.complete circle{stroke:var(--seen);stroke-width:4px;fill:var(--seen)}
+.roster button.complete .gname::after{content:" ✓ fully explored";color:var(--seen);font-weight:600;font-size:.8125rem}
+.roster li > button.complete::after{content:" ✓";color:var(--seen);font-weight:700}
+.legend .fullmark{display:inline-grid;place-items:center;width:14px;height:14px;margin-right:6px;border-radius:50%;background:var(--seen);color:var(--void);font:700 10px/1 var(--body);font-style:normal;vertical-align:-2px}
+
+/* The way into the 3D solar system, up top next to "Tour". */
+.back.solar-cta{color:var(--ink);font-weight:700}
+.back.solar-cta:hover{color:var(--accent,#3a86ff)}

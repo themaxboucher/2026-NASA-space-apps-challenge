@@ -255,3 +255,109 @@ export function ringTexture() {
     ctx.putImageData(img, 0, 0);
   });
 }
+
+// ---- The other worlds, drawn in code like Saturn: colours and features from NASA's Voyager, Juno, New Horizons,
+// MESSENGER, Dawn and Magellan images. Each is an equirectangular map (x = longitude, y = latitude, north up).
+
+// Cloud bands for the giant planets: colour stops from north to south, stretched into streaks by noise.
+function bandedTexture(key: string, bands: [number, string][], streak: number, draw?: (ctx: CanvasRenderingContext2D, w: number, h: number) => void) {
+  return canvasTexture(key, 1024, 512, (ctx, w, h) => {
+    const g = ctx.createLinearGradient(0, 0, 0, h);
+    for (const [o, c] of bands) g.addColorStop(o, c);
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, h);
+    draw?.(ctx, w, h);
+    const img = ctx.getImageData(0, 0, w, h);
+    const src = new Uint8ClampedArray(img.data);
+    for (let y = 0; y < h; y++)
+      for (let x = 0; x < w; x++) {
+        // Turbulence: sample the colour a little above or below, so bands wave into long streaks.
+        const wob = (noise2(x / 70, y / 5, 7) - 0.5) * 2 + (noise2(x / 18, y / 3, 9) - 0.5) * 0.6;
+        const sy = Math.min(h - 1, Math.max(0, Math.round(y + wob * streak)));
+        const i = (y * w + x) * 4, j = (sy * w + x) * 4;
+        const k = 0.95 + noise2(x / 30, y / 2, 3) * 0.1;
+        img.data[i] = src[j] * k;
+        img.data[i + 1] = src[j + 1] * k;
+        img.data[i + 2] = src[j + 2] * k;
+      }
+    ctx.putImageData(img, 0, 0);
+  });
+}
+function oval(ctx: CanvasRenderingContext2D, x: number, y: number, rx: number, ry: number, inner: string, outer: string) {
+  const g = ctx.createRadialGradient(x, y, 0, x, y, rx);
+  g.addColorStop(0, inner);
+  g.addColorStop(0.7, inner);
+  g.addColorStop(1, outer);
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(1, ry / rx);
+  ctx.translate(-x, -y);
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.arc(x, y, rx, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+// Jupiter: cream zones and rusty belts, and the Great Red Spot at about 22 degrees south.
+export const jupiterTexture = () =>
+  bandedTexture(
+    "jupiter",
+    [[0, "#8d8172"], [0.12, "#b8a58c"], [0.22, "#d9cbb1"], [0.3, "#a9765a"], [0.36, "#c99a74"], [0.42, "#efe4cf"], [0.5, "#e6d6b8"],
+     [0.56, "#b27c58"], [0.62, "#c58c62"], [0.66, "#eadcc2"], [0.74, "#c7b296"], [0.82, "#a89880"], [1, "#82786c"]],
+    5,
+    (ctx, w, h) => oval(ctx, w * 0.62, h * 0.622, w * 0.034, h * 0.03, "#c4643e", "rgba(196,100,62,0)"),
+  );
+// Venus: from outside, an unbroken deck of pale yellow sulphuric-acid cloud.
+export const venusTexture = () => bandedTexture("venus", [[0, "#cdb98f"], [0.3, "#e4d3a7"], [0.5, "#ecdcb4"], [0.7, "#e2cfa2"], [1, "#c7b38a"]], 14);
+// Uranus: an almost featureless pale cyan, from methane in its air.
+export const uranusTexture = () => bandedTexture("uranus", [[0, "#c4ecef"], [0.4, "#acdfe6"], [0.6, "#a3d8e1"], [1, "#98cfd9"]], 3);
+// Neptune: deeper blue, with a dark storm and bright methane-ice clouds, as Voyager 2 saw it in 1989.
+export const neptuneTexture = () =>
+  bandedTexture("neptune", [[0, "#4a6fcf"], [0.3, "#3f63c4"], [0.45, "#4d74d6"], [0.6, "#3a5cb9"], [0.8, "#4468c9"], [1, "#5277d4"]], 4, (ctx, w, h) => {
+    oval(ctx, w * 0.4, h * 0.62, w * 0.035, h * 0.03, "#22357a", "rgba(34,53,122,0)");
+    ctx.fillStyle = "rgba(240,246,255,0.75)";
+    for (const [x, y, l] of [[0.43, 0.6, 0.05], [0.7, 0.38, 0.08], [0.15, 0.72, 0.04]]) ctx.fillRect(w * x, h * y, w * l, 2);
+  });
+
+// Rocky and icy worlds: a base colour broken up by noise, plus craters (darker floors, brighter rims).
+function rockyTexture(key: string, base: [number, number, number], vary: number, craters: number, draw?: (ctx: CanvasRenderingContext2D, w: number, h: number) => void) {
+  return canvasTexture(key, 512, 256, (ctx, w, h) => {
+    const img = ctx.createImageData(w, h);
+    for (let y = 0; y < h; y++)
+      for (let x = 0; x < w; x++) {
+        const n = noise2(x / 40, y / 40, 11) * 0.6 + noise2(x / 9, y / 9, 13) * 0.4;
+        const k = 1 + (n - 0.5) * vary;
+        const i = (y * w + x) * 4;
+        img.data[i] = base[0] * k;
+        img.data[i + 1] = base[1] * k;
+        img.data[i + 2] = base[2] * k;
+        img.data[i + 3] = 255;
+      }
+    ctx.putImageData(img, 0, 0);
+    const rand = rng(key.length * 31);
+    for (let i = 0; i < craters; i++) {
+      const r = 1.5 + Math.pow(rand(), 3) * 12;
+      const x = rand() * w, y = h * 0.1 + rand() * h * 0.8;
+      ctx.strokeStyle = "rgba(255,255,255,0.12)";
+      ctx.fillStyle = "rgba(0,0,0,0.14)";
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
+    draw?.(ctx, w, h);
+  });
+}
+export const mercuryTexture = () => rockyTexture("mercury", [150, 140, 128], 0.5, 260);
+export const ceresTexture = () =>
+  rockyTexture("ceres", [92, 88, 84], 0.35, 180, (ctx, w, h) => oval(ctx, w * 0.66, h * 0.4, 3, 3, "rgba(255,255,255,0.95)", "rgba(255,255,255,0)")); // Occator's bright salts
+export const rockTexture = () => rockyTexture("rock", [110, 104, 96], 0.6, 120);
+// Pluto: tan and orange-brown, with the pale heart of nitrogen ice (Tombaugh Regio) and the dark red belt along the equator.
+export const plutoTexture = () =>
+  rockyTexture("pluto", [196, 170, 140], 0.45, 30, (ctx, w, h) => {
+    // Cthulhu Macula and its neighbours: dark red-brown patches strung along the equator, west of the heart.
+    for (const [x, rx] of [[0.2, 0.09], [0.32, 0.05], [0.72, 0.06], [0.86, 0.07]]) oval(ctx, w * x, h * 0.55, w * rx, h * 0.06, "rgba(92,44,30,0.6)", "rgba(92,44,30,0)");
+    oval(ctx, w * 0.47, h * 0.47, w * 0.05, h * 0.11, "rgba(244,236,222,0.95)", "rgba(244,236,222,0)");
+    oval(ctx, w * 0.54, h * 0.46, w * 0.05, h * 0.09, "rgba(236,226,210,0.85)", "rgba(236,226,210,0)");
+  });

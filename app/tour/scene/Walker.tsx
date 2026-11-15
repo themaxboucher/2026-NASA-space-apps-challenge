@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { coarsePointer } from "../lib/device";
-import { dismissIntro, live, openHotspot, solids, tour } from "../state";
+import { dismissIntro, hud, live, openHotspot, solids, tour } from "../state";
 import type { Ladder, Stop } from "../stops";
 
 export const EYE = 1.7;
@@ -120,6 +120,15 @@ function edge(on: boolean) {
   document.querySelector(".tour")?.classList.toggle("at-edge", on);
 }
 
+// The "x8" readout in the keys bar, shown while running faster than double speed.
+function showSpeed(s: { shown: string }, boost: number) {
+  const text = boost > 2 ? `×${Math.round(boost)}` : "";
+  if (text === s.shown || !hud.speed) return;
+  s.shown = text;
+  if (text) hud.speed.textContent = text;
+  hud.speed.toggleAttribute("data-on", !!text);
+}
+
 // Walk on the ground (or float in space) with W A S D / arrow keys, and drag to look around.
 // On touch screens it falls back to circling the machine.
 // The glowing dot nearest the middle of the screen (within 90 px): what the crosshair would open.
@@ -138,7 +147,7 @@ function aimedSpot() {
 export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk" | "float"; ground?: (x: number, z: number) => number; center: [number, number, number] }) {
   const { camera, gl } = useThree();
   const touch = useMemo(() => coarsePointer(), []);
-  const st = useRef({ yaw: 0, pitch: 0, vel: new THREE.Vector3(), keys: new Set<Key>(), drag: null as null | { x: number; y: number; moved: number }, active: false, crouch: false, locked: false, aimed: null as HTMLElement | null, hop: 0, vy: 0, upWas: false, base: null as number | null, floor: null as number | null, climbing: false });
+  const st = useRef({ yaw: 0, pitch: 0, vel: new THREE.Vector3(), keys: new Set<Key>(), drag: null as null | { x: number; y: number; moved: number }, active: false, crouch: false, locked: false, aimed: null as HTMLElement | null, hop: 0, vy: 0, upWas: false, base: null as number | null, floor: null as number | null, climbing: false, held: 0, boost: 1, shown: "" });
   const orbit = useRef<OrbitControls | null>(null);
 
   useEffect(() => {
@@ -261,6 +270,9 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
       s.base = s.floor = null;
       s.hop = s.vy = 0;
       s.climbing = false;
+      s.held = 0;
+      s.boost = 1;
+      showSpeed(s, 1);
       edge(false);
       if (orbit.current) orbit.current.enabled = false;
       return;
@@ -318,7 +330,16 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
     // On the ground, holding C crouches too (in space C means down).
     const low = mode === "walk" && (s.crouch || k.has("down"));
     if (mode !== "walk") s.upWas = false;
-    if (pushing) want.normalize().multiplyScalar((mode === "float" ? 3 : 2.2) * (k.has("run") ? 4 : 1) * (low ? 0.45 : 1));
+    // Shift runs (x4), and the longer Shift and a direction are held, the faster you go: doubling every second,
+    // up to x30 on foot and x200 floating. It eases up and back down, so it never jerks; letting go resets it.
+    const sprint = pushing && k.has("run");
+    s.held = sprint ? s.held + dt : 0;
+    // On the ground the speed builds steadily (linear: ×2, then +3 each second held); floating in space it builds
+    // exponentially (×2, doubling about every 1.6 s). Eased both ways so it never lurches.
+    const goal = !sprint ? 1 : mode === "float" ? Math.min(200, 2 * Math.pow(2, s.held / 1.6)) : Math.min(30, 2 + s.held * 3);
+    s.boost += (goal - s.boost) * (1 - Math.exp(-dt * (goal > s.boost ? 2.2 : 3.5)));
+    showSpeed(s, s.boost);
+    if (pushing) want.normalize().multiplyScalar((mode === "float" ? 3 : 2.2) * s.boost * (low ? 0.45 : 1));
     // On the ground you stop almost at once. In space you ease up to speed and coast briefly after letting go.
     // Gentle drift: you coast for about a second after letting go, not several.
     const grip = mode === "float" ? (pushing ? 3 : 1.6) : 7;

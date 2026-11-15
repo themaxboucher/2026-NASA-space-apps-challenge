@@ -1,0 +1,129 @@
+{
+  "id": "near_shoemaker",
+  "setting": "surface",
+  "model": "near",
+  "name": "NEAR Shoemaker",
+  "intro": "NEAR Shoemaker was the first spacecraft to orbit an asteroid and the first to land on one. It was never built to land, but on 12 February 2001 its team set it down gently on Eros. It still sits there today.",
+  "status": "Silent on Eros since 2001",
+  "whyLeft": "Its mission was finished, so the team tried a bonus landing. It kept sending data from the surface for about two weeks, then the team stopped listening on 28 February 2001; a call in 2002 got no answer.",
+  "repurpose": "A future visitor could study how 25 years on an asteroid changed its metal and solar panels. Its landing proved spacecraft can touch asteroids, as OSIRIS-REx later did to grab a sample.",
+  "hotspots": [
+    {
+      "id": "solar-panels",
+      "title": "Landed on its panels",
+      "text": "NEAR touched down at about walking speed, landing on the tips of two solar panels and the bottom of its body. It came to rest tilted on the dusty ground.",
+      "anchor": {
+        "part": "shiny_panels",
+        "at": [
+          0.02,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: NEAR Shoemaker",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-008A"
+      },
+      "photo": {
+        "file": "photos/sites/near_shoemaker--last-pictures.jpg",
+        "w": 1200,
+        "h": 900,
+        "alt": "Diagram of a curved path from an orbit around the asteroid Eros down to its surface.",
+        "caption": "A NASA diagram of NEAR’s final descent: it left its 35 km orbit and spiralled down to touch Eros near the asteroid’s south pole.",
+        "credit": "NASA/Johns Hopkins University Applied Physics Laboratory",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:NEAR_Shoemaker_final_descent.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: NASA."
+      }
+    },
+    {
+      "id": "camera",
+      "title": "The last pictures",
+      "text": "On the way down, the camera took 69 pictures. The last one, from about 120 meters up, shows rocks and dust only a few meters across.",
+      "anchor": {
+        "part": "foil_silver",
+        "at": [
+          0.5,
+          0,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: NEAR Shoemaker",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-008A"
+      }
+    },
+    {
+      "id": "spectrometer",
+      "title": "Better on the ground",
+      "text": "Sitting on Eros, NEAR’s gamma-ray instrument could measure the asteroid’s rock much better than from orbit, so the team kept listening for two more weeks.",
+      "anchor": {
+        "part": "foil_silver",
+        "at": [
+          1,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: NEAR Shoemaker",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-008A"
+      }
+    },
+    {
+      "id": "engine",
+      "title": "A missed turn",
+      "text": "In December 1998 NEAR’s engine burn to slow down at Eros cut off early, and it flew right past. Engineers worked out a new path, and it came back a year later.",
+      "anchor": {
+        "part": "foil_gold",
+        "at": [
+          0.5,
+          0.2,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: NEAR Shoemaker",
+        "url": "https://science.nasa.gov/mission/near-shoemaker/"
+      }
+    },
+    {
+      "id": "dish",
+      "title": "The last call",
+      "text": "This dish sent NEAR’s last data on 28 February 2001. In December 2002 the team tried calling once more, but it did not answer.",
+      "broken": true,
+      "tag": "Why it’s silent",
+      "anchor": {
+        "part": "foil_gold",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: NEAR Shoemaker",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-008A"
+      }
+    }
+  ],
+  "funFact": "NEAR went into orbit around Eros, an asteroid named after the god of love, on Valentine’s Day, 14 February 2000.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "17 February 1996"
+    },
+    {
+      "label": "Orbited Eros from",
+      "value": "14 February 2000"
+    },
+    {
+      "label": "Landed",
+      "value": "12 February 2001"
+    },
+    {
+      "label": "Landing speed",
+      "value": "About 1.6 m/s"
+    }
+  ]
+}

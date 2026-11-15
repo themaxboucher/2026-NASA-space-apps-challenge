@@ -1,0 +1,134 @@
+{
+  "id": "lcross-centaur",
+  "setting": "impact",
+  "model": null,
+  "name": "LCROSS Centaur",
+  "intro": "This was the empty Centaur upper stage of the rocket that launched LCROSS and the Lunar Reconnaissance Orbiter. Instead of drifting in space, it was aimed at Cabeus, a crater near the south pole whose floor never sees sunlight. Its crash threw up a plume that contained water.",
+  "status": "Crashed on purpose, 9 October 2009",
+  "whyLeft": "It was used up after launch, so NASA turned the empty rocket stage into a giant hammer to dig into the dark crater.",
+  "repurpose": "The ice it uncovered is the real treasure: future crews may turn ice like this into drinking water, air and rocket fuel.",
+  "funFact": "The Centaur weighed more than 2 tonnes and hit at about 2.5 km per second, roughly 9,000 km per hour.",
+  "stats": [
+    {
+      "label": "Impact",
+      "value": "9 October 2009"
+    },
+    {
+      "label": "Impact speed",
+      "value": "About 2.5 km/s"
+    },
+    {
+      "label": "Water found in plume",
+      "value": "About 155 kg"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "Dark crater floor",
+      "text": "The Centaur hit here, in the floor of Cabeus, a crater 98 km wide that sunlight never reaches. It came in steeply, at about 75 degrees, and dug a new crater in the frozen soil.",
+      "anchor": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: LCROSS",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B"
+      }
+    },
+    {
+      "id": "flash",
+      "title": "Impact flash",
+      "text": "The LCROSS shepherding spacecraft, following behind, saw a small bright flash in the darkness when the Centaur hit. That flash was the empty rocket stage turning into heat and light.",
+      "anchor": {
+        "pos": [
+          0,
+          6,
+          0
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: LCROSS",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B"
+      },
+      "photo": {
+        "file": "photos/sites/lcross-centaur--flash.jpg",
+        "w": 715,
+        "h": 477,
+        "alt": "An infrared picture with a small white spot inside a dark crater shadow",
+        "caption": "The impact flash (the small white spot) seen by LCROSS’s mid-infrared camera.",
+        "credit": "NASA/LCROSS mission team",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:LCROSS_Centaur_Impact_Flash.jpg",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); credited NASA/LCROSS, published on NASA’s Astronomy Picture of the Day"
+      }
+    },
+    {
+      "id": "plume",
+      "title": "Plume of ice",
+      "text": "The crash blasted dust and ice high into the sunlight. Instruments counted about 155 kg of water vapour and ice in the cloud: proof that the Moon’s coldest craters hide frozen water.",
+      "anchor": {
+        "pos": [
+          -4,
+          15,
+          -4
+        ]
+      },
+      "source": {
+        "label": "Colaprete et al. (NASA Ames), Science 2010: water in the LCROSS plume",
+        "url": "https://www.science.org/doi/10.1126/science.1186986"
+      }
+    },
+    {
+      "id": "heat",
+      "title": "Hot spot",
+      "text": "Ninety seconds after the crash, the Lunar Reconnaissance Orbiter flew over and measured a hot spot in one of the coldest places in the Solar System.",
+      "anchor": {
+        "pos": [
+          9,
+          0.2,
+          5
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: LCROSS",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B"
+      },
+      "photo": {
+        "file": "photos/sites/lcross-centaur--heat.jpg",
+        "w": 960,
+        "h": 377,
+        "alt": "Two thermal maps of the impact site, before and after, the second with a warm spot",
+        "caption": "Heat maps of the impact site from LRO’s Diviner instrument: two hours before the crash, and 90 seconds after.",
+        "credit": "NASA/GSFC/UCLA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Lcross-main-impact-detail.jpg",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); from nasa.gov LCROSS mission pages, credit NASA/GSFC/UCLA"
+      }
+    },
+    {
+      "id": "rocket",
+      "title": "Rocket remains",
+      "text": "Scout, there is nothing left to fix: the Centaur was an empty fuel tank with an engine, and the impact shattered it. Its pieces lie buried somewhere in the frozen, pitch-black soil.",
+      "broken": true,
+      "tag": "Why it’s here",
+      "anchor": {
+        "pos": [
+          -10,
+          0.1,
+          7
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: LCROSS",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B"
+      }
+    }
+  ]
+}

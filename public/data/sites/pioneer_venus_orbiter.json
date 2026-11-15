@@ -1,0 +1,112 @@
+{
+  "id": "pioneer_venus_orbiter",
+  "setting": "impact",
+  "model": null,
+  "name": "Pioneer Venus Orbiter",
+  "intro": "Pioneer Venus Orbiter circled Venus for almost 14 years, watching its clouds and making the first radar map of most of its surface. In October 1992 its fuel ran out, and it sank into the atmosphere and burned up.",
+  "status": "Burned up in Venus’s sky in 1992",
+  "whyLeft": "It ran out of the fuel it needed to keep its orbit high. Its orbit sank into the thick air, where it burned up in October 1992.",
+  "repurpose": "Nothing is left to recover. It made the most of its ending: as its orbit dropped, it measured the upper atmosphere lower than ever before.",
+  "hotspots": [
+    {
+      "id": "clouds",
+      "title": "Watching the clouds",
+      "text": "In ultraviolet light, Venus’s yellowish clouds show dark swirls. The orbiter watched them whip around the whole planet in about four days.",
+      "anchor": {
+        "pos": [
+          0,
+          0.3,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Pioneer Venus Orbiter",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-051A"
+      },
+      "photo": {
+        "file": "photos/sites/pioneer_venus_orbiter--clouds.jpg",
+        "w": 1123,
+        "h": 1200,
+        "alt": "Venus as a pale disc with dark swirling cloud bands.",
+        "caption": "Venus’s clouds in ultraviolet light, seen by Pioneer Venus Orbiter.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Venus_clouds_seen_by_Pioneer_Venus_Orbiter.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://nssdc.gsfc.nasa.gov/photo_gallery/photogallery-venus.html direct link to the pictur."
+      }
+    },
+    {
+      "id": "radar",
+      "title": "The first radar map",
+      "text": "A radar on board measured the height of the hidden ground and made the first map of most of Venus’s surface, years before Magellan.",
+      "anchor": {
+        "pos": [
+          5,
+          0.3,
+          -4
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Pioneer Venus Orbiter",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-051A"
+      }
+    },
+    {
+      "id": "halley",
+      "title": "Watching Halley’s Comet",
+      "text": "In 1986, when Halley’s Comet was too close to the Sun to be seen from Earth, the orbiter studied it from Venus.",
+      "anchor": {
+        "pos": [
+          -5,
+          0.3,
+          4
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Pioneer Venus Orbiter",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-051A"
+      }
+    },
+    {
+      "id": "end",
+      "title": "Out of fuel",
+      "text": "With its fuel gone, nothing could keep the orbiter up. Its last signals came in October 1992 as it fell into the atmosphere.",
+      "broken": true,
+      "tag": "Why it ended",
+      "anchor": {
+        "pos": [
+          6,
+          0.3,
+          6
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Pioneer Venus Orbiter",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1978-051A"
+      }
+    }
+  ],
+  "funFact": "It reached Venus on 4 December 1978 and kept working until 1992, almost 14 years.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "20 May 1978"
+    },
+    {
+      "label": "Reached Venus",
+      "value": "4 December 1978"
+    },
+    {
+      "label": "Burned up",
+      "value": "October 1992"
+    },
+    {
+      "label": "Time at Venus",
+      "value": "Almost 14 years"
+    }
+  ]
+}

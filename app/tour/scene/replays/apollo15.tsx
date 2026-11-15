@@ -8,7 +8,7 @@ import { reducedMotion } from "../../lib/device";
 import { useStore } from "../../lib/store";
 import { endReplay, live, REPLAYS, setCaption, tour } from "../../state";
 import type { Stop } from "../../stops";
-import { loadMedia } from "../../Story";
+import { loadMedia, mediaSound } from "../../Story";
 import { ghostMaterial, lerp2, shell, smooth, suited, type Cue } from "../Ghost";
 import { prepareModel, type GltfSpec } from "../Machine";
 import { useModel } from "../useModel";
@@ -113,7 +113,7 @@ export function Apollo15Replay({ stop, ground }: { stop: Stop; ground?: (x: numb
     loadMedia().then((m) => {
       const r = (m as Record<string, { file?: string }>)["apollo15-lrv"];
       if (cancelled || !r?.file || !/^media\/[\w.-]+$/.test(r.file)) return;
-      audio.current = new Audio("/" + r.file);
+      audio.current = mediaSound(new Audio("/" + r.file));
     });
     return () => {
       cancelled = true;

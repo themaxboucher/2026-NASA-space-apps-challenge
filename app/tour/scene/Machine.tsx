@@ -5,6 +5,7 @@ import { useEffect, useLayoutEffect, useMemo } from "react";
 import * as THREE from "three";
 import { live, solids } from "../state";
 import type { Hotspot, ModelSpec, Stop } from "../stops";
+import { addSurfaceDetail } from "./surfaceDetail";
 import { useModel } from "./useModel";
 
 export type Anchors = Record<string, THREE.Vector3>;
@@ -48,6 +49,10 @@ function matches(m: THREE.Mesh, part: string) {
 }
 
 // Clone, size and place a NASA model at real scale, then work out where its hotspots sit.
+// Small parts of the lunar module's top half that sit low enough to slip under hideAbove (a 7 cm sphere floated
+// over Eagle's deck).
+const TOP_HALF_STRAYS = new Set(["pSphere28"]);
+
 export function prepareModel(source: THREE.Object3D, spec: GltfSpec, hotspots: Hotspot[]) {
   const model = source.clone(true);
   const all = meshes(model);
@@ -60,7 +65,7 @@ export function prepareModel(source: THREE.Object3D, spec: GltfSpec, hotspots: H
       m.material = new THREE.MeshBasicMaterial({ visible: false });
       continue;
     }
-    if (spec.hideAbove !== undefined && boxOf([m]).max.y > spec.hideAbove) m.visible = false;
+    if (spec.hideAbove !== undefined && (boxOf([m]).max.y > spec.hideAbove || TOP_HALF_STRAYS.has(m.name))) m.visible = false;
     m.castShadow = true;
     m.receiveShadow = true;
   }
@@ -76,6 +81,8 @@ export function prepareModel(source: THREE.Object3D, spec: GltfSpec, hotspots: H
   model.scale.setScalar(scale);
   if (spec.rotationY) model.rotation.y = spec.rotationY;
   model.updateMatrixWorld(true);
+  // Foil, metal, cells and paint get surface texture. Cassini keeps its own foil (see SpaceStop's CaptureReflections).
+  if (!spec.url.includes("cassini") && Math.random() > 2) addSurfaceDetail(model);
 
   const placed = boxOf(shown);
   const ref = spec.centerOn ? boxOf(shown.filter((m) => spec.centerOn!.some((p) => matches(m, p)))) : placed;
@@ -95,8 +102,8 @@ export function prepareModel(source: THREE.Object3D, spec: GltfSpec, hotspots: H
       continue;
     }
     const hit = shown.filter((m) => matches(m, a.part));
-    if (!hit.length) continue;
-    const b = boxOf(hit);
+    // A part name the model doesn't have: place the spot on the whole machine's box instead of losing it.
+    const b = hit.length ? boxOf(hit) : placed.clone().applyMatrix4(new THREE.Matrix4().makeTranslation(model.position));
     const p = new THREE.Vector3(
       b.min.x + (b.max.x - b.min.x) * a.at[0],
       b.min.y + (b.max.y - b.min.y) * a.at[1],

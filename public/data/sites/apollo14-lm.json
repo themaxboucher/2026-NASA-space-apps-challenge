@@ -1,0 +1,138 @@
+{
+  "id": "apollo14-lm",
+  "setting": "surface",
+  "model": "apollo-lm",
+  "name": "Antares",
+  "intro": "This is the bottom half of Antares, which landed Alan Shepard and Edgar Mitchell in the Fra Mauro hills on 5 February 1971, the target Apollo 13 never reached. When the crew left, it stayed behind as their launch pad.",
+  "status": "Parked forever at Fra Mauro",
+  "hotspots": [
+    {
+      "id": "abort-switch",
+      "title": "A speck of solder",
+      "text": "Before landing, the computer kept seeing the abort button as pressed. That could have made it fire this engine to climb back to orbit instead of landing. A loose speck of solder in the switch was probably to blame, and engineers on Earth quickly worked out a fix.",
+      "anchor": {
+        "part": "group13_pC",
+        "at": [
+          0.5,
+          0.05,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Landing at Fra Mauro",
+        "url": "https://apollojournals.org/alsj/a14/a14.landing.html"
+      }
+    },
+    {
+      "id": "golf",
+      "title": "Golf on the Moon",
+      "text": "Near here, Shepard fixed a golf club head to the handle of a sampling tool and hit two golf balls. Swinging one-handed in a stiff spacesuit, he still sent them flying across the dust.",
+      "anchor": {
+        "pos": [
+          6,
+          0.1,
+          9
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 14 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-008C"
+      }
+    },
+    {
+      "id": "plaque",
+      "title": "The plaque",
+      "text": "A plaque on the ladder leg carries the crew’s signatures and a map of Earth’s two halves. It will stay readable for a very long time, since there is no wind or rain to wear it away.",
+      "anchor": {
+        "part": "polySurfa1",
+        "at": [
+          0.5,
+          0.4,
+          0.35
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 14 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-008C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo14-lm--plaque.jpg",
+        "w": 941,
+        "h": 1200,
+        "alt": "A shiny metal plaque with two round maps of Earth and the words Apollo 14 Antares.",
+        "caption": "The Apollo 14 plaque, photographed on Earth before launch.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/S71-16637",
+        "licenseEvidence": "NASA Image and Video Library item S71-16637 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "lander",
+      "title": "Antares on the Moon",
+      "text": "Antares brought home 42 kg of rock, including broken-up pieces thought to be thrown out by the giant impact that made the Imbrium basin.",
+      "anchor": {
+        "part": "group31_19",
+        "at": [
+          0.5,
+          1,
+          0.97
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 14 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-008C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo14-lm--lander.jpg",
+        "w": 1155,
+        "h": 1200,
+        "alt": "The lunar module stands on the grey ground with a bright starburst of sunlight above it.",
+        "caption": "Antares on 5 February 1971; the ball of light is the Sun reflecting in the camera lens.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as14-66-9306",
+        "licenseEvidence": "NASA Image and Video Library item as14-66-9306 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "top-half",
+      "title": "The missing top half",
+      "text": "The crew cabin sat here. On 6 February 1971 it fired its engine and flew back to orbit, using this bottom half as a launch pad.",
+      "anchor": {
+        "part": "group31_11",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 14 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-008C"
+      }
+    }
+  ],
+  "funFact": "Alan Shepard, the first American in space, was 47 years old here, the oldest person ever to walk on the Moon.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "5 February 1971"
+    },
+    {
+      "label": "Moonwalks",
+      "value": "2, for 9 h 23 min"
+    },
+    {
+      "label": "Rocks brought home",
+      "value": "42.28 kg"
+    },
+    {
+      "label": "Golf balls hit",
+      "value": "2"
+    }
+  ],
+  "whyLeft": "Nothing broke: the bottom half was designed to be left as a launch pad when the cabin flew back to orbit.",
+  "repurpose": "Its tanks are empty, but it is a perfect time capsule: close-up photos from a future rover could show how 50 years of sunlight and tiny meteorites changed its gold foil."
+}

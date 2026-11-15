@@ -1,0 +1,129 @@
+{
+  "id": "messenger",
+  "setting": "impact",
+  "model": null,
+  "name": "MESSENGER crater",
+  "intro": "MESSENGER was the first spacecraft to orbit Mercury. After four years and more than 4,000 orbits, it ran out of fuel and crashed into Mercury on 30 April 2015, making a new crater about 16 meters wide. Nothing of the spacecraft is left in one piece.",
+  "status": "Crashed into Mercury in 2015",
+  "whyLeft": "It had used up all its fuel, so it could no longer stay up. The Sun’s pull slowly lowered its orbit until it hit the ground at about 14,000 km/h.",
+  "repurpose": "Nothing is left to repair. A future Mercury orbiter could photograph its crater and learn how fresh craters change so close to the Sun.",
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "A brand-new crater",
+      "text": "Here MESSENGER hit Mercury at about 14,000 km/h on 30 April 2015, on the far side, out of sight of Earth. It blasted out a crater about 16 meters wide.",
+      "broken": true,
+      "tag": "Out of fuel",
+      "anchor": {
+        "pos": [
+          0,
+          0.1,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: MESSENGER",
+        "url": "https://science.nasa.gov/mission/messenger/"
+      }
+    },
+    {
+      "id": "last-picture",
+      "title": "The last picture",
+      "text": "MESSENGER’s final photo, taken minutes before the crash, shows a patch of Mercury’s ground only about a kilometer across, the closest look it ever had.",
+      "anchor": {
+        "pos": [
+          6,
+          0.3,
+          -5
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: MESSENGER",
+        "url": "https://science.nasa.gov/mission/messenger/"
+      },
+      "photo": {
+        "file": "photos/sites/messenger--last-picture.jpg",
+        "w": 508,
+        "h": 512,
+        "alt": "Grey close-up of Mercury’s rough surface with small craters.",
+        "caption": "MESSENGER’s very last picture of Mercury, taken on 30 April 2015 just before the crash.",
+        "credit": "NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of Washington",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Last_Image_by_NASA_MESSENGER.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: MESSENGER’S FINAL IMAGE."
+      }
+    },
+    {
+      "id": "helium",
+      "title": "Running on fumes",
+      "text": "When its rocket fuel ran out, engineers found a clever trick: they used the helium gas that pushed the fuel as a tiny extra rocket, buying about a month more of science.",
+      "anchor": {
+        "pos": [
+          -5,
+          0.3,
+          4
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: MESSENGER",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2004-030A"
+      }
+    },
+    {
+      "id": "ice",
+      "title": "Ice near the Sun",
+      "text": "Mercury is the closest planet to the Sun, yet MESSENGER found water ice hiding in deep craters near its poles, where sunlight never reaches.",
+      "anchor": {
+        "pos": [
+          -9,
+          0.3,
+          -8
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: MESSENGER",
+        "url": "https://science.nasa.gov/mission/messenger/"
+      }
+    },
+    {
+      "id": "sunshade",
+      "title": "Its sunshade",
+      "text": "MESSENGER hid behind a sunshade of heat-proof ceramic cloth, because sunlight at Mercury can be up to 11 times stronger than on Earth. Whatever is left of it is now scattered here.",
+      "anchor": {
+        "pos": [
+          2,
+          0.25,
+          7
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: MESSENGER",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2004-030A"
+      }
+    }
+  ],
+  "funFact": "To reach Mercury without crashing into the Sun, MESSENGER flew past Earth once, Venus twice and Mercury three times before it could slip into orbit.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "3 August 2004"
+    },
+    {
+      "label": "Entered orbit",
+      "value": "18 March 2011"
+    },
+    {
+      "label": "Orbits of Mercury",
+      "value": "More than 4,000"
+    },
+    {
+      "label": "Crater",
+      "value": "About 16 m wide"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "id": "apollo15-sivb",
+  "setting": "impact",
+  "model": null,
+  "name": "Apollo 15’s third stage",
+  "intro": "This crater was made by the third stage of the Saturn V that launched Apollo 15. The day before Falcon landed, the empty stage was steered into the Moon on 29 July 1971 to give the seismometers a test thump.",
+  "status": "Crater, found by LRO",
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "The crater",
+      "text": "The stage made a crater 35 to 40 meters long, a bit uneven in shape. LRO’s cameras found it in their predicted area decades later.",
+      "anchor": {
+        "pos": [
+          0,
+          0.1,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "LROC (LRO camera team): the Apollo S-IVB craters",
+        "url": "https://lroc.im-ldi.com/images/1261"
+      }
+    },
+    {
+      "id": "angle",
+      "title": "Coming in",
+      "text": "It hit at 2.58 km per second, about 62 degrees above the horizon.",
+      "anchor": {
+        "pos": [
+          15,
+          0.3,
+          5
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    },
+    {
+      "id": "seismometer",
+      "title": "Reading the shake",
+      "text": "The Apollo 12 and Apollo 14 seismometers recorded the crash. Scientists in Mission Control studied the readings to measure how vibrations travel through the Moon’s crust.",
+      "anchor": {
+        "pos": [
+          0,
+          1.5,
+          -40
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      },
+      "photo": {
+        "file": "photos/sites/apollo15-sivb--seismometer.jpg",
+        "w": 806,
+        "h": 1200,
+        "alt": "People in an office lean over long paper charts covered in wavy lines.",
+        "caption": "Scientists in Mission Control study the seismometer reading from this crash.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/S71-41422",
+        "licenseEvidence": "NASA Image and Video Library item S71-41422 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "pieces",
+      "title": "Scattered pieces",
+      "text": "Scout’s check: nothing is left whole. The stage shattered on impact and its fragments are scattered around the crater.",
+      "broken": true,
+      "tag": "What is left",
+      "anchor": {
+        "pos": [
+          -20,
+          0.1,
+          -14
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "LROC (LRO camera team): the Apollo S-IVB craters",
+        "url": "https://lroc.im-ldi.com/images/1261"
+      }
+    }
+  ],
+  "funFact": "Scientists in Mission Control studied its seismometer signal on long paper charts.",
+  "stats": [
+    {
+      "label": "Hit the Moon",
+      "value": "29 July 1971"
+    },
+    {
+      "label": "Speed",
+      "value": "2.58 km/s"
+    },
+    {
+      "label": "Mass",
+      "value": "About 13,900 kg"
+    },
+    {
+      "label": "Crater",
+      "value": "About 35–40 m long"
+    }
+  ],
+  "whyLeft": "Its fuel was spent after sending Apollo 15 to the Moon, so NASA used it one last time as a known seismic signal.",
+  "repurpose": "It broke into pieces. Its scattered aluminium is a possible metal source for a future Moon base, if anyone can gather it."
+}

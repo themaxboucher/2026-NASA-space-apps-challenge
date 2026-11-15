@@ -1,0 +1,108 @@
+{
+  "id": "mars-climate-orbiter",
+  "setting": "space",
+  "model": null,
+  "name": "Mars Climate Orbiter",
+  "intro": "Mars Climate Orbiter was a weather satellite for Mars. On 23 September 1999 it fired its engine to go into orbit, passed behind the planet and never came out. There is no wreck to visit: this marks the spot above Mars where it was lost.",
+  "status": "Lost in 1999",
+  "whyLeft": "One computer program gave thruster numbers in imperial units and another expected metric. The small errors added up, so it skimmed about 57 km above Mars instead of 140 to 150 km, and probably burned up or bounced back into space.",
+  "repurpose": "There is nothing left to repair. But copies of its two science instruments were built again and flew on Mars Reconnaissance Orbiter, which reached Mars in 2006 and is still working.",
+  "hotspots": [
+    {
+      "id": "units",
+      "title": "The units mix-up",
+      "text": "Ground software reported the thruster pushes in pound-force seconds, but the navigation team’s software expected newton-seconds. Each number was about 4.45 times too small, and nobody caught it during the nine-month trip.",
+      "broken": true,
+      "tag": "What went wrong",
+      "anchor": {
+        "pos": [
+          0,
+          0,
+          0
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Climate Orbiter",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-073A"
+      },
+      "photo": {
+        "file": "photos/sites/mars-climate-orbiter--orbiter.jpg",
+        "w": 711,
+        "h": 900,
+        "alt": "A spacecraft hanging from a crane in a tall clean room, with workers in white suits.",
+        "caption": "Mars Climate Orbiter being prepared on Earth before its launch in December 1998.",
+        "credit": "NASA/JPL",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Mars_Climate_Orbiter_1.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://mars.jpl.nasa.gov/msp98/images/orbiter9801.html (direct link)."
+      }
+    },
+    {
+      "id": "too-low",
+      "title": "Far too low",
+      "text": "The orbiter was meant to pass 140 to 150 km above Mars. Instead it came in at about 57 km, deep in the air. Engineers think it either burned up or skipped back out into space.",
+      "anchor": {
+        "pos": [
+          0,
+          -6,
+          4
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Climate Orbiter",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-073A"
+      }
+    },
+    {
+      "id": "thrusters",
+      "title": "Tiny thruster nudges",
+      "text": "Small thruster firings kept the orbiter’s spinning wheels from spinning too fast. Each firing nudged its path a little, and those were the pushes measured in the wrong units.",
+      "anchor": {
+        "pos": [
+          3,
+          1,
+          -2
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Climate Orbiter",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-073A"
+      }
+    },
+    {
+      "id": "instruments",
+      "title": "Instruments reborn",
+      "text": "It carried a weather camera and an instrument to measure the air. Copies of both were built again and flew on Mars Reconnaissance Orbiter, which still watches Mars’s weather today.",
+      "anchor": {
+        "pos": [
+          -3,
+          1.5,
+          2
+        ]
+      },
+      "source": {
+        "label": "NASA: Mars Reconnaissance Orbiter",
+        "url": "https://science.nasa.gov/mission/mars-reconnaissance-orbiter/"
+      }
+    }
+  ],
+  "funFact": "Its loss is now a famous lesson taught to engineers everywhere: always check your units.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "11 December 1998"
+    },
+    {
+      "label": "Lost",
+      "value": "23 September 1999"
+    },
+    {
+      "label": "Planned height",
+      "value": "140–150 km"
+    },
+    {
+      "label": "Actual height",
+      "value": "About 57 km"
+    }
+  ]
+}

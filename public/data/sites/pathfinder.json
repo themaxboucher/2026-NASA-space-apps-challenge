@@ -1,0 +1,151 @@
+{
+  "id": "pathfinder",
+  "setting": "surface",
+  "model": "pathfinder",
+  "name": "Mars Pathfinder",
+  "intro": "Mars Pathfinder bounced onto Mars inside giant airbags on 4 July 1997, then opened like a flower to let out Sojourner, the first Mars rover. It worked almost three times longer than planned. Renamed the Carl Sagan Memorial Station, it still rests in the old flood channel of Ares Vallis.",
+  "status": "Silent since 1997",
+  "whyLeft": "It was a one-way trip to test a cheap new way of landing. Its last signal came on 27 September 1997; engineers think its worn-out battery could no longer keep its electronics warm through the freezing nights.",
+  "repurpose": "Today radioisotope heaters keep many spacecraft warm. A fresh battery and a heater blanket might let it be called again, but its 1990s electronics may have cracked in the cold.",
+  "hotspots": [
+    {
+      "id": "airbags",
+      "title": "Giant airbags",
+      "text": "Pathfinder hit the ground wrapped in airbags and bounced across Mars like a huge beach ball before rolling to a stop. Then the bags were deflated and pulled in, and they still lie crumpled around the lander.",
+      "anchor": {
+        "part": "airbag",
+        "at": [
+          0.35,
+          0.85,
+          0.2
+        ]
+      },
+      "source": {
+        "label": "NASA: Mars Pathfinder",
+        "url": "https://science.nasa.gov/mission/mars-pathfinder/"
+      }
+    },
+    {
+      "id": "petals",
+      "title": "Solar petals",
+      "text": "After landing, three side panels folded down like the petals of a flower. They set the lander upright and held the solar cells that powered it.",
+      "anchor": {
+        "part": "pfcell",
+        "at": [
+          0.5,
+          1,
+          0.85
+        ]
+      },
+      "source": {
+        "label": "NASA: Mars Pathfinder",
+        "url": "https://science.nasa.gov/mission/mars-pathfinder/"
+      },
+      "photo": {
+        "file": "photos/sites/pathfinder--petals.jpg",
+        "w": 1076,
+        "h": 600,
+        "alt": "Folded rover on an open lander petal, surrounded by crumpled airbags, on rocky red ground.",
+        "caption": "Pathfinder’s first colour view: Sojourner still sits folded on an open petal, with the deflated airbags all around.",
+        "credit": "NASA/JPL",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Pathfinder_on_Mars_(apod).jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD-USGov missing SDC copyright status, PD NASA); original source: Pathfinder on Mars."
+      }
+    },
+    {
+      "id": "camera",
+      "title": "The camera mast",
+      "text": "The lander’s camera sat on top of this mast. It sent home more than 16,500 pictures, including many of Sojourner at work.",
+      "anchor": {
+        "part": "glass",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Mars Pathfinder",
+        "url": "https://science.nasa.gov/mission/mars-pathfinder/"
+      }
+    },
+    {
+      "id": "weather",
+      "title": "Weather mast",
+      "text": "This mast measured the temperature and wind, with little wind socks to show which way the breeze blew. Pathfinder sent daily weather reports from Mars.",
+      "anchor": {
+        "part": "pathfinder",
+        "at": [
+          0.85,
+          0.68,
+          0.3
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Pathfinder",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-068A"
+      }
+    },
+    {
+      "id": "ramp",
+      "title": "The rover ramp",
+      "text": "Sojourner drove down a ramp like this one onto the ground, a couple of days after landing. A scout would find its tracks long gone, but the rover itself should still be within about 12 meters.",
+      "anchor": {
+        "part": "silver",
+        "at": [
+          0.98,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Mars Pathfinder",
+        "url": "https://science.nasa.gov/mission/mars-pathfinder/"
+      }
+    },
+    {
+      "id": "battery",
+      "title": "The battery",
+      "text": "Inside the lander’s base is a rechargeable battery. Engineers think it wore out, so the electronics froze each night. The last message arrived on 27 September 1997.",
+      "broken": true,
+      "tag": "Most likely cause",
+      "anchor": {
+        "part": "gold",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ],
+        "offset": [
+          0,
+          0.1,
+          0
+        ]
+      },
+      "source": {
+        "label": "NASA: Mars Pathfinder",
+        "url": "https://science.nasa.gov/mission/mars-pathfinder/"
+      }
+    }
+  ],
+  "funFact": "Pathfinder was renamed the Carl Sagan Memorial Station, to honour the astronomer who helped people everywhere fall in love with planets.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "4 July 1997"
+    },
+    {
+      "label": "Last heard",
+      "value": "27 September 1997"
+    },
+    {
+      "label": "Planned",
+      "value": "30 days"
+    },
+    {
+      "label": "Lander pictures",
+      "value": "More than 16,500"
+    }
+  ]
+}

@@ -1,15 +1,16 @@
 import { createStore } from "./lib/store";
 import { faceLonRotation } from "./lib/geo";
 import { siteFrame } from "./lib/siteframe";
-import { STOPS } from "./stops";
+import { STORY_COUNT, STOPS } from "./stops";
 
-export type BodyKey = "earth" | "moon" | "mars" | "saturn";
+export type BodyKey = "earth" | "moon" | "mars" | "saturn" | "jupiter" | "venus" | "mercury" | "uranus" | "neptune" | "pluto" | "ceres" | "rock";
 
 // `lit`: a sun direction for a LitGlobe (the Moon on the first trip, lit exactly like the landing site's globe).
 export type BodyPlacement = { key: BodyKey; pos: [number, number, number]; rotY: number; spin?: boolean; lit?: [number, number, number] };
 
 export type SceneDesc =
-  | { kind: "travel"; key: string; bodies: BodyPlacement[] }
+  // `heliopause`: the edge of the Sun's bubble, a huge faint shell the trip to Voyager 1 flies through.
+  | { kind: "travel"; key: string; bodies: BodyPlacement[]; heliopause?: { center: [number, number, number]; radius: number } }
   | { kind: "surface"; key: string; stop: number }
   | { kind: "space"; key: string; stop: number };
 
@@ -95,7 +96,7 @@ export function startTour() {
 export function nextStop() {
   const s = tour.get();
   if (s.phase !== "explore") return;
-  journeyTo(s.stop < STOPS.length - 1 ? s.stop + 1 : "end");
+  journeyTo(s.stop < STORY_COUNT - 1 ? s.stop + 1 : "end");
 }
 
 // A tick in the top trail. Forward flies there; backward is a quick fade. During a trip, the destination's tick
@@ -107,7 +108,8 @@ export function goToStop(i: number) {
     return;
   }
   if (s.phase !== "explore" || i === s.stop) return;
-  if (i > s.stop) journeyTo(i);
+  // From another machine (outside the story), any trail tick is a quick fade into the story.
+  if (i > s.stop && s.stop < STORY_COUNT) journeyTo(i);
   else requestTravel(i, "jump");
 }
 
@@ -135,6 +137,17 @@ export function openHotspot(stopId: string, spotId: string | null) {
       found: { ...s.found, [stopId]: [...seen, spotId] },
     };
   });
+  // Every spot found: remember it as fully explored (shared with the explore page, kept in this browser).
+  const stop = STOPS.find((x) => x.id === stopId);
+  const now = tour.get().found[stopId] ?? [];
+  if (stop && stop.hotspots.length && stop.hotspots.every((h) => now.includes(h.id))) {
+    try {
+      const done = new Set<string>(JSON.parse(localStorage.getItem("gra-complete") || "[]"));
+      if (!done.has(stopId)) localStorage.setItem("gra-complete", JSON.stringify([...done.add(stopId)]));
+    } catch {
+      /* storage blocked: nothing to remember */
+    }
+  }
 }
 
 export function dismissIntro() {
@@ -154,7 +167,10 @@ export const live = {
 };
 
 // DOM nodes the Director updates every frame, registered by the overlay.
-export const hud: { fade: HTMLDivElement | null; counter: HTMLElement | null; minimap: HTMLCanvasElement | null; replayLine: HTMLElement | null; replayBar: HTMLElement | null } = {
+// `chip`: the caption naming what you pass on a trip; `speed`: the "x8" readout while Shift-running.
+export const hud: { fade: HTMLDivElement | null; counter: HTMLElement | null; minimap: HTMLCanvasElement | null; replayLine: HTMLElement | null; replayBar: HTMLElement | null; chip: HTMLElement | null; speed: HTMLElement | null } = {
+  chip: null,
+  speed: null,
   fade: null,
   counter: null,
   minimap: null,
@@ -186,7 +202,9 @@ const SAVE_KEY = "gra-tour";
 tour.subscribe(() => {
   const s = tour.get();
   try {
-    if (s.phase === "explore" && s.stop >= 0) sessionStorage.setItem(SAVE_KEY, JSON.stringify({ stop: s.stop, found: s.found, visited: s.visited, revealed: s.revealed }));
+    // Other machines' stops only exist once opened, so only a story stop is saved as the place to return to
+    // (the address, /#<id>, brings you back to any other machine).
+    if (s.phase === "explore" && s.stop >= 0) sessionStorage.setItem(SAVE_KEY, JSON.stringify({ stop: s.stop < STORY_COUNT ? s.stop : -1, found: s.found, visited: s.visited, revealed: s.revealed }));
     else if (s.phase === "end") sessionStorage.removeItem(SAVE_KEY);
   } catch {
     /* storage blocked: the tour just starts fresh next time */
@@ -196,9 +214,9 @@ tour.subscribe(() => {
 export function restoreProgress(at?: number): number | null {
   try {
     const saved = JSON.parse(sessionStorage.getItem(SAVE_KEY) || "null") as { stop: number; found: Record<string, string[]>; visited: string[]; revealed: string[] } | null;
-    if (!saved || !STOPS[saved.stop]) return at ?? null;
+    if (!saved) return at ?? null;
     tour.set({ found: saved.found ?? {}, visited: saved.visited ?? [], revealed: saved.revealed ?? [] });
-    return at ?? saved.stop;
+    return at ?? (saved.stop >= 0 && saved.stop < STORY_COUNT ? saved.stop : null);
   } catch {
     return at ?? null;
   }

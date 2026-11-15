@@ -1,0 +1,150 @@
+{
+  "id": "apollo16-lrv",
+  "setting": "surface",
+  "model": "lrv-team",
+  "name": "Apollo 16 rover",
+  "intro": "This rover carried John Young and Charlie Duke about 27 km across the Descartes highlands in April 1972. Its last job was to film Orion’s liftoff with its TV camera. It is still parked where they left it.",
+  "status": "Parked forever where it filmed liftoff",
+  "hotspots": [
+    {
+      "id": "wheels",
+      "title": "The Grand Prix",
+      "text": "On the first moonwalk, Young drove fast, braked and swerved while Duke filmed, so engineers could see how the rover handled. It bounced so hard that its wheels left the ground.",
+      "anchor": {
+        "part": "wheels",
+        "at": [
+          1,
+          0.5,
+          0.85
+        ]
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Apollo 16 video library",
+        "url": "https://apollojournals.org/alsj/a16/video16.html"
+      },
+      "video": {
+        "file": "media/sites/apollo16-lrv--wheels.mp4",
+        "poster": "media/sites/apollo16-lrv--wheels.jpg",
+        "caption": "John Young’s Grand Prix test drive: the rover bounces through craters and throws up sprays of dust.",
+        "credit": "NASA (16mm film shot by Charlie Duke)",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Apollo16GrandPrix.webm",
+        "licenseEvidence": "Wikimedia Commons file page: licence \"Public domain\", author Charles Duke (NASA astronaut, film taken on the mission), source given as the LPI Apollo 16 surface operations page. Same NASA 16mm footage as the ALSJ Grand Prix clip. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/).",
+        "real": true
+      }
+    },
+    {
+      "id": "hand-controller",
+      "title": "Steering stick",
+      "text": "There is no steering wheel: the driver steered, sped up and braked with this one T-shaped stick. Both the front and rear wheels could steer.",
+      "anchor": {
+        "part": "hand_controller",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: The Apollo Lunar Roving Vehicle",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_lrv.html"
+      },
+      "photo": {
+        "file": "photos/sites/apollo16-lrv--hand-controller.jpg",
+        "w": 1200,
+        "h": 825,
+        "alt": "An astronaut drives the rover across grey ground, throwing up dust.",
+        "caption": "John Young at the controls during the Grand Prix, from Charlie Duke’s film.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/S72-37002",
+        "licenseEvidence": "NASA Image and Video Library item S72-37002 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "batteries",
+      "title": "The batteries",
+      "text": "Two 36-volt batteries powered the rover, and they could not be recharged. Once they ran down, the rover was finished for good.",
+      "broken": true,
+      "tag": "Why it can’t drive again",
+      "anchor": {
+        "part": "batteries",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: The Apollo Lunar Roving Vehicle",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_lrv.html"
+      }
+    },
+    {
+      "id": "tv-camera",
+      "title": "The TV camera",
+      "text": "Controllers in Houston steered this camera by remote. On 24 April 1972 it followed Orion’s top half as it blasted off.",
+      "anchor": {
+        "part": "tv_camera",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 16 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-031C"
+      }
+    },
+    {
+      "id": "parking",
+      "title": "The last parking spot",
+      "text": "Young drove the rover to this final spot at the end of the third moonwalk, a short distance east of Orion, so its camera could see the liftoff.",
+      "anchor": {
+        "part": "seats",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 16 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-031C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo16-lrv--parking.jpg",
+        "w": 1200,
+        "h": 1200,
+        "alt": "A small rover in the distance on a wide grey plain, with a big shadow in the foreground.",
+        "caption": "John Young drives to the final parking place on 23 April 1972.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as16-115-18559",
+        "licenseEvidence": "NASA Image and Video Library item as16-115-18559 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    }
+  ],
+  "funFact": "The wheels have no air inside: their tyres are woven from steel wire, with titanium treads.",
+  "stats": [
+    {
+      "label": "Driven",
+      "value": "26.7 km"
+    },
+    {
+      "label": "Driving time",
+      "value": "3 h 26 min"
+    },
+    {
+      "label": "Mass",
+      "value": "210 kg"
+    },
+    {
+      "label": "Power",
+      "value": "2 non-rechargeable 36 V batteries"
+    }
+  ],
+  "whyLeft": "It was always a one-trip car: its batteries could not be recharged, and the astronauts parked it where its camera could film their liftoff.",
+  "repurpose": "With new batteries and solar panels it might drive again, but that would break the rules protecting Apollo sites. Close-up photos of its wire wheels would help design tyres for new Moon rovers."
+}

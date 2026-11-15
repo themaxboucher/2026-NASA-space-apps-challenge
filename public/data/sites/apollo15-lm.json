@@ -1,0 +1,137 @@
+{
+  "id": "apollo15-lm",
+  "setting": "surface",
+  "model": "apollo-lm",
+  "name": "Falcon",
+  "intro": "This is the bottom half of Falcon, which landed Dave Scott and Jim Irwin near Hadley Rille on 30 July 1971. It carried the first Moon car folded against its side, and the crew lived in it for almost three days. When they left, it stayed behind as their launch pad.",
+  "status": "Parked forever at Hadley-Apennine",
+  "hotspots": [
+    {
+      "id": "hammer-feather",
+      "title": "Hammer and feather",
+      "text": "Beside Falcon, Dave Scott dropped a hammer and a feather at the same moment. With no air to slow the feather, they hit the ground together, just as Galileo had predicted.",
+      "anchor": {
+        "pos": [
+          2.2,
+          1.2,
+          5.2
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: The Apollo 15 hammer-feather drop",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_15_feather_drop.html"
+      },
+      "video": {
+        "file": "media/sites/apollo15-lm--hammer-feather.mp4",
+        "poster": "media/sites/apollo15-lm--hammer-feather.jpg",
+        "caption": "Dave Scott holds up a hammer and a feather, lets go, and both land at the same time.",
+        "credit": "NASA (Apollo 15 television, 2 August 1971)",
+        "license": "Public domain",
+        "source": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_15_feather_drop.html",
+        "licenseEvidence": "Hosted by NSSDCA (NASA Goddard) as AS15_Ham_feath_drop3.mp4 on its Apollo 15 hammer-feather page; NASA television footage with no third-party credit. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/).",
+        "real": true,
+        "audio": "Real radio from the Moon: Dave Scott explains the test (“in my left hand, I have a feather; in my right hand, a hammer”) and reacts as they land."
+      }
+    },
+    {
+      "id": "ladder",
+      "title": "Climbing down",
+      "text": "Scott and Irwin climbed down this ladder for three moonwalks. Together they collected 77 kg of rock, including a piece of ancient crust nicknamed the Genesis Rock.",
+      "anchor": {
+        "part": "polySurfa1",
+        "at": [
+          0.5,
+          0.9,
+          1
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 15 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C"
+      }
+    },
+    {
+      "id": "rover-bay",
+      "title": "Where the rover rode",
+      "text": "The first Moon car rode folded up against the side of Falcon. Irwin climbed up and pulled a lanyard, and it unfolded onto the ground.",
+      "anchor": {
+        "part": "group31_10",
+        "at": [
+          1,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Apollo 15 video library",
+        "url": "https://apollojournals.org/alsj/a15/video15.html"
+      },
+      "photo": {
+        "file": "photos/sites/apollo15-lm--rover-bay.jpg",
+        "w": 1200,
+        "h": 1200,
+        "alt": "The gold-foil-wrapped lunar module stands on grey ground in front of a big rounded mountain.",
+        "caption": "Falcon early on the first moonwalk, with the mountain Hadley Delta behind.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as15-086-11600",
+        "licenseEvidence": "NASA Image and Video Library item as15-086-11600 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "engine",
+      "title": "The landing engine",
+      "text": "This engine slowed Falcon down for a landing at the foot of the Apennine Mountains, beside a winding valley called Hadley Rille.",
+      "anchor": {
+        "part": "group13_pC",
+        "at": [
+          0.5,
+          0.05,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 15 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C"
+      }
+    },
+    {
+      "id": "top-half",
+      "title": "The missing top half",
+      "text": "The cabin sat here until 2 August 1971, when it blasted off while the rover’s TV camera broadcast the launch live to Earth.",
+      "anchor": {
+        "part": "group31_11",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 15 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C"
+      }
+    }
+  ],
+  "funFact": "The feather Dave Scott dropped was a falcon feather, chosen for their lander, Falcon.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "30 July 1971"
+    },
+    {
+      "label": "Time on the Moon",
+      "value": "66 h 55 min"
+    },
+    {
+      "label": "Rocks brought home",
+      "value": "77.31 kg"
+    },
+    {
+      "label": "Rover drives",
+      "value": "27.8 km"
+    }
+  ],
+  "whyLeft": "Nothing broke: the bottom half was always meant to stay as a launch pad for the crew’s cabin.",
+  "repurpose": "Its engine is spent, but its gold foil and metal are a record of 50 years on the Moon that future visitors could photograph without touching."
+}

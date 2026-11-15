@@ -1,0 +1,120 @@
+{
+  "id": "apollo12-lm-ascent",
+  "setting": "impact",
+  "model": null,
+  "name": "Intrepid’s top half",
+  "intro": "This is where the top half of Intrepid hit the Moon on 20 November 1969. After carrying Pete Conrad and Alan Bean back to their command module, the empty cabin was steered into the ground to make the first moonquake ever made on purpose. Its crater has never been confirmed.",
+  "status": "Crashed on purpose, 20 November 1969",
+  "hotspots": [
+    {
+      "id": "impact-point",
+      "title": "Somewhere here",
+      "text": "Intrepid’s cabin struck at 1.68 km per second, about 70 km from the landing site. Nobody has confirmed its crater yet, so this spot is a best guess from 1969 tracking.",
+      "anchor": {
+        "pos": [
+          0,
+          0.1,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    },
+    {
+      "id": "skimming",
+      "title": "Coming in sideways",
+      "text": "It hit at a very shallow angle, so it probably smeared along the ground and broke apart instead of digging one neat round crater.",
+      "anchor": {
+        "pos": [
+          18,
+          0.2,
+          4
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    },
+    {
+      "id": "cabin",
+      "title": "The empty cabin",
+      "text": "This was the crew’s cabin. It had no seats: the astronauts flew it standing up. Once Conrad and Bean had moved into the command module, the cabin was cut loose.",
+      "anchor": {
+        "pos": [
+          -14,
+          1.2,
+          -10
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 12 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo12-lm-ascent--cabin.jpg",
+        "w": 1194,
+        "h": 1200,
+        "alt": "A small spacecraft with legs flies high above a cratered grey landscape.",
+        "caption": "Intrepid in orbit on 19 November 1969, before landing; the top half came back up alone the next day.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as12-51-7507",
+        "licenseEvidence": "NASA Image and Video Library item as12-51-7507 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "moonquake",
+      "title": "The first moonquake",
+      "text": "The seismometer the crew had left behind recorded the crash. The Moon kept vibrating for nearly an hour, a huge surprise, showing that its broken-up outer rock carries shaking very well.",
+      "anchor": {
+        "pos": [
+          0,
+          1.5,
+          -40
+        ]
+      },
+      "source": {
+        "label": "NASA SP-235: Apollo 12 Preliminary Science Report",
+        "url": "https://ntrs.nasa.gov/citations/19700025955"
+      },
+      "photo": {
+        "file": "photos/sites/apollo12-lm-ascent--moonquake.jpg",
+        "w": 1200,
+        "h": 679,
+        "alt": "Wavy lines drawn on a long strip of paper.",
+        "caption": "The seismometer recording of the crash, printed out at Mission Control on 20 November 1969.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/S69-59547",
+        "licenseEvidence": "NASA Image and Video Library item S69-59547 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    }
+  ],
+  "funFact": "It came in almost sideways, only about 3.7 degrees above the horizon, like a stone skimming across a pond.",
+  "stats": [
+    {
+      "label": "Hit the Moon",
+      "value": "20 November 1969"
+    },
+    {
+      "label": "Speed",
+      "value": "1.68 km/s"
+    },
+    {
+      "label": "Angle",
+      "value": "About 3.7°"
+    },
+    {
+      "label": "Mass",
+      "value": "About 2,400 kg"
+    }
+  ],
+  "whyLeft": "It had finished its only job, getting the crew back to orbit, so mission control used it one last time as a hammer to test the new seismometer.",
+  "repurpose": "Nothing is left to reuse except scattered metal. Finding the pieces would show how a spacecraft shatters when it hits the Moon at high speed."
+}

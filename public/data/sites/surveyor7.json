@@ -1,0 +1,165 @@
+{
+  "id": "surveyor7",
+  "setting": "surface",
+  "model": "surveyor",
+  "name": "Surveyor 7",
+  "intro": "Surveyor 7 was the last Surveyor and the only one to land in the bright, rocky highlands, just north of the giant crater Tycho. With Apollo’s landing sites already checked, it was free to do pure science, digging trenches and moving rocks.",
+  "status": "Silent since 1968",
+  "whyLeft": "Like every Surveyor it was a one-way trip, and after a second lunar day its power ran out for good in February 1968.",
+  "repurpose": "Its scoop and chemistry box sit on highland rock that no Apollo crew visited, so a future rover here could pick up where it left off.",
+  "funFact": "Surveyor 7’s camera spotted laser beams fired at it from observatories on Earth, an early taste of the laser experiments Apollo would make famous.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "10 January 1968"
+    },
+    {
+      "label": "Scoop work",
+      "value": "36 h 21 min"
+    },
+    {
+      "label": "Pictures sent",
+      "value": "21,038"
+    },
+    {
+      "label": "Rocks moved",
+      "value": "4"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "scoop",
+      "title": "Robot scoop",
+      "text": "This arm worked for more than 36 hours. It dug trenches, squeezed soil, and pushed and lifted four rocks so the camera could watch what happened.",
+      "anchor": {
+        "pos": [
+          -0.5,
+          0.12,
+          1.9
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1968-001A"
+      },
+      "video": {
+        "file": "media/sites/surveyor7--scoop.mp4",
+        "poster": "media/sites/surveyor7--scoop.jpg",
+        "caption": "Real pictures from Surveyor 7’s camera, played as a film: the scoop digs a trench in the lunar soil.",
+        "credit": "NASA/JPL-Caltech",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:JPL-19680109-SURVEYf-0001-AVC2002083_Surveyor_7_Lands_on_Moon.webm",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); catalogued by JPL as JPL-19680109-SURVEYf-0001",
+        "real": true
+      }
+    },
+    {
+      "id": "stuck-box",
+      "title": "Stuck chemistry box",
+      "text": "The chemistry instrument got stuck on its way down to the ground. Mission control used the scoop to push it down, then later placed it on a rock and into a trench. A clever repair from 380,000 km away!",
+      "anchor": {
+        "pos": [
+          0.35,
+          0.05,
+          1.0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1968-001A"
+      }
+    },
+    {
+      "id": "laser",
+      "title": "Laser spotter",
+      "text": "After dark, Surveyor 7’s camera spotted tiny points of light: laser beams aimed at it by telescopes on Earth. It also photographed Earth and the stars.",
+      "anchor": {
+        "pos": [
+          0,
+          1.45,
+          0.8
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1968-001A"
+      }
+    },
+    {
+      "id": "rocks",
+      "title": "Highland rocks",
+      "text": "Surveyor 7 landed among blocks thrown out when Tycho crater formed. Its chemistry tests showed this bright highland rock has less iron than the dark seas the other Surveyors visited.",
+      "anchor": {
+        "pos": [
+          -2.5,
+          0.2,
+          2.2
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1968-001A"
+      },
+      "photo": {
+        "file": "photos/sites/surveyor7--rock.jpg",
+        "w": 960,
+        "h": 746,
+        "alt": "A cracked, knobbly rock about 30 cm across, photographed on the Moon",
+        "caption": "A broken rock about 2.5 m from Surveyor 7’s camera.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Surveyor_7_Fig_3-54.jpg",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); figure 3-54 of NASA SP-184, Surveyor Program Results (1969)"
+      }
+    },
+    {
+      "id": "solar-panel",
+      "title": "Solar panel",
+      "text": "Surveyor 7 was shut down 80 hours after its first sunset, survived the night and woke up on 12 February 1968. Nine days later, on 21 February, operations ended for good.",
+      "broken": true,
+      "tag": "Why it stopped",
+      "anchor": {
+        "part": "cell",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1968-001A"
+      }
+    },
+    {
+      "id": "view",
+      "title": "The view north",
+      "text": "Surveyor 7’s camera looked out over a rolling landscape scattered with boulders. Scout tip: rugged ground like this is harder to land on, which is why Apollo chose flatter places first.",
+      "anchor": {
+        "pos": [
+          0,
+          2.0,
+          0.45
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1968-001A"
+      },
+      "photo": {
+        "file": "photos/sites/surveyor7--view.jpg",
+        "w": 960,
+        "h": 737,
+        "alt": "A panorama of rolling, rock-strewn highlands taken by Surveyor 7",
+        "caption": "A panorama of the Surveyor 7 landing site, taken by Surveyor 7 itself.",
+        "credit": "NASA/NSSDCA",
+        "license": "Educational use with credit",
+        "source": "https://commons.wikimedia.org/wiki/File:Surveyor_7_-_America%27s_Last_Lunar_Unmanned_Lander_(LROC534_-_surveyortycho).png",
+        "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
+      }
+    }
+  ]
+}

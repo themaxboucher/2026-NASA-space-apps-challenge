@@ -1,0 +1,122 @@
+{
+  "id": "grail-flow",
+  "setting": "impact",
+  "model": null,
+  "name": "Flow (GRAIL-B)",
+  "intro": "Flow was Ebb’s twin. For almost a year it followed Ebb around the Moon, and in the end it followed Ebb down too, hitting the same mountain about 20 seconds later. NASA named the crash site after Sally Ride, the first American woman in space.",
+  "status": "Crashed on purpose, 17 December 2012",
+  "whyLeft": "With fuel nearly gone and its orbit dropping, Flow was steered into a remote mountain so it could never fall onto a historic landing site.",
+  "repurpose": "The Sally K. Ride Impact Site could be a memorial stop for future explorers, honouring the astronaut who led the twins’ student camera program.",
+  "funFact": "Flow’s MoonKAM once filmed NASA’s Lunar Reconnaissance Orbiter zooming past about 20 km away, the first video of one spacecraft taken by another at the Moon.",
+  "stats": [
+    {
+      "label": "Impact",
+      "value": "17 December 2012"
+    },
+    {
+      "label": "Impact speed",
+      "value": "About 1.7 km/s"
+    },
+    {
+      "label": "Time mapping gravity",
+      "value": "About a year"
+    },
+    {
+      "label": "Behind Ebb",
+      "value": "About 20 seconds"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "Flow’s crater",
+      "text": "Flow hit the same mountainside just a short distance from Ebb’s crater. From orbit, its crater looks like a tiny dark dot.",
+      "anchor": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: GRAIL-B (Flow)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2011-046B"
+      },
+      "photo": {
+        "file": "photos/sites/grail-flow--crater.jpg",
+        "w": 500,
+        "h": 500,
+        "alt": "An orbital view of a slope with a small new crater",
+        "caption": "Flow’s impact crater, photographed by NASA’s Lunar Reconnaissance Orbiter after the crash.",
+        "credit": "NASA/GSFC/Arizona State University",
+        "license": "Educational use with credit",
+        "source": "https://commons.wikimedia.org/wiki/File:LRO_LROC_after_view_of_GRAIL-B_(Flow)_impact..jpg",
+        "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
+      }
+    },
+    {
+      "id": "sally-ride",
+      "title": "Sally Ride Impact Site",
+      "text": "NASA named this spot the Sally K. Ride Impact Site. Sally Ride led MoonKAM, the cameras on the twins that let thousands of students take their own pictures of the Moon.",
+      "anchor": {
+        "pos": [
+          -10,
+          0.3,
+          6
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA JPL: GRAIL impact site named for Sally Ride",
+        "url": "https://www.jpl.nasa.gov/news/nasas-grail-lunar-impact-site-named-for-astronaut-sally-ride/"
+      }
+    },
+    {
+      "id": "twin",
+      "title": "Ebb’s crater",
+      "text": "Ebb’s crater is nearby. The twins flew in a line about 175 to 225 km apart while mapping gravity, and stayed together right to the end.",
+      "anchor": {
+        "pos": [
+          24,
+          0.5,
+          -10
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: GRAIL-B (Flow)",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2011-046B"
+      },
+      "photo": {
+        "file": "photos/sites/grail-flow--both.jpg",
+        "w": 960,
+        "h": 476,
+        "alt": "Two orbital views side by side showing the two small GRAIL impact craters",
+        "caption": "Both GRAIL impact craters, Ebb’s and Flow’s, photographed by NASA’s Lunar Reconnaissance Orbiter.",
+        "credit": "NASA/GSFC/Arizona State University",
+        "license": "Educational use with credit",
+        "source": "https://commons.wikimedia.org/wiki/File:LRO_LROC_after_view_of_GRAIL_impacts..jpg",
+        "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
+      }
+    },
+    {
+      "id": "fuel",
+      "title": "Empty tanks",
+      "text": "Flow ran its engine until the fuel was gone, then coasted into the mountain. Scout, no repair is possible: the spacecraft was broken into fragments by the impact.",
+      "broken": true,
+      "tag": "Why it stopped",
+      "anchor": {
+        "pos": [
+          5,
+          8,
+          4
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: GRAIL impact site named for Sally Ride",
+        "url": "https://www.jpl.nasa.gov/news/nasas-grail-lunar-impact-site-named-for-astronaut-sally-ride/"
+      }
+    }
+  ]
+}

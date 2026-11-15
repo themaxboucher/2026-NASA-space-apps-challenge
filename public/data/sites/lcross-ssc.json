@@ -1,0 +1,121 @@
+{
+  "id": "lcross-ssc",
+  "setting": "impact",
+  "model": null,
+  "name": "LCROSS",
+  "intro": "LCROSS was the shepherding spacecraft that steered the Centaur rocket stage to the Moon. It let go 10 hours before impact, followed behind, flew through the Centaur’s plume measuring everything, then crashed into Cabeus crater too, about four minutes later.",
+  "status": "Crashed on purpose, 9 October 2009",
+  "whyLeft": "Its whole mission was planned so that its most important science happened in the last four minutes, ending in its own crash.",
+  "repurpose": "Its crater is a second dig into the same icy floor, a ready-made target for a future rover with lights to study the ice up close.",
+  "funFact": "LCROSS radioed all its plume measurements home live, because it knew it would be destroyed minutes later.",
+  "stats": [
+    {
+      "label": "Impact",
+      "value": "9 October 2009"
+    },
+    {
+      "label": "Behind the Centaur",
+      "value": "About 4 minutes"
+    },
+    {
+      "label": "Mass (no fuel)",
+      "value": "534 kg"
+    },
+    {
+      "label": "Science instruments",
+      "value": "9"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "Second crater",
+      "text": "LCROSS hit here at 11:35 UT, just over four minutes after the Centaur and a few kilometres away, in the same permanently dark crater floor.",
+      "anchor": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: LCROSS",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B"
+      }
+    },
+    {
+      "id": "last-view",
+      "title": "Last view",
+      "text": "On the way down, LCROSS’s cameras watched the target area. It carried two visible-light cameras, three infrared cameras, three spectrometers and a light meter.",
+      "anchor": {
+        "pos": [
+          0,
+          20,
+          8
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: LCROSS",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B"
+      },
+      "photo": {
+        "file": "photos/sites/lcross-ssc--target.jpg",
+        "w": 800,
+        "h": 600,
+        "alt": "A grainy view of the dark lunar south polar region from the LCROSS spacecraft",
+        "caption": "The Centaur’s target area in Cabeus, seen by LCROSS’s visible camera during its final approach.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:LCROSS_Aufnahme_Zielgebiet_Centaur_im_Cabeus_Krater_VIS.jpg",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); image from nasa.gov LCROSS gallery"
+      }
+    },
+    {
+      "id": "plume-dive",
+      "title": "Through the plume",
+      "text": "LCROSS flew straight through the dust cloud kicked up by the Centaur, sniffing it with its spectrometers. That is how scientists found water in the plume.",
+      "anchor": {
+        "pos": [
+          -4,
+          12,
+          -6
+        ]
+      },
+      "source": {
+        "label": "Colaprete et al. (NASA Ames), Science 2010: water in the LCROSS plume",
+        "url": "https://www.science.org/doi/10.1126/science.1186986"
+      }
+    },
+    {
+      "id": "ring",
+      "title": "Built on a ring",
+      "text": "LCROSS was built around a ring normally used to hold small satellites on a rocket, 1.58 m wide. Scout, look for twisted pieces of that ring; they are all that might remain.",
+      "broken": true,
+      "tag": "Why it’s here",
+      "anchor": {
+        "pos": [
+          8,
+          0.1,
+          -6
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: LCROSS",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B"
+      },
+      "photo": {
+        "file": "photos/sites/lcross-ssc--spacecraft.jpg",
+        "w": 1200,
+        "h": 916,
+        "alt": "The LCROSS shepherding spacecraft in a clean room before launch",
+        "caption": "The LCROSS shepherding spacecraft on Earth before launch.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:LCROSS_-_Shepherding_Spacecraft.jpg",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); from the NASA NSSDCA LCROSS page"
+      }
+    }
+  ]
+}

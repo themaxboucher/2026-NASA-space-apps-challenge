@@ -1,0 +1,155 @@
+{
+  "id": "voyager2",
+  "setting": "space",
+  "model": "voyager",
+  "name": "Voyager 2",
+  "intro": "Voyager 2 is the only spacecraft ever to visit Uranus and Neptune. It entered interstellar space in 2018 and is still talking to Earth, about 144 times farther from the Sun than we are. Its messages take about 20 hours to get home.",
+  "status": "Still working, far from home",
+  "whyLeft": "It has not been left yet: it still sends science home. But it can never come back, and its nuclear power fades every year, so one day it will fall silent for good.",
+  "repurpose": "Engineers are already salvaging it from far away: they switch off heaters and instruments one by one, and in 2026 they changed how it uses power, so its last instruments can keep working longer.",
+  "hotspots": [
+    {
+      "id": "dish",
+      "title": "Pointing home",
+      "text": "This 3.7-meter dish points back at Earth. In 2023 a wrong command turned it 2 degrees away and Voyager 2 went quiet, until a giant dish in Australia “shouted” a fix across 19 billion km.",
+      "anchor": {
+        "part": "tex_02_AO",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Voyager 2",
+        "url": "https://science.nasa.gov/mission/voyager/voyager-2/"
+      }
+    },
+    {
+      "id": "record",
+      "title": "The Golden Record",
+      "text": "Like its twin, Voyager 2 carries a gold-plated record with pictures, music, sounds of Earth and greetings in 55 languages, in case anyone ever finds it.",
+      "anchor": {
+        "part": "tex_02_AO_dark",
+        "at": [
+          0.85,
+          0.4,
+          0.88
+        ]
+      },
+      "source": {
+        "label": "NASA: What’s on the Golden Record",
+        "url": "https://science.nasa.gov/mission/voyager/golden-record-contents/"
+      }
+    },
+    {
+      "id": "cameras",
+      "title": "Cameras that saw Neptune",
+      "text": "In 1989 these cameras gave us our only close look at Neptune, with a huge dark storm and winds faster than any others in the solar system.",
+      "anchor": {
+        "part": "tex_01",
+        "at": [
+          0.5,
+          0.279,
+          0.031
+        ]
+      },
+      "source": {
+        "label": "NASA: Voyager 2",
+        "url": "https://science.nasa.gov/mission/voyager/voyager-2/"
+      },
+      "photo": {
+        "file": "photos/sites/voyager2--neptune.jpg",
+        "w": 920,
+        "h": 920,
+        "alt": "Blue planet with a dark oval storm and white clouds.",
+        "caption": "Neptune’s Great Dark Spot, a storm about as wide as Earth, seen by Voyager 2 in 1989.",
+        "credit": "NASA/JPL",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:PIA00049_Neptune_-_Great_Dark_Spot,_Scooter,_Dark_Spot_2.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://photojournal.jpl.nasa.gov/catalog/PIA00049."
+      }
+    },
+    {
+      "id": "triton",
+      "title": "A moon with geysers",
+      "text": "Voyager 2 also flew past Neptune’s big moon Triton and saw dark streaks from geysers on its icy surface, one of the coldest places ever measured.",
+      "anchor": {
+        "part": "tex_01",
+        "at": [
+          0.5,
+          0.33,
+          0.12
+        ]
+      },
+      "source": {
+        "label": "NASA: Voyager 2",
+        "url": "https://science.nasa.gov/mission/voyager/voyager-2/"
+      },
+      "photo": {
+        "file": "photos/sites/voyager2--triton.jpg",
+        "w": 1200,
+        "h": 1200,
+        "alt": "A pinkish icy moon with dark streaks across its southern half.",
+        "caption": "Neptune’s moon Triton, pieced together from Voyager 2’s pictures. The dark streaks come from geysers.",
+        "credit": "NASA/JPL/USGS",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Triton_moon_mosaic_Voyager_2_(large).jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://photojournal.jpl.nasa.gov/catalog/PIA00317."
+      }
+    },
+    {
+      "id": "power",
+      "title": "Fading power",
+      "text": "Three nuclear power generators on this boom lose a little power every year. To keep science going, engineers have switched off most instruments; three were still on in 2026.",
+      "anchor": {
+        "part": "tex_01",
+        "at": [
+          0.5,
+          0.175,
+          0.463
+        ]
+      },
+      "source": {
+        "label": "NASA: Engineers help prolong Voyager 2’s science (2026)",
+        "url": "https://science.nasa.gov/blogs/voyager/2026/08/04/nasa-engineers-help-prolong-voyager-2s-science-mission/"
+      }
+    },
+    {
+      "id": "boom",
+      "title": "Feeling interstellar space",
+      "text": "This 13-meter boom carries a magnetometer. Voyager 2 crossed into interstellar space on 5 November 2018, and it still measures the space between the stars.",
+      "anchor": {
+        "part": "tex_01",
+        "at": [
+          0.5,
+          0.7,
+          0.735
+        ]
+      },
+      "source": {
+        "label": "NASA: Voyager 2",
+        "url": "https://science.nasa.gov/mission/voyager/voyager-2/"
+      }
+    }
+  ],
+  "funFact": "Voyager 2 launched 16 days before Voyager 1, so it is really the older twin.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "20 August 1977"
+    },
+    {
+      "label": "Planets visited",
+      "value": "Jupiter, Saturn, Uranus, Neptune"
+    },
+    {
+      "label": "Entered interstellar space",
+      "value": "5 November 2018"
+    },
+    {
+      "label": "Radio time to Earth",
+      "value": "About 20 hours"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "id": "mars-polar-lander",
+  "setting": "impact",
+  "model": null,
+  "name": "Mars Polar Lander",
+  "intro": "Mars Polar Lander was meant to be the first spacecraft to land near the south pole of Mars. It went quiet as planned while entering the atmosphere on 3 December 1999 and was never heard again. Nobody knows exactly where it came down; this is roughly where it was aiming.",
+  "status": "Lost while landing in 1999",
+  "whyLeft": "Investigators think the jolt of its legs unfolding was read as touchdown, so its computer shut off the engines about 40 meters up. It most likely hit the ground at about 80 km/h.",
+  "repurpose": "There is probably nothing left to fix, and the wreck has never been found. Its lesson was used right away: Phoenix, built from a lander of the same design, had its landing software tested hard and landed safely in 2008.",
+  "hotspots": [
+    {
+      "id": "legs",
+      "title": "Landing-leg sensors",
+      "text": "Each leg had a sensor to feel the ground. When the legs unfolded high above Mars, the jolt probably tricked the computer into thinking it had landed. A test that could have caught this was run with the sensors wired the wrong way.",
+      "broken": true,
+      "tag": "Most likely cause",
+      "anchor": {
+        "pos": [
+          0,
+          0.3,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Polar Lander and Deep Space 2 landing sites",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html"
+      },
+      "photo": {
+        "file": "photos/sites/mars-polar-lander--legs.jpg",
+        "w": 1200,
+        "h": 789,
+        "alt": "A lander with solar panels and a cone-shaped cover in a clean room, with a worker in a white suit.",
+        "caption": "Mars Polar Lander being tested in Florida in 1998, a year before it was lost.",
+        "credit": "NASA (KSC-98PC-1610)",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Mars_Polar_Lander_undergoes_testing.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://science.ksc.nasa.gov/gallery/photos/1998/captions/KSC-98PC-1610.html."
+      }
+    },
+    {
+      "id": "aim",
+      "title": "Where it was aiming",
+      "text": "Mars Polar Lander was heading for icy, layered ground near the south pole. No orbiter photo has ever confirmed where it crashed, so this spot is only roughly where it was aiming.",
+      "anchor": {
+        "pos": [
+          6,
+          0.2,
+          -4
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Polar Lander and Deep Space 2 landing sites",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html"
+      }
+    },
+    {
+      "id": "microphone",
+      "title": "The first Mars microphone",
+      "text": "Mars Polar Lander carried a small microphone to record the first sounds on Mars. Because it was lost, Mars stayed silent until Perseverance’s microphones finally heard it in 2021.",
+      "anchor": {
+        "pos": [
+          -4,
+          0.2,
+          3
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Polar Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1999-001A"
+      }
+    },
+    {
+      "id": "passengers",
+      "title": "Two passengers",
+      "text": "Two small probes called Deep Space 2 rode to Mars with the lander and let go just before arrival. They were never heard from either.",
+      "anchor": {
+        "pos": [
+          -7,
+          0.2,
+          -6
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Polar Lander and Deep Space 2 landing sites",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html"
+      }
+    }
+  ],
+  "funFact": "Mars Climate Orbiter, lost two months earlier, was also meant to relay the lander’s messages, so the lander had to talk straight to Earth.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "3 January 1999"
+    },
+    {
+      "label": "Lost",
+      "value": "3 December 1999"
+    },
+    {
+      "label": "Mass at landing",
+      "value": "290 kg"
+    },
+    {
+      "label": "Engines cut off",
+      "value": "About 40 m up"
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "id": "juno",
+  "setting": "space",
+  "model": "juno",
+  "name": "Juno",
+  "intro": "Juno has been circling Jupiter since July 2016, swooping low over its poles to study its storms, auroras and deep insides. It is still working. When its job is done, it will be steered into Jupiter to burn up.",
+  "status": "Still orbiting Jupiter",
+  "whyLeft": "It has not been left yet. When it ends, NASA plans to steer it into Jupiter so it can never crash into Europa, a moon that may hide an ocean.",
+  "repurpose": "It has already been given extra jobs: an extended mission sent it close to the moons Ganymede, Europa and Io, far beyond its original plan.",
+  "hotspots": [
+    {
+      "id": "solar-panels",
+      "title": "Giant solar wings",
+      "text": "Juno was the first solar-powered spacecraft to reach Jupiter. Its three wings are each about 9 meters long, because sunlight at Jupiter is about 25 times weaker than at Earth.",
+      "anchor": {
+        "part": "solar_panels",
+        "at": [
+          0.98,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Juno",
+        "url": "https://science.nasa.gov/mission/juno/"
+      }
+    },
+    {
+      "id": "vault",
+      "title": "The radiation vault",
+      "text": "Jupiter is wrapped in deadly radiation. Juno’s most important electronics are kept inside a titanium box with walls about a centimeter thick.",
+      "anchor": {
+        "part": "foil_gold",
+        "at": [
+          0.5,
+          0.9,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Juno",
+        "url": "https://science.nasa.gov/mission/juno/"
+      }
+    },
+    {
+      "id": "junocam",
+      "title": "JunoCam",
+      "text": "JunoCam’s pictures are shared with the public, and people all over the world turn them into colourful images and movies of Jupiter’s swirling clouds.",
+      "anchor": {
+        "part": "foil_gold",
+        "at": [
+          1,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Juno",
+        "url": "https://science.nasa.gov/mission/juno/"
+      },
+      "video": {
+        "file": "media/sites/juno--flyby.mp4",
+        "poster": "media/sites/juno--flyby.jpg",
+        "caption": "Jupiter’s clouds rushing past during Juno’s 16th close flyby, rebuilt by citizen scientist Gerald Eichstädt from real JunoCam pictures. No sound.",
+        "credit": "NASA/JPL-Caltech/SwRI/MSSS/Gerald Eichstädt",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Juno_flyby_of_Jupiter,_Perijove_16_(PIA22906).webm",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://www.jpl.nasa.gov/spaceimages/details.php?id=PIA22906 (image link); see also https:.",
+        "real": false
+      }
+    },
+    {
+      "id": "ganymede",
+      "title": "Moon flybys",
+      "text": "In June 2021 Juno flew past Ganymede, the biggest moon in the solar system, closer than any spacecraft in more than 20 years. Later it visited Europa and the volcano moon Io.",
+      "anchor": {
+        "part": "foil_gold",
+        "at": [
+          0.5,
+          0.5,
+          0
+        ]
+      },
+      "source": {
+        "label": "NASA: Juno",
+        "url": "https://science.nasa.gov/mission/juno/"
+      },
+      "photo": {
+        "file": "photos/sites/juno--ganymede.jpg",
+        "w": 1200,
+        "h": 949,
+        "alt": "Grey icy moon with bright and dark patches and craters.",
+        "caption": "Ganymede, Jupiter’s biggest moon, seen by JunoCam during the flyby on 7 June 2021.",
+        "credit": "NASA/JPL-Caltech/SwRI/MSSS",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Juno_Ganymede_PIA25028.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD-USGov missing SDC copyright status, PD NASA); original source: https://www.jpl.nasa.gov/images/pia25028-enhanced-ganymede-enhanced-image/."
+      }
+    },
+    {
+      "id": "lego",
+      "title": "The LEGO crew",
+      "text": "Juno carries three tiny aluminium LEGO figures: the astronomer Galileo, the god Jupiter and the goddess Juno.",
+      "anchor": {
+        "part": "foil_gold",
+        "at": [
+          0,
+          0.6,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Juno",
+        "url": "https://science.nasa.gov/mission/juno/"
+      }
+    },
+    {
+      "id": "dish",
+      "title": "Talking to Earth",
+      "text": "This dish points at Earth. Juno spins like a merry-go-round, about twice a minute while doing science, to keep itself steady.",
+      "anchor": {
+        "part": "foil_ant",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Juno",
+        "url": "https://science.nasa.gov/mission/juno/"
+      }
+    }
+  ],
+  "funFact": "Juno arrived at Jupiter on 4 July 2016, America’s Independence Day.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "5 August 2011"
+    },
+    {
+      "label": "Arrived at Jupiter",
+      "value": "4 July 2016"
+    },
+    {
+      "label": "Power",
+      "value": "Sunlight, on 3 big wings"
+    },
+    {
+      "label": "Mass at launch",
+      "value": "3,625 kg"
+    }
+  ]
+}

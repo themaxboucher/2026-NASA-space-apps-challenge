@@ -1,0 +1,144 @@
+{
+  "id": "surveyor6",
+  "setting": "surface",
+  "model": "surveyor",
+  "name": "Surveyor 6",
+  "intro": "Surveyor 6 landed on Sinus Medii, near the middle of the Moon’s near side, to check a possible Apollo landing area. A week later it made history by firing its engines, hopping into the air and landing again. It is still standing where that hop ended.",
+  "status": "Silent since 1967",
+  "whyLeft": "Its job was finished once it proved the ground was safe for Apollo, and it never recovered from its first lunar night.",
+  "repurpose": "Its old landing marks lie 2.4 m away, so a visiting robot could study how rocket blasts and 60 years of Moon weather changed the same patch of ground.",
+  "funFact": "The hop let its camera look at its old landing spot from a new position, giving scientists 3-D views of the ground.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "10 November 1967"
+    },
+    {
+      "label": "Hop",
+      "value": "3 to 4 m up, 2.4 m sideways"
+    },
+    {
+      "label": "Pictures sent",
+      "value": "29,952"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "hop",
+      "title": "The first liftoff",
+      "text": "On 17 November 1967, engineers fired these engines for 2.5 seconds. Surveyor 6 rose 3 to 4 m off the Moon and landed about 2.4 m to the west. It was the first time anything had ever taken off from the Moon.",
+      "anchor": {
+        "pos": [
+          0.53,
+          0.25,
+          0.43
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 6",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-112A"
+      }
+    },
+    {
+      "id": "old-marks",
+      "title": "Old landing marks",
+      "text": "Scout, check the ground here: these dents are where Surveyor 6 first touched down. After the hop, its camera photographed them and saw how the engine blast had sprayed the soil around.",
+      "anchor": {
+        "pos": [
+          2.4,
+          0.05,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 6",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-112A"
+      },
+      "photo": {
+        "file": "photos/sites/surveyor6--hop.jpg",
+        "w": 404,
+        "h": 395,
+        "alt": "Imprints in lunar soil left by Surveyor 6’s first touchdown, sprayed by its engine blast",
+        "caption": "The marks from Surveyor 6’s first touchdown, after its engines blasted them during the hop.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Surveyor_6_Effects-of-the-vernier-rock.jpg",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); from NASA SP-168 (history.nasa.gov)"
+      }
+    },
+    {
+      "id": "camera",
+      "title": "TV camera",
+      "text": "This camera sent home almost 30,000 pictures in two weeks, more than any Surveyor before it. Its panoramas showed a flat, cratered plain, a good sign for Apollo landings.",
+      "anchor": {
+        "pos": [
+          0,
+          1.45,
+          0.8
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 6",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-112A"
+      },
+      "photo": {
+        "file": "photos/sites/surveyor6--view.jpg",
+        "w": 1200,
+        "h": 581,
+        "alt": "A black-and-white panorama of flat, cratered lunar plain taken by Surveyor 6",
+        "caption": "Part of a panorama Surveyor 6 took of the plain around it.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Surveyor_6_Fig_7-41d1.jpg",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); figure 7-41 of NASA SP-184, Surveyor Program Results (1969)"
+      }
+    },
+    {
+      "id": "solar-panel",
+      "title": "Solar panel",
+      "text": "Surveyor 6 stopped sending pictures a few hours after sunset on 24 November 1967 and was put to sleep for the two-week night. Engineers heard a brief signal on 14 December, but no useful data, and then silence.",
+      "broken": true,
+      "tag": "Why it stopped",
+      "anchor": {
+        "part": "cell",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 6",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-112A"
+      }
+    },
+    {
+      "id": "from-orbit",
+      "title": "Long shadow",
+      "text": "With the Sun low in the sky, the Lunar Reconnaissance Orbiter photographed Surveyor 6 casting a shadow about 18 m long. Shadows make small machines easy to find from orbit.",
+      "anchor": {
+        "pos": [
+          0,
+          4.2,
+          0
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 6",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-112A"
+      },
+      "photo": {
+        "file": "photos/sites/surveyor6--from-orbit.jpg",
+        "w": 750,
+        "h": 750,
+        "alt": "Surveyor 6 seen from orbit with a long shadow",
+        "caption": "Surveyor 6 on Sinus Medii, photographed from orbit by NASA’s Lunar Reconnaissance Orbiter.",
+        "credit": "NASA/GSFC/Arizona State University",
+        "license": "Educational use with credit",
+        "source": "https://images.nasa.gov/details/PIA12978",
+        "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
+      }
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "id": "grail-ebb",
+  "setting": "impact",
+  "model": null,
+  "name": "Ebb (GRAIL-A)",
+  "intro": "Ebb was one of two twin spacecraft, each about the size of a washing machine, that chased each other around the Moon to map its gravity. When their fuel ran low in December 2012, NASA steered both into a mountain near the north pole. Ebb hit first.",
+  "status": "Crashed on purpose, 17 December 2012",
+  "whyLeft": "Its orbit was sinking and its fuel was almost gone, so NASA chose a safe, remote mountain to crash it into rather than risk hitting a historic site.",
+  "repurpose": "The crash site is now a memorial named for astronaut Sally Ride, and its small crater is a fresh test of how the Moon heals scars.",
+  "funFact": "Fourth graders from Emily Dickinson Elementary School in Bozeman, Montana, won a contest to name the twins Ebb and Flow.",
+  "stats": [
+    {
+      "label": "Impact",
+      "value": "17 December 2012"
+    },
+    {
+      "label": "Impact speed",
+      "value": "About 1.7 km/s"
+    },
+    {
+      "label": "Time mapping gravity",
+      "value": "About a year"
+    },
+    {
+      "label": "Hit first by",
+      "value": "About 20 seconds"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "Ebb’s crater",
+      "text": "Ebb hit the southern face of a mountain about 2.5 km tall, near a crater called Goldschmidt. LRO later found its new crater, only a few metres wide.",
+      "anchor": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA JPL: GRAIL impact site named for Sally Ride",
+        "url": "https://www.jpl.nasa.gov/news/nasas-grail-lunar-impact-site-named-for-astronaut-sally-ride/"
+      },
+      "photo": {
+        "file": "photos/sites/grail-ebb--crater.jpg",
+        "w": 500,
+        "h": 500,
+        "alt": "An orbital view of a slope with a small dark-rimmed new crater",
+        "caption": "Ebb’s impact crater, photographed by NASA’s Lunar Reconnaissance Orbiter after the crash.",
+        "credit": "NASA/GSFC/Arizona State University",
+        "license": "Educational use with credit",
+        "source": "https://commons.wikimedia.org/wiki/File:LRO_LROC_after_view_of_GRAIL-A_(Ebb)_impact..jpg",
+        "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
+      }
+    },
+    {
+      "id": "moonkam",
+      "title": "MoonKAM",
+      "text": "Ebb carried a camera that students could aim. Three days before the crash it filmed the Moon’s surface sliding past below. This is real footage from that camera.",
+      "anchor": {
+        "pos": [
+          0,
+          18,
+          6
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: GRAIL impact site named for Sally Ride",
+        "url": "https://www.jpl.nasa.gov/news/nasas-grail-lunar-impact-site-named-for-astronaut-sally-ride/"
+      },
+      "video": {
+        "file": "media/sites/grail-ebb--moonkam.mp4",
+        "poster": "media/sites/grail-ebb--moonkam.jpg",
+        "caption": "Real MoonKAM video from Ebb, recorded on 14 December 2012, three days before impact.",
+        "credit": "NASA/JPL-Caltech/MIT/SRS",
+        "license": "Public domain",
+        "source": "https://svs.gsfc.nasa.gov/11186",
+        "licenseEvidence": "NASA SVS page 11186 (“All of our content is in the public domain unless otherwise noted”); Commons copy marked “Public domain”; sound removed",
+        "real": true
+      }
+    },
+    {
+      "id": "last-burn",
+      "title": "Last engine burn",
+      "text": "Fifty minutes before impact, both twins fired their engines until the tanks ran dry. Measuring exactly how much fuel was left helps engineers plan future missions.",
+      "broken": true,
+      "tag": "Why it stopped",
+      "anchor": {
+        "pos": [
+          6,
+          8,
+          -4
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: GRAIL impact site named for Sally Ride",
+        "url": "https://www.jpl.nasa.gov/news/nasas-grail-lunar-impact-site-named-for-astronaut-sally-ride/"
+      }
+    },
+    {
+      "id": "earth-view",
+      "title": "Looking home",
+      "text": "Earlier in the mission, Ebb’s MoonKAM photographed Earth far beyond the Moon’s far side. Student teams chose many of the targets.",
+      "anchor": {
+        "pos": [
+          -8,
+          10,
+          -8
+        ]
+      },
+      "source": {
+        "label": "NASA Science: GRAIL",
+        "url": "https://science.nasa.gov/mission/grail/"
+      },
+      "photo": {
+        "file": "photos/sites/grail-ebb--earth.jpg",
+        "w": 959,
+        "h": 1200,
+        "alt": "The lunar far side with Earth in the distance, photographed by Ebb",
+        "caption": "Earth beyond the Moon’s far side, photographed by Ebb’s MoonKAM in March 2012.",
+        "credit": "NASA/JPL-Caltech/MIT/SRS",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:MoonKAM_looks_back_at_earth.jpg",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); NASA/JPL MoonKAM release"
+      }
+    },
+    {
+      "id": "gravity-map",
+      "title": "Gravity map",
+      "text": "By measuring tiny changes in the distance between them, Ebb and Flow made the most detailed gravity map of any world at that time, revealing hidden lumps under the Moon’s surface.",
+      "anchor": {
+        "pos": [
+          12,
+          0.3,
+          8
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA Science: GRAIL",
+        "url": "https://science.nasa.gov/mission/grail/"
+      }
+    }
+  ]
+}

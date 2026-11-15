@@ -1,0 +1,129 @@
+{
+  "id": "pioneer11",
+  "setting": "space",
+  "model": "pioneer",
+  "name": "Pioneer 11",
+  "intro": "Pioneer 11 followed its twin to Jupiter, then used Jupiter’s gravity to swing all the way to Saturn, its first visitor ever. Its power faded in 1995. Now it drifts out of the solar system, about 118 times farther from the Sun than Earth.",
+  "status": "Silent since 1995",
+  "whyLeft": "It was on a one-way trip out of the solar system. By 1995 its nuclear generators no longer made enough power to run its instruments and radio, and its last signal came on 30 September 1995.",
+  "repurpose": "It is far beyond reach and has no power left. Like its twin, it carries a plaque about Earth, so its job now is to be a message in a bottle.",
+  "hotspots": [
+    {
+      "id": "dish",
+      "title": "The big dish",
+      "text": "This 2.74-meter dish always faced Earth. Pioneer 11’s last signal came in September 1995, when its power was too low to keep going.",
+      "anchor": {
+        "part": "dish_AO",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Pioneer 11",
+        "url": "https://science.nasa.gov/mission/pioneer-11/"
+      }
+    },
+    {
+      "id": "power",
+      "title": "Nuclear generators",
+      "text": "Four small nuclear generators on two long arms made the electricity. Their power faded a little every year until there was not enough to run the radio.",
+      "broken": true,
+      "tag": "Why it went quiet",
+      "anchor": {
+        "part": "RTG_AO_new",
+        "at": [
+          0.05,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Pioneer 11",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1973-019A"
+      }
+    },
+    {
+      "id": "plaque",
+      "title": "The plaque",
+      "text": "A gold-coloured plaque bolted here shows a man, a woman and a map of where the Sun is, in case anyone out there ever finds this spacecraft.",
+      "anchor": {
+        "part": "Pioneer_silver_02",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Pioneer 10",
+        "url": "https://science.nasa.gov/mission/pioneer-10/"
+      }
+    },
+    {
+      "id": "saturn",
+      "title": "First to Saturn",
+      "text": "Jupiter’s gravity flung Pioneer 11 across the solar system to Saturn. On 1 September 1979 it became Saturn’s first visitor and discovered a thin new ring, now called the F ring.",
+      "anchor": {
+        "part": "foil_gold",
+        "at": [
+          0.5,
+          0.88,
+          0.3
+        ]
+      },
+      "source": {
+        "label": "NASA: Pioneer 11",
+        "url": "https://science.nasa.gov/mission/pioneer-11/"
+      },
+      "photo": {
+        "file": "photos/sites/pioneer11--saturn.jpg",
+        "w": 1200,
+        "h": 818,
+        "alt": "Saturn and its rings with the moon Titan as a small dot.",
+        "caption": "Saturn and its moon Titan, photographed by Pioneer 11 during its 1979 flyby.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Saturn_and_Titan_from_Pioneer_11_-_GPN-2002-000060.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: Great Images in NASA: Home page – Source – Image."
+      }
+    },
+    {
+      "id": "boom",
+      "title": "The magnetometer boom",
+      "text": "This long boom held a sensor away from the spacecraft to measure magnetic fields. Pioneer 11 is now drifting toward the constellation Aquila, the Eagle.",
+      "anchor": {
+        "part": "pioneer_tex_02",
+        "at": [
+          0.5,
+          0.02,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Pioneer 11",
+        "url": "https://science.nasa.gov/mission/pioneer-11/"
+      }
+    }
+  ],
+  "funFact": "Pioneer 11 skimmed just 43,000 km above Jupiter’s cloud tops, about three times closer than Pioneer 10 had gone.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "6 April 1973"
+    },
+    {
+      "label": "Reached Saturn",
+      "value": "1 September 1979"
+    },
+    {
+      "label": "Last signal",
+      "value": "30 September 1995"
+    },
+    {
+      "label": "Distance from the Sun",
+      "value": "About 118 AU"
+    }
+  ]
+}

@@ -19,7 +19,7 @@ const DAY = "/tex/earth.jpg";
 const EXTRA = { night: "/tex/earth-night.jpg", clouds: "/tex/earth-clouds.jpg", water: "/tex/earth-water.jpg" };
 type Extra = Record<keyof typeof EXTRA, THREE.Texture>;
 
-const TILT = THREE.MathUtils.degToRad(23.4);
+export const TILT = THREE.MathUtils.degToRad(23.4);
 const DAY_SPIN = (Math.PI * 2) / 140; // one turn every 140 s of tour time
 const CLOUD_DRIFT = DAY_SPIN * 0.06; // clouds slide slowly over the ground
 

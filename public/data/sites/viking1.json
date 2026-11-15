@@ -1,0 +1,112 @@
+{
+  "id": "viking1",
+  "setting": "surface",
+  "model": "viking",
+  "name": "Viking 1",
+  "intro": "Viking 1 was the first NASA spacecraft to land safely on Mars, on 20 July 1976. It took the first pictures from the surface and reported the weather for more than six years. It still stands on the plain of Chryse Planitia, silent since 1982.",
+  "status": "Silent since 1982",
+  "whyLeft": "It was never meant to come home. In November 1982 a software update by mistake erased the data it used to aim its antenna at Earth, and the team could never reach it again.",
+  "repurpose": "Engineers learned to test updates carefully and keep backups, the same care that saved Voyager 1 in 2024. A helper robot landing nearby could check how 50 years on Mars changed its metal and paint.",
+  "hotspots": [
+    {
+      "id": "dish",
+      "title": "The dish to Earth",
+      "text": "This dish talked straight to Earth. In November 1982 a software update meant to help Viking 1’s tired batteries accidentally wiped out the numbers it used to aim this dish, and the team never heard from it again.",
+      "broken": true,
+      "tag": "What cut it off",
+      "anchor": {
+        "part": "polySurfa1",
+        "at": [
+          0.2,
+          0.88,
+          0.6
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Viking 1 Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C"
+      }
+    },
+    {
+      "id": "cameras",
+      "title": "Two cameras",
+      "text": "Viking 1’s cameras took the first picture ever made on the surface of Mars, just minutes after landing on 20 July 1976. The very first thing they photographed was the lander’s own footpad.",
+      "anchor": {
+        "part": "polySurfa1",
+        "at": [
+          0.17,
+          0.62,
+          0.58
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Viking 1 Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C"
+      },
+      "photo": {
+        "file": "photos/sites/viking1--cameras.jpg",
+        "w": 1200,
+        "h": 496,
+        "alt": "Grainy black-and-white strip of rocks and dust, with a round lander footpad at the right.",
+        "caption": "The first photo ever taken on the surface of Mars, on 20 July 1976. Viking 1’s own footpad sits in the dust at the right.",
+        "credit": "NASA/JPL",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:First_Mars_Surface_Photo_(9467449402).jpg",
+        "licenseEvidence": "Commons page: from the “NASA on The Commons” Flickr stream, marked “No known copyright restrictions”; a NASA work (original: First Mars Surface Photo)."
+      }
+    },
+    {
+      "id": "arm",
+      "title": "The soil scoop",
+      "text": "This arm reached out to scoop up soil and fed it into small labs inside the lander that tested it for signs of life. The results were puzzling, and most scientists now think strange soil chemistry, not living things, caused them.",
+      "anchor": {
+        "part": "polySurfa1",
+        "at": [
+          0.97,
+          0.27,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Viking 1 and 2",
+        "url": "https://science.nasa.gov/mission/viking-1/"
+      }
+    },
+    {
+      "id": "power",
+      "title": "Nuclear power",
+      "text": "Two small nuclear generators on top kept Viking 1 warm and charged its batteries. A scout would check them first: they still give off a little heat, but the lander’s 1970s electronics have sat in the freezing cold for more than 40 years.",
+      "anchor": {
+        "part": "polySurfa2",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Viking 1 Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C"
+      }
+    }
+  ],
+  "funFact": "In 1982 Viking 1 was renamed the Thomas Mutch Memorial Station, after the leader of the Viking camera team.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "20 July 1976"
+    },
+    {
+      "label": "Last heard",
+      "value": "November 1982"
+    },
+    {
+      "label": "Mass on Mars",
+      "value": "572 kg"
+    },
+    {
+      "label": "Power",
+      "value": "2 nuclear generators"
+    }
+  ]
+}

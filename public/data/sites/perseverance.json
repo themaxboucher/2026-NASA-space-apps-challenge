@@ -1,0 +1,165 @@
+{
+  "id": "perseverance",
+  "setting": "surface",
+  "model": "perseverance",
+  "name": "Perseverance",
+  "intro": "Perseverance landed in Jezero crater, an ancient lake, on 18 February 2021. It searches for signs of past life and seals rock samples in tubes that could one day come back to Earth. It is still working, exploring beyond the crater’s western rim.",
+  "status": "Still working",
+  "whyLeft": "It has not been left: Perseverance is still exploring. Its job includes leaving things behind on purpose, like the backup sample tubes it set down on the ground.",
+  "repurpose": "It is busy with its own job. Its stash of sample tubes is waiting for a future mission that could pick them up and fly them to Earth.",
+  "hotspots": [
+    {
+      "id": "mast",
+      "title": "Eyes and ears",
+      "text": "The head of this mast holds zoom cameras, a rock-zapping laser and a microphone. Perseverance recorded the first sounds ever heard on Mars, including wind and the hum of Ingenuity’s rotors.",
+      "anchor": {
+        "part": "head",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Perseverance",
+        "url": "https://science.nasa.gov/mission/mars-2020-perseverance/"
+      }
+    },
+    {
+      "id": "drill",
+      "title": "Cheyava Falls",
+      "text": "Tools on the end of the arm study and drill rocks. In July 2024 they found a rock nicknamed Cheyava Falls with “leopard spots” that scientists call a possible sign of ancient life, though not proof.",
+      "anchor": {
+        "part": "turret_obj",
+        "at": [
+          0.5,
+          0.5,
+          1
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: Perseverance finds an intriguing rock",
+        "url": "https://www.jpl.nasa.gov/news/nasas-perseverance-rover-scientists-find-intriguing-mars-rock/"
+      },
+      "photo": {
+        "file": "photos/sites/perseverance--cheyava-falls.jpg",
+        "w": 1200,
+        "h": 874,
+        "alt": "Close-up of a reddish rock with small labelled spots.",
+        "caption": "Cheyava Falls up close. The labels point to a tiny “leopard spot” and a speck of the mineral olivine.",
+        "credit": "NASA/JPL-Caltech/MSSS",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:1-PIA26368-Perseverance_Finds_a_Rock_with_Leopard_Spots-annotated.png",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://www.jpl.nasa.gov/images/pia26368-perseverance-finds-a-rock-with-leopard-spots."
+      }
+    },
+    {
+      "id": "sample-tubes",
+      "title": "Sample tubes",
+      "text": "Inside the rover’s belly, rock cores are sealed in tubes. Perseverance set ten of them on the ground at a place called Three Forks, as a backup stash for a future mission to collect.",
+      "anchor": {
+        "part": "Body",
+        "at": [
+          0.5,
+          0.15,
+          1
+        ]
+      },
+      "source": {
+        "label": "NASA: Perseverance",
+        "url": "https://science.nasa.gov/mission/mars-2020-perseverance/"
+      },
+      "photo": {
+        "file": "photos/sites/perseverance--sample-tubes.jpg",
+        "w": 1200,
+        "h": 1122,
+        "alt": "The rover on a wide sandy plain with wheel tracks and a sample tube on the ground.",
+        "caption": "Perseverance’s selfie at Three Forks in January 2023, with sample tubes it left lying on the ground.",
+        "credit": "NASA/JPL-Caltech/MSSS",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:PIA25681_Perseverance%27s_Three_Forks_Sample_Depot_Selfie.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://mars.nasa.gov/resources/27262/perseverances-three-forks-sample-depot-selfie/."
+      }
+    },
+    {
+      "id": "power",
+      "title": "Nuclear power",
+      "text": "Like Curiosity, Perseverance is powered by the heat of decaying plutonium in this box at its back, so dust storms cannot switch it off.",
+      "anchor": {
+        "part": "rtg",
+        "at": [
+          0.5,
+          0.8,
+          0.3
+        ]
+      },
+      "source": {
+        "label": "NASA: Perseverance",
+        "url": "https://science.nasa.gov/mission/mars-2020-perseverance/"
+      }
+    },
+    {
+      "id": "ingenuity",
+      "title": "Where Ingenuity rode",
+      "text": "The Ingenuity helicopter rode to Mars folded up under the rover’s belly. Perseverance set it down on 3 April 2021, and it went on to fly 72 times.",
+      "anchor": {
+        "part": "blades",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Ingenuity Mars Helicopter",
+        "url": "https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/"
+      }
+    },
+    {
+      "id": "landing",
+      "title": "Landing cameras",
+      "text": "Cameras on the parachute cover, the sky crane and the rover filmed the whole landing. It was the first time we could watch a spacecraft land on Mars.",
+      "anchor": {
+        "part": "Body",
+        "at": [
+          0.5,
+          0,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Perseverance",
+        "url": "https://science.nasa.gov/mission/mars-2020-perseverance/"
+      },
+      "video": {
+        "file": "media/sites/perseverance--landing.mp4",
+        "poster": "media/sites/perseverance--landing.jpg",
+        "caption": "The last seconds of Perseverance’s landing on 18 February 2021, filmed by its own cameras: the sky crane lowers the rover on cables and dust flies up. Real footage, no sound.",
+        "credit": "NASA/JPL-Caltech",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Perseverance_Entry_Descent_Landing.webm",
+        "licenseEvidence": "Commons page licence: “Public domain” (CC-PD-Mark, PD US Government); original source: YouTube: See Mars Like Never Before! NASA’s Perseverance Rover Sends New Video and Images.",
+        "real": true
+      }
+    }
+  ],
+  "funFact": "Perseverance carries microphones and recorded the first sounds ever captured on Mars.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "18 February 2021"
+    },
+    {
+      "label": "Driven",
+      "value": "More than 45 km"
+    },
+    {
+      "label": "Mass",
+      "value": "1,025 kg"
+    },
+    {
+      "label": "Sample tubes on the ground",
+      "value": "10"
+    }
+  ]
+}

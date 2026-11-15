@@ -1,0 +1,137 @@
+{
+  "id": "apollo13-sivb",
+  "setting": "impact",
+  "model": null,
+  "name": "Apollo 13’s third stage",
+  "intro": "This crater was made by the third stage of the Saturn V that launched Apollo 13. While the crew fought to get home after an oxygen tank exploded, the empty stage hit the Moon on purpose on 15 April 1970 (14 April in Houston). It was the first rocket stage ever crashed into the Moon.",
+  "status": "Crater, found by LRO",
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "The crater",
+      "text": "The stage blasted out a crater about 30 meters across, wider than a basketball court is long. NASA’s Lunar Reconnaissance Orbiter photographed it decades later.",
+      "anchor": {
+        "pos": [
+          0,
+          0.1,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "LROC: Rocket impacts recorded by the Apollo seismic network",
+        "url": "https://lroc.im-ldi.com/images/364"
+      },
+      "photo": {
+        "file": "photos/sites/apollo13-sivb--crater.jpg",
+        "w": 778,
+        "h": 778,
+        "alt": "A grey, cratered moonscape seen from above, with one fresh crater surrounded by bright rays.",
+        "caption": "The crater from orbit: the bright rays are fresh soil thrown out by the crash.",
+        "credit": "NASA/GSFC/Arizona State University",
+        "license": "Educational use with credit",
+        "source": "https://images.nasa.gov/details/PIA12979",
+        "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
+      }
+    },
+    {
+      "id": "rays",
+      "title": "Bright rays",
+      "text": "The crash splashed fresh, light-colored soil across the darker ground, making bright streaks around the crater. Over millions of years, sunlight will slowly darken them.",
+      "anchor": {
+        "pos": [
+          38,
+          0.1,
+          18
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "LROC (LRO camera team): the Apollo S-IVB craters",
+        "url": "https://lroc.im-ldi.com/images/1261"
+      }
+    },
+    {
+      "id": "seismometer",
+      "title": "Felt 135 km away",
+      "text": "The Apollo 12 seismometer, about 135 km to the east, felt the ground shake. It was the only seismometer on the Moon at the time, and this crash gave it a big test signal.",
+      "anchor": {
+        "pos": [
+          0,
+          1.5,
+          -40
+        ]
+      },
+      "source": {
+        "label": "LROC: Rocket impacts recorded by the Apollo seismic network",
+        "url": "https://lroc.im-ldi.com/images/364"
+      }
+    },
+    {
+      "id": "pieces",
+      "title": "Shattered stage",
+      "text": "Scout’s check: nothing is left in one piece. The 18-meter-long stage hit at about 2.6 km per second and broke into fragments scattered around the crater.",
+      "broken": true,
+      "tag": "What is left",
+      "anchor": {
+        "pos": [
+          -22,
+          0.1,
+          -16
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    },
+    {
+      "id": "flash",
+      "title": "Seen from far away",
+      "text": "Scientists made this animation to show the impact as a brief flash on the dark side of the Moon, then zoom in to the real crater photographed by LRO.",
+      "anchor": {
+        "pos": [
+          10,
+          2.5,
+          -20
+        ]
+      },
+      "source": {
+        "label": "NASA SVS: Apollo 13 S-IVB impact site",
+        "url": "https://svs.gsfc.nasa.gov/4803"
+      },
+      "video": {
+        "file": "media/sites/apollo13-sivb--flash.mp4",
+        "poster": "media/sites/apollo13-sivb--flash.jpg",
+        "caption": "Animation: the impact flashes on the night side of the Moon, then the view flies down to LRO’s real photo of the crater.",
+        "credit": "NASA’s Scientific Visualization Studio (Ernie Wright); LRO image NASA/GSFC/Arizona State University",
+        "license": "Public domain",
+        "source": "https://svs.gsfc.nasa.gov/4803",
+        "licenseEvidence": "NASA SVS page 4803, \"Raw frames (no text overlays)\" version sivbraw_360p30.mp4; credit \"NASA’s Scientific Visualization Studio\". The music and Apollo audio credited on that page belong to a separate narrated video, not this silent animation. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/).",
+        "real": false
+      }
+    }
+  ],
+  "funFact": "When Mission Control told the crew the stage had hit the Moon, Jim Lovell answered: “Well, at least something worked on this flight.”",
+  "stats": [
+    {
+      "label": "Hit the Moon",
+      "value": "15 April 1970 (UT)"
+    },
+    {
+      "label": "Speed",
+      "value": "2.58 km/s"
+    },
+    {
+      "label": "Mass",
+      "value": "About 13,900 kg"
+    },
+    {
+      "label": "Crater",
+      "value": "About 30 m across"
+    }
+  ],
+  "whyLeft": "It was used up after pushing Apollo 13 toward the Moon, and NASA chose to crash it so the new seismometers could feel a big, precisely timed thump.",
+  "repurpose": "It shattered into pieces, but its aluminium is still lying around the crater. One day a Moon base could collect metal like this instead of carrying it all from Earth."
+}

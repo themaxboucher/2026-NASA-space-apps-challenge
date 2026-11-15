@@ -1,0 +1,148 @@
+{
+  "id": "surveyor1",
+  "setting": "surface",
+  "model": "surveyor",
+  "name": "Surveyor 1",
+  "intro": "Surveyor 1 was the first American spacecraft to land gently on the Moon, on 2 June 1966. Nobody knew if the ground would hold it or swallow it in dust, so its landing answered a huge question for Apollo. It still stands on the Ocean of Storms where it landed.",
+  "status": "Silent since 1966",
+  "whyLeft": "It was built only to land and look around; when its battery failed in the freezing dark after its second sunset, there was nothing left to power it.",
+  "repurpose": "It is a perfect lander to study: a robot could photograph it up close to learn how 60 years of sunlight, cold and tiny meteorites age a spacecraft.",
+  "funFact": "Surveyor 1 landed about four months after the Soviet Luna 9 made the very first soft landing on the Moon.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "2 June 1966"
+    },
+    {
+      "label": "Touchdown speed",
+      "value": "About 3 m/s"
+    },
+    {
+      "label": "Pictures sent",
+      "value": "11,240"
+    },
+    {
+      "label": "Mass on landing",
+      "value": "294 kg"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "camera",
+      "title": "TV camera",
+      "text": "About an hour after landing, this camera started sending pictures home, starting with its own footpad. By the time it stopped it had sent 11,240 pictures, including the first close-up views from the surface by an American spacecraft.",
+      "anchor": {
+        "pos": [
+          0,
+          1.45,
+          0.8
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 1",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-045A"
+      },
+      "video": {
+        "file": "media/sites/surveyor1--first-pictures.mp4",
+        "poster": "media/sites/surveyor1--first-pictures.jpg",
+        "caption": "Real 1966 film from JPL: Surveyor 1’s first pictures, its footpad and the ground around it being pieced together into a mosaic.",
+        "credit": "NASA/JPL-Caltech",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:JPL-19660620-SURVEYf-0001-AVC2002083_First_Soft_Landing_on_Moon.webm",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); catalogued by JPL as JPL-19660620-SURVEYf-0001 (clip uses only the real Surveyor images, no animation)",
+        "real": true
+      }
+    },
+    {
+      "id": "footpad",
+      "title": "Footpad test",
+      "text": "Some scientists worried the Moon was covered in deep, fluffy dust. Surveyor 1 shut off its engines 3.4 m up and dropped onto the ground, and its footpads sank only a few centimetres. Good news for every lander that followed.",
+      "anchor": {
+        "pos": [
+          0,
+          0.1,
+          -1.88
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 1",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-045A"
+      }
+    },
+    {
+      "id": "shadow",
+      "title": "Its own shadow",
+      "text": "Late in the lunar afternoon, Surveyor 1 photographed its own long shadow stretching across the ground. Scout tip: shadows like this show how tall and wide a machine is, even from far away.",
+      "anchor": {
+        "pos": [
+          0,
+          0.05,
+          4.5
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 1",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-045A"
+      },
+      "photo": {
+        "file": "photos/sites/surveyor1--shadow.jpg",
+        "w": 1200,
+        "h": 1193,
+        "alt": "The long shadow of Surveyor 1 stretched across the lunar surface",
+        "caption": "Surveyor 1’s shadow on the Moon, photographed by its own camera in the late afternoon.",
+        "credit": "NASA/JPL",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/PIA02976",
+        "licenseEvidence": "NASA Image and Video Library / JPL Photojournal PIA02976 (NASA, public domain under NASA media guidelines)"
+      }
+    },
+    {
+      "id": "solar-panel",
+      "title": "Solar panel",
+      "text": "Surveyor 1 survived its first freezing lunar night and took more pictures when the Sun came back. Then on 13 July 1966, just after its second sunset, its battery voltage suddenly dropped and the mission ended. Engineers kept calling it until January 1967.",
+      "broken": true,
+      "tag": "Why it stopped",
+      "anchor": {
+        "part": "cell",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 1",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-045A"
+      }
+    },
+    {
+      "id": "from-orbit",
+      "title": "Seen from orbit",
+      "text": "In 2009 the Lunar Reconnaissance Orbiter found Surveyor 1 still standing, a bright dot casting a long shadow. It has not moved since 1966.",
+      "anchor": {
+        "pos": [
+          0,
+          4.2,
+          0
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 1",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-045A"
+      },
+      "photo": {
+        "file": "photos/sites/surveyor1--from-orbit.jpg",
+        "w": 1000,
+        "h": 1000,
+        "alt": "Surveyor 1 seen from orbit as a small bright spot with a long shadow",
+        "caption": "Surveyor 1 on the Ocean of Storms, photographed from orbit by NASA’s Lunar Reconnaissance Orbiter.",
+        "credit": "NASA/GSFC/Arizona State University",
+        "license": "Educational use with credit",
+        "source": "https://images.nasa.gov/details/PIA12910",
+        "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
+      }
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "id": "ranger8",
+  "setting": "impact",
+  "model": null,
+  "name": "Ranger 8",
+  "intro": "Ranger 8 dove into the Sea of Tranquility on 20 February 1965, photographing the area where Apollo astronauts might one day land. It sent home 7,137 pictures in its last 23 minutes, more than any other Ranger, then crashed as planned.",
+  "status": "Crashed on purpose, 20 February 1965",
+  "whyLeft": "Rangers had no way to slow down: diving in with cameras running and crashing was the whole mission.",
+  "repurpose": "Nothing is left to reuse, but its pictures still help: they are some of the earliest close-ups of the region where Apollo 11 landed.",
+  "funFact": "Ranger 8 took 7,137 pictures, the most of any Ranger.",
+  "stats": [
+    {
+      "label": "Impact",
+      "value": "20 February 1965"
+    },
+    {
+      "label": "Pictures sent",
+      "value": "7,137"
+    },
+    {
+      "label": "Impact speed",
+      "value": "About 2.68 km/s"
+    },
+    {
+      "label": "Mass",
+      "value": "367 kg"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "Impact crater",
+      "text": "Ranger 8 hit here at about 2.68 km per second, 64.9 hours after launch. The impact blasted the spacecraft apart and dug a small crater.",
+      "anchor": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 8",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-010A"
+      }
+    },
+    {
+      "id": "last-pictures",
+      "title": "The dive",
+      "text": "The cameras switched on when the Moon was still 2,510 km away and kept snapping pictures every few seconds. Watch the craters grow as Ranger 8 falls.",
+      "anchor": {
+        "pos": [
+          0,
+          22,
+          6
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 8",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-010A"
+      },
+      "video": {
+        "file": "media/sites/ranger8--last-pictures.mp4",
+        "poster": "media/sites/ranger8--last-pictures.jpg",
+        "caption": "Real pictures from Ranger 8’s cameras on 20 February 1965, shown one after another as it falls toward the Moon.",
+        "credit": "NASA/JPL-Caltech",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:JPL-19650220-RANGERf-0001-AVC2002151_Ranger_8_Impacts_Moon.webm",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); catalogued by JPL as JPL-19650220-RANGERf-0001",
+        "real": true
+      }
+    },
+    {
+      "id": "twin-craters",
+      "title": "Twin craters",
+      "text": "Two and a half minutes before impact, Ranger 8 photographed the twin craters Ritter and Sabine, each about 30 km wide. Apollo 11 later landed not far from them.",
+      "anchor": {
+        "pos": [
+          30,
+          0.5,
+          -30
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 8",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-010A"
+      },
+      "photo": {
+        "file": "photos/sites/ranger8--ritter-sabine.jpg",
+        "w": 1018,
+        "h": 1035,
+        "alt": "Two round craters side by side on a smooth lunar plain",
+        "caption": "The craters Ritter and Sabine, photographed by Ranger 8 from 302 km up.",
+        "credit": "NASA/JPL (via NASA NSSDCA)",
+        "license": "Public domain",
+        "source": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/ra8_a030.html",
+        "licenseEvidence": "NASA NSSDCA Photo Gallery: image returned by NASA’s Ranger 8 (US government work, public domain)"
+      }
+    },
+    {
+      "id": "final-frames",
+      "title": "Final frames",
+      "text": "Its very last pictures were taken about half a second before impact. One was only half sent, so most of it is static: the moment Ranger 8 hit the ground.",
+      "broken": true,
+      "tag": "The end",
+      "anchor": {
+        "pos": [
+          7,
+          0.3,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 8",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-010A"
+      },
+      "photo": {
+        "file": "photos/sites/ranger8--last-pictures.jpg",
+        "w": 720,
+        "h": 713,
+        "alt": "Four small close-ups of the lunar surface, one filled with static",
+        "caption": "Ranger 8’s final pictures; the static shows where the impact cut the signal.",
+        "credit": "NASA/JPL (via NASA NSSDCA)",
+        "license": "Public domain",
+        "source": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/ra8_p020.html",
+        "licenseEvidence": "NASA NSSDCA Photo Gallery: image returned by NASA’s Ranger 8 (US government work, public domain)"
+      }
+    }
+  ]
+}

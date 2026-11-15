@@ -11,7 +11,7 @@ type Clip = { file: string; poster?: string; caption: string; credit: string; li
 type Media = Record<string, Clip> & { soundtrack?: { file: string; title: string; credit: string; license: string; source?: string } };
 let mediaP: Promise<Media> | null = null;
 export const loadMedia = (): Promise<Media> => (mediaP ||= fetch("/media/media.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})) as Promise<Media>);
-const safe = (f?: string) => (f && /^media\/[\w.-]+$/.test(f) ? "/" + f : null);
+const safe = (f?: string) => (f && /^media\/(sites\/)?[\w.-]+$/.test(f) ? "/" + f : null);
 
 /* ---------- music: starts on the Start click (a user gesture), one piece per chapter, quiet under videos ---------- */
 const MUTE_KEY = "gra-music-off";
@@ -22,6 +22,49 @@ type MusicState = { el: HTMLAudioElement | null; key: string; ducked: boolean; c
 const g = (typeof window !== "undefined" ? window : {}) as { __graMusic?: MusicState };
 const music: MusicState = (g.__graMusic ??= { el: null, key: "", ducked: false, credit: "", on: true });
 const BASE = 0.3;
+// Volume sliders (0..1), remembered in this browser: music, and everything with real sound (clips, mission radio).
+const VOL_KEY = "gra-volume";
+export const vol: { music: number; media: number } = (() => {
+  try {
+    const v = JSON.parse(localStorage.getItem(VOL_KEY) || "null");
+    if (v && typeof v.music === "number" && typeof v.media === "number") return v;
+  } catch {
+    /* fall through to defaults */
+  }
+  return { music: 1, media: 1 };
+})();
+const saveVol = () => {
+  try {
+    localStorage.setItem(VOL_KEY, JSON.stringify(vol));
+  } catch {
+    /* private mode: lasts this visit */
+  }
+};
+// The music's level right now: the slider times the base level (down to 5% while a clip or radio plays).
+const musicLevel = () => (music.ducked ? 0.05 : BASE) * vol.music;
+// Sounds playing outside the video players (the ghost replays' radio), so the slider can reach them.
+const sounds = new Set<HTMLMediaElement>();
+export function mediaSound(el: HTMLAudioElement) {
+  el.volume = vol.media;
+  sounds.add(el);
+  el.addEventListener("play", () => duck(true));
+  el.addEventListener("pause", () => (sounds.delete(el), duck(false)));
+  el.addEventListener("ended", () => (sounds.delete(el), duck(false)));
+  return el;
+}
+// Applied to each <video> as it loads.
+export const videoVolume = (el: HTMLVideoElement | null) => {
+  if (el) el.volume = vol.media;
+};
+function setVolume(kind: "music" | "media", v: number) {
+  vol[kind] = v;
+  saveVol();
+  if (kind === "music" && music.el) music.el.volume = musicLevel();
+  if (kind === "media") {
+    document.querySelectorAll("video").forEach((e) => (e.volume = v));
+    sounds.forEach((e) => (e.volume = v));
+  }
+}
 const isOff = () => {
   try {
     return localStorage.getItem(MUTE_KEY) === "1";
@@ -56,7 +99,7 @@ function playTrack(key: string) {
     music.credit = `${tr.title} · ${tr.credit} · ${tr.license}`;
     if (music.on) {
       el.play().catch(() => {});
-      fadeVol(el, music.ducked ? 0.05 : BASE, 1800);
+      fadeVol(el, musicLevel(), 1800);
     }
     if (old) fadeVol(old, 0, 1800, () => old.pause());
     dispatchEvent(new Event("gra-music"));
@@ -81,11 +124,12 @@ export function startMusic() {
 }
 const duck = (on: boolean) => {
   music.ducked = on;
-  if (music.el) music.el.volume = on ? 0.05 : BASE;
+  if (music.el) music.el.volume = musicLevel();
 };
 
 export function MusicToggle() {
   const [, bump] = useState(0);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     const f = () => bump((n) => n + 1);
     addEventListener("gra-music", f);
@@ -93,33 +137,49 @@ export function MusicToggle() {
   }, []);
   if (!music.el) return null;
   const off = music.el.paused;
+  const toggleMusic = () => {
+    if (!music.el) return;
+    music.on = off;
+    if (off) {
+      music.el.volume = musicLevel();
+      music.el.play().catch(() => {});
+    } else music.el.pause();
+    try {
+      localStorage.setItem(MUTE_KEY, off ? "0" : "1");
+    } catch {
+      /* private mode: the choice lasts this visit */
+    }
+    bump((n) => n + 1);
+  };
   return (
-    <button
-      type="button"
-      className="music-btn"
-      aria-pressed={!off}
-      aria-label="Music"
-      title={`${off ? "Turn music on" : "Turn music off"} · ${music.credit}`}
-      onClick={() => {
-        if (!music.el) return;
-        music.on = off;
-        if (off) {
-          music.el.volume = music.ducked ? 0.05 : BASE;
-          music.el.play().catch(() => {});
-        } else music.el.pause();
-        try {
-          localStorage.setItem(MUTE_KEY, off ? "0" : "1");
-        } catch {
-          /* private mode: the choice lasts this visit */
-        }
-        bump((n) => n + 1);
-      }}
-    >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M11 5 6 9H3v6h3l5 4V5z" />
-        {off ? <path d="m16 9 5 6m0-6-5 6" /> : <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" />}
-      </svg>
-    </button>
+    <div className="sound">
+      {/* The speaker turns music on or off in one click; the gear opens the volume settings. */}
+      <button type="button" className="music-btn" aria-pressed={!off} aria-label={off ? "Turn music on" : "Turn music off"} title={`${off ? "Turn music on" : "Turn music off"} · ${music.credit}`} onClick={toggleMusic}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M11 5 6 9H3v6h3l5 4V5z" />
+          {off ? <path d="m16 9 5 6m0-6-5 6" /> : <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" />}
+        </svg>
+      </button>
+      <button type="button" className="music-btn settings-btn" aria-expanded={open} aria-label="Sound settings" title="Sound settings" onClick={() => setOpen(!open)}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
+        </svg>
+      </button>
+      {open && (
+        <div className="sound-panel" role="group" aria-label="Sound">
+          <label className="sound-row">
+            <span>Music</span>
+            <input type="range" min={0} max={1} step={0.05} defaultValue={vol.music} disabled={off} onChange={(e) => setVolume("music", +e.target.value)} aria-label="Music volume" />
+          </label>
+          <label className="sound-row">
+            <span>Videos and radio</span>
+            <input type="range" min={0} max={1} step={0.05} defaultValue={vol.media} onChange={(e) => setVolume("media", +e.target.value)} aria-label="Videos and mission radio volume" />
+          </label>
+          <p className="sound-credit">{music.credit}</p>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -141,7 +201,12 @@ export function useSpotPhotos() {
   }, []);
   return p;
 }
-export const photoSrc = (f?: string) => (f && /^photos\/spots\/[\w.-]+\.(jpe?g|png|webp)$/i.test(f) ? "/" + f : null);
+export const photoSrc = (f?: string) => (f && /^photos\/(spots|sites)\/[\w.-]+\.(jpe?g|png|webp)$/i.test(f) ? "/" + f : null);
+// A clip from a site file (public/data/sites), keyed "<stop>/<spot>" like media.json.
+const siteClip = (key: string): Clip | undefined => {
+  const [stop, spot] = key.split("/");
+  return STOPS.find((s) => s.id === stop)?.hotspots.find((h) => h.id === spot)?.video;
+};
 
 export const playCutscene = (key: string | null) => tour.set({ cutscene: key });
 
@@ -162,14 +227,14 @@ export function Cutscene() {
       duck(false);
     };
   }, [key]);
-  const clip = key ? media[key] : null;
+  const clip = key ? media[key] ?? siteClip(key) : null;
   const src = safe(clip?.file);
   if (!key || !clip || !src) return null;
   return (
     <motion.section className="chapter cutscene" role="dialog" aria-modal="true" aria-label={clip.caption} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
       <div className="chapter-card">
         <figure className="chapter-film">
-          <video src={src} poster={safe(clip.poster) ?? undefined} controls autoPlay playsInline onPlay={() => duck(true)} onPause={() => duck(false)} onEnded={() => { duck(false); playCutscene(null); }} />
+          <video ref={videoVolume} src={src} poster={safe(clip.poster) ?? undefined} controls autoPlay playsInline onPlay={() => duck(true)} onPause={() => duck(false)} onEnded={() => { duck(false); playCutscene(null); }} />
           <figcaption>
             {clip.real === false ? "Animation: " : "Real footage: "}
             {clip.caption}{clip.audio && <span className="chapter-audio">🔊 {clip.audio}</span>} <span className="chapter-credit">{clip.credit} · {clip.license}{clip.source && <> · <a href={clip.source} target="_blank" rel="noopener noreferrer">source ↗</a></>}</span>
@@ -230,6 +295,7 @@ export function Interlude() {
               autoPlay
               playsInline
               preload="auto"
+              ref={videoVolume}
               onPlay={() => duck(true)}
               onPause={() => duck(false)}
               onEnded={() => duck(false)}

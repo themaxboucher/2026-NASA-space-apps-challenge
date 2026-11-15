@@ -6,7 +6,7 @@ import * as THREE from "three";
 import { useStore } from "../lib/store";
 import { endReplay, hud, live, setCaption, tour } from "../state";
 import type { Stop } from "../stops";
-import { loadMedia } from "../Story";
+import { loadMedia, mediaSound } from "../Story";
 import { prepareModel, type GltfSpec } from "./Machine";
 import { useModel } from "./useModel";
 
@@ -52,6 +52,11 @@ export function shell(root: THREE.Object3D) {
   for (const m of list) {
     const d = new THREE.Mesh(m.geometry, depthOnly);
     d.userData.depthCopy = true;
+    // Only block what's behind while this ghost is actually showing (a faded-out ghost leaves no silhouette).
+    const ghostMat = m.material as THREE.ShaderMaterial;
+    d.onBeforeRender = () => {
+      depthOnly.depthWrite = (ghostMat.uniforms?.uAlpha?.value ?? 1) > 0.02;
+    };
     d.renderOrder = 999; // after the real (opaque) scene, so it never hides what's behind the ghost
     m.add(d);
     m.renderOrder = 1000;
@@ -179,7 +184,7 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
     loadMedia().then((m) => {
       const r = (m as Record<string, { file?: string; cues?: Cue[] }>)["apollo11-replay"];
       if (cancelled || !r?.file || !/^media\/[\w.-]+$/.test(r.file)) return;
-      const a = new Audio("/" + r.file);
+      const a = mediaSound(new Audio("/" + r.file));
       audio.current = a;
       if (r.cues?.length) {
         const radio = r.cues.map((c) => ({ ...c, at: c.at + AUDIO_AT }));
@@ -317,6 +322,9 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
     scene.flag.rotation.set(0, FLAG_YAW, (1 - up) * -0.7 - (Math.PI / 2) * fall * fall);
 
     // Liftoff (36 s on): the top half climbs away, faster and faster.
+    // The top half only exists from touchdown on: before that its invisible depth copies (see shell()) would cut its
+    // outline out of the whole lander coming down through the same spot.
+    scene.ascent.visible = t > 0.05;
     const lift = Math.max(0, t - 38.5);
     scene.ascent.position.y = 0.5 * 2.2 * lift * lift;
     scene.flame.visible = lift > 0 && lift < 4;

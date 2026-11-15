@@ -3,7 +3,7 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { rng, skyDir } from "../lib/geo";
+import { noise2, rng, skyDir } from "../lib/geo";
 import { STOPS, type Stop } from "../stops";
 import { makeEnvironment } from "./environment";
 import { groundMaterial } from "./ground";
@@ -42,7 +42,7 @@ function OrbitalGlobe({ stop }: { stop: Stop }) {
   );
 }
 import { Planet, SunGlow } from "./Space";
-import { groundGeometry, onTerrainChange, rockGeometry, terrainFor, type Terrain } from "./terrain";
+import { craterSpec, groundGeometry, onTerrainChange, rockGeometry, terrainFor, type Terrain } from "./terrain";
 import { Walker } from "./Walker";
 
 const MOON_R = 1_737_400;
@@ -176,14 +176,83 @@ function EarthInSky({ dir, sun }: { dir: THREE.Vector3; sun: THREE.Vector3 }) {
   );
 }
 
-function Machine({ stop, onAnchors }: { stop: Stop; onAnchors: (a: Anchors) => void }) {
+function Machine({ stop, onAnchors, ground }: { stop: Stop; onAnchors: (a: Anchors) => void; ground: (x: number, z: number) => number }) {
   useLayoutEffect(() => {
-    if (stop.model.kind !== "lrv") return;
+    if (stop.model.kind === "gltf") return;
     // The rover's hotspot spots are fixed positions on the shapes it is built from.
     onAnchors(prepareAnchorsOnly(stop));
   }, [stop, onAnchors]);
   if (stop.model.kind === "lrv") return <Lrv />;
+  if (stop.model.kind === "none") return stop.setting.crater ? <Debris stop={stop} ground={ground} /> : null;
   return <GltfMachine stop={stop} onAnchors={onAnchors} />;
+}
+
+// A torn, crumpled scrap of sheet metal or foil, 1 m across before scaling, lying on y = 0 (nothing below it).
+function scrapGeometry(seed: number) {
+  const g = new THREE.PlaneGeometry(1, 0.55 + (seed % 3) * 0.2, 7, 5);
+  g.rotateX(-Math.PI / 2);
+  const p = g.attributes.position as THREE.BufferAttribute;
+  const fold = 0.6 + (seed % 5) * 0.3;
+  let min = Infinity;
+  for (let i = 0; i < p.count; i++) {
+    const x = p.getX(i), z = p.getZ(i);
+    // A fold across the sheet, a curl at one end, and crumples all over.
+    const y = Math.abs(x * Math.cos(fold) + z * Math.sin(fold)) * 0.22 + Math.max(0, x - 0.2) ** 2 * 0.5 + (noise2(x * 4 + seed, z * 4, seed) - 0.5) * 0.14;
+    // Ragged edges: pull the outer vertices in by different amounts.
+    const edge = Math.abs(x) > 0.49 || Math.abs(z) > 0.25 ? 0.75 + noise2(x * 7, z * 7 + seed, seed + 1) * 0.3 : 1;
+    p.setXYZ(i, x * edge, y, z * edge);
+    min = Math.min(min, y);
+  }
+  g.translate(0, -min, 0);
+  g.computeVertexNormals();
+  return g;
+}
+
+// An impact site's leftovers. At 1.6 to 2.6 km a second nothing survives whole: the machine shatters into small
+// twisted scraps of aluminium and foil (mostly hand-sized, a few bigger) thrown out with the soil, thickest on the
+// rim and blanket and thinning outward, partly along the rays. Each scrap lies flat on the ground's real slope.
+function Debris({ stop, ground }: { stop: Stop; ground: (x: number, z: number) => number }) {
+  const group = useMemo(() => {
+    const spec = craterSpec(stop)!;
+    const R = spec.diameterM / 2;
+    const rand = rng(Math.round(R * 13) + 5);
+    const n = Math.round(Math.min(220, Math.max(80, spec.diameterM * 5)));
+    const reach = Math.max(R * 5, 16);
+    const kinds = [0, 1, 2].map((k) => ({ geo: scrapGeometry(k * 7 + 3), items: [] as THREE.Matrix4[], tints: [] as THREE.Color[] }));
+    const up = new THREE.Vector3(0, 1, 0), nrm = new THREE.Vector3(), p = new THREE.Vector3(), k = new THREE.Vector3();
+    const tilt = new THREE.Quaternion(), spin = new THREE.Quaternion();
+    const metal = new THREE.Color("#a5a29c"), foil = new THREE.Color("#c99a3c"), black = new THREE.Color("#2e2c2a");
+    // A few directions that more of the pieces were thrown along.
+    const streaks = [rand(), rand(), rand(), rand()].map((v) => v * Math.PI * 2);
+    for (let i = 0; i < n; i++) {
+      const a = rand() < 0.45 ? streaks[i % 4] + (rand() - 0.5) * 0.25 : rand() * Math.PI * 2;
+      const d = R * 0.4 + Math.pow(rand(), 1.8) * reach;
+      p.set(Math.cos(a) * d, 0, Math.sin(a) * d);
+      const s = 0.05 + Math.pow(rand(), 5) * 0.6;
+      // Lie along the ground: its normal from the heights around the piece.
+      const e = Math.max(0.15, s * 0.5);
+      const [w, east, nth, sth, mid] = [ground(p.x - e, p.z), ground(p.x + e, p.z), ground(p.x, p.z - e), ground(p.x, p.z + e), ground(p.x, p.z)];
+      nrm.set(w - east, 2 * e, nth - sth).normalize();
+      // In a hollow (inside the bowl) the ground curves up past a flat piece's ends: lift it by that much.
+      p.y = mid + Math.max(0, (w + east + nth + sth) / 4 - mid) + 0.004;
+      tilt.setFromUnitVectors(up, nrm).multiply(spin.setFromAxisAngle(up, rand() * Math.PI * 2));
+      const set = kinds[i % 3];
+      set.items.push(new THREE.Matrix4().compose(p, tilt, k.set(s, s, s * (0.6 + rand() * 0.6))));
+      set.tints.push((rand() < 0.3 ? foil : rand() < 0.25 ? black : metal).clone().multiplyScalar(0.8 + rand() * 0.4));
+    }
+    const g = new THREE.Group();
+    const mat = new THREE.MeshStandardMaterial({ roughness: 0.4, metalness: 0.8, side: THREE.DoubleSide });
+    for (const set of kinds) {
+      const inst = new THREE.InstancedMesh(set.geo, mat, set.items.length);
+      set.items.forEach((m, i) => inst.setMatrixAt(i, m));
+      set.tints.forEach((c, i) => inst.setColorAt(i, c));
+      inst.castShadow = true;
+      inst.receiveShadow = true;
+      g.add(inst);
+    }
+    return g;
+  }, [stop, ground]);
+  return <primitive object={group} />;
 }
 
 function prepareAnchorsOnly(stop: Stop): Anchors {
@@ -211,6 +280,8 @@ export function SurfaceScene({ index }: { index: number }) {
   const [anchors, setAnchors] = useState<Anchors>({});
   const onAnchors = useCallback((a: Anchors) => setAnchors(a), []);
 
+  // TEMP-DEBUG
+  useEffect(() => { (window as unknown as Record<string, unknown>).__three = { gl, camera, scene }; }, [gl, camera, scene]);
   useLayoutEffect(() => {
     const cam = camera as THREE.PerspectiveCamera;
     cam.near = 0.03;
@@ -279,7 +350,7 @@ export function SurfaceScene({ index }: { index: number }) {
         colors={moon ? MOON_ROCK : MARS_ROCK}
       />
       <Suspense fallback={null}>
-        <Machine stop={stop} onAnchors={onAnchors} />
+        <Machine stop={stop} onAnchors={onAnchors} ground={terrain.height} />
         {(stop.extras ?? []).map((x, i) =>
           x.kind === "lm-descent" ? (
             <LanderDescent key={i} position={[x.pos[0], terrain.height(x.pos[0], x.pos[2]), x.pos[2]]} rotationY={x.rotationY} />

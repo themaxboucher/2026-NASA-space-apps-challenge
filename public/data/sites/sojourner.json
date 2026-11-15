@@ -1,0 +1,129 @@
+{
+  "id": "sojourner",
+  "setting": "surface",
+  "model": "sojourner",
+  "name": "Sojourner",
+  "intro": "Sojourner was the first wheeled robot to explore another planet. About the size of a microwave oven, it rolled from rock to rock near the Pathfinder lander in 1997. It is still out there, somewhere within about 12 meters of its lander.",
+  "status": "Silent since 1997",
+  "whyLeft": "Sojourner could only talk to Earth through the Pathfinder lander. When the lander went silent on 27 September 1997, the little rover had no way left to call home.",
+  "repurpose": "Today’s rovers talk to Earth through orbiters as well as by themselves. A new radio station landed nearby could listen for Sojourner, if its solar panel still makes power.",
+  "hotspots": [
+    {
+      "id": "radio",
+      "title": "The radio antenna",
+      "text": "This antenna only reached the lander, never Earth. Once the lander stopped talking, Sojourner was cut off, even if its own parts still worked.",
+      "broken": true,
+      "tag": "Why it went quiet",
+      "anchor": {
+        "part": "sojourner",
+        "at": [
+          0.17,
+          0.97,
+          0.24
+        ]
+      },
+      "source": {
+        "label": "NASA: Mars Pathfinder",
+        "url": "https://science.nasa.gov/mission/mars-pathfinder/"
+      }
+    },
+    {
+      "id": "solar-panel",
+      "title": "Solar panel",
+      "text": "Sojourner ran on the sunlight falling on this small panel, less than a quarter of a square meter. Its backup batteries could not be recharged.",
+      "anchor": {
+        "part": "socell",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Pathfinder",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-068A"
+      }
+    },
+    {
+      "id": "apxs",
+      "title": "The rock sniffer",
+      "text": "An instrument on the back, called the APXS, was pressed against rocks with nicknames like Barnacle Bill and Yogi to find out what they were made of.",
+      "anchor": {
+        "part": "sojourner",
+        "at": [
+          0.07,
+          0.3,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Mars Pathfinder",
+        "url": "https://science.nasa.gov/mission/mars-pathfinder/"
+      },
+      "photo": {
+        "file": "photos/sites/sojourner--apxs.jpg",
+        "w": 1200,
+        "h": 1179,
+        "alt": "A large pitted rock on sandy Martian ground.",
+        "caption": "Yogi, a rock about a meter wide, was the second rock Sojourner pressed its rock sniffer against.",
+        "credit": "NASA/JPL (sharpened by Timothy Parker, JPL)",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:NASA-MarsRock-Yogi-SuperRes.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://mars.jpl.nasa.gov/MPF/ops/Yogi_super_res.jpg."
+      }
+    },
+    {
+      "id": "wheels",
+      "title": "Six little wheels",
+      "text": "Sojourner crept along at about 1 centimeter a second. In nearly three months it drove about 100 meters in all, back and forth around the lander.",
+      "anchor": {
+        "part": "sojourner",
+        "at": [
+          0.9,
+          0.25,
+          1
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Pathfinder",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-068A"
+      }
+    },
+    {
+      "id": "cameras",
+      "title": "Front cameras",
+      "text": "Two small cameras at the front helped Sojourner spot rocks and avoid hazards. It was planned to work for a week; it kept going for almost three months.",
+      "anchor": {
+        "part": "glass",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Mars Pathfinder",
+        "url": "https://science.nasa.gov/mission/mars-pathfinder/"
+      }
+    }
+  ],
+  "funFact": "Sojourner is named after the civil-rights hero Sojourner Truth. The name won an essay contest entered by a 12-year-old student.",
+  "stats": [
+    {
+      "label": "Rolled onto Mars",
+      "value": "July 1997"
+    },
+    {
+      "label": "Mass",
+      "value": "10.6 kg"
+    },
+    {
+      "label": "Top speed",
+      "value": "About 1 cm per second"
+    },
+    {
+      "label": "Driven",
+      "value": "About 100 m"
+    }
+  ]
+}

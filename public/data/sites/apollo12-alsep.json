@@ -1,0 +1,151 @@
+{
+  "id": "apollo12-alsep",
+  "setting": "surface",
+  "model": "alsep",
+  "name": "Apollo 12 science station",
+  "intro": "This was the first nuclear-powered science station on the Moon. Pete Conrad and Alan Bean set it up in November 1969, and it sent data day and night for almost eight years, until NASA stopped running all the Apollo stations in 1977.",
+  "status": "Switched off in 1977",
+  "hotspots": [
+    {
+      "id": "central-station",
+      "title": "The central station",
+      "text": "This box was the station’s brain and radio. On 30 September 1977 NASA stopped collecting its data and switched its experiments off. Scout’s check: its seismometer was still working on the day it was turned off.",
+      "broken": true,
+      "tag": "Why it went quiet",
+      "anchor": {
+        "part": "gold",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      },
+      "photo": {
+        "file": "photos/sites/apollo12-alsep--central-station.jpg",
+        "w": 1200,
+        "h": 1161,
+        "alt": "Instruments stand on the grey ground: a box under a foil sunshade and a small foil-wrapped seismometer.",
+        "caption": "Part of the station after setup in November 1969, photographed by Alan Bean.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as12-47-6918",
+        "licenseEvidence": "NASA Image and Video Library item as12-47-6918 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "rtg",
+      "title": "The nuclear generator",
+      "text": "This finned can turned heat from radioactive plutonium into about 70 watts of electricity, roughly enough for one bright light bulb. Unlike sunlight, it worked right through the two-week lunar night.",
+      "anchor": {
+        "part": "grey",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 12 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo12-alsep--rtg.jpg",
+        "w": 1153,
+        "h": 1200,
+        "alt": "An astronaut stands beside the gold-foil-covered lunar module, using a long tool on a cylinder mounted on its side.",
+        "caption": "Alan Bean pulls the nuclear fuel out of its carrying case on the side of Intrepid.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as12-46-6790",
+        "licenseEvidence": "NASA Image and Video Library item as12-46-6790 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "seismometer",
+      "title": "The seismometer",
+      "text": "Buried under a foil blanket a few steps away, the seismometer felt Intrepid’s empty top half crash into the Moon. The Moon kept trembling for nearly an hour, which amazed scientists.",
+      "anchor": {
+        "pos": [
+          3.2,
+          0.25,
+          2.6
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA SP-235: Apollo 12 Preliminary Science Report",
+        "url": "https://ntrs.nasa.gov/citations/19700025955"
+      }
+    },
+    {
+      "id": "magnetometer",
+      "title": "The magnetometer",
+      "text": "This instrument with three long arms measured magnetism. It found a weak magnetic field locked into the rocks here, even though the Moon today has no magnetic field around it like Earth’s.",
+      "anchor": {
+        "pos": [
+          5.5,
+          0.6,
+          -2.5
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 12 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo12-alsep--magnetometer.jpg",
+        "w": 1189,
+        "h": 1200,
+        "alt": "An astronaut far away on the grey plain bends over an instrument, with the lunar module on the horizon.",
+        "caption": "Alan Bean sets up the magnetometer, with Intrepid in the distance.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as12-46-6813",
+        "licenseEvidence": "NASA Image and Video Library item as12-46-6813 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "dust-detector",
+      "title": "The dust detector",
+      "text": "This small solar cell on top of the sunshade measured how much Moon dust settled on the station over the years.",
+      "anchor": {
+        "part": "cell",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 12 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C"
+      }
+    }
+  ],
+  "funFact": "The nuclear fuel got stuck in its hot carrying case until Pete Conrad tapped the case with a hammer while Alan Bean pulled it out.",
+  "stats": [
+    {
+      "label": "Switched on",
+      "value": "19 November 1969"
+    },
+    {
+      "label": "Support ended",
+      "value": "30 September 1977"
+    },
+    {
+      "label": "Power",
+      "value": "About 70 watts (nuclear)"
+    },
+    {
+      "label": "Experiments",
+      "value": "6"
+    }
+  ],
+  "whyLeft": "It was built to stay and keep working long after the crew went home, and it did, until NASA ended support for all the Apollo stations in 1977, mainly to save money.",
+  "repurpose": "Its nuclear generator has faded with time, but powering it up for a short test would show how 1970s electronics survived 50 years of heat, cold and radiation."
+}

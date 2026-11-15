@@ -1,3 +1,6 @@
+import type { SitePhoto, SiteVideo } from "./siteData";
+import type { BodyKey } from "./state";
+
 // The guided tour: six machines, two per world, in travel order (outward from Earth).
 // Hotspot text is written in a narrator's voice for kids; every hotspot links the NASA page it came from.
 // Positions are in meters in the machine's own space: y is up, and a landed machine stands on y = 0.
@@ -23,6 +26,9 @@ export type Hotspot = {
   // Extra named parts to glow (when the anchor is a fixed position), and the card's label instead of "Broken part".
   glow?: string[];
   tag?: string;
+  // From a site file (public/data/sites/<id>.json): a real photo for the card and a clip to play.
+  photo?: SitePhoto;
+  video?: SiteVideo;
 };
 
 export type ModelSpec =
@@ -46,7 +52,9 @@ export type ModelSpec =
       // Optional names of parts that define the center (spacecraft have very long booms).
       centerOn?: string[];
     }
-  | { kind: "lrv" };
+  | { kind: "lrv" }
+  // No model: an impact site (a crater and scattered pieces) or a machine with no honest 3D model.
+  | { kind: "none" };
 
 export type Setting = {
   kind: "moon" | "mars" | "space";
@@ -55,7 +63,10 @@ export type Setting = {
   sun: { az: number; el: number };
   // Earth's position in the lunar sky (azimuth from north, elevation), from the site's latitude and longitude.
   earth?: { az: number; el: number };
-  backdrop?: "saturn" | "sun-far";
+  // What hangs in the sky behind a machine in space: the body it orbits (or hit), or just a far, small Sun.
+  backdrop?: BodyKey | "sun-far";
+  // Impact sites: the crater's radius in metres, with the machine's pieces scattered around it.
+  crater?: number;
   // How big the Sun's glow looks from here (it shrinks with distance). Defaults by backdrop.
   sunSize?: number;
   flatRadius?: number;
@@ -105,6 +116,9 @@ export type Stop = {
   extras?: { kind: "lm-descent" | "blade-piece" | "flag"; pos: Vec3; rotationY: number }[];
   // Boot prints and wheel tracks on the ground (x, z paths in metres around the machine).
   marks?: Mark[];
+  // The salvage scout's case: why this machine was left here, and whether it could be put back to use.
+  whyLeft?: string;
+  repurpose?: string;
 };
 
 const LIGHT_KM_PER_HOUR = 299_792.458 * 3600;
@@ -173,6 +187,8 @@ export const STOPS: Stop[] = [
       ],
       fun: "The computer that helped land Eagle had about 4 kilobytes of working memory. A single photo on a phone today takes up about a thousand times more.",
     },
+    whyLeft: "It was never meant to come home. The crew’s cabin blasted off from this bottom half, using it as a launch pad, and the rest stayed behind.",
+    repurpose: "It is protected history, so the best use is as a museum on the Moon. Studying it from a distance would show what 57 years of sunlight and cold do to metal.",
     hotspots: [
       {
         id: "first-step",
@@ -270,6 +286,8 @@ export const STOPS: Stop[] = [
       { kind: "boots", path: [[-0.6, 1.6], [-3, 3.4], [-6, 4.4], [-9, 3.6], [-6.5, 1.8], [-2.5, -1.6], [0.6, -1.8], [2.2, -0.6]] },
       { kind: "boots", path: [[-128, -15], [-126, -9], [-121, -12], [-124, -18]] },
     ],
+    whyLeft: "There was no room to take a car home: the lander’s top half could only lift the two astronauts and their rocks, so the plan was always to park it here.",
+    repurpose: "New batteries could make it drive again, but Apollo sites are protected. Photos of its woven wire wheels could help design tyres for new Moon rovers.",
     hotspots: [
       {
         id: "tv-camera",
@@ -277,7 +295,7 @@ export const STOPS: Stop[] = [
         text: "Engineers in Houston steered this camera by remote control. On 2 August 1971 it filmed Falcon’s top half blasting off, the first liftoff from the Moon ever shown on TV.",
         source: SRC.apollo15home,
         anchor: { pos: [-1.8, 1.3, -0.16] },
-        face: [-1, 0, 0],
+        face: null, // it sits on the rover's nose, so keep it findable from behind too
       },
       {
         id: "antenna",
@@ -353,6 +371,8 @@ export const STOPS: Stop[] = [
       plan: { label: "Mission length", planned: 90, actual: 5111, unit: "Mars days", note: "Planned for 90 Mars days. It kept going for 5,111." },
       fun: "You may have heard Opportunity’s last words were “My battery is low and it’s getting dark.” It never said that. A journalist turned its last data, very low power and a very dark sky, into words. The rover only ever sent numbers.",
     },
+    whyLeft: "A planet-wide dust storm in 2018 blocked the sunlight its solar panels needed. With no power through the freezing nights, it never woke up.",
+    repurpose: "A gust of wind or a robot with a brush might clean its panels, but its battery has probably died in the cold. Newer rovers use nuclear power so dust can’t stop them.",
     hotspots: [
       {
         id: "solar-panels",
@@ -428,6 +448,8 @@ export const STOPS: Stop[] = [
       fun: "The air on Mars is about 100 times thinner than on Earth, so Ingenuity’s blades had to spin about 2,400 times a minute just to lift it off the ground.",
     },
     extras: [{ kind: "blade-piece", pos: [-15, 0, 0.6], rotationY: 0.7 }],
+    whyLeft: "Its rotor blades snapped in a hard landing on its 72nd flight. It can still switch on, but it can never fly again.",
+    repurpose: "NASA turned it into a test station that stays on the ground and keeps recording data. Spare blades fitted by a robot arm could make a helicopter fly again, and its crash taught engineers how to build the next one.",
     hotspots: [
       {
         id: "blades",
@@ -507,6 +529,8 @@ export const STOPS: Stop[] = [
       fate: { category: "crash-planned", label: "Steered into Saturn on 15 September 2017, where it burned up in the clouds. Nothing of it is left: NASA chose this ending so it could never crash into a moon that might hold life." },
       fun: "Cassini flew right through the icy spray shooting out of the moon Enceladus and “tasted” it: it is salty water from an ocean hidden under the ice.",
     },
+    whyLeft: "It was running out of fuel. NASA steered it into Saturn on purpose, so it could never crash into a moon that might have life.",
+    repurpose: "Nothing is left to reuse: it burned up in Saturn’s clouds. What lives on is its data, which scientists are still studying.",
     hotspots: [
       {
         id: "dish",
@@ -576,6 +600,8 @@ export const STOPS: Stop[] = [
       fate: { category: "operational", label: "Still working, but its power fades a little every year. Engineers switch off one instrument at a time so it can keep calling home." },
       fun: "Voyager 1 calls home with a radio of about 23 watts, roughly as strong as a fridge light bulb. It takes dishes 70 meters wide on Earth to hear it.",
     },
+    whyLeft: "It was never left: it is still working, 25 billion km away. It just can’t come back, because nothing could catch it and bring it home.",
+    repurpose: "It is already being reused: built for Jupiter and Saturn, it now measures interstellar space. Engineers fix it by radio, with every message taking almost a day.",
     hotspots: [
       {
         id: "dish",
@@ -624,6 +650,10 @@ export const STOPS: Stop[] = [
   },
 ];
 
+// The six story stops come first. Any other machine opened at runtime (sites.ts) is appended after them, so
+// everything that means "the story" (trail, Next, the end screen) counts only these.
+export const STORY_COUNT = STOPS.length;
+
 export const STOP_INDEX: Record<string, number> = Object.fromEntries(STOPS.map((s, i) => [s.id, i]));
 
 export const CHAPTERS = ["Moon", "Mars", "Deep space"] as const;
@@ -636,5 +666,8 @@ export const CREDITS = [
   "The Apollo 15 rover was built for this site from NASA NSSDCA measurements. Saturn and its rings are drawn in code from their real sizes.",
   "Facts: NASA, NASA JPL and the NSSDCA catalog. Every hotspot links the page it came from.",
   "Film, photos and radio: NASA, NASA JPL and the Apollo Lunar Surface Journal (NASA). Public domain. Each clip and photo names its source.",
+  "Uranus, Neptune, Pluto, Jupiter, Venus, Mercury and the heliopause are drawn in code from their real colours and features (NASA Voyager, New Horizons and Juno images as reference).",
+  "Space debris around Earth: the swarm is illustrative, its shells follow real orbits (low Earth orbit, GPS, geostationary). Its numbers: ESA Space Debris Office, “Space debris by the numbers” (see the Earth’s orbit card on the start screen).",
+  "Other sites: hotspots, photos and clips from public/data/sites, each with its own source and licence; salvage grades from the atlas salvage file.",
   "Music: Satie, Gymnopédie No. 1 (Robin Alciatore, Musopen, public domain) · Debussy, Clair de lune (Laurens Goedhart, CC BY 3.0) · Grieg, Morning Mood (Musopen Symphony, public domain) · Dvořák, Symphony No. 9, Largo (Musopen, public domain).",
 ];

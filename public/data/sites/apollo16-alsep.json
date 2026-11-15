@@ -1,0 +1,142 @@
+{
+  "id": "apollo16-alsep",
+  "setting": "surface",
+  "model": "alsep",
+  "name": "Apollo 16 science station",
+  "intro": "John Young and Charlie Duke set up this nuclear-powered science station near Orion in April 1972. One instrument was ruined on day one when a cable was torn loose, but the seismometer kept listening for moonquakes until NASA ended support for the stations in 1977.",
+  "status": "Switched off in 1977",
+  "hotspots": [
+    {
+      "id": "heat-flow-cable",
+      "title": "The torn cable",
+      "text": "While working, John Young caught his foot on the heat-flow experiment’s cable and tore it out of the central station. That instrument never sent back any data.",
+      "broken": true,
+      "tag": "What broke",
+      "anchor": {
+        "part": "cable",
+        "at": [
+          0.5,
+          0,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 16 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-031C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo16-alsep--heat-flow-cable.jpg",
+        "w": 988,
+        "h": 1000,
+        "alt": "A foil-wrapped box on the grey ground with a loose ribbon cable coiled near its base.",
+        "caption": "The torn heat-flow cable lying coiled at the back of the central station.",
+        "credit": "NASA (Apollo photo AS16-113-18348)",
+        "license": "Public domain",
+        "source": "https://apollojournals.org/alsj/a16/images16.html",
+        "licenseEvidence": "Apollo Lunar Surface Journal image library: NASA Hasselblad frame AS16-113-18348, NASA film scan (not a third-party restoration). NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "central-station",
+      "title": "The central station",
+      "text": "The station’s brain and radio. In September 1977 NASA stopped collecting its data and switched the experiments off. Scout’s check: its seismometer was still working at the end.",
+      "broken": true,
+      "tag": "Why it went quiet",
+      "anchor": {
+        "part": "gold",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      },
+      "photo": {
+        "file": "photos/sites/apollo16-alsep--central-station.jpg",
+        "w": 1199,
+        "h": 1200,
+        "alt": "A seismometer under a silver blanket in front of a foil-covered box and a finned generator.",
+        "caption": "The seismometer in front, with the central station and the finned generator behind.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as16-113-18347",
+        "licenseEvidence": "NASA Image and Video Library item as16-113-18347 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "seismometer",
+      "title": "The seismometer",
+      "text": "Under a silver blanket, the seismometer made the Apollo network four stations strong. Together they recorded thousands of moonquakes and meteorite hits.",
+      "anchor": {
+        "pos": [
+          3.2,
+          0.25,
+          2.6
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      }
+    },
+    {
+      "id": "mortar",
+      "title": "Grenade launcher",
+      "text": "This mortar box fired grenades by radio after the crew left. Grenades 2, 4 and 3 flew, then a tilt sensor failed and grenade 1 was never launched.",
+      "anchor": {
+        "pos": [
+          4,
+          0.2,
+          -4
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      }
+    },
+    {
+      "id": "rtg",
+      "title": "The nuclear generator",
+      "text": "This black-finned can turned heat from plutonium into electricity, so the station worked day and night.",
+      "anchor": {
+        "part": "grey",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      }
+    }
+  ],
+  "funFact": "Three of its four rocket-fired grenades were launched by radio after the crew left, to make small moonquakes; the fourth never fired.",
+  "stats": [
+    {
+      "label": "Set up",
+      "value": "21 April 1972"
+    },
+    {
+      "label": "Support ended",
+      "value": "30 September 1977"
+    },
+    {
+      "label": "Grenades fired",
+      "value": "3 of 4"
+    },
+    {
+      "label": "Heat flow data",
+      "value": "None (cable torn)"
+    }
+  ],
+  "whyLeft": "It was meant to stay and work for years, and most of it did, until NASA stopped supporting the Apollo stations in 1977.",
+  "repurpose": "The torn heat-flow cable could in theory be spliced, but after 50 years in the dust the safest use is as a test of how long Moon equipment survives."
+}

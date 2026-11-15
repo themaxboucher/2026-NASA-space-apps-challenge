@@ -1,0 +1,142 @@
+{
+  "id": "spirit",
+  "setting": "surface",
+  "model": "mer",
+  "name": "Spirit",
+  "intro": "Spirit was built to explore Gusev crater for 90 Mars days. It kept going for more than six years and found signs of ancient hot springs. Today it sits stuck in soft sand at a spot called Troy.",
+  "status": "Silent since 2010",
+  "whyLeft": "In 2009 its wheels broke through a crust into soft sand at Troy. Stuck at a bad angle, it could not tilt its solar panels toward the winter Sun, and its last signal came on 22 March 2010.",
+  "repurpose": "A helper robot with a shovel could dig out its wheels. Even stuck, Spirit was useful: NASA turned it into a science station, and its wobbles helped measure the inside of Mars.",
+  "hotspots": [
+    {
+      "id": "dead-wheel",
+      "title": "The dead wheel",
+      "text": "In 2006 the motor in Spirit’s right-front wheel stopped working, so Spirit drove backwards, dragging it. The stuck wheel scraped up bright soil that turned out to be almost pure silica, a sign of ancient hot springs.",
+      "broken": true,
+      "tag": "Broke first",
+      "anchor": {
+        "part": "tex_suspension_n",
+        "at": [
+          0,
+          0.3,
+          0.92
+        ]
+      },
+      "source": {
+        "label": "NASA: Spirit and Opportunity",
+        "url": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/"
+      },
+      "photo": {
+        "file": "photos/sites/spirit--dead-wheel.jpg",
+        "w": 512,
+        "h": 512,
+        "alt": "A bright white stripe of churned-up soil in reddish ground.",
+        "caption": "The bright stripe of nearly pure silica that Spirit’s dragging wheel churned up.",
+        "credit": "NASA/JPL-Caltech/Cornell",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Spirit_Mars_Silica_April_20_2007.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source:."
+      }
+    },
+    {
+      "id": "troy",
+      "title": "Stuck at Troy",
+      "text": "In May 2009 Spirit’s wheels broke through a thin crust into soft sand. Engineers tested escape moves with a twin rover in a sandbox on Earth for months, but Spirit could not get out.",
+      "broken": true,
+      "tag": "Why it stopped",
+      "anchor": {
+        "part": "tex_suspension_n",
+        "at": [
+          0.5,
+          0,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: NASA ends attempts to contact Spirit",
+        "url": "https://www.jpl.nasa.gov/news/nasa-concludes-attempts-to-contact-mars-rover-spirit/"
+      },
+      "photo": {
+        "file": "photos/sites/spirit--troy.jpg",
+        "w": 1200,
+        "h": 479,
+        "alt": "Wide view of pale sandy ground and low hills from where Spirit got stuck.",
+        "caption": "Spirit’s view from Troy in 2009, soon after its wheels sank into the soft sand.",
+        "credit": "NASA/JPL-Caltech/Cornell",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Free_Spirit.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: [1], file."
+      }
+    },
+    {
+      "id": "solar-panels",
+      "title": "Solar panels",
+      "text": "Stuck at a bad angle, Spirit could not tilt these panels toward the low winter Sun. Its last signal reached Earth on 22 March 2010.",
+      "anchor": {
+        "part": "tex_panels_n",
+        "at": [
+          0.82,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: NASA ends attempts to contact Spirit",
+        "url": "https://www.jpl.nasa.gov/news/nasa-concludes-attempts-to-contact-mars-rover-spirit/"
+      }
+    },
+    {
+      "id": "mast",
+      "title": "The camera mast",
+      "text": "Spirit’s cameras looked out from this mast. Early on, a memory problem made it reboot over and over; engineers fixed it by radio, from more than 150 million kilometers away.",
+      "anchor": {
+        "part": "tex_mast",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Spirit",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-027A"
+      }
+    },
+    {
+      "id": "arm",
+      "title": "The rock grinder",
+      "text": "The tool on the end of this arm ground into rocks to see inside them. Spirit found rocks and soils that had been changed by water long ago.",
+      "anchor": {
+        "part": "tex_arm",
+        "at": [
+          0.5,
+          0.5,
+          1
+        ]
+      },
+      "source": {
+        "label": "NASA: Spirit and Opportunity",
+        "url": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/"
+      }
+    }
+  ],
+  "funFact": "Spirit made one of its biggest discoveries by accident: its broken wheel, dragging behind it, dug up the white silica soil.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "4 January 2004"
+    },
+    {
+      "label": "Last heard",
+      "value": "22 March 2010"
+    },
+    {
+      "label": "Driven",
+      "value": "7.73 km"
+    },
+    {
+      "label": "Planned",
+      "value": "90 Mars days"
+    }
+  ]
+}

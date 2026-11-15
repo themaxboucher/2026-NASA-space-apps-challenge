@@ -1,0 +1,150 @@
+{
+  "id": "lunar-prospector",
+  "setting": "impact",
+  "model": null,
+  "name": "Lunar Prospector",
+  "intro": "Lunar Prospector orbited the Moon for a year and a half, mapping what its surface is made of and finding hints of ice at the poles. At the end it was crashed into a permanently shadowed crater near the south pole, now called Shoemaker. Its crater lies hidden in permanent darkness.",
+  "status": "Crashed on purpose, 31 July 1999",
+  "whyLeft": "Its fuel was almost gone, so NASA used the last of it for one final experiment: crash into a dark crater and see if water vapour splashed up.",
+  "repurpose": "The ice it hinted at is the prize: NASA’s plans for the south pole include turning ice like this into water, air and rocket fuel.",
+  "funFact": "Lunar Prospector carried part of the ashes of Eugene Shoemaker, a planetary scientist who helped train Apollo astronauts in geology. The crater it hit is named after him.",
+  "stats": [
+    {
+      "label": "Impact",
+      "value": "31 July 1999"
+    },
+    {
+      "label": "Impact speed",
+      "value": "1.69 km/s"
+    },
+    {
+      "label": "Time in lunar orbit",
+      "value": "About 19 months"
+    },
+    {
+      "label": "Mass at launch",
+      "value": "About 300 kg"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "crash-site",
+      "title": "Hidden crash site",
+      "text": "Lunar Prospector hit the floor of Shoemaker crater, which never sees sunlight. Its crater is lost in the darkness, so the spot is shown only on maps.",
+      "anchor": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA Science: Lunar Prospector",
+        "url": "https://science.nasa.gov/mission/lunar-prospector/"
+      },
+      "photo": {
+        "file": "photos/sites/lunar-prospector--crash-site.jpg",
+        "w": 640,
+        "h": 480,
+        "alt": "A map-like view of the Moon’s cratered south pole with a black circle near the centre",
+        "caption": "The Moon’s south pole in a 1999 NASA visualization; the circle marks the area where Lunar Prospector crashed.",
+        "credit": "NASA Goddard Space Flight Center Scientific Visualization Studio",
+        "license": "Public domain",
+        "source": "https://svs.gsfc.nasa.gov/677",
+        "licenseEvidence": "NASA SVS help page: “All of our content is in the public domain (unless otherwise noted)”"
+      }
+    },
+    {
+      "id": "no-plume",
+      "title": "No splash seen",
+      "text": "Telescopes on Earth and in space watched the crash, hoping to see water vapour. They saw no sign of it. A good experiment can still give a “no” answer.",
+      "broken": true,
+      "tag": "Last experiment",
+      "anchor": {
+        "pos": [
+          0,
+          12,
+          0
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Lunar Prospector",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-001A"
+      }
+    },
+    {
+      "id": "hydrogen",
+      "title": "Hints of ice",
+      "text": "Lunar Prospector’s neutron detector found extra hydrogen near both poles, a strong hint that water ice is hiding in dark craters like this one.",
+      "anchor": {
+        "pos": [
+          -12,
+          0.2,
+          8
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA SVS: Lunar Prospector hydrogen at the south pole",
+        "url": "https://svs.gsfc.nasa.gov/3480"
+      },
+      "photo": {
+        "file": "photos/sites/lunar-prospector--hydrogen.jpg",
+        "w": 960,
+        "h": 480,
+        "alt": "A colour map of the Moon showing hydrogen, with blue near the poles",
+        "caption": "Lunar Prospector’s hydrogen map: blue shows more hydrogen, red shows less.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Lunar_Prospector_Hydrogen_abundance_map.jpg",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); from NASA Ames Lunar Prospector data pages"
+      }
+    },
+    {
+      "id": "spacecraft",
+      "title": "Small but busy",
+      "text": "Lunar Prospector was a small drum with three long arms holding its instruments away from the body. It had no camera at all, just detectors that ‘smelled’ the Moon’s surface.",
+      "anchor": {
+        "pos": [
+          8,
+          0.1,
+          -9
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Lunar Prospector",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-001A"
+      },
+      "photo": {
+        "file": "photos/sites/lunar-prospector--spacecraft.jpg",
+        "w": 800,
+        "h": 1200,
+        "alt": "Lunar Prospector, a small drum-shaped spacecraft, on top of its rocket motor in a clean room",
+        "caption": "Lunar Prospector on Earth before launch, sitting on the rocket motor that pushed it to the Moon.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Lunar_Prospector_in_Clean_Room_-_GPN-2000-001543.jpg",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); NASA Great Images GPN-2000-001543"
+      }
+    },
+    {
+      "id": "shoemaker",
+      "title": "A scientist’s resting place",
+      "text": "Lunar Prospector carried part of the ashes of Eugene Shoemaker, a geologist who helped train Apollo astronauts. The crater it hit now carries his name.",
+      "anchor": {
+        "pos": [
+          14,
+          0.3,
+          4
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA Science: Lunar Prospector",
+        "url": "https://science.nasa.gov/mission/lunar-prospector/"
+      }
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "id": "ladee",
+  "setting": "impact",
+  "model": null,
+  "name": "LADEE",
+  "intro": "LADEE was a robot explorer that orbited very low over the Moon to sniff its extremely thin air and look for floating dust. Flying that low used up fuel fast, so its mission was always planned to end with a crash. It hit the far side in April 2014.",
+  "status": "Crashed on purpose, 18 April 2014",
+  "whyLeft": "It needed engine burns to stay up in its low orbit, and when the fuel ran out the Moon’s gravity pulled it down, just as planned.",
+  "repurpose": "Its bright splash of debris is a fresh marker; watching it fade over the years shows how fast the Moon’s surface changes.",
+  "funFact": "LADEE tested sending data from the Moon by laser at 622 megabits per second, faster than many home internet connections at the time.",
+  "stats": [
+    {
+      "label": "Impact",
+      "value": "18 April 2014"
+    },
+    {
+      "label": "Impact speed",
+      "value": "About 1.7 km/s"
+    },
+    {
+      "label": "Crater size",
+      "value": "Less than 3 m"
+    },
+    {
+      "label": "Mass at launch",
+      "value": "383 kg"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "Tiny crater",
+      "text": "LADEE hit the eastern rim of a crater called Sundman V at about 1,700 m per second. Its new crater is less than 3 m across, so small LRO’s camera could barely see it.",
+      "anchor": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: LRO captures LADEE’s impact crater",
+        "url": "https://www.nasa.gov/content/goddard/nasa-s-lro-spacecraft-captures-images-of-ladee-s-impact-crater"
+      },
+      "photo": {
+        "file": "photos/sites/ladee--crater.jpg",
+        "w": 960,
+        "h": 540,
+        "alt": "An orbital view of a crater rim with a faint bright splash",
+        "caption": "The LADEE impact site, photographed by NASA’s Lunar Reconnaissance Orbiter after the crash.",
+        "credit": "NASA/GSFC/Arizona State University",
+        "license": "Educational use with credit",
+        "source": "https://commons.wikimedia.org/wiki/File:LADEE-AfterImpact-LRO-20141028.jpg",
+        "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
+      }
+    },
+    {
+      "id": "splash",
+      "title": "Debris splash",
+      "text": "LADEE came in at a low angle heading west, so most of its debris sprayed forward in a triangle 200 to 300 m long. Scientists found it by comparing before and after pictures.",
+      "anchor": {
+        "pos": [
+          -22,
+          0.1,
+          -4
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: LRO captures LADEE’s impact crater",
+        "url": "https://www.nasa.gov/content/goddard/nasa-s-lro-spacecraft-captures-images-of-ladee-s-impact-crater"
+      },
+      "photo": {
+        "file": "photos/sites/ladee--splash.jpg",
+        "w": 960,
+        "h": 960,
+        "alt": "A black-and-white difference image with a bright V-shaped splash",
+        "caption": "This picture shows only what changed: the bright V is LADEE’s splash of debris.",
+        "credit": "NASA/GSFC/Arizona State University",
+        "license": "Educational use with credit",
+        "source": "https://commons.wikimedia.org/wiki/File:LADEE-Impact-Ratio-LRO-20141028.png",
+        "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
+      }
+    },
+    {
+      "id": "low-orbit",
+      "title": "Skimming the Moon",
+      "text": "LADEE flew about 50 km up, and sometimes much lower, to measure gases and dust right where they are thickest. That low path is what made a crash unavoidable.",
+      "broken": true,
+      "tag": "Why it stopped",
+      "anchor": {
+        "pos": [
+          0,
+          16,
+          10
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: LADEE",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2013-047A"
+      }
+    },
+    {
+      "id": "laser",
+      "title": "Laser messages",
+      "text": "LADEE tested a laser communication system that beamed data back to Earth much faster than radio. Future Moon bases could use lasers like this to send home high-definition video.",
+      "anchor": {
+        "pos": [
+          10,
+          10,
+          -10
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: LADEE",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2013-047A"
+      }
+    }
+  ]
+}

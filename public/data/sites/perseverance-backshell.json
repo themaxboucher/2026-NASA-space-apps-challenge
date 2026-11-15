@@ -1,0 +1,112 @@
+{
+  "id": "perseverance-backshell",
+  "setting": "surface",
+  "model": "backshell",
+  "name": "Perseverance’s backshell",
+  "intro": "This cone-shaped backshell and its 21.5-meter parachute protected and slowed Perseverance on its way down to Mars. They were thrown away during the landing on 18 February 2021, as planned. Ingenuity flew over to photograph them in 2022.",
+  "status": "Thrown away during landing (2021)",
+  "whyLeft": "It was designed to be dropped. About 2 kilometers above the ground, the rover let go of it so its sky crane could finish the landing, and the backshell and parachute fell to the ground.",
+  "repurpose": "It has already helped twice: Ingenuity’s photos showed engineers how it held up. Future Mars bases could reuse its tough parachute fabric and metal as shelter or raw material.",
+  "hotspots": [
+    {
+      "id": "shell",
+      "title": "The backshell",
+      "text": "This cone shielded Perseverance on its fiery way through the atmosphere. It hit the ground at about 126 km/h and sits about a kilometer from where the rover landed.",
+      "anchor": {
+        "part": "shell",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Rover’s backshell seen from the air",
+        "url": "https://science.nasa.gov/resource/rovers-backshell-seen-from-the-air"
+      }
+    },
+    {
+      "id": "parachute",
+      "title": "The secret-code parachute",
+      "text": "The parachute’s orange-and-white pattern hides a code. It spells “Dare Mighty Things” and gives the map coordinates of NASA’s Jet Propulsion Laboratory.",
+      "anchor": {
+        "part": "orange",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Rover’s backshell seen from the air",
+        "url": "https://science.nasa.gov/resource/rovers-backshell-seen-from-the-air"
+      },
+      "photo": {
+        "file": "photos/sites/perseverance-backshell--parachute.jpg",
+        "w": 1200,
+        "h": 960,
+        "alt": "An orange-and-white striped parachute seen from below against a pale sky.",
+        "caption": "The parachute opening above Perseverance on 18 February 2021, seen by an upward-looking camera. Its stripes hide the code.",
+        "credit": "NASA/JPL-Caltech",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Mars_Perseverance_Rover_Parachute_Deployed.png",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://mars.nasa.gov/mars2020/multimedia/raw-images/."
+      }
+    },
+    {
+      "id": "lines",
+      "title": "Suspension lines",
+      "text": "These lines tied the parachute to the backshell. Ingenuity’s photos showed the parachute still attached and stretched out behind it.",
+      "anchor": {
+        "part": "line",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Rover’s backshell seen from the air",
+        "url": "https://science.nasa.gov/resource/rovers-backshell-seen-from-the-air"
+      }
+    },
+    {
+      "id": "damage",
+      "title": "Crash damage",
+      "text": "From the air, Ingenuity saw that the backshell’s protective coating survived its fiery entry, but the hard landing broke pieces off and scattered them around.",
+      "broken": true,
+      "tag": "Hit hard, as planned",
+      "anchor": {
+        "part": "shell",
+        "at": [
+          0.15,
+          0.4,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Rover’s backshell seen from the air",
+        "url": "https://science.nasa.gov/resource/rovers-backshell-seen-from-the-air"
+      }
+    }
+  ],
+  "funFact": "Ingenuity photographed this wreckage from about 8 meters up on 19 April 2022, the first aerial photos of discarded landing gear on another planet.",
+  "stats": [
+    {
+      "label": "Dropped",
+      "value": "18 February 2021"
+    },
+    {
+      "label": "Parachute width",
+      "value": "21.5 m"
+    },
+    {
+      "label": "Hit the ground at",
+      "value": "About 126 km/h"
+    },
+    {
+      "label": "Photographed by Ingenuity",
+      "value": "19 April 2022"
+    }
+  ]
+}

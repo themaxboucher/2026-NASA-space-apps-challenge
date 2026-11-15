@@ -1,0 +1,177 @@
+{
+  "id": "surveyor3",
+  "setting": "surface",
+  "model": "surveyor",
+  "name": "Surveyor 3",
+  "intro": "Surveyor 3 was a robot lander sent to test the Moon’s ground before astronauts arrived. It bounced three times, settled on a slope inside a small crater, and dug the first trenches in lunar soil. Two and a half years later, two astronauts walked over and took parts of it home.",
+  "status": "Silent since 1967, visited in 1969",
+  "whyLeft": "It was a one-way robot with no way to leave, and it never woke up after its first freezing two-week lunar night.",
+  "repurpose": "It is a time capsule: comparing its metal, glass and paint with the parts Apollo 12 brought home would show what 57 more years on the Moon did.",
+  "funFact": "Surveyor 3’s TV camera came home with Apollo 12 and is now on display at the Smithsonian’s National Air and Space Museum in Washington, D.C.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "20 April 1967"
+    },
+    {
+      "label": "Pictures sent",
+      "value": "6,326"
+    },
+    {
+      "label": "Deepest trench",
+      "value": "18 cm"
+    },
+    {
+      "label": "Parts taken home",
+      "value": "About 10 kg"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "camera",
+      "title": "Missing TV camera",
+      "text": "Scout, look closely: the TV camera that used to sit here is gone. On 20 November 1969, Apollo 12 astronauts Pete Conrad and Alan Bean cut it off and carried it home so engineers could study how 31 months on the Moon had changed it.",
+      "anchor": {
+        "pos": [
+          0,
+          1.45,
+          0.8
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 3",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A"
+      },
+      "photo": {
+        "file": "photos/sites/surveyor3--camera.jpg",
+        "w": 1200,
+        "h": 804,
+        "alt": "A scientist looks through a microscope at Surveyor 3’s TV camera inside a clean cabinet",
+        "caption": "Back on Earth: a scientist inspects the real Surveyor 3 TV camera after Apollo 12 brought it home.",
+        "credit": "NASA/JPL-Caltech",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Surveyor_3_Camera_Returned_from_the_Moon_Camera-600.jpg",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); JPL “Slice of History” photo P-10709B"
+      }
+    },
+    {
+      "id": "scoop",
+      "title": "Robot scoop",
+      "text": "This claw-like scoop dug the first trenches ever made on the Moon, up to 18 cm deep. It showed the soil was firm enough to hold up a landing spacecraft and an astronaut’s boots. Apollo 12 took the scoop home too.",
+      "anchor": {
+        "pos": [
+          -0.5,
+          0.12,
+          1.9
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 3",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A"
+      },
+      "photo": {
+        "file": "photos/sites/surveyor3--footpad.jpg",
+        "w": 786,
+        "h": 786,
+        "alt": "Close-up of a Surveyor 3 footpad and its surface sampler scoop, photographed on the Moon",
+        "caption": "A footpad and the scoop of Surveyor 3, photographed by the Apollo 12 astronauts in 1969.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as12-48-7110",
+        "licenseEvidence": "NASA Image and Video Library, Apollo 12 photo AS12-48-7110 (NASA, public domain under NASA media guidelines)"
+      }
+    },
+    {
+      "id": "bounce",
+      "title": "Bounce marks",
+      "text": "When Surveyor 3 landed, its radar was dazzled by the bright ground and its engines kept firing. It touched down, bounced about 20 m, touched again, hopped 11 m more and finally settled. Engineers on Earth had to send a command to shut the engines off.",
+      "anchor": {
+        "pos": [
+          0,
+          0.1,
+          -1.88
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 3",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A"
+      }
+    },
+    {
+      "id": "solar-panel",
+      "title": "Solar panel",
+      "text": "Surveyor 3 ran on sunlight and batteries. After working all through its first two-week lunar day, it went silent after sunset on 3 May 1967 and never woke up from the long, freezing night. The panel is still here, but the battery behind it is long dead.",
+      "broken": true,
+      "tag": "Why it stopped",
+      "anchor": {
+        "part": "cell",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 3",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A"
+      }
+    },
+    {
+      "id": "visitors",
+      "title": "Visitors from Earth",
+      "text": "Apollo 12’s lander Intrepid touched down only about 180 m away. Conrad and Bean walked down into this crater, photographed Surveyor 3 from every side and checked it like detectives before taking about 10 kg of parts.",
+      "anchor": {
+        "pos": [
+          -2.6,
+          0.1,
+          -2.2
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 3",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A"
+      },
+      "photo": {
+        "file": "photos/sites/surveyor3--visitors.jpg",
+        "w": 1200,
+        "h": 1200,
+        "alt": "An astronaut in a spacesuit stands beside Surveyor 3, with the Apollo 12 lunar module in the distance",
+        "caption": "An Apollo 12 astronaut checks Surveyor 3 in November 1969, with the lander Intrepid on the horizon.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/AS12-48-7133",
+        "licenseEvidence": "NASA Image and Video Library, Apollo 12 photo AS12-48-7133 (NASA, public domain under NASA media guidelines)"
+      }
+    },
+    {
+      "id": "from-orbit",
+      "title": "Seen from orbit",
+      "text": "NASA’s Lunar Reconnaissance Orbiter can still spot Surveyor 3 from about 50 km up, along with the astronauts’ footpaths leading to it. Anyone planning a new visit could use these pictures as a map.",
+      "anchor": {
+        "pos": [
+          0,
+          4.2,
+          0
+        ]
+      },
+      "source": {
+        "label": "NASA SVS: The Apollo 12 landing site",
+        "url": "https://svs.gsfc.nasa.gov/4767"
+      },
+      "photo": {
+        "file": "photos/sites/surveyor3--from-orbit.jpg",
+        "w": 1024,
+        "h": 576,
+        "alt": "A 3-D view of the Apollo 12 landing site made from Lunar Reconnaissance Orbiter data, with Surveyor 3 marked",
+        "caption": "The Apollo 12 landing site in 3-D, made from Lunar Reconnaissance Orbiter pictures; Surveyor 3 sits in its crater.",
+        "credit": "NASA’s Scientific Visualization Studio; LRO data NASA/GSFC/Arizona State University",
+        "license": "Educational use with credit",
+        "source": "https://svs.gsfc.nasa.gov/4767",
+        "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
+      }
+    }
+  ]
+}

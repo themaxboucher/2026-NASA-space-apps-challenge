@@ -1,0 +1,157 @@
+{
+  "id": "galileo",
+  "setting": "space",
+  "model": "galileo",
+  "name": "Galileo",
+  "intro": "Galileo was the first spacecraft to orbit Jupiter. It found a hidden salty ocean under Europa’s ice, then was steered into Jupiter on 21 September 2003 and burned up. Nothing is left, so this model is a memorial in space above Jupiter’s clouds.",
+  "status": "Plunged into Jupiter in 2003",
+  "whyLeft": "Its fuel was nearly gone. NASA steered it into Jupiter on purpose so it could never crash into Europa and carry Earth germs to a moon that might hold life.",
+  "repurpose": "Nothing is left to salvage. But its greatest repair still inspires engineers: when its big antenna jammed, they rewrote its software from Earth and saved most of the science.",
+  "hotspots": [
+    {
+      "id": "antenna",
+      "title": "The jammed umbrella",
+      "text": "This 4.8-meter antenna was meant to open like an umbrella, but in 1991 a few of its ribs stuck and it never opened. Engineers sent new software so a tiny backup antenna could squeeze the pictures home.",
+      "broken": true,
+      "tag": "What jammed",
+      "anchor": {
+        "part": "ribs:gold_mesh",
+        "at": [
+          0.5,
+          0.5,
+          1
+        ]
+      },
+      "source": {
+        "label": "NASA: Galileo",
+        "url": "https://science.nasa.gov/mission/galileo/"
+      }
+    },
+    {
+      "id": "probe",
+      "title": "Where the probe rode",
+      "text": "Galileo carried a probe here for nearly six years. It let go in July 1995, and the probe dove into Jupiter’s air five months later.",
+      "anchor": {
+        "part": "Group",
+        "at": [
+          0.5,
+          0.18,
+          0.05
+        ]
+      },
+      "source": {
+        "label": "NASA: Galileo (orbiter and probe)",
+        "url": "https://science.nasa.gov/mission/galileo/"
+      }
+    },
+    {
+      "id": "camera",
+      "title": "The camera",
+      "text": "On the way to Jupiter, Galileo’s camera found the first moon of an asteroid: tiny Dactyl, circling the asteroid Ida.",
+      "anchor": {
+        "part": "Group",
+        "at": [
+          0.62,
+          0.2,
+          0.1
+        ]
+      },
+      "source": {
+        "label": "NASA: Galileo",
+        "url": "https://science.nasa.gov/mission/galileo/"
+      },
+      "photo": {
+        "file": "photos/sites/galileo--ida.jpg",
+        "w": 1200,
+        "h": 844,
+        "alt": "A long cratered asteroid with a tiny round moon to its right.",
+        "caption": "Asteroid Ida and its tiny moon Dactyl (the dot at right), discovered in Galileo’s pictures in 1993.",
+        "credit": "NASA/JPL",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Ida_and_Dactyl_by_Galileo_(P-44131).jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://nssdc.gsfc.nasa.gov/imgcat/html/object_page/gal_p44131.html (image link)."
+      }
+    },
+    {
+      "id": "boom",
+      "title": "The magnetometer boom",
+      "text": "Sensors on this long boom measured magnetic fields and found that Ganymede, Jupiter’s biggest moon, makes its own, the only moon known to do so.",
+      "anchor": {
+        "part": "Group",
+        "at": [
+          0.5,
+          0.9,
+          0.56
+        ]
+      },
+      "source": {
+        "label": "NASA: Galileo",
+        "url": "https://science.nasa.gov/mission/galileo/"
+      }
+    },
+    {
+      "id": "power",
+      "title": "Nuclear power",
+      "text": "Two nuclear generators on long arms powered Galileo, so it could work far from the Sun for 14 years.",
+      "anchor": {
+        "part": "Group",
+        "at": [
+          0.91,
+          0.05,
+          0.38
+        ]
+      },
+      "source": {
+        "label": "NASA: Galileo",
+        "url": "https://science.nasa.gov/mission/galileo/"
+      }
+    },
+    {
+      "id": "europa",
+      "title": "Protecting Europa",
+      "text": "Galileo found strong signs of a salty ocean under Europa’s ice. That is exactly why NASA crashed Galileo into Jupiter instead of leaving it to drift into this moon one day.",
+      "anchor": {
+        "part": "Group",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Galileo",
+        "url": "https://science.nasa.gov/mission/galileo/"
+      },
+      "photo": {
+        "file": "photos/sites/galileo--europa.jpg",
+        "w": 1200,
+        "h": 887,
+        "alt": "Creamy white moon criss-crossed by reddish-brown cracks.",
+        "caption": "Europa in close to natural colour, from Galileo’s pictures. An ocean is thought to hide under this ice.",
+        "credit": "NASA/JPL-Caltech/SETI Institute",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:PIA19048_realistic_color_Europa_mosaic_(original).jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://photojournal.jpl.nasa.gov/catalog/PIA19048 Also described here: http://www.jpl.nasa."
+      }
+    }
+  ],
+  "funFact": "Space Shuttle Atlantis carried Galileo into space in 1989, and it flew past Venus once and Earth twice to pick up speed for Jupiter.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "18 October 1989"
+    },
+    {
+      "label": "Arrived at Jupiter",
+      "value": "7 December 1995"
+    },
+    {
+      "label": "Orbits of Jupiter",
+      "value": "35"
+    },
+    {
+      "label": "Final plunge",
+      "value": "21 September 2003"
+    }
+  ]
+}

@@ -7,9 +7,10 @@ import * as THREE from "three";
 import { rng } from "../lib/geo";
 import { live, type BodyKey } from "../state";
 import { Earth } from "./Earth";
-import { dotTexture, glowTexture, RING_INNER, RING_OUTER, ringTexture, saturnTexture } from "./textures";
+import { ceresTexture, dotTexture, glowTexture, jupiterTexture, mercuryTexture, neptuneTexture, plutoTexture, RING_INNER, RING_OUTER, ringTexture, rockTexture, saturnTexture, uranusTexture, venusTexture } from "./textures";
 
-export const BODY_RADIUS: Record<BodyKey, number> = { earth: 1, moon: 0.6, mars: 0.75, saturn: 2.6 };
+// Travel-scene sizes: roughly to scale between the giants and between the small worlds (Pluto is drawn a bit larger).
+export const BODY_RADIUS: Record<BodyKey, number> = { earth: 1, moon: 0.6, mars: 0.75, saturn: 2.6, jupiter: 3, venus: 0.95, mercury: 0.4, uranus: 1.1, neptune: 1.05, pluto: 0.3, ceres: 0.25, rock: 0.2 };
 export const TEXTURE: Partial<Record<BodyKey, string>> = { earth: "/tex/earth.jpg", moon: "/tex/moon.jpg", mars: "/tex/mars.jpg" };
 
 // Stars on a big sphere that travels with the camera, so they look infinitely far away.
@@ -274,6 +275,40 @@ function SaturnGlobe({ radius, sun }: { radius: number; sun: THREE.Vector3 }) {
   );
 }
 
+// The worlds drawn in code (textures.ts): their map, the haze at their edge, and their axial tilt in radians.
+const DRAWN: Partial<Record<BodyKey, { map: () => THREE.Texture; haze?: string; tilt?: number; squash?: number }>> = {
+  jupiter: { map: jupiterTexture, haze: "#f0dcb8", tilt: 0.05, squash: 0.935 },
+  venus: { map: venusTexture, haze: "#f6e7bf" },
+  uranus: { map: uranusTexture, haze: "#cdf4f6", tilt: 1.71 }, // knocked onto its side: 98 degrees
+  neptune: { map: neptuneTexture, haze: "#8fb0ff", tilt: 0.49 },
+  mercury: { map: mercuryTexture },
+  pluto: { map: plutoTexture, tilt: 0.3 },
+  ceres: { map: ceresTexture },
+  rock: { map: rockTexture, squash: 0.7 },
+};
+
+function DrawnGlobe({ kind, radius, sun }: { kind: BodyKey; radius: number; sun: THREE.Vector3 }) {
+  const d = DRAWN[kind]!;
+  const mat = useMemo(() => new THREE.MeshStandardMaterial({ map: d.map(), roughness: 1, metalness: 0 }), [d]);
+  // Uranus's faint, dark rings: thin and hard to see, as in Voyager 2's pictures.
+  const ring = useMemo(() => (kind === "uranus" ? new THREE.RingGeometry(radius * 1.6, radius * 2, 96, 1) : null), [kind, radius]);
+  return (
+    <group rotation={[0, 0, d.tilt ?? 0]}>
+      <group scale={[1, d.squash ?? 1, 1]}>
+        <mesh material={mat}>
+          <sphereGeometry args={[radius, 96, 48]} />
+        </mesh>
+        {d.haze && <Haze radius={radius} color={d.haze} sun={sun} />}
+      </group>
+      {ring && (
+        <mesh geometry={ring} rotation={[-Math.PI / 2, 0, 0]}>
+          <meshBasicMaterial color="#8a9aa0" transparent opacity={0.12} side={THREE.DoubleSide} depthWrite={false} />
+        </mesh>
+      )}
+    </group>
+  );
+}
+
 export function Planet({ kind, sun, spin = false }: { kind: BodyKey; sun: THREE.Vector3; spin?: boolean }) {
   const radius = BODY_RADIUS[kind];
   const spinner = useRef<THREE.Group>(null);
@@ -281,6 +316,7 @@ export function Planet({ kind, sun, spin = false }: { kind: BodyKey; sun: THREE.
     if (spin && spinner.current) spinner.current.rotation.y = live.time * ((Math.PI * 2) / 140);
   });
   if (kind === "saturn") return <SaturnGlobe radius={radius} sun={sun} />;
+  if (DRAWN[kind]) return <DrawnGlobe kind={kind} radius={radius} sun={sun} />;
   return (
     <group>
       {kind === "earth" ? (

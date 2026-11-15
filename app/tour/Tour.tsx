@@ -2,7 +2,8 @@
 
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { coarsePointer } from "./lib/device";
 import { useStore } from "./lib/store";
 import { FailureBank } from "./FailureBank";
@@ -26,8 +27,11 @@ import {
   startTour,
   tour,
 } from "./state";
-import { CREDITS, STOP_INDEX, STOPS, type Hotspot, type Stop } from "./stops";
+import { CREDITS, STOP_INDEX, STOPS, STORY_COUNT, type Hotspot, type Stop } from "./stops";
+import { loadAtlas, loadEarthOrbit, loadSalvage, openSite, type EarthOrbit, type Fate, type SalvageFile } from "./sites";
+
 import "./tour.css";
+import "./sites.css";
 
 // The 3D scene only runs in the browser; the start screen's text and button render right away.
 const TourCanvas = dynamic(() => import("./TourCanvas"), { ssr: false });
@@ -44,7 +48,11 @@ function briefing(n: number) {
     },
     {
       title: "You're the salvage scout",
-      text: `You'll first visit ${STOPS.length} of them, one chapter at a time. At each one, your job is to survey the site: discover what we sent there, what we left behind, and why it was left. The glowing spots are your clues: blue ones tell the story, red ones show what broke. Then think like an engineer: could we fix it, reuse it, or bring it home one day?`,
+      text: `You'll first visit ${STORY_COUNT} of them, one chapter at a time. At each one, your job is to survey the site: discover what we sent there, what we left behind, and why it was left. The glowing spots are your clues: blue ones tell the story, red ones show what broke. Each clue you find opens your case file. Then think like an engineer and decide: could we repair it, put it to a new use, bring it home, or should we leave it as history?`,
+    },
+    {
+      title: "Are you ready?",
+      text: `First stop: the Moon. You'll fly ${STOPS[0].distanceKm.toLocaleString("en-US")} km to ${STOPS[0].name}, the ${STOPS[0].mission} lander at Tranquility Base, where people first walked on another world.`,
     },
   ];
 }
@@ -107,6 +115,7 @@ function StartScreen() {
       >
         {ready ? "Start" : "Loading…"}
       </motion.button>
+      <DebrisChip />
       </>
       )}
       <AnimatePresence mode="wait">
@@ -132,7 +141,7 @@ function StartScreen() {
                 </button>
               ) : (
                 <button type="button" className="start-btn" autoFocus onClick={startTour}>
-                  Launch
+                  Let&apos;s go →
                 </button>
               )}
               {step < steps.length - 1 && (
@@ -166,6 +175,76 @@ function StartScreen() {
   );
 }
 
+// Bottom right of the start screen: the junk circling Earth, from ESA's counts; it opens the Earth's orbit card.
+function DebrisChip() {
+  const [d, setD] = useState<EarthOrbit | null>(null);
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    loadEarthOrbit().then(setD);
+  }, []);
+  if (!d) return null;
+  return (
+    <>
+      <motion.button type="button" className="debris-chip" aria-haspopup="dialog" onClick={() => setOpen(true)} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 1.2 }}>
+        <i aria-hidden="true" />
+        <span>
+          {d.tracked.toLocaleString("en-US")} objects circle Earth that we can track. Only {d.satellitesWorking.toLocaleString("en-US")} of them work.
+        </span>
+        <b>What’s up there?</b>
+      </motion.button>
+      {/* Rendered at the top of the tour, so it covers the whole screen and not just the start screen's layer. */}
+      {createPortal(<EarthOrbitCard d={d} open={open} onClose={() => setOpen(false)} />, document.querySelector(".tour") ?? document.body)}
+    </>
+  );
+}
+
+// "What's orbiting Earth": working versus not working, the main counts, the three busy shells, ESA's credit.
+function EarthOrbitCard({ d, open, onClose }: { d: EarthOrbit; open: boolean; onClose: () => void }) {
+  const n = (x: number) => x.toLocaleString("en-US");
+  const working = (d.satellitesWorking / d.tracked) * 100;
+  return (
+    <Overlay open={open} onClose={onClose} label="Earth’s orbit" className="orbit-card">
+      <header className="overlay-head">
+        <p className="eyebrow">Earth’s orbit · {d.asOf}</p>
+        <h2>{d.title}</h2>
+        <p className="overlay-lede">{d.kidLines[0]}</p>
+      </header>
+      <div className="orbit-bar" role="img" aria-label={`${n(d.satellitesWorking)} working satellites and ${n(d.trackedNotWorking)} objects that don't work, out of ${n(d.tracked)} tracked`}>
+        <span className="orbit-on" style={{ width: `${working.toFixed(1)}%` }} />
+        <span className="orbit-off" />
+      </div>
+      <p className="orbit-key">
+        <span><i className="orbit-on" /> {n(d.satellitesWorking)} working satellites</span>
+        <span><i className="orbit-off" /> {n(d.trackedNotWorking)} that don’t work: dead satellites, old rocket stages and broken pieces</span>
+      </p>
+      <dl className="orbit-stats">
+        <div><dt>Tracked objects</dt><dd>{n(d.tracked)}</dd></div>
+        <div><dt>Satellites in orbit</dt><dd>{n(d.satellitesInOrbit)}</dd></div>
+        <div><dt>Dead satellites</dt><dd>{n(d.satellitesDead)}</dd></div>
+        <div><dt>Break-ups and collisions</dt><dd>{n(d.fragmentationEvents)}+</dd></div>
+        <div><dt>Too small to track (1–10 cm)</dt><dd>about {n(d.modelled.from1to10cm)}</dd></div>
+        <div><dt>Mass of everything up there</dt><dd>{n(d.massTonnes)} tonnes</dd></div>
+      </dl>
+      <div className="orbit-shells">
+        {d.shells.map((sh) => (
+          <div key={sh.name}>
+            <p className="eyebrow">{sh.altitudeKm} km up</p>
+            <h3>{sh.name}</h3>
+            <p>{sh.note}</p>
+          </div>
+        ))}
+      </div>
+      {d.kidLines.slice(1).map((line) => (
+        <p key={line} className="orbit-line">{line}</p>
+      ))}
+      <p className="orbit-credit">
+        {d.source.credit}. Estimates of untracked pieces: {d.modelled.reference}.{" "}
+        <a href={d.source.url} target="_blank" rel="noopener noreferrer">{d.source.label} ↗</a>
+      </p>
+    </Overlay>
+  );
+}
+
 // How many machines the atlas holds, read from its data rather than written in by hand.
 function useMachineCount() {
   const [n, setN] = useState(0);
@@ -176,6 +255,17 @@ function useMachineCount() {
 }
 const allMachines = (n: number) => (n ? `all ${n} machines` : "every machine");
 
+const noSub = () => () => {};
+// Remembered in this browser once you've reached the end of the tour.
+function tourDone() {
+  try {
+    if (tour.get().phase === "end") localStorage.setItem("gra-tour-done", "1");
+    return localStorage.getItem("gra-tour-done") === "1";
+  } catch {
+    return false;
+  }
+}
+
 function ExploreLink() {
   const n = useMachineCount();
   const stop = useStore(tour, (s) =>
@@ -183,9 +273,15 @@ function ExploreLink() {
   );
   const id = stop >= 0 ? STOPS[stop]?.id : null;
   // A full page load on purpose: the atlas runs its own 3D engine.
+  // The tour comes first: the solar system link shows up top only once you've reached the end of the tour.
+  // Read after hydration (the server never knows), so the first render matches.
+  const remembered = useSyncExternalStore(noSub, tourDone, () => false);
+  const done = useStore(tour, (s) => s.phase === "end") || remembered;
   return (
-    <a className="explore-link" href={id ? `/explore#${id}` : "/explore"}>
-      Explore {allMachines(n)}
+    <>
+      {/* Top right: fly the 3D solar system (to any machine), then the full list of all of them. */}
+      {done && <a className="explore-link solar-top" href={id ? `/solar?from=${encodeURIComponent(id)}` : "/solar"}>
+        Fly around the solar system
       <svg
         className="explore-arrow"
         viewBox="0 0 16 16"
@@ -198,7 +294,23 @@ function ExploreLink() {
       >
         <path d="M4.5 11.5l7-7M5.5 4.5h6v6" />
       </svg>
-    </a>
+      </a>}
+      <a className={`explore-link${done ? " explore-second" : ""}`} href={id ? `/explore#${id}` : "/explore"}>
+        Explore {allMachines(n)}
+      <svg
+        className="explore-arrow"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M4.5 11.5l7-7M5.5 4.5h6v6" />
+      </svg>
+      </a>
+    </>
   );
 }
 
@@ -209,6 +321,9 @@ function Progress() {
   const phase = useStore(tour, (s) => s.phase);
   const traveling = phase === "travel";
   return (
+    stop >= STORY_COUNT && STOPS[stop] ? (
+      <SolarBack id={STOPS[stop].id} />
+    ) : (
     <motion.nav
       className="progress"
       aria-label="Tour"
@@ -218,7 +333,7 @@ function Progress() {
       transition={{ duration: 0.6, ease }}
     >
       <ol className="trail">
-        {STOPS.map((s, i) => {
+        {STOPS.slice(0, STORY_COUNT).map((s, i) => {
           const here = i === stop;
           const state = i < stop ? " done" : here ? (traveling ? " going" : " here") : "";
           const label = here ? (traveling ? `${s.name} (skip the trip)` : `${s.name} (you are here)`) : `Go to ${s.name}`;
@@ -238,6 +353,23 @@ function Progress() {
         })}
       </ol>
     </motion.nav>
+    )
+  );
+}
+
+// Outside the story (any other machine, opened from /#<id>): no trail, just the way back to the solar system.
+function SolarBack({ id }: { id: string }) {
+  return (
+    <motion.a
+      className="solar-back"
+      href={`/solar?from=${encodeURIComponent(id)}`}
+      initial={{ opacity: 0, y: -16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -16 }}
+      transition={{ duration: 0.6, ease }}
+    >
+      <span aria-hidden="true">←</span> Back to the solar system
+    </motion.a>
   );
 }
 
@@ -261,7 +393,8 @@ function SpotProgress() {
   const total = s.hotspots.length;
   const count = s.hotspots.filter((h) => seen.includes(h.id)).length;
   const done = count >= total;
-  const last = stop === STOPS.length - 1;
+  const last = stop === STORY_COUNT - 1;
+  const outside = stop >= STORY_COUNT;
   return (
     <motion.div
       key={s.id}
@@ -278,7 +411,14 @@ function SpotProgress() {
         ))}
       </ol>
       <AnimatePresence mode="wait" initial={false}>
-        {done ? (
+        {outside ? (
+          done && total > 0 && (
+            <motion.a key="solar" className="next-machine" href={`/solar?from=${encodeURIComponent(s.id)}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, ease }}>
+              Back to the solar system
+              <Chevron />
+            </motion.a>
+          )
+        ) : done ? (
           <motion.button
             key="next"
             type="button"
@@ -370,6 +510,8 @@ function KeysBar() {
     <motion.div className="keysbar" {...fade}>
       <p className="keys-free"><span><b>Click</b> the view to look around</span>{move}<span>Click a glowing dot</span></p>
       <p className="keys-locked"><span className="esc"><kbd>Esc</kbd> frees your mouse</span>{move}<span>Aim at a dot and click</span></p>
+      {/* Hold Shift with a direction: speed doubles every second. The Walker writes the "x8" here. */}
+      <output className="speedo" aria-live="off" ref={(el) => { hud.speed = el; }} />
     </motion.div>
   );
 }
@@ -440,8 +582,10 @@ function Story() {
 // the part's own footage when it has some (media.json).
 function SpotStory({ stopId, spot }: { stopId: string; spot: Hotspot }) {
   const key = spotKey(stopId, spot.id);
-  const photo = useSpotPhotos()[key];
-  const film = !!useMedia()[key];
+  const photos = useSpotPhotos();
+  const media = useMedia();
+  const photo = spot.photo ?? photos[key];
+  const film = !!(spot.video || media[key]);
   const src = photo && photoSrc(photo.file);
   return (
     <motion.article
@@ -502,7 +646,6 @@ function Intro({ s }: { s: Stop }) {
 }
 
 // The atlas's record for a machine: what happened to it, colour-coded the same way as the atlas.
-type Fate = { category: string; label: string; summary?: string };
 const FATE_WORDS: Record<string, string> = {
   operational: "Still working",
   passive: "Still useful, needs no power",
@@ -524,7 +667,6 @@ const FAILED = new Set([
   "crash-accident",
   "lost",
 ]);
-type AtlasRecord = { id: string; fate?: Fate; funFact?: string };
 type Route = {
   segments: { name?: string; points: [number, number][] }[];
   credit?: string;
@@ -619,19 +761,63 @@ function RouteMap({ route, body }: { route: Route; body: string }) {
     </figure>
   );
 }
-let atlasData: Promise<Record<string, AtlasRecord>> | null = null;
-function loadAtlas() {
-  atlasData ??= Promise.all(
-    ["moon", "mars", "deepspace"].map(
-      (w) =>
-        fetch(`/data/${w}.json`).then((r) => (r.ok ? r.json() : [])) as Promise<
-          AtlasRecord[]
-        >,
-    ),
-  )
-    .then((lists) => Object.fromEntries(lists.flat().map((m) => [m.id, m])))
-    .catch(() => ({}));
-  return atlasData;
+// The salvage file once loaded, shared by the case file and the end screen.
+function useSalvage() {
+  const [sv, setSv] = useState<SalvageFile | null>(null);
+  useEffect(() => {
+    loadSalvage().then(setSv);
+  }, []);
+  return sv;
+}
+const gradeLine = (sv: SalvageFile | null, id: string) => {
+  const m = sv?.machines[id];
+  if (!m) return null;
+  if (m.working || !m.grade) return { grade: "✓", meaning: "Still working: it's a mission, not salvage" };
+  return { grade: m.grade, meaning: sv!.rubric.grades.find((g) => g.grade === m.grade)?.meaning ?? "" };
+};
+
+// The salvage scout's case file: why was it left, and could we use it again? Each answer unlocks as you find
+// spots (the first after one spot, the second once every spot is found), with the salvage grade and one idea.
+function CaseFile({ s }: { s: Stop }) {
+  const found = useStore(tour, (t) => (t.found[s.id] ?? []).length);
+  const sv = useSalvage();
+  const total = s.hotspots.length;
+  const why = s.whyLeft ?? sv?.machines[s.id]?.needsRepair?.[0]?.problem;
+  const idea = sv?.machines[s.id]?.approaches?.[0];
+  const reuse = s.repurpose ?? idea?.text;
+  const grade = gradeLine(sv, s.id);
+  const whyOpen = found >= 1 || total === 0;
+  const reuseOpen = found >= total;
+  if (!why && !reuse) return null;
+  return (
+    <div className="casefile">
+      <p className="eyebrow">Case file</p>
+      <div className={`case-q${whyOpen ? "" : " locked"}`}>
+        <p className="case-ask">Why was it left?</p>
+        <p>{whyOpen ? why : "Find a glowing spot to crack this clue."}</p>
+      </div>
+      <div className={`case-q${reuseOpen ? "" : " locked"}`}>
+        <p className="case-ask">Could we use it again?</p>
+        <p>{reuseOpen ? reuse : `Find every spot (${found} of ${total}) to make your call.`}</p>
+        {reuseOpen && grade && (
+          <p className="case-grade">
+            <b>{grade.grade}</b> Salvage grade{grade.meaning ? `: ${grade.meaning}` : ""}
+          </p>
+        )}
+        {reuseOpen && idea && idea.text !== reuse && (
+          <p className="case-idea">
+            <span>{idea.kind === "real" ? "Tried for real" : "Engineer’s idea"}:</span> {idea.text}
+            {idea.source && (
+              <>
+                {" "}
+                <a href={idea.source} target="_blank" rel="noopener noreferrer">source ↗</a>
+              </>
+            )}
+          </p>
+        )}
+      </div>
+    </div>
+  );
 }
 
 // The "mission file" beside the scene: what happened, the part that gave out, key numbers, and planned vs actual.
@@ -739,6 +925,7 @@ function MissionFile() {
         <p className="overlay-lede">{s.status}</p>
       </header>
       <div className="mfile-body">
+        <CaseFile s={s} />
         {fate && (
           <div className={`mfile-fate${failed ? " bad" : ""}`}>
             <p className="eyebrow">What happened</p>
@@ -912,8 +1099,51 @@ function Cruise() {
   );
 }
 
+// What the scout concluded: each story machine visited, what happened to it and its salvage grade.
+function Verdicts() {
+  const visitedIds = useStore(tour, (s) => s.visited.join(","));
+  const sv = useSalvage();
+  const [atlas, setAtlas] = useState<Record<string, { fate?: Fate }>>({});
+  useEffect(() => {
+    loadAtlas().then(setAtlas);
+  }, []);
+  const seen = STOPS.slice(0, STORY_COUNT).filter((s) => visitedIds.split(",").includes(s.id));
+  if (!seen.length) return null;
+  const grades = seen.map((s) => sv?.machines[s.id]);
+  const reusable = grades.filter((m) => m?.grade && "ABC".includes(m.grade)).length;
+  const gone = grades.filter((m) => m?.grade && "DF".includes(m.grade)).length;
+  const working = grades.filter((m) => m?.working).length;
+  return (
+    <motion.div className="verdicts" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75, duration: 0.8, ease }}>
+      <p className="eyebrow">Your case files</p>
+      <ul>
+        {seen.map((s) => {
+          const g = gradeLine(sv, s.id);
+          const fate = s.info?.fate ?? atlas[s.id]?.fate;
+          return (
+            <li key={s.id}>
+              <b className="verdict-grade">{g?.grade ?? "?"}</b>
+              <span>
+                <strong>{s.name}</strong> · {fate ? FATE_WORDS[fate.category] ?? fate.category : s.status}
+                {g?.meaning && <em> · {g.meaning}</em>}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+      {sv && (
+        <p className="verdict-sum">
+          Your verdict: {reusable} could be visited, studied or reused one day
+          {gone ? `, ${gone} ${gone === 1 ? "is" : "are"} out of reach or gone for good` : ""}
+          {working ? `, and ${working} ${working === 1 ? "is" : "are"} still working` : ""}.
+        </p>
+      )}
+    </motion.div>
+  );
+}
+
 function EndScreen() {
-  const visited = useStore(tour, (s) => s.visited.length);
+  const visited = useStore(tour, (s) => s.visited.filter((id) => STOP_INDEX[id] !== undefined).length);
   const n = useMachineCount();
   return (
     <motion.section
@@ -936,10 +1166,11 @@ function EndScreen() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.8, ease }}
       >
-        You visited {visited} {visited === 1 ? "machine" : "machines"}
-        {n ? ` of the ${n} in this atlas` : ""}. The rest are still out there: on the Moon, on Mars, and sailing
-        between the planets.
+        You surveyed {visited} {visited === 1 ? "machine" : "machines"}
+        {n ? ` of the ${n} in this atlas` : ""}, worked out why each was left, and judged whether it could be used
+        again. The rest are still out there: on the Moon, on Mars, and sailing between the planets.
       </motion.p>
+      <Verdicts />
       <motion.div
         className="end-actions"
         initial={{ opacity: 0, y: 16 }}
@@ -951,6 +1182,9 @@ function EndScreen() {
         </button>
         <a className="ghost-btn" href="/explore">
           Explore {allMachines(n)} ↗
+        </a>
+        <a className="ghost-btn" href="/solar">
+          Fly around the solar system →
         </a>
       </motion.div>
       <motion.details
@@ -974,21 +1208,25 @@ function useHashSync() {
   const phase = useStore(tour, (s) => s.phase);
   const stop = useStore(tour, (s) => s.stop);
   useEffect(() => {
-    const go = () => {
+    // A story stop, or any other machine in the atlas (built on first visit, see sites.ts).
+    const go = async () => {
       const id = decodeURIComponent(location.hash.slice(1));
-      const i = STOP_INDEX[id];
+      const i = STOP_INDEX[id] ?? (id ? await openSite(id) : null);
       const s = tour.get();
-      if (i === undefined || (s.stop === i && s.phase !== "start")) return;
+      if (i == null || (s.stop === i && s.phase !== "start")) return;
       requestTravel(i, "jump");
     };
     // Coming back (from the atlas, a reload, the browser's Back): pick up where you left off, with your progress.
-    const back = restoreProgress(STOP_INDEX[decodeURIComponent(location.hash.slice(1))]);
-    if (back != null) {
+    const hashId = decodeURIComponent(location.hash.slice(1));
+    const back = restoreProgress(STOP_INDEX[hashId]);
+    // A link to another machine (/#surveyor3) goes there, not back to the saved story stop.
+    if (back != null && (!hashId || STOP_INDEX[hashId] !== undefined)) {
       startMusic();
       requestTravel(back, "jump");
-    } else go();
-    addEventListener("hashchange", go);
-    return () => removeEventListener("hashchange", go);
+    } else void go();
+    const onHash = () => void go();
+    addEventListener("hashchange", onHash);
+    return () => removeEventListener("hashchange", onHash);
   }, []);
   useEffect(() => {
     const id =
@@ -1065,11 +1303,12 @@ export default function Tour() {
         </AnimatePresence>
         {phase === "explore" && (
           <p className="edge-hint" role="status">
-            That&apos;s far enough. Head back to the site.
+            You&apos;ve wandered too far! Head back to the site.
           </p>
         )}
         {phase === "explore" && !replay && <MissionFile />}
         <Cruise />
+        <p className="trip-chip" aria-live="polite" ref={(el) => { hud.chip = el; }} />
         <AnimatePresence>
           {touring && interlude == null && <Progress key="progress" />}
         </AnimatePresence>

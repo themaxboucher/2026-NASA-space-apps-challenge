@@ -1,0 +1,129 @@
+{
+  "id": "viking2",
+  "setting": "surface",
+  "model": "viking",
+  "name": "Viking 2",
+  "intro": "Viking 2 was Viking 1’s twin. It landed on 3 September 1976 on Utopia Planitia, a rocky plain much farther north, and searched the soil for signs of life. Its batteries gave out in 1980, and it still sits where it landed.",
+  "status": "Switched off in 1980",
+  "whyLeft": "After 1,281 Mars days its batteries failed, so the team switched it off on 11 April 1980. Nobody planned to bring it home.",
+  "repurpose": "New batteries brought by a future mission might wake it, but its electronics are about 50 years old. More useful: study how its materials aged, as astronauts did with Surveyor 3 on the Moon.",
+  "hotspots": [
+    {
+      "id": "dish",
+      "title": "The dish to Earth",
+      "text": "This dish talked straight to Earth. A scout would find it still pointing the way it did in 1980, when the team switched Viking 2 off for good.",
+      "anchor": {
+        "part": "polySurfa1",
+        "at": [
+          0.2,
+          0.88,
+          0.6
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Viking 2 Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-083C"
+      }
+    },
+    {
+      "id": "cameras",
+      "title": "Two cameras",
+      "text": "Viking 2’s cameras watched the seasons change on the rocky plain of Utopia Planitia. In 1979 they caught a thin layer of white frost on the ground.",
+      "anchor": {
+        "part": "polySurfa1",
+        "at": [
+          0.17,
+          0.62,
+          0.58
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Viking 2 Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-083C"
+      },
+      "photo": {
+        "file": "photos/sites/viking2--frost.jpg",
+        "w": 478,
+        "h": 512,
+        "alt": "A rocky reddish plain with thin white frost between the rocks under a pale sky.",
+        "caption": "Thin white frost on the ground around Viking 2 in May 1979, during the Martian winter.",
+        "credit": "NASA/JPL",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Ice_on_Mars_Utopia_Planitia_(PIA00571).jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://photojournal.jpl.nasa.gov/catalog/PIA00571."
+      }
+    },
+    {
+      "id": "arm",
+      "title": "The soil scoop",
+      "text": "This arm reached out to scoop up soil and fed it into small labs inside the lander that tested it for signs of life. The results were puzzling, and most scientists now think strange soil chemistry, not living things, caused them.",
+      "anchor": {
+        "part": "polySurfa1",
+        "at": [
+          0.97,
+          0.27,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Viking 1 and 2",
+        "url": "https://science.nasa.gov/mission/viking-1/"
+      }
+    },
+    {
+      "id": "power",
+      "title": "Nuclear power",
+      "text": "Two small nuclear generators on top charged Viking 2’s batteries. The batteries wore out in 1980, after 1,281 Mars days, and without them the lander could not keep working, so the team switched it off.",
+      "broken": true,
+      "tag": "What gave out",
+      "anchor": {
+        "part": "polySurfa2",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Viking 2 Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-083C"
+      }
+    },
+    {
+      "id": "footpad",
+      "title": "A tilted landing",
+      "text": "Viking 2 came down with one footpad on a rock, so the whole lander sits tilted by about 8 degrees. It still stands exactly where it landed.",
+      "anchor": {
+        "part": "polySurfa1",
+        "at": [
+          0.68,
+          0.03,
+          0.82
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Viking 2 Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-083C"
+      }
+    }
+  ],
+  "funFact": "Viking 2’s winter photos showed frost on the ground of Mars, something nobody had ever seen up close before.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "3 September 1976"
+    },
+    {
+      "label": "Switched off",
+      "value": "11 April 1980"
+    },
+    {
+      "label": "Worked for",
+      "value": "1,281 Mars days"
+    },
+    {
+      "label": "Mass on Mars",
+      "value": "572 kg"
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "id": "dawn",
+  "setting": "space",
+  "model": "dawn",
+  "name": "Dawn",
+  "intro": "Dawn was the first spacecraft to orbit two worlds beyond Earth: the giant asteroid Vesta and the dwarf planet Ceres. It ran out of fuel in 2018. It is silent but still circling Ceres, where it should stay for at least 20 years.",
+  "status": "Silent since 2018, still circling Ceres",
+  "whyLeft": "It used up the hydrazine fuel its small thrusters needed to point it, so it could no longer aim its antenna at Earth or its solar panels at the Sun. It went silent on 31 October 2018.",
+  "repurpose": "Everything except the steering fuel might still work. A robotic fuel truck could top up its tanks one day, and it was placed in a safe orbit so it won’t crash into Ceres.",
+  "hotspots": [
+    {
+      "id": "ion-engines",
+      "title": "Ion engines",
+      "text": "Dawn’s three ion engines pushed with a gentle glow of xenon gas, softer than a sheet of paper resting on your hand. Over years, that tiny push added up to more speed change than any spacecraft had made with its own engines.",
+      "anchor": {
+        "part": "black_krinkle",
+        "at": [
+          0.5,
+          0.05,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Dawn",
+        "url": "https://science.nasa.gov/mission/dawn/"
+      },
+      "photo": {
+        "file": "photos/sites/dawn--ion-engine.jpg",
+        "w": 1200,
+        "h": 900,
+        "alt": "A round engine glowing blue inside a test chamber.",
+        "caption": "An ion engine like Dawn’s glowing blue during a test in a vacuum chamber on Earth.",
+        "credit": "NASA/JPL-Caltech",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:The_Engine_Burns_Blue.jpeg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://www.nasa.gov/multimedia/imagegallery/image_feature_2516.html."
+      }
+    },
+    {
+      "id": "thrusters",
+      "title": "Steering fuel",
+      "text": "Two of Dawn’s four steering wheels had already broken, so it relied on small hydrazine thrusters to point. When that fuel ran out in 2018, it could no longer turn.",
+      "broken": true,
+      "tag": "What ran out",
+      "anchor": {
+        "part": "black_krinkle",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: Dawn’s mission comes to an end",
+        "url": "https://www.jpl.nasa.gov/news/nasas-dawn-mission-to-asteroid-belt-comes-to-end/"
+      }
+    },
+    {
+      "id": "solar-wings",
+      "title": "Solar wings",
+      "text": "Dawn’s two solar wings stretch almost 20 meters from tip to tip, longer than a basketball court is wide. So far from the Sun, it needed every bit of sunlight.",
+      "anchor": {
+        "part": "shiny_panel",
+        "at": [
+          0.02,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Dawn",
+        "url": "https://science.nasa.gov/mission/dawn/"
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Bright spots",
+      "text": "Dawn’s camera found glowing white spots on Ceres. Up close they turned out to be salts left behind when salty water seeped up from below and dried.",
+      "anchor": {
+        "part": "foil_gold",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Dawn",
+        "url": "https://science.nasa.gov/mission/dawn/"
+      },
+      "photo": {
+        "file": "photos/sites/dawn--bright-spots.jpg",
+        "w": 1041,
+        "h": 1041,
+        "alt": "Grey cratered surface with two clusters of bright white spots.",
+        "caption": "The bright spots of Occator crater on Ceres, seen by Dawn in June 2015.",
+        "credit": "NASA/JPL-Caltech/UCLA/MPS/DLR/IDA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Bright_Spots_on_Ceres_by_Dawn_on_6_June_2015.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: NASA website."
+      }
+    },
+    {
+      "id": "dish",
+      "title": "The silent dish",
+      "text": "This dish sent Dawn’s pictures home. Without fuel to point it at Earth, it went silent, but Dawn keeps circling Ceres like a small moon.",
+      "anchor": {
+        "part": "foil_silver_2",
+        "at": [
+          0.5,
+          0.5,
+          1
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: Dawn’s mission comes to an end",
+        "url": "https://www.jpl.nasa.gov/news/nasas-dawn-mission-to-asteroid-belt-comes-to-end/"
+      }
+    }
+  ],
+  "funFact": "Dawn reached Ceres in March 2015, becoming the first spacecraft to orbit a dwarf planet, a few months before New Horizons flew past Pluto.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "27 September 2007"
+    },
+    {
+      "label": "At Vesta",
+      "value": "2011–2012"
+    },
+    {
+      "label": "At Ceres",
+      "value": "Since March 2015"
+    },
+    {
+      "label": "Wingspan",
+      "value": "Almost 20 m"
+    }
+  ]
+}

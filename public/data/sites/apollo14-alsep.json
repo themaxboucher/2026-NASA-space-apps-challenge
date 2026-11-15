@@ -1,0 +1,140 @@
+{
+  "id": "apollo14-alsep",
+  "setting": "surface",
+  "model": "alsep",
+  "name": "Apollo 14 science station",
+  "intro": "Alan Shepard and Edgar Mitchell set up this nuclear-powered science station at Fra Mauro in February 1971. With the Apollo 12 station it formed the start of a network of moonquake listeners, and it sent data until NASA ended support for all the stations in 1977.",
+  "status": "Switched off in 1977",
+  "hotspots": [
+    {
+      "id": "central-station",
+      "title": "The central station",
+      "text": "This box was the station’s brain and radio. In September 1977 NASA stopped collecting its data and switched its experiments off, but left the radio on so other scientists could use it as a beacon.",
+      "broken": true,
+      "tag": "Why it went quiet",
+      "anchor": {
+        "part": "gold",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      },
+      "photo": {
+        "file": "photos/sites/apollo14-alsep--central-station.jpg",
+        "w": 1200,
+        "h": 1200,
+        "alt": "A box wrapped in gold and silver foil stands under a flat sunshade on the grey ground, with an antenna on a pole.",
+        "caption": "The central station at Fra Mauro, photographed on 5 February 1971.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as14-67-09379",
+        "licenseEvidence": "NASA Image and Video Library item as14-67-09379 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "thumper",
+      "title": "The thumper",
+      "text": "Mitchell walked along a line of ground sensors carrying a thumper, a pole that fired small explosive charges into the ground. 13 charges fired, making tiny moonquakes that showed the layers just under the surface.",
+      "anchor": {
+        "pos": [
+          4,
+          0.3,
+          6
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "Apollo 14 Mission Report: lunar surface experiments",
+        "url": "https://apollojournals.org/alsj/a14/a14mr03.htm"
+      },
+      "photo": {
+        "file": "photos/sites/apollo14-alsep--thumper.jpg",
+        "w": 1200,
+        "h": 819,
+        "alt": "An astronaut holds a long pole against the ground while another walks in the distance.",
+        "caption": "Edgar Mitchell fires the thumper on 5 February 1971, in a picture taken from film.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/S71-19509",
+        "licenseEvidence": "NASA Image and Video Library item S71-19509 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "mortar",
+      "title": "Unfired grenades",
+      "text": "Scout’s check: this mortar box still holds four small grenades that were meant to be fired by radio after the crew left. NASA never fired them, so handle with care.",
+      "anchor": {
+        "pos": [
+          2.4,
+          0.2,
+          -3
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      }
+    },
+    {
+      "id": "rtg",
+      "title": "The nuclear generator",
+      "text": "This finned can turned heat from radioactive plutonium into electricity, day and night. By 1977 it was giving a little less power each year.",
+      "anchor": {
+        "part": "grey",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      }
+    },
+    {
+      "id": "antenna",
+      "title": "The antenna",
+      "text": "This antenna aimed at Earth and beamed the station’s readings home for more than six years.",
+      "anchor": {
+        "part": "white",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 14 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-008C"
+      }
+    }
+  ],
+  "funFact": "The rocket-launched grenades in its mortar were never fired, partly so their dust could not land on the Apollo 14 laser mirror nearby.",
+  "stats": [
+    {
+      "label": "Set up",
+      "value": "5 February 1971"
+    },
+    {
+      "label": "Support ended",
+      "value": "30 September 1977"
+    },
+    {
+      "label": "Thumper charges fired",
+      "value": "13"
+    },
+    {
+      "label": "Grenades fired",
+      "value": "0 of 4"
+    }
+  ],
+  "whyLeft": "It was meant to stay and keep listening for years, and it did, until NASA ended support for the Apollo stations in September 1977, mainly to save money.",
+  "repurpose": "Its mortar still holds four unfired grenades, so any visitor would need bomb-disposal care. A safer job is as a museum piece next to newer seismometers."
+}

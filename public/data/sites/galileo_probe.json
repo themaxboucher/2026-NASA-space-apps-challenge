@@ -1,0 +1,112 @@
+{
+  "id": "galileo_probe",
+  "setting": "space",
+  "model": "galileo-probe",
+  "name": "Galileo Probe",
+  "intro": "The Galileo Probe was the first spacecraft to dive into a giant planet’s air. On 7 December 1995 it plunged into Jupiter, radioed data for about 58 minutes, then was crushed and melted. Nothing is left, so this model is a memorial above Jupiter’s clouds.",
+  "status": "Vanished into Jupiter in 1995",
+  "whyLeft": "It was always a one-way dive: Jupiter has no ground to land on. It sank until the heat and pressure silenced it, as planned.",
+  "repurpose": "Nothing is left to repair. Its job was to measure Jupiter’s air on the way down, and it did, until the very end.",
+  "hotspots": [
+    {
+      "id": "heat-shield",
+      "title": "The heat shield",
+      "text": "The probe hit Jupiter’s air at about 170,000 km/h, the fastest entry ever. Its thick heat shield glowed hotter than the surface of the Sun, and much of it burned away, as planned.",
+      "anchor": {
+        "part": "cphenolic",
+        "at": [
+          0.4,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Galileo (orbiter and probe)",
+        "url": "https://science.nasa.gov/mission/galileo/"
+      },
+      "photo": {
+        "file": "photos/sites/galileo_probe--heat-shield.jpg",
+        "w": 955,
+        "h": 1200,
+        "alt": "A round metal descent module hanging above a ring-shaped shell in a workshop.",
+        "caption": "The Galileo Probe being put together on Earth: the descent module, which carried the instruments, above the shell that shielded it.",
+        "credit": "NASA Ames Research Center",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Galileo_Probe_Descent_module_and_deceleration_module_aeroshell_(AC84-0228-05).jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://ails.arc.nasa.gov/ (image link)."
+      }
+    },
+    {
+      "id": "parachute",
+      "title": "The parachute",
+      "text": "Once it had slowed down, the probe threw off its back cover and opened a parachute, then dropped its heat shield and drifted down through the clouds.",
+      "anchor": {
+        "part": "aft",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Galileo (orbiter and probe)",
+        "url": "https://science.nasa.gov/mission/galileo/"
+      }
+    },
+    {
+      "id": "instruments",
+      "title": "Tasting Jupiter’s air",
+      "text": "Instruments inside sniffed the gases and measured the winds. They found far less water than expected, and winds deep down even stronger than at the cloud tops.",
+      "anchor": {
+        "part": "polished",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Galileo",
+        "url": "https://science.nasa.gov/mission/galileo/"
+      }
+    },
+    {
+      "id": "last-signal",
+      "title": "The last signal",
+      "text": "The probe radioed its findings up to Galileo for about 58 minutes. Then the heat and crushing pressure, about 23 times Earth’s air pressure, silenced it.",
+      "broken": true,
+      "tag": "Why it went quiet",
+      "anchor": {
+        "part": "white",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Galileo (orbiter and probe)",
+        "url": "https://science.nasa.gov/mission/galileo/"
+      }
+    }
+  ],
+  "funFact": "Slowing down from 170,000 km/h, the probe felt a squeeze up to 228 times its own weight on Earth.",
+  "stats": [
+    {
+      "label": "Entered Jupiter",
+      "value": "7 December 1995"
+    },
+    {
+      "label": "Entry speed",
+      "value": "About 170,000 km/h"
+    },
+    {
+      "label": "Sent data for",
+      "value": "About 58 minutes"
+    },
+    {
+      "label": "Mass",
+      "value": "339 kg"
+    }
+  ]
+}

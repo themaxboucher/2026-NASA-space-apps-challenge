@@ -1,0 +1,132 @@
+{
+  "id": "ranger9",
+  "setting": "impact",
+  "model": null,
+  "name": "Ranger 9",
+  "intro": "Ranger 9 was the last Ranger. On 24 March 1965 it dove into the giant crater Alphonsus while TV networks showed its pictures live across America. Its crash ended the Ranger program with a success.",
+  "status": "Crashed on purpose, 24 March 1965",
+  "whyLeft": "Like all Rangers it was built to crash, taking pictures until the last fraction of a second.",
+  "repurpose": "Alphonsus has dark patches that may be old volcanic ash, so Ranger 9’s sharp pictures are still useful to anyone planning to explore there.",
+  "funFact": "Ranger 9 hit the Moon at about 2.67 km per second, roughly 9,600 km per hour.",
+  "stats": [
+    {
+      "label": "Impact",
+      "value": "24 March 1965"
+    },
+    {
+      "label": "Pictures sent",
+      "value": "5,814"
+    },
+    {
+      "label": "Impact speed",
+      "value": "2.67 km/s"
+    },
+    {
+      "label": "Sharpest detail",
+      "value": "About 0.3 m"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "Impact crater",
+      "text": "Ranger 9 crashed here on the floor of Alphonsus, a crater 108 km wide. It hit at 2.67 km per second and was destroyed instantly.",
+      "anchor": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 9",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-023A"
+      }
+    },
+    {
+      "id": "live-tv",
+      "title": "Live on TV",
+      "text": "People across America watched Ranger 9’s pictures appear live on their TV screens as it fell. This movie is made from those real pictures, sped up into the final minutes of the dive.",
+      "anchor": {
+        "pos": [
+          0,
+          22,
+          6
+        ]
+      },
+      "source": {
+        "label": "NASA JPL Photojournal: Live from the Moon – Impact! (PIA03495)",
+        "url": "https://photojournal.jpl.nasa.gov/catalog/PIA03495"
+      },
+      "video": {
+        "file": "media/sites/ranger9--last-pictures.mp4",
+        "poster": "media/sites/ranger9--last-pictures.jpg",
+        "caption": "Real Ranger 9 pictures shown as a movie, ending at the moment of impact in Alphonsus crater.",
+        "credit": "NASA/JPL",
+        "license": "Public domain",
+        "source": "https://photojournal.jpl.nasa.gov/catalog/PIA03495",
+        "licenseEvidence": "JPL Photojournal PIA03495, credit NASA/JPL; Wikimedia Commons copy marked “Public domain”",
+        "real": true
+      }
+    },
+    {
+      "id": "alphonsus",
+      "title": "Crater floor",
+      "text": "Three seconds before impact, the wide-angle camera saw the cracked, cratered floor of Alphonsus from 7.5 km up, with details as small as 6 m.",
+      "anchor": {
+        "pos": [
+          -12,
+          0.1,
+          -9
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 9",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-023A"
+      },
+      "photo": {
+        "file": "photos/sites/ranger9--alphonsus.jpg",
+        "w": 720,
+        "h": 689,
+        "alt": "A close-up of a cratered crater floor with small pits",
+        "caption": "The floor of Alphonsus crater, Ranger 9’s last wide-angle picture.",
+        "credit": "NASA/JPL (via NASA NSSDCA)",
+        "license": "Public domain",
+        "source": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/ra9_a070.html",
+        "licenseEvidence": "NASA NSSDCA Photo Gallery: image returned by NASA’s Ranger 9 (US government work, public domain)"
+      }
+    },
+    {
+      "id": "last-pictures",
+      "title": "Final frames",
+      "text": "The very last picture was taken just a quarter of a second before impact, only 600 m up. Part of it is missing because Ranger 9 hit the ground before it finished sending.",
+      "broken": true,
+      "tag": "The end",
+      "anchor": {
+        "pos": [
+          7,
+          0.3,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 9",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-023A"
+      },
+      "photo": {
+        "file": "photos/sites/ranger9--last-pictures.jpg",
+        "w": 720,
+        "h": 677,
+        "alt": "Two close-ups of the lunar surface, one cut off partway",
+        "caption": "Ranger 9’s last two pictures, taken 4.5 and 0.25 seconds before impact.",
+        "credit": "NASA/JPL (via NASA NSSDCA)",
+        "license": "Public domain",
+        "source": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/ra9_p012.html",
+        "licenseEvidence": "NASA NSSDCA Photo Gallery: image returned by NASA’s Ranger 9 (US government work, public domain)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "id": "kepler",
+  "setting": "space",
+  "model": "kepler",
+  "name": "Kepler",
+  "intro": "The Kepler Space Telescope stared at more than 150,000 stars, watching for tiny dips in light when planets passed in front of them. It found more than 2,600 planets. Retired in 2018, it still follows Earth around the Sun, drifting slowly behind.",
+  "status": "Retired in 2018, trailing Earth",
+  "whyLeft": "Two of its four steering wheels broke, the second in 2013, and in 2018 it ran out of fuel. With no way to point, it was switched off on 15 November 2018.",
+  "repurpose": "Engineers already saved it once: after the wheels broke, they used the gentle push of sunlight to balance it and kept it hunting planets for five more years. A robot servicer with fuel and wheels could, in theory, do it again.",
+  "hotspots": [
+    {
+      "id": "camera",
+      "title": "A giant camera",
+      "text": "At the bottom of the telescope sat a camera made of 42 light sensors, about 95 megapixels in all. It measured the brightness of thousands of stars at once.",
+      "anchor": {
+        "part": "tex_01",
+        "at": [
+          0.5,
+          0.3,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Kepler",
+        "url": "https://science.nasa.gov/mission/kepler/"
+      },
+      "photo": {
+        "file": "photos/sites/kepler--camera.jpg",
+        "w": 1200,
+        "h": 797,
+        "alt": "A curved array of dark rectangular light sensors on a metal plate.",
+        "caption": "Kepler’s camera on Earth before launch: 42 light sensors that measured the brightness of stars.",
+        "credit": "NASA/Ball Aerospace",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Kepler_CCD_matrix.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://www.nasa.gov/mission_pages/kepler/multimedia/images/kepler-focal-plane-assembly.htm."
+      }
+    },
+    {
+      "id": "opening",
+      "title": "The telescope opening",
+      "text": "Kepler looked at one patch of sky near the constellations Cygnus and Lyra for four years, waiting for planets to cross in front of their stars.",
+      "anchor": {
+        "part": "tex_01001",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Kepler",
+        "url": "https://science.nasa.gov/mission/kepler/"
+      }
+    },
+    {
+      "id": "wheels",
+      "title": "Steering wheels",
+      "text": "Spinning wheels inside kept Kepler perfectly steady. One failed in 2012 and a second in 2013. Engineers then balanced it against the push of sunlight and called the new mission K2.",
+      "broken": true,
+      "tag": "Broke first",
+      "anchor": {
+        "part": "foil_silver",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Kepler",
+        "url": "https://science.nasa.gov/mission/kepler/"
+      }
+    },
+    {
+      "id": "fuel",
+      "title": "Empty tank",
+      "text": "Kepler ran out of fuel in 2018. Its team sent its final “goodnight” commands on 15 November 2018.",
+      "broken": true,
+      "tag": "Why it stopped",
+      "anchor": {
+        "part": "foil_silver",
+        "at": [
+          0.5,
+          0,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Kepler retires",
+        "url": "https://www.nasa.gov/news-release/nasa-retires-kepler-space-telescope-passes-planet-hunting-torch/"
+      }
+    },
+    {
+      "id": "dish",
+      "title": "The antenna",
+      "text": "Kepler sent its star measurements home through this dish. Today it follows Earth around the Sun, slowly falling farther behind.",
+      "anchor": {
+        "part": "dish_AO",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Kepler",
+        "url": "https://science.nasa.gov/mission/kepler/"
+      }
+    }
+  ],
+  "funFact": "Kepler’s goodnight commands were sent 388 years to the day after the death of Johannes Kepler, the astronomer it was named after.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "7 March 2009"
+    },
+    {
+      "label": "Retired",
+      "value": "30 October 2018"
+    },
+    {
+      "label": "Planets found",
+      "value": "More than 2,600"
+    },
+    {
+      "label": "Stars watched",
+      "value": "More than 150,000"
+    }
+  ]
+}

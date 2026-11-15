@@ -1,0 +1,139 @@
+{
+  "id": "dart",
+  "setting": "impact",
+  "model": null,
+  "name": "DART",
+  "intro": "DART was the world’s first planetary defense test. On 26 September 2022 it crashed on purpose into Dimorphos, a small moon of the asteroid Didymos, and changed its orbit. The spacecraft was destroyed; this is the asteroid it hit.",
+  "status": "Crashed into asteroid Dimorphos in 2022",
+  "whyLeft": "Crashing was the experiment. DART hit Dimorphos at about 22,000 km/h to see if a spacecraft could nudge an asteroid off its path.",
+  "repurpose": "Nothing is left to repair. Europe’s Hera spacecraft, launched in 2024, is on its way to measure the mark DART left and how much it moved the asteroid.",
+  "hotspots": [
+    {
+      "id": "impact",
+      "title": "Where it hit",
+      "text": "DART slammed into Dimorphos here at about 6 km a second. Dimorphos is about 150 meters across, roughly the size of a football stadium.",
+      "broken": true,
+      "tag": "Destroyed on purpose",
+      "anchor": {
+        "pos": [
+          0,
+          0.2,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: DART",
+        "url": "https://science.nasa.gov/mission/dart/"
+      }
+    },
+    {
+      "id": "final-approach",
+      "title": "The final approach",
+      "text": "DART’s camera sent one picture a second as it closed in, steering itself without help from Earth. The rocky moon grew from a dot to a boulder field before the signal stopped.",
+      "anchor": {
+        "pos": [
+          3,
+          1.5,
+          -3
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: DART",
+        "url": "https://science.nasa.gov/mission/dart/"
+      },
+      "video": {
+        "file": "media/sites/dart--final-approach.mp4",
+        "poster": "media/sites/dart--final-approach.jpg",
+        "caption": "DART’s final approach, sped up 10 times: Dimorphos grows from a dot to a field of boulders until the signal stops. Real pictures, no sound.",
+        "credit": "NASA/Johns Hopkins APL",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Dart_impact_replay_stabilized.webm",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://dart.jhuapl.edu/Gallery/ (video link) This video is an edited version of the origi.",
+        "real": true
+      }
+    },
+    {
+      "id": "last-look",
+      "title": "Didymos and Dimorphos",
+      "text": "This is DART’s last picture showing both asteroids: big Didymos and, closer, its little moon Dimorphos, the target.",
+      "anchor": {
+        "pos": [
+          -4,
+          0.4,
+          3
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: DART",
+        "url": "https://science.nasa.gov/mission/dart/"
+      },
+      "photo": {
+        "file": "photos/sites/dart--last-look.jpg",
+        "w": 1041,
+        "h": 1041,
+        "alt": "Two grey asteroids, a larger one and a smaller one, against black space.",
+        "caption": "DART’s last picture showing both asteroids: big Didymos and its small moon Dimorphos, minutes before impact.",
+        "credit": "NASA/Johns Hopkins APL",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Last_image_showing_all_of_Didymos_%26_Dimorphos_by_DART.png",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://www.nasa.gov/feature/dart-s-final-images-prior-to-impact (image link); original up."
+      }
+    },
+    {
+      "id": "orbit",
+      "title": "A shorter orbit",
+      "text": "Before the crash, Dimorphos took 11 hours 55 minutes to circle Didymos. The hit shortened that by about 33 minutes, proving we could push an asteroid if one ever headed for Earth.",
+      "anchor": {
+        "pos": [
+          5,
+          0.4,
+          4
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: DART",
+        "url": "https://science.nasa.gov/mission/dart/"
+      }
+    },
+    {
+      "id": "plume",
+      "title": "The debris cloud",
+      "text": "A tiny Italian spacecraft called LICIACube flew past minutes later and photographed a huge plume of rocks and dust thrown out by the crash.",
+      "anchor": {
+        "pos": [
+          -6,
+          0.4,
+          -4
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: DART",
+        "url": "https://science.nasa.gov/mission/dart/"
+      }
+    }
+  ],
+  "funFact": "Dimorphos was never a danger to Earth. It was chosen because it is a safe and easy target to measure.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "24 November 2021"
+    },
+    {
+      "label": "Hit Dimorphos",
+      "value": "26 September 2022"
+    },
+    {
+      "label": "Speed",
+      "value": "About 22,000 km/h"
+    },
+    {
+      "label": "Orbit shortened by",
+      "value": "About 33 minutes"
+    }
+  ]
+}

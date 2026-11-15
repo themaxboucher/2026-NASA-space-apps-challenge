@@ -4,12 +4,13 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { skyDir } from "../lib/geo";
-import { STOPS } from "../stops";
+import { STOPS, type Stop } from "../stops";
 import { solids } from "../state";
 import { makeEnvironment } from "./environment";
 import { HotspotTracker } from "./Hotspots";
 import { GltfMachine, type Anchors } from "./Machine";
 import { SiteReplay } from "./replays";
+import { SaturnMoons } from "./SaturnMoons";
 import { BODY_RADIUS, Planet, Stars, SunGlow } from "./Space";
 import { Walker } from "./Walker";
 
@@ -63,18 +64,26 @@ function CaptureReflections() {
   return null;
 }
 
+// A site with no model: its spots are fixed positions.
+function PosAnchors({ stop, onAnchors }: { stop: Stop; onAnchors: (a: Anchors) => void }) {
+  useLayoutEffect(() => onAnchors(Object.fromEntries(stop.hotspots.flatMap((h) => ("pos" in h.anchor ? [[h.id, new THREE.Vector3(...h.anchor.pos)]] : [])))), [stop, onAnchors]);
+  return null;
+}
+
 export function SpaceScene({ index }: { index: number }) {
   const stop = STOPS[index];
   const { gl, scene, camera } = useThree();
   const sun = useMemo(() => skyDir(stop.setting.sun.az, stop.setting.sun.el), [stop]);
-  const saturn = stop.setting.backdrop === "saturn";
+  const backdrop = stop.setting.backdrop;
+  const planet = backdrop && backdrop !== "sun-far" ? backdrop : null;
+  const saturn = planet === "saturn";
   const [anchors, setAnchors] = useState<Anchors>({});
   const onAnchors = useCallback((a: Anchors) => setAnchors(a), []);
 
   useLayoutEffect(() => {
     const cam = camera as THREE.PerspectiveCamera;
     cam.near = 0.05;
-    cam.far = 12000;
+    cam.far = saturn ? 40000 : 12000; // Saturn's moons reach out to Iapetus
     cam.updateProjectionMatrix();
     gl.toneMappingExposure = saturn ? 1.05 : 1.2;
     const env = makeEnvironment(gl, "#020204", saturn ? "#3b3122" : "#040406", sun, saturn ? 40 : 18);
@@ -94,19 +103,26 @@ export function SpaceScene({ index }: { index: number }) {
       <SunGlow dir={sun} distance={5000} size={stop.setting.sunSize ?? (saturn ? 260 : 90)} intensity={saturn ? 1.3 : 1.8} />
       <directionalLight position={sun.clone().multiplyScalar(50)} intensity={saturn ? 2.8 : 2.2} color="#fff6ea" />
       <ambientLight intensity={saturn ? 0.05 : 0.08} />
-      {saturn && (
+      {planet && (
         <>
           {/* Saturn's glow lights Cassini softly from below. */}
-          <directionalLight position={SATURN_AT.clone().normalize().multiplyScalar(50)} intensity={0.35} color="#e8c991" />
+          {saturn && <directionalLight position={SATURN_AT.clone().normalize().multiplyScalar(50)} intensity={0.35} color="#e8c991" />}
           <Suspense fallback={null}>
-            <group position={SATURN_AT} scale={SATURN_R / BODY_RADIUS.saturn}>
-              <Planet kind="saturn" sun={sun} />
+            {/* Other machines: the world they orbit (or hit) fills part of the sky, a bit smaller than Saturn does. */}
+            <group position={SATURN_AT} scale={(saturn ? SATURN_R : 420) / BODY_RADIUS[planet]}>
+              <Planet kind={planet} sun={sun} />
+              {/* Saturn's big moons, tiny at true size, in its ring plane (the same tilt as Saturn's globe). */}
+              {saturn && (
+                <group rotation={[0.47, 0, 0.12]}>
+                  <SaturnMoons radius={BODY_RADIUS.saturn} />
+                </group>
+              )}
             </group>
           </Suspense>
         </>
       )}
       <Suspense fallback={null}>
-        <GltfMachine stop={stop} onAnchors={onAnchors} />
+        {stop.model.kind === "gltf" ? <GltfMachine stop={stop} onAnchors={onAnchors} /> : <PosAnchors stop={stop} onAnchors={onAnchors} />}
       </Suspense>
       {saturn && <CaptureReflections />}
       <SiteReplay stop={stop} />

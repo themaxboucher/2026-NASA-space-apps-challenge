@@ -1,0 +1,100 @@
+{
+  "id": "deep-space-2",
+  "setting": "impact",
+  "model": null,
+  "name": "Deep Space 2",
+  "intro": "Deep Space 2 was a pair of small test probes, named Amundsen and Scott, that rode to Mars on Mars Polar Lander. On 3 December 1999 they were meant to smash into the ground near the south pole and test the soil for water. No signal ever came back.",
+  "status": "Never heard from (1999)",
+  "whyLeft": "They were built to hit the ground and stay there. Nobody knows what went wrong, because no signal was ever received; a review found they had not been tested enough before launch.",
+  "repurpose": "Nothing is known to fix, and their exact spot is unknown. A future orbiter with a sharp camera could search for their tiny holes, and the idea of crash-landing probes is still studied for other worlds.",
+  "hotspots": [
+    {
+      "id": "impact",
+      "title": "The impact hole",
+      "text": "Each probe was built to hit the ground at about 200 meters a second, faster than 700 km/h, and bury itself like a dart. Nobody knows whether they survived the hit.",
+      "broken": true,
+      "tag": "Never heard from",
+      "anchor": {
+        "pos": [
+          0,
+          0.15,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Polar Lander and Deep Space 2 landing sites",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html"
+      }
+    },
+    {
+      "id": "forebody",
+      "title": "The buried half",
+      "text": "Each probe was planned to split in two. The front half would dig up to about 60 cm into the ground, still connected by a cable to the back half at the surface.",
+      "anchor": {
+        "pos": [
+          0,
+          -0.4,
+          0
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Polar Lander and Deep Space 2 landing sites",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html"
+      }
+    },
+    {
+      "id": "antenna",
+      "title": "The back half",
+      "text": "The back half stayed at the surface with the antenna. It was meant to radio its findings up to Mars Global Surveyor in orbit, which never heard a thing.",
+      "anchor": {
+        "pos": [
+          0.4,
+          0.2,
+          0.3
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Polar Lander and Deep Space 2 landing sites",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html"
+      }
+    },
+    {
+      "id": "twin",
+      "title": "Scott’s twin",
+      "text": "The two probes, Amundsen and Scott, were named after the explorers who raced to Earth’s South Pole. They came down somewhere near Mars Polar Lander’s target, but their exact spots are unknown.",
+      "anchor": {
+        "pos": [
+          -12,
+          0.2,
+          -8
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Polar Lander and Deep Space 2 landing sites",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html"
+      }
+    }
+  ],
+  "funFact": "Each probe, inside its protective shell, was small enough to carry in your arms, and it was dropped without a parachute, on purpose.",
+  "stats": [
+    {
+      "label": "Arrived",
+      "value": "3 December 1999"
+    },
+    {
+      "label": "Impact speed",
+      "value": "About 200 m/s"
+    },
+    {
+      "label": "Mass each",
+      "value": "About 3.5 kg with its shell"
+    },
+    {
+      "label": "Signals received",
+      "value": "None"
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "id": "apollo17-lm",
+  "setting": "surface",
+  "model": "apollo-lm",
+  "name": "Challenger",
+  "intro": "This is the bottom half of Challenger, the last Apollo lander, which brought Gene Cernan and geologist Harrison Schmitt to the Taurus-Littrow valley on 11 December 1972. They explored for three days. When they left, it stayed behind as their launch pad, and no one has walked on the Moon since.",
+  "status": "Parked forever in Taurus-Littrow",
+  "hotspots": [
+    {
+      "id": "plaque",
+      "title": "The last plaque",
+      "text": "The plaque on the ladder reads: “Here man completed his first explorations of the Moon, December 1972 A.D. May the spirit of peace in which we came be reflected in the lives of all mankind.”",
+      "anchor": {
+        "part": "polySurfa1",
+        "at": [
+          0.5,
+          0.4,
+          0.35
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 17 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo17-lm--plaque.jpg",
+        "w": 1200,
+        "h": 1200,
+        "alt": "An astronaut’s arm and a ladder on the side of the lunar module, with a small metal plaque fixed to the ladder.",
+        "caption": "Gene Cernan at the ladder, with the plaque that stayed behind.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as17-134-20481",
+        "licenseEvidence": "NASA Image and Video Library item as17-134-20481 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "last-steps",
+      "title": "The last footprints",
+      "text": "Gene Cernan climbed this ladder last. His bootprints at the bottom are the most recent human footprints on the Moon.",
+      "anchor": {
+        "part": "polySurfa1",
+        "at": [
+          0.5,
+          0.9,
+          1
+        ]
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Apollo 17 EVA-3 close-out",
+        "url": "https://apollojournals.org/alsj/a17/a17.clsout3.html"
+      }
+    },
+    {
+      "id": "orange-soil",
+      "title": "Orange soil",
+      "text": "On the second moonwalk, Schmitt found a patch of orange soil. It turned out to be made of tiny glass beads from volcanic fire fountains billions of years ago.",
+      "anchor": {
+        "pos": [
+          6,
+          0.05,
+          8
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 17 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096C"
+      }
+    },
+    {
+      "id": "engine",
+      "title": "The landing engine",
+      "text": "This engine set Challenger down in a narrow valley between tall mountains.",
+      "anchor": {
+        "part": "group13_pC",
+        "at": [
+          0.5,
+          0.05,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 17 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096C"
+      }
+    },
+    {
+      "id": "top-half",
+      "title": "The missing top half",
+      "text": "The cabin blasted off from here on 14 December 1972, and the rover’s TV camera followed it into the black sky.",
+      "anchor": {
+        "part": "group31_11",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Apollo 17 return to orbit",
+        "url": "https://apollojournals.org/alsj/a17/a17.launch.html"
+      }
+    }
+  ],
+  "funFact": "Before climbing aboard for the last time, Gene Cernan said: “We leave as we came and, God willing, as we shall return, with peace and hope for all mankind.”",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "11 December 1972"
+    },
+    {
+      "label": "Time on the Moon",
+      "value": "About 75 h"
+    },
+    {
+      "label": "Rocks brought home",
+      "value": "110.52 kg"
+    },
+    {
+      "label": "Moonwalkers since",
+      "value": "None (so far)"
+    }
+  ],
+  "whyLeft": "Nothing broke: the bottom half was built to stay behind as a launch pad for the cabin.",
+  "repurpose": "Its tanks are empty, but it marks the last human visit to the Moon. Future explorers could photograph it as a 50-year record of how hardware ages here."
+}

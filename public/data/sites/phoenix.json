@@ -1,0 +1,129 @@
+{
+  "id": "phoenix",
+  "setting": "surface",
+  "model": "phoenix",
+  "name": "Phoenix",
+  "intro": "Phoenix landed near the north pole of Mars on 25 May 2008 to dig for ice. Its robotic arm found water ice just under the soil, and it even saw snow falling from the clouds. It went silent as the arctic winter came and still sits on the icy plain.",
+  "status": "Silent since 2008",
+  "whyLeft": "It was built for one Martian summer near the pole. As winter came, the Sun sank too low for its solar panels; its last signal arrived on 2 November 2008, and orbit photos later suggested that heavy frost had broken its panels.",
+  "repurpose": "Nothing to repair: its panels most likely collapsed under carbon-dioxide frost. Its lesson lives on in rovers like Curiosity and Perseverance, which run on nuclear power that winter cannot take away.",
+  "hotspots": [
+    {
+      "id": "solar-panels",
+      "title": "Round solar panels",
+      "text": "These round panels opened like paper fans. In 2010 an orbiter photographed Phoenix again: the shadow of one panel was gone, a sign that the weight of winter frost had snapped it.",
+      "broken": true,
+      "tag": "What gave out",
+      "anchor": {
+        "part": "cell",
+        "at": [
+          0.08,
+          1,
+          0.35
+        ]
+      },
+      "source": {
+        "label": "NASA Photojournal: Phoenix’s solar panels may have collapsed",
+        "url": "https://science.nasa.gov/photojournal/image-from-mars-orbit-indicates-solar-panels-on-phoenix-lander-may-have-collapsed/"
+      }
+    },
+    {
+      "id": "arm",
+      "title": "The digging arm",
+      "text": "This 2.35-meter arm dug trenches in the arctic soil. In one trench it uncovered bright chunks of ice, and four days later some of them had vanished straight into the thin air.",
+      "anchor": {
+        "part": "phoenix",
+        "at": [
+          0.52,
+          0.08,
+          0.96
+        ]
+      },
+      "source": {
+        "label": "NASA: Phoenix",
+        "url": "https://science.nasa.gov/mission/phoenix/"
+      },
+      "photo": {
+        "file": "photos/sites/phoenix--arm.jpg",
+        "w": 1071,
+        "h": 1200,
+        "alt": "Two views of the same trench; white lumps in the first view are gone in the second.",
+        "caption": "The same trench on Mars days 20 and 24. Lumps of bright ice at lower left vanished straight into the thin air.",
+        "credit": "NASA/JPL-Caltech/University of Arizona/Texas A&M University",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Evaporating_ice_on_Mars_Phoenix_lander_image.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://www.nasa.gov/mission_pages/phoenix/images/press/sol_020_024_change_dodo_v2.html."
+      }
+    },
+    {
+      "id": "ovens",
+      "title": "Tiny ovens and labs",
+      "text": "The arm dropped soil into small ovens and wet-chemistry labs on the deck. They found perchlorate, a salt that matters for possible life and for future astronauts.",
+      "anchor": {
+        "part": "deckedge",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Phoenix",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2007-034A"
+      }
+    },
+    {
+      "id": "weather",
+      "title": "Weather station",
+      "text": "Canada built Phoenix’s weather station. Its laser, pointed at the sky, saw snow falling from clouds, though the snow disappeared before it reached the ground.",
+      "anchor": {
+        "part": "silver",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Phoenix",
+        "url": "https://science.nasa.gov/mission/phoenix/"
+      }
+    },
+    {
+      "id": "camera",
+      "title": "The camera head",
+      "text": "Phoenix’s stereo camera looked out from this mast. On the deck below it sits a DVD of Mars stories and art, left as a library for future human visitors.",
+      "anchor": {
+        "part": "phoenix",
+        "at": [
+          0.43,
+          0.92,
+          0.4
+        ]
+      },
+      "source": {
+        "label": "NASA: Phoenix",
+        "url": "https://science.nasa.gov/mission/phoenix/"
+      }
+    }
+  ],
+  "funFact": "Phoenix carries a DVD called “Visions of Mars”, with stories, art and messages for future explorers who might one day find it.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "25 May 2008"
+    },
+    {
+      "label": "Last heard",
+      "value": "2 November 2008"
+    },
+    {
+      "label": "Latitude",
+      "value": "68° north"
+    },
+    {
+      "label": "Arm length",
+      "value": "2.35 m"
+    }
+  ]
+}

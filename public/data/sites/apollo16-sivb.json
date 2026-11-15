@@ -1,0 +1,110 @@
+{
+  "id": "apollo16-sivb",
+  "setting": "impact",
+  "model": null,
+  "name": "Apollo 16’s third stage",
+  "intro": "This crater was made by the third stage of the Saturn V that launched Apollo 16. It crashed on 19 April 1972, but its radio stopped working before impact, so for more than 40 years nobody knew exactly where. Cameras on NASA’s Lunar Reconnaissance Orbiter finally found it in 2015.",
+  "status": "Crater, found in 2015",
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "The lost crater",
+      "text": "The crater is oval, about 40 by 30 meters, with a mound in the middle. It lies about 30 km from where Apollo-era trackers guessed.",
+      "anchor": {
+        "pos": [
+          0,
+          0.1,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "LROC: Found! Apollo 16 S-IVB impact crater",
+        "url": "https://lroc.im-ldi.com/images/894"
+      },
+      "photo": {
+        "file": "photos/sites/apollo16-sivb--crater.jpg",
+        "w": 1041,
+        "h": 654,
+        "alt": "A grey moonscape seen from above with a fresh crater and dark and bright streaks around it.",
+        "caption": "The crater found in LRO images in 2015.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/GSFC_20171208_Archive_e000501",
+        "licenseEvidence": "NASA Image and Video Library item GSFC_20171208_Archive_e000501 (GSFC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "rays",
+      "title": "Long rays",
+      "text": "Streaks of thrown-out soil stretch hundreds of meters from the rim.",
+      "anchor": {
+        "pos": [
+          40,
+          0.1,
+          15
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "LROC: Found! Apollo 16 S-IVB impact crater",
+        "url": "https://lroc.im-ldi.com/images/894"
+      }
+    },
+    {
+      "id": "lost-radio",
+      "title": "Lost contact",
+      "text": "Scout’s check: the stage’s radio fell silent before the crash, so its timing had to be worked out later from seismometer readings.",
+      "broken": true,
+      "tag": "What went wrong",
+      "anchor": {
+        "pos": [
+          -12,
+          2,
+          10
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    },
+    {
+      "id": "found",
+      "title": "Found at last",
+      "text": "In December 2015 the LRO camera team announced that they had found the crater, in Mare Insularum.",
+      "anchor": {
+        "pos": [
+          0,
+          1.5,
+          -40
+        ]
+      },
+      "source": {
+        "label": "LROC: Found! Apollo 16 S-IVB impact crater",
+        "url": "https://lroc.im-ldi.com/images/894"
+      }
+    }
+  ],
+  "funFact": "It was lost on the Moon for more than 40 years, until a scientist spotted its crater in LRO pictures.",
+  "stats": [
+    {
+      "label": "Hit the Moon",
+      "value": "19 April 1972"
+    },
+    {
+      "label": "Speed",
+      "value": "About 2.5 km/s"
+    },
+    {
+      "label": "Mass",
+      "value": "About 14,100 kg"
+    },
+    {
+      "label": "Crater",
+      "value": "About 40 × 30 m"
+    }
+  ],
+  "whyLeft": "It was used up after sending Apollo 16 on its way, so NASA aimed it at the Moon as a giant test thump for the seismometers.",
+  "repurpose": "It shattered on impact. Like the other stages, its aluminium fragments could one day be gathered by a Moon base."
+}

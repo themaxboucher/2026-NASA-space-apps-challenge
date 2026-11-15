@@ -1,0 +1,123 @@
+{
+  "id": "deep_impact_impactor",
+  "setting": "impact",
+  "model": null,
+  "name": "Deep Impact impactor",
+  "intro": "NASA crashed this impactor into comet Tempel 1 on purpose, on 4 July 2005, to blast out material from inside the comet. It was destroyed in the crash. In 2011 another spacecraft came back and spotted the crater it made.",
+  "status": "Smashed into comet Tempel 1 in 2005",
+  "whyLeft": "Crashing was its whole job. It flew on its own for its last day and steered itself into the comet at about 37,000 km/h.",
+  "repurpose": "Nothing is left to repair. Going back to look was its reuse: NASA’s Stardust spacecraft visited Tempel 1 in 2011 and photographed the crater.",
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "The crater",
+      "text": "When Stardust flew past in 2011, it found the crater: about 150 meters wide, with a small mound in the middle where material fell back in.",
+      "broken": true,
+      "tag": "Destroyed on purpose",
+      "anchor": {
+        "pos": [
+          0,
+          0.2,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Deep Impact",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2005-001A"
+      }
+    },
+    {
+      "id": "flash",
+      "title": "The flash",
+      "text": "The flyby spacecraft watched from a safe distance as the hit made a bright flash and a huge cloud of dust. The dust was as fine as powder, with water ice and carbon-rich material.",
+      "anchor": {
+        "pos": [
+          4,
+          0.5,
+          -3
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: Deep Impact",
+        "url": "https://science.nasa.gov/mission/deep-impact-epoxi/"
+      },
+      "photo": {
+        "file": "photos/sites/deep_impact_impactor--flash.jpg",
+        "w": 900,
+        "h": 900,
+        "alt": "A comet nucleus with a bright burst of light and dust spraying from it.",
+        "caption": "Comet Tempel 1 just after the impactor hit, seen by the Deep Impact flyby spacecraft on 4 July 2005.",
+        "credit": "NASA/JPL-Caltech/UMD",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Deep_Impact_HRI.jpeg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://solarviews.com/cap/pia/PIA02137.htmhttps://photojournal.jpl.nasa.gov/catalog/PIA021."
+      }
+    },
+    {
+      "id": "copper",
+      "title": "A copper bullet",
+      "text": "The impactor was built with lots of copper, because copper would not confuse the measurements of what the comet is made of.",
+      "anchor": {
+        "pos": [
+          -3,
+          0.3,
+          3
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Deep Impact",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2005-001A"
+      },
+      "photo": {
+        "file": "photos/sites/deep_impact_impactor--copper.jpg",
+        "w": 1200,
+        "h": 810,
+        "alt": "Engineers in clean-room suits beside a spacecraft with a big copper-coloured disc.",
+        "caption": "The impactor on Earth before launch. The copper-coloured front plate is the heavy part that smashed into the comet.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Deep_Impact_impactor_inspection.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://images.nasa.gov/details/05pd0114 http://mediaarchive.ksc.nasa.gov/detail.cfm?media."
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Its last pictures",
+      "text": "The impactor’s own camera sent pictures of the comet’s surface until just seconds before the crash, steering itself to the target.",
+      "anchor": {
+        "pos": [
+          -5,
+          0.3,
+          -5
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA: Deep Impact",
+        "url": "https://science.nasa.gov/mission/deep-impact-epoxi/"
+      }
+    }
+  ],
+  "funFact": "The crash happened on 4 July 2005, Independence Day in the USA, so some called it the biggest Fourth of July firework ever.",
+  "stats": [
+    {
+      "label": "Hit the comet",
+      "value": "4 July 2005"
+    },
+    {
+      "label": "Speed",
+      "value": "About 37,000 km/h"
+    },
+    {
+      "label": "Mass",
+      "value": "372 kg"
+    },
+    {
+      "label": "Crater",
+      "value": "About 150 m wide"
+    }
+  ]
+}

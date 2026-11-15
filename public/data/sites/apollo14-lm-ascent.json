@@ -1,0 +1,118 @@
+{
+  "id": "apollo14-lm-ascent",
+  "setting": "impact",
+  "model": null,
+  "name": "Antares’s top half",
+  "intro": "This is where the top half of Antares crashed into the Moon on 7 February 1971. It had carried Alan Shepard and Edgar Mitchell back to their command module, Kitty Hawk, and was then sent back down to make a moonquake. Its crater has not been found.",
+  "status": "Crashed on purpose, 7 February 1971",
+  "hotspots": [
+    {
+      "id": "impact-point",
+      "title": "Somewhere here",
+      "text": "Antares’s cabin hit between the Apollo 12 and Apollo 14 landing sites. Its crater has never been identified, so this spot is a best guess.",
+      "anchor": {
+        "pos": [
+          0,
+          0.1,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    },
+    {
+      "id": "liftoff",
+      "title": "Leaving the Moon",
+      "text": "On 6 February 1971 the cabin blasted off from Fra Mauro. Its rocket blast scattered gold foil and shook the flag, as a film camera in the window recorded.",
+      "anchor": {
+        "pos": [
+          -12,
+          1.5,
+          8
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 14 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-008C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo14-lm-ascent--liftoff.jpg",
+        "w": 1200,
+        "h": 859,
+        "alt": "Seen from above through a window, flakes of gold foil fly over the grey ground and a small US flag.",
+        "caption": "Liftoff from Fra Mauro, filmed from inside Antares as foil flew past the flag.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/S71-19500",
+        "licenseEvidence": "NASA Image and Video Library item S71-19500 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "cabin",
+      "title": "The cabin",
+      "text": "This is the front of the cabin, with its pointed windows and docking target. Shepard and Mitchell lived inside it for about 33 hours on the Moon.",
+      "anchor": {
+        "pos": [
+          14,
+          1.5,
+          -8
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 14 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-008C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo14-lm-ascent--cabin.jpg",
+        "w": 1200,
+        "h": 1200,
+        "alt": "Looking up at the front of the lunar module cabin, with a dish antenna and a thin crescent Earth in the black sky.",
+        "caption": "Looking up at Antares’s cabin from the ladder; the tiny crescent is Earth.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as14-64-9193",
+        "licenseEvidence": "NASA Image and Video Library item as14-64-9193 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "moonquake",
+      "title": "Two listeners",
+      "text": "This crash was recorded by both the Apollo 12 and Apollo 14 seismometers, helping scientists map the Moon’s outer layers.",
+      "anchor": {
+        "pos": [
+          0,
+          1.5,
+          -40
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    }
+  ],
+  "funFact": "It struck the Moon only about 3.6 degrees above the horizon, almost skimming the ground.",
+  "stats": [
+    {
+      "label": "Hit the Moon",
+      "value": "7 February 1971"
+    },
+    {
+      "label": "Speed",
+      "value": "1.68 km/s"
+    },
+    {
+      "label": "Angle",
+      "value": "About 3.6°"
+    },
+    {
+      "label": "Mass",
+      "value": "About 2,300 kg"
+    }
+  ],
+  "whyLeft": "It could not land again or fly home, so after the crew moved out, mission control crashed it to give the seismometers a known shake.",
+  "repurpose": "Only scattered fragments remain. Finding them would tell engineers how spacecraft break apart in a fast, low-angle crash."
+}

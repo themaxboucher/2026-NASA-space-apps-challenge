@@ -1,0 +1,139 @@
+{
+  "id": "osiris_apex",
+  "setting": "space",
+  "model": "osiris-rex",
+  "name": "OSIRIS-APEX",
+  "intro": "As OSIRIS-REx, this spacecraft grabbed rubble from asteroid Bennu in 2020 and dropped it off at Earth in 2023. It was not abandoned: it was renamed OSIRIS-APEX and sent to meet asteroid Apophis in 2029.",
+  "status": "Active, on its way to Apophis (2029)",
+  "whyLeft": "It has not been left. After its sample capsule landed, the spacecraft still worked, so NASA gave it a new job instead of switching it off.",
+  "repurpose": "This is a salvage success: a spacecraft that finished its first mission was given a second one, to study Apophis right after it passes close to Earth in April 2029.",
+  "hotspots": [
+    {
+      "id": "tag",
+      "title": "The sample arm",
+      "text": "On 20 October 2020 this arm touched Bennu for a few seconds and puffed nitrogen gas to stir up rubble. The ground was so loose that the arm sank in about half a meter.",
+      "anchor": {
+        "part": "Tagsam_rod_bottom",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: OSIRIS-REx",
+        "url": "https://science.nasa.gov/mission/osiris-rex/"
+      },
+      "video": {
+        "file": "media/sites/osiris_apex--tag.mp4",
+        "poster": "media/sites/osiris_apex--tag.jpg",
+        "caption": "OSIRIS-REx touching asteroid Bennu on 20 October 2020, filmed by its own camera. Real footage, no sound.",
+        "credit": "NASA/Goddard/University of Arizona",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:OSIRIS-REX_SamCam_TAGSAM_Event_2020-10-20.webm",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: https://svs.gsfc.nasa.gov/13744; see also https://www.asteroidmission.org/?latest-news=osi.",
+        "real": true
+      }
+    },
+    {
+      "id": "capsule",
+      "title": "The empty capsule spot",
+      "text": "The sample capsule rode here. On 24 September 2023 it parachuted into the Utah desert with 121.6 grams of Bennu, NASA’s first asteroid sample.",
+      "anchor": {
+        "part": "heatshield",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: OSIRIS-REx",
+        "url": "https://science.nasa.gov/mission/osiris-rex/"
+      },
+      "photo": {
+        "file": "photos/sites/osiris_apex--capsule.jpg",
+        "w": 1200,
+        "h": 800,
+        "alt": "A cone-shaped capsule lying on desert ground.",
+        "caption": "The OSIRIS-REx sample capsule just after landing in the Utah desert on 24 September 2023.",
+        "credit": "NASA/Keegan Barber",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:OSIRIS-REx_Sample_Return_(NHQ202309240012).jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: This image or video was catalogued by NASA Headquarters of the United States National Aero."
+      }
+    },
+    {
+      "id": "too-full",
+      "title": "Overstuffed",
+      "text": "The sampler head grabbed so much that rocks jammed its flap open and some bits floated away. The team quickly packed it into the capsule, saving most of the sample.",
+      "broken": true,
+      "tag": "A problem solved",
+      "anchor": {
+        "part": "Tagsam_rod_bottom",
+        "at": [
+          0.1,
+          0.9,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: OSIRIS-REx",
+        "url": "https://science.nasa.gov/mission/osiris-rex/"
+      }
+    },
+    {
+      "id": "dish",
+      "title": "The dish",
+      "text": "This dish sends messages to Earth. It will carry home OSIRIS-APEX’s pictures of Apophis.",
+      "anchor": {
+        "part": "HGA",
+        "at": [
+          1,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: OSIRIS-APEX",
+        "url": "https://science.nasa.gov/mission/osiris-apex/"
+      }
+    },
+    {
+      "id": "solar-panels",
+      "title": "Solar panels",
+      "text": "Two solar panels power the spacecraft as it loops around the Sun toward its meeting with Apophis in 2029.",
+      "anchor": {
+        "part": "Array",
+        "at": [
+          0.5,
+          0.5,
+          0.02
+        ]
+      },
+      "source": {
+        "label": "NASA: OSIRIS-APEX",
+        "url": "https://science.nasa.gov/mission/osiris-apex/"
+      }
+    }
+  ],
+  "funFact": "Asteroid Apophis will pass so close to Earth on 13 April 2029 that people will see it without a telescope.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "8 September 2016"
+    },
+    {
+      "label": "Touched Bennu",
+      "value": "20 October 2020"
+    },
+    {
+      "label": "Sample delivered",
+      "value": "121.6 g, 24 September 2023"
+    },
+    {
+      "label": "Next stop",
+      "value": "Apophis, 2029"
+    }
+  ]
+}

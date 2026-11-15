@@ -1,0 +1,140 @@
+{
+  "id": "stardust",
+  "setting": "space",
+  "model": "stardust",
+  "name": "Stardust",
+  "intro": "Stardust caught dust from comet Wild 2 and dropped it back to Earth in a capsule in 2006. Then it visited a second comet, Tempel 1. Out of fuel, it was switched off in 2011 and now silently circles the Sun.",
+  "status": "Silent since 2011, circling the Sun",
+  "whyLeft": "It used up its fuel. On 24 March 2011 it fired its engine until the tank ran dry, to check how much was really left, and then the team switched it off.",
+  "repurpose": "Its treasure is already home: scientists still study the comet dust it brought back. It also got a second job before it retired, a visit to comet Tempel 1.",
+  "hotspots": [
+    {
+      "id": "collector",
+      "title": "The dust catcher",
+      "text": "A tennis-racket-shaped grid filled with aerogel, one of the lightest solids ever made, caught comet dust flying at 6 km a second, like catching bullets in foam.",
+      "anchor": {
+        "part": "Stardust_tex_02_c2",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Stardust",
+        "url": "https://science.nasa.gov/mission/stardust/"
+      },
+      "photo": {
+        "file": "photos/sites/stardust--aerogel.jpg",
+        "w": 900,
+        "h": 1200,
+        "alt": "Carrot-shaped tracks left by dust grains inside clear aerogel.",
+        "caption": "Tracks left by comet dust grains that slammed into Stardust’s aerogel.",
+        "credit": "NASA/JPL",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Comet_particle_tracks_in_aerogel._of_Stardust_2trackposter.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://stardust.jpl.nasa.gov/news/status/060512.html."
+      }
+    },
+    {
+      "id": "capsule",
+      "title": "Where the capsule rode",
+      "text": "The return capsule sat here. In January 2006 it hit Earth’s air at 12.9 km a second, the fastest re-entry of any spacecraft at the time, and parachuted into the Utah desert.",
+      "anchor": {
+        "part": "Stardust_tex_01_c",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Stardust",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1999-003A"
+      },
+      "photo": {
+        "file": "photos/sites/stardust--capsule.jpg",
+        "w": 1200,
+        "h": 1194,
+        "alt": "A small cone-shaped capsule lying on the desert ground.",
+        "caption": "Stardust’s sample capsule in the Utah desert on 15 January 2006, just after landing.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Stardust_Capsule_on_Ground.jpg",
+        "licenseEvidence": "Commons page licence: “Public domain” (PD NASA); original source: http://www.nasa.gov/mission_pages/stardust/multimedia/capsule-1.html."
+      }
+    },
+    {
+      "id": "shields",
+      "title": "Dust shields",
+      "text": "Layered shields at the front protected Stardust when it flew through the comet’s dusty cloud, just 240 km from the comet itself.",
+      "anchor": {
+        "part": "foil_silver.002",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Stardust",
+        "url": "https://science.nasa.gov/mission/stardust/"
+      }
+    },
+    {
+      "id": "fuel",
+      "title": "The last burn",
+      "text": "Stardust’s last act was a science test: it fired its engine until the fuel ran out, so engineers could check how well they had predicted the fuel left.",
+      "broken": true,
+      "tag": "Why it stopped",
+      "anchor": {
+        "part": "gold_foil",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Stardust",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1999-003A"
+      }
+    },
+    {
+      "id": "solar-panels",
+      "title": "Solar panels",
+      "text": "Two solar panels powered Stardust. Scientists found glycine, one of the building blocks of life, in the comet dust they helped bring home.",
+      "anchor": {
+        "part": "shiny_panels",
+        "at": [
+          0.02,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Stardust",
+        "url": "https://science.nasa.gov/mission/stardust/"
+      }
+    }
+  ],
+  "funFact": "Stardust’s capsule hit Earth’s atmosphere at 12.9 km per second, the fastest re-entry of any human-made object at the time.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "7 February 1999"
+    },
+    {
+      "label": "Flew through comet Wild 2",
+      "value": "2 January 2004"
+    },
+    {
+      "label": "Capsule landed",
+      "value": "15 January 2006"
+    },
+    {
+      "label": "Switched off",
+      "value": "24 March 2011"
+    }
+  ]
+}

@@ -7,7 +7,7 @@ import { reducedMotion } from "../lib/device";
 import { aim, formatKm } from "../lib/geo";
 import { plan, START_POSE, type Shot } from "../plans";
 import { hud, live, tour, type SceneDesc, type Target, type TourState } from "../state";
-import { STOPS } from "../stops";
+import { STORY_COUNT, STOPS } from "../stops";
 import { modelSettled, preloadModel } from "./useModel";
 
 type Run = { shots: Shot[]; t: number; shot: number; to: Target; skip: boolean };
@@ -69,6 +69,7 @@ export function Director() {
     }
 
     const r = run.current;
+    let chip = "";
     if (r) {
       const last = r.shots[r.shots.length - 1];
       let start = 0;
@@ -104,7 +105,7 @@ export function Director() {
         tour.set({
           ...(cut ? { scene: last.scene } : {}),
           phase: to === "start" ? "start" : to === "end" ? "end" : "explore",
-          stop: typeof to === "number" ? to : to === "end" ? STOPS.length - 1 : -1,
+          stop: typeof to === "number" ? to : to === "end" ? STORY_COUNT - 1 : -1,
           cruise: null,
           introOpen: typeof to === "number",
         });
@@ -141,6 +142,7 @@ export function Director() {
         live.fade = f * f * (3 - 2 * f);
         tint = (shot.fadeOut && left < shot.fadeOut ? shot.tint?.out : shot.tint?.in) ?? "#000";
         live.streak = shot.streak ? shot.streak(local) : 0;
+        chip = shot.chip?.(local) ?? "";
         if (shot.counter) live.counter = shot.counter.at(local);
       }
     } else {
@@ -163,6 +165,12 @@ export function Director() {
       if (shownTint !== tint) hud.fade.style.backgroundColor = shownTint = tint;
     }
     if (hud.counter && tour.get().cruise) hud.counter.textContent = formatKm(live.counter);
+    // The caption chip naming what you're flying past; it fades between captions (CSS on [data-on]).
+    if (hud.chip && hud.chip.dataset.text !== chip) {
+      hud.chip.dataset.text = chip;
+      if (chip) hud.chip.textContent = chip;
+      hud.chip.toggleAttribute("data-on", !!chip);
+    }
   });
 
   return null;

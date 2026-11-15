@@ -1,0 +1,166 @@
+{
+  "id": "surveyor5",
+  "setting": "surface",
+  "model": "surveyor",
+  "name": "Surveyor 5",
+  "intro": "Surveyor 5 nearly didn’t make it: a leak on the way to the Moon forced engineers to invent a new landing plan in a hurry. It touched down on a steep slope inside a small crater in the Sea of Tranquility and became the first spacecraft to test what Moon soil is made of.",
+  "status": "Silent since 1967",
+  "whyLeft": "It was never designed to come home, and after working through several freezing lunar nights its power finally gave out in December 1967.",
+  "repurpose": "It sits only about 25 km from Apollo 11, so a future rover visiting Tranquility Base could swing by and check how its parts aged.",
+  "funFact": "Surveyor 5 is only about 25 km from where Apollo 11 landed less than two years later.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "11 September 1967"
+    },
+    {
+      "label": "Slope it landed on",
+      "value": "About 20°"
+    },
+    {
+      "label": "Pictures sent",
+      "value": "19,118"
+    },
+    {
+      "label": "Lunar days worked",
+      "value": "4"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "engines",
+      "title": "Leaky engines",
+      "text": "After a course correction, helium gas that pushes fuel to these engines started leaking away. Engineers fired the engines early and lit the big braking rocket much lower than planned, only 1.3 km up. The rescue worked perfectly.",
+      "anchor": {
+        "pos": [
+          0.53,
+          0.25,
+          0.43
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 5",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-084A"
+      },
+      "photo": {
+        "file": "photos/sites/surveyor5--engine.jpg",
+        "w": 864,
+        "h": 702,
+        "alt": "A Surveyor vernier rocket engine on a test stand",
+        "caption": "One of Surveyor’s small vernier engines, photographed on Earth for the Surveyor 5 mission report.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Surveyor-vernier-engine.jpg",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); from the NASA Surveyor 5 mission report (1968)"
+      }
+    },
+    {
+      "id": "alpha",
+      "title": "Soil chemistry lab",
+      "text": "This box was lowered on a cord onto the ground to find out what the soil is made of. It discovered the Sea of Tranquility is like basalt, a dark volcanic rock found on Earth. That was the first chemistry test ever done on another world.",
+      "anchor": {
+        "pos": [
+          0.35,
+          0.05,
+          0.95
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 5",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-084A"
+      },
+      "photo": {
+        "file": "photos/sites/surveyor5--alpha.jpg",
+        "w": 782,
+        "h": 689,
+        "alt": "The bottom of the alpha-scattering instrument sensor head",
+        "caption": "The bottom of the chemistry instrument’s sensor head, photographed on Earth before flight.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:View-of-bottom-of-alpha-sca.jpg",
+        "licenseEvidence": "Wikimedia Commons file page: licence “Public domain” (PD-USGov-NASA: work of NASA, not copyrighted in the US); from the NASA Surveyor 5 mission report (1968)"
+      }
+    },
+    {
+      "id": "magnet",
+      "title": "Magnet on the foot",
+      "text": "A small magnet on one footpad picked up bits of the soil. The amount stuck to it showed the dust holds a little bit of magnetic, iron-rich mineral.",
+      "anchor": {
+        "pos": [
+          1.73,
+          0.1,
+          1.12
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 5",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-084A"
+      }
+    },
+    {
+      "id": "engine-test",
+      "title": "Engine blast test",
+      "text": "Two days after landing, engineers fired the engines for just over half a second while Surveyor sat on the ground. It disturbed only a little soil, useful news for Apollo planners worried about landing-engine blasts.",
+      "anchor": {
+        "pos": [
+          0,
+          0.05,
+          -0.5
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 5",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-084A"
+      }
+    },
+    {
+      "id": "solar-panel",
+      "title": "Solar panel",
+      "text": "Surveyor 5 was tougher than expected. It slept through its first lunar night and woke up again, then kept working on and off until its last radio message on 17 December 1967.",
+      "broken": true,
+      "tag": "Why it stopped",
+      "anchor": {
+        "part": "cell",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 5",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-084A"
+      }
+    },
+    {
+      "id": "from-orbit",
+      "title": "Hole-in-one",
+      "text": "From orbit, the Lunar Reconnaissance Orbiter shows Surveyor 5 sitting inside a crater about 10 m wide, like a golf ball in a hole.",
+      "anchor": {
+        "pos": [
+          0,
+          4.2,
+          0
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Surveyor 5",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-084A"
+      },
+      "photo": {
+        "file": "photos/sites/surveyor5--from-orbit.jpg",
+        "w": 800,
+        "h": 800,
+        "alt": "Surveyor 5 seen from orbit inside a small crater",
+        "caption": "Surveyor 5 inside its small crater, photographed from orbit by NASA’s Lunar Reconnaissance Orbiter.",
+        "credit": "NASA/GSFC/Arizona State University",
+        "license": "Educational use with credit",
+        "source": "https://images.nasa.gov/details/PIA12977",
+        "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
+      }
+    }
+  ]
+}

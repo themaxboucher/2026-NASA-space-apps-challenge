@@ -1,0 +1,120 @@
+{
+  "id": "spitzer",
+  "setting": "space",
+  "model": "spitzer",
+  "name": "Spitzer",
+  "intro": "The Spitzer Space Telescope saw the universe in infrared, the heat glow of things hidden behind dust. Designed to last at least two and a half years, it worked for more than 16. It was switched off in January 2020 and still trails Earth around the Sun.",
+  "status": "Retired in 2020, trailing Earth",
+  "whyLeft": "Spitzer drifted farther and farther behind Earth. To talk to us it had to tilt more and more away from the Sun, which made it harder to stay cool and charged, so NASA switched it off on 30 January 2020.",
+  "repurpose": "It already worked on long after its coolant ran out in 2009, using its remaining cameras. A robotic tanker could refill it, but first it would have to chase Spitzer around the Sun.",
+  "hotspots": [
+    {
+      "id": "mirror",
+      "title": "The mirror",
+      "text": "Spitzer’s 85-centimeter mirror is made of beryllium, a light metal that keeps its shape when very cold.",
+      "anchor": {
+        "part": "mirror",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Spitzer",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-038A"
+      }
+    },
+    {
+      "id": "coolant",
+      "title": "Liquid helium",
+      "text": "Super-cold liquid helium kept Spitzer’s cameras cold enough to see faint heat. It ran out on 15 May 2009, but two of the cameras kept working for 10 more years.",
+      "broken": true,
+      "tag": "First thing to run out",
+      "anchor": {
+        "part": "BUS",
+        "at": [
+          0.5,
+          0.45,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Spitzer",
+        "url": "https://science.nasa.gov/mission/spitzer/"
+      }
+    },
+    {
+      "id": "sunshield",
+      "title": "Sun shield",
+      "text": "This side faces the Sun. It carries the solar cells and shades the telescope, which must stay cold to see in infrared.",
+      "anchor": {
+        "part": "shiny_panels",
+        "at": [
+          1,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Spitzer",
+        "url": "https://science.nasa.gov/mission/spitzer/"
+      }
+    },
+    {
+      "id": "antenna",
+      "title": "Tilting to talk",
+      "text": "As Spitzer fell behind Earth, it had to tip its antenna farther from the Sun to send data home. Each tilt heated it up and drained power, so in 2020 the team switched it off.",
+      "broken": true,
+      "tag": "Why it stopped",
+      "anchor": {
+        "part": "antenna_AO",
+        "at": [
+          0.5,
+          0,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Spitzer",
+        "url": "https://science.nasa.gov/mission/spitzer/"
+      }
+    },
+    {
+      "id": "trappist",
+      "title": "Seven planets",
+      "text": "Spitzer helped show that the star TRAPPIST-1 has seven Earth-sized planets. It also found a giant, nearly invisible ring around Saturn.",
+      "anchor": {
+        "part": "BUS002",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Spitzer",
+        "url": "https://science.nasa.gov/mission/spitzer/"
+      }
+    }
+  ],
+  "funFact": "Spitzer discovered Saturn’s biggest ring of all, made of dust from the moon Phoebe. It is so faint that only infrared eyes can see it.",
+  "stats": [
+    {
+      "label": "Launched",
+      "value": "25 August 2003"
+    },
+    {
+      "label": "Coolant ran out",
+      "value": "15 May 2009"
+    },
+    {
+      "label": "Switched off",
+      "value": "30 January 2020"
+    },
+    {
+      "label": "Mirror",
+      "value": "85 cm wide"
+    }
+  ]
+}

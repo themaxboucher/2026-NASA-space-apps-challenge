@@ -1,0 +1,49 @@
+{
+  "title": "What's orbiting Earth",
+  "asOf": "13 November 2026",
+  "source": {
+    "label": "ESA Space Debris Office: Space debris by the numbers",
+    "url": "https://www.esa.int/Space_Safety/Space_Debris/Space_debris_by_the_numbers",
+    "data": "https://sdup.esoc.esa.int/discosweb/statistics/embed/bythenumbers",
+    "credit": "European Space Agency (ESA) Space Debris Office, ESOC"
+  },
+  "tracked": 47260,
+  "satellitesLaunched": 28830,
+  "satellitesInOrbit": 19750,
+  "satellitesWorking": 15800,
+  "satellitesDead": 3950,
+  "trackedNotWorking": 31460,
+  "launches": 7420,
+  "fragmentationEvents": 660,
+  "massTonnes": 17600,
+  "modelled": {
+    "reference": "ESA MASTER-8 model, February 2026",
+    "over10cm": 68450,
+    "activePayloads": 11300,
+    "from1to10cm": 1500000,
+    "from1mmTo1cm": 230000000
+  },
+  "shells": [
+    {
+      "name": "Low Earth orbit",
+      "altitudeKm": "160 to 2,000",
+      "note": "The busiest region: the International Space Station, most satellites and most of the junk."
+    },
+    {
+      "name": "Medium Earth orbit",
+      "altitudeKm": "about 20,000",
+      "note": "Navigation satellites such as GPS and Galileo."
+    },
+    {
+      "name": "Geostationary orbit",
+      "altitudeKm": "35,786",
+      "note": "A ring above the equator where satellites keep pace with Earth's spin, so they seem to hang still in the sky."
+    }
+  ],
+  "kidLines": [
+    "About 47,000 objects around Earth are big enough to track. Only about 15,800 of them are working satellites.",
+    "The other 31,000 or so are dead satellites, used rocket stages and pieces from more than 660 break-ups and collisions.",
+    "Scientists estimate there are also about 1.5 million bits between 1 and 10 cm across, too small to track but fast enough to damage a spacecraft.",
+    "Most of it is in low Earth orbit, under 2,000 km up, where thin air slowly drags it down to burn up. Up at the geostationary ring nothing drags it down, so old satellites there are pushed a few hundred kilometres higher, into a “graveyard orbit”, to keep the ring clear."
+  ]
+}

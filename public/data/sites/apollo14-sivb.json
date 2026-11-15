@@ -1,0 +1,111 @@
+{
+  "id": "apollo14-sivb",
+  "setting": "impact",
+  "model": null,
+  "name": "Apollo 14’s third stage",
+  "intro": "This crater was made by the third stage of the Saturn V that launched Apollo 14. After pushing the astronauts toward the Moon, the empty 14-tonne stage was steered into the ground on 4 February 1971 so seismometers could feel the crash.",
+  "status": "Crater, found by LRO",
+  "hotspots": [
+    {
+      "id": "crater",
+      "title": "The crater",
+      "text": "The stage blasted out a crater about 35 meters across. NASA’s Lunar Reconnaissance Orbiter photographed it in 2009.",
+      "anchor": {
+        "pos": [
+          0,
+          0.1,
+          0
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "LROC: Apollo 14 S-IVB impact crater",
+        "url": "https://lroc.im-ldi.com/images/60"
+      },
+      "photo": {
+        "file": "photos/sites/apollo14-sivb--crater.jpg",
+        "w": 1000,
+        "h": 1000,
+        "alt": "A grey, cratered moonscape seen from above, with a fresh crater and bright splashes in the middle.",
+        "caption": "The crater from orbit, seen by NASA’s Lunar Reconnaissance Orbiter.",
+        "credit": "NASA/GSFC/Arizona State University",
+        "license": "Educational use with credit",
+        "source": "https://images.nasa.gov/details/PIA12911",
+        "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
+      }
+    },
+    {
+      "id": "steep-dive",
+      "title": "A steep dive",
+      "text": "Unlike the lander cabins, the big stage came down steeply, about 69 degrees above the horizon, at 2.54 km per second.",
+      "anchor": {
+        "pos": [
+          14,
+          0.3,
+          6
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    },
+    {
+      "id": "listening",
+      "title": "Who felt it",
+      "text": "The Apollo 12 seismometer, more than 100 km away, recorded the shaking. Crashes at known times and places let scientists measure how fast vibrations travel through the Moon.",
+      "anchor": {
+        "pos": [
+          0,
+          1.5,
+          -40
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo impact sites on the Moon",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    },
+    {
+      "id": "pieces",
+      "title": "Scattered pieces",
+      "text": "Scout’s check: nothing survived in one piece. The stage broke apart on impact and its fragments are spread around the crater.",
+      "broken": true,
+      "tag": "What is left",
+      "anchor": {
+        "pos": [
+          -20,
+          0.1,
+          -14
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "LROC (LRO camera team): the Apollo S-IVB craters",
+        "url": "https://lroc.im-ldi.com/images/1261"
+      }
+    }
+  ],
+  "funFact": "The stage weighed about 14 tonnes when it hit, more than two African elephants.",
+  "stats": [
+    {
+      "label": "Hit the Moon",
+      "value": "4 February 1971"
+    },
+    {
+      "label": "Speed",
+      "value": "2.54 km/s"
+    },
+    {
+      "label": "Mass",
+      "value": "About 14,000 kg"
+    },
+    {
+      "label": "Crater",
+      "value": "About 35 m across"
+    }
+  ],
+  "whyLeft": "It was used up after sending Apollo 14 to the Moon, so NASA turned it into a giant test thump for the seismometers.",
+  "repurpose": "It broke into pieces, but its scattered aluminium could one day be gathered as building material for a Moon base."
+}

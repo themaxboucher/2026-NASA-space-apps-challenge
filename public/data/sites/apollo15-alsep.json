@@ -1,0 +1,129 @@
+{
+  "id": "apollo15-alsep",
+  "setting": "surface",
+  "model": "alsep",
+  "name": "Apollo 15 science station",
+  "intro": "Dave Scott and Jim Irwin set up this nuclear-powered science station on the plains near Hadley Rille in July 1971. It listened for moonquakes and measured heat leaking out of the Moon until NASA ended support for all the stations in 1977.",
+  "status": "Switched off in 1977",
+  "hotspots": [
+    {
+      "id": "central-station",
+      "title": "The central station",
+      "text": "The station’s brain and radio. In September 1977 NASA stopped collecting its data and switched the experiments off. Scout’s check: its seismometer was still working at the end.",
+      "broken": true,
+      "tag": "Why it went quiet",
+      "anchor": {
+        "part": "gold",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      },
+      "photo": {
+        "file": "photos/sites/apollo15-alsep--central-station.jpg",
+        "w": 1188,
+        "h": 1200,
+        "alt": "A foil-wrapped box with a tall antenna mast stands on the grey ground, with a silver blanket on the ground in front.",
+        "caption": "The seismometer under its silver blanket and the central station behind it, at Hadley.",
+        "credit": "NASA (Apollo photo AS15-87-11845)",
+        "license": "Public domain",
+        "source": "https://apollojournals.org/alsj/a15/images15.html",
+        "licenseEvidence": "Apollo Lunar Surface Journal image library: NASA Hasselblad frame AS15-87-11845, NASA film scan (not a third-party restoration). NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "heat-probes",
+      "title": "Hard drilling",
+      "text": "Scott drilled holes for heat probes, but the drill kept jamming: the first hole reached only 172 cm instead of the planned 294 cm. A faulty drill-stem design was to blame, and it was fixed for later missions.",
+      "anchor": {
+        "pos": [
+          -4.5,
+          0.2,
+          3.5
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Apollo 15 heat flow drilling",
+        "url": "https://apollojournals.org/alsj/a15/a15.heatflow2.html"
+      }
+    },
+    {
+      "id": "heat-flow",
+      "title": "Feeling the Moon’s warmth",
+      "text": "The probes measured heat flowing up from deep inside the Moon. They kept recording temperatures for four and a half years.",
+      "anchor": {
+        "pos": [
+          -5.5,
+          0.2,
+          5
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      }
+    },
+    {
+      "id": "rtg",
+      "title": "The nuclear generator",
+      "text": "This finned can turned heat from plutonium into electricity, so the station worked through the freezing two-week nights.",
+      "anchor": {
+        "part": "grey",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA RP-1036: ALSEP Termination Report (1979)",
+        "url": "https://ntrs.nasa.gov/citations/19790014808"
+      }
+    },
+    {
+      "id": "antenna",
+      "title": "The antenna",
+      "text": "This antenna pointed at Earth and sent the station’s data home for six years. Earth stays in nearly the same spot in the sky here, so it never had to move.",
+      "anchor": {
+        "part": "white",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 15 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C"
+      }
+    }
+  ],
+  "funFact": "With the Apollo 12 and 14 stations, its seismometer made a triangle that could pinpoint where moonquakes start.",
+  "stats": [
+    {
+      "label": "Set up",
+      "value": "31 July 1971"
+    },
+    {
+      "label": "Support ended",
+      "value": "30 September 1977"
+    },
+    {
+      "label": "Heat flow measured",
+      "value": "4.5 years"
+    },
+    {
+      "label": "Experiments",
+      "value": "7"
+    }
+  ],
+  "whyLeft": "It was built to keep working for years without astronauts, and it did, until NASA ended support for all the Apollo stations in 1977, mainly to save money.",
+  "repurpose": "Its heat probes are buried less deep than planned, but they could still be read if the station were powered again, giving a 50-year check on the Moon’s temperature underground."
+}

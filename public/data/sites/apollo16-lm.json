@@ -1,0 +1,132 @@
+{
+  "id": "apollo16-lm",
+  "setting": "surface",
+  "model": "apollo-lm",
+  "name": "Orion",
+  "intro": "This is the bottom half of Orion, which landed John Young and Charlie Duke in the Descartes highlands on 21 April 1972. The landing was delayed about six hours while engineers checked a problem with the command module’s engine. The crew lived in Orion for about three days.",
+  "status": "Parked forever in the Descartes highlands",
+  "hotspots": [
+    {
+      "id": "delay",
+      "title": "Six hours late",
+      "text": "Orion had already separated from the command module when its pilot found a wobble in his main engine’s backup steering. Orion circled the Moon three more times, about six hours, before NASA said it was safe to land.",
+      "anchor": {
+        "part": "group13_pC",
+        "at": [
+          0.5,
+          0.05,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Landing at Descartes",
+        "url": "https://apollojournals.org/alsj/a16/a16.landing.html"
+      }
+    },
+    {
+      "id": "salute",
+      "title": "Jumping salute",
+      "text": "John Young jumped about half a meter off the ground to salute the flag beside Orion, while Charlie Duke took his picture.",
+      "anchor": {
+        "pos": [
+          -3,
+          1,
+          7
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Apollo 16 video library",
+        "url": "https://apollojournals.org/alsj/a16/video16.html"
+      },
+      "photo": {
+        "file": "photos/sites/apollo16-lm--salute.jpg",
+        "w": 1100,
+        "h": 1100,
+        "alt": "An astronaut jumps off the ground beside a US flag, with the lunar module and rover behind.",
+        "caption": "John Young leaps while saluting the flag on 21 April 1972.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/as16-113-18339",
+        "licenseEvidence": "NASA Image and Video Library item as16-113-18339 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "family-photo",
+      "title": "A family photo",
+      "text": "Charlie Duke laid a photo of his family on the ground here: himself, his wife Dotty and their sons Charles and Tom. It should still be lying in the dust.",
+      "anchor": {
+        "pos": [
+          4,
+          0.05,
+          6
+        ],
+        "ground": true
+      },
+      "source": {
+        "label": "Apollo Lunar Surface Journal: Apollo 16 image library",
+        "url": "https://apollojournals.org/alsj/a16/images16.html"
+      },
+      "photo": {
+        "file": "photos/sites/apollo16-lm--family-photo.jpg",
+        "w": 1089,
+        "h": 1100,
+        "alt": "A small family photograph in a clear wrapper lies on the grey lunar dust.",
+        "caption": "The Duke family photo, left on the Moon by Charlie Duke.",
+        "credit": "NASA (Apollo photo AS16-117-18841)",
+        "license": "Public domain",
+        "source": "https://apollojournals.org/alsj/a16/images16.html",
+        "licenseEvidence": "Apollo Lunar Surface Journal image library: NASA Hasselblad frame AS16-117-18841, NASA film scan (not a third-party restoration). NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "tv-view",
+      "title": "Seen from the rover",
+      "text": "The rover’s TV camera watched Orion from its parking spot east of the lander, and filmed its top half blasting off on 24 April 1972.",
+      "anchor": {
+        "part": "group31_11",
+        "at": [
+          0.5,
+          1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NSSDCA: Apollo 16 Lunar Module / ALSEP",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-031C"
+      },
+      "photo": {
+        "file": "photos/sites/apollo16-lm--tv-view.jpg",
+        "w": 1200,
+        "h": 1004,
+        "alt": "A blurry TV picture of the lunar module standing on the grey plain.",
+        "caption": "Orion as seen on TV from the rover’s camera.",
+        "credit": "NASA",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/S72-35612",
+        "licenseEvidence": "NASA Image and Video Library item S72-35612 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    }
+  ],
+  "funFact": "Charlie Duke left a photo of his family on the ground near Orion, with a message on the back.",
+  "stats": [
+    {
+      "label": "Landed",
+      "value": "21 April 1972"
+    },
+    {
+      "label": "Time on the Moon",
+      "value": "71 h 2 min"
+    },
+    {
+      "label": "Rocks brought home",
+      "value": "95.71 kg"
+    },
+    {
+      "label": "Landing delay",
+      "value": "About 6 hours"
+    }
+  ],
+  "whyLeft": "Nothing broke: the bottom half was built to stay behind as the launch pad for the crew’s cabin.",
+  "repurpose": "It is used up as a spacecraft, but a future rover could photograph it to see how its metal and foil have aged after 50 years in the highlands."
+}

@@ -3,9 +3,10 @@
 //       public/data/live.json ({ id: { kind: 'probe' | 'rover' | 'reflector', ... } }), built from JPL Horizons and NASA feeds.
 // Everything is computed in the browser from reference values; the only network calls are two optional NASA feeds
 // (rover odometry and latest raw image), which fail quietly back to the stored values.
+import { ICON } from './icons.js';
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const httpUrl = u => /^https?:\/\//.test(u || '');
-const link = (u, t) => httpUrl(u) ? `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)} ↗</a>` : esc(t);
+const link = (u, t) => httpUrl(u) ? `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)} ${ICON.external}</a>` : esc(t);
 
 const AU = 149597870.7, C = 299792.458, DAY = 864e5;
 const nf = d => new Intl.NumberFormat('en', { maximumFractionDigits: d, minimumFractionDigits: d });

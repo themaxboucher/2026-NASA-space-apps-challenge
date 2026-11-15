@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowRight, ArrowUpRight, AudioLines, Settings, Volume2, VolumeX, X } from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { useStore } from "./lib/store";
@@ -155,16 +156,10 @@ export function MusicToggle() {
     <div className="sound">
       {/* The speaker turns music on or off in one click; the gear opens the volume settings. */}
       <button type="button" className="music-btn" aria-pressed={!off} aria-label={off ? "Turn music on" : "Turn music off"} title={`${off ? "Turn music on" : "Turn music off"} · ${music.credit}`} onClick={toggleMusic}>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M11 5 6 9H3v6h3l5 4V5z" />
-          {off ? <path d="m16 9 5 6m0-6-5 6" /> : <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" />}
-        </svg>
+        {off ? <VolumeX aria-hidden="true" /> : <Volume2 aria-hidden="true" />}
       </button>
       <button type="button" className="music-btn settings-btn" aria-expanded={open} aria-label="Sound settings" title="Sound settings" onClick={() => setOpen(!open)}>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="3" />
-          <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
-        </svg>
+        <Settings aria-hidden="true" />
       </button>
       {open && (
         <div className="sound-panel" role="group" aria-label="Sound">
@@ -213,11 +208,9 @@ export const playCutscene = (key: string | null) => tour.set({ cutscene: key });
 export function Cutscene() {
   const key = useStore(tour, (s) => s.cutscene);
   const media = useMedia();
-  const close = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!key) return;
     if (document.pointerLockElement) document.exitPointerLock();
-    close.current?.focus({ preventScroll: true });
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") playCutscene(null);
     };
@@ -232,17 +225,17 @@ export function Cutscene() {
   if (!key || !clip || !src) return null;
   return (
     <motion.section className="chapter cutscene" role="dialog" aria-modal="true" aria-label={clip.caption} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+      <button type="button" className="overlay-close" aria-label="Close video" autoFocus onClick={() => playCutscene(null)}>
+        <X aria-hidden="true" />
+      </button>
       <div className="chapter-card">
         <figure className="chapter-film">
           <video ref={videoVolume} src={src} poster={safe(clip.poster) ?? undefined} controls autoPlay playsInline onPlay={() => duck(true)} onPause={() => duck(false)} onEnded={() => { duck(false); playCutscene(null); }} />
           <figcaption>
             {clip.real === false ? "Animation: " : "Real footage: "}
-            {clip.caption}{clip.audio && <span className="chapter-audio">🔊 {clip.audio}</span>} <span className="chapter-credit">{clip.credit} · {clip.license}{clip.source && <> · <a href={clip.source} target="_blank" rel="noopener noreferrer">source ↗</a></>}</span>
+            {clip.caption}{clip.audio && <span className="chapter-audio"><AudioLines aria-hidden="true" /> {clip.audio}</span>} <span className="chapter-credit">{clip.credit} · {clip.license}{clip.source && <> · <a href={clip.source} target="_blank" rel="noopener noreferrer">source <ArrowUpRight aria-hidden="true" /></a></>}</span>
           </figcaption>
         </figure>
-        <button ref={close} type="button" className="start-btn" onClick={() => playCutscene(null)}>
-          Back to the site
-        </button>
       </div>
     </motion.section>
   );
@@ -302,14 +295,14 @@ export function Interlude() {
             />
             <figcaption>
               {clip.real === false ? "Animation: " : "Real footage: "}
-              {clip.caption}{clip.audio && <span className="chapter-audio">🔊 {clip.audio}</span>} <span className="chapter-credit">{clip.credit} · {clip.license}{clip.source && <> · <a href={clip.source} target="_blank" rel="noopener noreferrer">source ↗</a></>}</span>
+              {clip.caption}{clip.audio && <span className="chapter-audio"><AudioLines aria-hidden="true" /> {clip.audio}</span>} <span className="chapter-credit">{clip.credit} · {clip.license}{clip.source && <> · <a href={clip.source} target="_blank" rel="noopener noreferrer">source <ArrowUpRight aria-hidden="true" /></a></>}</span>
             </figcaption>
           </figure>
         )}
         <p className="chapter-text">{stop.story.text}</p>
         <div className="chapter-actions">
           <button ref={go} type="button" className="start-btn" onClick={continueStory}>
-            Fly to {stop.name} →
+            Fly to {stop.name} <ArrowRight aria-hidden="true" />
           </button>
         </div>
       </motion.div>

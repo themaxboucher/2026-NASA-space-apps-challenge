@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { useStore } from "./lib/store";
 import { tour } from "./state";
 import { STOPS } from "./stops";
@@ -211,7 +212,7 @@ export function FailureBank() {
                     <p className="fbank-lesson">
                       <b>Lesson learned</b> {c.lesson}{" "}
                       <a href={c.sources[0]} target="_blank" rel="noopener noreferrer">
-                        NASA source<span aria-hidden="true"> ↗</span>
+                        NASA source <ArrowUpRight aria-hidden="true" />
                       </a>
                     </p>
                   </section>

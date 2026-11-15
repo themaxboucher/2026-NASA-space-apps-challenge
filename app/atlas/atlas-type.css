@@ -118,8 +118,9 @@
 .fold{margin-top:16px;border-top:1px solid var(--line)}
 .fold>summary{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0 12px;cursor:pointer;list-style:none;font:500 1.125rem/1.25 var(--display);letter-spacing:-.01em;color:var(--ink);transition:color .2s}
 .fold>summary::-webkit-details-marker{display:none}
-.fold>summary::after{content:"+";font:400 1.5rem/1 var(--body);color:var(--signal)}
-.fold[open]>summary::after{content:"−"}
+/* Lucide "plus" / "minus", painted through a mask so they take the accent colour. */
+.fold>summary::after{content:"";flex:none;width:22px;height:22px;background:var(--signal);mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M12 5v14'/%3E%3C/svg%3E") center/contain no-repeat}
+.fold[open]>summary::after{mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E")}
 .fold>summary:hover{color:var(--signal)}
 .fold>summary:focus-visible{outline:2px solid var(--accent-hi);outline-offset:2px;border-radius:4px}
 .fold h4{margin:16px 0 8px;font-size:1rem;font-weight:600}
@@ -148,3 +149,6 @@
 /* The way into the 3D solar system, up top next to "Tour". */
 .back.solar-cta{color:var(--ink);font-weight:700}
 .back.solar-cta:hover{color:var(--accent,#3a86ff)}
+
+/* Icon-only round buttons centre their Lucide icon. */
+.gzoom button,.mvz button{display:grid;place-items:center}

@@ -676,6 +676,7 @@ body {
 .ghost-btn {
   display: inline-flex;
   align-items: center;
+  gap: 0.5em;
   margin-top: clamp(28px, 5vh, 48px);
   min-height: 52px;
   padding: 14px 24px;
@@ -798,9 +799,13 @@ body {
   border-radius: 50%;
   background: none;
   color: var(--ink2);
-  font-size: 1.875rem;
-  line-height: 1;
+  display: grid;
+  place-items: center;
   transition: color 0.2s, background 0.2s;
+}
+.overlay-close svg {
+  width: 26px;
+  height: 26px;
 }
 .overlay-close:hover {
   color: var(--ink);
@@ -986,6 +991,12 @@ body {
 .mfile-trail .trail-scale {
   fill: var(--dim);
 }
+/* The north arrow is a Lucide icon nested in the map; keep the map's own full-width sizing off it. */
+.mfile-trail .trail-north {
+  width: 11px;
+  height: 11px;
+  color: var(--dim);
+}
 .mfile-trail text {
   fill: var(--dim);
   font: 500 10px var(--mono);
@@ -1050,18 +1061,16 @@ body {
 }
 
 /* ---- Finding every spot ---- */
-/* A found dot carries a tick. */
+/* A found dot carries a tick (Lucide "check"). */
 .spot.found .spot-dot::after {
-  content: "✓";
+  content: "";
   position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: var(--void);
-  font: 700 10px/1 var(--body);
+  inset: 3px;
+  background: var(--void);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 .spot.broken.found .spot-dot::after {
-  color: #fff;
+  background: #fff;
 }
 /* Arrows on the screen edge point at spots still to find; the scene sets position and angle each frame. */
 .spot-arrow {
@@ -1073,27 +1082,31 @@ body {
   pointer-events: none;
   will-change: transform;
 }
+/* The arrow is Lucide "chevron-right", painted through a mask so it takes the colour; the glow sits on the
+   wrapper because a filter on the masked layer would be clipped by its own mask. */
 .spot-arrow::before {
   content: "";
   position: absolute;
-  left: -8px;
-  top: -8px;
-  width: 16px;
-  height: 16px;
-  border-top: 3px solid var(--signal);
-  border-right: 3px solid var(--signal);
-  border-radius: 0 3px 0 0;
-  transform: rotate(45deg);
-  filter: drop-shadow(0 0 6px rgba(77, 148, 255, 0.8));
+  left: -12px;
+  top: -12px;
+  width: 24px;
+  height: 24px;
+  background: var(--signal);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E") center / contain no-repeat;
   animation: nudge-out 1.4s ease-in-out infinite;
 }
-.spot-arrow.broken::before {
-  border-color: var(--alarm);
+.spot-arrow {
+  filter: drop-shadow(0 0 6px rgba(77, 148, 255, 0.8));
+}
+.spot-arrow.broken {
   filter: drop-shadow(0 0 6px rgba(240, 68, 56, 0.8));
+}
+.spot-arrow.broken::before {
+  background: var(--alarm);
 }
 @keyframes nudge-out {
   50% {
-    translate: 4px -4px;
+    translate: 4px 0;
   }
 }
 /* Inspectable dots: with mouse look the crosshair grows into a ring with a hint. */
@@ -1230,8 +1243,9 @@ body {
 .story-film:hover {
   background: var(--accent-hi);
 }
-.story-film span {
-  font-size: 0.625rem;
+.story-film svg {
+  width: 14px;
+  height: 14px;
 }
 
 /* Bottom centre: the controls, while nothing is being read. What it says follows whether the view has the
@@ -1417,8 +1431,8 @@ p.keysbar {
 .cutscene {
   z-index: 95;
 }
-.cutscene .start-btn {
-  margin-top: 4px;
+.cutscene .overlay-close {
+  position: fixed;
 }
 
 /* The invisible fence: a gentle note when you reach it. */
@@ -1451,7 +1465,7 @@ p.keysbar {
   background-repeat: no-repeat;
 }
 
-/* Ghost replay: the caption strip and Skip, bottom centre. */
+/* Ghost replay: the caption and Skip, bottom centre, straight on the scene over the bottom shadow. */
 .replay {
   position: absolute;
   z-index: 60;
@@ -1465,10 +1479,7 @@ p.keysbar {
   width: min(720px, calc(100vw - 32px));
   margin: 0 auto;
   padding: 16px 20px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  background: var(--panel);
-  box-shadow: var(--shadow-lg);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.75);
 }
 .replay-tag {
   grid-column: 1 / -1;
@@ -1491,7 +1502,7 @@ p.keysbar {
   display: block;
   height: 4px;
   border-radius: var(--pill);
-  background: var(--raise);
+  background: rgba(255, 255, 255, 0.16);
   overflow: hidden;
 }
 .replay-progress b {

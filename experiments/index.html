@@ -229,7 +229,7 @@ h1{font:300 clamp(2.5rem,7.4vw,5.6rem)/1 var(--display);font-stretch:112.5%;lett
 
   <section class="time" aria-label="Timeline">
     <div class="timehead">
-      <button id="play" type="button">▶ Play history</button>
+      <button id="play" type="button">Play history</button>
       <output id="yearOut" for="year">2026</output>
       <span id="yearNote"></span>
     </div>
@@ -719,11 +719,11 @@ document.querySelectorAll('[data-go]').forEach(a => a.onclick = e => {
 });
 $('year').oninput = e => { year = +e.target.value; stopPlay(); paint(); };
 let timer = null;
-function stopPlay() { clearInterval(timer); timer = null; $('play').textContent = '▶ Play history'; }
+function stopPlay() { clearInterval(timer); timer = null; $('play').textContent = 'Play history'; }
 $('play').onclick = () => {
   if (timer) return stopPlay();
   if (year >= 2026) year = 1959;
-  $('play').textContent = '❚❚ Pause';
+  $('play').textContent = 'Pause';
   timer = setInterval(() => { year++; $('year').value = year; paint(); if (year >= 2026) stopPlay(); }, reduceMotion ? 600 : 260);
 };
 

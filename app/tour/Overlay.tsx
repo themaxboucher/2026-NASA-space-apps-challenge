@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import { X } from "lucide-react";
 import { useEffect, useRef, type ReactNode } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -64,7 +65,7 @@ export function Overlay({ open, onClose, label, className, children }: { open: b
           transition={{ duration: 0.35, ease }}
         >
           <button ref={closeBtn} type="button" className="overlay-close" aria-label={`Close ${label.toLowerCase()}`} onClick={() => close.current()}>
-            ×
+            <X aria-hidden="true" />
           </button>
           <div className="overlay-scroll">
             <motion.div className="overlay-inner" initial={{ y: 18 }} animate={{ y: 0 }} exit={{ y: 10 }} transition={{ duration: 0.5, ease }}>

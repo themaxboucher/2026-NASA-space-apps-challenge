@@ -3,6 +3,7 @@
 /* eslint-disable */
 import { loadSalvage, salvageBlock } from './salvage.js';
 import { loadPhotosBy, loadLive, photosBlock, liveBlock, startLive } from './live.js';
+import { ICON } from './icons.js';
 export function startAtlas() {
   const D = Math.PI / 180, NOW = new Date('2026-11-14');
   const WORLDS = {
@@ -129,7 +130,7 @@ export function startAtlas() {
   const zoomBy = f => { zoom = Math.max(0.4, Math.min(1.5, zoom * f)); fitCam(); };
   // Plain wheel scrolls the page; Ctrl/⌘ + wheel (and trackpad pinch, which arrives as ctrl+wheel) zooms.
   cv.addEventListener('wheel', e => { if (!e.ctrlKey && !e.metaKey) return; e.preventDefault(); zoomBy(1 + e.deltaY * 0.004); }, { passive: false });
-  stage.insertAdjacentHTML('beforeend', '<div class="gzoom" id="gZoom"><button type="button" data-z="0.8" aria-label="Zoom in">+</button><button type="button" data-z="1.25" aria-label="Zoom out">−</button></div>');
+  stage.insertAdjacentHTML('beforeend', '<div class="gzoom" id="gZoom"><button type="button" data-z="0.8" aria-label="Zoom in">' + ICON.zoomIn + '</button><button type="button" data-z="1.25" aria-label="Zoom out">' + ICON.zoomOut + '</button></div>');
   $('gZoom').onclick = e => { const b = e.target.closest('[data-z]'); if (b) zoomBy(+b.dataset.z); };
 
   let pins = [], pinMenu = null;
@@ -403,11 +404,11 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     const hl = (l.highlights || []).filter(Boolean), ln = (l.links || []).filter(x => httpUrl(x?.url));
     if (!hl.length && !ln.length) return '';
     return `${hl.length ? `<ul class="hl">${hl.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}
-      ${ln.length ? `<ul class="links">${ln.map(x => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener"><span class="lk">${esc(KIND[x.kind] || 'Link')}</span>${esc(x.title || x.url)} ↗</a></li>`).join('')}</ul>` : ''}`;
+      ${ln.length ? `<ul class="links">${ln.map(x => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener"><span class="lk">${esc(KIND[x.kind] || 'Link')}</span>${esc(x.title || x.url)} ${ICON.external}</a></li>`).join('')}</ul>` : ''}`;
   }
   function photoFig(p) {
     if (!p || !safeFile(p.file)) return '';
-    const bits = [p.credit && 'Image: ' + esc(p.credit), p.license && link(p.licenseUrl, esc(p.license)), httpUrl(p.source) && link(p.source, 'source ↗')].filter(Boolean);
+    const bits = [p.credit && 'Image: ' + esc(p.credit), p.license && link(p.licenseUrl, esc(p.license)), httpUrl(p.source) && link(p.source, `source ${ICON.external}`)].filter(Boolean);
     return `<figure class="photo"><img src="${esc(p.file)}" alt="${esc(p.caption || '')}" loading="lazy">
       <figcaption>${esc(p.caption || '')}<span class="credit">${bits.join(' · ')}</span></figcaption></figure>`;
   }
@@ -461,18 +462,18 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
   const yearsSince = s => ((NOW - new Date(String(s).slice(0, 10))) / 3.15576e10);
   function dossier(it) {
     const st = stateAt(it, 2026), end = died(it);
-    const src = /^https?:\/\//.test(it.source || '') ? `<a class="src" href="${esc(it.source)}" target="_blank" rel="noopener">Source ↗</a>` : '';
+    const src = /^https?:\/\//.test(it.source || '') ? `<a class="src" href="${esc(it.source)}" target="_blank" rel="noopener">Source ${ICON.external}</a>` : '';
     const mk = modelKeyFor(it), m = mk && MODELS[mk];
     const model = m ? `<figure class="model"><div class="mv" id="mv" role="img" aria-label="3D model of ${esc(m.title)}"></div>
-    <div class="mvz"><button type="button" data-mvz="0.8" aria-label="Zoom in">+</button><button type="button" data-mvz="1.25" aria-label="Zoom out">−</button></div>
+    <div class="mvz"><button type="button" data-mvz="0.8" aria-label="Zoom in">${ICON.zoomIn}</button><button type="button" data-mvz="1.25" aria-label="Zoom out">${ICON.zoomOut}</button></div>
       ${MODEL_NOTE[mk] ? `<figcaption>${esc(MODEL_NOTE[mk])}</figcaption>` : ''}
       ${FAULTS[it.id] ? `<figcaption class="faultnote"><i aria-hidden="true"></i><span><b>Glowing red is what gave out:</b> the ${esc(FAULTS[it.id].note)}</span></figcaption>` : ''}
-      <figcaption>${/^NASA/.test(m.credit || 'NASA') ? 'NASA 3D model' : '3D model'}: ${esc(m.title)}${/^NASA/.test(m.credit || 'NASA') ? '' : ` (${esc(m.credit)}, ${esc(m.license || '')})`} · drag to turn, +/− or Ctrl + scroll to zoom${/^https?:\/\//.test(m.page || '') ? ` · <a href="${esc(m.page)}" target="_blank" rel="noopener" style="color:var(--signal)">model page ↗</a>` : ''}</figcaption></figure>` : '';
+      <figcaption>${/^NASA/.test(m.credit || 'NASA') ? 'NASA 3D model' : '3D model'}: ${esc(m.title)}${/^NASA/.test(m.credit || 'NASA') ? '' : ` (${esc(m.credit)}, ${esc(m.license || '')})`} · drag to turn, +/− or Ctrl + scroll to zoom${/^https?:\/\//.test(m.page || '') ? ` · <a href="${esc(m.page)}" target="_blank" rel="noopener" style="color:var(--signal)">model page ${ICON.external}</a>` : ''}</figcaption></figure>` : '';
     return `<p class="eyebrow">${esc(it.mission)} · ${esc(it.type)}</p>
       <h2>${esc(it.name)}</h2>
       <span class="pill" style="--c:${COLOR[st]}">${esc(it.status)}</span>
-      ${TERRAIN[it.id] ? `<br><button type="button" class="walkbtn" data-walk="${esc(it.id)}">Walk around this site →</button>` : ''}
-    ${world === 'beyond' && mk ? `<br><a class="walkbtn" href="/fly#${esc(it.id)}">Fly around it →</a>` : ''}
+      ${TERRAIN[it.id] ? `<br><button type="button" class="walkbtn" data-walk="${esc(it.id)}">Walk around this site ${ICON.go}</button>` : ''}
+    ${world === 'beyond' && mk ? `<br><a class="walkbtn" href="/fly#${esc(it.id)}">Fly around it ${ICON.go}</a>` : ''}
       ${glance(it, st, end)}
       ${photoFig(it.photo)}
       ${it.summary ? `<p class="summary">${esc(it.summary)}</p>` : ''}
@@ -571,7 +572,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     $('exploredText').textContent = (done ? `You've opened ${done} of ${all} machines` : `You've opened 0 of ${all} machines. Click a dot to start.`) + (full ? ` · fully explored ${full}` : '');
     const bar = $('exploredBar'); bar.setAttribute('aria-valuenow', done); bar.setAttribute('aria-valuemax', all);
     bar.querySelector('b').style.width = `${(done / all * 100).toFixed(1)}%`;
-    $('exploredWorlds').innerHTML = per.map(([w, d, n]) => `<span${w === world ? ' class="here"' : ''}>${names[w]} <b>${d}/${n}</b>${d === n ? ' ✓' : ''}</span>`).join('');
+    $('exploredWorlds').innerHTML = per.map(([w, d, n]) => `<span${w === world ? ' class="here"' : ''}>${names[w]} <b>${d}/${n}</b>${d === n ? ' ' + ICON.check : ''}</span>`).join('');
     $('exploredReset').hidden = !done;
   }
   function buildTimeline() {
@@ -649,12 +650,12 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
   document.querySelectorAll('.worlds button').forEach(b => b.onclick = () => setWorld(b.dataset.world));
   $('year').oninput = e => { year = +e.target.value; stopPlay(); paint(); };
   let timer = null;
-  function stopPlay() { clearInterval(timer); timer = null; $('play').textContent = '▶ Play history'; }
+  function stopPlay() { clearInterval(timer); timer = null; $('play').innerHTML = `${ICON.play} Play history`; }
   $('exploredReset').onclick = () => { if (confirm('Clear the list of machines you have explored?')) { seen.clear(); saveSeen(); paint(); } };
   $('play').onclick = () => {
     if (timer) return stopPlay();
     if (year >= 2026) year = 1959;
-    $('play').textContent = '❚❚ Pause';
+    $('play').innerHTML = `${ICON.pause} Pause`;
     timer = setInterval(() => { year++; $('year').value = year; paint(); if (year >= 2026) stopPlay(); }, reduceMotion ? 600 : 260);
   };
 
@@ -970,8 +971,8 @@ function resizeGround() {
         const la = o.lat * D, lo = o.lon * D, h = Math.sin((la - la0) / 2) ** 2 + Math.cos(la0) * Math.cos(la) * Math.sin((lo - lo0) / 2) ** 2;
         return { o, km: 2 * Rkm * Math.asin(Math.min(1, Math.sqrt(h))) };
       }).sort((a, b) => a.km - b.km).slice(0, 5);
-      if (far.length) $('gGo').insertAdjacentHTML('beyond' === world ? 'beforeend' : 'beforeend', `<details class="gfarbox"><summary class="gbtn">Elsewhere on ${esc(WORLDS[world].name)} (${far.length}) ▾</summary><div class="gfarlist">` + far.map(({ o, km }) =>
-        `<button class="gbtn gfar" type="button" data-travel="${esc(o.id)}" title="Not on this map: travel to its site">${esc(String(o.name).replace(/\s*\(.*?\)/g, ''))} <span>${km < 10 ? km.toFixed(1) : Math.round(km).toLocaleString()} km ↗</span></button>`).join('') + '</div></details>');
+      if (far.length) $('gGo').insertAdjacentHTML('beyond' === world ? 'beforeend' : 'beforeend', `<details class="gfarbox"><summary class="gbtn">Elsewhere on ${esc(WORLDS[world].name)} (${far.length}) ${ICON.more}</summary><div class="gfarlist">` + far.map(({ o, km }) =>
+        `<button class="gbtn gfar" type="button" data-travel="${esc(o.id)}" title="Not on this map: travel to its site">${esc(String(o.name).replace(/\s*\(.*?\)/g, ''))} <span>${km < 10 ? km.toFixed(1) : Math.round(km).toLocaleString()} km ${ICON.external}</span></button>`).join('') + '</div></details>');
       $('gGo').querySelectorAll('[data-travel]').forEach(b => b.onclick = () => { select(b.dataset.travel); openGround(b.dataset.travel); });
     }
       $('gMode').setAttribute('aria-pressed', 'false'); $('gMode').textContent = 'Fly over';
@@ -999,7 +1000,7 @@ function togglePhoto(on = !G.photo) {
   G.pano = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide, depthTest: false, depthWrite: false, fog: false }));
   G.pano.scale.x = -1; G.pano.renderOrder = 20; G.scene.add(G.pano);
   G.x = G.target[0]; G.z = G.target[1]; G.goal = null; G.jump = 0; G.vy = 0; G.hop = false; G.pitch = 0; G.yaw = -((az0 + hf / 2) * D);
-  $('gHelp').innerHTML = `${esc(pano.caption || 'Real photo taken here')}${pano.taken ? ' · ' + esc(pano.taken) : ''} · <span class="credit">${esc(pano.credit || '')}${pano.license ? ' · ' + link(pano.licenseUrl, esc(pano.license)) : ''}${httpUrl(pano.source) ? ' · ' + link(pano.source, 'source ↗') : ''}${Number.isFinite(+pano.left_azimuth_deg) && pano.left_azimuth_deg !== null ? '' : ' · compass direction approximate'}</span>`;
+  $('gHelp').innerHTML = `${esc(pano.caption || 'Real photo taken here')}${pano.taken ? ' · ' + esc(pano.taken) : ''} · <span class="credit">${esc(pano.credit || '')}${pano.license ? ' · ' + link(pano.licenseUrl, esc(pano.license)) : ''}${httpUrl(pano.source) ? ' · ' + link(pano.source, `source ${ICON.external}`) : ''}${Number.isFinite(+pano.left_azimuth_deg) && pano.left_azimuth_deg !== null ? '' : ' · compass direction approximate'}</span>`;
 }
 function closeGroundScene() {
     G.pano = null; G.photo = false; if (G.faults) dropFaultMats(G.faults);
@@ -1231,7 +1232,7 @@ qIn.addEventListener('focus', () => { if (qIn.value.trim()) renderSearch(); });
 // (embedded previews), fall back to filling the whole window with CSS.
 function fsLabel() {
   const on = document.fullscreenElement === stage || stage.classList.contains('maxed');
-  ['fsBtn', 'gFs'].forEach(k => { const b = $(k); if (b) { b.textContent = on ? '✕ Exit full screen' : '⛶ Full screen'; b.setAttribute('aria-pressed', on); } });
+  ['fsBtn', 'gFs'].forEach(k => { const b = $(k); if (b) { b.innerHTML = on ? `${ICON.exitFullscreen} Exit full screen` : `${ICON.fullscreen} Full screen`; b.setAttribute('aria-pressed', on); } });
 }
 function toggleFs() {
   if (stage.classList.contains('maxed')) { stage.classList.remove('maxed'); document.body.style.overflow = ''; return fsLabel(); }

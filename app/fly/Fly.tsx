@@ -1,6 +1,7 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
+import { ArrowLeft, X } from "lucide-react";
 import { Suspense, useEffect, useState } from "react";
 import * as THREE from "three";
 import { coarsePointer } from "../tour/lib/device";
@@ -166,7 +167,7 @@ export default function Fly() {
       {/* A full page load on purpose: the atlas runs its own 3D engine. */}
       {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
       <a className="explore-link" href={stop ? `/explore#${stop.id}` : "/explore"}>
-        <span aria-hidden="true">←</span> Back to the atlas
+        <ArrowLeft aria-hidden="true" /> Back to the atlas
       </a>
       {!state && <p className="fly-note">Flying out…</p>}
       {state && "error" in state && <p className="fly-note">{state.error}</p>}
@@ -182,7 +183,7 @@ export default function Fly() {
       {stop && introOpen && (
         <aside className="intro">
           <button type="button" className="intro-close" aria-label="Close" onClick={() => tour.set({ introOpen: false })}>
-            ×
+            <X aria-hidden="true" />
           </button>
           <p className="eyebrow">
             {stop.mission}

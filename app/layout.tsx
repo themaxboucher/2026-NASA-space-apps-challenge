@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Instrument_Sans, Spline_Sans_Mono } from "next/font/google";
 import "./globals.css";
+import "./icons.css";
 
 // Free stand-ins for Impulse Space's type (ABC Monument Grotesk is commercial): Instrument Sans for headings and body, Spline Sans Mono for labels and data.
 const instrumentSans = Instrument_Sans({ subsets: ["latin"], style: ["normal", "italic"], variable: "--font-instrument-sans" });

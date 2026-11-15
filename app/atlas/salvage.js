@@ -1,9 +1,10 @@
 // Salvageability block for the atlas dossier: grade, factor bars, what needs repair, engineers' approaches and a
 // "think like an engineer" prompt with a private notes box. Data: public/data/salvage.json (rubric + one entry per machine id).
+import { ICON } from './icons.js';
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const httpUrl = u => /^https?:\/\//.test(u || '');
 const host = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return 'source'; } };
-const src = (u, t) => httpUrl(u) ? `<a class="salv-a" href="${esc(u)}" target="_blank" rel="noopener">${esc(t || host(u))} ↗</a>` : '';
+const src = (u, t) => httpUrl(u) ? `<a class="salv-a" href="${esc(u)}" target="_blank" rel="noopener">${esc(t || host(u))} ${ICON.external}</a>` : '';
 
 const FACTORS = [['reach', 'Reachability'], ['condition', 'Condition'], ['usefulness', 'Usefulness'], ['fixability', 'Fixability']];
 const MEANING = { A: 'Great salvage target', B: 'Good target', C: 'Possible, but hard', D: 'Very hard', F: 'Not salvageable' };

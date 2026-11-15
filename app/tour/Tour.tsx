@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
+import { ArrowUp, ArrowUpRight, ChevronRight, Play } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { coarsePointer } from "./lib/device";
 import { useStore } from "./lib/store";
@@ -302,33 +303,11 @@ function ExploreLink() {
       {/* Top right: fly the 3D solar system (to any machine), then the full list of all of them. */}
       {done && <a className="explore-link solar-top" href={id ? `/solar?from=${encodeURIComponent(id)}` : "/solar"}>
         Fly around the solar system
-      <svg
-        className="explore-arrow"
-        viewBox="0 0 16 16"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M4.5 11.5l7-7M5.5 4.5h6v6" />
-      </svg>
+        <ArrowUpRight className="explore-arrow" aria-hidden="true" />
       </a>}
       <a className={`explore-link${done ? " explore-second" : ""}`} href={id ? `/explore#${id}` : "/explore"}>
         Explore {allMachines(n)}
-      <svg
-        className="explore-arrow"
-        viewBox="0 0 16 16"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M4.5 11.5l7-7M5.5 4.5h6v6" />
-      </svg>
+        <ArrowUpRight className="explore-arrow" aria-hidden="true" />
       </a>
     </>
   );
@@ -393,14 +372,6 @@ function SolarBack({ id }: { id: string }) {
   );
 }
 
-function Chevron() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M9 5l7 7-7 7" />
-    </svg>
-  );
-}
-
 const NONE: string[] = [];
 
 // Bottom right: the minimap, then one dot per glowing spot on this machine, filled once you've opened it. With
@@ -435,7 +406,7 @@ function SpotProgress() {
           done && total > 0 && (
             <motion.a key="solar" className="next-machine" href={`/solar?from=${encodeURIComponent(s.id)}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, ease }}>
               Back to the solar system
-              <Chevron />
+              <ChevronRight aria-hidden="true" />
             </motion.a>
           )
         ) : done ? (
@@ -449,7 +420,7 @@ function SpotProgress() {
             transition={{ duration: 0.45, ease }}
           >
             {last ? "Fly home" : "Next machine"}
-            <Chevron />
+            <ChevronRight aria-hidden="true" />
           </motion.button>
         ) : (
           <motion.div key="count" className="spot-count-row" exit={{ opacity: 0, transition: { duration: 0.2 } }}>
@@ -626,7 +597,7 @@ function SpotStory({ stopId, spot }: { stopId: string; spot: Hotspot }) {
               {photo.source && (
                 <>
                   {" "}
-                  · <a href={photo.source} target="_blank" rel="noopener noreferrer">source ↗</a>
+                  · <a href={photo.source} target="_blank" rel="noopener noreferrer">source <ArrowUpRight aria-hidden="true" /></a>
                 </>
               )}
             </span>
@@ -638,11 +609,11 @@ function SpotStory({ stopId, spot }: { stopId: string; spot: Hotspot }) {
       <p className="story-text">{spot.text}</p>
       <div className="story-actions">
         <a className="story-source" href={spot.source.url} target="_blank" rel="noopener noreferrer">
-          {spot.source.label} <span aria-hidden="true">↗</span>
+          {spot.source.label} <ArrowUpRight aria-hidden="true" />
         </a>
         {film && (
           <button type="button" className="story-film" onClick={() => playCutscene(key)}>
-            <span aria-hidden="true">▶</span> Watch what it saw
+            <Play aria-hidden="true" /> Watch what it saw
           </button>
         )}
       </div>
@@ -766,9 +737,10 @@ function RouteMap({ route, body }: { route: Route; body: string }) {
           <rect width={nice * k} height="3" className="trail-scale" />
           <text y="-5">{label}</text>
         </g>
-        <text x={W - pad} y={pad + 4} textAnchor="end">
-          N ↑
+        <text x={W - pad - 13} y={pad + 4} textAnchor="end">
+          N
         </text>
+        <ArrowUp x={W - pad - 11} y={pad - 6} width={11} height={11} className="trail-north" aria-hidden="true" />
       </svg>
       <figcaption>
         <span>
@@ -1081,7 +1053,7 @@ function MissionFile() {
         {/* A full page load on purpose: the atlas runs its own 3D engine. */}
         <a className="mfile-more mfile-wide" href={`/explore#${s.id}`}>
           Full story, photos and links in the atlas{" "}
-          <span aria-hidden="true">↗</span>
+          <ArrowUpRight aria-hidden="true" />
         </a>
       </div>
       {/* Every failed mission in the atlas, grouped by cause, under this machine's own file. */}
@@ -1201,7 +1173,7 @@ function EndScreen() {
           Replay the trip
         </button>
         <a className="ghost-btn" href="/explore">
-          Explore {allMachines(n)} ↗
+          Explore {allMachines(n)} <ArrowUpRight aria-hidden="true" />
         </a>
         <a className="ghost-btn" href="/solar">
           Fly around the solar system →
@@ -1287,6 +1259,7 @@ export default function Tour() {
   // At a site and it's your turn: not while the ghosts replay what happened here, nor under a story card.
   const site = phase === "explore" && !replay && interlude == null;
   const reading = site && (introOpen || !!openSpot);
+  const replaying = phase === "explore" && !!replay;
   return (
     <MotionConfig reducedMotion="user">
       <div className="tour">
@@ -1299,7 +1272,7 @@ export default function Tour() {
         />
         <div
           className="scrim scrim-bottom"
-          data-on={reading ? "story" : touring ? "nav" : undefined}
+          data-on={reading || replaying ? "story" : touring ? "nav" : undefined}
           aria-hidden="true"
         />
         <Spots />
@@ -1319,7 +1292,7 @@ export default function Tour() {
           {site && !reading && <KeysBar key="keys" />}
         </AnimatePresence>
         <AnimatePresence>
-          {phase === "explore" && replay && <ReplayBar key="replay" />}
+          {replaying && <ReplayBar key="replay" />}
         </AnimatePresence>
         {phase === "explore" && (
           <p className="edge-hint" role="status">

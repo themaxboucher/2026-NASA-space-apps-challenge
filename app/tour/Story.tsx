@@ -212,8 +212,10 @@ export function MusicToggle() {
     addEventListener("gra-music", f);
     addEventListener("gra-level", lv);
     addEventListener("keydown", key);
+    document.addEventListener("fullscreenchange", f); // also catches Esc leaving full screen
     return () => {
       clearTimeout(t);
+      document.removeEventListener("fullscreenchange", f);
       removeEventListener("gra-music", f);
       removeEventListener("gra-level", lv);
       removeEventListener("keydown", key);
@@ -238,6 +240,11 @@ export function MusicToggle() {
   }, [open]);
   const musicOn = music.el ? !music.el.paused : !isOff();
   const isMuted = mounted && muted;
+  // Full screen: the whole page, through the browser's own Fullscreen API (Esc leaves it too). Hidden where the
+  // browser doesn't offer it (iPhone Safari).
+  const canFull = mounted && document.fullscreenEnabled;
+  const isFull = mounted && !!document.fullscreenElement;
+  const toggleFull = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()).catch(() => {});
   const toggleMusic = () => {
     const on = !musicOn;
     music.on = on;
@@ -282,6 +289,12 @@ export function MusicToggle() {
       {open && (
         <div className="sound-panel" id={panelId} role="dialog" aria-label="Settings">
           <p className="sound-title">Settings</p>
+          {canFull && (
+            <label className="sound-check">
+              <input type="checkbox" checked={isFull} onChange={toggleFull} />
+              <span>Full screen</span>
+            </label>
+          )}
           <label className="sound-check">
             <input type="checkbox" checked={!muted} onChange={() => setMuted(!muted)} />
             <span>Sound on</span>

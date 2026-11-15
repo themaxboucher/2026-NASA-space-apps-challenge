@@ -266,7 +266,7 @@ body {
   top: max(16px, env(safe-area-inset-top, 0px));
   left: var(--gut-l);
   /* Leaves the top centre to the trail; long names wrap. */
-  max-width: calc(50vw - 130px);
+  max-width: calc(50vw - 190px);
   text-shadow: 0 1px 14px rgba(0, 0, 0, 0.75);
   pointer-events: none;
 }
@@ -344,7 +344,8 @@ body {
 .story-source:hover {
   text-decoration: underline;
 }
-/* Top centre: one tick per stop, done, here, and still to come. Each tick is a button to its machine; the
+/* Top centre: a chain of circles, one per stop, joined by a line. Done stops are filled with a check, the current
+   one is a ring around a dot with a soft halo, and the rest are hollow. Each circle is a button to its machine; the
    machine's name shows under it on hover. */
 .progress {
   position: absolute;
@@ -355,55 +356,92 @@ body {
   margin-inline: auto;
   width: fit-content;
   top: max(16px, env(safe-area-inset-top, 0px));
+  --node: 22px;
+  --link: 32px;
 }
 .trail {
   display: flex;
+  align-items: center;
   margin: 0;
-  padding: 0;
+  padding: 6px;
   list-style: none;
+}
+.trail-step {
+  display: flex;
+  align-items: center;
+}
+/* The link into each circle from the one before it; lit once you've reached that stop. */
+.trail-step + .trail-step::before {
+  content: "";
+  width: var(--link);
+  height: 2px;
+  margin-inline: 4px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  transition: background 0.4s;
+}
+.trail-step.done::before,
+.trail-step.here::before,
+.trail-step.going::before {
+  background: var(--signal);
 }
 .trail-tick {
   position: relative;
-  display: block;
-  width: 30px;
-  height: 28px;
+  display: grid;
+  place-items: center;
+  width: var(--node);
+  height: var(--node);
   padding: 0;
-  border: 0;
-  background: none;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  background: rgba(10, 12, 16, 0.55);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.2s;
 }
 .trail-tick:disabled {
   cursor: default;
 }
-.trail-tick::before {
-  content: "";
-  position: absolute;
-  left: 4px;
-  right: 4px;
-  top: 50%;
-  height: 3px;
-  margin-top: -1.5px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
-  transition: background 0.4s, transform 0.2s;
-}
-.trail-tick.done::before {
-  background: var(--ink2);
-}
-.trail-tick.here::before {
+.trail-tick.done {
+  border-color: var(--signal);
   background: var(--signal);
 }
+.trail-check {
+  width: 12px;
+  height: 12px;
+}
+/* Current stop: a ring with a dot in it and a halo around it. */
+.trail-tick.here,
+.trail-tick.going {
+  border-color: var(--signal);
+  background: rgba(10, 12, 16, 0.8);
+  box-shadow: 0 0 0 5px rgba(77, 148, 255, 0.28), 0 0 10px rgba(0, 0, 0, 0.6);
+}
+.trail-tick.here::before,
 .trail-tick.going::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--signal);
+}
+.trail-tick.going {
   animation: going 1s ease-in-out infinite alternate;
 }
-.trail-tick:hover:not(:disabled)::before {
-  background: var(--ink);
-  transform: scaleY(1.7);
+.trail-tick:hover:not(:disabled) {
+  border-color: var(--ink);
+  transform: scale(1.12);
+}
+.trail-tick.done:hover:not(:disabled) {
+  border-color: var(--accent-hi);
+  background: var(--accent-hi);
 }
 .trail-tick::after {
   content: attr(data-name);
   position: absolute;
-  top: 100%;
+  top: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%);
   color: var(--ink);
@@ -422,10 +460,10 @@ body {
 }
 @keyframes going {
   from {
-    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 0 2px rgba(77, 148, 255, 0.15), 0 0 10px rgba(0, 0, 0, 0.6);
   }
   to {
-    background: var(--signal);
+    box-shadow: 0 0 0 7px rgba(77, 148, 255, 0.35), 0 0 10px rgba(0, 0, 0, 0.6);
   }
 }
 
@@ -721,12 +759,22 @@ body {
     right: auto;
     margin: 0;
   }
-  .trail-tick {
-    width: 24px;
+  .progress {
+    --node: 18px;
+    --link: 14px;
+  }
+  .trail-check {
+    width: 10px;
+    height: 10px;
+  }
+  .trail-tick.here::before,
+  .trail-tick.going::before {
+    width: 6px;
+    height: 6px;
   }
   .trail-tick::after {
     top: auto;
-    bottom: 100%;
+    bottom: calc(100% + 10px);
   }
   .plate {
     max-width: calc(100vw - var(--gut-l) - var(--gut-r) - 150px);
@@ -754,7 +802,7 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .start-btn,
   .spot-ring,
-  .trail-tick.going::before,
+  .trail-tick.going,
   .next-machine {
     animation: none;
   }

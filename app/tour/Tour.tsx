@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
-import { ArrowUp, ArrowUpRight, ChevronRight, Play } from "lucide-react";
+import { ArrowUp, ArrowUpRight, Check, ChevronRight, Play } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { coarsePointer } from "./lib/device";
 import { useStore } from "./lib/store";
@@ -357,7 +357,7 @@ function Progress() {
           const state = i < stop ? " done" : here ? (traveling ? " going" : " here") : "";
           const label = here ? (traveling ? `${s.name} (skip the trip)` : `${s.name} (you are here)`) : `Go to ${s.name}`;
           return (
-            <li key={s.id}>
+            <li key={s.id} className={`trail-step${state}`}>
               <button
                 type="button"
                 className={`trail-tick${state}`}
@@ -366,7 +366,9 @@ function Progress() {
                 aria-current={here ? "step" : undefined}
                 disabled={traveling ? !here : here}
                 onClick={() => goToStop(i)}
-              />
+              >
+                {i < stop && <Check className="trail-check" strokeWidth={3} aria-hidden="true" />}
+              </button>
             </li>
           );
         })}

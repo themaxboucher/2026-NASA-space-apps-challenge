@@ -11,11 +11,10 @@
       "title": "Corner-cube prisms",
       "text": "Each of these 100 glass prisms is a corner cube: it sends light straight back to wherever it came from, like a bike reflector. Observatories fire laser pulses at them and time the echo.",
       "anchor": {
-        "part": "glass",
-        "at": [
-          0.5,
-          1,
-          0.5
+        "pos": [
+          0.44,
+          0.28,
+          -0.025
         ]
       },
       "source": {
@@ -39,11 +38,10 @@
       "title": "The Moon is leaving",
       "text": "Timing these echoes showed that the Moon is drifting away from Earth by about 3.8 cm every year, roughly as fast as your fingernails grow. The same data has helped test Einstein’s ideas about gravity.",
       "anchor": {
-        "part": "white",
-        "at": [
-          0.5,
-          0.6,
-          0.05
+        "pos": [
+          0.41,
+          0.15,
+          0.22
         ]
       },
       "source": {
@@ -56,11 +54,10 @@
       "title": "A faint echo",
       "text": "By the time the light gets back, almost all of it is lost. Even on a good night, a telescope on Earth catches about one photon, a single particle of light, every few seconds.",
       "anchor": {
-        "part": "glass",
-        "at": [
-          0.15,
-          1,
-          0.15
+        "pos": [
+          0.25,
+          0.37,
+          -0.2
         ]
       },
       "source": {
@@ -73,11 +70,10 @@
       "title": "Nothing to break",
       "text": "Scout’s check: there are no batteries, motors or wires here, just glass in a metal frame. That is why it has outlived every other Apollo 11 experiment.",
       "anchor": {
-        "part": "alu",
-        "at": [
-          0.1,
-          0.2,
-          0.5
+        "pos": [
+          0.66,
+          0.15,
+          -0.03
         ]
       },
       "source": {

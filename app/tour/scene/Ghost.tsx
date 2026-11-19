@@ -4,7 +4,7 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useStore } from "../lib/store";
-import { endReplay, hud, live, setCaption, tour } from "../state";
+import { endReplay, hud, live, replayClock, setCaption, tour } from "../state";
 import type { Stop } from "../stops";
 import { loadMedia, mediaSound } from "../Story";
 import { prepareModel, type GltfSpec } from "./Machine";
@@ -153,6 +153,7 @@ const A11_END = 46.5;
 const FLAG_YAW = 0.6;
 const FLAG_FOOT: [number, number] = [-3.4 - 1.15 * Math.cos(FLAG_YAW), 8.4 + 1.15 * Math.sin(FLAG_YAW)];
 const AUDIO_AT = 2; // the radio recording starts here
+const AUDIO_LATE = 0.5; // a recording that can't start within this long of AUDIO_AT is dropped (captions carry on)
 
 export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: number, z: number) => number }) {
   const on = useStore(tour, (s) => s.replay);
@@ -250,6 +251,7 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
   const audio = useRef<HTMLAudioElement | null>(null);
   const cues = useRef<Cue[]>(A11_LINES);
   const shown = useRef("");
+  const heard = useRef({ pos: -1, at: 0 }); // the radio's last position and when it got there (replay clock)
   useEffect(() => {
     if (!on) return;
     t0.current = -1;
@@ -257,14 +259,18 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
     let cancelled = false;
     // Real air-to-ground radio, if it shipped: its cue times replace the fallback captions for the ladder part.
     loadMedia().then((m) => {
-      const r = (m as Record<string, { file?: string; cues?: Cue[] }>)["apollo11-replay"];
+      const r = (m as Record<string, { file?: string; cues?: Cue[]; seconds?: number }>)["apollo11-replay"];
       if (cancelled || !r?.file || !/^media\/[\w.-]+$/.test(r.file)) return;
+      // Arrived too late to start with the ladder: keep the narrator's captions rather than a radio out of step.
+      if (t0.current >= 0 && replayClock() - t0.current - LAND > AUDIO_AT + AUDIO_LATE) return;
       const a = mediaSound(new Audio("/" + r.file));
       audio.current = a;
       if (r.cues?.length) {
+        // The radio's own lines while it plays; the narrator's lines that fall during it wait until it's over.
         const radio = r.cues.map((c) => ({ ...c, at: c.at + AUDIO_AT }));
-        const lastRadio = radio[radio.length - 1].at;
-        cues.current = [...A11_LINES.filter((c) => c.at < AUDIO_AT), ...radio, ...A11_LINES.filter((c) => c.at > Math.max(14, lastRadio + 3))];
+        const over = AUDIO_AT + (r.seconds ?? radio[radio.length - 1].at - AUDIO_AT + 3);
+        const after = A11_LINES.filter((c) => c.at > 14).map((c) => ({ ...c, at: Math.max(c.at, over) }));
+        cues.current = [...A11_LINES.filter((c) => c.at < AUDIO_AT), ...radio, ...after];
       }
     });
     return () => {
@@ -279,11 +285,39 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
     const dt = Math.min(rawDt, 0.05);
     const s = tour.get();
     // Until the replay has played, the site is as it was before Eagle arrived: the real lander is hidden.
-    live.hideMachine = !s.revealed.includes(stop.id) && !(on && t0.current >= 0 && state.clock.elapsedTime - t0.current >= LAND);
+    live.hideMachine = !s.revealed.includes(stop.id) && !(on && t0.current >= 0 && replayClock() - t0.current >= LAND);
     scene.root.visible = on;
     if (!on) return;
-    if (t0.current < 0) t0.current = state.clock.elapsedTime;
-    const t = state.clock.elapsedTime - t0.current - LAND; // 0 = touchdown
+    const a = audio.current;
+    if (s.replayPaused) {
+      a?.pause(); // paused: everything holds still, the radio too
+      return;
+    }
+    if (t0.current < 0) t0.current = replayClock();
+    // While the radio plays, the scene runs on the recording's clock, so the captions (and Neil's step) land
+    // exactly on the words you hear, however long it took to load or if it stalled.
+    if (a && !a.ended && !a.paused) {
+      const now = replayClock();
+      if (a.currentTime !== heard.current.pos) heard.current = { pos: a.currentTime, at: now };
+      else if (now - heard.current.at > 1.5) {
+        // Stuck (buffering that never ends, no sound device): carry on without it rather than freeze the scene.
+        a.pause();
+        audio.current = null;
+      }
+      if (audio.current) t0.current = now - LAND - AUDIO_AT - a.currentTime;
+    }
+    let t = replayClock() - t0.current - LAND; // 0 = touchdown
+    if (a && audio.current && !a.ended && a.paused && t >= AUDIO_AT) {
+      if (a.currentTime === 0 && t > AUDIO_AT + AUDIO_LATE) audio.current = null; // never started: carry on without it
+      else {
+        // Start (or resume) the radio, holding the scene at the moment it picks up from.
+        t = AUDIO_AT + a.currentTime;
+        t0.current = replayClock() - LAND - t;
+        a.play().catch(() => {
+          audio.current = null;
+        });
+      }
+    }
 
     // The landing: the whole lander drifts down on its engine and settles, then the real one takes its place.
     const d = Math.min(1, Math.max(0, (t + LAND) / LAND));
@@ -311,7 +345,6 @@ export function Apollo11Replay({ stop, ground }: { stop: Stop; ground: (x: numbe
     dustMat.uniforms.uTime.value = now;
     dustMat.uniforms.uAlpha.value = t < 0.4 ? (1 - smooth(1.5, 6, scene.landing.position.y)) * (1 - smooth(-0.3, 0.4, t)) : 0;
     scene.dust.visible = dustMat.uniforms.uAlpha.value > 0.001;
-    if (audio.current && t >= AUDIO_AT && audio.current.paused && !audio.current.ended && audio.current.currentTime === 0) audio.current.play().catch(() => {});
 
     // Overall fade in and out.
     const alpha = smooth(0, 1.5, t) * (1 - smooth(A11_END - 2.5, A11_END, t));

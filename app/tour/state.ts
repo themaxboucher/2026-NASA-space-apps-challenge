@@ -49,10 +49,30 @@ export type TourState = {
   cutscene: string | null;
   // The ghost replay of what happened at this site is playing (scene/Ghost.tsx).
   replay: boolean;
+  // The replay is paused (its clock, scene and radio all hold still until resumed).
+  replayPaused: boolean;
   // Sites whose replay has played (or been skipped) this trip: their present-day leftovers are now shown.
   revealed: string[];
   // The scout's own call on each site, made in the case file once every clue is found.
   calls: Record<string, Call>;
+  // The story stops this trip visits, in order (the short tour skips some), chosen at the start.
+  route: number[];
+  // The launch countdown from Earth (3, 2, 1, 0 = liftoff), or null.
+  countdown: number | null;
+};
+
+// Tour length, picked after the briefing: the short tour is the Moon landing, a Mars rover and Voyager 1, then home.
+export type TourLength = "short" | "full";
+const SHORT_IDS = ["apollo11-lm", "opportunity", "voyager1"];
+export const routeFor = (len: TourLength) =>
+  len === "short" ? SHORT_IDS.map((id) => STOPS.findIndex((s) => s.id === id)).filter((i) => i >= 0) : STOPS.slice(0, STORY_COUNT).map((_, i) => i);
+const ROUTE_KEY = "gra-route";
+const savedLength = (): TourLength => {
+  try {
+    return sessionStorage.getItem(ROUTE_KEY) === "short" ? "short" : "full";
+  } catch {
+    return "full";
+  }
 };
 
 // The start screen: Earth in the foreground, with the Moon off-screen ahead.
@@ -83,9 +103,24 @@ export const tour = createStore<TourState>({
   interlude: null,
   cutscene: null,
   replay: false,
+  replayPaused: false,
   revealed: [],
   calls: {},
+  route: routeFor(savedLength()),
+  countdown: null,
 });
+
+export function setTourLength(len: TourLength) {
+  tour.set({ route: routeFor(len) });
+  try {
+    sessionStorage.setItem(ROUTE_KEY, len);
+  } catch {
+    /* storage blocked: this visit only */
+  }
+}
+export const tourLength = (s: TourState = tour.get()): TourLength => (s.route.length < STORY_COUNT ? "short" : "full");
+// The last stop on this trip's route (the next step from there is home).
+export const isLastStop = (stop: number, s: TourState = tour.get()) => s.route[s.route.length - 1] === stop;
 
 let requestId = 0;
 export function requestTravel(to: Target, mode: "journey" | "jump") {
@@ -108,7 +143,9 @@ export function startTour() {
 export function nextStop() {
   const s = tour.get();
   if (s.phase !== "explore") return;
-  journeyTo(s.stop < STORY_COUNT - 1 ? s.stop + 1 : "end");
+  // On to the next stop on this trip's route (short or full), or home after the last one.
+  const k = s.route.indexOf(s.stop);
+  journeyTo(k >= 0 && k < s.route.length - 1 ? s.route[k + 1] : s.stop < STORY_COUNT - 1 && k < 0 ? s.stop + 1 : "end");
 }
 
 // A tick in the top trail. Forward flies there; backward is a quick fade. During a trip, the destination's tick
@@ -168,6 +205,7 @@ export function dismissIntro() {
 
 // Per-frame values written by the Director and read by scene pieces, kept out of React state.
 export const live = {
+  compiling: false, // a stop's scene is compiling its shaders in the background: trips hold still meanwhile
   streak: 0, // 0..1, how stretched the stars are
   fade: 1, // 0 = clear, 1 = black
   counter: 0,
@@ -190,18 +228,18 @@ export const hud: { fade: HTMLDivElement | null; counter: HTMLElement | null; mi
 };
 
 // Shows a replay caption, with a thin bar under it that fills over the `seconds` it stays up.
-// A caption arrives like a received transmission: the whole line shows at once as shuffling letters, which lock
+// A caption arrives like a received transmission: the whole line shows at once as shuffling hex digits, which lock
 // into the real words left to right (like Magic UI's Hyper Text). It reads in quickly (about 40 letters a second)
 // and always finishes within the first half of the time the line is up. A quoted line ("Armstrong: “…”") shows the
 // speaker at once, as a call sign, then decodes the words.
-const UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const LOWER = "abcdefghijklmnopqrstuvwxyz";
+const HEX_UPPER = "0123456789ABCDEF";
+const HEX_LOWER = "0123456789abcdef";
 const DECODE_RATE = 40; // letters a second
 const SHUFFLE_MS = 45; // how often the unlocked letters change
 let decoding = 0;
-// A stand-in of the same kind, so the shuffling keeps roughly the shape of the line.
+// A random hex digit, upper or lower case to match the letter it stands in for, so the line keeps roughly its shape.
 const noiseFor = (ch: string) => {
-  const set = /[A-Z]/.test(ch) ? UPPER : /[0-9]/.test(ch) ? "0123456789" : LOWER;
+  const set = /[\p{Ll}]/u.test(ch) ? HEX_LOWER : HEX_UPPER;
   return set[Math.floor(Math.random() * set.length)];
 };
 export function setCaption(text: string, seconds: number) {
@@ -273,29 +311,31 @@ export const solids = new Set<import("three").Object3D>();
 export const arrowEls = new Map<string, HTMLDivElement>();
 export const spotKey = (stopId: string, spotId: string) => `${stopId}/${spotId}`;
 
-// Your place in the tour, kept for this browser tab (sessionStorage), so leaving for the atlas and coming
-// back picks up where you were: same stop, spots found, replays already watched.
+// Your progress (spots found, replays watched), kept for this browser tab (sessionStorage). The address decides
+// where you land: /#<id> goes to that machine with this progress, a bare / starts the tour fresh.
 const SAVE_KEY = "gra-tour";
 tour.subscribe(() => {
   const s = tour.get();
   try {
-    // Other machines' stops only exist once opened, so only a story stop is saved as the place to return to
-    // (the address, /#<id>, brings you back to any other machine).
-    if (s.phase === "explore" && s.stop >= 0) sessionStorage.setItem(SAVE_KEY, JSON.stringify({ stop: s.stop < STORY_COUNT ? s.stop : -1, found: s.found, visited: s.visited, revealed: s.revealed, calls: s.calls }));
+    if (s.phase === "explore" && s.stop >= 0) sessionStorage.setItem(SAVE_KEY, JSON.stringify({ found: s.found, visited: s.visited, revealed: s.revealed, calls: s.calls }));
     else if (s.phase === "end") sessionStorage.removeItem(SAVE_KEY);
   } catch {
     /* storage blocked: the tour just starts fresh next time */
   }
 });
-// Restores saved progress and returns the stop to go back to (or null). `at` overrides the saved stop.
-export function restoreProgress(at?: number): number | null {
+export function restoreProgress() {
   try {
-    const saved = JSON.parse(sessionStorage.getItem(SAVE_KEY) || "null") as { stop: number; found: Record<string, string[]>; visited: string[]; revealed: string[]; calls?: Record<string, Call> } | null;
-    if (!saved) return at ?? null;
-    tour.set({ found: saved.found ?? {}, visited: saved.visited ?? [], revealed: saved.revealed ?? [], calls: saved.calls ?? {} });
-    return at ?? (saved.stop >= 0 && saved.stop < STORY_COUNT ? saved.stop : null);
+    const saved = JSON.parse(sessionStorage.getItem(SAVE_KEY) || "null") as { found: Record<string, string[]>; visited: string[]; revealed: string[]; calls?: Record<string, Call> } | null;
+    if (saved) tour.set({ found: saved.found ?? {}, visited: saved.visited ?? [], revealed: saved.revealed ?? [], calls: saved.calls ?? {} });
   } catch {
-    return at ?? null;
+    /* unreadable save: carry on fresh */
+  }
+}
+export function clearProgress() {
+  try {
+    sessionStorage.removeItem(SAVE_KEY);
+  } catch {
+    /* storage blocked: nothing saved anyway */
   }
 }
 
@@ -318,6 +358,25 @@ export function makeCall(id: string, call: Call) {
   tour.set({ calls: { ...tour.get().calls, [id]: call } });
 }
 
+// The replays' clock (seconds): it stops while a replay is paused, so every replay times itself from this
+// instead of the scene clock and simply carries on where it was when resumed.
+let heldAt = 0,
+  held = 0;
+export const replayClock = () => (heldAt || performance.now() / 1000) - held;
+export function pauseReplay(paused: boolean) {
+  const now = performance.now() / 1000;
+  if (paused && !heldAt) heldAt = now;
+  else if (!paused && heldAt) {
+    held += now - heldAt;
+    heldAt = 0;
+  }
+  if (tour.get().replayPaused !== paused) tour.set({ replayPaused: paused });
+}
+// A paused replay that ends some other way (skipped, or you left the stop) doesn't leave the next one paused.
+tour.subscribe(() => {
+  if (!tour.get().replay && tour.get().replayPaused) pauseReplay(false);
+});
+
 export function endReplay(forStop?: string) {
   const s = tour.get();
   if (!s.replay) return;
@@ -330,6 +389,26 @@ export function endReplay(forStop?: string) {
 function journeyTo(to: Target) {
   if (typeof to === "number" && STOPS[to]?.story) tour.set({ interlude: to, openSpot: null, introOpen: false, fileOpen: false });
   else requestTravel(to, "journey");
+}
+// The very first trip leaves Earth with a countdown: the chapter card closes, only Earth is on screen, and Mission
+// Control counts 3, 2, 1, liftoff (0), then the trip to the Moon begins.
+export const COUNTDOWN_FROM = 3;
+export function launchCountdown() {
+  const to = tour.get().interlude;
+  if (to == null || tour.get().countdown != null) return;
+  tour.set({ interlude: null, countdown: COUNTDOWN_FROM });
+  const tick = () => {
+    const c = tour.get().countdown;
+    if (c == null) return;
+    if (c > 0) {
+      tour.set({ countdown: c - 1 });
+      setTimeout(tick, c - 1 > 0 ? 1000 : 1400); // liftoff stays up a moment as the trip starts
+    } else {
+      tour.set({ countdown: null });
+      requestTravel(to, "journey");
+    }
+  };
+  setTimeout(tick, 1000);
 }
 export function continueStory() {
   const to = tour.get().interlude;

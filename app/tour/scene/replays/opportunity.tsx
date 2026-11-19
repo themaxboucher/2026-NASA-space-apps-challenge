@@ -6,7 +6,7 @@ import * as THREE from "three";
 import { Chassis } from "../suspension";
 import { reducedMotion } from "../../lib/device";
 import { useStore } from "../../lib/store";
-import { endReplay, live, REPLAYS, setCaption, tour } from "../../state";
+import { endReplay, replayClock, live, REPLAYS, setCaption, tour } from "../../state";
 import type { Stop } from "../../stops";
 import { ghostMaterial, shell, smooth, type Cue } from "../Ghost";
 import { prepareModel, type GltfSpec } from "../Machine";
@@ -120,12 +120,13 @@ export function OpportunityReplay({ stop, ground }: { stop: Stop; ground?: (x: n
     const dt = Math.min(rawDt, 0.05);
     const gh = (x: number, z: number) => (ground ? ground(x, z) : 0);
     const s = tour.get();
-    const t = t0.current < 0 ? 0 : state.clock.elapsedTime - t0.current;
+    const t = t0.current < 0 ? 0 : replayClock() - t0.current;
     // The real (dusty) rover stays hidden until the present day.
     live.hideMachine = !s.revealed.includes(stop.id) && !(on && t0.current >= 0 && t >= REVEAL);
     scene.root.visible = on;
     if (!on) return;
-    if (t0.current < 0) t0.current = state.clock.elapsedTime;
+    if (s.replayPaused) return; // paused: everything holds still
+    if (t0.current < 0) t0.current = replayClock();
 
     // The drive, as a time-lapse: a short move, a pause, another move, nose along its tracks.
     const p = Math.min(1, Math.max(0, (t - DRIVE[0]) / (DRIVE[1] - DRIVE[0])));

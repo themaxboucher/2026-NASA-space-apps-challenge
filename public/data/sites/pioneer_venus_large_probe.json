@@ -49,11 +49,10 @@
       "title": "Parachute, then free fall",
       "text": "High in the clouds the probe opened a parachute, then let it go about 47 km up and fell freely the rest of the way, because the thick air slowed it enough.",
       "anchor": {
-        "part": "ribbed",
-        "at": [
-          0.15,
-          0.8,
-          0.5
+        "pos": [
+          -0.18,
+          0.35,
+          0.36
         ]
       },
       "source": {
@@ -66,11 +65,10 @@
       "title": "A diamond window",
       "text": "One instrument looked out through a window made from a real diamond, tough enough for Venus’s heat and acid clouds.",
       "anchor": {
-        "part": "cphenolic",
-        "at": [
-          1,
-          0.6,
-          0.5
+        "pos": [
+          0.55,
+          -0.12,
+          0.27
         ]
       },
       "source": {

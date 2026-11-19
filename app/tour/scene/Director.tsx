@@ -10,7 +10,8 @@ import { hud, live, tour, type SceneDesc, type Target, type TourState } from "..
 import { STORY_COUNT, STOPS } from "../stops";
 import { modelSettled, preloadModel } from "./useModel";
 
-type Run = { shots: Shot[]; t: number; shot: number; to: Target; skip: boolean };
+// `cut`: the shot that switched scenes without a fade of its own; it fades in from black.
+type Run = { shots: Shot[]; t: number; shot: number; to: Target; skip: boolean; cut?: number };
 
 function modelsFor(index: number) {
   const s = STOPS[index];
@@ -27,26 +28,21 @@ const ready = (scene: SceneDesc) => scene.kind === "travel" || modelsFor(scene.s
 let tint = "#000";
 let shownTint = "";
 
-// Scene changes during a journey dissolve instead of dipping: the last frame stays on top as a picture and
-// fades out over the new scene, so the trip reads as one continuous shot.
-const XFADE = 1.1;
-let xfade = -1; // seconds into the current dissolve, or -1
-function snapshot(canvas: HTMLCanvasElement) {
-  if (!hud.fade) return;
-  try {
-    hud.fade.style.backgroundImage = `url(${canvas.toDataURL("image/jpeg", 0.85)})`;
-    xfade = 0;
-  } catch {
-    xfade = -1; // canvas not readable: fall back to a plain cut
-  }
-}
+// Scene changes during a journey that have no fade of their own get a quick dip through black (this long out,
+// and this long back in), so you never see one environment snap into the next.
+const DIP = 0.25;
 
 // Runs travel plans: switches scenes, flies the camera, fades, and drives the star streaks and distance counter.
 export function Director() {
-  const { camera, gl } = useThree();
+  const { camera } = useThree();
   const run = useRef<Run | null>(null);
   const seenRequest = useRef(0);
   const seenSkip = useRef(0);
+  // The first stop's lander starts loading while the start screen and briefing are up, so the trip to the Moon
+  // doesn't freeze on its last frame waiting for it (it took about 4 seconds on a first visit).
+  useEffect(() => {
+    preloadFor(0);
+  }, []);
 
   useFrame((_, rawDt) => {
     const dt = Math.min(rawDt, 0.05);
@@ -76,7 +72,7 @@ export function Director() {
       let i = 0;
       if (r.skip) i = ready(last.scene) ? r.shots.length : r.shot;
       else {
-        r.t += dt;
+        r.t += live.compiling ? 0 : dt; // hold while the new scene's shaders compile (no frozen page)
         while (i < r.shots.length && r.t >= start + r.shots[i].dur) {
           // Hold on the end of this shot (faded out) until the next scene's machine has loaded.
           if (i + 1 < r.shots.length && !ready(r.shots[i + 1].scene)) {
@@ -127,8 +123,7 @@ export function Director() {
           };
           if (tour.get().scene.key !== shot.scene.key) {
             patch.scene = shot.scene;
-            // Only for journeys: jumps and skips still dip through black or haze.
-            if (!shot.fadeIn && (i === 0 || !r.shots[i - 1].fadeOut)) snapshot(gl.domElement);
+            if (!shot.fadeIn) r.cut = i; // comes in from black (see DIP)
           }
           tour.set(patch);
         }
@@ -138,9 +133,19 @@ export function Director() {
         let f = 0;
         if (shot.fadeIn && into < shot.fadeIn) f = 1 - into / shot.fadeIn;
         if (shot.fadeOut && left < shot.fadeOut) f = Math.max(f, 1 - left / shot.fadeOut);
+        tint = (shot.fadeOut && left < shot.fadeOut ? shot.tint?.out : shot.tint?.in) ?? "#000";
+        // The quick dip to black around a scene change with no fade of its own: out at the end of this shot,
+        // back in at the start of the next.
+        const next = r.shots[i + 1];
+        let dip = 0;
+        if (next && next.scene.key !== shot.scene.key && !shot.fadeOut && !next.fadeIn && left < DIP) dip = 1 - left / DIP;
+        if (r.cut === i && into < DIP) dip = Math.max(dip, 1 - into / DIP);
+        if (dip > f) {
+          f = dip;
+          tint = "#000";
+        }
         // Ease the dips so the picture doesn't snap in and out of them.
         live.fade = f * f * (3 - 2 * f);
-        tint = (shot.fadeOut && left < shot.fadeOut ? shot.tint?.out : shot.tint?.in) ?? "#000";
         live.streak = shot.streak ? shot.streak(local) : 0;
         chip = shot.chip?.(local) ?? "";
         if (shot.counter) live.counter = shot.counter.at(local);
@@ -148,20 +153,19 @@ export function Director() {
     } else {
       live.fade = Math.max(0, live.fade - dt * 3);
       live.streak = 0;
-      if (s.phase === "start" || s.phase === "end") aim(camera, START_POSE.pos, START_POSE.look);
+      if (s.phase === "start" || s.phase === "end") {
+        aim(camera, START_POSE.pos, START_POSE.look);
+        // The last seconds of the launch countdown: the camera rumbles, harder as liftoff nears.
+        if (s.countdown != null && s.countdown <= 2) {
+          const k = (3 - s.countdown) * 0.006;
+          camera.position.x += (Math.random() - 0.5) * k;
+          camera.position.y += (Math.random() - 0.5) * k;
+        }
+      }
     }
 
     if (hud.fade) {
-      if (xfade >= 0) {
-        // Dissolving from the picture of the last frame.
-        xfade += dt;
-        const u = Math.min(1, xfade / XFADE);
-        hud.fade.style.opacity = Math.max(live.fade, 1 - u * u * (3 - 2 * u)).toFixed(3);
-        if (u >= 1) {
-          xfade = -1;
-          hud.fade.style.backgroundImage = "";
-        }
-      } else hud.fade.style.opacity = live.fade.toFixed(3);
+      hud.fade.style.opacity = live.fade.toFixed(3);
       if (shownTint !== tint) hud.fade.style.backgroundColor = shownTint = tint;
     }
     // Only into the readout showing this shot's label: on the frame a shot starts, React hasn't swapped the readout

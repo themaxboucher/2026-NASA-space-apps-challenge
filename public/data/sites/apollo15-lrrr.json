@@ -56,11 +56,10 @@
       "title": "Aiming at Earth",
       "text": "A sun compass and bubble level on the end helped Scott point the mirror at Earth. Scout’s check: nothing here needs power or repairs.",
       "anchor": {
-        "part": "white",
-        "at": [
-          1,
+        "pos": [
           0.6,
-          0.3
+          0.15,
+          0.15
         ]
       },
       "source": {
@@ -73,12 +72,12 @@
       "title": "Seen from orbit",
       "text": "NASA’s Lunar Reconnaissance Orbiter has photographed this landing site from above. The mirror is too small to see, but its spot is marked among the tracks.",
       "anchor": {
-        "part": "darkalu",
-        "at": [
-          0.5,
-          0,
-          0.5
-        ]
+        "pos": [
+          -0.2,
+          0.1,
+          0.75
+        ],
+        "ground": true
       },
       "source": {
         "label": "NASA JPL: Apollo 11 experiment still returns valuable data",

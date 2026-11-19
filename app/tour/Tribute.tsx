@@ -46,6 +46,51 @@ const PHOTOS = [
   { file: "/media/tribute/windtunnel.jpg", alt: "A small scale model of the Super Heavy booster mounted in a NASA wind tunnel", caption: "Testing first: NASA Ames tested a 1.2% model of the newest booster in a wind tunnel to study the forces on its way back down.", credit: "NASA/Brandon Torres", license: "Public domain", licUrl: "", src: "https://images.nasa.gov/details/ACD25-0156-012" },
 ];
 
+// The last word, on a screen of its own after the tribute: a message to whoever just took the trip.
+export function Message({ onDone }: { onDone: () => void }) {
+  const line = (delay: number) => ({ initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.9, ease: [0.22, 1, 0.36, 1] as const } });
+  return (
+    <motion.section
+      className="chapter message"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="message-title"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <div className="chapter-card message-card">
+        <motion.p className="chapter-kicker" {...line(0.2)}>
+          A message to you
+        </motion.p>
+        <motion.h2 id="message-title" {...line(0.4)}>
+          They&apos;re still out there.
+        </motion.h2>
+        <motion.p className="chapter-text" {...line(0.9)}>
+          Eagle&apos;s lower half still stands where Neil Armstrong stepped off it. Opportunity still sits in its valley on Mars, covered in dust.
+          Voyager 1 is still flying, farther from home than anything people have ever built, and it is still sending us messages.
+        </motion.p>
+        <motion.p className="chapter-text" {...line(1.6)}>
+          None of them came home. But none of them were wasted. Every one that broke showed engineers what to build stronger. Every one that kept
+          going showed how far we could reach.
+        </motion.p>
+        <motion.p className="chapter-text" {...line(2.3)}>
+          The next explorers won&apos;t all be left behind. Some will be caught, checked and flown again, like the rocket that just came home.
+        </motion.p>
+        <motion.p className="message-close" {...line(3)}>
+          Someone has to build them. Why not you?
+        </motion.p>
+        <motion.div className="chapter-actions" {...line(3.4)}>
+          <button type="button" className="start-btn" autoFocus onClick={onDone}>
+            See what you found <ArrowRight aria-hidden="true" />
+          </button>
+        </motion.div>
+      </div>
+    </motion.section>
+  );
+}
+
 export function Tribute({ onDone }: { onDone: () => void }) {
   return (
     <motion.section
@@ -66,18 +111,12 @@ export function Tribute({ onDone }: { onDone: () => void }) {
           something new happened. A Starship flew around the Earth about 14 times, came back, and was caught by the arms of the tower that launched it.
           It was the first time a Starship was caught after a trip to orbit. <Cite s={SRC.f15} />
         </p>
-        <figure className="chapter-film">
-          <video ref={videoVolume} src="/media/tribute/launch-catch-ccby.mp4" poster="/media/tribute/launch-catch-ccby.jpg" controls playsInline preload="metadata" />
-          <figcaption>
-            Where catching began: Starship Flight 5 launches, and about seven minutes later its Super Heavy booster flies back and is caught by the tower,
-            13 October 2024.{" "}
-            <span className="chapter-credit">
-              Anne Toal ·{" "}
-              <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer">CC BY 3.0</a> · converted for the web, sound removed ·{" "}
-              <a href="https://commons.wikimedia.org/wiki/File:SpaceX_Starship_integrated_flight_test_-5_-_launch_and_catch_-_13_October_2024.webm" target="_blank" rel="noopener noreferrer">source</a>
-            </span>
-          </figcaption>
-        </figure>
+        <p className="trib-p trib-watch">
+          No openly licensed film of Ship 42’s catch exists yet, so it isn’t shown here.{" "}
+          <a className="trib-src" href={SRC.f15.url} target="_blank" rel="noopener noreferrer">
+            Watch SpaceX’s own video of the catch <ArrowUpRight aria-hidden="true" />
+          </a>
+        </p>
 
         <h3 className="trib-h">Why it matters</h3>
         <p className="trib-p">
@@ -102,6 +141,19 @@ export function Tribute({ onDone }: { onDone: () => void }) {
             </li>
           ))}
         </ol>
+
+        <figure className="chapter-film">
+          <video ref={videoVolume} src="/media/tribute/launch-catch-ccby.mp4" poster="/media/tribute/launch-catch-ccby.jpg" controls playsInline preload="metadata" />
+          <figcaption>
+            Where catching began: this is the booster, the bottom stage, not the ship. On Starship Flight 5, about seven minutes after launch, the Super
+            Heavy booster flies back and is caught by the tower, 13 October 2024.{" "}
+            <span className="chapter-credit">
+              Anne Toal ·{" "}
+              <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer">CC BY 3.0</a> · converted for the web, sound removed ·{" "}
+              <a href="https://commons.wikimedia.org/wiki/File:SpaceX_Starship_integrated_flight_test_-5_-_launch_and_catch_-_13_October_2024.webm" target="_blank" rel="noopener noreferrer">source</a>
+            </span>
+          </figcaption>
+        </figure>
 
         <h3 className="trib-h">How they made it possible</h3>
         <ol className="sci-tech trib-how">
@@ -130,14 +182,9 @@ export function Tribute({ onDone }: { onDone: () => void }) {
           ))}
         </div>
 
-        <blockquote className="trib-close">
-          <p>The explorers on this tour stayed where they stopped. Their echoes taught us how to go further.</p>
-          <p>The next ones might come home, and fly again. Maybe you’ll be the engineer who builds them.</p>
-        </blockquote>
-
         <div className="chapter-actions">
           <button type="button" className="start-btn" onClick={onDone}>
-            See your case files <ArrowRight aria-hidden="true" />
+            Continue <ArrowRight aria-hidden="true" />
           </button>
         </div>
       </div>

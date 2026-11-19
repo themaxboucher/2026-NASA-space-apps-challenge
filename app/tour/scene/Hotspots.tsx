@@ -123,6 +123,8 @@ export function HotspotTracker({ stop, anchors, ground }: { stop: Stop; anchors:
     const plate = s.phase === "explore" ? document.querySelector(".plate")?.getBoundingClientRect() : undefined;
     const cv = plate ? gl.domElement.getBoundingClientRect() : undefined;
     const keepOut = plate && cv && plate.width ? [plate.left - cv.left - 16, plate.top - cv.top - 16, plate.right - cv.left + 16, plate.bottom - cv.top + 16] : null;
+    // The open story card (bottom left) has no panel of its own: a dot behind it would show through its text.
+    const card = document.querySelector(".story > *")?.getBoundingClientRect();
     for (const { spot, pos, face, reach } of placed) {
       const el = spotEls.get(spotKey(stop.id, spot.id));
       if (!el) continue;
@@ -130,13 +132,15 @@ export function HotspotTracker({ stop, anchors, ground }: { stop: Stop; anchors:
       projected.copy(pos).project(camera);
       let shown = s.phase === "explore" && d < reach && projected.z < 1;
       if (shown && face) shown = toCam.copy(camera.position).sub(pos).dot(face) > -0.15;
-      const a = shown ? smooth((reach - d) / 6) : 0;
       const x = ((projected.x + 1) / 2) * size.width;
       const y = ((1 - projected.y) / 2) * size.height;
+      const behindCard = !!card && x + size.left > card.left - 20 && x + size.left < card.right + 20 && y + size.top > card.top - 20 && y + size.top < card.bottom + 20;
+      const a = shown && !behindCard ? smooth((reach - d) / 6) : 0;
       el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
       el.style.opacity = a.toFixed(3);
       el.style.visibility = a > 0.01 ? "visible" : "hidden";
-      el.style.pointerEvents = a > 0.3 ? "auto" : "none";
+      // Any dot you can see can be clicked (a faint, far one used to let the click through to the scene instead).
+      el.style.pointerEvents = a > 0.01 ? "auto" : "none";
       // Keep the hover label on the side of the marker with more room.
       el.dataset.side = x > size.width * 0.6 ? "left" : "right";
       el.dataset.low = y > size.height * 0.62 ? "1" : "0";

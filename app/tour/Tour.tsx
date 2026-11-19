@@ -3,9 +3,10 @@
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
-import { ArrowUp, ArrowUpRight, ChevronRight, Play } from "lucide-react";
+import { ArrowRight, ArrowUp, ArrowUpRight, Check, ChevronRight, Pause, Play, X } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { coarsePointer } from "./lib/device";
+import { formatKm } from "./lib/geo";
 import { useStore } from "./lib/store";
 import { FailureBank } from "./FailureBank";
 // Shared with the atlas: photos each machine took, and live numbers for the ones still working.
@@ -14,31 +15,40 @@ import { Overlay } from "./Overlay";
 import { Spots } from "./Spots";
 import { Science } from "./Science";
 import { ConfirmSkip } from "./ConfirmSkip";
-import { Tribute } from "./Tribute";
+import { Message, Tribute } from "./Tribute";
 import { Cutscene, Interlude, MusicToggle, photoSrc, playCutscene, startMusic, useMedia, useSpotPhotos } from "./Story";
 import {
   dismissIntro,
   CALLS,
   endReplay,
+  pauseReplay,
   makeCall,
   type Call,
   goToStop,
   hud,
+  isLastStop,
   nextStop,
   openHotspot,
   requestTravel,
+  clearProgress,
   restoreProgress,
   setFileOpen,
   spotKey,
   spotsLeft,
+  setTourLength,
+  skipTravel,
+  COUNTDOWN_FROM,
   startTour,
   tour,
+  type TourLength,
 } from "./state";
+import { getLevel, setLevel } from "../atlas/level.js";
 import { CREDITS, STOP_INDEX, STOPS, STORY_COUNT, type Hotspot, type Stop } from "./stops";
 import { loadAtlas, loadEarthOrbit, loadSalvage, openSite, type EarthOrbit, type Fate, type SalvageFile } from "./sites";
 
 import "./tour.css";
 import "./sites.css";
+import "./start.css";
 
 // The 3D scene only runs in the browser; the start screen's text and button render right away.
 const TourCanvas = dynamic(() => import("./TourCanvas"), { ssr: false });
@@ -46,31 +56,55 @@ const TourCanvas = dynamic(() => import("./TourCanvas"), { ssr: false });
 const TITLE = "Echoes of Exploration";
 const ease = [0.22, 1, 0.36, 1] as const;
 
-// A short briefing between Start and lift-off: what this trip is for, and how to play it.
-function briefing(n: number) {
+// A short briefing between Start and lift-off: what this trip is for and how to play it, then who's exploring
+// (the reading level), how long a trip (short or full, and whether it plays by itself), and lift-off.
+type BriefStep = { kind: "info"; title: string; text: string } | { kind: "level" } | { kind: "length" } | { kind: "ready" };
+function briefing(n: number): BriefStep[] {
   return [
     {
+      kind: "info",
       title: "We left space objects out there",
       text: `For more than 60 years, NASA has sent ${n ? n : "dozens of"} robots, landers and probes to the Moon, to Mars and into deep space. None of them came home. Some broke, some ran out of power, and a few are still working right now.`,
     },
     {
-      title: "You're the salvage scout",
-      text: `You'll visit ${STORY_COUNT} of them. At each site, find out what we left behind and why. Glowing spots are your clues: blue tells the story, red shows what broke. Then decide like an engineer: repair it, repurpose it, bring it home, or leave it as history?`,
+      kind: "info",
+      title: "Your mission",
+      text: "You'll visit different sites. At each one, find out what we left behind and why. Glowing spots are your clues: blue tells the story, red shows what broke.",
     },
-    {
-      title: "Are you ready?",
-      text: `First stop: the Moon. You'll fly ${STOPS[0].distanceKm.toLocaleString("en-US")} km to ${STOPS[0].name}, the ${STOPS[0].mission} lander at Tranquility Base, where people first walked on another world.`,
-    },
+    { kind: "level" },
+    { kind: "length" },
+    { kind: "ready" },
   ];
 }
+const SETUP = 2; // "Skip briefing" goes straight to the choices
+// The briefing asks just two ways: Explorer (the simplest writing) or Expert (full technical detail). The settings
+// panel still offers all four reading levels for anything in between.
+const EXPERTISE = [
+  { id: "explorer", label: "Explorer", sub: "Beginner", covers: ["explorer", "student"] },
+  { id: "enthusiast", label: "Expert", sub: "Advanced", covers: ["curious", "enthusiast"] },
+];
+const LENGTHS: { id: TourLength; title: string; text: string }[] = [
+  { id: "short", title: "Short trip", text: "3 stops, about 10 minutes: Apollo 11 on the Moon, the Opportunity rover on Mars and Voyager 1 in deep space, then home." },
+  { id: "full", title: "Full trip", text: `All ${STORY_COUNT} stops, about 25 minutes: two on the Moon, two on Mars, Saturn and Voyager 1, then home.` },
+];
 
 function StartScreen() {
   const ready = useStore(tour, (s) => s.sceneReady);
+  const route = useStore(tour, (s) => s.route);
   const n = useMachineCount();
   const [step, setStep] = useState(-1); // -1 = title screen, then one card per briefing step
+  const [level, setLvl] = useState("student");
+  useEffect(() => {
+    const t = setTimeout(() => setLvl(getLevel()), 0); // the saved level (localStorage), after mount
+    return () => clearTimeout(t);
+  }, []);
   const steps = briefing(n);
   const card = steps[step];
   const briefed = step >= 0;
+  const launched = step === -2; // "Let's go": the title stays hidden behind the first chapter card and the countdown
+  const len = route.length < STORY_COUNT ? "short" : "full";
+  const next = () => setStep(step + 1);
+  const first = STOPS[route[0] ?? 0];
   return (
     <motion.section
       className="start"
@@ -80,9 +114,9 @@ function StartScreen() {
       {/* The title, lede and Start button fade away once the briefing opens over them. */}
       <motion.div
         className="start-hero"
-        inert={briefed}
+        inert={briefed || launched}
         initial={false}
-        animate={briefed ? { opacity: 0, y: -24 } : { opacity: 1, y: 0 }}
+        animate={briefed || launched ? { opacity: 0, y: -24 } : { opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease }}
       >
       {/* Letters animate in one by one; each word stays whole, so a narrow screen wraps between words. */}
@@ -131,7 +165,8 @@ function StartScreen() {
       </motion.button>
       <DebrisChip />
       </motion.div>
-      {/* Mission briefing: a full-screen overlay like the story chapters, one card per step. */}
+      {/* Mission briefing: a full-screen overlay like the story chapters, one card per step. Once the trip starts
+          (the first chapter card opens over it), it gets out of the way. */}
       <AnimatePresence>
         {briefed && (
           <motion.div
@@ -155,21 +190,94 @@ function StartScreen() {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.5, ease }}
           >
-            <p className="chapter-kicker">Mission briefing</p>
-            <h2 id="brief-title">{card.title}</h2>
-            <p className="chapter-text">{card.text}</p>
+            <p className="chapter-kicker">{step < SETUP ? "Mission briefing" : "Plan your mission"}</p>
+            {card.kind === "info" && (
+              <>
+                <h2 id="brief-title">{card.title}</h2>
+                <p className="chapter-text">{card.text}</p>
+              </>
+            )}
+            {card.kind === "level" && (
+              <>
+                <h2 id="brief-title">Who&apos;s exploring?</h2>
+                <p className="chapter-text">Pick how you&apos;d like things explained. You can change it any time in the settings.</p>
+                <div className="brief-choices brief-two" role="radiogroup" aria-labelledby="brief-title">
+                  {EXPERTISE.map((x) => {
+                    const on = x.covers.includes(level);
+                    return (
+                      <button
+                        key={x.id}
+                        type="button"
+                        role="radio"
+                        aria-checked={on}
+                        className={`brief-choice${on ? " on" : ""}`}
+                        onClick={() => {
+                          setLevel(x.id);
+                          setLvl(x.id);
+                        }}
+                      >
+                        <b>{x.label}</b>
+                        <span className="brief-sub">{x.sub}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+            {card.kind === "length" && (
+              <>
+                <h2 id="brief-title">How long is your mission?</h2>
+                <div className="brief-choices" role="radiogroup" aria-labelledby="brief-title">
+                  {LENGTHS.map((l) => (
+                    <button
+                      key={l.id}
+                      type="button"
+                      role="radio"
+                      aria-checked={len === l.id}
+                      className={`brief-choice${len === l.id ? " on" : ""}`}
+                      onClick={() => setTourLength(l.id)}
+                    >
+                      <b>{l.title}</b>
+                      <span>{l.text}</span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+            {card.kind === "ready" && (
+              <>
+                <h2 id="brief-title">Are you ready?</h2>
+                <p className="chapter-text">
+                  {route.length} stops, then home. First stop: the Moon. You&apos;ll fly {first.distanceKm.toLocaleString("en-US")} km to {first.name}, the {first.mission} lander at
+                  Tranquility Base, where people first walked on another world.
+                </p>
+              </>
+            )}
             <div className="chapter-actions brief-actions">
               {step < steps.length - 1 ? (
-                <button type="button" className="start-btn" autoFocus onClick={() => setStep(step + 1)}>
+                <button type="button" className="start-btn" autoFocus onClick={next}>
                   Next
                 </button>
               ) : (
-                <button type="button" className="start-btn" autoFocus onClick={startTour}>
+                <button
+                  type="button"
+                  className="start-btn"
+                  autoFocus
+                  onClick={() => {
+                    setStep(-2); // close the briefing: the first chapter card takes over
+                    startTour();
+                  }}
+                >
                   Let&apos;s go
                 </button>
               )}
-              {step < steps.length - 1 && (
-                <ConfirmSkip className="brief-skip" label="Skip briefing" question="Skip the mission briefing?" yes="Yes, skip" no="Keep reading" onConfirm={startTour} />
+              {step > 0 && (
+                <button type="button" className="ghost-btn" onClick={() => setStep(step - 1)}>
+                  Back
+                </button>
+              )}
+              {step < SETUP && (
+                <ConfirmSkip className="brief-skip" label="Skip briefing" question="Skip to choosing your mission?" yes="Yes, skip" no="Keep reading" onConfirm={() => setStep(SETUP)} />
               )}
             </div>
           </motion.div>
@@ -319,14 +427,15 @@ function ExploreLink() {
   const done = useStore(tour, (s) => s.phase === "end") || remembered;
   return (
     <>
-      {/* Top right: fly the 3D solar system (to any machine), then the full list of all of them. */}
-      {done && <a className="explore-link solar-top" href={id ? `/solar?from=${encodeURIComponent(id)}` : "/solar"}>
-        Fly around the solar system
-        <ArrowUpRight className="explore-arrow" aria-hidden="true" />
+      {/* Top right, in one row with the sound buttons: fly the 3D solar system (to any machine), then the full
+          list of all of them. */}
+      {done && <a className="explore-link" href={id ? `/solar?from=${encodeURIComponent(id)}` : "/solar"}>
+        Solar system
+        <ArrowRight className="explore-arrow" aria-hidden="true" />
       </a>}
-      <a className={`explore-link${done ? " explore-second" : ""}`} href={id ? `/explore#${id}` : "/explore"}>
-        Explore {allMachines(n)}
-        <ArrowUpRight className="explore-arrow" aria-hidden="true" />
+      <a className="explore-link" href={id ? `/explore#${id}` : "/explore"} aria-label={`Explore ${allMachines(n)}`}>
+        Explore
+        <ArrowRight className="explore-arrow" aria-hidden="true" />
       </a>
     </>
   );
@@ -337,6 +446,7 @@ function ExploreLink() {
 function Progress() {
   const stop = useStore(tour, (s) => s.stop);
   const phase = useStore(tour, (s) => s.phase);
+  const route = useStore(tour, (s) => s.route);
   const traveling = phase === "travel";
   return (
     stop >= STORY_COUNT && STOPS[stop] ? (
@@ -351,12 +461,13 @@ function Progress() {
       transition={{ duration: 0.6, ease }}
     >
       <ol className="trail">
-        {STOPS.slice(0, STORY_COUNT).map((s, i) => {
+        {route.map((i) => {
+          const s = STOPS[i];
           const here = i === stop;
           const state = i < stop ? " done" : here ? (traveling ? " going" : " here") : "";
           const label = here ? (traveling ? `${s.name} (skip the trip)` : `${s.name} (you are here)`) : `Go to ${s.name}`;
           return (
-            <li key={s.id}>
+            <li key={s.id} className={`trail-step${state}`}>
               <button
                 type="button"
                 className={`trail-tick${state}`}
@@ -365,7 +476,9 @@ function Progress() {
                 aria-current={here ? "step" : undefined}
                 disabled={traveling ? !here : here}
                 onClick={() => goToStop(i)}
-              />
+              >
+                {i < stop && <Check className="trail-check" strokeWidth={3} aria-hidden="true" />}
+              </button>
             </li>
           );
         })}
@@ -399,11 +512,11 @@ function SpotProgress() {
   const stop = useStore(tour, (s) => s.stop);
   const s = STOPS[stop];
   const seen = useStore(tour, (t) => (s && t.found[s.id]) || NONE);
+  const last = useStore(tour, (t) => isLastStop(stop, t)); // the last stop on this trip (short or full)
   if (!s) return null;
   const total = s.hotspots.length;
   const count = s.hotspots.filter((h) => seen.includes(h.id)).length;
   const done = count >= total;
-  const last = stop === STORY_COUNT - 1;
   const outside = stop >= STORY_COUNT;
   return (
     <motion.div
@@ -548,17 +661,40 @@ function Minimap() {
 
 // Captions and a Skip button while the ghosts re-enact what happened here (scene/Ghost.tsx writes the lines, and
 // setCaption in state.ts decodes each one in like a received transmission).
+// Where each replay's narration sits: in the empty part of its picture, close to what's happening, rather than
+// in a bar along the bottom (Apollo 11: the dark sky left of the lander; the surface stops: the sky above the
+// scene; Saturn and Voyager: the empty space top right).
+const REPLAY_PLACE: Record<string, string> = {
+  "apollo11-lm": "sky-left",
+  "apollo15-lrv": "sky",
+  opportunity: "sky",
+  ingenuity: "sky",
+  cassini: "right",
+  // Voyager 1 keeps the bottom line, under its date and distance readout (its picture moves all over the screen).
+};
 function ReplayBar() {
+  const stop = useStore(tour, (s) => s.stop);
+  const place = REPLAY_PLACE[STOPS[stop]?.id ?? ""];
+  // Mars' sky is bright: there the narration sits on a soft dark panel instead of a glow (which shows as a smudge).
+  const bright = STOPS[stop]?.body === "mars" || undefined;
+  const paused = useStore(tour, (s) => s.replayPaused);
   return (
-    <motion.div className="replay" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5, ease }}>
+    <motion.div className="replay" data-place={place} data-bright={bright} data-paused={paused || undefined} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5, ease }}>
       <p
         className="replay-line"
+        data-place={place}
         aria-live="polite"
         ref={(el) => {
           hud.replayLine = el;
         }}
       />
-      <ConfirmSkip className="replay-skip" label={<>Skip <ChevronRight aria-hidden="true" /></>} ariaLabel="Skip" question="Skip what happened here?" yes="Yes, skip" no="Keep watching" onConfirm={() => endReplay()} askEvent="gra-ask-skip-replay" />
+      <div className="replay-ctl">
+        {/* Pause holds the whole replay still (scene, captions and radio); Play carries on from the same moment. */}
+        <button type="button" className="replay-skip replay-pause" aria-pressed={paused} onClick={() => pauseReplay(!paused)}>
+          {paused ? <Play aria-hidden="true" /> : <Pause aria-hidden="true" />} {paused ? "Play" : "Pause"}
+        </button>
+        <ConfirmSkip className="replay-skip" label={<>Skip <ChevronRight aria-hidden="true" /></>} ariaLabel="Skip" question="Skip what happened here?" yes="Yes, skip" no="Keep watching" onConfirm={() => endReplay()} askEvent="gra-ask-skip-replay" />
+      </div>
     </motion.div>
   );
 }
@@ -615,6 +751,9 @@ function SpotStory({ stopId, spot }: { stopId: string; spot: Hotspot }) {
       exit={{ opacity: 0, y: 8, transition: { duration: 0.2 } }}
       transition={{ duration: 0.45, ease }}
     >
+      <button type="button" className="story-close" aria-label={`Close ${spot.title}`} onClick={() => openHotspot(stopId, null)}>
+        <X aria-hidden="true" />
+      </button>
       {photo && src && (
         <figure className="story-photo">
           {/* eslint-disable-next-line @next/next/no-img-element -- static file with its own credit line */}
@@ -642,10 +781,14 @@ function SpotStory({ stopId, spot }: { stopId: string; spot: Hotspot }) {
         </a>
         {film && (
           <button type="button" className="story-film" onClick={() => playCutscene(key)}>
-            <Play aria-hidden="true" /> Watch what it saw
+            <Play aria-hidden="true" /> Watch video
           </button>
         )}
       </div>
+      {/* The way back: any click outside this card closes it (and on a computer, takes the mouse to look around). */}
+      <p className="story-hint">
+        {coarsePointer() ? "Tap outside to close" : <>Click outside or press <kbd>Esc</kbd> to close</>}
+      </p>
     </motion.article>
   );
 }
@@ -1134,54 +1277,41 @@ function Cruise() {
           transition={{ duration: 0.3, ease }}
         >
           <p className="eyebrow">{cruise.label}</p>
-          <p className="cruise-num" ref={counterRef} data-label={cruise.label} />
+          {/* Room for the widest the readout gets (all digits are drawn the same width) is kept from the start, and
+              the number sits on the right of it, so it never shifts as digits come and go. */}
+          <p className="cruise-num" ref={counterRef} data-label={cruise.label} data-widest={formatKm(Math.max(cruise.from, cruise.to)).replace(/\d/g, "0")} />
         </motion.div>
       )}
     </AnimatePresence>
   );
 }
 
-// What the scout concluded: each story machine visited, what happened to it and its salvage grade.
+// Each story machine visited and what happened to it (plus your own call on it, if you made one).
 function Verdicts() {
   const visitedIds = useStore(tour, (s) => s.visited.join(","));
   const calls = useStore(tour, (s) => s.calls);
-  const sv = useSalvage();
   const [atlas, setAtlas] = useState<Record<string, { fate?: Fate }>>({});
   useEffect(() => {
     loadAtlas().then(setAtlas);
   }, []);
   const seen = STOPS.slice(0, STORY_COUNT).filter((s) => visitedIds.split(",").includes(s.id));
   if (!seen.length) return null;
-  const grades = seen.map((s) => sv?.machines[s.id]);
-  const reusable = grades.filter((m) => m?.grade && "ABC".includes(m.grade)).length;
-  const gone = grades.filter((m) => m?.grade && "DF".includes(m.grade)).length;
-  const working = grades.filter((m) => m?.working).length;
   return (
     <motion.div className="verdicts" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75, duration: 0.8, ease }}>
-      <p className="eyebrow">Your case files</p>
+      <p className="eyebrow">End of the tour · what you found at each stop</p>
       <ul>
         {seen.map((s) => {
-          const g = gradeLine(sv, s.id);
           const fate = s.info?.fate ?? atlas[s.id]?.fate;
           return (
             <li key={s.id}>
-              <b className="verdict-grade">{g?.grade ?? "?"}</b>
               <span>
                 <strong>{s.name}</strong> · {fate ? FATE_WORDS[fate.category] ?? fate.category : s.status}
-                {calls[s.id] ? <em> · Your call: {CALLS[calls[s.id]]}</em> : g?.meaning && <em> · {g.meaning}</em>}
+                {calls[s.id] && <em> · Your call: {CALLS[calls[s.id]]}</em>}
               </span>
             </li>
           );
         })}
       </ul>
-      {sv && (
-        <p className="verdict-sum">
-          {Object.keys(calls).length > 0 && `You made ${Object.keys(calls).length} ${Object.keys(calls).length === 1 ? "call" : "calls"}. `}
-          The engineers&apos; view: {reusable} could be visited, studied or reused one day
-          {gone ? `, ${gone} ${gone === 1 ? "is" : "are"} out of reach or gone for good` : ""}
-          {working ? `, and ${working} ${working === 1 ? "is" : "are"} still working` : ""}.
-        </p>
-      )}
     </motion.div>
   );
 }
@@ -1189,9 +1319,11 @@ function Verdicts() {
 function EndScreen() {
   const visited = useStore(tour, (s) => s.visited.filter((id) => STOP_INDEX[id] !== undefined).length);
   const n = useMachineCount();
-  // The trip ends with the tribute to the first rocket caught after orbit, then the scout's case files.
-  const [tribute, setTribute] = useState(true);
-  if (tribute) return <Tribute onDone={() => setTribute(false)} />;
+  // The trip ends with the tribute to the first rocket caught after orbit, a message to the reader, then this
+  // round-up of what you found.
+  const [step, setStep] = useState<"tribute" | "message" | "end">("tribute");
+  if (step === "tribute") return <Tribute key="tribute" onDone={() => setStep("message")} />;
+  if (step === "message") return <Message key="message" onDone={() => setStep("end")} />;
   return (
     <motion.section
       className="end"
@@ -1205,7 +1337,7 @@ function EndScreen() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.9, ease }}
       >
-        Every space object has a story.
+        Mission complete!
       </motion.h2>
       <motion.p
         className="end-lede"
@@ -1214,8 +1346,8 @@ function EndScreen() {
         transition={{ delay: 0.6, duration: 0.8, ease }}
       >
         You surveyed {visited} {visited === 1 ? "space object" : "space objects"}
-        {n ? ` of the ${n} in this atlas` : ""}, worked out why each was left, and judged whether it could be used
-        again. The rest are still out there: on the Moon, on Mars, and sailing between the planets.
+        {n ? ` of the ${n} in this atlas` : ""}. The rest are still out there: on the Moon, on Mars, and sailing between
+        the planets.
       </motion.p>
       <Verdicts />
       <motion.div
@@ -1227,15 +1359,6 @@ function EndScreen() {
         {/* Next step after the tour: the atlas, where the reader picks their level and digs into every space object. */}
         <a className="start-btn" href="/explore">
           Explore {allMachines(n)} <ArrowUpRight aria-hidden="true" />
-        </a>
-        <a className="ghost-btn" href="/signals">
-          Open what we heard back
-        </a>
-        <button type="button" className="ghost-btn" onClick={startTour}>
-          Replay the trip
-        </button>
-        <a className="ghost-btn" href="/solar">
-          Fly around the solar system →
         </a>
       </motion.div>
       <motion.details
@@ -1254,6 +1377,38 @@ function EndScreen() {
   );
 }
 
+// The launch countdown over Earth. The call-outs follow NASA's own commentary for the Apollo 11 launch
+// ("ignition sequence start", "all engines running", "we have a liftoff").
+const CALLOUTS: Record<number, string> = {
+  3: "Ignition sequence start.",
+  2: "All engines running.",
+  1: "Stand by for liftoff.",
+  0: "Liftoff! We have a liftoff.",
+};
+function Countdown({ n }: { n: number }) {
+  const lift = n === 0;
+  const done = (COUNTDOWN_FROM - n) / COUNTDOWN_FROM; // how much of the ring is filled
+  return (
+    <div className={`countdown${lift ? " lift" : ""}`} role="status" aria-live="assertive">
+      <div className="countdown-box">
+        <p className="countdown-label">{lift ? "Apollo 11 · Mission Control" : `T-minus ${n}`}</p>
+        <div className="countdown-dial">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle cx="60" cy="60" r="54" className="countdown-track" />
+            <circle cx="60" cy="60" r="54" className="countdown-fill" style={{ strokeDashoffset: 339.3 * (1 - done) }} />
+          </svg>
+          <motion.span key={n} className="countdown-n" initial={{ opacity: 0, scale: 1.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.35 }}>
+            {lift ? "Liftoff" : n}
+          </motion.span>
+        </div>
+        <motion.p key={`c${n}`} className="countdown-call" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+          {CALLOUTS[n] || " "}
+        </motion.p>
+      </div>
+    </div>
+  );
+}
+
 // Keeps the URL in step with the tour (/#ingenuity), and follows the URL if someone edits it.
 function useHashSync() {
   const phase = useStore(tour, (s) => s.phase);
@@ -1267,14 +1422,18 @@ function useHashSync() {
       if (i == null || (s.stop === i && s.phase !== "start")) return;
       requestTravel(i, "jump");
     };
-    // Coming back (from the atlas, a reload, the browser's Back): pick up where you left off, with your progress.
+    // The address decides where you land: a bare / is a fresh start screen, /#<id> goes to that machine
+    // with your progress from this tab (coming back from the atlas, a reload, the browser's Back).
     const hashId = decodeURIComponent(location.hash.slice(1));
-    const back = restoreProgress(STOP_INDEX[hashId]);
-    // A link to another machine (/#surveyor3) goes there, not back to the saved story stop.
-    if (back != null && (!hashId || STOP_INDEX[hashId] !== undefined)) {
-      startMusic();
-      requestTravel(back, "jump");
-    } else void go();
+    if (!hashId) clearProgress();
+    else {
+      restoreProgress();
+      const i = STOP_INDEX[hashId];
+      if (i !== undefined) {
+        startMusic();
+        requestTravel(i, "jump");
+      } else void go();
+    }
     const onHash = () => void go();
     addEventListener("hashchange", onHash);
     return () => removeEventListener("hashchange", onHash);
@@ -1283,8 +1442,8 @@ function useHashSync() {
   // and clearing it here would reset the address before the trip starts.
   const started = useRef(false);
   useEffect(() => {
-    if (phase !== "start") started.current = true;
-    if (!started.current) return;
+    // Leave the address alone on the start screen: it's what the effect above reads to decide where to land.
+    if (phase === "start") return;
     const id =
       phase === "explore" || phase === "travel" ? STOPS[stop]?.id : null;
     const want = id ? `#${id}` : "";
@@ -1300,12 +1459,20 @@ export default function Tour() {
   const interlude = useStore(tour, (s) => s.interlude);
   const cutscene = useStore(tour, (s) => s.cutscene);
   const replay = useStore(tour, (s) => s.replay);
+  const countdown = useStore(tour, (s) => s.countdown);
   const fade = useRef<HTMLDivElement>(null);
   useHashSync();
 
   useEffect(() => {
     hud.fade = fade.current;
     const onKey = (e: KeyboardEvent) => {
+      // On a trip between places, any key skips to the arrival (not modifier keys, Tab, or M for mute).
+      if (tour.get().phase === "travel" && !e.repeat && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        if (!["Shift", "Control", "Alt", "Meta", "Tab", "CapsLock"].includes(e.key) && e.key.toLowerCase() !== "m") {
+          if (!(e.target as HTMLElement | null)?.closest?.("input, textarea, select")) skipTravel();
+        }
+        return;
+      }
       if (e.key !== "Escape") return;
       const s = tour.get();
       // Esc during a replay asks first (press it again to keep watching).
@@ -1313,10 +1480,18 @@ export default function Tour() {
       if (s.openSpot) openHotspot(STOPS[s.stop].id, null);
       else dismissIntro();
     };
+    // On a trip, any mouse click (any button) skips to the arrival too, unless it's on a control (the trail, a link).
+    const onPress = (e: PointerEvent) => {
+      if (tour.get().phase !== "travel" || tour.get().countdown != null) return;
+      if ((e.target as HTMLElement | null)?.closest?.("button, a, input, select, label, dialog")) return;
+      skipTravel();
+    };
     addEventListener("keydown", onKey);
+    addEventListener("pointerdown", onPress);
     return () => {
       hud.fade = null;
       removeEventListener("keydown", onKey);
+      removeEventListener("pointerdown", onPress);
     };
   }, []);
 
@@ -1327,7 +1502,7 @@ export default function Tour() {
   const replaying = phase === "explore" && !!replay;
   return (
     <MotionConfig reducedMotion="user">
-      <div className="tour">
+      <div className="tour" data-phase={phase} data-countdown={countdown != null || undefined}>
         <TourCanvas />
         {/* Soft shadows from the screen edges, so text can sit straight on the scene without a card. */}
         <div
@@ -1342,9 +1517,12 @@ export default function Tour() {
         />
         <Spots />
         <div className="fade" ref={fade} aria-hidden="true" />
-        <ExploreLink />
+        <div className="top-right">
+          <ExploreLink />
+          <MusicToggle />
+        </div>
         <AnimatePresence>
-          {phase === "start" && interlude == null && <StartScreen key="start" />}
+          {phase === "start" && interlude == null && countdown == null && <StartScreen key="start" />}
         </AnimatePresence>
         <AnimatePresence>
           {phase === "explore" && <NamePlate key="plate" />}
@@ -1366,6 +1544,13 @@ export default function Tour() {
         )}
         {phase === "explore" && !replay && <MissionFile />}
         <Cruise />
+        {/* Launch from Earth: just Earth on screen, Mission Control counting down, then liftoff. */}
+        {countdown != null && <Countdown n={countdown} />}
+        {phase === "travel" && interlude == null && (
+          <button type="button" className="skip-hint" onClick={skipTravel}>
+            Press any key or click to skip
+          </button>
+        )}
         <p className="trip-chip" aria-live="polite" ref={(el) => { hud.chip = el; }} />
         <AnimatePresence>
           {touring && interlude == null && <Progress key="progress" />}
@@ -1376,7 +1561,6 @@ export default function Tour() {
         <AnimatePresence>
           {cutscene && <Cutscene key="cut" />}
         </AnimatePresence>
-        <MusicToggle />
         <AnimatePresence>
           {phase === "end" && <EndScreen key="end" />}
         </AnimatePresence>

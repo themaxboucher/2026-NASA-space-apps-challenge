@@ -112,48 +112,43 @@ function Hud({ world, orbit }: { world: World; orbit: EarthOrbit | null }) {
       </div>
       {locked && <div className="sol-cross" aria-hidden="true" />}
 
-      <aside className={`sol-panel${open ? " open" : ""}`}>
-        <button type="button" className="sol-toggle" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
-          {open ? "Hide the list" : "Find a place"}
-        </button>
-        {open && <Finder world={world} pick={pick} seen={seen} year={year} />}
-      </aside>
+      {/* Left column (list, credits) and right column (map, card): flex columns, so panels stack and never overlap. */}
+      <div className="sol-left">
+        <aside className={`sol-panel${open ? " open" : ""}`}>
+          <button type="button" className="sol-toggle" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+            {open ? "Hide the list" : "Find a place"}
+          </button>
+          {open && <Finder world={world} pick={pick} seen={seen} year={year} />}
+        </aside>
+        <Credits />
+      </div>
 
-      <nav className="sol-map" aria-label="Where you are">
-        <canvas
-          width={360}
-          height={360}
-          ref={(el) => {
-            fly.hud.minimap = el;
-          }}
-          aria-label="Map of the solar system seen from above, with you as an arrow"
-          role="img"
-        />
-        <p>
-          <span>Nearest world</span>
-          <b ref={(el) => void (fly.hud.nearBody = el)} />
-        </p>
-        <p>
-          <span>Nearest space object</span>
-          <b ref={(el) => void (fly.hud.nearMachine = el)} />
-        </p>
-      </nav>
+      <div className="sol-right">
+        <nav className="sol-map" aria-label="Where you are">
+          <canvas
+            width={360}
+            height={360}
+            ref={(el) => {
+              fly.hud.minimap = el;
+            }}
+            aria-label="Map of the solar system seen from above, with you as an arrow"
+            role="img"
+          />
+          <p>
+            <span>Nearest world</span>
+            <b ref={(el) => void (fly.hud.nearBody = el)} />
+          </p>
+          <p>
+            <span>Nearest space object</span>
+            <b ref={(el) => void (fly.hud.nearMachine = el)} />
+          </p>
+        </nav>
+        {site ? <SiteCard key={site.key} site={site} year={year} /> : (nearEarth || debris) && orbit && <EarthCard orbit={orbit} year={year} />}
+      </div>
 
       <Timeline world={world} />
 
-      {site ? <SiteCard key={site.key} site={site} year={year} /> : (nearEarth || debris) && orbit && <EarthCard orbit={orbit} year={year} />}
-
-      <footer
-        className="sol-foot"
-        ref={(el) => {
-          // The footer wraps to one, two or three rows; the card sits just above it (solar.css --foot-h).
-          if (!el) return;
-          const root = el.closest<HTMLElement>(".solar");
-          const ro = new ResizeObserver(() => root?.style.setProperty("--foot-h", `${Math.ceil(el.offsetHeight)}px`));
-          ro.observe(el);
-          return () => ro.disconnect();
-        }}
-      >
+      <footer className="sol-foot">
         <p className="sol-dist">
           From Earth <b ref={(el) => void (fly.hud.dist = el)} />
         </p>
@@ -180,7 +175,6 @@ function Hud({ world, orbit }: { world: World; orbit: EarthOrbit | null }) {
             : `${locked ? "Esc frees the mouse" : "Click the sky to look around"} · click a world or space object to circle it · W A S D or arrows to fly · Space up, C down · hold Shift to speed up · wheel or + − to zoom, Z to reset`}
         </p>
       </footer>
-      <Credits />
     </>
   );
 }

@@ -111,22 +111,20 @@
       "broken": true,
       "tag": "Most likely cause",
       "anchor": {
-        "part": "gold",
-        "at": [
-          0.5,
-          1,
-          0.5
-        ],
-        "offset": [
-          0,
-          0.1,
-          0
+        "pos": [
+          0.15,
+          0.6,
+          0.15
         ]
       },
       "source": {
         "label": "NASA: Mars Pathfinder",
         "url": "https://science.nasa.gov/mission/mars-pathfinder/"
-      }
+      },
+      "glow": [
+        "white"
+      ],
+      "glowRadius": 0.4
     }
   ],
   "funFact": "Pathfinder was renamed the Carl Sagan Memorial Station, to honour the astronomer who helped people everywhere fall in love with planets.",

@@ -4,7 +4,7 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useStore } from "../../lib/store";
-import { endReplay, live, REPLAYS, setCaption, tour } from "../../state";
+import { endReplay, replayClock, live, REPLAYS, setCaption, tour } from "../../state";
 import { STOP_INDEX, type Stop } from "../../stops";
 import { ghostMaterial, shell, smooth, type Cue } from "../Ghost";
 import { prepareModel, type GltfSpec } from "../Machine";
@@ -110,13 +110,14 @@ export function IngenuityReplay({ stop, ground = () => 0 }: { stop: Stop; ground
   useFrame((state, rawDt) => {
     const dt = Math.min(rawDt, 0.05);
     const s = tour.get();
-    const t = on && t0.current >= 0 ? state.clock.elapsedTime - t0.current : -1;
+    const t = on && t0.current >= 0 ? replayClock() - t0.current : -1;
     // Until the replay has played, the helicopter hasn't arrived yet: the real (broken) one is hidden.
     live.hideMachine = !s.revealed.includes(stop.id) && t < REVEAL;
     scene.root.visible = on;
     if (!on) return;
+    if (s.replayPaused) return; // paused: everything holds still
     if (t0.current < 0) {
-      t0.current = state.clock.elapsedTime;
+      t0.current = replayClock();
       live.replayView = VIEW;
       return;
     }

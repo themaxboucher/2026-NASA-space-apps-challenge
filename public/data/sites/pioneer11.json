@@ -13,11 +13,10 @@
       "title": "The big dish",
       "text": "This 2.74-meter dish always faced Earth. Pioneer 11’s last signal came in September 1995, when its power was too low to keep going.",
       "anchor": {
-        "part": "dish_AO",
-        "at": [
-          0.5,
+        "pos": [
+          0,
           1,
-          0.5
+          0.62
         ]
       },
       "source": {

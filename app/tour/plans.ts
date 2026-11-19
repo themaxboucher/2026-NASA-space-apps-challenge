@@ -53,9 +53,9 @@ function path(keys: Key[], ease: (u: number) => number = smoother) {
   };
 }
 
-// Brakes hard as the target nears: by half time you've covered ~94% of the way, and the rest (the planet
-// swelling up, the drop to the landing site) happens slowly, so you see the approach instead of a fly-by.
-const glide = (u: number) => 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 4);
+// Brakes as the target nears: by half time you've covered ~84% of the way, so you still see the planet swell up,
+// without crawling through the last stretch.
+const glide = (u: number) => 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 2.6);
 // Every trip starts from rest (no jolt), speeds up, then takes the same long braking approach.
 const launchEase = (u: number) => glide(u * u * (2 - u));
 // The first trip, Earth to the Moon: an unhurried ease in, a steady cruise and a long soft approach.
@@ -63,10 +63,10 @@ const firstTrip = (u: number) => {
   const x = Math.min(1, Math.max(0, u));
   // Still moving (about a fifth of cruise speed) at the end, so the drop into the landing site carries on
   // through the dissolve instead of stalling first.
-  return 0.82 * (1 - Math.pow(1 - x * x * (3 - 2 * x), 2.2)) + 0.18 * x;
+  return 0.7 * (1 - Math.pow(1 - x * x * (3 - 2 * x), 1.8)) + 0.3 * x;
 };
 // Other trips between worlds: the same braking approach, but never quite stopping before the hand-off.
-const legEase = (u: number) => 0.88 * launchEase(u) + 0.12 * Math.min(1, Math.max(0, u));
+const legEase = (u: number) => 0.75 * launchEase(u) + 0.25 * Math.min(1, Math.max(0, u));
 
 function hold(scene: SceneDesc, pose: Pose, dur: number, fadeOut?: number): Shot {
   return {
@@ -249,7 +249,7 @@ function startLeg(): Shot {
   const moonAt = v(0, 0, -LEG);
   return {
     scene: START_SCENE, // the same scene as the start screen (it already holds the Moon), so nothing cuts
-    dur: 8,
+    dur: 6.5,
     tint: { out: hazeOf(first) },
     cam: path(
       [
@@ -285,14 +285,14 @@ function descent(index: number): Shot {
   const a0 = startPos.y, a1 = endPos.y, la = Math.log(a0), lb = Math.log(Math.max(1, a1));
   const site = v(0, 0, 0), p = new THREE.Vector3(), q = new THREE.Vector3();
   const posAt = (u: number, out: THREE.Vector3) => {
-    const s = 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 2.2);
+    const s = 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 1.8);
     const alt = Math.exp(la + (lb - la) * s);
     const k = (alt - a1) / (a0 - a1); // 1 at the start, 0 at the end: sideways offset shrinks with height
     return out.set(startPos.x * k + endPos.x * (1 - k), alt, startPos.z * k + endPos.z * (1 - k));
   };
   return {
     scene: sceneFor(index),
-    dur: 8,
+    dur: 6.5,
     cam: (u, cam) => {
       posAt(u, p);
       const alt = p.y;
@@ -335,14 +335,14 @@ function ascent(index: number, from: Pose): Shot {
   const a0 = Math.max(1, startPos.y), a1 = endPos.y, la = Math.log(a0), lb = Math.log(a1);
   const site = v(0, 0, 0), p = new THREE.Vector3(), q = new THREE.Vector3();
   const posAt = (u: number, out: THREE.Vector3) => {
-    const s = Math.pow(Math.min(1, Math.max(0, u)), 1.7); // a slow, gentle lift-off that speeds up as you climb
+    const s = Math.pow(Math.min(1, Math.max(0, u)), 1.25); // a gentle lift-off that soon speeds up (no long hover by the site)
     const alt = Math.exp(la + (lb - la) * s);
     const k = (alt - a0) / (a1 - a0);
     return out.set(startPos.x * (1 - k) + endPos.x * k, alt, startPos.z * (1 - k) + endPos.z * k);
   };
   return {
     scene: sceneFor(index),
-    dur: 11,
+    dur: 7,
     cam: (u, cam) => {
       posAt(u, p);
       const alt = p.y;
@@ -402,11 +402,14 @@ function leg(a: number, b: number | "end"): Shot {
   } else if (sb && globeSite(sb)) keys.push(approachKeys(sb, at)[0]); // the descent takes it from here
   else keys.push(...approachKeys(sb, at));
 
-  if (sa.body === "saturn" && sb?.body === "deep") return outerLeg(a, b as number, bodies);
+  // Out to Voyager 1 past the outer planets: from Saturn on the full trip, from Mars on the short one.
+  if ((sa.body === "saturn" || sa.body === "mars") && sb?.body === "deep") return outerLeg(a, b as number, bodies);
   const dist = sb ? sb.distanceKm : 0;
+
+
   return {
     scene: { kind: "travel", key: `leg-${a}`, bodies },
-    dur: sb?.body === "deep" ? 3.6 : 3.4,
+    dur: sb?.body === "deep" ? 3 : 2.8,
     tint: { in: hazeOf(sa), out: hazeOf(sb) },
     cam: path(keys, legEase),
     counter: counterFor(sa, sb, dist, "Distance from Earth"),
@@ -508,44 +511,46 @@ const HOME = {
   mars: v(-2.4, 0.15, 322),
   helioZ: 30, // where the path crosses back into the Sun's bubble
 };
-const AHEAD = v(0, 0, 9); // after each closest approach, the gaze slides on past the world
 
 function homeTrip(from: number): Shot[] {
   const sa = STOPS[from];
   const { neptune: N, uranus: U, saturn: S, jupiter: J, rock: R, ceres: C, mars: M, helioZ } = HOME;
+  // Eyes on the way ahead: each world slides past off to the side instead of being zoomed in on.
+  const ahead = (from: THREE.Vector3) => v(from.x * 0.5, from.y * 0.5, from.z + 30);
+  const glance = (from: THREE.Vector3, world: THREE.Vector3) => ahead(from).lerp(world, 0.3);
   const fly = flyby([
     { pos: v(0.6, 0.5, -4), look: v(14, -3, 20) }, // looking out toward the Sun and Voyager 2
     { pos: v(0.4, 0.4, 16), look: v(10, -2, 44) },
-    { pos: v(0.8, 0.5, 40), look: N },
-    { pos: v(-1.2, 0.4, 56.5), look: N },
-    { pos: v(-0.4, 0.6, 66), look: N.clone().add(AHEAD) },
-    { pos: v(-2.2, 0.8, 92), look: U },
-    { pos: v(-2.4, 1.0, 102.5), look: U },
-    { pos: v(-1.6, 1.0, 112), look: U.clone().add(AHEAD) },
-    { pos: v(-1.0, 2.4, 140), look: S },
-    { pos: v(-2.0, 3.2, 156), look: S }, // high over the rings
-    { pos: v(-1.4, 2.6, 168), look: S.clone().add(AHEAD) },
-    { pos: v(-1.6, 1.6, 200), look: J },
-    { pos: v(-1.6, 1.5, 219), look: J },
-    { pos: v(-1.8, 1.0, 230), look: J.clone().add(AHEAD) },
+    { pos: v(0.8, 0.5, 40), look: glance(v(0.8, 0.5, 40), N) },
+    { pos: v(-1.2, 0.4, 56.5), look: glance(v(-1.2, 0.4, 56.5), N) },
+    { pos: v(-0.4, 0.6, 66), look: ahead(v(-0.4, 0.6, 66)) },
+    { pos: v(-2.2, 0.8, 92), look: glance(v(-2.2, 0.8, 92), U) },
+    { pos: v(-2.4, 1.0, 102.5), look: glance(v(-2.4, 1.0, 102.5), U) },
+    { pos: v(-1.6, 1.0, 112), look: ahead(v(-1.6, 1.0, 112)) },
+    { pos: v(-1.0, 2.4, 140), look: glance(v(-1.0, 2.4, 140), S) },
+    { pos: v(-2.0, 3.2, 156), look: glance(v(-2.0, 3.2, 156), S) }, // high over the rings
+    { pos: v(-1.4, 2.6, 168), look: ahead(v(-1.4, 2.6, 168)) },
+    { pos: v(-1.6, 1.6, 200), look: glance(v(-1.6, 1.6, 200), J) },
+    { pos: v(-1.6, 1.5, 219), look: glance(v(-1.6, 1.5, 219), J) },
+    { pos: v(-1.8, 1.0, 230), look: ahead(v(-1.8, 1.0, 230)) },
     { pos: v(0.4, 0.4, 250), look: v(0, 0.2, 290) }, // into the asteroid belt
-    { pos: v(0.1, 0.3, 262), look: C },
+    { pos: v(0.1, 0.3, 262), look: glance(v(0.1, 0.3, 262), C) },
     { pos: v(-0.2, 0.4, 272), look: v(0, 0.3, 305) },
-    { pos: v(-0.6, 0.4, 312), look: M },
-    { pos: v(-0.9, 0.5, 321), look: M },
-    { pos: v(-0.4, 0.5, 333), look: M.clone().add(AHEAD) },
+    { pos: v(-0.6, 0.4, 312), look: glance(v(-0.6, 0.4, 312), M) },
+    { pos: v(-0.9, 0.5, 321), look: glance(v(-0.9, 0.5, 321), M) },
+    { pos: v(-0.4, 0.5, 333), look: ahead(v(-0.4, 0.5, 333)) },
     { pos: v(0.3, 0.6, 362), look: v(0.3, 0.6, 420) },
   ]);
   const at = { helio: fly.first((p) => p.z > helioZ), neptune: fly.nearest(N), uranus: fly.nearest(U), saturn: fly.nearest(S), jupiter: fly.nearest(J), belt: (fly.nearest(R) + fly.nearest(C)) / 2, mars: fly.nearest(M) };
   const ease = fly.timed([
-    [0.02, 0.85, 0.035], // linger on the first view: the Sun ahead and Voyager 2 off to the side
-    [at.helio, 0.75, 0.035],
-    [at.neptune, 0.8, 0.05],
-    [at.uranus, 0.8, 0.04],
-    [at.saturn, 0.85, 0.05],
-    [at.jupiter, 0.85, 0.045],
-    [at.belt, 0.7, 0.05],
-    [at.mars, 0.8, 0.035],
+    [0.02, 0.45, 0.03], // a short look at the first view (the Sun ahead, Voyager 2 off to the side), then away
+    [at.helio, 0.45, 0.03],
+    [at.neptune, 0.3, 0.05],
+    [at.uranus, 0.3, 0.04],
+    [at.saturn, 0.3, 0.05],
+    [at.jupiter, 0.3, 0.045],
+    [at.belt, 0.3, 0.05],
+    [at.mars, 0.3, 0.035],
   ]);
   const MARS_KM = STOPS.find((s) => s.body === "mars")?.distanceKm ?? 225e6;
   const SATURN_KM = STOPS.find((s) => s.body === "saturn")?.distanceKm ?? 1.3e9;
@@ -618,7 +623,7 @@ function homeTrip(from: number): Shot[] {
         belt: { z: [R.z - 14, C.z + 16] },
         voyager2: { dir: xyz(V2_DIR), fadeZ: 34 },
       },
-      dur: 34,
+      dur: 28,
       cam: fly.cam(ease),
       counter: { label: "Distance from Earth", dest: "Home · Earth", from: sa.distanceKm, to: HANDOFF_KM, at: (u) => kmA(ease(u)) },
       chip: (u) => chipAt(chipsA, ease(u)),
@@ -638,71 +643,113 @@ function homeTrip(from: number): Shot[] {
 }
 
 // --- Saturn to Voyager 1: the rest of the solar system ---------------------------------------
-// Past Uranus, Neptune and icy Pluto, then through the heliopause, the edge of the Sun's bubble. The camera
-// eases off as each world slides by (its speed dips around each closest approach), so you get a look at them.
+// Past Uranus, Neptune and icy Pluto, then through the heliopause, the edge of the Sun's bubble. The camera keeps
+// looking ahead and flies straight past: each world slides by off to the side, with only a slight easing of speed.
 const OUTER = {
   uranus: v(-5, 0.6, -62),
   neptune: v(6, -0.8, -112),
   pluto: v(-1.7, 0.4, -152),
   helioZ: -186, // where the path crosses the heliopause
 };
-const OUTER_FACTS: [key: "uranus" | "neptune" | "pluto" | "heliopause", text: string, km: number][] = [
+type OuterKey = "jupiter" | "saturn" | "uranus" | "neptune" | "pluto" | "heliopause";
+const OUTER_FACTS: [key: OuterKey, text: string, km: number][] = [
   ["uranus", "Uranus · the ice giant that spins on its side · only Voyager 2 has been here, in 1986", 2.9e9],
   ["neptune", "Neptune · the windiest planet · Voyager 2 flew past in 1989, the only visit so far", 4.5e9],
   ["pluto", "Pluto · an icy dwarf planet with a heart of frozen nitrogen · 5.9 billion km out", 5.9e9],
   ["heliopause", "The heliopause · the edge of the Sun’s bubble · Voyager 1 crossed it in 2012", 18.1e9],
 ];
+// The short trip leaves from Mars, so it passes the two giants first, the way Voyager 1 itself went.
+const GIANT_FACTS: [key: OuterKey, text: string, km: number][] = [
+  ["jupiter", "Jupiter · Voyager 1 swung past in 1979, and its gravity flung it on toward Saturn", 7.8e8],
+  ["saturn", "Saturn · Voyager 1 flew by in 1980, then climbed out of the planets’ plane for good", 1.4e9],
+];
+const GIANTS = { jupiter: v(-12, -0.6, -22), saturn: v(14, -1.8, -42) };
 
 function outerLeg(a: number, b: number, bodies: BodyPlacement[]): Shot {
   const sa = STOPS[a];
   const sb = STOPS[b];
   const { uranus: U, neptune: N, pluto: P, helioZ } = OUTER;
+  const { jupiter: J, saturn: S } = GIANTS;
   const ahead = (z: number) => v(0, 0.3, z);
+  // Eyes on the way ahead, not on the world going by.
+  const fwd = (p: THREE.Vector3): Key => ({ pos: p, look: v(p.x * 0.5, p.y * 0.5, p.z - 30) });
+  const fromMars = sa.body === "mars";
+  // Leaving the world you were on: from Mars, pull back from the planet and turn outward, then past Jupiter
+  // and Saturn; from Saturn, pull back from its rings.
+  let start: Key[];
+  if (fromMars) {
+    const r = BODY_RADIUS.mars;
+    const d = facingSite(sa, -1);
+    start = [
+      { pos: d.clone().multiplyScalar(r * 1.25), look: d.clone().multiplyScalar(r) }, // where the climb out ended
+      { pos: d.clone().multiplyScalar(r * 3.5), look: v(0, 0, 0) },
+      { pos: d.clone().multiplyScalar(r * 6).add(v(0.6, 0.5, 0)), look: v(0, 0, -20) },
+      fwd(v(-1.5, 0.8, -14)),
+      fwd(v(-3, 1.2, -22)),
+      fwd(v(0.5, 1.2, -32)),
+      fwd(v(4.5, 1.6, -42)),
+      fwd(v(2.6, 1.3, -50)),
+    ];
+  } else
+    start = [
+      { pos: v(1.6, 0.5, -7.2), look: v(0, -0.4, 0) },
+      { pos: v(3, 1.4, -11), look: v(0, 0, 0) },
+      fwd(v(2.4, 1.3, -24)),
+    ];
   const fly = flyby([
-    { pos: v(1.6, 0.5, -7.2), look: v(0, -0.4, 0) },
-    { pos: v(3, 1.4, -11), look: v(0, 0, 0) },
-    { pos: v(2.4, 1.3, -24), look: U },
-    { pos: v(-0.9, 0.9, -57), look: U },
-    { pos: v(-0.4, 0.8, -64), look: U.clone().add(v(0, 0, -6)) },
-    { pos: v(2.5, 0, -92), look: N },
-    { pos: v(2.9, -0.5, -108), look: N },
-    { pos: v(2.6, -0.4, -115), look: N.clone().add(v(0, 0, -6)) },
-    { pos: v(-0.3, 0.3, -142), look: P },
-    { pos: v(-1.0, 0.45, -150.5), look: P },
+    ...start,
+    fwd(v(-0.9, 0.9, -57)),
+    fwd(v(-0.4, 0.8, -64)),
+    fwd(v(2.5, 0, -92)),
+    fwd(v(2.9, -0.5, -108)),
+    fwd(v(2.6, -0.4, -115)),
+    fwd(v(-0.3, 0.3, -142)),
+    fwd(v(-1.0, 0.45, -150.5)),
     { pos: v(-0.6, 0.4, -158), look: ahead(-240) },
     { pos: v(0, 0.3, -200), look: ahead(-300) },
     { pos: v(0, 0.3, -222), look: ahead(-320) },
   ]);
-  const at = { uranus: fly.nearest(U), neptune: fly.nearest(N), pluto: fly.nearest(P), heliopause: fly.first((p) => p.z < helioZ) };
-  const ease = fly.timed([
-    [at.uranus, 0.8, 0.045],
-    [at.neptune, 0.8, 0.045],
-    [at.pluto, 0.8, 0.045],
-    [at.heliopause, 0.5, 0.03],
-  ]);
+  const facts = fromMars ? [...GIANT_FACTS, ...OUTER_FACTS] : OUTER_FACTS;
+  const at: Record<OuterKey, number> = {
+    jupiter: fly.nearest(J),
+    saturn: fly.nearest(S),
+    uranus: fly.nearest(U),
+    neptune: fly.nearest(N),
+    pluto: fly.nearest(P),
+    heliopause: fly.first((p) => p.z < helioZ),
+  };
+  // A slight easing past each world, just enough for its caption to be read in passing.
+  const ease = fly.timed(facts.map(([k]): [number, number, number] => [at[k], 0.35, 0.05]));
   // The distance counter passes each world at its real distance (roughly, from the Sun), ending at Voyager's.
-  const kmAt = kmTrack([[0, sa.distanceKm], ...OUTER_FACTS.map(([k, , km]): [number, number] => [at[k], km]), [1, sb.distanceKm]]);
+  const kmAt = kmTrack([[0, sa.distanceKm], ...facts.map(([k, , km]): [number, number] => [at[k], km]), [1, sb.distanceKm]]);
   const hc = TRAVEL_SUN.clone().multiplyScalar(700).add(v(0, 0.3, helioZ)); // a shell around the far-off Sun
+  const xyz = (q: THREE.Vector3) => q.toArray() as [number, number, number];
   return {
     scene: {
       kind: "travel",
       key: `leg-${a}`,
       bodies: [
         ...bodies,
-        { key: "uranus", pos: U.toArray() as [number, number, number], rotY: 0 },
-        { key: "neptune", pos: N.toArray() as [number, number, number], rotY: 0 },
-        { key: "pluto", pos: P.toArray() as [number, number, number], rotY: 0 }, // the heart faces you as you pass
+        ...(fromMars
+          ? [
+              { key: "jupiter" as const, pos: xyz(J), rotY: 0 },
+              { key: "saturn" as const, pos: xyz(S), rotY: 0 },
+            ]
+          : []),
+        { key: "uranus", pos: xyz(U), rotY: 0 },
+        { key: "neptune", pos: xyz(N), rotY: 0 },
+        { key: "pluto", pos: xyz(P), rotY: 0 }, // the heart faces you as you pass
       ],
       heliopause: { center: hc.toArray() as [number, number, number], radius: 700 },
     },
-    dur: 11,
+    dur: fromMars ? 15 : 11,
     tint: { in: hazeOf(sa) },
     cam: fly.cam(ease),
     counter: { label: "Distance from Earth", dest: `${sb.name} · ${WORLD_NAME[sb.body]}`, from: sa.distanceKm, to: sb.distanceKm, at: (u) => kmAt(ease(u)) },
     chip: (u) => {
       const s = ease(u);
-      if (s < 0.05) return "Leaving Saturn";
-      const near = OUTER_FACTS.find(([k]) => Math.abs(s - at[k]) < (k === "heliopause" ? 0.09 : 0.07));
+      if (s < (fromMars ? 0.03 : 0.05)) return fromMars ? "Leaving Mars" : "Leaving Saturn";
+      const near = facts.find(([k]) => Math.abs(s - at[k]) < (k === "heliopause" ? 0.11 : fromMars ? 0.07 : 0.09));
       return near ? near[1] : "";
     },
   };

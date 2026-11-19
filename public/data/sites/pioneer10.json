@@ -13,11 +13,10 @@
       "title": "The big dish",
       "text": "This 2.74-meter dish always faced Earth. Pioneer 10’s last faint signal reached it in January 2003, more than 30 years after launch.",
       "anchor": {
-        "part": "dish_AO",
-        "at": [
-          0.5,
+        "pos": [
+          0,
           1,
-          0.5
+          0.62
         ]
       },
       "source": {

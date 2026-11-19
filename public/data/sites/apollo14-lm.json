@@ -11,11 +11,10 @@
       "title": "A speck of solder",
       "text": "Before landing, the computer kept seeing the abort button as pressed. That could have made it fire this engine to climb back to orbit instead of landing. A loose speck of solder in the switch was probably to blame, and engineers on Earth quickly worked out a fix.",
       "anchor": {
-        "part": "group13_pC",
-        "at": [
-          0.5,
-          0.05,
-          0.5
+        "pos": [
+          0.55,
+          0.85,
+          0.55
         ]
       },
       "source": {
@@ -101,11 +100,10 @@
       "title": "The missing top half",
       "text": "The crew cabin sat here. On 6 February 1971 it fired its engine and flew back to orbit, using this bottom half as a launch pad.",
       "anchor": {
-        "part": "group31_11",
-        "at": [
-          0.5,
-          1,
-          0.5
+        "pos": [
+          0,
+          3.75,
+          0
         ]
       },
       "source": {

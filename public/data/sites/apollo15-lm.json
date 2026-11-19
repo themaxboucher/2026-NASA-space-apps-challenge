@@ -39,11 +39,10 @@
       "title": "Climbing down",
       "text": "Scott and Irwin climbed down this ladder for three moonwalks. Together they collected 77 kg of rock, including a piece of ancient crust nicknamed the Genesis Rock.",
       "anchor": {
-        "part": "polySurfa1",
-        "at": [
-          0.5,
-          0.9,
-          1
+        "pos": [
+          -0.06,
+          1.9,
+          3.45
         ]
       },
       "source": {
@@ -56,11 +55,10 @@
       "title": "Where the rover rode",
       "text": "The first Moon car rode folded up against the side of Falcon. Irwin climbed up and pulled a lanyard, and it unfolded onto the ground.",
       "anchor": {
-        "part": "group31_10",
-        "at": [
-          1,
-          0.5,
-          0.5
+        "pos": [
+          1.56,
+          2.85,
+          1.56
         ]
       },
       "source": {
@@ -84,11 +82,10 @@
       "title": "The landing engine",
       "text": "This engine slowed Falcon down for a landing at the foot of the Apennine Mountains, beside a winding valley called Hadley Rille.",
       "anchor": {
-        "part": "group13_pC",
-        "at": [
-          0.5,
-          0.05,
-          0.5
+        "pos": [
+          0.55,
+          0.85,
+          0.55
         ]
       },
       "source": {
@@ -101,11 +98,10 @@
       "title": "The missing top half",
       "text": "The cabin sat here until 2 August 1971, when it blasted off while the rover’s TV camera broadcast the launch live to Earth.",
       "anchor": {
-        "part": "group31_11",
-        "at": [
-          0.5,
-          1,
-          0.5
+        "pos": [
+          0,
+          3.75,
+          0
         ]
       },
       "source": {

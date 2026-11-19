@@ -241,3 +241,15 @@
   letter-spacing: normal;
   text-transform: none;
 }
+
+/* The reading-level menu: a dark control, so the open option list isn't white text on a white background
+   (Windows draws the list with the system's light colours unless told the control is dark). */
+select.sci-level,
+.sound-row select {
+  color-scheme: dark;
+}
+select.sci-level option,
+.sound-row select option {
+  background: #12151b;
+  color: #f2f4f7;
+}

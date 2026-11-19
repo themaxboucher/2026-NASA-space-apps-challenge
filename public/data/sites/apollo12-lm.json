@@ -13,9 +13,9 @@
       "anchor": {
         "part": "group31_19",
         "at": [
-          0.5,
+          0.95,
           1,
-          0.97
+          0.5
         ]
       },
       "source": {
@@ -39,11 +39,10 @@
       "title": "“Whoopie!”",
       "text": "Pete Conrad, one of the shorter astronauts, jumped off the bottom rung and joked: “Whoopie! Man, that may have been a small one for Neil, but that’s a long one for me.”",
       "anchor": {
-        "part": "polySurfa1",
-        "at": [
-          0.5,
-          0.9,
-          1
+        "pos": [
+          -0.06,
+          0.85,
+          3.9
         ]
       },
       "source": {
@@ -73,11 +72,10 @@
       "title": "The burned-out TV camera",
       "text": "The color TV camera from this equipment bay was accidentally pointed at the Sun while it was being set up. The sunlight damaged its picture tube, so viewers on Earth saw almost nothing of the moonwalks.",
       "anchor": {
-        "part": "group31_10",
-        "at": [
-          0,
-          0.5,
-          0.5
+        "pos": [
+          -1.88,
+          1.9,
+          1.23
         ]
       },
       "source": {
@@ -90,11 +88,10 @@
       "title": "The missing top half",
       "text": "The crew cabin sat here. On 20 November 1969, after 31 and a half hours on the Moon, it blasted off and used this bottom half as its launch pad.",
       "anchor": {
-        "part": "group31_11",
-        "at": [
-          0.5,
-          1,
-          0.5
+        "pos": [
+          0,
+          3.75,
+          0
         ]
       },
       "source": {

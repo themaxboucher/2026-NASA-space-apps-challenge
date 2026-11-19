@@ -13,11 +13,10 @@
       "title": "Ion engines",
       "text": "Dawn’s three ion engines pushed with a gentle glow of xenon gas, softer than a sheet of paper resting on your hand. Over years, that tiny push added up to more speed change than any spacecraft had made with its own engines.",
       "anchor": {
-        "part": "black_krinkle",
-        "at": [
-          0.5,
-          0.05,
-          0.5
+        "pos": [
+          0,
+          -1.13,
+          0
         ]
       },
       "source": {
@@ -82,7 +81,7 @@
       "anchor": {
         "pos": [
           0.19,
-          0.43,
+          0.63,
           -0.18
         ]
       },

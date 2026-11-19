@@ -143,10 +143,11 @@ export function Flight({ world, start, still }: { world: World; start: string; s
       const d = s.drag;
       s.drag = null;
       if (!d || d.moved > 6) return;
-      // A click on a marker flies there; anywhere else takes the mouse for looking around (Esc gives it back).
+      // A click on a marker flies there; anywhere else in free flight takes the mouse for looking around (Esc gives
+      // it back). Never during an auto-flight or the intro: the mouse stays free while the camera moves by itself.
       if (fly.hovered === "debris") ui.set({ debris: true });
       else if (fly.hovered) flyTo(fly.hovered);
-      else if (!s.orbit && document.pointerLockElement !== el) (el.requestPointerLock() as unknown as Promise<void> | undefined)?.catch?.(() => {});
+      else if (!s.orbit && !s.trip && !s.introAt && document.pointerLockElement !== el) (el.requestPointerLock() as unknown as Promise<void> | undefined)?.catch?.(() => {});
     };
     const leave = () => (fly.pointer.on = false);
     const lock = () => ui.set({ locked: document.pointerLockElement === el });
@@ -244,6 +245,8 @@ export function Flight({ world, start, still }: { world: World; start: string; s
       }
       s.trip = { key, t: 0, dur: instant ? 0 : Math.min(9, Math.max(2.6, 2.2 + 0.7 * Math.abs(Math.log(d0 / d1)))), look: view.look, u0: off0.divideScalar(d0), u1: off1.divideScalar(d1), d0, d1, q0: cam.quaternion.clone() };
       s.vel.set(0, 0, 0);
+      // An auto-flight hands the mouse back (clicking a marker in mouse-look starts one).
+      if (document.pointerLockElement) document.exitPointerLock();
     };
     // The timeline moved: keep circling (or flying to) the same thing at its new place, or let go if it's not there yet.
     if (s.world !== world) {

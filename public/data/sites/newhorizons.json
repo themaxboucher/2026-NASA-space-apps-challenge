@@ -74,11 +74,10 @@
       "title": "The students’ dust counter",
       "text": "University students built an instrument that counts specks of dust hitting the spacecraft. It is named after Venetia Burney, who suggested the name Pluto when she was 11.",
       "anchor": {
-        "part": "foil_gold",
-        "at": [
-          1,
-          0.3,
-          0.4
+        "pos": [
+          0.84,
+          -0.44,
+          -0.68
         ]
       },
       "source": {

@@ -89,29 +89,38 @@ function surfaceBelow(x: number, fromY: number, z: number) {
   const h = firstHit(o, DOWN, 40);
   return h ? h.point.y : null;
 }
-// Close enough to a ladder, and facing it, to grab on? Returns where along it you are (t: 0 bottom .. 1 top).
-const la = new THREE.Vector3();
-const lb = new THREE.Vector3();
-const lout = new THREE.Vector3();
-function onLadder(l: Ladder, pos: THREE.Vector3, yaw: number, feet: number) {
-  la.set(...l.from);
-  lb.set(...l.to);
-  lout.set(...l.out).setY(0).normalize();
-  const len = la.distanceTo(lb);
-  const t = Math.min(1, Math.max(0, (feet - la.y) / (lb.y - la.y)));
-  // You stand 0.45 m out from the rungs, on the side away from the machine.
-  const sx = la.x + (lb.x - la.x) * t + lout.x * 0.45, sz = la.z + (lb.z - la.z) * t + lout.z * 0.45;
-  if (Math.hypot(pos.x - sx, pos.z - sz) > 0.8) return null;
-  const facing = Math.sin(yaw) * lout.x + Math.cos(yaw) * lout.z; // 1 when looking straight at the ladder
-  if (facing < 0.3 && t < 0.05) return null;
-  return {
-    t,
-    len,
-    over: new THREE.Vector3(-lout.x, 0, -lout.z),
-    at: (u: number, target: THREE.Vector3) =>
-      target.set(la.x + (lb.x - la.x) * u + lout.x * 0.45, la.y + (lb.y - la.y) * u, la.z + (lb.z - la.z) * u + lout.z * 0.45),
-  };
+// --- The ladder. You stand 0.45 m out from the rungs and climb from its foot (the ground or a footpad) to level
+// with the deck, then step over onto the deck. Both heights are read off the model the first time you come near,
+// so the climb always starts on the real footpad and ends on the real deck.
+const STEP = 0.95; // from standing on the top rung to standing on the deck
+const lOut = new THREE.Vector3();
+const pFoot = new THREE.Vector3();
+const pTop = new THREE.Vector3();
+const onRail = new THREE.Vector3();
+type RailCache = { l: Ladder | null; foot: number | null; deck: number | null };
+// Sets pFoot and pTop (where your feet are at the bottom, and on the top rung) and lOut; returns the climb's length.
+function rail(l: Ladder, cache: RailCache, pos: THREE.Vector3, ground?: (x: number, z: number) => number) {
+  lOut.set(...l.out).setY(0).normalize();
+  pFoot.set(l.from[0] + lOut.x * 0.45, l.from[1], l.from[2] + lOut.z * 0.45);
+  pTop.set(l.to[0] + lOut.x * 0.45, l.to[1], l.to[2] + lOut.z * 0.45);
+  if (cache.l !== l) Object.assign(cache, { l, foot: null, deck: null });
+  // Measured once the model is in and you're near (raycasts against the model aren't free).
+  const near = Math.min(Math.hypot(pos.x - pFoot.x, pos.z - pFoot.z), Math.hypot(pos.x - pTop.x, pos.z - pTop.z)) < 4;
+  if (cache.deck == null && solids.size && near) {
+    cache.foot = Math.max(ground ? ground(pFoot.x, pFoot.z) : 0, surfaceBelow(pFoot.x, l.from[1] + 1, pFoot.z) ?? -Infinity);
+    cache.deck = surfaceBelow(pTop.x - lOut.x * STEP, l.to[1] + 1.2, pTop.z - lOut.z * STEP);
+  }
+  pFoot.y = cache.foot ?? l.from[1];
+  pTop.y = cache.deck ?? l.to[1];
+  return pFoot.distanceTo(pTop);
 }
+// The point u along the climb: 0 at the foot, 1 on the top rung, then on over the edge onto the deck.
+function along(u: number, len: number, target: THREE.Vector3) {
+  if (u <= 1) return target.lerpVectors(pFoot, pTop, u);
+  return target.copy(pTop).addScaledVector(lOut, -(u - 1) * len);
+}
+// How far a press can wander, in px, and still be a click rather than a drag to look around.
+const CLICK_SLOP = 10;
 // Shows the "far enough" hint when you reach the invisible fence.
 let atEdge = false;
 function edge(on: boolean) {
@@ -147,7 +156,14 @@ function aimedSpot() {
 export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk" | "float"; ground?: (x: number, z: number) => number; center: [number, number, number] }) {
   const { camera, gl } = useThree();
   const touch = useMemo(() => coarsePointer(), []);
-  const st = useRef({ yaw: 0, pitch: 0, vel: new THREE.Vector3(), keys: new Set<Key>(), drag: null as null | { x: number; y: number; moved: number }, active: false, crouch: false, locked: false, aimed: null as HTMLElement | null, hop: 0, vy: 0, upWas: false, base: null as number | null, floor: null as number | null, climbing: false, held: 0, boost: 1, shown: "", walled: false });
+  // The ladder, lifted to the ground at its foot (Eagle stands at y = 0; Falcon, beside the rover, stands on its own pad).
+  const ladder = useMemo((): Ladder | undefined => {
+    const l = stop.ladder;
+    if (!l) return undefined;
+    const y = ground ? ground(l.from[0], l.from[2]) : 0;
+    return { from: [l.from[0], l.from[1] + y, l.from[2]], to: [l.to[0], l.to[1] + y, l.to[2]], out: l.out };
+  }, [stop, ground]);
+  const st = useRef({ yaw: 0, pitch: 0, vel: new THREE.Vector3(), keys: new Set<Key>(), drag: null as null | { x: number; y: number; moved: number }, active: false, crouch: false, locked: false, aimed: null as HTMLElement | null, hop: 0, vy: 0, upWas: false, base: null as number | null, floor: null as number | null, climbing: false, ladU: 0, rail: { l: null, foot: null, deck: null } as RailCache, lockedAt: 0, held: 0, boost: 1, shown: "", walled: false });
   const orbit = useRef<OrbitControls | null>(null);
 
   useEffect(() => {
@@ -156,11 +172,14 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
     const down = (e: PointerEvent) => {
       if (tour.get().phase !== "explore" || e.button !== 0) return;
       s.drag = { x: e.clientX, y: e.clientY, moved: 0 };
-      if (!touch) el.setPointerCapture(e.pointerId);
+      // (Not while the mouse is locked to the view: Chrome throws on capture then.)
+      if (!touch && !s.locked) el.setPointerCapture(e.pointerId);
     };
     const move = (e: PointerEvent) => {
       // Mouse look: once the view has the mouse (after a click), moving the mouse turns your head, like a game.
       if (s.locked) {
+        // Chrome sometimes reports one wild jump just as the mouse is taken or given back: skip it, or the view spins.
+        if (performance.now() - s.lockedAt < 150 || Math.abs(e.movementX) > 300 || Math.abs(e.movementY) > 300) return;
         s.yaw -= e.movementX * 0.0024;
         s.pitch = Math.max(-1.4, Math.min(1.4, s.pitch - e.movementY * 0.0024));
         return;
@@ -178,32 +197,62 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
       s.yaw += dx * 0.0042;
       s.pitch = Math.max(-1.4, Math.min(1.4, s.pitch + dy * 0.0042));
     };
+    let retry = 0;
+    const lock = (again: boolean) => {
+      const req = el.requestPointerLock() as unknown as Promise<void> | undefined;
+      // Chrome won't take the mouse again for about a second after Esc gave it back: then try once more.
+      req?.catch?.(() => {
+        if (!again) return;
+        clearTimeout(retry);
+        retry = window.setTimeout(() => {
+          const t = tour.get();
+          if (!s.locked && t.phase === "explore" && !t.openSpot) lock(false);
+        }, 1100);
+      });
+    };
     const up = () => {
-      const click = s.drag && s.drag.moved < 6;
+      const click = s.drag && s.drag.moved < CLICK_SLOP;
       s.drag = null;
       if (!click || touch) return;
       if (s.locked) {
         // Clicking with the crosshair on (or near) a glowing dot opens it, and gives the mouse back to read its story.
-        const best = aimedSpot();
-        if (best) { document.exitPointerLock(); best.click(); }
+        const id = aimedSpot()?.dataset.spot;
+        if (id) {
+          document.exitPointerLock();
+          openHotspot(stop.id, id);
+        }
         return;
       }
-      // A click on the scene closes any open card and takes the mouse for looking around (Esc gives it back).
-      openHotspot(stop.id, null);
+      // A click on the scene takes the mouse for looking around (Esc gives it back). Any open card has already
+      // closed (anyUp below).
       dismissIntro();
-      const req = el.requestPointerLock() as unknown as Promise<void> | undefined;
-      req?.catch?.(() => {});
+      lock(true);
     };
     const lockChange = () => {
       s.locked = document.pointerLockElement === el;
+      s.lockedAt = performance.now();
+      s.drag = null;
+      // While looking around, no button keeps the keyboard: Space must jump, not press the last dot you clicked.
+      if (s.locked && document.activeElement instanceof HTMLElement) document.activeElement.blur();
       el.closest(".tour")?.classList.toggle("looking", s.locked);
     };
     document.addEventListener("pointerlockchange", lockChange);
     // Tapping Ctrl on its own toggles crouching. A toggle, not a hold (Ctrl+W would close the tab), and never
     // when Ctrl is part of a shortcut like Ctrl+C or Ctrl+click.
     let ctrlAlone = false;
-    const anyPointer = () => {
+    let press: { x: number; y: number; out: boolean } | null = null;
+    // The last button or link pressed with the mouse (it keeps the keyboard focus afterwards).
+    let pressed: Element | null = null;
+    const anyPointer = (e: PointerEvent) => {
       ctrlAlone = false;
+      const t = e.target as Element | null;
+      press = { x: e.clientX, y: e.clientY, out: !t?.closest?.(".story, .spot, [role=dialog]") };
+      pressed = t?.closest?.("button, a") ?? null;
+    };
+    // A click anywhere but on the card, a dot or a dialog closes the open card (a drag to look around doesn't).
+    const anyUp = (e: PointerEvent) => {
+      if (press?.out && Math.hypot(e.clientX - press.x, e.clientY - press.y) < CLICK_SLOP && tour.get().openSpot) openHotspot(stop.id, null);
+      press = null;
     };
     const keyDown = (e: KeyboardEvent) => {
       const isCtrl = e.code === "ControlLeft" || e.code === "ControlRight";
@@ -217,10 +266,17 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
       if (tour.get().phase !== "explore") return;
       s.keys.add(k);
       if (k !== "run") dismissIntro();
-      const onUi = (e.target as HTMLElement | null)?.closest?.("button, a, [role=button], .overlay, .story, .chapter, video");
-      if (onUi) {
-        s.keys.delete(k);
-        return;
+      const t = e.target as HTMLElement | null;
+      const onUi = t?.closest?.("button, a, [role=button], .overlay, .story, .chapter, video");
+      if (onUi && t) {
+        // A dot or button you clicked keeps the focus; walking keys mustn't be swallowed by it, or press it again
+        // (Space would). Someone who tabbed there keeps their keys for it.
+        const clicked = t === pressed && !t.closest(".overlay, .chapter, [role=dialog]");
+        if (!clicked) {
+          s.keys.delete(k);
+          return;
+        }
+        t.blur();
       }
       if (e.code.startsWith("Arrow") || e.code === "Space") e.preventDefault();
     };
@@ -233,6 +289,7 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
     const clear = () => s.keys.clear();
     el.addEventListener("pointerdown", down);
     window.addEventListener("pointerdown", anyPointer, true);
+    window.addEventListener("pointerup", anyUp, true);
     el.addEventListener("pointermove", move);
     el.addEventListener("pointerup", up);
     el.addEventListener("pointercancel", up);
@@ -242,6 +299,8 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
     return () => {
       el.removeEventListener("pointerdown", down);
       window.removeEventListener("pointerdown", anyPointer, true);
+      window.removeEventListener("pointerup", anyUp, true);
+      clearTimeout(retry);
       el.removeEventListener("pointermove", move);
       el.removeEventListener("pointerup", up);
       el.removeEventListener("pointercancel", up);
@@ -329,6 +388,8 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
     want.copy(fwd).multiplyScalar(ahead).addScaledVector(right, side);
     if (mode === "float") want.y += (k.has("up") ? 1 : 0) - (k.has("down") ? 1 : 0);
     const pushing = want.lengthSq() > 0;
+    // Which way you're heading on the ground (unit length), for the ladder.
+    const wl = Math.hypot(want.x, want.z) || 1, wx = want.x / wl, wz = want.z / wl;
     // On the ground, holding C crouches too (in space C means down).
     const low = mode === "walk" && (s.crouch || k.has("down"));
     if (mode !== "walk") s.upWas = false;
@@ -364,21 +425,38 @@ export function Walker({ stop, mode, ground, center }: { stop: Stop; mode: "walk
       const eye = low ? CROUCH_EYE : EYE;
       const absY = s.base == null ? camera.position.y : s.base + s.hop;
       const feet = absY - eye;
-      const lad = stop.ladder ? onLadder(stop.ladder, camera.position, s.yaw, feet) : null;
-      if (lad && (ahead !== 0 || s.climbing)) {
-        // Climbing: W goes up, S goes down; you hug the ladder and step off onto the deck at the top.
-        s.climbing = true;
-        s.hop = 0;
-        s.vy = 0;
-        const t = Math.min(1, Math.max(0, lad.t + (ahead * 0.9 * dt) / lad.len));
-        lad.at(t, next);
-        const top = t >= 1 && ahead > 0, bottom = t <= 0 && ahead < 0;
-        if (top) next.addScaledVector(lad.over, 0.9);
-        if (top || bottom) s.climbing = false;
-        s.floor = next.y;
-        s.base = next.y + eye;
-        next.y = s.base;
+      const len = ladder ? rail(ladder, s.rail, camera.position, ground) : 0;
+      // Heading into the ladder (toward the machine) climbs up, heading out climbs down: so W goes up facing the
+      // rungs, and at the top you can walk forwards off the edge, or back down it with S, to climb down.
+      const into = -(wx * lOut.x + wz * lOut.z);
+      if (ladder && !s.climbing && pushing) {
+        const dx = camera.position.x - pTop.x, dz = camera.position.z - pTop.z;
+        const inward = -(dx * lOut.x + dz * lOut.z), aside = Math.abs(dx * lOut.z - dz * lOut.x);
+        if (into > 0.5 && feet < pFoot.y + 0.5 && Math.hypot(camera.position.x - pFoot.x, camera.position.z - pFoot.z) < 0.7) {
+          s.climbing = true;
+          s.ladU = 0;
+        } else if (into < -0.5 && Math.abs(feet - pTop.y) < 0.5 && aside < 0.6 && inward > -0.2 && inward < STEP + 0.3) {
+          // From the deck: picked up wherever you are on the step over the edge, so nothing jumps.
+          s.climbing = true;
+          s.ladU = 1 + Math.min(STEP, Math.max(0, inward)) / len;
+        }
+      }
+      if (ladder && s.climbing) {
+        const end = 1 + STEP / len;
+        s.ladU += (into * 0.9 * dt) / len;
+        const off = (s.ladU >= end && into > 0) || (s.ladU <= 0 && into < 0);
+        s.ladU = Math.min(end, Math.max(0, s.ladU));
+        along(s.ladU, len, onRail);
+        // Ease onto the rail sideways (you grab it from up to 0.7 m off), so the view never snaps.
+        const pull = 1 - Math.exp(-dt * 14);
+        next.set(camera.position.x + (onRail.x - camera.position.x) * pull, onRail.y + eye, camera.position.z + (onRail.z - camera.position.z) * pull);
+        s.floor = onRail.y;
+        s.base = next.y;
+        s.hop = s.vy = 0;
+        s.upWas = k.has("up");
         s.vel.set(0, 0, 0);
+        // Off at the foot or onto the deck; walking takes over from exactly where the ladder left you.
+        if (off) s.climbing = false;
       } else {
         s.climbing = false;
         // Bump into the machine itself (its real shape), sliding along whatever you hit.

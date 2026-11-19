@@ -12,14 +12,14 @@ import { Lrv } from "./Lrv";
 import { BladePiece, GltfMachine, LanderDescent, type Anchors } from "./Machine";
 import { FallenFlag, GroundMarks } from "./Marks";
 import { useStore } from "../lib/store";
-import { REPLAYS, tour } from "../state";
+import { live, REPLAYS, tour } from "../state";
 import { SiteReplay } from "./replays";
 import { LitGlobe } from "./LitGlobe";
 import { BODY_RADIUS, NORMAL, TEXTURE } from "./Space";
 import { siteFrame } from "../lib/siteframe";
 
 // The whole globe under the landing site, placed exactly as the trip's Moon was (lib/siteframe.ts). Seen from
-// orbit it is the Moon; as you come down it fades out (from about 6 km to 1.8 km) and the detailed ground takes over.
+// orbit it is the Moon; as you come down it fades out (from about 3 km to 600 m) and the detailed ground takes over.
 function OrbitalGlobe({ stop }: { stop: Stop }) {
   const { camera } = useThree();
   const f = useMemo(() => siteFrame(stop), [stop]);
@@ -34,7 +34,9 @@ function OrbitalGlobe({ stop }: { stop: Stop }) {
         sun={sun}
         overlay
         alpha={() => {
-          const u = Math.min(1, Math.max(0, (camera.position.y - 1800) / 4200));
+          // From 600 m up the globe (with its fine crater detail) takes over from the site's own ground, which looks
+          // streaky from a distance; fully the globe by 3 km.
+          const u = Math.min(1, Math.max(0, (camera.position.y - 600) / 2400));
           return u * u * (3 - 2 * u);
         }}
       />
@@ -305,6 +307,29 @@ export function SurfaceScene({ index }: { index: number }) {
     };
   }, [gl, scene, camera, moon, sun]);
 
+  // Compile the stop's shaders in the background as it appears (about 3 seconds of work on a laptop GPU), instead
+  // of freezing the page on its first frame; the trip holds on black meanwhile (live.compiling).
+  const root = useRef<THREE.Group>(null);
+  useEffect(() => {
+    const g = root.current;
+    if (!g) return;
+    let alive = true;
+    live.compiling = true;
+    g.visible = true;
+    const done = () => {
+      if (!alive) return;
+      g.visible = true;
+      live.compiling = false;
+    };
+    gl.compileAsync(g, camera, scene).then(done, done);
+    g.visible = false; // not drawn (which would compile it all at once) until it's ready
+    return () => {
+      alive = false;
+      g.visible = true;
+      live.compiling = false;
+    };
+  }, [gl, camera, scene, groundVersion]);
+
   const lightPos = useMemo(() => sun.clone().multiplyScalar(45), [sun]);
   const light = useRef<THREE.DirectionalLight>(null);
   useLayoutEffect(() => {
@@ -312,7 +337,7 @@ export function SurfaceScene({ index }: { index: number }) {
   }, []);
 
   return (
-    <>
+    <group ref={root}>
       {/* No stars on the sunlit Moon: as in every Apollo surface photo, an exposure set for bright ground
           cannot record them. The sky is plain black. */}
       {!moon && <MarsSky sun={sun} />}
@@ -373,6 +398,6 @@ export function SurfaceScene({ index }: { index: number }) {
       )}
       <HotspotTracker stop={stop} anchors={anchors} ground={terrain.height} />
       <Walker stop={stop} mode="walk" ground={terrain.height} center={[0, stop.id === "ingenuity" ? 0.25 : 1, 0]} />
-    </>
+    </group>
   );
 }

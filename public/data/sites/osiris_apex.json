@@ -13,11 +13,10 @@
       "title": "The sample arm",
       "text": "On 20 October 2020 this arm touched Bennu for a few seconds and puffed nitrogen gas to stir up rubble. The ground was so loose that the arm sank in about half a meter.",
       "anchor": {
-        "part": "Tagsam_rod_bottom",
-        "at": [
-          0.5,
-          0.5,
-          0.5
+        "pos": [
+          -1.11,
+          0.66,
+          0.12
         ]
       },
       "source": {

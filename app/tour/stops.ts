@@ -158,7 +158,7 @@ export const STOPS: Stop[] = [
     id: "apollo11-lm",
     story: {
       kicker: "The Moon · Apollo 11 · 20 July 1969",
-      title: "One giant leap for mankind",
+      title: "One Small Step, One Giant Leap",
       text: "Armstrong and Aldrin landed, and hours later 600 million people watched on TV as they stepped out: the first people to visit another world. They flew home in the top half of their lander. The bottom half is still there.",
     },
     chapter: "Moon",
@@ -290,6 +290,9 @@ export const STOPS: Stop[] = [
     },
     // Falcon is 129 m west and 20 m north of where the rover was parked (LROC-measured site coordinates).
     extras: [{ kind: "lm-descent", pos: [-129, 0, -20], rotationY: Math.PI / 2 }],
+    // Falcon's ladder: Eagle's ladder turned with the lander (a quarter turn, so it faces +X). Heights are above the
+    // ground at its foot.
+    ladder: { from: [-124.95, 0.35, -20], to: [-126.45, 2.85, -20], out: [1, 0, 0] },
     marks: [
       { kind: "tracks", gauge: 1.83, width: 0.23, path: [[1.7, 0], [6, 0.8], [10, 4.8], [9, 11], [2, 15], [-15, 18], [-40, 16], [-80, 6], [-122, -14]] },
       { kind: "boots", path: [[-0.6, 1.6], [-3, 3.4], [-6, 4.4], [-9, 3.6], [-6.5, 1.8], [-2.5, -1.6], [0.6, -1.8], [2.2, -0.6]] },
@@ -319,8 +322,10 @@ export const STOPS: Stop[] = [
         title: "Wire wheels",
         text: "These tires have no air inside. They are woven from steel wire, with titanium treads that gripped the dusty ground.",
         source: SRC.lrv,
-        anchor: { pos: [1.15, 0.82, 1.06] },
-        face: [0, 0, 1],
+        anchor: { pos: [1.12, 0.42, 1.1] }, // the rear wheel's hub (it sat on the fender top)
+        // Always shown, like the rover's other dots: facing +z it hid from the whole -z side, where the replay
+        // leaves you standing, until you walked right round the rover.
+        face: null,
       },
       {
         id: "batteries",
@@ -465,7 +470,8 @@ export const STOPS: Stop[] = [
         title: "Broken rotor blades",
         text: "On its 72nd flight, on 18 January 2024, Ingenuity landed hard on a sand ripple. All four blades snapped about a third of the way from the tip, and the shaking tore one blade off completely.",
         source: SRC.ingenuityCrash,
-        anchor: { pos: [0.34, 0.35, -0.22] },
+        // The snapped, glowing tip of a lower blade (the old spot hung in the air past the shortened blades).
+        anchor: { pos: [-0.25, 0.36, 0.21] },
         face: null,
         broken: true,
       },
@@ -491,7 +497,7 @@ export const STOPS: Stop[] = [
         title: "Solar panel",
         text: "This panel charged Ingenuity’s batteries. Tucked underneath it is a stamp-sized piece of fabric from the Wright brothers’ 1903 Flyer, the first airplane on Earth.",
         source: SRC.wright,
-        anchor: { part: "solar_panel", at: [0.5, 1, 0.5] },
+        anchor: { part: "chopper_sp", at: [0.5, 1, 0.5] },
         face: null,
       },
       {
@@ -499,8 +505,9 @@ export const STOPS: Stop[] = [
         title: "Planned 5, flew 72",
         text: "Ingenuity was designed for up to five test flights over 30 days. It flew 72 times and spent more than two hours in the air.",
         source: SRC.ingenuityCrash,
-        anchor: { pos: [-0.3, 0.04, -0.3] },
-        face: [-1, 0, 0],
+        // The foot of a landing leg (it touched down 72 times), so it doesn't sit on the body beside the camera's spot.
+        anchor: { part: "leg_03", at: [0.9, 0.08, 0.9] },
+        face: null,
       },
     ],
   },

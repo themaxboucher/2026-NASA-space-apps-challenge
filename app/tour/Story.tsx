@@ -2,9 +2,10 @@
 
 import { ArrowRight, ArrowUpRight, AudioLines, Settings, Volume2, VolumeX, X } from "lucide-react";
 import { motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import { getLevel, LEVELS, setLevel } from "../atlas/level.js";
 import { useStore } from "./lib/store";
-import { continueStory, tour } from "./state";
+import { continueStory, launchCountdown, tour } from "./state";
 import { STOPS } from "./stops";
 
 // Real footage and the soundtrack, described in public/media/media.json (credits and licences live there too).
@@ -48,21 +49,63 @@ const saveVol = () => {
     /* private mode: lasts this visit */
   }
 };
-// The music's level right now: the slider times the base level (down to 5% while a clip or radio plays).
-const musicLevel = () => (music.ducked ? 0.05 : BASE) * vol.music;
+// The music's level right now: the slider times the base level. Each piece plays out for its first 10 seconds,
+// then settles to a fifth of that, quietly in the background; it is silent while a video or the radio plays.
+const QUIET_AFTER = 10_000;
+const QUIET = 0.2;
+let quiet = false;
+const musicLevel = () => (music.ducked ? 0 : BASE * (quiet ? QUIET : 1)) * vol.music;
+let quietTimer: ReturnType<typeof setTimeout> | undefined;
+function settleLater() {
+  quiet = false;
+  clearTimeout(quietTimer);
+  quietTimer = setTimeout(() => {
+    quiet = true;
+    if (music.el && !music.ducked) fadeVol(music.el, musicLevel(), 2500);
+  }, QUIET_AFTER);
+}
+// "Mute all sound": silences the music, videos and mission radio at once, remembered in this browser.
+const MUTED_KEY = "gra-muted";
+let muted = (() => {
+  try {
+    return localStorage.getItem(MUTED_KEY) === "1";
+  } catch {
+    return false;
+  }
+})();
+function setMuted(on: boolean) {
+  muted = on;
+  try {
+    localStorage.setItem(MUTED_KEY, on ? "1" : "0");
+  } catch {
+    /* private mode: lasts this visit */
+  }
+  if (music.el) music.el.muted = on;
+  sounds.forEach((e) => (e.muted = on));
+  document.querySelectorAll("video").forEach((e) => (e.muted = on));
+  dispatchEvent(new Event("gra-music"));
+}
 // Sounds playing outside the video players (the ghost replays' radio), so the slider can reach them.
 const sounds = new Set<HTMLMediaElement>();
 export function mediaSound(el: HTMLAudioElement) {
   el.volume = vol.media;
+  el.muted = muted;
   sounds.add(el);
-  el.addEventListener("play", () => duck(true));
+  el.addEventListener("play", () => (sounds.add(el), duck(true))); // back in after a pause, so mute still reaches it
   el.addEventListener("pause", () => (sounds.delete(el), duck(false)));
   el.addEventListener("ended", () => (sounds.delete(el), duck(false)));
   return el;
 }
-// Applied to each <video> as it loads.
+// Applied to each <video> as it loads: its volume, the mute, and silencing the music while it plays.
 export const videoVolume = (el: HTMLVideoElement | null) => {
-  if (el) el.volume = vol.media;
+  if (!el) return;
+  el.volume = vol.media;
+  el.muted = muted;
+  if (el.dataset.ducks) return;
+  el.dataset.ducks = "1";
+  el.addEventListener("play", () => duck(true));
+  el.addEventListener("pause", () => duck(false));
+  el.addEventListener("ended", () => duck(false));
 };
 function setVolume(kind: "music" | "media", v: number) {
   vol[kind] = v;
@@ -85,7 +128,8 @@ function fadeVol(el: HTMLAudioElement, to: number, ms: number, done?: () => void
   const from = el.volume, t0 = performance.now();
   const step = () => {
     const u = Math.min(1, (performance.now() - t0) / ms);
-    el.volume = Math.max(0, Math.min(1, from + (to - from) * u));
+    // A music fade (a new chapter's piece coming in) never raises it over a video that started meanwhile.
+    el.volume = el === music.el && music.ducked ? 0 : Math.max(0, Math.min(1, from + (to - from) * u));
     if (u < 1) requestAnimationFrame(step);
     else done?.();
   };
@@ -105,12 +149,14 @@ function playTrack(key: string) {
     el.src = src;
     el.loop = true;
     el.volume = 0;
+    el.muted = muted;
     music.el = el;
     music.key = key;
     music.credit = `${tr.title} · ${tr.credit}`;
     music.license = tr.license;
     music.source = tr.source;
     if (music.on) {
+      settleLater();
       el.play().catch(() => {});
       fadeVol(el, musicLevel(), 1800);
     }
@@ -135,68 +181,167 @@ export function startMusic() {
     if (music.el) playTrack(trackFor());
   });
 }
-const duck = (on: boolean) => {
-  music.ducked = on;
+// The music is silent while any video or mission radio is playing: worked out from what is actually playing, so
+// one clip pausing doesn't bring the music back over another that's still going.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- callers say which way it changed; the truth is re-read
+const duck = (_on?: boolean) => {
+  music.ducked = [...document.querySelectorAll("video")].some((v) => !v.paused && !v.ended) || [...sounds].some((a) => !a.paused && !a.ended);
   if (music.el) music.el.volume = musicLevel();
 };
 
+// The sound controls, top right on every screen of the tour: a mute button (also the M key) and a settings
+// panel with sound and music on/off, the two volumes and the reading level.
 export function MusicToggle() {
   const [, bump] = useState(0);
   const [open, setOpen] = useState(false);
+  const [level, setLvl] = useState("student");
+  // The saved mute is read after the page has loaded, so the server's HTML (always unmuted) matches the first render.
+  const [mounted, setMounted] = useState(false);
+  const gear = useRef<HTMLButtonElement>(null);
+  const box = useRef<HTMLDivElement>(null);
+  const panelId = useId();
   useEffect(() => {
     const f = () => bump((n) => n + 1);
+    const lv = () => setLvl(getLevel());
+    const t = setTimeout(() => {
+      lv(); // read the saved level after mount (localStorage)
+      setMounted(true);
+    }, 0);
+    const key = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() !== "m" || e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
+      if ((e.target as HTMLElement | null)?.closest?.("input, textarea, select, [contenteditable]")) return;
+      setMuted(!muted);
+    };
     addEventListener("gra-music", f);
-    return () => removeEventListener("gra-music", f);
+    addEventListener("gra-level", lv);
+    addEventListener("keydown", key);
+    document.addEventListener("fullscreenchange", f); // also catches Esc leaving full screen
+    return () => {
+      clearTimeout(t);
+      document.removeEventListener("fullscreenchange", f);
+      removeEventListener("gra-music", f);
+      removeEventListener("gra-level", lv);
+      removeEventListener("keydown", key);
+    };
   }, []);
-  if (!music.el) return null;
-  const off = music.el.paused;
+  useEffect(() => {
+    if (!open) return;
+    box.current?.querySelector<HTMLElement>(".sound-panel input")?.focus();
+    const out = (e: PointerEvent) => !box.current?.contains(e.target as Node) && setOpen(false);
+    const esc = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      e.stopPropagation();
+      setOpen(false);
+      gear.current?.focus();
+    };
+    addEventListener("pointerdown", out, true);
+    addEventListener("keydown", esc, true);
+    return () => {
+      removeEventListener("pointerdown", out, true);
+      removeEventListener("keydown", esc, true);
+    };
+  }, [open]);
+  const musicOn = music.el ? !music.el.paused : !isOff();
+  const isMuted = mounted && muted;
+  // Full screen: the whole page, through the browser's own Fullscreen API (Esc leaves it too). Hidden where the
+  // browser doesn't offer it (iPhone Safari).
+  const canFull = mounted && document.fullscreenEnabled;
+  const isFull = mounted && !!document.fullscreenElement;
+  const toggleFull = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()).catch(() => {});
   const toggleMusic = () => {
-    if (!music.el) return;
-    music.on = off;
-    if (off) {
-      music.el.volume = musicLevel();
-      music.el.play().catch(() => {});
-    } else music.el.pause();
+    const on = !musicOn;
+    music.on = on;
+    if (music.el) {
+      if (on) {
+        music.el.volume = musicLevel();
+        music.el.play().catch(() => {});
+      } else music.el.pause();
+    }
     try {
-      localStorage.setItem(MUTE_KEY, off ? "0" : "1");
+      localStorage.setItem(MUTE_KEY, on ? "0" : "1");
     } catch {
       /* private mode: the choice lasts this visit */
     }
     bump((n) => n + 1);
   };
   return (
-    <div className="sound">
-      {/* The speaker turns music on or off in one click; the gear opens the volume settings. */}
-      <button type="button" className="music-btn" aria-pressed={!off} aria-label={off ? "Turn music on" : "Turn music off"} title={`${off ? "Turn music on" : "Turn music off"} · ${music.credit}`} onClick={toggleMusic}>
-        {off ? <VolumeX aria-hidden="true" /> : <Volume2 aria-hidden="true" />}
+    <div className="sound" ref={box}>
+      <button
+        type="button"
+        className="music-btn"
+        aria-pressed={isMuted}
+        aria-label="Mute all sound"
+        title={isMuted ? "Sound is off: unmute (M)" : "Mute all sound (M)"}
+        onClick={() => setMuted(!muted)}
+      >
+        {isMuted ? <VolumeX aria-hidden="true" /> : <Volume2 aria-hidden="true" />}
       </button>
-      <button type="button" className="music-btn settings-btn" aria-expanded={open} aria-label="Sound settings" title="Sound settings" onClick={() => setOpen(!open)}>
+      <button
+        type="button"
+        ref={gear}
+        className="music-btn settings-btn"
+        aria-expanded={open}
+        aria-controls={panelId}
+        aria-haspopup="dialog"
+        aria-label="Settings"
+        title="Settings"
+        onClick={() => setOpen(!open)}
+      >
         <Settings aria-hidden="true" />
       </button>
       {open && (
-        <div className="sound-panel" role="group" aria-label="Sound">
-          <label className="sound-row">
-            <span>Music</span>
-            <input type="range" min={0} max={1} step={0.05} defaultValue={vol.music} disabled={off} onChange={(e) => setVolume("music", +e.target.value)} aria-label="Music volume" />
+        <div className="sound-panel" id={panelId} role="dialog" aria-label="Settings">
+          <p className="sound-title">Settings</p>
+          {canFull && (
+            <label className="sound-check">
+              <input type="checkbox" checked={isFull} onChange={toggleFull} />
+              <span>Full screen</span>
+            </label>
+          )}
+          <label className="sound-check">
+            <input type="checkbox" checked={!muted} onChange={() => setMuted(!muted)} />
+            <span>Sound on</span>
+            <kbd>M</kbd>
+          </label>
+          <label className="sound-check">
+            <input type="checkbox" checked={musicOn} disabled={muted} onChange={toggleMusic} />
+            <span>Background music</span>
           </label>
           <label className="sound-row">
-            <span>Videos and radio</span>
-            <input type="range" min={0} max={1} step={0.05} defaultValue={vol.media} onChange={(e) => setVolume("media", +e.target.value)} aria-label="Videos and mission radio volume" />
+            <span>Music volume</span>
+            <input type="range" min={0} max={1} step={0.05} defaultValue={vol.music} disabled={muted || !musicOn} onChange={(e) => setVolume("music", +e.target.value)} />
           </label>
-          <p className="sound-credit">
-            {music.credit} ·{" "}
-            {LICENSE_URL[music.license ?? ""] ? (
-              <a href={LICENSE_URL[music.license!]} target="_blank" rel="noopener noreferrer">{music.license}</a>
-            ) : (
-              music.license
-            )}
-            {music.source && (
-              <>
-                {" "}·{" "}
-                <a href={music.source} target="_blank" rel="noopener noreferrer">source</a>
-              </>
-            )}
-          </p>
+          <label className="sound-row">
+            <span>Videos and mission radio volume</span>
+            <input type="range" min={0} max={1} step={0.05} defaultValue={vol.media} disabled={muted} onChange={(e) => setVolume("media", +e.target.value)} />
+          </label>
+          <p className="sound-note">The music plays quietly in the background and stops while a video or the radio plays.</p>
+          <label className="sound-row">
+            <span>Reading level</span>
+            <select value={level} onChange={(e) => setLevel(e.target.value)}>
+              {LEVELS.map((l) => (
+                <option key={l.id} value={l.id}>
+                  {l.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          {music.credit && (
+            <p className="sound-credit">
+              Music: {music.credit} ·{" "}
+              {LICENSE_URL[music.license ?? ""] ? (
+                <a href={LICENSE_URL[music.license!]} target="_blank" rel="noopener noreferrer">{music.license}</a>
+              ) : (
+                music.license
+              )}
+              {music.source && (
+                <>
+                  {" "}·{" "}
+                  <a href={music.source} target="_blank" rel="noopener noreferrer">source</a>
+                </>
+              )}
+            </p>
+          )}
         </div>
       )}
     </div>
@@ -272,6 +417,8 @@ export function Interlude() {
   const stop = at == null ? null : STOPS[at];
   const [media, setMedia] = useState<Media>({});
   const go = useRef<HTMLButtonElement>(null);
+  // The very first launch (from Earth to the Moon) counts down over Earth first (state.ts launchCountdown).
+  const launch = () => (tour.get().phase === "start" ? launchCountdown() : continueStory());
   useEffect(() => {
     loadMedia().then(setMedia);
   }, []);
@@ -326,7 +473,7 @@ export function Interlude() {
           </figure>
         )}
         <div className="chapter-actions story-actions">
-          <button ref={go} type="button" className="start-btn" onClick={continueStory}>
+          <button ref={go} type="button" className="start-btn" onClick={launch}>
             Fly to {stop.name} <ArrowRight aria-hidden="true" />
           </button>
         </div>

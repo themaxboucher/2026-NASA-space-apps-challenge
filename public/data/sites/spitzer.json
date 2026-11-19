@@ -13,11 +13,10 @@
       "title": "The mirror",
       "text": "Spitzer’s 85-centimeter mirror is made of beryllium, a light metal that keeps its shape when very cold.",
       "anchor": {
-        "part": "mirror",
-        "at": [
-          0.5,
-          0.5,
-          0.5
+        "pos": [
+          0.3,
+          0.94,
+          0.37
         ]
       },
       "source": {
@@ -32,18 +31,20 @@
       "broken": true,
       "tag": "First thing to run out",
       "anchor": {
-        "part": "BUS",
-        "at": [
-          0.5,
-          0.45,
-          0.5
+        "pos": [
+          0.35,
+          -0.23,
+          0.44
         ]
       },
       "source": {
         "label": "NASA: Spitzer",
         "url": "https://science.nasa.gov/mission/spitzer/"
       },
-      "glowRadius": 0.7
+      "glowRadius": 0.7,
+      "glow": [
+        "BUS"
+      ]
     },
     {
       "id": "sunshield",
@@ -69,17 +70,19 @@
       "broken": true,
       "tag": "Why it stopped",
       "anchor": {
-        "part": "antenna_AO",
-        "at": [
-          0.5,
-          0,
-          0.5
+        "pos": [
+          -0.08,
+          -2.22,
+          0
         ]
       },
       "source": {
         "label": "NASA: Spitzer",
         "url": "https://science.nasa.gov/mission/spitzer/"
-      }
+      },
+      "glow": [
+        "antenna_AO"
+      ]
     },
     {
       "id": "trappist",

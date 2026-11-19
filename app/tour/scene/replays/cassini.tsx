@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { reducedMotion } from "../../lib/device";
 import { useStore } from "../../lib/store";
-import { endReplay, hud, live, REPLAYS, setCaption, tour } from "../../state";
+import { endReplay, replayClock, hud, live, REPLAYS, setCaption, tour } from "../../state";
 import { STOP_INDEX, type Stop } from "../../stops";
 import { ghostMaterial, shell, smooth, type Cue } from "../Ghost";
 import { prepareModel, type GltfSpec } from "../Machine";
@@ -76,6 +76,33 @@ const TITAN_DIR = new THREE.Vector3(1, 0.12, 0.25).normalize();
 const SEP = 3.5; // Huygens separates
 const ORB_A = 12; // the orbit time-lapse
 const ORB_B = 22;
+
+// The loops: real Kepler ellipses around Saturn. Each starts and ends where Cassini is (the far point of its orbit),
+// swings round the far side of the planet and back. Over the years the orbits tilted more and more out of the ring
+// plane and dipped closer in, ending nearly over the poles for the Grand Finale.
+const RING_N = new THREE.Vector3(0, 1, 0).applyEuler(new THREE.Euler(0.47, 0, 0.12)); // Saturn's pole (Space.tsx)
+const OUT = SATURN.clone().normalize().negate(); // from Saturn toward Cassini's far point (the origin)
+const SIDE = new THREE.Vector3().crossVectors(RING_N, OUT).normalize(); // in the ring plane, across the orbit
+const UPISH = new THREE.Vector3().crossVectors(OUT, SIDE).normalize();
+// Four loops, and every loop's size and tilt change smoothly along the way (not in steps at each loop), so the
+// path never turns sharply: it starts wide and nearly in the ring plane, and ends closer in and steeply tilted.
+const LOOP_COUNT = 4;
+function orbitAt(t: number, out: THREE.Vector3) {
+  const x = Math.max(0, Math.min(1, (t - ORB_A) / (ORB_B - ORB_A)));
+  const f = x * LOOP_COUNT;
+  const k = Math.min(LOOP_COUNT - 1, Math.floor(f));
+  const sx = x * x * (3 - 2 * x);
+  const ra = SATURN.length(), rp = (2.3 - 1.05 * sx) * SATURN_R;
+  const tilt = 0.08 + 1.15 * sx;
+  const axis = SIDE.clone().multiplyScalar(Math.cos(tilt)).addScaledVector(UPISH, Math.sin(tilt));
+  const a = (ra + rp) / 2, e = (ra - rp) / (ra + rp), b = a * Math.sqrt(1 - e * e);
+  // Mean anomaly from the far point (pi) all the way round; Newton's method for the eccentric anomaly.
+  const M = Math.PI + 2 * Math.PI * (f - k);
+  let E = M;
+  for (let i = 0; i < 6; i++) E -= (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E));
+  return out.copy(SATURN).addScaledVector(OUT, -a * (Math.cos(E) - e)).addScaledVector(axis, b * Math.sin(E));
+}
+const TRAIL = 220;
 const PLUNGE = 28; // steered into Saturn
 const HIT = 31; // burns up in the clouds
 const REVEAL = 34.5; // the memorial model appears
@@ -93,7 +120,10 @@ const CUES: Cue[] = [
 ];
 type View = { pos: [number, number, number]; look: [number, number, number] };
 const V_SEP: View = { pos: [4, 3, 22], look: [5, 0, 0] };
-const V_ORBIT: View = { pos: [8, 10, 36], look: [0, 0, 0] };
+// Pulled far back, above the ring plane and off to the side, so Saturn and the whole loop fit in the picture.
+const ORBIT_LOOK = SATURN.clone().multiplyScalar(0.8);
+const ORBIT_CAM = ORBIT_LOOK.clone().add(SIDE.clone().multiplyScalar(0.8).addScaledVector(RING_N, 0.6).normalize().multiplyScalar(3600));
+const V_ORBIT: View = { pos: ORBIT_CAM.toArray() as [number, number, number], look: ORBIT_LOOK.toArray() as [number, number, number] };
 const V_FINALE: View = { pos: [12, 3, 10], look: [0, 0, 0] };
 const V_NOW: View = { pos: [9, 1.5, 9], look: [0, 0, 0] };
 
@@ -132,8 +162,20 @@ export function CassiniReplay({ stop }: { stop: Stop; ground?: (x: number, z: nu
     const spark = glowSprite("#ffb070");
     const flash = glowSprite("#ffb070");
     flash.position.copy(ENTRY);
-    root.add(spark, flash);
-    return { root, mat, huyMat, craft, huy, home, spark, flash };
+    // A fading trail behind Cassini as it loops (newest point first, brightest).
+    const trailPos = new Float32Array(TRAIL * 3);
+    const trailCol = new Float32Array(TRAIL * 3);
+    for (let i = 0; i < TRAIL; i++) {
+      const k = Math.pow(1 - i / TRAIL, 1.6);
+      trailCol.set([1 * k, 0.72 * k, 0.45 * k], i * 3);
+    }
+    const trailGeo = new THREE.BufferGeometry();
+    trailGeo.setAttribute("position", new THREE.BufferAttribute(trailPos, 3));
+    trailGeo.setAttribute("color", new THREE.BufferAttribute(trailCol, 3));
+    const trail = new THREE.Line(trailGeo, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+    trail.frustumCulled = false;
+    root.add(spark, flash, trail);
+    return { root, mat, huyMat, craft, huy, home, spark, flash, trail, trailPos, trailN: { n: 0 } };
   }, [gltf, spec]);
   useEffect(
     () => () => {
@@ -141,6 +183,8 @@ export function CassiniReplay({ stop }: { stop: Stop; ground?: (x: number, z: nu
       scene.huyMat.dispose();
       disposeSprite(scene.spark);
       disposeSprite(scene.flash);
+      scene.trail.geometry.dispose();
+      (scene.trail.material as THREE.Material).dispose();
       live.hideMachine = false;
       live.replayLook = null;
       live.replayView = null;
@@ -165,12 +209,13 @@ export function CassiniReplay({ stop }: { stop: Stop; ground?: (x: number, z: nu
 
   useFrame((state) => {
     const s = tour.get();
-    const t = on && t0.current >= 0 ? state.clock.elapsedTime - t0.current : -1;
+    const t = on && t0.current >= 0 ? replayClock() - t0.current : -1;
     live.hideMachine = !s.revealed.includes(stop.id) && t < REVEAL;
     scene.root.visible = on;
     if (!on) return;
+    if (s.replayPaused) return; // paused: everything holds still
     if (t0.current < 0) {
-      t0.current = state.clock.elapsedTime;
+      t0.current = replayClock();
       return;
     }
 
@@ -179,11 +224,20 @@ export function CassiniReplay({ stop }: { stop: Stop; ground?: (x: number, z: nu
     scene.huy.position.copy(scene.home).addScaledVector(TITAN_DIR, d < 2 ? 0.4 * d * d : 1.6 + 1.6 * (d - 2));
     scene.huy.rotation.x = d * 0.8;
 
-    // The orbit time-lapse: loop after loop, spiralling out and back in.
-    const r = 16 * smooth(ORB_A, ORB_A + 1.5, t) * (1 - smooth(ORB_B - 1.5, ORB_B, t));
-    const th = Math.max(0, Math.min(1, (t - ORB_A) / (ORB_B - ORB_A))) * 4 * 2 * Math.PI;
-    scene.craft.position.set(r * Math.sin(th), 0.3 * r * Math.cos(th), r * Math.cos(th) - r);
-    scene.craft.rotation.y = th;
+    // The orbit time-lapse: loop after loop around Saturn, each one back to where it started.
+    const looping = t > ORB_A && t < ORB_B;
+    if (looping) orbitAt(t, scene.craft.position);
+    else scene.craft.position.set(0, 0, 0);
+    // The trail: shift the old points along and put the newest first.
+    const tp = scene.trailPos, tn = scene.trailN;
+    if (looping) {
+      tp.copyWithin(3, 0, (TRAIL - 1) * 3);
+      scene.craft.position.toArray(tp, 0);
+      if (tn.n === 0) for (let i = 1; i < TRAIL; i++) scene.craft.position.toArray(tp, i * 3);
+      tn.n = Math.min(TRAIL, tn.n + 1);
+      scene.trail.geometry.attributes.position.needsUpdate = true;
+    } else tn.n = 0;
+    scene.trail.visible = looping;
     // The plunge: faster and faster, straight into Saturn.
     const p = Math.max(0, Math.min(1, (t - PLUNGE) / (HIT - PLUNGE)));
     if (p > 0) scene.craft.position.copy(ENTRY).multiplyScalar(p * p * p);
@@ -196,7 +250,10 @@ export function CassiniReplay({ stop }: { stop: Stop; ground?: (x: number, z: nu
     const cam = state.camera.position;
     scene.spark.position.copy(scene.craft.position);
     scene.spark.scale.setScalar(0.04 * cam.distanceTo(scene.craft.position) + 1);
-    scene.spark.material.opacity = 0.9 * smooth(PLUNGE + 0.3, PLUNGE + 1.2, t) * (1 - smooth(HIT - 0.1, HIT + 0.2, t));
+    // While it loops, Saturn hides the spark as Cassini passes behind it; in the plunge it shows through the haze.
+    scene.spark.material.depthTest = looping;
+    scene.spark.material.opacity =
+      0.9 * Math.max(smooth(ORB_A + 0.5, ORB_A + 1.5, t) * (1 - smooth(ORB_B - 1, ORB_B - 0.2, t)), smooth(PLUNGE + 0.3, PLUNGE + 1.2, t) * (1 - smooth(HIT - 0.1, HIT + 0.2, t)));
     // Reduced motion: a slower, dimmer glow instead of a flash.
     const [peak, rise] = gentle.current ? [0.5, 1.4] : [1, 0.3];
     scene.flash.material.opacity = peak * smooth(HIT - 0.1, HIT + rise, t) * (1 - smooth(HIT + 1, HIT + 3.5, t));

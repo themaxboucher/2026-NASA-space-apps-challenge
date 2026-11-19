@@ -89,7 +89,8 @@ export function ownScene(kind: OwnKind, o: { size: number; crater: number; sky: 
     if (dir.lengthSq() < 1e-4) dir.set(0, 0, 1);
     return dir.normalize();
   };
-  const crater = Math.max(4, o.crater);
+  // (A very wide crater would make the cloud or the flash swallow the whole view.)
+  const crater = Math.min(14, Math.max(4, o.crater));
   let update: (f: OwnFrame) => void = () => {};
 
   if (kind === "quake" || kind === "aim") {

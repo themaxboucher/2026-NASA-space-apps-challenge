@@ -261,6 +261,8 @@ export function GenericReplay({ stop, ground }: { stop: Stop; ground?: (x: numbe
   const shown = useRef("");
   const calm = useRef(false);
   const pictured = useRef("");
+  type View = { pos: [number, number, number]; look: [number, number, number] };
+  const views = useRef<{ near: View; far: View } | null>(null);
   // The effects track for this replay (sound.ts), built from the same timeline.
   const sound = useSoundtrack(
     on,
@@ -297,7 +299,8 @@ export function GenericReplay({ stop, ground }: { stop: Stop; ground?: (x: numbe
     // You watch from where you arrive, which already frames the machine (or its ghost over the crater). A landing
     // is watched from farther back, looking a little higher, so the lander is in view for more of its way down.
     const [x, y, z] = stop.spawn.pos;
-    live.replayView = plan.kind === "land" ? { pos: [x * 1.8, y, z * 1.8], look: [0, Math.max(stop.spawn.look[1], scene.size * 0.45), 0] } : { pos: stop.spawn.pos, look: stop.spawn.look };
+    views.current = { near: { pos: stop.spawn.pos, look: stop.spawn.look }, far: { pos: [x * 1.8, y, z * 1.8], look: [0, Math.max(stop.spawn.look[1], scene.size * 0.45), 0] } };
+    live.replayView = plan.kind === "land" ? views.current.far : views.current.near;
     return () => {
       live.replayLook = null;
       live.replayView = null;
@@ -374,6 +377,9 @@ export function GenericReplay({ stop, ground }: { stop: Stop; ground?: (x: numbe
       p.y += 3.5 * Math.sin(Math.PI * h);
       hopping = h > 0 && h < 0.88 ? 1 : 0;
     }
+    // Once a lander is down you move in to where you arrive, close enough to see its parts and its crew; and back
+    // out again to watch a lunar module's top half leave.
+    if (plan.kind === "land" && views.current) live.replayView = since > 1.2 && !(t > time.lift - 1.5 && t < time.lift + LIFT) ? views.current.near : views.current.far;
     scene.mover.position.copy(p);
     // A discarded backshell comes to rest as it lies today: swinging under its parachute if it has one in the
     // replay, tumbling if not.
@@ -512,15 +518,18 @@ export function GenericReplay({ stop, ground }: { stop: Stop; ground?: (x: numbe
       if (lit > 0.005) {
         scene.own?.update({ into, span: time.own.until - time.own.at, lit, t, focus, centre, hit, ground: gh, camera: state.camera, calm: calm.current });
         const kind = plan.own.kind;
-        if (into < 3.4 || kind === "drop") {
+        if (into < 3.4 || kind === "drop" || kind === "crew") {
           // Look where the scene is: up a laser beam or a plume, between an impact and whoever felt it.
-          if (kind === "plume") partLook = [hit.x, hit.y + Math.max(4, stop.setting.crater ?? 4) * 1.2, hit.z];
+          const between = (x: number, y: number, z: number): [number, number, number] => [(x + centre.x) / 2, (y + centre.y) / 2, (z + centre.z) / 2];
+          if (kind === "plume") partLook = between(hit.x, hit.y + Math.min(14, Math.max(4, stop.setting.crater ?? 4)) * 1.2, hit.z);
           else if (kind === "quake" && plan.own.out) partLook = [(hit.x + focus.x) / 2, hit.y + 1, (hit.z + focus.z) / 2];
           else if (kind === "aim") partLook = [hit.x, hit.y, hit.z];
           else if (kind === "burn" || kind === "pulses") partLook = [centre.x, centre.y, centre.z];
-          else if (kind === "tracks") partLook = [(from.x + end.x) / 2 + scene.mid.x, end.y, (from.z + end.z) / 2 + scene.mid.z];
+          else if (kind === "tracks") partLook = [end.x + (from.x - end.x) * 0.1 + scene.mid.x, end.y, end.z + (from.z - end.z) * 0.1 + scene.mid.z]; // the rover, and the tracks behind it
+          else if (kind === "crew") partLook = [focus.x * 0.7 + centre.x * 0.3, hit.y + 1.5, focus.z * 0.7 + centre.z * 0.3]; // the astronaut, with the lander still in view
           else if (kind === "drop") partLook = [focus.x + (focus.x - centre.x) * 0.9, hit.y, focus.z + (focus.z - centre.z) * 0.9]; // where the tubes are set down
-          else if (kind !== "hop" && kind !== "chute") partLook = [focus.x, focus.y, focus.z];
+          // A spot on the ground away from the machine: look between the two, so both are in view.
+          else if (kind !== "hop" && kind !== "chute") partLook = scene.ownAt?.fixed ? between(focus.x, focus.y, focus.z) : [focus.x, focus.y, focus.z];
         }
       } else scene.own?.hide();
       if (scene.ownGlow) {

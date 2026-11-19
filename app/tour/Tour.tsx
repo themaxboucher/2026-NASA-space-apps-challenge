@@ -1438,9 +1438,6 @@ function useHashSync() {
     addEventListener("hashchange", onHash);
     return () => removeEventListener("hashchange", onHash);
   }, []);
-  // Leave the URL alone until the tour has left the start screen: a deep link (/#surveyor3) is still being opened then,
-  // and clearing it here would reset the address before the trip starts.
-  const started = useRef(false);
   useEffect(() => {
     // Leave the address alone on the start screen: it's what the effect above reads to decide where to land.
     if (phase === "start") return;

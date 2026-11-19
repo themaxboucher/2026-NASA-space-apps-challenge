@@ -122,5 +122,9 @@
       "label": "Distance from the Sun",
       "value": "About 118 AU"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "pictures",
+    "spot": "saturn"
+  }
 }

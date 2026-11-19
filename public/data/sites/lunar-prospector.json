@@ -1,9 +1,9 @@
 {
   "id": "lunar-prospector",
   "setting": "impact",
-  "model": null,
+  "model": "lunar-prospector",
   "name": "Lunar Prospector",
-  "intro": "Lunar Prospector orbited the Moon for a year and a half, mapping what its surface is made of and finding hints of ice at the poles. At the end it was crashed into a permanently shadowed crater near the south pole, now called Shoemaker. Its crater lies hidden in permanent darkness. The Sun never climbs above the big crater’s rim here, so the faint light is turned up for you; look up, too, for spots in the sky.",
+  "intro": "Lunar Prospector orbited the Moon for a year and a half, mapping what its surface is made of and finding hints of ice at the poles. At the end it was crashed into a permanently shadowed crater near the south pole, now called Shoemaker. Its crater lies hidden in permanent darkness. The Sun never climbs above the big crater’s rim here, so the faint light is turned up for you. Look up: a see-through copy of Lunar Prospector hangs over the spot, just as it looked a moment before impact.",
   "status": "Crashed on purpose, 31 July 1999",
   "whyLeft": "Its fuel was almost gone, so NASA used the last of it for one final experiment: crash into a dark crater and see if water vapour splashed up.",
   "repurpose": "The ice it hinted at is the prize: NASA’s plans for the south pole include turning ice like this into water, air and rocket fuel.",
@@ -79,12 +79,12 @@
       "title": "Hints of ice",
       "text": "Lunar Prospector’s neutron detector found extra hydrogen near both poles, a strong hint that water ice is hiding in dark craters like this one.",
       "anchor": {
-        "pos": [
-          -12,
-          0.2,
-          8
-        ],
-        "ground": true
+        "part": "neutron_spectrometer",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA SVS: Lunar Prospector hydrogen at the south pole",
@@ -107,12 +107,12 @@
       "title": "Small but busy",
       "text": "Lunar Prospector was a small drum with three long arms holding its instruments away from the body. It had no camera at all, just detectors that ‘smelled’ the Moon’s surface.",
       "anchor": {
-        "pos": [
-          4,
-          0.1,
-          -1
-        ],
-        "ground": true
+        "part": "drum",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: Lunar Prospector",
@@ -146,6 +146,40 @@
         "label": "NASA Science: Lunar Prospector",
         "url": "https://science.nasa.gov/mission/lunar-prospector/"
       }
+    },
+    {
+      "id": "element-mapper",
+      "title": "Rock mapper",
+      "text": "This instrument measured gamma rays coming up from the ground below. From orbit, it mapped where the Moon’s main kinds of rock are.",
+      "anchor": {
+        "part": "gamma_ray_spectrometer",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA Science: Lunar Prospector",
+        "url": "https://science.nasa.gov/mission/lunar-prospector/"
+      }
+    },
+    {
+      "id": "magnet-sensor",
+      "title": "Magnet sensor",
+      "text": "The magnetometer rides at the very end, another 1.1 m beyond the boom’s tip, far from the spacecraft’s own electronics. It found that the Moon has only small, patchy magnetic fields.",
+      "anchor": {
+        "part": "magnetometer",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Lunar Prospector",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-001A"
+      }
     }
   ],
   "crater": {
@@ -162,5 +196,9 @@
     "az": 100,
     "el": 2
   },
-  "fill": 0.55
+  "fill": 0.55,
+  "signature": {
+    "kind": "collect",
+    "spot": "hydrogen"
+  }
 }

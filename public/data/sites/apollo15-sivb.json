@@ -1,9 +1,9 @@
 {
   "id": "apollo15-sivb",
   "setting": "impact",
-  "model": null,
+  "model": "sivb",
   "name": "Apollo 15’s third stage",
-  "intro": "This crater was made by the third stage of the Saturn V that launched Apollo 15. The day before Falcon landed, the empty stage was steered into the Moon on 29 July 1971 to give the seismometers a test thump.",
+  "intro": "This crater was made by the third stage of the Saturn V that launched Apollo 15. The day before Falcon landed, the empty stage was steered into the Moon on 29 July 1971 to give the seismometers a test thump. Look up: the see-through rocket stage over the crater shows how it looked a moment before it hit.",
   "status": "Crater, found by LRO",
   "hotspots": [
     {
@@ -21,6 +21,57 @@
       "source": {
         "label": "LROC (LRO camera team): the Apollo S-IVB craters",
         "url": "https://lroc.im-ldi.com/images/1261"
+      }
+    },
+    {
+      "id": "j2-engine",
+      "title": "One big engine",
+      "text": "This is the stage’s single J-2 engine. It burned liquid hydrogen and liquid oxygen to push the Apollo ships out of Earth orbit and onto the road to the Moon.",
+      "anchor": {
+        "part": "engine",
+        "at": [
+          0.5,
+          0.35,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 15 S-IVB",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063B"
+      }
+    },
+    {
+      "id": "tanks",
+      "title": "Mostly fuel tank",
+      "text": "Nearly all of the stage is fuel tank: 17.8 meters tall and 6.6 meters across, about as tall as a six-storey building. By the time it reached the Moon its fuel was used up.",
+      "anchor": {
+        "part": "hydrogen_tank",
+        "at": [
+          0.5,
+          0.45,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 15 S-IVB",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063B"
+      }
+    },
+    {
+      "id": "top-ring",
+      "title": "Open at the top",
+      "text": "The lunar module rode to space folded up inside the top of this stage, with the command ship above it. Once the crew had pulled the lander out and flown on, the top was left open.",
+      "anchor": {
+        "part": "instrument_unit",
+        "at": [
+          0.5,
+          0.9,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 15 S-IVB",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063B"
       }
     },
     {
@@ -117,5 +168,15 @@
       "url": "https://www.lroc.im-ldi.com/featured_sites/26"
     },
     "seen": true
+  },
+  "modelTilt": [
+    0,
+    0,
+    28
+  ],
+  "signature": {
+    "kind": "quake",
+    "spot": "seismometer",
+    "out": true
   }
 }

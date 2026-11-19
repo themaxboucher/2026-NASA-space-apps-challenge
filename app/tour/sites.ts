@@ -3,10 +3,12 @@
 // siteData.ts) and appended to STOPS, after the story stops, so every scene, plan and HUD piece that reads
 // STOPS[index] works for it unchanged.
 import { DEG, latLon } from "./lib/geo";
-import type { SiteFile } from "./siteData";
-import type { BodyKey } from "./state";
+import type { Signature, SiteFile } from "./siteData";
+import { REPLAYS, type BodyKey } from "./state";
 import { STOPS, type Hotspot, type ModelSpec, type Stop, type Vec3 } from "./stops";
 import { CRATERS, loadRealTerrain } from "./scene/terrain";
+import { preloadModel } from "./scene/useModel";
+import { photoSrc } from "./Story";
 
 export type Fate = { category: string; label: string; summary?: string };
 export type AtlasRecord = {
@@ -111,6 +113,126 @@ function earthFrom(lat: number, lon: number) {
 
 const year = (d?: string) => (d ? d.slice(0, 4) : "");
 
+// The story a site's replay tells (scene/replays/generic.tsx), in the site's own, already checked words, a scene
+// at a time: how it got here (its introduction), what it did (a hotspot's own text, told while that part lights
+// up blue), a real picture of it (a photo from the site file, shown with its caption), its key numbers, what gave
+// out (the "broken" hotspot's text, while that part lights up red), why it was left, and how things stand today.
+// About as long as the hand-made replays (seven to nine lines, 40 to 50 seconds).
+// Landers that came down on rocket engines (by model): their replay shows the plume and the dust it blew away.
+const ROCKET_LANDERS = new Set(["apollo-lm", "surveyor", "viking", "phoenix", "insight"]);
+const SENTENCE = /(?<=[.!?][”"]?)\s+(?=[A-Z0-9“"‘(])/;
+const CLIP = /^media\/(sites\/)?[\w.-]+\.mp4$/i;
+const STILL = /^media\/(sites\/)?[\w.-]+\.jpe?g$/i;
+const LIFT_LEAD = 5; // seconds of a lift-off clip shown before the lift-off itself
+function replayPlan(
+  stop: Pick<Stop, "intro" | "status" | "whyLeft"> & { stats: { label: string; value: string }[]; fun?: string; hotspots: Hotspot[]; lunarModule: boolean; signature?: Signature },
+  kind: NonNullable<Stop["replay"]>["kind"],
+  ghost: boolean,
+  effect: NonNullable<Stop["replay"]>["effect"],
+  signal: boolean,
+): Stop["replay"] {
+  const sentences: string[] = [];
+  for (const s of stop.intro.split(SENTENCE)) {
+    // A fragment too short to be a sentence of its own (an abbreviation's full stop) belongs with what follows.
+    if (sentences.length && sentences[sentences.length - 1].length < 28) sentences[sentences.length - 1] += ` ${s}`;
+    else sentences.push(s);
+  }
+  // Notes about the view ("look up", the see-through model, the light being turned up) are for the last line.
+  const aside = (s: string) => /see-through|^Look up|turned up for you/i.test(s);
+  const broken = stop.hotspots.find((h) => h.broken);
+  // What it did here: a hotspot on a part of the machine if there is one (else the first that isn't the failure),
+  // in its own first sentence.
+  // Its own scene is about another hotspot (the site file's "signature"), so the two never tell the same thing.
+  const sig = stop.signature;
+  const known = sig?.spot ? stop.hotspots.find((h) => h.id === sig.spot) : undefined;
+  const doing = stop.hotspots.find((h) => !h.broken && h !== known && "part" in h.anchor) ?? stop.hotspots.find((h) => !h.broken && h !== known);
+  const first = (text: string) => {
+    const parts = text.split(SENTENCE);
+    return parts[0].length < 45 && parts[1] ? `${parts[0]} ${parts[1]}` : parts[0];
+  };
+  // A real picture: a hotspot's photo, or the still of its footage.
+  const pictured = stop.hotspots.find((h) => h.photo && photoSrc(h.photo.file));
+  const filmed = stop.hotspots.find((h) => h.video && /^media\/sites\/[\w.-]+\.jpe?g$/i.test(h.video.poster));
+  // Real footage beats a still, and footage with its real sound beats silent footage. (A lunar module's lift-off
+  // clip is kept for its lift-off.)
+  const clipped = (h: Hotspot) => !!h.video && h.video.real !== false && CLIP.test(h.video.file) && STILL.test(h.video.poster);
+  const launch = stop.lunarModule ? stop.hotspots.find((h) => clipped(h) && h.video!.event !== undefined) : undefined;
+  const clips = stop.hotspots.filter((h) => h !== launch && clipped(h));
+  const clip = (clips.find((h) => h.video!.audio) ?? clips[0])?.video;
+  const picture = clip
+    ? { src: `/${clip.poster}`, video: `/${clip.file}`, sound: !!clip.audio, alt: clip.caption, credit: clip.credit, caption: clip.caption }
+    : pictured?.photo
+    ? { src: photoSrc(pictured.photo.file)!, alt: pictured.photo.alt, credit: pictured.photo.credit, caption: pictured.photo.caption }
+    : filmed?.video
+      ? { src: `/${filmed.video.poster}`, alt: filmed.video.caption, credit: filmed.video.credit, caption: filmed.video.caption }
+      : undefined;
+  // The more scenes a site has to show, the fewer sentences of its introduction are read out, to keep to length.
+  const scenes = (doing ? 1 : 0) + (picture ? 1 : 0) + (broken ? 1 : 0) + (known ? 1 : 0);
+  const story = sentences.filter((s) => !aside(s)).slice(0, scenes >= 3 ? 2 : scenes === 2 ? 3 : 4);
+  const lines = [...story];
+  const work = doing && !lines.includes(first(doing.text)) ? { spot: doing.id, cue: lines.length } : undefined;
+  if (work) lines.push(first(doing!.text));
+  // Lines that stay up longer than their length asks for, so that footage has time to play.
+  const hold: Record<number, number> = {};
+  let photo: NonNullable<Stop["replay"]>["photo"];
+  if (picture && !lines.includes(picture.caption)) {
+    const { caption, ...shot } = picture;
+    photo = { cue: lines.length, ...shot };
+    if ("video" in shot) hold[lines.length] = shot.sound ? 11 : 6.5;
+    lines.push(caption);
+  }
+  // The machine's own scene, in the words of the hotspot it is about.
+  let own: NonNullable<Stop["replay"]>["own"];
+  if (sig && known) {
+    const told = (sig.sentences ?? 1) > 1 ? known.text.split(SENTENCE).slice(0, sig.sentences).join(" ") : first(known.text);
+    if (!lines.includes(told)) {
+      own = { kind: sig.kind, cue: lines.length, spot: known.id, out: sig.out, hole: sig.hole, back: sig.back, jump: sig.jump };
+      lines.push(told);
+    }
+  }
+  // The numbers worth knowing, read out as one line.
+  const numbers = stop.stats.slice(0, 3).map((s) => `${s.label}: ${s.value.replace(/[.!]$/, "")}.`);
+  if (numbers.length >= 2) lines.push(numbers.join(" "));
+  // What gave out, in the words of the hotspot that marks it; the machine goes quiet on this line.
+  const fault = broken && broken.text.length < 300 && !lines.includes(broken.text) ? { spot: broken.id, cue: lines.length } : undefined;
+  if (fault) lines.push(broken!.text);
+  const quiet = fault ? fault.cue : lines.length;
+  // A lunar module's top half lifts off on the line that says why the bottom half stayed.
+  let liftoff: number | undefined;
+  let liftShot: NonNullable<Stop["replay"]>["liftShot"];
+  if (stop.whyLeft && !lines.includes(stop.whyLeft)) {
+    if (stop.lunarModule) liftoff = lines.length;
+    if (stop.lunarModule && launch?.video) {
+      // The real lift-off, filmed by the rover's TV camera, plays beside it: a few seconds of countdown first.
+      const v = launch.video;
+      const from = Math.max(0, v.event! - LIFT_LEAD);
+      liftShot = { src: `/${v.poster}`, video: `/${v.file}`, sound: !!v.audio, from, soundFor: v.audioEnds !== undefined ? v.audioEnds - from : undefined, alt: v.caption, credit: v.credit, lead: v.event! - from };
+      hold[lines.length] = liftShot.lead + 6.5;
+    }
+    if (sig?.on === "whyLeft") own = { kind: sig.kind, cue: lines.length, spot: sig.spot, out: sig.out, hole: sig.hole };
+    lines.push(stop.whyLeft);
+  }
+  if (stop.fun && stop.fun.length < 260 && !lines.includes(stop.fun) && lines.length < 7) lines.push(stop.fun);
+  const now = ghost
+    ? sentences.filter((s) => /see-through/i.test(s)).join(" ") || "The see-through model shows how it looked. Nothing this whole is left."
+    : `${stop.status.replace(/[.!]$/, "")}. Now it’s your turn: look for the glowing dots.`;
+  lines.push(now);
+  return {
+    kind,
+    effect,
+    signal,
+    fault,
+    liftoff,
+    liftShot,
+    work,
+    photo,
+    own,
+    quiet,
+    working: /^(still|active)\b/i.test(stop.status),
+    cues: lines.map((text, i) => ({ text, secs: Math.max(hold[i] ?? 0, Math.min(9, Math.max(3.8, text.length / 20))) })),
+  };
+}
+
 // Moon sites on the bright highlands (lighter, rougher ground) rather than the dark lava plains of the maria.
 const HIGHLANDS = /^(apollo16-(lm|alsep|lrv)|apollo14-(lm|alsep|lrrr)$|apollo17-lm-ascent|surveyor7|grail|ladee|lcross|lunar-prospector)/;
 
@@ -129,13 +251,30 @@ export function buildStop(rec: AtlasRecord, site: SiteFile | null, models: Recor
   const space = setting === "space";
   const impact = setting === "impact";
 
-  const key = impact ? null : site ? site.model : guessModel(rec.name, models);
+  // A machine that was destroyed (an impact or crash) still has a model if its site file names one: it is drawn as
+  // a see-through ghost of how it looked, hovering over its crater (or floating where it was lost).
+  const ghost = impact || impactish;
+  const key = site ? site.model : impact ? null : guessModel(rec.name, models);
   const info = key ? models[key] : undefined;
   const span = info ? info.size_m ?? SPAN[key!] ?? 3 : 3;
   const body = key ? BODY[key] : undefined;
   const size = body?.size ?? span; // what you came to see, for framing
+  // An impact's crater radius: the real one from the site file, else a guess (an S-IVB's is about 35 m across).
+  const crater = impact ? (site?.crater ? site.crater.diameterM / 2 : /sivb/.test(rec.id) ? 17 : 6) : undefined;
+  // A ghost over a crater: its middle high enough that its lowest point clears the ground however it is tilted.
+  const hover = info && ghost && !space ? size / 2 + Math.max(0.8, Math.min(3, size * 0.25)) : 0;
+  // You arrive just outside the rim, to the south-west (see spawn below). The ghost hangs over the middle of the
+  // crater, unless the crater is so much bigger than the machine that it would be a speck from the rim: then it
+  // hangs over the near rim instead, close enough to look over.
+  const rimD = crater ? Math.max(crater + Math.max(2, crater * 0.08), hover ? size * 2 + 2 : 0) : 0;
+  const ghostD = Math.max(0, rimD - (size * 3 + 3));
+  const ghostAt: Vec3 = [-0.6 * ghostD, hover, 0.8 * ghostD];
   let model: ModelSpec = { kind: "none" };
-  if (info && key === "apollo-lm") model = { kind: "gltf", url: "/models/apollo-lm.gltf.json", scale: 1.43, hideAbove: 2.95, origin: "ground" }; // the descent stage left behind
+  if (info && ghost) {
+    model = { kind: "gltf", url: `/${info.file}`, span, origin: "center", centerOn: body?.centerOn, ghost: true, at: space ? undefined : ghostAt };
+    // The lunar module's top half alone (the bottom half is still standing at the landing site).
+    if (key === "apollo-lm-ascent") model = { kind: "gltf", url: `/${info.file}`, scale: 1.43, hideBelow: 2.95, origin: "center", ghost: true, at: ghostAt };
+  } else if (info && key === "apollo-lm") model = { kind: "gltf", url: "/models/apollo-lm.gltf.json", scale: 1.43, hideAbove: 2.95, origin: "ground" }; // the descent stage left behind
   else if (info && key === "lrv-team") model = { kind: "gltf", url: `/${info.file}`, scale: 1, rotationY: Math.PI / 2, origin: "ground", centerOn: ["chassis"] }; // as the Apollo 15 story stop
   else if (info) model = { kind: "gltf", url: `/${info.file}`, span, origin: space ? "center" : "ground", centerOn: body?.centerOn };
   if (model.kind === "gltf") {
@@ -143,8 +282,6 @@ export function buildStop(rec: AtlasRecord, site: SiteFile | null, models: Recor
     if (site?.modelCut) model.cut = site.modelCut;
   }
 
-  // An impact's crater radius: the real one from the site file, else a guess (an S-IVB's is about 35 m across).
-  const crater = impact ? (site?.crater ? site.crater.diameterM / 2 : /sivb/.test(rec.id) ? 17 : 6) : undefined;
   if (impact && site?.crater) CRATERS.set(rec.id, site.crater);
   const r = Math.max(0.5, size / 2);
   const hasSite = world !== "deep" && typeof rec.lat === "number" && typeof rec.lon === "number";
@@ -156,19 +293,20 @@ export function buildStop(rec: AtlasRecord, site: SiteFile | null, models: Recor
   if (space) {
     const d = info ? Math.min(22, Math.max(6, r * 2.4)) : 9;
     spawn = { pos: [d * 0.62, d * 0.14, d * 0.78], look: [0, 0, 0] };
-    if (info) colliders = [{ pos: [0, 0, 0], r: r * 0.95 }];
+    if (info && !ghost) colliders = [{ pos: [0, 0, 0], r: r * 0.95 }];
     bounds = Math.max(60, size * 8);
   } else if (crater) {
     // Stand just outside the rim crest, looking down into the bowl. Room to walk out along the ejecta and rays.
-    const d = crater + Math.max(2, crater * 0.08); // far enough back to take in a small crater whole
+    // ...and, with a ghost hovering over it, far enough back to see that whole too.
+    const d = rimD;
     const depth = site?.crater?.depthM ?? crater * 0.36;
     // From the south-west, so the inner wall facing away from the Sun (az 100) is in view, dark against the rest.
-    spawn = { pos: [-d * 0.6, 0, d * 0.8], look: [0, -depth * 0.7, 0] };
-    bounds = Math.max(60, crater * 8);
+    spawn = { pos: [-d * 0.6, 0, d * 0.8], look: hover ? [ghostAt[0], hover * 0.85, ghostAt[2]] : [0, -depth * 0.7, 0] };
+    bounds = Math.max(60, crater * 8, d * 3);
   } else {
     const d = Math.max(3.2, size * 1.5);
     spawn = { pos: [d * 0.55, 0, d * 0.83], look: [0, Math.min(1.5, size * 0.35), 0] };
-    if (info) colliders = [{ pos: [0, 0, 0], r: Math.max(0.4, size * 0.4) }];
+    if (info && !ghost) colliders = [{ pos: [0, 0, 0], r: Math.max(0.4, size * 0.4) }];
     bounds = Math.max(40, size * 12);
   }
   if (site?.spawn) spawn = site.spawn;
@@ -203,7 +341,28 @@ export function buildStop(rec: AtlasRecord, site: SiteFile | null, models: Recor
   const kind: Stop["setting"]["kind"] = space ? "space" : world === "mars" ? "mars" : "moon"; // asteroids and Mercury: airless grey ground
   const [backdrop, au] = BACKDROP[rec.body] ?? [undefined, rec.distance_au ?? 5];
   const distanceKm = world === "moon" ? 384_400 : world === "mars" ? 225_000_000 : (rec.distance_au ?? au) * AU_KM;
-  const credit = info ? `${info.title} model: ${info.credit ?? "NASA"}` : "Ground and pieces drawn in code";
+  const credit = info ? `${info.title} model${ghost ? " (shown as a ghost: the real one is gone)" : ""}: ${info.credit ?? "NASA"}` : "Ground and pieces drawn in code";
+
+  const status = site?.status ?? rec.status ?? "";
+  const intro = site?.intro ?? rec.summary ?? rec.why ?? "";
+  const whyLeft = site?.whyLeft ?? rec.lastWords ?? rec.fate?.label;
+  // Every machine with a model gets a replay of how it came to be here.
+  const replayKind = space ? "fly" : ghost ? "dive" : rec.type === "rover" ? "drive" : rec.type === "experiment" || rec.type === "reflector" ? "place" : "land";
+  const effect = replayKind !== "land" ? undefined : key === "pathfinder" ? "bounce" : key === "backshell" ? "tumble" : key && ROCKET_LANDERS.has(key) ? "plume" : undefined;
+  const replay =
+    model.kind === "gltf" && intro
+      ? replayPlan(
+          { intro, status, whyLeft, stats: site?.stats ?? [], fun: site?.funFact ?? rec.funFact, hotspots, lunarModule: key === "apollo-lm" && replayKind === "land", signature: site?.signature },
+          replayKind,
+          ghost,
+          effect,
+          effect !== "tumble" && rec.type !== "reflector",
+        )
+      : undefined;
+  if (replay) REPLAYS.add(rec.id);
+  // A replay with an astronaut in it: fetch the astronaut now, so the replay doesn't start, wait for it and start again.
+  if (replay?.kind === "place" || replay?.own?.kind === "crew") preloadModel("/models/astronaut.gltf.json");
+  if (replay?.own?.kind === "rolloff") preloadModel("/models/sojourner.gltf.json");
 
   return {
     id: rec.id,
@@ -212,8 +371,9 @@ export function buildStop(rec: AtlasRecord, site: SiteFile | null, models: Recor
     name: site?.name ?? rec.name,
     mission: rec.mission ?? rec.name,
     when: rec.arrived ? `Arrived ${year(rec.arrived)}` : rec.launched ? `Launched ${year(rec.launched)}` : "",
-    status: site?.status ?? rec.status ?? "",
-    intro: site?.intro ?? rec.summary ?? rec.why ?? "",
+    status,
+    intro,
+    replay,
     site: hasSite ? { lat: rec.lat!, lon: rec.lon! } : undefined,
     distanceKm,
     distanceLabel: world === "deep" ? "Distance from the Sun" : "Distance from Earth",
@@ -244,7 +404,7 @@ export function buildStop(rec: AtlasRecord, site: SiteFile | null, models: Recor
       stats: site?.stats ?? [],
       fun: site?.funFact ?? rec.funFact,
     },
-    whyLeft: site?.whyLeft ?? rec.lastWords ?? rec.fate?.label,
+    whyLeft,
     repurpose: site?.repurpose,
   };
 }

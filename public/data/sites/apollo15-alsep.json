@@ -124,5 +124,10 @@
     }
   ],
   "whyLeft": "It was built to keep working for years without astronauts, and it did, until NASA ended support for all the Apollo stations in 1977, mainly to save money.",
-  "repurpose": "Its heat probes are buried less deep than planned, but they could still be read if the station were powered again, giving a 50-year check on the Moon’s temperature underground."
+  "repurpose": "Its heat probes are buried less deep than planned, but they could still be read if the station were powered again, giving a 50-year check on the Moon’s temperature underground.",
+  "signature": {
+    "kind": "dig",
+    "spot": "heat-probes",
+    "hole": true
+  }
 }

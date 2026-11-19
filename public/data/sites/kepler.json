@@ -142,5 +142,9 @@
       -0.2,
       0
     ]
+  },
+  "signature": {
+    "kind": "pictures",
+    "spot": "camera"
   }
 }

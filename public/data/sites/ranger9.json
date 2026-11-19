@@ -1,9 +1,9 @@
 {
   "id": "ranger9",
   "setting": "impact",
-  "model": null,
+  "model": "ranger",
   "name": "Ranger 9",
-  "intro": "Ranger 9 was the last Ranger. On 24 March 1965 it dove into the giant crater Alphonsus while TV networks showed its pictures live across America. Its crash ended the Ranger program with a success. Look up, too: some spots hang in the sky, where things happened on the way down.",
+  "intro": "Ranger 9 was the last Ranger. On 24 March 1965 it dove into the giant crater Alphonsus while TV networks showed its pictures live across America. Its crash ended the Ranger program with a success. Look up: a see-through copy of Ranger 9 hangs over its crater, just as it looked a moment before impact, with more spots in the sky around it.",
   "status": "Crashed on purpose, 24 March 1965",
   "whyLeft": "Like all Rangers it was built to crash, taking pictures until the last fraction of a second.",
   "repurpose": "Alphonsus has dark patches that may be old volcanic ash, so Ranger 9’s sharp pictures are still useful to anyone planning to explore there.",
@@ -128,6 +128,57 @@
         "source": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/ra9_p012.html",
         "licenseEvidence": "NASA NSSDCA Photo Gallery: image returned by NASA’s Ranger 9 (US government work, public domain)"
       }
+    },
+    {
+      "id": "aimed-cameras",
+      "title": "Aimed down the path",
+      "text": "Before its dive, Ranger 9 turned so these six cameras looked almost straight along its path. That kept the final close-ups sharp instead of smeared.",
+      "anchor": {
+        "part": "cameras",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 9",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-023A"
+      }
+    },
+    {
+      "id": "camera-batteries",
+      "title": "Camera batteries",
+      "text": "The TV cameras didn’t depend on sunlight. The two sets of cameras ran on their own big silver-zinc batteries, with enough charge for about nine hours.",
+      "anchor": {
+        "part": "electronics_cases",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 9",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-023A"
+      }
+    },
+    {
+      "id": "top-antenna",
+      "title": "Top antenna",
+      "text": "The cylinder on top is a second antenna that works in nearly every direction. It kept Ranger in touch with Earth whenever the dish wasn’t aimed, like during turns.",
+      "anchor": {
+        "part": "omni_antenna",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 9",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-023A"
+      }
     }
   ],
   "crater": {
@@ -139,5 +190,9 @@
       "url": "https://www.lroc.im-ldi.com/featured_sites/23"
     },
     "seen": true
+  },
+  "signature": {
+    "kind": "pictures",
+    "spot": "live-tv"
   }
 }

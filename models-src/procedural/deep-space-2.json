@@ -1,0 +1,24 @@
+{
+  "file": "models/deep-space-2.gltf.json",
+  "title": "Deep Space 2 Mars microprobe and its aeroshell",
+  "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+  "license": "CC BY 4.0",
+  "size_m": 0.717,
+  "bytes": 425769,
+  "tris": 6312,
+  "covers": [
+    "Deep Space 2"
+  ],
+  "parts": [
+    "aeroshell_heatshield",
+    "aeroshell_backshell",
+    "aftbody",
+    "antenna",
+    "sun_sensor",
+    "pressure_sensor",
+    "forebody",
+    "sample_drill",
+    "flex_cable"
+  ],
+  "note": "One Deep Space 2 microprobe at true size. Left: the whole aeroshell (350 mm across, 275 mm high), a blunt 45-degree heat shield with a rounded white back shell, nose down as it fell. Right: a probe out of its shell, laid out as it was meant to end up: the aftbody (136 mm across, 105 mm high) with its 127 mm whip antenna, sun sensor and pressure sensor on top, and the bullet-shaped forebody (106 mm long, 39 mm across) with its side drill port hanging below on the flat flex cable. The cable is drawn 0.3 m long (it could pay out to about a metre in the ground). Simplified: outside shapes only, small fittings placed by eye."
+}

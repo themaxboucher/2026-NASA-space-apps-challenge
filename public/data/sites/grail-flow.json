@@ -1,9 +1,9 @@
 {
   "id": "grail-flow",
   "setting": "impact",
-  "model": null,
+  "model": "grail",
   "name": "Flow (GRAIL-B)",
-  "intro": "Flow was Ebb’s twin. For almost a year it followed Ebb around the Moon, and in the end it followed Ebb down too, hitting the same mountain about 20 seconds later. NASA named the crash site after Sally Ride, the first American woman in space. Look up, too: some spots hang in the sky, where things happened on the way down.",
+  "intro": "Flow was Ebb’s twin. For almost a year it followed Ebb around the Moon, and in the end it followed Ebb down too, hitting the same mountain about 20 seconds later. NASA named the crash site after Sally Ride, the first American woman in space. Look up: a see-through copy of Flow hangs over its crater, just as it looked a moment before impact, with more spots in the sky around it.",
   "status": "Crashed on purpose, 17 December 2012",
   "whyLeft": "With fuel nearly gone and its orbit dropping, Flow was steered into a remote mountain so it could never fall onto a historic landing site.",
   "repurpose": "The Sally K. Ride Impact Site could be a memorial stop for future explorers, honouring the astronaut who led the twins’ student camera program.",
@@ -118,6 +118,57 @@
         "label": "NASA JPL: GRAIL impact site named for Sally Ride",
         "url": "https://www.jpl.nasa.gov/news/nasas-grail-lunar-impact-site-named-for-astronaut-sally-ride/"
       }
+    },
+    {
+      "id": "radio-link",
+      "title": "Link to Ebb",
+      "text": "Flow flew behind Ebb, and this horn kept a radio link aimed at its twin. When Ebb passed over a mountain or a heavy patch of rock, the Moon’s pull tugged it ahead a little, and the link caught the change.",
+      "anchor": {
+        "part": "ka_band_antenna",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA Science: GRAIL",
+        "url": "https://science.nasa.gov/mission/grail/"
+      }
+    },
+    {
+      "id": "star-tracker",
+      "title": "Star tracker",
+      "text": "This little telescope read the stars to tell Flow which way it was pointing, so its radio horn could stay aimed at Ebb.",
+      "anchor": {
+        "part": "star_tracker",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: GRAIL",
+        "url": "https://science.nasa.gov/mission/grail/"
+      }
+    },
+    {
+      "id": "slow-road",
+      "title": "The slow road",
+      "text": "Its solar panels kept Flow powered through a long, fuel-saving trip. It left Earth on 10 September 2011 and slipped into orbit around the Moon at New Year, about 25 hours after Ebb.",
+      "anchor": {
+        "part": "solar_array_1",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: GRAIL",
+        "url": "https://science.nasa.gov/mission/grail/"
+      }
     }
   ],
   "crater": {
@@ -129,5 +180,9 @@
       "url": "https://science.nasa.gov/resource/grail-impact-sites/"
     },
     "seen": true
+  },
+  "signature": {
+    "kind": "twin",
+    "spot": "twin"
   }
 }

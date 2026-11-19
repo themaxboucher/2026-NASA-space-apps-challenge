@@ -1,0 +1,24 @@
+{
+  "file": "models/lcross.gltf.json",
+  "title": "LCROSS Shepherding Spacecraft",
+  "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+  "license": "CC BY 4.0",
+  "size_m": 3.3,
+  "bytes": 651443,
+  "tris": 7036,
+  "covers": [
+    "LCROSS Shepherding"
+  ],
+  "parts": [
+    "espa_ring",
+    "propellant_tank",
+    "solar_array",
+    "equipment_panels",
+    "science_payload",
+    "omni_antennas",
+    "medium_gain_antennas",
+    "thrusters",
+    "star_tracker"
+  ],
+  "note": "LCROSS as it fell into Cabeus crater in 2009: 2 m tall, 2.6 m across its panels and 3.3 m from omni antenna to omni antenna. Gold-blanketed ESPA ring (1.58 m) with six ports, the hydrazine tank through its middle, and six panels on struts: the fixed solar array (R1), four radiator panels with electronics boxes behind them, and the payload panel (R6) with five cameras, spectrometer telescopes and the light meter looking down. Two omni antennas on booms, two medium-gain antennas, two thruster posts and two 22 N thrusters. Simplified: box layout, strut positions and exact instrument placement are representative."
+}

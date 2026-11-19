@@ -1,9 +1,9 @@
 {
   "id": "ranger6",
   "setting": "impact",
-  "model": null,
+  "model": "ranger",
   "name": "Ranger 6",
-  "intro": "Ranger 6 was a camera spacecraft built to dive straight into the Moon, taking pictures until the very end. It flew perfectly and hit its target in the Sea of Tranquility, but its cameras never turned on. All that’s left is a small crater and scattered scraps. Look up, too: some spots hang in the sky, where things happened on the way down.",
+  "intro": "Ranger 6 was a camera spacecraft built to dive straight into the Moon, taking pictures until the very end. It flew perfectly and hit its target in the Sea of Tranquility, but its cameras never turned on. All that’s left is a small crater and scattered scraps. Look up: a see-through copy of Ranger 6 hangs over its crater, just as it looked a moment before impact, with more spots in the sky around it.",
   "status": "Crashed 2 February 1964",
   "whyLeft": "Rangers had no brakes or legs: hitting the Moon was always the plan. Ranger 6 just did it without sending a single picture.",
   "repurpose": "There is nothing left to fix, but its crater is a time marker: scientists can compare it with nearby natural craters to see how fast fresh scars fade.",
@@ -107,6 +107,59 @@
         "label": "NASA NSSDCA: Ranger 6",
         "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-007A"
       }
+    },
+    {
+      "id": "blind-cameras",
+      "title": "Six blind eyes",
+      "text": "Six TV cameras sat behind this opening, ready to switch on for the last minutes of the dive. Controllers listened all the way down, but no picture signal ever came.",
+      "broken": true,
+      "tag": "Never switched on",
+      "anchor": {
+        "part": "cameras",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 6",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-007A"
+      }
+    },
+    {
+      "id": "solar-wings",
+      "title": "Solar wings",
+      "text": "Two wings covered in 9,792 solar cells made about 200 watts, roughly what a few bright light bulbs use. On Ranger 6 they worked perfectly from launch to impact.",
+      "anchor": {
+        "part": "solar_panel_1",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 6",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-007A"
+      }
+    },
+    {
+      "id": "dish",
+      "title": "Dish to Earth",
+      "text": "This dish stayed aimed at Earth so it could beam TV pictures home. On Ranger 6 it never got a single one to send.",
+      "anchor": {
+        "part": "high_gain_antenna",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 6",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-007A"
+      }
     }
   ],
   "crater": {
@@ -118,5 +171,9 @@
       "url": "https://www.lroc.im-ldi.com/featured_sites/20"
     },
     "seen": true
+  },
+  "signature": {
+    "kind": "aim",
+    "spot": "on-target"
   }
 }

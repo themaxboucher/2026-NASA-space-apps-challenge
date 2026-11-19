@@ -141,5 +141,9 @@
       "label": "Biggest quake",
       "value": "Magnitude 5"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "quake",
+    "spot": "seismometer"
+  }
 }

@@ -151,5 +151,9 @@
       "label": "Final plunge",
       "value": "21 September 2003"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "pictures",
+    "spot": "europa"
+  }
 }

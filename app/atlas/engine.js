@@ -198,15 +198,23 @@ export function startAtlas() {
   let MODELS = {};
   // Overrides checked before models.json "covers": null means "no honest model for this one".
   const MODEL_MATCH = [ // explicit picks first (most specific first); null = no honest model
-  [/apollo15-lrrr/, 'lrrr-300'], [/-lrrr/, 'lrrr-100'], [/apollo11-pse/, 'easep'], [/-alsep/, 'alsep'], [/-lrv/, 'lrv'],
+  [/apollo15-lrrr/, 'lrrr-300'], [/-lrrr/, 'lrrr-100'], [/apollo11-pse/, 'easep'], [/-alsep/, 'alsep'], [/-lrv\b/, 'lrv'],
   [/^surveyor/, 'surveyor'], [/^pathfinder/, 'pathfinder'], [/^sojourner/, 'sojourner'], [/^phoenix/, 'phoenix'], [/backshell/, 'backshell'],
   [/galileo_probe/, 'galileo-probe'], [/pioneer_venus_orbiter/, 'pioneer-venus-orbiter'], [/pioneer_venus_large/, 'pioneer-venus-large'],
   [/pioneer_venus_small/, 'pioneer-venus-small'], [/^spitzer/, 'spitzer'],
+  // Machines that crashed: models of how they looked (the team's own, built in code: models-src/procedural).
+  [/-sivb/, 'sivb'], [/-lm-ascent/, 'apollo-lm-ascent'], [/^ranger\d/, 'ranger'], [/^lcross-centaur/, 'centaur'], [/^lcross-ssc/, 'lcross'],
+  [/^grail-/, 'grail'], [/^lunar-prospector/, 'lunar-prospector'], [/^mars-polar-lander/, 'mars-polar-lander'], [/^deep-space-2/, 'deep-space-2'],
+  [/^mars-climate-orbiter/, 'mars-climate-orbiter'], [/^dart /, 'dart'],
 ];
   const MODEL_NOTE = {
     'apollo-lm': 'Only the bottom half, the descent stage, stayed on the Moon. The top half carried the astronauts back up.',
     'deep-impact': 'The impactor was the small copper-heavy part that split off. The bigger flyby spacecraft watched it hit.',
+    'apollo-lm-ascent': 'The top half of the lunar module. It carried the astronauts back up to orbit, then was sent crashing into the Moon.',
+    'deep-space-2': 'One probe in its basketball-sized shell, and one out of it. Two of these were sent; neither was ever heard from.',
   };
+  // A machine that crashed has no intact machine left: its model shows how it looked before.
+  const CRASH_NOTE = 'This is how it looked before it crashed. Nothing this whole is left.';
   const crashedIt = it => /impact|crash/i.test(it.type) || /crash|smash|plunge|impact/i.test(it.status || '');
   function modelKeyFor(it) {
     const s = `${it.id} ${it.name} ${it.mission}`;
@@ -288,7 +296,13 @@ function skyEnv(r) {
     const show = base => { if (mv.key !== key) return; const o = base.clone(true); tintFault(o, it, mv.faults); mv.obj = o; mv.scene.add(o); host.classList.add('ready'); };
     if (modelCache[key]) return show(modelCache[key]);
     gltfLoader.load(MODELS[key].file, g => {
-      const o = g.scene, box = new THREE.Box3().setFromObject(o), size = box.getSize(new THREE.Vector3()).length() || 1;
+      const o = g.scene;
+      if (key === 'apollo-lm-ascent') { // the same file as the whole lander: take away the bottom half (as the tour does)
+        const low = []; o.updateMatrixWorld(true);
+        o.traverse(n => { if (n.isMesh && new THREE.Box3().setFromObject(n).max.y <= 2.95) low.push(n); });
+        low.forEach(n => n.parent && n.parent.remove(n));
+      }
+      const box = new THREE.Box3().setFromObject(o), size = box.getSize(new THREE.Vector3()).length() || 1;
       const s = 2.2 / size; o.scale.setScalar(s); o.position.copy(box.getCenter(new THREE.Vector3()).multiplyScalar(-s));
       const pivot = new THREE.Group(); pivot.add(o); modelCache[key] = pivot; show(pivot);
     }, undefined, () => host.classList.add('fail'));
@@ -484,7 +498,7 @@ const routeSegs = it => (ROUTES[it.id]?.segments || []).map(sg => sg.points).fil
     const mk = modelKeyFor(it), m = mk && MODELS[mk];
     const model = m ? `<figure class="model"><div class="mv" id="mv" role="img" aria-label="3D model of ${esc(m.title)}"></div>
     <div class="mvz"><button type="button" data-mvz="0.8" aria-label="Zoom in">${ICON.zoomIn}</button><button type="button" data-mvz="1.25" aria-label="Zoom out">${ICON.zoomOut}</button></div>
-      ${MODEL_NOTE[mk] ? `<figcaption>${esc(MODEL_NOTE[mk])}</figcaption>` : ''}
+      ${MODEL_NOTE[mk] || crashedIt(it) ? `<figcaption>${esc(MODEL_NOTE[mk] || CRASH_NOTE)}</figcaption>` : ''}
       ${FAULTS[it.id] ? `<figcaption class="faultnote"><i aria-hidden="true"></i><span><b>Glowing red is what gave out:</b> the ${esc(FAULTS[it.id].note)}</span></figcaption>` : ''}
       <figcaption>${/^NASA/.test(m.credit || 'NASA') ? 'NASA 3D model' : '3D model'}: ${esc(m.title)}${/^NASA/.test(m.credit || 'NASA') ? '' : ` (${esc(m.credit)}, ${esc(m.license || '')})`} · drag to turn, +/− or Ctrl + scroll to zoom${/^https?:\/\//.test(m.page || '') ? ` · <a href="${esc(m.page)}" target="_blank" rel="noopener" style="color:var(--signal)">model page ${ICON.external}</a>` : ''}</figcaption></figure>` : '';
     const salv = salvageBlock(SALV[it.id]).replace(/<h3[^>]*>Could we salvage it\?<\/h3>/, '').replace(/ aria-labelledby="[^"]*"/, '');

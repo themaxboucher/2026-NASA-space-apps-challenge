@@ -128,5 +128,9 @@
       "label": "Mass on Mars",
       "value": "572 kg"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "dig",
+    "spot": "arm"
+  }
 }

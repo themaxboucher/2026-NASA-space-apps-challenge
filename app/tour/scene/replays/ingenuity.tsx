@@ -9,6 +9,7 @@ import { STOP_INDEX, type Stop } from "../../stops";
 import { ghostMaterial, shell, smooth, type Cue } from "../Ghost";
 import { prepareModel, type GltfSpec } from "../Machine";
 import { useModel } from "../useModel";
+import { mix, useSoundtrack } from "./sound";
 import { caption, disposeSprite, glowSprite } from "./cassini";
 
 REPLAYS.add("ingenuity");
@@ -94,6 +95,19 @@ export function IngenuityReplay({ stop, ground = () => 0 }: { stop: Stop; ground
   const t0 = useRef(-1);
   const spin = useRef(0);
   const shown = useRef({ text: "", at: -1 });
+  // Sound effects (made in code, sound.ts): the rotors spinning up and buzzing through the first flight, a burst
+  // for each hop of the time-lapse, the last flight, and the hard landing.
+  const sound = useSoundtrack(
+    on,
+    () => {
+      const m = mix(END, 23);
+      m.motor(3.5, 7.5, 24, 82, 0.06).motor(7.4, 12.6, 82, 82, 0.075);
+      const hop = (HOP_B - HOP_A) / HOPS.length;
+      HOPS.forEach((_, i) => m.motor(HOP_A + i * hop, HOP_A + (i + 0.8) * hop, 82, 86, 0.065));
+      return m.motor(HOP_B + 0.6, HIT, 82, 78, 0.075).thud(HIT, 0.6, 0.9, 70).url();
+    },
+    END,
+  );
   useEffect(() => {
     if (!on) return;
     t0.current = -1;
@@ -115,6 +129,7 @@ export function IngenuityReplay({ stop, ground = () => 0 }: { stop: Stop; ground
     live.hideMachine = !s.revealed.includes(stop.id) && t < REVEAL;
     scene.root.visible = on;
     if (!on) return;
+    sound(t, s.replayPaused);
     if (s.replayPaused) return; // paused: everything holds still
     if (t0.current < 0) {
       t0.current = replayClock();

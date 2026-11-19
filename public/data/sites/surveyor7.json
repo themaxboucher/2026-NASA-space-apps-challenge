@@ -161,5 +161,9 @@
         "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
       }
     }
-  ]
+  ],
+  "signature": {
+    "kind": "dig",
+    "spot": "scoop"
+  }
 }

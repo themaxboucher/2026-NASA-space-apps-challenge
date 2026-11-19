@@ -133,5 +133,9 @@
       "label": "Distance from the Sun",
       "value": "About 142 AU"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "pictures",
+    "spot": "jupiter"
+  }
 }

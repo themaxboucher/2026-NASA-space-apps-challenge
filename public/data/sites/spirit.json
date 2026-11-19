@@ -138,5 +138,10 @@
       "label": "Planned",
       "value": "90 Mars days"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "dig",
+    "spot": "arm",
+    "hole": true
+  }
 }

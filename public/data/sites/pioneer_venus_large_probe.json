@@ -118,5 +118,9 @@
       0,
       0
     ]
+  },
+  "signature": {
+    "kind": "pictures",
+    "spot": "diamond"
   }
 }

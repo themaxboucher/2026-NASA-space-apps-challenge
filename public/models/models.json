@@ -472,5 +472,257 @@
     "bytes": 374718,
     "covers": [],
     "note": "Apollo 11-14 moonwalker in the A7L suit, after AS11-40-5903 and AS11-40-5875: LEVA helmet with the gold visor down and side blinders, PLSS backpack with the OPS and antenna on top, chest RCU with blue/red connectors and hoses, accordion bellows at the shoulders, elbows and knees, gauntlet gloves and ridged lunar overshoes. Faces +Z. Node tree with pivots at the joints for code animation: astronaut > torso > helmet, armL > forearmL, armR > forearmR; astronaut > legL > shinL, legR > shinR."
+  },
+  "ranger": {
+    "file": "models/ranger.gltf.json",
+    "title": "Ranger Block III (Rangers 6 to 9)",
+    "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+    "license": "CC BY 4.0",
+    "size_m": 4.565,
+    "bytes": 429989,
+    "covers": [
+      "Ranger"
+    ],
+    "parts": [
+      "bus",
+      "electronics_cases",
+      "camera_tower",
+      "cameras",
+      "omni_antenna",
+      "solar_panel_1",
+      "solar_panel_2",
+      "high_gain_antenna",
+      "midcourse_motor",
+      "attitude_jets"
+    ],
+    "note": "Ranger Block III in flight: hexagonal aluminium bus 1.5 m across with six equipment cases, polished conical shroud with one opening for the six TV cameras (aimed 38 degrees off the long axis), cylindrical omni antenna on top (3.6 m from engine to tip), two 0.74 x 1.54 m solar panel wings spanning 4.6 m with cells facing sunward (down), 1.2 m high-gain dish hinged under one corner, mid-course motor with jet vanes and the nitrogen gas jets. Simplified: wiring, the internal camera electronics and small brackets are left out; the dish's 1.2 m size and deployed angle are taken from photos."
+  },
+  "sivb": {
+    "file": "models/sivb.gltf.json",
+    "title": "Saturn V third stage (S-IVB) with Instrument Unit",
+    "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+    "license": "CC BY 4.0",
+    "size_m": 17.76,
+    "bytes": 648805,
+    "covers": [
+      "S-IVB"
+    ],
+    "parts": [
+      "engine",
+      "thrust_structure",
+      "oxygen_tank",
+      "aft_skirt",
+      "aps_pods",
+      "ullage_fairings",
+      "hydrogen_tank",
+      "systems_tunnel",
+      "forward_skirt",
+      "instrument_unit"
+    ],
+    "note": "Saturn V S-IVB-500 as it hit the Moon on Apollo 13 to 17: 6.6 m across and about 17.8 m long. One J-2 engine (bell, turbopumps, start tank) under the thrust-structure cone, aft skirt with the two auxiliary propulsion pods and ullage-motor fairings, white tank section with systems tunnel, forward skirt, and the Instrument Unit ring with its equipment boxes. The top is open (the Apollo spacecraft and adapter panels had left), showing the hydrogen tank's forward dome. Simplified: roll-pattern markings are approximate."
+  },
+  "apollo-lm-ascent": {
+    "file": "models/apollo-lm.gltf.json",
+    "title": "Apollo Lunar Module ascent stage",
+    "credit": "NASA/Michael D. Carbajal",
+    "page": "https://science.nasa.gov/3d-resources/apollo-lunar-module/",
+    "bytes": 716840,
+    "covers": [],
+    "license": "Public domain (NASA)",
+    "size_m": 4.3,
+    "note": "The top half of NASA's Apollo Lunar Module model (the descent stage is hidden): about 4.3 m across."
+  },
+  "centaur": {
+    "file": "models/centaur.gltf.json",
+    "title": "Atlas V Centaur upper stage (LCROSS impactor)",
+    "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+    "license": "CC BY 4.0",
+    "size_m": 12.68,
+    "bytes": 740624,
+    "covers": [
+      "Centaur"
+    ],
+    "parts": [
+      "engine",
+      "aft_bulkhead",
+      "helium_bottles",
+      "thruster_pods",
+      "oxygen_tank",
+      "hydrogen_tank",
+      "feed_lines",
+      "forward_adapter",
+      "payload_adapter"
+    ],
+    "note": "Single-engine Atlas V Centaur as it hit Cabeus crater in 2009: 12.68 m long and 3.05 m across. RL10A-4-2 engine (dark lower nozzle, tube-wall upper nozzle, turbopumps, gimbal actuators) under the oxygen tank's aft dome, with helium and hydrazine bottles and four thruster pods; the white-painted steel balloon tank (oxygen below, hydrogen above) with hydrogen feed line, vent line and wiring tunnel; forward adapter ring with avionics boxes; and the open payload-adapter cone that carried LCROSS. Simplified: bottle count and box layout are representative."
+  },
+  "dart": {
+    "file": "models/dart.gltf.json",
+    "title": "DART (Double Asteroid Redirection Test) spacecraft",
+    "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+    "license": "CC BY 4.0",
+    "size_m": 18.95,
+    "bytes": 635299,
+    "covers": [
+      "DART"
+    ],
+    "parts": [
+      "bus",
+      "solar_arrays",
+      "array_booms",
+      "draco_telescope",
+      "launch_ring",
+      "ion_engine",
+      "high_gain_antenna",
+      "liciacube_dispenser",
+      "star_tracker",
+      "thrusters"
+    ],
+    "note": "DART as it hit Dimorphos in 2022: a 1.2 x 1.3 x 1.3 m gold-blanketed box, about 2.6 m tall with its engine and telescope, and about 19 m across its two Roll-Out Solar Arrays (each 8.5 m long, about 2.3 m wide: root tube, two booms, cell blanket, tip roller). DRACO's telescope tube with its door open looks down inside the launch ring; the NEXT-C ion engine sits on its gimbal ring on top; the flat round high-gain antenna is on one side and LICIACube's empty dispenser on the other, with the star tracker and four thruster clusters. Which face each of those sits on follows APL's illustrations and is approximate."
+  },
+  "deep-space-2": {
+    "file": "models/deep-space-2.gltf.json",
+    "title": "Deep Space 2 Mars microprobe and its aeroshell",
+    "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+    "license": "CC BY 4.0",
+    "size_m": 0.717,
+    "bytes": 425769,
+    "covers": [
+      "Deep Space 2"
+    ],
+    "parts": [
+      "aeroshell_heatshield",
+      "aeroshell_backshell",
+      "aftbody",
+      "antenna",
+      "sun_sensor",
+      "pressure_sensor",
+      "forebody",
+      "sample_drill",
+      "flex_cable"
+    ],
+    "note": "One Deep Space 2 microprobe at true size. Left: the whole aeroshell (350 mm across, 275 mm high), a blunt 45-degree heat shield with a rounded white back shell, nose down as it fell. Right: a probe out of its shell, laid out as it was meant to end up: the aftbody (136 mm across, 105 mm high) with its 127 mm whip antenna, sun sensor and pressure sensor on top, and the bullet-shaped forebody (106 mm long, 39 mm across) with its side drill port hanging below on the flat flex cable. The cable is drawn 0.3 m long (it could pay out to about a metre in the ground). Simplified: outside shapes only, small fittings placed by eye."
+  },
+  "grail": {
+    "file": "models/grail.gltf.json",
+    "title": "GRAIL twin (Ebb / Flow)",
+    "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+    "license": "CC BY 4.0",
+    "size_m": 4.126,
+    "bytes": 221721,
+    "covers": [
+      "GRAIL"
+    ],
+    "parts": [
+      "bus",
+      "solar_array_1",
+      "solar_array_2",
+      "main_engine",
+      "ka_band_antenna",
+      "radio_antennas",
+      "star_tracker",
+      "thrusters",
+      "moonkam"
+    ],
+    "note": "One GRAIL twin in lunar orbit: washing-machine-sized bus (1.09 m high, 0.95 m wide, 0.76 m deep) with two fixed solar arrays beside its Sun-facing side, the 22 N main engine between them, the Ka-band ranging horn and S-band time-transfer antenna aimed at the other twin, low-gain and beacon antennas, star tracker, eight warm-gas thrusters and the four MoonKAM camera heads. Simplified and partly uncertain: the arrays' outline (drawn 1.58 x 1.20 m each, 1.9 m2) and slight sweep-back, and the exact places of the small antennas, star tracker and MoonKAM heads, are approximate. Ebb and Flow were mirror images; one model serves both."
+  },
+  "lcross": {
+    "file": "models/lcross.gltf.json",
+    "title": "LCROSS Shepherding Spacecraft",
+    "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+    "license": "CC BY 4.0",
+    "size_m": 3.3,
+    "bytes": 651443,
+    "covers": [
+      "LCROSS Shepherding"
+    ],
+    "parts": [
+      "espa_ring",
+      "propellant_tank",
+      "solar_array",
+      "equipment_panels",
+      "science_payload",
+      "omni_antennas",
+      "medium_gain_antennas",
+      "thrusters",
+      "star_tracker"
+    ],
+    "note": "LCROSS as it fell into Cabeus crater in 2009: 2 m tall, 2.6 m across its panels and 3.3 m from omni antenna to omni antenna. Gold-blanketed ESPA ring (1.58 m) with six ports, the hydrazine tank through its middle, and six panels on struts: the fixed solar array (R1), four radiator panels with electronics boxes behind them, and the payload panel (R6) with five cameras, spectrometer telescopes and the light meter looking down. Two omni antennas on booms, two medium-gain antennas, two thruster posts and two 22 N thrusters. Simplified: box layout, strut positions and exact instrument placement are representative."
+  },
+  "lunar-prospector": {
+    "file": "models/lunar-prospector.gltf.json",
+    "title": "Lunar Prospector",
+    "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+    "license": "CC BY 4.0",
+    "size_m": 6.783,
+    "bytes": 733908,
+    "covers": [
+      "Lunar Prospector"
+    ],
+    "parts": [
+      "drum",
+      "adapter_ring",
+      "antenna_mast",
+      "booms",
+      "gamma_ray_spectrometer",
+      "neutron_spectrometer",
+      "alpha_particle_spectrometer",
+      "electron_reflectometer",
+      "magnetometer",
+      "thrusters",
+      "sensors"
+    ],
+    "note": "Lunar Prospector in mapping orbit: a 1.37 m wide, 1.28 m tall graphite-epoxy drum covered in solar cells, the 1.57 m antenna mast on its spin axis (slotted medium-gain antenna with the omni cone on top), and three 2.5 m lattice booms carrying the gamma-ray spectrometer, the neutron and alpha-particle spectrometers, and the electron reflectometer with the magnetometer on a 1.1 m extension. Six thrusters, launch adapter ring, Sun and limb sensors. Simplified: instrument shapes are approximate; the three fuel tanks are inside the drum and not shown."
+  },
+  "mars-climate-orbiter": {
+    "file": "models/mars-climate-orbiter.gltf.json",
+    "title": "Mars Climate Orbiter",
+    "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+    "license": "CC BY 4.0",
+    "size_m": 8.62,
+    "bytes": 473514,
+    "covers": [
+      "Mars Climate Orbiter"
+    ],
+    "parts": [
+      "equipment_module",
+      "propulsion_module",
+      "main_engine",
+      "thrusters",
+      "high_gain_antenna",
+      "solar_array_joint",
+      "solar_array",
+      "pmirr",
+      "marci",
+      "uhf_antenna",
+      "battery",
+      "star_cameras"
+    ],
+    "note": "Mars Climate Orbiter in its cruise layout: a 1.6 x 2.0 x 2.1 m bus (gold equipment module below, dark propulsion module above), the 640 N main engine and thruster clusters on top, the 1.3 m high-gain dish on its mast, and the single three-panel solar wing (5.5 m long) on one side, which made the spacecraft lopsided. On the equipment module: PMIRR with its cone-shaped cooler, the two small MARCI cameras, the UHF relay antenna, the battery box and star cameras. Simplified: instrument shapes and exact positions are best estimates from NASA artist's views; the wing is drawn 1.85 m wide."
+  },
+  "mars-polar-lander": {
+    "file": "models/mars-polar-lander.gltf.json",
+    "title": "Mars Polar Lander (as it was meant to stand on Mars)",
+    "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+    "license": "CC BY 4.0",
+    "size_m": 3.6,
+    "bytes": 678527,
+    "covers": [
+      "Mars Polar Lander"
+    ],
+    "parts": [
+      "deck",
+      "fuel_tanks",
+      "descent_engines",
+      "legs",
+      "touchdown_sensors",
+      "solar_panels",
+      "robotic_arm",
+      "camera_mast",
+      "weather_mast",
+      "tega_ovens",
+      "lidar_microphone",
+      "antennas"
+    ],
+    "note": "Mars Polar Lander in its landed layout, 3.6 m across the solar wings with the deck 1.06 m above the ground: hexagonal deck over the gold insulated electronics box, two hydrazine tanks, three groups of four descent engines, three legs with footpads and touchdown sensors, two-piece solar wings on two sides plus two small auxiliary panels, the 2 m robotic arm with scoop and camera, the stereo camera on its lattice mast, the 1.2 m weather mast with its hanging sub-mast, the TEGA oven box, the lidar with the Mars Microphone, a steerable medium-gain dish and a UHF antenna. Simplified: instruments are approximate shapes and the solar-wing outline follows NASA artist's views. The real lander was lost while landing, so it never looked like this on Mars."
   }
 }

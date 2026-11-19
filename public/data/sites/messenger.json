@@ -1,9 +1,9 @@
 {
   "id": "messenger",
   "setting": "impact",
-  "model": null,
+  "model": "messenger",
   "name": "MESSENGER crater",
-  "intro": "MESSENGER was the first spacecraft to orbit Mercury. After four years and more than 4,000 orbits, it ran out of fuel and crashed into Mercury on 30 April 2015, making a new crater about 16 meters wide. Nothing of the spacecraft is left in one piece.",
+  "intro": "MESSENGER was the first spacecraft to orbit Mercury. After four years and more than 4,000 orbits, it ran out of fuel and crashed into Mercury on 30 April 2015, making a new crater about 16 meters wide. Nothing of the spacecraft is left in one piece. The see-through spacecraft hanging over the crater shows how MESSENGER looked just before it hit.",
   "status": "Crashed into Mercury in 2015",
   "whyLeft": "It had used up all its fuel, so it could no longer stay up. The Sun’s pull slowly lowered its orbit until it hit the ground at about 14,000 km/h.",
   "repurpose": "Nothing is left to repair. A future Mercury orbiter could photograph its crater and learn how fresh craters change so close to the Sun.",
@@ -60,12 +60,12 @@
       "title": "Running on fumes",
       "text": "When its rocket fuel ran out, engineers found a clever trick: they used the helium gas that pushed the fuel as a tiny extra rocket, buying about a month more of science.",
       "anchor": {
-        "pos": [
-          -5,
-          0.3,
-          4
-        ],
-        "ground": true
+        "part": "Foil_gold",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: MESSENGER",
@@ -94,16 +94,33 @@
       "title": "Its sunshade",
       "text": "MESSENGER hid behind a sunshade of heat-proof ceramic cloth, because sunlight at Mercury can be up to 11 times stronger than on Earth. Whatever is left of it is now scattered here.",
       "anchor": {
-        "pos": [
-          2,
-          0.25,
-          7
-        ],
-        "ground": true
+        "part": "AO_heatshield",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: MESSENGER",
         "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2004-030A"
+      }
+    },
+    {
+      "id": "instruments",
+      "title": "Tools in the shade",
+      "text": "MESSENGER’s science tools sat on the shaded side: cameras, a laser that measured the height of mountains and craters, and a magnetometer that mapped Mercury’s magnetic field.",
+      "anchor": {
+        "part": "Tex_01",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: MESSENGER",
+        "url": "https://science.nasa.gov/mission/messenger/"
       }
     }
   ],
@@ -135,5 +152,9 @@
       "url": "https://science.nasa.gov/photojournal/best-determination-of-messengers-impact-location"
     },
     "seen": false
+  },
+  "signature": {
+    "kind": "pictures",
+    "spot": "last-picture"
   }
 }

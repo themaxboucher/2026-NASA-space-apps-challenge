@@ -1,0 +1,25 @@
+{
+  "file": "models/sivb.gltf.json",
+  "title": "Saturn V third stage (S-IVB) with Instrument Unit",
+  "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+  "license": "CC BY 4.0",
+  "size_m": 17.76,
+  "bytes": 648805,
+  "tris": 11836,
+  "covers": [
+    "S-IVB"
+  ],
+  "parts": [
+    "engine",
+    "thrust_structure",
+    "oxygen_tank",
+    "aft_skirt",
+    "aps_pods",
+    "ullage_fairings",
+    "hydrogen_tank",
+    "systems_tunnel",
+    "forward_skirt",
+    "instrument_unit"
+  ],
+  "note": "Saturn V S-IVB-500 as it hit the Moon on Apollo 13 to 17: 6.6 m across and about 17.8 m long. One J-2 engine (bell, turbopumps, start tank) under the thrust-structure cone, aft skirt with the two auxiliary propulsion pods and ullage-motor fairings, white tank section with systems tunnel, forward skirt, and the Instrument Unit ring with its equipment boxes. The top is open (the Apollo spacecraft and adapter panels had left), showing the hydrogen tank's forward dome. Simplified: roll-pattern markings are approximate."
+}

@@ -1,3 +1,5 @@
+import type { OwnKind } from "./scene/replays/own";
+
 // The shared format for every machine's explorable site (all 79 in public/data/{moon,mars,deepspace}.json).
 // One file per machine: public/data/sites/<atlas id>.json. Media goes in public/media/sites/ and photos in
 // public/photos/sites/. The six story stops keep their hand-tuned data in stops.ts; their site files are optional.
@@ -30,6 +32,10 @@ export type SiteVideo = {
   licenseEvidence: string;
   real: boolean; // false = animation
   audio?: string; // what you hear, if it has sound (real mission audio only, no music)
+  // For a replay that plays the clip beside the same event (a lift-off): how many seconds into the clip the event
+  // happens, and when the clip's sound ends if that is before the clip does.
+  event?: number;
+  audioEnds?: number;
 };
 
 export type SiteHotspot = {
@@ -56,16 +62,25 @@ export type SiteCrater = {
   seen: boolean; // true if LRO (or another orbiter) has actually imaged the crater
 };
 
+// A scene of the machine's own in its replay (scene/replays/own.ts): the thing it is known for, played on the
+// line that tells it. `spot` is the hotspot whose text is that line and where the scene happens (`sentences`:
+// how many of its sentences to read, 1 unless said); `on: "whyLeft"` plays it on the why-it-was-left line
+// instead. `out`: shaking spreads out from the impact (else it arrives at the hotspot). `hole`: a small mark
+// under a drill or sensor instead of a trench. `back`, `jump`: for an astronaut (crew), see own.ts.
+export type Signature = { kind: OwnKind; spot?: string; on?: "whyLeft"; sentences?: number; out?: boolean; hole?: boolean; back?: boolean; jump?: boolean };
+
 export type SiteFile = {
   id: string; // the atlas id
   // How the site is shown: an intact machine on the ground, a machine in space, or an impact/crash site
   // (a crater or scattered pieces; there is no intact machine to walk around).
   setting: "surface" | "space" | "impact";
-  model: string | null; // key in public/models/models.json, or null (impact sites, or no honest model)
+  // Key in public/models/models.json, or null (no honest model). At an impact or crash site the machine is gone, so
+  // its model is drawn as a see-through ghost of how it looked, hovering over the crater it made.
+  model: string | null;
   name: string; // short display name, e.g. "Surveyor 3"
   intro: string; // 2–3 sentences: what it is, why it's here, what state it's in now
   status: string; // short status line, e.g. "Silent since 1967"
-  hotspots: SiteHotspot[]; // 3–6 discoverable parts
+  hotspots: SiteHotspot[]; // 3–8 discoverable parts (on a ghost model too, at impact sites)
   funFact: string;
   stats?: { label: string; value: string }[]; // 2–4 numbers worth knowing
   // The investigation: the player is a salvage scout working out why each machine was left and whether it
@@ -80,4 +95,5 @@ export type SiteFile = {
   fill?: number; // soft light from all around, so things in permanent shadow can still be seen
   bounds?: number; // how far you can walk from the machine, in metres
   spawn?: { pos: [number, number, number]; look: [number, number, number] }; // where you appear and what you face
+  signature?: Signature; // its own scene in the replay
 };

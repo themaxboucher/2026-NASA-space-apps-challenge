@@ -102,5 +102,9 @@
     }
   ],
   "whyLeft": "It was meant to stay forever: a mirror on the Moon is only useful where it is, as a target for lasers fired from Earth.",
-  "repurpose": "It never stopped working, so it already has its second career. Moon dust has made it dimmer, and newer reflectors are being added nearby rather than touching this one."
+  "repurpose": "It never stopped working, so it already has its second career. Moon dust has made it dimmer, and newer reflectors are being added nearby rather than touching this one.",
+  "signature": {
+    "kind": "laser",
+    "spot": "echo"
+  }
 }

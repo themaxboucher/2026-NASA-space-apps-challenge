@@ -1,9 +1,9 @@
 {
   "id": "mars-polar-lander",
   "setting": "impact",
-  "model": null,
+  "model": "mars-polar-lander",
   "name": "Mars Polar Lander",
-  "intro": "Mars Polar Lander was meant to be the first spacecraft to land near the south pole of Mars. It went quiet as planned while entering the atmosphere on 3 December 1999 and was never heard again. Nobody knows exactly where it came down; this is roughly where it was aiming.",
+  "intro": "Mars Polar Lander was meant to be the first spacecraft to land near the south pole of Mars. It went quiet as planned while entering the atmosphere on 3 December 1999 and was never heard again. Nobody knows exactly where it came down; this is roughly where it was aiming, and the see-through lander shows how it was meant to stand here.",
   "status": "Lost while landing in 1999",
   "whyLeft": "Investigators think the jolt of its legs unfolding was read as touchdown, so its computer shut off the engines about 40 meters up. It most likely hit the ground at about 80 km/h.",
   "repurpose": "There is probably nothing left to fix, and the wreck has never been found. Its lesson was used right away: Phoenix, built from a lander of the same design, had its landing software tested hard and landed safely in 2008.",
@@ -88,6 +88,57 @@
         "label": "NASA NSSDCA: Mars Polar Lander and Deep Space 2 landing sites",
         "url": "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html"
       }
+    },
+    {
+      "id": "robotic-arm",
+      "title": "The digging arm",
+      "text": "This robotic arm, with a camera of its own, was built to dig a trench in the frozen ground and bring up soil to test for water ice.",
+      "anchor": {
+        "part": "robotic_arm",
+        "at": [
+          0.3,
+          0.48,
+          0.77
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Polar Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1999-001A"
+      }
+    },
+    {
+      "id": "stereo-camera",
+      "title": "Two camera eyes",
+      "text": "Two lenses side by side on a mast would have taken 3D pictures of the polar plains.",
+      "anchor": {
+        "part": "camera_mast",
+        "at": [
+          0.5,
+          0.93,
+          0.6
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Polar Lander",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1999-001A"
+      }
+    },
+    {
+      "id": "descent-engines",
+      "title": "Twelve landing engines",
+      "text": "Twelve small rocket engines, in three groups of four, were to fire in quick pulses and slow the lander to less than 2.4 meters a second for touchdown. Investigators think a false signal made the computer switch them off while it was still in the air.",
+      "anchor": {
+        "part": "descent_engines",
+        "at": [
+          0.88,
+          0.15,
+          0.84
+        ]
+      },
+      "source": {
+        "label": "NASA: Mars Polar Lander failure report release (2000)",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/text/nasa_pr_20000328.txt"
+      }
     }
   ],
   "funFact": "Mars Climate Orbiter, lost two months earlier, was also meant to relay the lander’s messages, so the lander had to talk straight to Earth.",
@@ -118,5 +169,10 @@
       "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1999-001A"
     },
     "seen": false
+  },
+  "signature": {
+    "kind": "pulses",
+    "spot": "descent-engines",
+    "sentences": 2
   }
 }

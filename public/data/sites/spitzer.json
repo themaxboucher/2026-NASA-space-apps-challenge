@@ -22,6 +22,17 @@
       "source": {
         "label": "NASA NSSDCA: Spitzer",
         "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-038A"
+      },
+      "photo": {
+        "file": "photos/sites/spitzer--mirror.jpg",
+        "w": 1360,
+        "h": 1555,
+        "alt": "Tall pillars and clouds of glowing green and red dust against a field of stars.",
+        "caption": "A picture made with this mirror: the Eagle Nebula, a cloud where new stars are born, seen in infrared light.",
+        "credit": "NASA/JPL-Caltech",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/PIA09107",
+        "licenseEvidence": "NASA Image and Video Library item PIA09107, credit NASA/JPL-Caltech, already shown with this credit on this site's atlas. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
       }
     },
     {
@@ -44,7 +55,18 @@
       "glowRadius": 0.7,
       "glow": [
         "BUS"
-      ]
+      ],
+      "photo": {
+        "file": "photos/sites/spitzer--coolant.jpg",
+        "w": 1600,
+        "h": 900,
+        "alt": "A wide view of space glowing blue and green, with a bright pink and white knot of stars and dust in the middle.",
+        "caption": "What the cold cameras could see: the crowded centre of our Milky Way galaxy in infrared light, which shines through dust that hides it from our eyes.",
+        "credit": "NASA/JPL-Caltech",
+        "license": "Public domain",
+        "source": "https://images.nasa.gov/details/PIA13932",
+        "licenseEvidence": "NASA Image and Video Library item PIA13932, credit NASA/JPL-Caltech, already shown with this credit on this site's atlas. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
     },
     {
       "id": "sunshield",
@@ -131,5 +153,9 @@
       -0.1,
       0
     ]
+  },
+  "signature": {
+    "kind": "pictures",
+    "spot": "trappist"
   }
 }

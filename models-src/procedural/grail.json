@@ -1,0 +1,24 @@
+{
+  "file": "models/grail.gltf.json",
+  "title": "GRAIL twin (Ebb / Flow)",
+  "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+  "license": "CC BY 4.0",
+  "size_m": 4.126,
+  "bytes": 221721,
+  "tris": 2354,
+  "covers": [
+    "GRAIL"
+  ],
+  "parts": [
+    "bus",
+    "solar_array_1",
+    "solar_array_2",
+    "main_engine",
+    "ka_band_antenna",
+    "radio_antennas",
+    "star_tracker",
+    "thrusters",
+    "moonkam"
+  ],
+  "note": "One GRAIL twin in lunar orbit: washing-machine-sized bus (1.09 m high, 0.95 m wide, 0.76 m deep) with two fixed solar arrays beside its Sun-facing side, the 22 N main engine between them, the Ka-band ranging horn and S-band time-transfer antenna aimed at the other twin, low-gain and beacon antennas, star tracker, eight warm-gas thrusters and the four MoonKAM camera heads. Simplified and partly uncertain: the arrays' outline (drawn 1.58 x 1.20 m each, 1.9 m2) and slight sweep-back, and the exact places of the small antennas, star tracker and MoonKAM heads, are approximate. Ebb and Flow were mirror images; one model serves both."
+}

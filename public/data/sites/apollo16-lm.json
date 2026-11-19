@@ -126,5 +126,10 @@
     }
   ],
   "whyLeft": "Nothing broke: the bottom half was built to stay behind as the launch pad for the crew’s cabin.",
-  "repurpose": "It is used up as a spacecraft, but a future rover could photograph it to see how its metal and foil have aged after 50 years in the highlands."
+  "repurpose": "It is used up as a spacecraft, but a future rover could photograph it to see how its metal and foil have aged after 50 years in the highlands.",
+  "signature": {
+    "kind": "crew",
+    "spot": "salute",
+    "jump": true
+  }
 }

@@ -1,9 +1,9 @@
 {
   "id": "ladee",
   "setting": "impact",
-  "model": null,
+  "model": "ladee",
   "name": "LADEE",
-  "intro": "LADEE was a robot explorer that orbited very low over the Moon to sniff its extremely thin air and look for floating dust. Flying that low used up fuel fast, so its mission was always planned to end with a crash. It hit the far side in April 2014. Look up, too: some spots hang in the sky, where things happened on the way down.",
+  "intro": "LADEE was a robot explorer that orbited very low over the Moon to sniff its extremely thin air and look for floating dust. Flying that low used up fuel fast, so its mission was always planned to end with a crash. It hit the far side in April 2014. Look up, too: some spots hang in the sky, where things happened on the way down. The see-through spacecraft hanging over the crater shows how LADEE looked just before it hit.",
   "status": "Crashed on purpose, 18 April 2014",
   "whyLeft": "It needed engine burns to stay up in its low orbit, and when the fuel ran out the Moon’s gravity pulled it down, just as planned.",
   "repurpose": "Its bright splash of debris is a fresh marker; watching it fade over the years shows how fast the Moon’s surface changes.",
@@ -107,16 +107,67 @@
       "title": "Laser messages",
       "text": "LADEE tested a laser communication system that beamed data back to Earth much faster than radio. Future Moon bases could use lasers like this to send home high-definition video.",
       "anchor": {
-        "pos": [
-          10,
-          5,
-          -10
-        ],
-        "ground": true
+        "part": "body",
+        "at": [
+          0.5,
+          0.82,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: LADEE",
         "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2013-047A"
+      }
+    },
+    {
+      "id": "solar-skin",
+      "title": "Solar-panel skin",
+      "text": "LADEE had no solar wings. Its whole outside was covered in solar panels instead, making about 295 watts in full sunlight.",
+      "anchor": {
+        "part": "body",
+        "at": [
+          0.5,
+          0.45,
+          0.95
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: LADEE",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2013-047A"
+      }
+    },
+    {
+      "id": "size",
+      "title": "Small-car size",
+      "text": "LADEE was a cylinder 2.37 meters tall and 1.85 meters across. With its fuel on board it weighed about 383 kilograms.",
+      "anchor": {
+        "part": "body",
+        "at": [
+          0.08,
+          0.3,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: LADEE",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2013-047A"
+      }
+    },
+    {
+      "id": "dust-counter",
+      "title": "Dust and gas sniffers",
+      "text": "Three instruments rode on board. One counted Moon dust grains as small as 0.3 microns, far thinner than a hair, and two measured the thin gases around the Moon.",
+      "anchor": {
+        "part": "body",
+        "at": [
+          0.5,
+          0.98,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: LADEE science and instruments",
+        "url": "https://science.nasa.gov/mission/ladee/ladee-science-and-instruments/"
       }
     }
   ],
@@ -129,5 +180,9 @@
       "url": "https://lroc.im-ldi.com/images/822"
     },
     "seen": true
+  },
+  "signature": {
+    "kind": "laser",
+    "spot": "laser"
   }
 }

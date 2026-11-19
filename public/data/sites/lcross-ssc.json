@@ -1,9 +1,9 @@
 {
   "id": "lcross-ssc",
   "setting": "impact",
-  "model": null,
+  "model": "lcross",
   "name": "LCROSS",
-  "intro": "LCROSS was the shepherding spacecraft that steered the Centaur rocket stage to the Moon. It let go 10 hours before impact, followed behind, flew through the Centaur’s plume measuring everything, then crashed into Cabeus crater too, about four minutes later. The Sun never climbs above the big crater’s rim here, so the faint light is turned up for you; look up, too, for spots in the sky.",
+  "intro": "LCROSS was the shepherding spacecraft that steered the Centaur rocket stage to the Moon. It let go 10 hours before impact, followed behind, flew through the Centaur’s plume measuring everything, then crashed into Cabeus crater too, about four minutes later. The see-through spacecraft over the crater shows what it looked like a moment before it hit. The Sun never climbs above the big crater’s rim here, so the faint light is turned up for you; look up, too, for spots in the sky.",
   "status": "Crashed on purpose, 9 October 2009",
   "whyLeft": "Its whole mission was planned so that its most important science happened in the last four minutes, ending in its own crash.",
   "repurpose": "Its crater is a second dig into the same icy floor, a ready-made target for a future rover with lights to study the ice up close.",
@@ -49,12 +49,12 @@
       "title": "Last view",
       "text": "On the way down, LCROSS’s cameras watched the target area. It carried one visible-light camera, two near-infrared and two mid-infrared cameras, three spectrometers and a light meter.",
       "anchor": {
-        "pos": [
-          0,
-          7,
-          8
-        ],
-        "ground": true
+        "part": "science_payload",
+        "at": [
+          0.4,
+          0.12,
+          0.59
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: LCROSS",
@@ -90,18 +90,52 @@
       }
     },
     {
+      "id": "fuel-tank",
+      "title": "Fuel for steering",
+      "text": "This tank in the middle of the ring held about 300 kg of hydrazine fuel at launch. LCROSS’s small thrusters used it to steer both itself and the empty Centaur for almost four months, aiming at one dark crater.",
+      "anchor": {
+        "part": "propellant_tank",
+        "at": [
+          0.49,
+          1.0,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: LCROSS",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B"
+      }
+    },
+    {
+      "id": "solar-panel",
+      "title": "Solar panel",
+      "text": "LCROSS made its electricity with this panel of solar cells, which could supply up to 600 watts, with a battery for backup.",
+      "anchor": {
+        "part": "solar_array",
+        "at": [
+          1.0,
+          0.65,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: LCROSS",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2009-031B"
+      }
+    },
+    {
       "id": "ring",
       "title": "Built on a ring",
       "text": "LCROSS was built around a ring normally used to hold small satellites on a rocket, 1.58 m wide. Scout, look for twisted pieces of that ring; they are all that might remain.",
       "broken": true,
       "tag": "Why it’s here",
       "anchor": {
-        "pos": [
-          8,
-          0.1,
-          -6
-        ],
-        "ground": true
+        "part": "espa_ring",
+        "at": [
+          0.92,
+          0.98,
+          0.26
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: LCROSS",
@@ -134,5 +168,9 @@
     "az": 100,
     "el": 2
   },
-  "fill": 0.55
+  "fill": 0.55,
+  "signature": {
+    "kind": "plume",
+    "spot": "plume-dive"
+  }
 }

@@ -1491,6 +1491,35 @@ p.keysbar {
   align-items: center;
   gap: 20px;
 }
+/* Every briefing step is the same height: the title sits at the top of a fixed-height body and Next, Back and Skip
+   each keep a slot of their own, so no button moves from one step to the next. */
+.brief-body {
+  display: flex;
+  flex-direction: column;
+  min-height: var(--brief-body, 15rem);
+}
+.brief-body .brief-choices {
+  width: 100%;
+}
+.brief-slot {
+  display: grid;
+  place-items: center;
+}
+.brief-slot-back {
+  min-height: 52px;
+}
+.brief-slot-skip {
+  min-height: 28px;
+}
+.brief-actions .ghost-btn {
+  margin-top: 0;
+}
+/* Phones: the text wraps onto more lines, so the body is taller (but never so tall that the buttons leave the screen). */
+@media (max-width: 640px) {
+  .brief-body {
+    --brief-body: min(25rem, 100dvh - 300px);
+  }
+}
 .chapter-actions.brief-actions {
   margin-top: 40px;
 }
@@ -1638,6 +1667,33 @@ p.keysbar {
   margin: 0 auto;
   padding: 16px 20px;
   text-shadow: 0 1px 14px rgba(0, 0, 0, 0.75);
+}
+/* A real photo shown during a replay: top right, clear of the story at the bottom and the name plate on the left. */
+.replay-shot {
+  position: absolute;
+  z-index: 60;
+  top: calc(var(--gut-t, 16px) + 64px);
+  right: var(--gut-r, 16px);
+  width: min(320px, 38vw);
+  margin: 0;
+  pointer-events: none;
+}
+.replay-shot img,
+.replay-shot video {
+  display: block;
+  width: 100%;
+  max-height: 34vh;
+  object-fit: cover;
+  border-radius: var(--r-lg, 12px);
+  box-shadow: var(--shadow-lg, 0 12px 40px rgba(0, 0, 0, 0.5));
+}
+.replay-shot figcaption {
+  margin-top: 6px;
+  color: var(--ink2);
+  font: 500 0.6875rem/1.4 var(--mono);
+  letter-spacing: 0.04em;
+  text-align: right;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
 }
 .replay-line {
   margin: 0;

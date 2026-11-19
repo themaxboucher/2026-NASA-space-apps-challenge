@@ -1,9 +1,9 @@
 {
   "id": "apollo15-lm-ascent",
   "setting": "impact",
-  "model": null,
+  "model": "apollo-lm-ascent",
   "name": "Falcon’s top half",
-  "intro": "This is where the top half of Falcon crashed into the Moon on 3 August 1971. It had lifted Dave Scott and Jim Irwin off the Moon the day before, on live TV, and was crashed on purpose after they moved into their command module, Endeavour. Its crater has not been found.",
+  "intro": "This is where the top half of Falcon crashed into the Moon on 3 August 1971. It had lifted Dave Scott and Jim Irwin off the Moon the day before, on live TV, and was crashed on purpose after they moved into their command module, Endeavour. Its crater has not been found. The see-through cabin hanging here shows how Falcon’s top half looked before it hit.",
   "status": "Crashed on purpose, 3 August 1971",
   "hotspots": [
     {
@@ -54,6 +54,17 @@
       "source": {
         "label": "Apollo Lunar Surface Journal: Apollo 15 video library",
         "url": "https://apollojournals.org/alsj/a15/video15.html"
+      },
+      "photo": {
+        "file": "photos/sites/apollo15-lm-ascent--liftoff.jpg",
+        "w": 960,
+        "h": 611,
+        "alt": "A fuzzy colour TV picture of the lunar module standing on grey ground under a black sky.",
+        "caption": "Falcon seconds before its top half lifted off, seen by the rover’s TV camera.",
+        "credit": "NASA/JSC",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Apollo_15_Lunar_Module_%22Falcon%22_seen_before_ascent_stage_liftoff_(S71-41511).jpg",
+        "licenseEvidence": "NASA Johnson Space Center photo S71-41511 (a frame of the Apollo 15 television broadcast), the same picture and credit this site's atlas already shows for this machine. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
       }
     },
     {
@@ -70,6 +81,57 @@
       "source": {
         "label": "NSSDCA: Apollo impact sites on the Moon",
         "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
+      }
+    },
+    {
+      "id": "ascent-engine",
+      "title": "The ride home",
+      "text": "Under the cabin sat one small rocket engine with about 15,000 newtons of push. It had no throttle, only on and off, and it had to work the first time to lift the crew off the Moon.",
+      "anchor": {
+        "part": "ascent",
+        "at": [
+          0.5,
+          0.04,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 15 Lunar Module",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C"
+      }
+    },
+    {
+      "id": "top-half",
+      "title": "Only the top half",
+      "text": "This is just the top half of the lander: about 2.8 meters tall and a little over 4 meters wide. The bottom half served as its launch pad and is still standing at the landing site.",
+      "anchor": {
+        "part": "ascent",
+        "at": [
+          0.12,
+          0.6,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 15 Lunar Module",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C"
+      }
+    },
+    {
+      "id": "cabin",
+      "title": "Standing room only",
+      "text": "Two astronauts lived in this cabin while they were on the Moon. It had 6.65 cubic meters of room inside and no seats: they flew it standing up.",
+      "anchor": {
+        "part": "ascent",
+        "at": [
+          0.5,
+          0.62,
+          0.92
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 15 Lunar Module",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C"
       }
     }
   ],
@@ -103,5 +165,10 @@
       "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html"
     },
     "seen": false
+  },
+  "signature": {
+    "kind": "quake",
+    "spot": "network",
+    "out": true
   }
 }

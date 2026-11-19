@@ -108,5 +108,9 @@
       "label": "Power",
       "value": "2 nuclear generators"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "dig",
+    "spot": "arm"
+  }
 }

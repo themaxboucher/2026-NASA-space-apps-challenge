@@ -1,9 +1,9 @@
 {
   "id": "apollo13-sivb",
   "setting": "impact",
-  "model": null,
+  "model": "sivb",
   "name": "Apollo 13’s third stage",
-  "intro": "This crater was made by the third stage of the Saturn V that launched Apollo 13. While the crew fought to get home after an oxygen tank exploded, the empty stage hit the Moon on purpose on 15 April 1970 (14 April in Houston). It was the first rocket stage ever crashed into the Moon.",
+  "intro": "This crater was made by the third stage of the Saturn V that launched Apollo 13. While the crew fought to get home after an oxygen tank exploded, the empty stage hit the Moon on purpose on 15 April 1970 (14 April in Houston). It was the first rocket stage ever crashed into the Moon. Look up: the see-through rocket stage over the crater shows how it looked a moment before it hit.",
   "status": "Crater, found by LRO",
   "hotspots": [
     {
@@ -32,6 +32,57 @@
         "license": "Educational use with credit",
         "source": "https://images.nasa.gov/details/PIA12979",
         "licenseEvidence": "LROC images (NASA/GSFC/Arizona State University) are free for educational use with credit; this site is an educational NASA Space Apps project."
+      }
+    },
+    {
+      "id": "j2-engine",
+      "title": "One big engine",
+      "text": "This is the stage’s single J-2 engine. It burned liquid hydrogen and liquid oxygen to push the Apollo ships out of Earth orbit and onto the road to the Moon.",
+      "anchor": {
+        "part": "engine",
+        "at": [
+          0.5,
+          0.35,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 13 S-IVB",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1970-029B"
+      }
+    },
+    {
+      "id": "tanks",
+      "title": "Mostly fuel tank",
+      "text": "Nearly all of the stage is fuel tank: 17.8 meters tall and 6.6 meters across, about as tall as a six-storey building. By the time it reached the Moon its fuel was used up.",
+      "anchor": {
+        "part": "hydrogen_tank",
+        "at": [
+          0.5,
+          0.45,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 13 S-IVB",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1970-029B"
+      }
+    },
+    {
+      "id": "steering-pods",
+      "title": "Steering rockets",
+      "text": "The pods on the sides hold small steering rockets. After the Apollo 13 ships pulled away, these rockets fired for 217 seconds to aim the empty stage at the Moon.",
+      "anchor": {
+        "part": "aps_pods",
+        "at": [
+          0.97,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 13 Command and Service Module",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1970-029A"
       }
     },
     {
@@ -144,5 +195,15 @@
       "url": "https://www.lroc.im-ldi.com/featured_sites/24"
     },
     "seen": true
+  },
+  "modelTilt": [
+    0,
+    0,
+    14
+  ],
+  "signature": {
+    "kind": "quake",
+    "spot": "seismometer",
+    "out": true
   }
 }

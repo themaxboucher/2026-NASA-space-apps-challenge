@@ -116,5 +116,9 @@
     }
   ],
   "whyLeft": "It was meant to stay forever as a target for lasers fired from Earth.",
-  "repurpose": "It is still in use. Future Moon bases could check their own positions against it, since its location is known to within centimeters."
+  "repurpose": "It is still in use. Future Moon bases could check their own positions against it, since its location is known to within centimeters.",
+  "signature": {
+    "kind": "laser",
+    "spot": "prisms"
+  }
 }

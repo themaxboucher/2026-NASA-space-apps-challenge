@@ -178,7 +178,7 @@ function EarthInSky({ dir, sun }: { dir: THREE.Vector3; sun: THREE.Vector3 }) {
   );
 }
 
-function Machine({ stop, onAnchors, ground }: { stop: Stop; onAnchors: (a: Anchors) => void; ground: (x: number, z: number) => number }) {
+function Machine({ stop, onAnchors, ground, struck }: { stop: Stop; onAnchors: (a: Anchors) => void; ground: (x: number, z: number) => number; struck: boolean }) {
   useLayoutEffect(() => {
     if (stop.model.kind === "gltf") return;
     // The rover's hotspot spots are fixed positions on the shapes it is built from.
@@ -186,7 +186,13 @@ function Machine({ stop, onAnchors, ground }: { stop: Stop; onAnchors: (a: Ancho
   }, [stop, onAnchors]);
   if (stop.model.kind === "lrv") return <Lrv />;
   if (stop.model.kind === "none") return stop.setting.crater ? <Debris stop={stop} ground={ground} /> : null;
-  return <GltfMachine stop={stop} onAnchors={onAnchors} />;
+  // An impact site with a model: the wreckage on the ground, and over the crater the ghost of what made it.
+  return (
+    <>
+      {stop.setting.crater && struck && <Debris stop={stop} ground={ground} />}
+      <GltfMachine stop={stop} onAnchors={onAnchors} ground={stop.model.kind === "gltf" && stop.model.at ? ground : undefined} />
+    </>
+  );
 }
 
 // A torn, crumpled scrap of sheet metal or foil, 1 m across before scaling, lying on y = 0 (nothing below it).
@@ -268,13 +274,20 @@ export function SurfaceScene({ index }: { index: number }) {
   const stop = STOPS[index];
   const moon = stop.setting.kind === "moon";
   const { gl, scene, camera } = useThree();
+  // For checking a scene from the console while developing (as the space scene does).
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") (window as unknown as Record<string, unknown>).__three = { gl, camera, scene };
+  }, [gl, camera, scene]);
   // Footprints and the fallen flag are what the replay leaves behind, so they appear once it has played.
   const revealed = useStore(tour, (t) => !REPLAYS.has(stop.id) || t.revealed.includes(stop.id));
   // The measured ground normally loads before you arrive; if it lands late, rebuild the scene on it.
   const [groundVersion, setGroundVersion] = useState(0);
   useEffect(() => onTerrainChange(() => setGroundVersion((v) => v + 1)), []);
+  // An impact site whose replay hasn't reached the impact yet has no crater (and no wreckage): the replay marks the
+  // site revealed at the moment the machine hits, and the ground is rebuilt with its crater under the flash.
+  const struck = !stop.setting.crater || revealed;
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const terrain = useMemo(() => terrainFor(index), [index, groundVersion]);
+  const terrain = useMemo(() => terrainFor(index, !struck), [index, groundVersion, struck]);
   // Globe sites' ground reaches farther (8 km), so the detailed ground can take over from the globe while still high up.
   const ground = useMemo(() => groundGeometry(terrain, stop.site ? 8000 : 3000, moon ? MOON_R : MARS_R), [terrain, moon, stop.site]);
   const groundMat = useMemo(() => groundMaterial(stop), [stop]);
@@ -376,7 +389,7 @@ export function SurfaceScene({ index }: { index: number }) {
         colors={moon ? MOON_ROCK : MARS_ROCK}
       />
       <Suspense fallback={null}>
-        <Machine stop={stop} onAnchors={onAnchors} ground={terrain.height} />
+        <Machine stop={stop} onAnchors={onAnchors} ground={terrain.height} struck={struck} />
         {(stop.extras ?? []).map((x, i) =>
           x.kind === "lm-descent" ? (
             <LanderDescent key={i} position={[x.pos[0], terrain.height(x.pos[0], x.pos[2]), x.pos[2]]} rotationY={x.rotationY} />

@@ -126,5 +126,9 @@
       "label": "Driven",
       "value": "About 100 m"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "tracks",
+    "spot": "wheels"
+  }
 }

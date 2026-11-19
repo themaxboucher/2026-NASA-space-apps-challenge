@@ -102,5 +102,9 @@
     }
   ],
   "whyLeft": "It was meant to stay forever, as a fixed target that laser stations on Earth can aim at.",
-  "repurpose": "It is still doing its job. A gentle puff of gas could blow off some of the dust that dims it, but one wrong move could scratch the glass, so it is better left alone."
+  "repurpose": "It is still doing its job. A gentle puff of gas could blow off some of the dust that dims it, but one wrong move could scratch the glass, so it is better left alone.",
+  "signature": {
+    "kind": "laser",
+    "spot": "first-echo"
+  }
 }

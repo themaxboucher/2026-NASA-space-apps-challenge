@@ -10,6 +10,7 @@ import { STOP_INDEX, type Stop } from "../../stops";
 import { ghostMaterial, shell, smooth, type Cue } from "../Ghost";
 import { prepareModel, type GltfSpec } from "../Machine";
 import { useModel } from "../useModel";
+import { mix, useSoundtrack } from "./sound";
 
 REPLAYS.add("cassini");
 
@@ -195,6 +196,9 @@ export function CassiniReplay({ stop }: { stop: Stop; ground?: (x: number, z: nu
   const t0 = useRef(-1);
   const shown = useRef({ text: "", at: -1 });
   const gentle = useRef(false);
+  // Sound effects (made in code, sound.ts): Huygens springing free, Cassini's data chirping home for thirteen
+  // years, the rush of its last dive, and the signal dropping away as it burns up.
+  const sound = useSoundtrack(on, () => mix(END, 31).thud(SEP, 0.2, 0.4, 96).rumble(PLUNGE, HIT, (u) => 0.4 * u * u, 42).thud(HIT, 0.4, 1.2, 54).chirps(0.8, HIT, true, 2.4).url(), END);
   useEffect(() => {
     if (!on) return;
     t0.current = -1;
@@ -213,6 +217,7 @@ export function CassiniReplay({ stop }: { stop: Stop; ground?: (x: number, z: nu
     live.hideMachine = !s.revealed.includes(stop.id) && t < REVEAL;
     scene.root.visible = on;
     if (!on) return;
+    sound(t, s.replayPaused);
     if (s.replayPaused) return; // paused: everything holds still
     if (t0.current < 0) {
       t0.current = replayClock();

@@ -1,9 +1,9 @@
 {
   "id": "ranger8",
   "setting": "impact",
-  "model": null,
+  "model": "ranger",
   "name": "Ranger 8",
-  "intro": "Ranger 8 dove into the Sea of Tranquility on 20 February 1965, photographing the area where Apollo astronauts might one day land. It sent home 7,137 pictures in its last 23 minutes, more than any other Ranger, then crashed as planned. Look up, too: some spots hang in the sky, where things happened on the way down.",
+  "intro": "Ranger 8 dove into the Sea of Tranquility on 20 February 1965, photographing the area where Apollo astronauts might one day land. It sent home 7,137 pictures in its last 23 minutes, more than any other Ranger, then crashed as planned. Look up: a see-through copy of Ranger 8 hangs over its crater, just as it looked a moment before impact, with more spots in the sky around it.",
   "status": "Crashed on purpose, 20 February 1965",
   "whyLeft": "Rangers had no way to slow down: diving in with cameras running and crashing was the whole mission.",
   "repurpose": "Nothing is left to reuse, but its pictures still help: they are some of the earliest close-ups of the region where Apollo 11 landed.",
@@ -128,6 +128,57 @@
         "source": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/ra8_p020.html",
         "licenseEvidence": "NASA NSSDCA Photo Gallery: image returned by NASA’s Ranger 8 (US government work, public domain)"
       }
+    },
+    {
+      "id": "sideways-look",
+      "title": "A sideways look",
+      "text": "Controllers chose not to turn Ranger 8 nose-first at the end. Its cameras kept looking off to one side, so they swept across a much longer strip of the Moon.",
+      "anchor": {
+        "part": "cameras",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 8",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-010A"
+      }
+    },
+    {
+      "id": "tv-dish",
+      "title": "TV dish",
+      "text": "Two 60-watt TV transmitters sent the cameras’ pictures to Earth through this dish, right up to the crash.",
+      "anchor": {
+        "part": "high_gain_antenna",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 8",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-010A"
+      }
+    },
+    {
+      "id": "gas-jets",
+      "title": "Gas jets",
+      "text": "Twelve tiny jets around the base puffed nitrogen gas to turn the spacecraft. Gyroscopes, Sun sensors and an Earth sensor told it which way it was facing.",
+      "anchor": {
+        "part": "attitude_jets",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 8",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-010A"
+      }
     }
   ],
   "crater": {
@@ -139,5 +190,9 @@
       "url": "https://www.lroc.im-ldi.com/featured_sites/22"
     },
     "seen": true
+  },
+  "signature": {
+    "kind": "pictures",
+    "spot": "last-pictures"
   }
 }

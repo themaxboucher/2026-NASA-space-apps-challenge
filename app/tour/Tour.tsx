@@ -16,7 +16,7 @@ import { Spots } from "./Spots";
 import { Science } from "./Science";
 import { ConfirmSkip } from "./ConfirmSkip";
 import { Message, Tribute } from "./Tribute";
-import { Cutscene, Interlude, MusicToggle, photoSrc, playCutscene, startMusic, useMedia, useSpotPhotos } from "./Story";
+import { Cutscene, Interlude, MusicToggle, photoSrc, playCutscene, startMusic, useMedia, useSpotPhotos, videoVolume } from "./Story";
 import {
   dismissIntro,
   CALLS,
@@ -41,6 +41,7 @@ import {
   startTour,
   tour,
   type TourLength,
+  replayClock,
 } from "./state";
 import { getLevel, setLevel } from "../atlas/level.js";
 import { CREDITS, STOP_INDEX, STOPS, STORY_COUNT, type Hotspot, type Stop } from "./stops";
@@ -191,6 +192,8 @@ function StartScreen() {
             transition={{ duration: 0.5, ease }}
           >
             <p className="chapter-kicker">{step < SETUP ? "Mission briefing" : "Plan your mission"}</p>
+            {/* The body keeps one height on every step, so the title above and the buttons below never move. */}
+            <div className="brief-body">
             {card.kind === "info" && (
               <>
                 <h2 id="brief-title">{card.title}</h2>
@@ -253,6 +256,8 @@ function StartScreen() {
                 </p>
               </>
             )}
+            </div>
+            {/* Next, Back and Skip each keep their own slot on every step (an empty slot stays empty, it doesn't close up). */}
             <div className="chapter-actions brief-actions">
               {step < steps.length - 1 ? (
                 <button type="button" className="start-btn" autoFocus onClick={next}>
@@ -271,14 +276,18 @@ function StartScreen() {
                   Let&apos;s go
                 </button>
               )}
-              {step > 0 && (
-                <button type="button" className="ghost-btn" onClick={() => setStep(step - 1)}>
-                  Back
-                </button>
-              )}
-              {step < SETUP && (
-                <ConfirmSkip className="brief-skip" label="Skip briefing" question="Skip to choosing your mission?" yes="Yes, skip" no="Keep reading" onConfirm={() => setStep(SETUP)} />
-              )}
+              <span className="brief-slot brief-slot-back">
+                {step > 0 && (
+                  <button type="button" className="ghost-btn" onClick={() => setStep(step - 1)}>
+                    Back
+                  </button>
+                )}
+              </span>
+              <span className="brief-slot brief-slot-skip">
+                {step < SETUP && (
+                  <ConfirmSkip className="brief-skip" label="Skip briefing" question="Skip to choosing your mission?" yes="Yes, skip" no="Keep reading" onConfirm={() => setStep(SETUP)} />
+                )}
+              </span>
             </div>
           </motion.div>
         )}
@@ -696,6 +705,67 @@ function ReplayBar() {
         <ConfirmSkip className="replay-skip" label={<>Skip <ChevronRight aria-hidden="true" /></>} ariaLabel="Skip" question="Skip what happened here?" yes="Yes, skip" no="Keep watching" onConfirm={() => endReplay()} askEvent="gra-ask-skip-replay" />
       </div>
     </motion.div>
+  );
+}
+
+// The real photo or footage a replay brings up beside its story (state.ts replayShot), top right, with its credit.
+// Footage plays as the story goes on and holds when the replay is paused; if it has real sound of its own (mission
+// radio), you hear it, at the app's volume and mute.
+function ReplayShot() {
+  const shot = useStore(tour, (s) => s.replayShot);
+  const paused = useStore(tour, (s) => s.replayPaused);
+  const film = useRef<HTMLVideoElement | null>(null);
+  useEffect(() => {
+    const el = film.current;
+    if (!el || !shot?.video) return;
+    if (paused) return el.pause();
+    el.play().catch(() => {
+      // A browser that will not start it with sound still shows it.
+      el.muted = true;
+      el.play().catch(() => {});
+    });
+    const from = shot.from ?? 0;
+    const step = () => {
+      // Kept in step with the replay (a clip that loaded late catches up).
+      const want = shot.since === undefined ? el.currentTime : from + replayClock() - shot.since;
+      if (Math.abs(el.currentTime - want) > 0.6 && want < (el.duration || 1e9) - 0.3) el.currentTime = want;
+      // Sound that ends before the footage does (cut at the source) leaves no hiss behind it.
+      if (shot.soundFor !== undefined && el.currentTime - from >= shot.soundFor) el.muted = true;
+    };
+    el.addEventListener("timeupdate", step);
+    el.addEventListener("loadeddata", step);
+    return () => {
+      el.removeEventListener("timeupdate", step);
+      el.removeEventListener("loadeddata", step);
+    };
+  }, [shot, paused]);
+  return (
+    <AnimatePresence>
+      {shot && (
+        <motion.figure key={shot.src} className="replay-shot" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5, ease }}>
+          {shot.video ? (
+            <video
+              ref={(el) => {
+                film.current = el;
+                if (el && shot.sound) videoVolume(el);
+              }}
+              src={shot.from ? `${shot.video}#t=${shot.from}` : shot.video}
+              poster={shot.src}
+              muted={!shot.sound}
+              playsInline
+              preload="auto"
+              aria-label={shot.alt}
+            />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element -- static file with its own credit line
+            <img src={shot.src} alt={shot.alt} />
+          )}
+          <figcaption>
+            {shot.video ? (shot.sound ? "Real footage and radio" : "Real footage") : "Real photo"} · {shot.credit}
+          </figcaption>
+        </motion.figure>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -1533,6 +1603,7 @@ export default function Tour() {
         </AnimatePresence>
         <AnimatePresence>
           {replaying && <ReplayBar key="replay" />}
+          {replaying && <ReplayShot key="replay-shot" />}
         </AnimatePresence>
         {phase === "explore" && (
           <p className="edge-hint" role="status">

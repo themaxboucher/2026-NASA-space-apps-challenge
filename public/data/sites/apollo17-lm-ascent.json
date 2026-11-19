@@ -1,9 +1,9 @@
 {
   "id": "apollo17-lm-ascent",
   "setting": "impact",
-  "model": null,
+  "model": "apollo-lm-ascent",
   "name": "Challenger’s top half",
-  "intro": "This is where the top half of Challenger crashed on 15 December 1972, about 10 km from the landing site. It had carried Gene Cernan and Harrison Schmitt off the Moon the day before, the last launch from the Moon so far. Its crater has not been found.",
+  "intro": "This is where the top half of Challenger crashed on 15 December 1972, about 10 km from the landing site. It had carried Gene Cernan and Harrison Schmitt off the Moon the day before, the last launch from the Moon so far. Its crater has not been found. The see-through cabin hanging here shows how Challenger’s top half looked before it hit.",
   "status": "Crashed on purpose, 15 December 1972",
   "hotspots": [
     {
@@ -95,6 +95,57 @@
         "label": "NSSDCA: Apollo 17 Lunar Module / ALSEP",
         "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096C"
       }
+    },
+    {
+      "id": "ascent-engine",
+      "title": "The ride home",
+      "text": "Under the cabin sat one small rocket engine with about 15,000 newtons of push. It had no throttle, only on and off, and it had to work the first time to lift the crew off the Moon.",
+      "anchor": {
+        "part": "ascent",
+        "at": [
+          0.5,
+          0.04,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 17 Lunar Module",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096C"
+      }
+    },
+    {
+      "id": "top-half",
+      "title": "Only the top half",
+      "text": "This is just the top half of the lander: about 2.8 meters tall and a little over 4 meters wide. The bottom half served as its launch pad and is still standing at the landing site.",
+      "anchor": {
+        "part": "ascent",
+        "at": [
+          0.12,
+          0.6,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 17 Lunar Module",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096C"
+      }
+    },
+    {
+      "id": "cabin",
+      "title": "Standing room only",
+      "text": "Two astronauts lived in this cabin while they were on the Moon. It had 6.65 cubic meters of room inside and no seats: they flew it standing up.",
+      "anchor": {
+        "part": "ascent",
+        "at": [
+          0.5,
+          0.62,
+          0.92
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 17 Lunar Module",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096C"
+      }
     }
   ],
   "funFact": "It hit the Moon at about 1.67 km per second, almost sideways, just 4.9 degrees above the horizon.",
@@ -127,5 +178,10 @@
       "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_artifact_impacts.html"
     },
     "seen": false
+  },
+  "signature": {
+    "kind": "quake",
+    "spot": "listening",
+    "out": true
   }
 }

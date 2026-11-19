@@ -136,5 +136,9 @@
       "label": "Last contact",
       "value": "13 October 1994"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "pictures",
+    "spot": "radar"
+  }
 }

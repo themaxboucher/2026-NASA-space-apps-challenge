@@ -11,6 +11,7 @@ import type { Stop } from "../../stops";
 import { ghostMaterial, shell, smooth, type Cue } from "../Ghost";
 import { prepareModel, type GltfSpec } from "../Machine";
 import { useModel } from "../useModel";
+import { mix, useRecording, useSoundtrack } from "./sound";
 
 REPLAYS.add("opportunity");
 
@@ -90,6 +91,22 @@ export function OpportunityReplay({ stop, ground }: { stop: Stop; ground?: (x: n
   const t0 = useRef(-1);
   const shown = useRef("");
   const calm = useRef(false);
+  // The drive is heard in a real recording: Opportunity's own accelerometer readings, turned into sound by JPL
+  // (louder on rocks, quieter on sand; the sound track of media/opportunity.mp4). Around it, sound effects made in
+  // code (sound.ts): the airbags bouncing down, the storm's wind, and its data chirps, which stop with its last
+  // message and are turned right down while the recording plays.
+  // (Played at 0.55 of full: measured as it plays, it is about twice as loud as the Apollo radio and the effects.)
+  const real = useRecording(on, "/media/opportunity.mp4", DRIVE[0], DRIVE[1], 0.55);
+  const sound = useSoundtrack(
+    on,
+    () => {
+      const m = mix(END, 11);
+      [0.3, 1.0, 1.6, 2.1].forEach((at, i) => m.thud(at, 0.42 - i * 0.09, 0.5, 74));
+      m.rumble(STORM[0], CLEAR[1], (u) => 0.3 * smooth(STORM[0], STORM[1], STORM[0] + u * (CLEAR[1] - STORM[0])) * (1 - smooth(CLEAR[0], CLEAR[1], STORM[0] + u * (CLEAR[1] - STORM[0]))), 44);
+      return m.chirps(DRIVE[0] + 0.5, STILL, true).hush(DRIVE[0], DRIVE[1]).url();
+    },
+    END,
+  );
   // Mars's own haze (set up by Surface.tsx), saved so the storm can thicken it and put it back.
   const fog0 = useRef<{ fog: THREE.FogExp2; color: THREE.Color; density: number } | null>(null);
   useEffect(() => {
@@ -125,6 +142,8 @@ export function OpportunityReplay({ stop, ground }: { stop: Stop; ground?: (x: n
     live.hideMachine = !s.revealed.includes(stop.id) && !(on && t0.current >= 0 && t >= REVEAL);
     scene.root.visible = on;
     if (!on) return;
+    sound(t0.current >= 0 ? t : -1, s.replayPaused);
+    real(t0.current >= 0 ? t : -1, s.replayPaused);
     if (s.replayPaused) return; // paused: everything holds still
     if (t0.current < 0) t0.current = replayClock();
 

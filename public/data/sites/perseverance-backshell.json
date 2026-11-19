@@ -107,5 +107,9 @@
       "label": "Photographed by Ingenuity",
       "value": "19 April 2022"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "chute",
+    "spot": "parachute"
+  }
 }

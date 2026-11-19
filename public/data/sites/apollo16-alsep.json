@@ -138,5 +138,9 @@
     }
   ],
   "whyLeft": "It was meant to stay and work for years, and most of it did, until NASA stopped supporting the Apollo stations in 1977.",
-  "repurpose": "The torn heat-flow cable could in theory be spliced, but after 50 years in the dust the safest use is as a test of how long Moon equipment survives."
+  "repurpose": "The torn heat-flow cable could in theory be spliced, but after 50 years in the dust the safest use is as a test of how long Moon equipment survives.",
+  "signature": {
+    "kind": "quake",
+    "spot": "seismometer"
+  }
 }

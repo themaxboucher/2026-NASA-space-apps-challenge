@@ -107,6 +107,19 @@
       "source": {
         "label": "NSSDCA: Apollo 15 Lunar Module / ALSEP",
         "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C"
+      },
+      "video": {
+        "file": "media/apollo15-lrv--tv-camera.mp4",
+        "poster": "media/apollo15-lrv--tv-camera.jpg",
+        "caption": "The rover's TV camera, steered from Houston by Ed Fendell, watches the top half of the lunar module Falcon blast off from the Moon on 2 August 1971.",
+        "credit": "NASA (Apollo 15 rover television; ALSJ clip digitized by Peter Dayton)",
+        "license": "Public domain",
+        "source": "https://www.hq.nasa.gov/alsj/a15/video15.html",
+        "licenseEvidence": "Apollo Lunar Surface Journal 'Apollo 15 Video Library' (NASA-hosted): 'The video clips are in the public domain. Credits to those who did the digitization would be appreciated.' Clip a15v_1713625.mov, 'Ascent of the Falcon: view from the rover's television camera ... by Peter Dayton'. The ALSJ page now 404s on nasa.gov, so the page and file were read from web.archive.org copies (2021/2022) of history.nasa.gov / hq.nasa.gov.",
+        "real": true,
+        "audio": "Real radio from Houston and the crew in the last seconds before liftoff; the sound stops at ignition.",
+        "event": 14,
+        "audioEnds": 13.7
       }
     }
   ],
@@ -130,5 +143,9 @@
     }
   ],
   "whyLeft": "Nothing broke: the bottom half was always meant to stay as a launch pad for the crew’s cabin.",
-  "repurpose": "Its engine is spent, but its gold foil and metal are a record of 50 years on the Moon that future visitors could photograph without touching."
+  "repurpose": "Its engine is spent, but its gold foil and metal are a record of 50 years on the Moon that future visitors could photograph without touching.",
+  "signature": {
+    "kind": "crew",
+    "spot": "ladder"
+  }
 }

@@ -1,9 +1,9 @@
 {
   "id": "apollo12-lm-ascent",
   "setting": "impact",
-  "model": null,
+  "model": "apollo-lm-ascent",
   "name": "Intrepid’s top half",
-  "intro": "This is where the top half of Intrepid hit the Moon on 20 November 1969. After carrying Pete Conrad and Alan Bean back to their command module, the empty cabin was steered into the ground to make the first moonquake ever made on purpose. Its crater has never been confirmed.",
+  "intro": "This is where the top half of Intrepid hit the Moon on 20 November 1969. After carrying Pete Conrad and Alan Bean back to their command module, the empty cabin was steered into the ground to make the first moonquake ever made on purpose. Its crater has never been confirmed. The see-through cabin hanging here shows how Intrepid’s top half looked before it hit.",
   "status": "Crashed on purpose, 20 November 1969",
   "hotspots": [
     {
@@ -45,12 +45,12 @@
       "title": "The empty cabin",
       "text": "This was the crew’s cabin. It had no seats: the astronauts flew it standing up. Once Conrad and Bean had moved into the command module, the cabin was cut loose.",
       "anchor": {
-        "pos": [
-          -14,
-          1.2,
-          -10
-        ],
-        "ground": true
+        "part": "ascent",
+        "at": [
+          0.5,
+          0.62,
+          0.92
+        ]
       },
       "source": {
         "label": "NSSDCA: Apollo 12 Lunar Module / ALSEP",
@@ -95,6 +95,40 @@
         "source": "https://images.nasa.gov/details/S69-59547",
         "licenseEvidence": "NASA Image and Video Library item S69-59547 (JSC); no third-party credit or copyright notice on the item. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
       }
+    },
+    {
+      "id": "ascent-engine",
+      "title": "The ride home",
+      "text": "Under the cabin sat one small rocket engine with about 15,000 newtons of push. It had no throttle, only on and off, and it had to work the first time to lift the crew off the Moon.",
+      "anchor": {
+        "part": "ascent",
+        "at": [
+          0.5,
+          0.04,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 12 Lunar Module",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C"
+      }
+    },
+    {
+      "id": "top-half",
+      "title": "Only the top half",
+      "text": "This is just the top half of the lander: about 2.8 meters tall and a little over 4 meters wide. The bottom half served as its launch pad and is still standing at the landing site.",
+      "anchor": {
+        "part": "ascent",
+        "at": [
+          0.12,
+          0.6,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 12 Lunar Module",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C"
+      }
     }
   ],
   "funFact": "It came in almost sideways, only about 3.7 degrees above the horizon, like a stone skimming across a pond.",
@@ -127,5 +161,10 @@
       "url": "https://www.planetary.org/blogs/guest-blogs/2017/0207-finding-spacecraft-impacts-on-the-moon.html"
     },
     "seen": false
+  },
+  "signature": {
+    "kind": "quake",
+    "spot": "moonquake",
+    "out": true
   }
 }

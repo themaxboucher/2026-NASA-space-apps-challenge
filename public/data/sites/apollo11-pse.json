@@ -135,5 +135,9 @@
     }
   ],
   "whyLeft": "It was never meant to come home: it was a quick, solar-powered test station, and it stopped answering Earth after about five weeks.",
-  "repurpose": "Its electronics were cooked by the midday Sun, so it is best kept as a museum piece. A new seismometer set down nearby could pick up where it left off."
+  "repurpose": "Its electronics were cooked by the midday Sun, so it is best kept as a museum piece. A new seismometer set down nearby could pick up where it left off.",
+  "signature": {
+    "kind": "quake",
+    "spot": "seismometer"
+  }
 }

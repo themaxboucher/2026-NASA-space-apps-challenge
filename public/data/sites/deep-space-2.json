@@ -1,9 +1,9 @@
 {
   "id": "deep-space-2",
   "setting": "impact",
-  "model": null,
+  "model": "deep-space-2",
   "name": "Deep Space 2",
-  "intro": "Deep Space 2 was a pair of small test probes, named Amundsen and Scott, that rode to Mars on Mars Polar Lander. On 3 December 1999 they were meant to smash into the ground near the south pole and test the soil for water. No signal ever came back.",
+  "intro": "Deep Space 2 was a pair of small test probes, named Amundsen and Scott, that rode to Mars on Mars Polar Lander. On 3 December 1999 they were meant to smash into the ground near the south pole and test the soil for water, but no signal ever came back. The see-through shapes show one probe and its shell at real size.",
   "status": "Never heard from (1999)",
   "whyLeft": "They were built to hit the ground and stay there. Nobody knows what went wrong, because no signal was ever received; a review found they had not been tested enough before launch.",
   "repurpose": "Nothing is known to fix, and their exact spot is unknown. A future orbiter with a sharp camera could search for their tiny holes, and the idea of crash-landing probes is still studied for other worlds.",
@@ -77,6 +77,68 @@
         "label": "NASA NSSDCA: Mars Polar Lander and Deep Space 2 landing sites",
         "url": "https://nssdc.gsfc.nasa.gov/planetary/mars/polar_lander/mpl_ds2_landsite.html"
       }
+    },
+    {
+      "id": "aeroshell",
+      "title": "A shell made to shatter",
+      "text": "Each probe rode inside a shell 35 centimeters across, a little bigger than a basketball. Its shape kept it falling nose-first, and the shell was made to shatter when it hit the ground.",
+      "anchor": {
+        "part": "aeroshell_heatshield",
+        "at": [
+          0.71,
+          0.5,
+          0.71
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Deep Space 2",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=DEEPSP2"
+      },
+      "photo": {
+        "file": "photos/sites/deep-space-2--aeroshell.jpg",
+        "w": 960,
+        "h": 655,
+        "alt": "A worker in a white clean-room suit and hair net leans over a small red cone-shaped probe on a stand, marked with a fragile sticker.",
+        "caption": "A Jet Propulsion Laboratory worker checks one of the Deep Space 2 probes in Florida in November 1998, before launch.",
+        "credit": "NASA (KSC-98PC-1643)",
+        "license": "Public domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Deep_Space_2_inspection.jpg",
+        "licenseEvidence": "NASA Kennedy Space Center photo KSC-98PC-1643, the same picture and credit this site's atlas already shows for this machine. NASA: images and video \"generally are not subject to copyright in the United States\" (https://www.nasa.gov/nasa-brand-center/images-and-media/)."
+      }
+    },
+    {
+      "id": "drill",
+      "title": "A tiny drill",
+      "text": "A tiny drill was to poke out of the buried half and pull a pinch of soil inside. A heater would warm the soil, and a laser would look for water vapor coming off it.",
+      "anchor": {
+        "part": "sample_drill",
+        "at": [
+          0.9,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: Deep Space 2 sample collection and water experiment",
+        "url": "https://www.jpl.nasa.gov/nmp/ds2/tech/sample.html"
+      }
+    },
+    {
+      "id": "batteries",
+      "title": "Tough batteries",
+      "text": "The probes’ batteries were specially made to live through the crash. In a test of an early version, they survived a jolt 45,000 times stronger than gravity.",
+      "anchor": {
+        "part": "aftbody",
+        "at": [
+          0.85,
+          0.65,
+          0.85
+        ]
+      },
+      "source": {
+        "label": "NASA JPL: Mars penetrators complete crucial subsystem test",
+        "url": "https://www.jpl.nasa.gov/news/mars-penetrators-successfully-complete-crucial-subsystem-test/"
+      }
     }
   ],
   "funFact": "Each probe, inside its protective shell, was small enough to carry in your arms, and it was dropped without a parachute, on purpose.",
@@ -107,5 +169,9 @@
       "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=DEEPSP2"
     },
     "seen": false
+  },
+  "signature": {
+    "kind": "twin",
+    "spot": "twin"
   }
 }

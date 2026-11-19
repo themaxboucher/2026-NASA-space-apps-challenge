@@ -145,5 +145,9 @@
       "label": "Lander pictures",
       "value": "More than 16,500"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "rolloff",
+    "spot": "ramp"
+  }
 }

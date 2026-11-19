@@ -132,5 +132,10 @@
       "label": "Power",
       "value": "Nuclear (plutonium heat)"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "dig",
+    "spot": "drill",
+    "hole": true
+  }
 }

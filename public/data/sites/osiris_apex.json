@@ -134,5 +134,9 @@
       "label": "Next stop",
       "value": "Apophis, 2029"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "collect",
+    "spot": "tag"
+  }
 }

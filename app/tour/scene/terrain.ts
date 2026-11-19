@@ -4,12 +4,16 @@ import type { SiteCrater } from "../siteData";
 import { STOPS, type Stop } from "../stops";
 
 // One terrain per stop, shared by the ground mesh, the walker and the camera planner.
+// `beforeImpact`: an impact site as it was until the machine hit (the same ground, without its crater), which is
+// what its replay shows until the moment of impact.
 const built = new Map<number, Terrain>();
-export function terrainFor(index: number) {
-  let t = built.get(index);
+const untouched = new Map<number, Terrain>();
+export function terrainFor(index: number, beforeImpact = false) {
+  const cache = beforeImpact ? untouched : built;
+  let t = cache.get(index);
   if (!t) {
-    t = makeTerrain(STOPS[index], index * 101 + 7, realTiles.get(index));
-    built.set(index, t);
+    t = makeTerrain(STOPS[index], index * 101 + 7, realTiles.get(index), beforeImpact);
+    cache.set(index, t);
   }
   return t;
 }
@@ -127,6 +131,7 @@ export function loadRealTerrain(index: number): Promise<boolean> {
       tile.credit = `Ground shape: ${src?.credit ?? "NASA"}${src?.product ? ` (${src.product})` : ""}${sa}`;
       realTiles.set(index, tile);
       built.delete(index);
+      untouched.delete(index);
       listeners.forEach((fn) => fn());
       return true;
     } catch {
@@ -180,8 +185,8 @@ function craterHeight(craters: Crater[], x: number, z: number) {
 
 // Extra landers (Falcon, beside the rover) stand on a small level pad at the height the ground really has there,
 // instead of being pulled to the main machine's level.
-export function makeTerrain(stop: Stop, seed: number, tile?: RealTile): Terrain {
-  const base = withCrater(stop, makeBase(stop, seed, tile), seed);
+export function makeTerrain(stop: Stop, seed: number, tile?: RealTile, beforeImpact = false): Terrain {
+  const base = beforeImpact ? makeBase(stop, seed, tile) : withCrater(stop, makeBase(stop, seed, tile), seed);
   const pads = (stop.extras ?? [])
     .filter((e) => e.kind === "lm-descent")
     .map((e) => ({ x: e.pos[0], z: e.pos[2], r: 6, y: base.height(e.pos[0], e.pos[2]) }));

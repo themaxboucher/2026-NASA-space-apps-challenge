@@ -145,5 +145,9 @@
     }
   ],
   "whyLeft": "Its batteries could not be recharged, and it had done its job: Cernan parked it east of Challenger so its camera could film the liftoff.",
-  "repurpose": "It might roll again with new batteries and solar panels, but heritage rules say look, don’t touch. Its patched fender is a lesson in fixing things with whatever you have."
+  "repurpose": "It might roll again with new batteries and solar panels, but heritage rules say look, don’t touch. Its patched fender is a lesson in fixing things with whatever you have.",
+  "signature": {
+    "kind": "tracks",
+    "spot": "wheels"
+  }
 }

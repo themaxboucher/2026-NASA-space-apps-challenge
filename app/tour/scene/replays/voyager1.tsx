@@ -9,6 +9,7 @@ import { eclToScene, VOYAGER_ECL } from "../../plans";
 import { endReplay, replayClock, hud, live, REPLAYS, setCaption, tour } from "../../state";
 import { STOP_INDEX, type Stop } from "../../stops";
 import { smooth, type Cue } from "../Ghost";
+import { mix, useSoundtrack } from "./sound";
 import { jupiterTexture, RING_INNER, RING_OUTER, ringTexture, saturnTexture } from "../textures";
 import { caption, disposeSprite, glowSprite } from "./cassini";
 
@@ -122,6 +123,7 @@ const SLING = [5, 29] as const;
 const SLING_SPEED = 1.6;
 const storyTime = (real: number) =>
   real < SLING[0] ? real : Math.min(SLING[1], SLING[0] + (real - SLING[0]) * SLING_SPEED) + Math.max(0, real - SLING[0] - (SLING[1] - SLING[0]) / SLING_SPEED);
+const REAL_END = SLING[0] + (SLING[1] - SLING[0]) / SLING_SPEED + (END - SLING[1]); // how long the replay really lasts
 const V_NOW = { pos: [7, 1, 8] as [number, number, number], look: [0, 0, 0] as [number, number, number] };
 // Saturn's north pole (RA 40.59°, Dec 83.54°) in ecliptic coordinates is lon 79.5°, lat 61.9°; its rings lie in its equator.
 const SATURN_POLE = new THREE.Vector3(0.0857, 0.8825, -0.4622).normalize();
@@ -340,6 +342,9 @@ function Trip({ stop, track }: { stop: Stop; track: Track }) {
   const shown = useRef({ text: "", at: -1 });
   const gentle = useRef(false);
   const view = useRef({ pos: [0, 0, 0] as [number, number, number], look: [0, 0, 0] as [number, number, number] });
+  // Sound effects (made in code, sound.ts), in real seconds (the slingshots play fast, so the replay lasts REAL_END
+  // seconds): the rocket at launch, then Voyager's data chirping home the whole way. It is still talking today.
+  const sound = useSoundtrack(on, () => mix(REAL_END, 77).rumble(0, 4.2, (u) => 0.45 * (1 - u) ** 1.5, 50).chirps(4.6, REAL_END - 1, false, 3, 0.06).url(), REAL_END);
   useEffect(() => {
     if (!on) return;
     t0.current = -1;
@@ -364,6 +369,7 @@ function Trip({ stop, track }: { stop: Stop; track: Track }) {
     live.hideMachine = (on || !s.revealed.includes(stop.id)) && t < SWAP;
     scene.root.visible = on && t >= 0;
     if (!on) return;
+    sound(t0.current >= 0 ? replayClock() - t0.current : -1, s.replayPaused);
     if (s.replayPaused) return; // paused: everything holds still
     if (t0.current < 0) {
       t0.current = replayClock();

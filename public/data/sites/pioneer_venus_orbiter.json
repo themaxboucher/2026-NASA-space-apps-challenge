@@ -112,5 +112,9 @@
       "label": "Time at Venus",
       "value": "Almost 14 years"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "pictures",
+    "spot": "clouds"
+  }
 }

@@ -166,5 +166,10 @@
       "label": "Sample tubes on the ground",
       "value": "10"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "drop",
+    "spot": "sample-tubes",
+    "sentences": 2
+  }
 }

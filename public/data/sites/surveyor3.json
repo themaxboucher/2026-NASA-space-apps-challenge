@@ -187,5 +187,9 @@
         0.8
       ]
     }
-  ]
+  ],
+  "signature": {
+    "kind": "dig",
+    "spot": "scoop"
+  }
 }

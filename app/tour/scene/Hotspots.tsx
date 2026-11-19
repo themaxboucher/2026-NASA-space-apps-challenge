@@ -107,7 +107,8 @@ export function HotspotTracker({ stop, anchors, ground }: { stop: Stop; anchors:
           if (spot.face) face = new THREE.Vector3(...spot.face).normalize();
           else if (spot.face === undefined && pos.x * pos.x + pos.z * pos.z > 1e-4) face = new THREE.Vector3(pos.x, 0, pos.z).normalize();
           // Spots far from the machine (like Falcon, 130 m away) stay visible from farther off.
-          return { spot, pos, face, reach: Math.max(26, Math.hypot(pos.x, pos.z) + 26) };
+          // ...and so do spots high up (on a ghost hovering over its crater), which you can't walk any closer to.
+          return { spot, pos, face, reach: Math.max(26, Math.hypot(pos.x, pos.z) + 26 + 2 * Math.max(0, pos.y)) };
         })
         .filter((x): x is Placed => !!x),
     [stop, anchors, ground],

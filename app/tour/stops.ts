@@ -1,4 +1,4 @@
-import type { SitePhoto, SiteVideo } from "./siteData";
+import type { Signature, SitePhoto, SiteVideo } from "./siteData";
 import type { BodyKey } from "./state";
 
 // The guided tour: six machines, two per world, in travel order (outward from Earth).
@@ -48,6 +48,14 @@ export type ModelSpec =
       rotationY?: number;
       // Hide parts whose top is above this height in model units (used to remove Eagle's departed top half).
       hideAbove?: number;
+      // The opposite: keep only the parts whose top is above this height (the lunar module's top half by itself).
+      hideBelow?: number;
+      // A machine that no longer exists (it crashed, burned up or was lost): drawn see-through, as a memory of how
+      // it looked, not as something you could touch. It casts no shadow and you can walk through it.
+      ghost?: boolean;
+      // Where the model goes (metres) instead of the middle of the site: a ghost hovers over its crater. On a
+      // surface its height is measured from the ground under that point.
+      at?: Vec3;
       // Resize named parts (mesh or material name) in their own space, e.g. Ingenuity's snapped blades.
       partScale?: [string, Vec3][];
       // Where the model's origin goes: "ground" stands it on y = 0, "center" centers it (for spacecraft).
@@ -85,6 +93,11 @@ export type Mark = { kind: "boots" | "tracks"; path: [number, number][]; gauge?:
 
 export type Ladder = { from: Vec3; to: Vec3; out: Vec3 };
 
+// A real picture a replay brings up beside its story: a photo, or a clip (`video`) starting `from` seconds in, with
+// its own real sound (`sound`) until `soundFor` seconds have played.
+// `since`: the replay clock (state.ts replayClock) at the moment the clip should have started, to keep it in step.
+export type ReplayShot = { src: string; alt: string; credit: string; video?: string; sound?: boolean; from?: number; soundFor?: number; since?: number };
+
 export type Stop = {
   id: string; // matches the atlas data id, so /explore#<id> opens the same machine
   chapter: "Moon" | "Mars" | "Deep space";
@@ -109,6 +122,34 @@ export type Stop = {
   ladder?: Ladder;
   // Where you stand to watch the replay of what happened here (scene/Ghost.tsx).
   replayView?: { pos: Vec3; look: Vec3 };
+  // The replay for a site without a hand-made one (scene/replays/generic.tsx): how the machine got here (it dives
+  // in, lands, drives up, is set down by an astronaut, or flies in), told in the site's own words. `quiet` is the
+  // line at which a machine that no longer works stops glowing like a live one.
+  // `effect`: a rocket lander's engine plume, Mars Pathfinder's airbag bounces, or a discarded shell tumbling down.
+  // `signal`: it talked to Earth by radio (a mirror or a thrown-away shell never did), so it sends out radio rings.
+  // `fault`: the hotspot of the part that gave out, and the line that tells it: that part lights up red then.
+  // `liftoff`: the line on which a lunar module's top half lifts off and leaves the bottom half behind.
+  replay?: {
+    kind: "dive" | "land" | "drive" | "place" | "fly";
+    effect?: "plume" | "bounce" | "tumble";
+    signal: boolean;
+    cues: { text: string; secs: number }[];
+    quiet: number;
+    working: boolean;
+    fault?: { spot: string; cue: number };
+    liftoff?: number;
+    // `work`: a hotspot that shows what the machine did here, and the line that tells it: that part lights up blue.
+    work?: { spot: string; cue: number };
+    // `photo`: a real picture from the site file, shown beside the story on the line that is its caption.
+    // If the site has real footage, the clip plays there instead (`video`), with its real sound if it has any.
+    photo?: ReplayShot & { cue: number };
+    // `liftShot`: real footage of a lunar module's own lift-off, played beside the replay's lift-off. The top half
+    // leaves `lead` seconds into the line, which is when it leaves in the clip.
+    liftShot?: ReplayShot & { lead: number };
+    // `own`: a scene of this machine's own (scene/replays/own.ts), on the line that tells it, at the hotspot it
+    // is about.
+    own?: { kind: Signature["kind"]; cue: number; spot?: string; out?: boolean; hole?: boolean; back?: boolean; jump?: boolean };
+  };
   bounds: number;
   hotspots: Hotspot[];
   credit: string;

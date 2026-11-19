@@ -1,9 +1,9 @@
 {
   "id": "ranger7",
   "setting": "impact",
-  "model": null,
+  "model": "ranger",
   "name": "Ranger 7",
-  "intro": "After six Ranger missions failed, Ranger 7 finally did it. It dove into the Moon taking pictures all the way down and sent home 4,308 sharp close-ups in its last 17 minutes. Its crater is in a sea later named Mare Cognitum, “the Sea that has become known”. Look up, too: some spots hang in the sky, where things happened on the way down.",
+  "intro": "After six Ranger missions failed, Ranger 7 finally did it. It dove into the Moon taking pictures all the way down and sent home 4,308 sharp close-ups in its last 17 minutes. Its crater is in a sea later named Mare Cognitum, “the Sea that has become known”. Look up: a see-through copy of Ranger 7 hangs over its crater, just as it looked a moment before impact, with more spots in the sky around it.",
   "status": "Crashed on purpose, 31 July 1964",
   "whyLeft": "Rangers were built to crash: they took pictures until they hit the ground at 2.6 km per second.",
   "repurpose": "Its crater is a known-age scar, so scientists can use it like a clock to measure how quickly fresh craters darken and fade.",
@@ -129,6 +129,57 @@
         "source": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/ra7_a199.html",
         "licenseEvidence": "NASA NSSDCA Photo Gallery: image returned by NASA’s Ranger 7 (US government work, public domain)"
       }
+    },
+    {
+      "id": "six-cameras",
+      "title": "Six cameras",
+      "text": "Six TV cameras shared this one opening, some with wide-angle lenses and some with close-up lenses. Two took whole pictures, and four took smaller, quicker ones.",
+      "anchor": {
+        "part": "cameras",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-041A"
+      }
+    },
+    {
+      "id": "shiny-tower",
+      "title": "Shiny tower",
+      "text": "The cone is a cover of polished aluminium around the TV cameras. Its mirror finish helped keep them from getting too hot or too cold on the way to the Moon.",
+      "anchor": {
+        "part": "camera_tower",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA SP-4210: Lunar Impact, A History of Project Ranger",
+        "url": "https://history.nasa.gov/SP-4210/pages/App_C.htm"
+      }
+    },
+    {
+      "id": "steering-rocket",
+      "title": "Steering rocket",
+      "text": "The day after launch, this small rocket fired once to nudge Ranger 7 onto its final path. Four little vanes in the exhaust steered the push.",
+      "anchor": {
+        "part": "midcourse_motor",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Ranger 7",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-041A"
+      }
     }
   ],
   "crater": {
@@ -140,5 +191,9 @@
       "url": "https://lroc.im-ldi.com/posts/52"
     },
     "seen": true
+  },
+  "signature": {
+    "kind": "pictures",
+    "spot": "first-picture"
   }
 }

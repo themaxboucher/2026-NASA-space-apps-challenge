@@ -121,5 +121,9 @@
   ],
   "whyLeft": "Nothing broke: the bottom half was built to be a launch pad, so the crew’s cabin could fly back to orbit and leave it behind.",
   "repurpose": "Its engine and fuel are used up, but its metal and gold foil are a 50-year experiment. Photographed up close, they would show how spacecraft age on the Moon, just as the Surveyor 3 parts did.",
-  "bounds": 200
+  "bounds": 200,
+  "signature": {
+    "kind": "crew",
+    "spot": "ladder"
+  }
 }

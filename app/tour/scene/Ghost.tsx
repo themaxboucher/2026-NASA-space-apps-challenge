@@ -66,7 +66,7 @@ export function flameMaterial(height: number) {
 
 // The dust the descent engine blasts sideways across the ground in the last few metres: thin radial streaks
 // racing outward from under the lander. Lies flat on the ground.
-function dustMaterial() {
+export function dustMaterial() {
   return new THREE.ShaderMaterial({
     uniforms: { uAlpha: { value: 0 }, uTime: { value: 0 } },
     vertexShader: `varying vec2 vP; void main() { vP = position.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,

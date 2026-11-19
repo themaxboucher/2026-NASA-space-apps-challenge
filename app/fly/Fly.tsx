@@ -57,6 +57,7 @@ const MODEL: Record<string, [key: string, span: number]> = {
   deep_impact_impactor: ["deep-impact", 3.3],
   stardust: ["stardust", 4.8],
   osiris_apex: ["osiris-rex", 6.2],
+  dart: ["dart", 19],
 };
 
 const httpUrl = (u?: string) => !!u && /^https?:\/\//.test(u);

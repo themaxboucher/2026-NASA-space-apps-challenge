@@ -137,5 +137,9 @@
       "label": "Wingspan",
       "value": "Almost 20 m"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "pictures",
+    "spot": "camera"
+  }
 }

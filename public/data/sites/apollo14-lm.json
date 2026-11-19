@@ -132,5 +132,9 @@
     }
   ],
   "whyLeft": "Nothing broke: the bottom half was designed to be left as a launch pad when the cabin flew back to orbit.",
-  "repurpose": "Its tanks are empty, but it is a perfect time capsule: close-up photos from a future rover could show how 50 years of sunlight and tiny meteorites changed its gold foil."
+  "repurpose": "Its tanks are empty, but it is a perfect time capsule: close-up photos from a future rover could show how 50 years of sunlight and tiny meteorites changed its gold foil.",
+  "signature": {
+    "kind": "crew",
+    "spot": "golf"
+  }
 }

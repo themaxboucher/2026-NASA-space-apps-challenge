@@ -97,6 +97,18 @@
       "source": {
         "label": "Apollo Lunar Surface Journal: Apollo 17 return to orbit",
         "url": "https://apollojournals.org/alsj/a17/a17.launch.html"
+      },
+      "video": {
+        "file": "media/sites/apollo17-lm-ascent--liftoff.mp4",
+        "poster": "media/sites/apollo17-lm-ascent--liftoff.jpg",
+        "caption": "The rover’s TV camera watches Challenger’s cabin blast off and tilts up to follow it.",
+        "credit": "NASA (Apollo 17 television; ALSJ clip digitized by Kipp Teague)",
+        "license": "Public domain",
+        "source": "https://apollojournals.org/alsj/a17/video17.html",
+        "licenseEvidence": "Apollo Lunar Surface Journal video library: \"The video clips are in the public domain. Credits to those who did the digitization would be appreciated.\" Clip a17v_1880127.mpg by Kipp Teague: \"Lunar lift-off film\".",
+        "real": true,
+        "audio": "Real radio: the crew and Mission Control at liftoff, including Gene Cernan’s “We’re on our way, Houston!”",
+        "event": 6.5
       }
     }
   ],
@@ -120,5 +132,10 @@
     }
   ],
   "whyLeft": "Nothing broke: the bottom half was built to stay behind as a launch pad for the cabin.",
-  "repurpose": "Its tanks are empty, but it marks the last human visit to the Moon. Future explorers could photograph it as a 50-year record of how hardware ages here."
+  "repurpose": "Its tanks are empty, but it marks the last human visit to the Moon. Future explorers could photograph it as a 50-year record of how hardware ages here.",
+  "signature": {
+    "kind": "crew",
+    "spot": "last-steps",
+    "back": true
+  }
 }

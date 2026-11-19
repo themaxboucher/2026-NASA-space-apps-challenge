@@ -138,5 +138,9 @@
       "label": "Switched off",
       "value": "24 March 2011"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "collect",
+    "spot": "collector"
+  }
 }

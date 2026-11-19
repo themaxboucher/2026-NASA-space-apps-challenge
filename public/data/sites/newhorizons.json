@@ -137,5 +137,9 @@
       "label": "Distance from the Sun",
       "value": "About 66 AU"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "pictures",
+    "spot": "pluto-camera"
+  }
 }

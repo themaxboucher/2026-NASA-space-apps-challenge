@@ -1,0 +1,25 @@
+{
+  "file": "models/ranger.gltf.json",
+  "title": "Ranger Block III (Rangers 6 to 9)",
+  "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+  "license": "CC BY 4.0",
+  "size_m": 4.565,
+  "bytes": 429989,
+  "tris": 6800,
+  "covers": [
+    "Ranger"
+  ],
+  "parts": [
+    "bus",
+    "electronics_cases",
+    "camera_tower",
+    "cameras",
+    "omni_antenna",
+    "solar_panel_1",
+    "solar_panel_2",
+    "high_gain_antenna",
+    "midcourse_motor",
+    "attitude_jets"
+  ],
+  "note": "Ranger Block III in flight: hexagonal aluminium bus 1.5 m across with six equipment cases, polished conical shroud with one opening for the six TV cameras (aimed 38 degrees off the long axis), cylindrical omni antenna on top (3.6 m from engine to tip), two 0.74 x 1.54 m solar panel wings spanning 4.6 m with cells facing sunward (down), 1.2 m high-gain dish hinged under one corner, mid-course motor with jet vanes and the nitrogen gas jets. Simplified: wiring, the internal camera electronics and small brackets are left out; the dish's 1.2 m size and deployed angle are taken from photos."
+}

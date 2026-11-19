@@ -1,9 +1,9 @@
 {
   "id": "apollo16-sivb",
   "setting": "impact",
-  "model": null,
+  "model": "sivb",
   "name": "Apollo 16’s third stage",
-  "intro": "This crater was made by the third stage of the Saturn V that launched Apollo 16. It crashed on 19 April 1972, but its radio stopped working before impact, so for more than 40 years nobody knew exactly where. Cameras on NASA’s Lunar Reconnaissance Orbiter finally found it in 2015.",
+  "intro": "This crater was made by the third stage of the Saturn V that launched Apollo 16. It crashed on 19 April 1972, but its radio stopped working before impact, so for more than 40 years nobody knew exactly where. Cameras on NASA’s Lunar Reconnaissance Orbiter finally found it in 2015. Look up: the see-through rocket stage over the crater shows how it looked a moment before it hit.",
   "status": "Crater, found in 2015",
   "hotspots": [
     {
@@ -32,6 +32,57 @@
         "license": "Educational use with credit",
         "source": "https://images.nasa.gov/details/GSFC_20171208_Archive_e000501",
         "licenseEvidence": "LRO camera (LROC) image from NASA GSFC’s archive. LROC images (NASA/GSFC/Arizona State University) are used here for education with credit, as the team agreed."
+      }
+    },
+    {
+      "id": "j2-engine",
+      "title": "One big engine",
+      "text": "This is the stage’s single J-2 engine. It burned liquid hydrogen and liquid oxygen to push the Apollo ships out of Earth orbit and onto the road to the Moon.",
+      "anchor": {
+        "part": "engine",
+        "at": [
+          0.5,
+          0.35,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 16 S-IVB",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-031B"
+      }
+    },
+    {
+      "id": "tanks",
+      "title": "Mostly fuel tank",
+      "text": "Nearly all of the stage is fuel tank: 17.8 meters tall and 6.6 meters across, about as tall as a six-storey building. By the time it reached the Moon its fuel was used up.",
+      "anchor": {
+        "part": "hydrogen_tank",
+        "at": [
+          0.5,
+          0.45,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 16 S-IVB",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-031B"
+      }
+    },
+    {
+      "id": "top-ring",
+      "title": "Open at the top",
+      "text": "The lunar module rode to space folded up inside the top of this stage, with the command ship above it. Once the crew had pulled the lander out and flown on, the top was left open.",
+      "anchor": {
+        "part": "instrument_unit",
+        "at": [
+          0.5,
+          0.9,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 16 S-IVB",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-031B"
       }
     },
     {
@@ -116,5 +167,15 @@
       "url": "https://lroc.im-ldi.com/images/894"
     },
     "seen": true
+  },
+  "modelTilt": [
+    0,
+    0,
+    11
+  ],
+  "signature": {
+    "kind": "quake",
+    "on": "whyLeft",
+    "out": true
   }
 }

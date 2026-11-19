@@ -105,5 +105,9 @@
       "label": "Mass",
       "value": "339 kg"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "pictures",
+    "spot": "instruments"
+  }
 }

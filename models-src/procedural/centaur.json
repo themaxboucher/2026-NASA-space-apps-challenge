@@ -1,0 +1,24 @@
+{
+  "file": "models/centaur.gltf.json",
+  "title": "Atlas V Centaur upper stage (LCROSS impactor)",
+  "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+  "license": "CC BY 4.0",
+  "size_m": 12.68,
+  "bytes": 740624,
+  "tris": 12200,
+  "covers": [
+    "Centaur"
+  ],
+  "parts": [
+    "engine",
+    "aft_bulkhead",
+    "helium_bottles",
+    "thruster_pods",
+    "oxygen_tank",
+    "hydrogen_tank",
+    "feed_lines",
+    "forward_adapter",
+    "payload_adapter"
+  ],
+  "note": "Single-engine Atlas V Centaur as it hit Cabeus crater in 2009: 12.68 m long and 3.05 m across. RL10A-4-2 engine (dark lower nozzle, tube-wall upper nozzle, turbopumps, gimbal actuators) under the oxygen tank's aft dome, with helium and hydrazine bottles and four thruster pods; the white-painted steel balloon tank (oxygen below, hydrogen above) with hydrogen feed line, vent line and wiring tunnel; forward adapter ring with avionics boxes; and the open payload-adapter cone that carried LCROSS. Simplified: bottle count and box layout are representative."
+}

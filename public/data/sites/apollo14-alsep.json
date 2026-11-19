@@ -135,5 +135,9 @@
     }
   ],
   "whyLeft": "It was meant to stay and keep listening for years, and it did, until NASA ended support for the Apollo stations in September 1977, mainly to save money.",
-  "repurpose": "Its mortar still holds four unfired grenades, so any visitor would need bomb-disposal care. A safer job is as a museum piece next to newer seismometers."
+  "repurpose": "Its mortar still holds four unfired grenades, so any visitor would need bomb-disposal care. A safer job is as a museum piece next to newer seismometers.",
+  "signature": {
+    "kind": "quake",
+    "spot": "thumper"
+  }
 }

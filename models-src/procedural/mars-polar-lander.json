@@ -1,0 +1,27 @@
+{
+  "file": "models/mars-polar-lander.gltf.json",
+  "title": "Mars Polar Lander (as it was meant to stand on Mars)",
+  "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+  "license": "CC BY 4.0",
+  "size_m": 3.6,
+  "bytes": 678527,
+  "tris": 9254,
+  "covers": [
+    "Mars Polar Lander"
+  ],
+  "parts": [
+    "deck",
+    "fuel_tanks",
+    "descent_engines",
+    "legs",
+    "touchdown_sensors",
+    "solar_panels",
+    "robotic_arm",
+    "camera_mast",
+    "weather_mast",
+    "tega_ovens",
+    "lidar_microphone",
+    "antennas"
+  ],
+  "note": "Mars Polar Lander in its landed layout, 3.6 m across the solar wings with the deck 1.06 m above the ground: hexagonal deck over the gold insulated electronics box, two hydrazine tanks, three groups of four descent engines, three legs with footpads and touchdown sensors, two-piece solar wings on two sides plus two small auxiliary panels, the 2 m robotic arm with scoop and camera, the stereo camera on its lattice mast, the 1.2 m weather mast with its hanging sub-mast, the TEGA oven box, the lidar with the Mars Microphone, a steerable medium-gain dish and a UHF antenna. Simplified: instruments are approximate shapes and the solar-wing outline follows NASA artist's views. The real lander was lost while landing, so it never looked like this on Mars."
+}

@@ -1,0 +1,26 @@
+{
+  "file": "models/lunar-prospector.gltf.json",
+  "title": "Lunar Prospector",
+  "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+  "license": "CC BY 4.0",
+  "size_m": 6.783,
+  "bytes": 733908,
+  "tris": 9356,
+  "covers": [
+    "Lunar Prospector"
+  ],
+  "parts": [
+    "drum",
+    "adapter_ring",
+    "antenna_mast",
+    "booms",
+    "gamma_ray_spectrometer",
+    "neutron_spectrometer",
+    "alpha_particle_spectrometer",
+    "electron_reflectometer",
+    "magnetometer",
+    "thrusters",
+    "sensors"
+  ],
+  "note": "Lunar Prospector in mapping orbit: a 1.37 m wide, 1.28 m tall graphite-epoxy drum covered in solar cells, the 1.57 m antenna mast on its spin axis (slotted medium-gain antenna with the omni cone on top), and three 2.5 m lattice booms carrying the gamma-ray spectrometer, the neutron and alpha-particle spectrometers, and the electron reflectometer with the magnetometer on a 1.1 m extension. Six thrusters, launch adapter ring, Sun and limb sensors. Simplified: instrument shapes are approximate; the three fuel tanks are inside the drum and not shown."
+}

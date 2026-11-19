@@ -1,9 +1,9 @@
 {
   "id": "apollo14-lm-ascent",
   "setting": "impact",
-  "model": null,
+  "model": "apollo-lm-ascent",
   "name": "Antares’s top half",
-  "intro": "This is where the top half of Antares crashed into the Moon on 7 February 1971. It had carried Alan Shepard and Edgar Mitchell back to their command module, Kitty Hawk, and was then sent back down to make a moonquake. Its crater has not been found.",
+  "intro": "This is where the top half of Antares crashed into the Moon on 7 February 1971. It had carried Alan Shepard and Edgar Mitchell back to their command module, Kitty Hawk, and was then sent back down to make a moonquake. Its crater has not been found. The see-through cabin hanging here shows how Antares’s top half looked before it hit.",
   "status": "Crashed on purpose, 7 February 1971",
   "hotspots": [
     {
@@ -55,10 +55,11 @@
       "title": "The cabin",
       "text": "This is the front of the cabin, with its pointed windows and docking target. Shepard and Mitchell lived inside it for about 33 hours on the Moon.",
       "anchor": {
-        "pos": [
-          14,
-          1.5,
-          -8
+        "part": "ascent",
+        "at": [
+          0.5,
+          0.62,
+          0.92
         ]
       },
       "source": {
@@ -92,6 +93,40 @@
         "label": "NSSDCA: Apollo impact sites on the Moon",
         "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_impact.html"
       }
+    },
+    {
+      "id": "ascent-engine",
+      "title": "The ride home",
+      "text": "Under the cabin sat one small rocket engine with about 15,000 newtons of push. It had no throttle, only on and off, and it had to work the first time to lift the crew off the Moon.",
+      "anchor": {
+        "part": "ascent",
+        "at": [
+          0.5,
+          0.04,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 14 Lunar Module",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-008C"
+      }
+    },
+    {
+      "id": "top-half",
+      "title": "Only the top half",
+      "text": "This is just the top half of the lander: about 2.8 meters tall and a little over 4 meters wide. The bottom half served as its launch pad and is still standing at the landing site.",
+      "anchor": {
+        "part": "ascent",
+        "at": [
+          0.12,
+          0.6,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 14 Lunar Module",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-008C"
+      }
     }
   ],
   "funFact": "It struck the Moon only about 3.6 degrees above the horizon, almost skimming the ground.",
@@ -124,5 +159,10 @@
       "url": "https://www.planetary.org/blogs/guest-blogs/2017/0207-finding-spacecraft-impacts-on-the-moon.html"
     },
     "seen": false
+  },
+  "signature": {
+    "kind": "quake",
+    "spot": "moonquake",
+    "out": true
   }
 }

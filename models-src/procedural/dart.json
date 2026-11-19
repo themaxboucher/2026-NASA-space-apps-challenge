@@ -1,0 +1,25 @@
+{
+  "file": "models/dart.gltf.json",
+  "title": "DART (Double Asteroid Redirection Test) spacecraft",
+  "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+  "license": "CC BY 4.0",
+  "size_m": 18.95,
+  "bytes": 635299,
+  "tris": 9032,
+  "covers": [
+    "DART"
+  ],
+  "parts": [
+    "bus",
+    "solar_arrays",
+    "array_booms",
+    "draco_telescope",
+    "launch_ring",
+    "ion_engine",
+    "high_gain_antenna",
+    "liciacube_dispenser",
+    "star_tracker",
+    "thrusters"
+  ],
+  "note": "DART as it hit Dimorphos in 2022: a 1.2 x 1.3 x 1.3 m gold-blanketed box, about 2.6 m tall with its engine and telescope, and about 19 m across its two Roll-Out Solar Arrays (each 8.5 m long, about 2.3 m wide: root tube, two booms, cell blanket, tip roller). DRACO's telescope tube with its door open looks down inside the launch ring; the NEXT-C ion engine sits on its gimbal ring on top; the flat round high-gain antenna is on one side and LICIACube's empty dispenser on the other, with the star tracker and four thruster clusters. Which face each of those sits on follows APL's illustrations and is approximate."
+}

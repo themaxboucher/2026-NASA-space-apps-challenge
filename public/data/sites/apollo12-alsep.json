@@ -147,5 +147,9 @@
     }
   ],
   "whyLeft": "It was built to stay and keep working long after the crew went home, and it did, until NASA ended support for all the Apollo stations in 1977, mainly to save money.",
-  "repurpose": "Its nuclear generator has faded with time, but powering it up for a short test would show how 1970s electronics survived 50 years of heat, cold and radiation."
+  "repurpose": "Its nuclear generator has faded with time, but powering it up for a short test would show how 1970s electronics survived 50 years of heat, cold and radiation.",
+  "signature": {
+    "kind": "quake",
+    "spot": "seismometer"
+  }
 }

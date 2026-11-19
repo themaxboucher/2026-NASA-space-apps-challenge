@@ -76,8 +76,9 @@ export function prepareModel(source: THREE.Object3D, spec: GltfSpec, hotspots: H
       continue;
     }
     if (spec.hideAbove !== undefined && (boxOf([m]).max.y > spec.hideAbove || TOP_HALF_STRAYS.has(m.name))) m.visible = false;
-    m.castShadow = true;
-    m.receiveShadow = true;
+    if (spec.hideBelow !== undefined && boxOf([m]).max.y <= spec.hideBelow && !TOP_HALF_STRAYS.has(m.name)) m.visible = false;
+    m.castShadow = !spec.ghost;
+    m.receiveShadow = !spec.ghost;
   }
 
   const shown = all.filter((m) => m.name !== "_root" && isShown(m));
@@ -104,6 +105,7 @@ export function prepareModel(source: THREE.Object3D, spec: GltfSpec, hotspots: H
 
   const wrapper = new THREE.Group();
   wrapper.add(model);
+  if (spec.at) wrapper.position.set(...spec.at);
   wrapper.updateMatrixWorld(true);
   if (spec.cut) {
     const boxes = spec.cut.map((c) => new THREE.Box3(new THREE.Vector3(...c.min), new THREE.Vector3(...c.max)));
@@ -119,7 +121,7 @@ export function prepareModel(source: THREE.Object3D, spec: GltfSpec, hotspots: H
     }
     const hit = shown.filter((m) => matches(m, a.part));
     // A part name the model doesn't have: place the spot on the whole machine's box instead of losing it.
-    const b = hit.length ? boxOf(hit) : placed.clone().applyMatrix4(new THREE.Matrix4().makeTranslation(model.position));
+    const b = hit.length ? boxOf(hit) : placed.clone().applyMatrix4(new THREE.Matrix4().makeTranslation(model.position.clone().add(wrapper.position)));
     const p = new THREE.Vector3(
       b.min.x + (b.max.x - b.min.x) * a.at[0],
       b.min.y + (b.max.y - b.min.y) * a.at[1],
@@ -275,9 +277,10 @@ function glowBrokenParts(model: THREE.Object3D, hotspots: Hotspot[], anchors: An
   return lit;
 }
 
-// Registers a machine for walking collisions while it is on screen.
-function useSolid(object: THREE.Object3D) {
+// Registers a machine for walking collisions while it is on screen (not a ghost: there is nothing there to bump into).
+function useSolid(object: THREE.Object3D | null) {
   useEffect(() => {
+    if (!object) return;
     solids.add(object);
     return () => {
       solids.delete(object);
@@ -285,20 +288,78 @@ function useSolid(object: THREE.Object3D) {
   }, [object]);
 }
 
-export function GltfMachine({ stop, onAnchors }: { stop: Stop; onAnchors: (a: Anchors) => void }) {
+// A machine that is gone (crashed, burned up, lost): its model drawn as a hologram, see-through and edged with light,
+// each part keeping a hint of its own colour so the pieces can still be told apart. Faint lines drift up through it.
+const ghostUniforms = { uTime: { value: 0 }, uAlpha: { value: 0 } };
+const GHOST_TINT = new THREE.Color("#8fd0ff");
+function ghostify(model: THREE.Object3D) {
+  const made = new Map<THREE.Material, THREE.ShaderMaterial>();
+  const make = (src: THREE.Material) => {
+    let g = made.get(src);
+    if (g) return g;
+    const base = (src as THREE.MeshStandardMaterial).color?.clone() ?? new THREE.Color("#9aa0a8");
+    // Very dark parts (black blankets, engine bells) would vanish: lift them before tinting.
+    const hsl = { h: 0, s: 0, l: 0 };
+    base.getHSL(hsl);
+    base.setHSL(hsl.h, hsl.s * 0.8, Math.max(0.3, hsl.l)).lerp(GHOST_TINT, 0.5);
+    g = new THREE.ShaderMaterial({
+      uniforms: { uColor: { value: base }, uTime: ghostUniforms.uTime, uAlpha: ghostUniforms.uAlpha },
+      vertexShader: `varying vec3 vN; varying vec3 vV; varying float vY;
+        void main() { vec4 w = modelMatrix * vec4(position, 1.0); vec4 mv = viewMatrix * w; vY = w.y;
+          vN = normalize(normalMatrix * normal); vV = normalize(-mv.xyz); gl_Position = projectionMatrix * mv; }`,
+      fragmentShader: `uniform vec3 uColor; uniform float uTime; uniform float uAlpha; varying vec3 vN; varying vec3 vV; varying float vY;
+        void main() {
+          float facing = abs(dot(normalize(vN), normalize(vV)));
+          float rim = pow(1.0 - facing, 2.2);
+          float lines = 0.86 + 0.14 * sin(vY * 34.0 - uTime * 1.6);
+          vec3 col = uColor * (0.55 + 0.45 * facing) + vec3(0.55, 0.8, 1.0) * rim * 0.9;
+          gl_FragColor = vec4(col * lines, (0.3 + 0.62 * rim) * uAlpha);
+        }`,
+      transparent: true,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    });
+    made.set(src, g);
+    return g;
+  };
+  for (const m of meshes(model)) {
+    m.material = Array.isArray(m.material) ? m.material.map(make) : make(m.material);
+    m.renderOrder = 1000; // after the ground and its dust, so the ghost never cuts a hole in them
+  }
+}
+
+export function GltfMachine({ stop, onAnchors, ground }: { stop: Stop; onAnchors: (a: Anchors) => void; ground?: (x: number, z: number) => number }) {
   const spec = stop.model as GltfSpec;
   const gltf = useModel(spec.url);
   const prepared = useMemo(() => {
-    const p = prepareModel(gltf.scene, spec, stop.hotspots);
+    // A model placed away from the middle (a ghost over its crater) keeps its height above the ground there.
+    const at = spec.at && ground ? ([spec.at[0], spec.at[1] + Math.max(0, ground(spec.at[0], spec.at[2])), spec.at[2]] as [number, number, number]) : spec.at;
+    const p = prepareModel(gltf.scene, at === spec.at ? spec : { ...spec, at }, stop.hotspots);
     if (stop.id === "ingenuity") breakBlades(p.model);
-    return { ...p, lit: stop.id === "ingenuity" ? [] : glowBrokenParts(p.model, stop.hotspots, p.anchors) };
-  }, [gltf, spec, stop]);
+    if (spec.ghost) ghostify(p.model);
+    return { ...p, lit: stop.id === "ingenuity" || spec.ghost ? [] : glowBrokenParts(p.model, stop.hotspots, p.anchors) };
+  }, [gltf, spec, stop, ground]);
 
   useLayoutEffect(() => onAnchors(prepared.anchors), [prepared, onAnchors]);
-  useSolid(prepared.object);
+  // For checking a site from the console while developing: what loaded, and where its spots landed.
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") return;
+    const size = new THREE.Box3().setFromObject(prepared.object).getSize(new THREE.Vector3());
+    Object.assign(window, { __machine: { id: stop.id, url: spec.url, ghost: !!spec.ghost, meshes: meshes(prepared.model).filter(isShown).length, size: size.toArray().map((v) => +v.toFixed(2)), hotspots: stop.hotspots.length, anchors: Object.keys(prepared.anchors).length } });
+  }, [prepared, stop, spec]);
+  useSolid(spec.ghost ? null : prepared.object);
+  // A ghost fades in when you arrive.
+  useLayoutEffect(() => {
+    if (spec.ghost) ghostUniforms.uAlpha.value = 0;
+  }, [spec, prepared]);
 
   useFrame((_, dt) => {
     prepared.object.visible = !live.hideMachine;
+    if (spec.ghost) {
+      ghostUniforms.uTime.value += dt;
+      // Hidden while the replay plays; it fades in when the replay hands over to it.
+      ghostUniforms.uAlpha.value = live.hideMachine ? 0 : Math.min(1, ghostUniforms.uAlpha.value + dt * 0.9);
+    }
     breakUniforms.uTime.value += dt;
     breakUniforms.uGlow.value = live.brokenGlow;
     const k = 0.5 * live.brokenGlow * (0.6 + 0.4 * Math.sin(breakUniforms.uTime.value * 4));

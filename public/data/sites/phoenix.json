@@ -125,5 +125,9 @@
       "label": "Arm length",
       "value": "2.35 m"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "dig",
+    "spot": "arm"
+  }
 }

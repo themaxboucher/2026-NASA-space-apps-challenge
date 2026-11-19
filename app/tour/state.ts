@@ -1,7 +1,7 @@
 import { createStore } from "./lib/store";
 import { faceLonRotation } from "./lib/geo";
 import { siteFrame } from "./lib/siteframe";
-import { STORY_COUNT, STOPS } from "./stops";
+import { STORY_COUNT, STOPS, type ReplayShot } from "./stops";
 
 export type BodyKey = "earth" | "moon" | "mars" | "saturn" | "jupiter" | "venus" | "mercury" | "uranus" | "neptune" | "pluto" | "ceres" | "rock";
 
@@ -51,6 +51,8 @@ export type TourState = {
   replay: boolean;
   // The replay is paused (its clock, scene and radio all hold still until resumed).
   replayPaused: boolean;
+  // A real photo (or a frame of real footage) a replay is showing beside its story, or null.
+  replayShot: ReplayShot | null;
   // Sites whose replay has played (or been skipped) this trip: their present-day leftovers are now shown.
   revealed: string[];
   // The scout's own call on each site, made in the case file once every clue is found.
@@ -104,6 +106,7 @@ export const tour = createStore<TourState>({
   cutscene: null,
   replay: false,
   replayPaused: false,
+  replayShot: null,
   revealed: [],
   calls: {},
   route: routeFor(savedLength()),

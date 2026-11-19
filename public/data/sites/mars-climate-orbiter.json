@@ -1,9 +1,9 @@
 {
   "id": "mars-climate-orbiter",
   "setting": "space",
-  "model": null,
+  "model": "mars-climate-orbiter",
   "name": "Mars Climate Orbiter",
-  "intro": "Mars Climate Orbiter was a weather satellite for Mars. On 23 September 1999 it fired its engine to go into orbit, passed behind the planet and never came out. There is no wreck to visit: this marks the spot above Mars where it was lost.",
+  "intro": "Mars Climate Orbiter was a weather satellite for Mars. On 23 September 1999 it fired its engine to go into orbit, passed behind the planet and never came out. There is no wreck to visit: the see-through orbiter shows what it looked like, at the spot above Mars where it was lost.",
   "status": "Lost in 1999",
   "whyLeft": "One computer program gave thruster numbers in imperial units and another expected metric. The small errors added up, so it skimmed about 57 km above Mars instead of 140 to 150 km, and probably burned up or bounced back into space.",
   "repurpose": "There is nothing left to repair. But copies of its two science instruments were built again and flew on Mars Reconnaissance Orbiter, which reached Mars in 2006 and is still working.",
@@ -84,6 +84,57 @@
         "label": "NASA: Mars Reconnaissance Orbiter",
         "url": "https://science.nasa.gov/mission/mars-reconnaissance-orbiter/"
       }
+    },
+    {
+      "id": "solar-wing",
+      "title": "One solar wing",
+      "text": "The orbiter had just one solar wing, on one side, 5.5 meters from tip to tip. A joint that turned two ways let it swivel to face the Sun.",
+      "anchor": {
+        "part": "solar_array",
+        "at": [
+          0.45,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Climate Orbiter",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-073A"
+      }
+    },
+    {
+      "id": "main-engine",
+      "title": "The braking engine",
+      "text": "This engine was to burn for about 16 minutes to slow the orbiter so Mars’s gravity could catch it. It lit on time, and about five minutes later the orbiter slipped behind Mars for the last time.",
+      "anchor": {
+        "part": "main_engine",
+        "at": [
+          0.5,
+          0.8,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Climate Orbiter",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-073A"
+      }
+    },
+    {
+      "id": "relay-antenna",
+      "title": "The relay antenna",
+      "text": "This small antenna was a radio relay. The orbiter was meant to pass along messages from Mars Polar Lander, which reached Mars ten weeks later with no relay waiting for it.",
+      "anchor": {
+        "part": "uhf_antenna",
+        "at": [
+          0.5,
+          0.4,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Mars Climate Orbiter",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1998-073A"
+      }
     }
   ],
   "funFact": "Its loss is now a famous lesson taught to engineers everywhere: always check your units.",
@@ -104,5 +155,10 @@
       "label": "Actual height",
       "value": "About 57 km"
     }
-  ]
+  ],
+  "signature": {
+    "kind": "burn",
+    "spot": "too-low",
+    "sentences": 2
+  }
 }

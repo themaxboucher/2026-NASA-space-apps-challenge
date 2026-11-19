@@ -129,5 +129,9 @@
     -38.95,
     14.25,
     -38.95
-  ]
+  ],
+  "signature": {
+    "kind": "pictures",
+    "spot": "camera"
+  }
 }

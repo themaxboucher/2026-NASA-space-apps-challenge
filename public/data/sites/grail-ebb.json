@@ -1,9 +1,9 @@
 {
   "id": "grail-ebb",
   "setting": "impact",
-  "model": null,
+  "model": "grail",
   "name": "Ebb (GRAIL-A)",
-  "intro": "Ebb was one of two twin spacecraft, each about the size of a washing machine, that chased each other around the Moon to map its gravity. When their fuel ran low in December 2012, NASA steered both into a mountain near the north pole. Ebb hit first. Look up, too: some spots hang in the sky, where things happened on the way down.",
+  "intro": "Ebb was one of two twin spacecraft, each about the size of a washing machine, that chased each other around the Moon to map its gravity. When their fuel ran low in December 2012, NASA steered both into a mountain near the north pole. Ebb hit first. Look up: a see-through copy of Ebb hangs over its crater, just as it looked a moment before impact, with more spots in the sky around it.",
   "status": "Crashed on purpose, 17 December 2012",
   "whyLeft": "Its orbit was sinking and its fuel was almost gone, so NASA chose a safe, remote mountain to crash it into rather than risk hitting a historic site.",
   "repurpose": "The crash site is now a memorial named for astronaut Sally Ride, and its small crater is a fresh test of how the Moon heals scars.",
@@ -60,12 +60,12 @@
       "title": "MoonKAM",
       "text": "Ebb carried a camera that students could aim. Three days before the crash it filmed the Moon’s surface sliding past below. This is real footage from that camera.",
       "anchor": {
-        "pos": [
-          0,
-          7,
-          6
-        ],
-        "ground": true
+        "part": "moonkam",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA JPL: GRAIL impact site named for Sally Ride",
@@ -89,12 +89,12 @@
       "broken": true,
       "tag": "Why it stopped",
       "anchor": {
-        "pos": [
-          6,
-          5,
-          -4
-        ],
-        "ground": true
+        "part": "main_engine",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA JPL: GRAIL impact site named for Sally Ride",
@@ -145,6 +145,40 @@
         "label": "NASA Science: GRAIL",
         "url": "https://science.nasa.gov/mission/grail/"
       }
+    },
+    {
+      "id": "ranging-horn",
+      "title": "Ranging horn",
+      "text": "This horn traded radio signals with Flow. As the twins drifted slightly toward and away from each other, the signals measured the tiny changes in their speed.",
+      "anchor": {
+        "part": "ka_band_antenna",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA Science: GRAIL",
+        "url": "https://science.nasa.gov/mission/grail/"
+      }
+    },
+    {
+      "id": "solar-arrays",
+      "title": "Solar arrays",
+      "text": "Two fixed solar panels, one on each side, made all of Ebb’s electricity.",
+      "anchor": {
+        "part": "solar_array_1",
+        "at": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: GRAIL",
+        "url": "https://science.nasa.gov/mission/grail/"
+      }
     }
   ],
   "crater": {
@@ -156,5 +190,9 @@
       "url": "https://science.nasa.gov/resource/grail-impact-sites/"
     },
     "seen": true
+  },
+  "signature": {
+    "kind": "pictures",
+    "spot": "moonkam"
   }
 }

@@ -1,9 +1,9 @@
 {
   "id": "apollo17-sivb",
   "setting": "impact",
-  "model": null,
+  "model": "sivb",
   "name": "Apollo 17’s third stage",
-  "intro": "This crater was made by the third stage of the last Saturn V to carry astronauts to the Moon. It launched Apollo 17 on 7 December 1972, the only Saturn V launch at night, and was crashed into the Moon on 10 December, the day before the landing.",
+  "intro": "This crater was made by the third stage of the last Saturn V to carry astronauts to the Moon. It launched Apollo 17 on 7 December 1972, the only Saturn V launch at night, and was crashed into the Moon on 10 December, the day before the landing. Look up: the see-through rocket stage over the crater shows how it looked a moment before it hit.",
   "status": "Crater, found by LRO",
   "hotspots": [
     {
@@ -24,14 +24,66 @@
       }
     },
     {
+      "id": "j2-engine",
+      "title": "One big engine",
+      "text": "This is the stage’s single J-2 engine. It burned liquid hydrogen and liquid oxygen to push the Apollo ships out of Earth orbit and onto the road to the Moon.",
+      "anchor": {
+        "part": "engine",
+        "at": [
+          0.5,
+          0.35,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 17 S-IVB",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096B"
+      }
+    },
+    {
+      "id": "tanks",
+      "title": "Mostly fuel tank",
+      "text": "Nearly all of the stage is fuel tank: 17.8 meters tall and 6.6 meters across, about as tall as a six-storey building. By the time it reached the Moon its fuel was used up.",
+      "anchor": {
+        "part": "hydrogen_tank",
+        "at": [
+          0.5,
+          0.45,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 17 S-IVB",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096B"
+      }
+    },
+    {
+      "id": "steering-pods",
+      "title": "Steering rockets",
+      "text": "The pods on the sides hold the stage’s small steering rockets, which kept it pointing the right way on its long fall to the Moon.",
+      "anchor": {
+        "part": "aps_pods",
+        "at": [
+          0.97,
+          0.5,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Apollo 17 S-IVB",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096B"
+      }
+    },
+    {
       "id": "stage",
       "title": "The stage in space",
       "text": "Before the crash, the lunar module rode inside the top of this stage. After the crew pulled it out, the empty stage was steered toward the Moon.",
       "anchor": {
-        "pos": [
-          -12,
-          2.5,
-          10
+        "part": "instrument_unit",
+        "at": [
+          0.5,
+          0.9,
+          0.5
         ]
       },
       "source": {
@@ -117,5 +169,15 @@
       "url": "https://lroc.im-ldi.com/featured_sites/27"
     },
     "seen": true
+  },
+  "modelTilt": [
+    0,
+    0,
+    35
+  ],
+  "signature": {
+    "kind": "quake",
+    "on": "whyLeft",
+    "out": true
   }
 }

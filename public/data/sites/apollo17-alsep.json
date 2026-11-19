@@ -149,5 +149,9 @@
     }
   ],
   "whyLeft": "It was built to keep working long after the last crew left, and it did, until NASA ended support for the Apollo stations in 1977.",
-  "repurpose": "Its heat probes were still sending accurate readings when it was turned off, so it would be the best Apollo station to try waking up for a long-term temperature check."
+  "repurpose": "Its heat probes were still sending accurate readings when it was turned off, so it would be the best Apollo station to try waking up for a long-term temperature check.",
+  "signature": {
+    "kind": "quake",
+    "spot": "geophones"
+  }
 }

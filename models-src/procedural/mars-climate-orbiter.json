@@ -1,0 +1,27 @@
+{
+  "file": "models/mars-climate-orbiter.gltf.json",
+  "title": "Mars Climate Orbiter",
+  "credit": "Echoes of Exploration team (modelled in code from NASA reference drawings and photos)",
+  "license": "CC BY 4.0",
+  "size_m": 8.62,
+  "bytes": 473514,
+  "tris": 6852,
+  "covers": [
+    "Mars Climate Orbiter"
+  ],
+  "parts": [
+    "equipment_module",
+    "propulsion_module",
+    "main_engine",
+    "thrusters",
+    "high_gain_antenna",
+    "solar_array_joint",
+    "solar_array",
+    "pmirr",
+    "marci",
+    "uhf_antenna",
+    "battery",
+    "star_cameras"
+  ],
+  "note": "Mars Climate Orbiter in its cruise layout: a 1.6 x 2.0 x 2.1 m bus (gold equipment module below, dark propulsion module above), the 640 N main engine and thruster clusters on top, the 1.3 m high-gain dish on its mast, and the single three-panel solar wing (5.5 m long) on one side, which made the spacecraft lopsided. On the equipment module: PMIRR with its cone-shaped cooler, the two small MARCI cameras, the UHF relay antenna, the battery box and star cameras. Simplified: instrument shapes and exact positions are best estimates from NASA artist's views; the wing is drawn 1.85 m wide."
+}

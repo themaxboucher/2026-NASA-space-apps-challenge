@@ -1,9 +1,9 @@
 {
   "id": "deep_impact_impactor",
   "setting": "impact",
-  "model": null,
+  "model": "deep-impact",
   "name": "Deep Impact impactor",
-  "intro": "NASA crashed this impactor into comet Tempel 1 on purpose, on 4 July 2005, to blast out material from inside the comet. It was destroyed in the crash. In 2011 another spacecraft came back and spotted the crater it made.",
+  "intro": "NASA crashed this impactor into comet Tempel 1 on purpose, on 4 July 2005, to blast out material from inside the comet. It was destroyed in the crash. In 2011 another spacecraft came back and spotted the crater it made. The see-through spacecraft hanging by the rim is the whole Deep Impact craft as it flew: the impactor was the small part that split off to hit the comet.",
   "status": "Smashed into comet Tempel 1 in 2005",
   "whyLeft": "Crashing was its whole job. It flew on its own for its last day and steered itself into the comet at about 37,000 km/h.",
   "repurpose": "Nothing is left to repair. Going back to look was its reuse: NASA’s Stardust spacecraft visited Tempel 1 in 2011 and photographed the crater.",
@@ -60,12 +60,12 @@
       "title": "A copper bullet",
       "text": "The impactor was built with lots of copper, because copper would not confuse the measurements of what the comet is made of.",
       "anchor": {
-        "pos": [
-          -5.7,
-          0.4,
-          47.7
-        ],
-        "ground": true
+        "part": "body",
+        "at": [
+          0.5,
+          0.12,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA NSSDCA: Deep Impact",
@@ -88,16 +88,50 @@
       "title": "Its last pictures",
       "text": "The impactor’s own camera sent pictures of the comet’s surface until just seconds before the crash, steering itself to the target.",
       "anchor": {
-        "pos": [
-          -31.2,
-          0.4,
-          41.6
-        ],
-        "ground": true
+        "part": "body",
+        "at": [
+          0.5,
+          0.02,
+          0.5
+        ]
       },
       "source": {
         "label": "NASA: Deep Impact",
         "url": "https://science.nasa.gov/mission/deep-impact-epoxi/"
+      }
+    },
+    {
+      "id": "mothership",
+      "title": "The one that watched",
+      "text": "Most of what you see here is the flyby spacecraft. It carried the impactor to the comet, let it go, then watched the crash from a safe distance with its telescopes.",
+      "anchor": {
+        "part": "body",
+        "at": [
+          0.5,
+          0.7,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA: Deep Impact (EPOXI)",
+        "url": "https://science.nasa.gov/mission/deep-impact-epoxi/"
+      }
+    },
+    {
+      "id": "weight",
+      "title": "A 370-kilogram bullet",
+      "text": "The impactor weighed about 370 kilograms, as much as a grand piano. Small thrusters and its own computer steered it into the comet’s path.",
+      "anchor": {
+        "part": "body",
+        "at": [
+          0.85,
+          0.1,
+          0.5
+        ]
+      },
+      "source": {
+        "label": "NASA NSSDCA: Deep Impact Impactor",
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2005-001D"
       }
     }
   ],
@@ -129,5 +163,9 @@
       "url": "https://science.nasa.gov/photojournal/tempel-1-impact-site-2"
     },
     "seen": true
+  },
+  "signature": {
+    "kind": "plume",
+    "spot": "flash"
   }
 }
